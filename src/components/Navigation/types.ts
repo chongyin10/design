@@ -27,6 +27,8 @@ export interface NavigationProps {
     width?: number;
     collapsedWidth?: number;
     animationDuration?: number;
+    /** 是否显示收缩按钮，默认为 true。当作为 Sider 的子组件时，可以设置为 false */
+    showCollapseButton?: boolean;
 }
 
 export interface NavigationState {

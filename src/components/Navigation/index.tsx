@@ -121,7 +121,8 @@ const Navigation: React.FC<NavigationProps> = ({
     style,
     width = 280,
     collapsedWidth = 48,
-    animationDuration = 300
+    animationDuration = 300,
+    showCollapseButton = true
 }) => {
 
     const [internalOpenKeys, setInternalOpenKeys] = useState<string[]>(defaultOpenKeys);
@@ -334,13 +335,15 @@ const Navigation: React.FC<NavigationProps> = ({
                                 <>
                                     <div className="navigation-header-row">
                                         <h2 className="navigation-title">IDP Design</h2>
-                                        <Button
-                                            onClick={toggleCollapsed}
-                                            className="navigation-collapse-button"
-                                            variant="secondary"
-                                        >
-                                            ←
-                                        </Button>
+                                        {showCollapseButton && (
+                                            <Button
+                                                onClick={toggleCollapsed}
+                                                className="navigation-collapse-button"
+                                                variant="secondary"
+                                            >
+                                                ←
+                                            </Button>
+                                        )}
                                     </div>
                                     {/* 搜索框 */}
                                     <div className="navigation-search">
@@ -353,13 +356,15 @@ const Navigation: React.FC<NavigationProps> = ({
                                     </div>
                                 </>
                             ) : (
-                                <Button
-                                    onClick={toggleCollapsed}
-                                    className="navigation-collapse-button"
-                                    variant="secondary"
-                                >
-                                    →
-                                </Button>
+                                showCollapseButton && (
+                                    <Button
+                                        onClick={toggleCollapsed}
+                                        className="navigation-collapse-button"
+                                        variant="secondary"
+                                    >
+                                        →
+                                    </Button>
+                                )
                             )}
                         </>
                     )}

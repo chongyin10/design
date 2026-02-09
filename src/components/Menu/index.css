@@ -1,361 +1,304 @@
-:root {
-  /* 颜色变量 */
-  --menu-bg-color: #FFFFFF;
-  --menu-text-color: #333;
-  --menu-hover-bg: #F5F7FA;
-  --menu-selected-bg: #E6F4FF;
-  --menu-selected-color: #1890ff;
-  --menu-hover-color: #339af0;
-  --menu-border-color: #e1e1e1;
-  
-  /* 尺寸变量 */
-  --menu-item-padding: 6px 12px;
-  --menu-item-gap: 6px;
-  --menu-item-radius: 8px;
-  --menu-item-height: auto;
-  --menu-font-size: 14px;
-  
-  /* 动画变量 */
-  --menu-transition-duration: 0.3s;
-  --menu-transition-ease: ease;
-  --menu-popup-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  /* 阴影变量 */
-  --menu-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --menu-popup-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/**
+ * Menu 组件样式
+ * 
+ * 支持水平、垂直和内联三种模式
+ * 支持折叠模式
+ */
+
+/* 菜单根容器 */
+.idp-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #fff;
+  transition: all 0.2s ease;
 }
 
-/* 通用菜单项基础样式 */
-.menu-item-base {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  padding: var(--menu-item-padding);
-  border-radius: var(--menu-item-radius);
-  transition: background-color var(--menu-transition-duration) var(--menu-transition-ease), 
-              box-shadow var(--menu-transition-duration) var(--menu-transition-ease),
-              color var(--menu-transition-duration) var(--menu-transition-ease);
-  gap: var(--menu-item-gap);
-  color: var(--menu-text-color);
-  font-size: var(--menu-font-size);
-  height: var(--menu-item-height);
-}
-
-.menu-item-base:hover {
-  background-color: var(--menu-hover-bg);
-  box-shadow: var(--menu-hover-shadow);
-}
-
-/* 各种菜单模式下的选中状态 */
-.menu-vertical-selected,
-.menu-horizontal-selected,
-.menu-inline-selected,
-.menu-item-selected {
-  background-color: var(--menu-selected-bg);
-  color: var(--menu-selected-color);
-}
-
-.menu-vertical-selected:hover,
-.menu-horizontal-selected:hover,
-.menu-inline-selected:hover,
-.menu-item-selected:hover {
-  background-color: var(--menu-selected-bg);
-  box-shadow: none;
-}
-
-/* 垂直和水平菜单项样式 */
-.vertical-menu-item-content,
-.horizontal-menu-item-content {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  padding: var(--menu-item-padding);
-  border-radius: var(--menu-item-radius);
-  transition: background-color var(--menu-transition-duration) var(--menu-transition-ease), 
-              box-shadow var(--menu-transition-duration) var(--menu-transition-ease),
-              color var(--menu-transition-duration) var(--menu-transition-ease);
-  gap: var(--menu-item-gap);
-  color: var(--menu-text-color);
-  font-size: var(--menu-font-size);
-  height: var(--menu-item-height);
-}
-
-.vertical-menu-item-content:hover,
-.horizontal-menu-item-content:hover {
-  background-color: var(--menu-hover-bg);
-  box-shadow: var(--menu-hover-shadow);
-}
-
-.vertical-menu-item-content.menu-vertical-selected,
-.horizontal-menu-item-content.menu-horizontal-selected {
-  background-color: var(--menu-selected-bg);
-  color: var(--menu-selected-color);
-}
-
-.vertical-menu-item-content.menu-vertical-selected:hover,
-.horizontal-menu-item-content.menu-horizontal-selected:hover {
-  background-color: var(--menu-selected-bg);
-  box-shadow: none;
-}
-
-/* 折叠模式下的样式 */
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content {
-  justify-content: center;
-  padding: 8px;
-  transition: padding var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1),
-              justify-content var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu .vertical-menu-item-content {
-  justify-content: flex-start;
-  transition: padding var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1),
-              justify-content var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 图标和首字符动画优化 */
-.idp-menu-item.vertical-menu .vertical-menu-item-content > *:first-child {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content > *:first-child {
-  transform: scale(1.1);
-  opacity: 0.9;
-}
-
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content span {
-  display: none;
-  opacity: 0;
-  transform: scale(0.8) translateX(-10px);
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu .vertical-menu-item-content span {
-  opacity: 1;
-  transform: scale(1) translateX(0);
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content .common-menu-item-icon {
-  display: none;
-  opacity: 0;
-  transform: scale(0.8) translateX(10px);
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu .vertical-menu-item-content .common-menu-item-icon {
-  opacity: 1;
-  transform: scale(1) translateX(0);
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content {
+/* ========== 通用菜单项样式 ========== */
+.idp-menu-item-wrapper {
   position: relative;
 }
 
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content::after {
-  content: attr(data-title);
+.idp-menu-item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  margin: 4px 0;
+  user-select: none;
+}
+
+.idp-menu-item:hover:not(.disabled) {
+  background-color: rgba(24, 144, 255, 0.06);
+  color: var(--idp-primary-color, #1890ff);
+}
+
+.idp-menu-item.selected {
+  background-color: rgba(24, 144, 255, 0.1);
+  color: var(--idp-primary-color, #1890ff);
+}
+
+.idp-menu-item.disabled {
+  cursor: not-allowed;
+  color: rgba(0, 0, 0, 0.25);
+  background-color: transparent;
+}
+
+.idp-menu-item-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.idp-menu-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.idp-menu-item-icon.collapsed {
+  margin-right: 0;
+}
+
+.idp-menu-item-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.idp-menu-item-collapsed-label {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: var(--idp-primary-color, #1890ff);
+  color: #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.idp-menu-item-arrow {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+  color: rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+
+.idp-menu-item-arrow.open {
+  transform: rotate(180deg);
+}
+
+.idp-menu-item-arrow.horizontal {
+  transform: rotate(-90deg);
+}
+
+.idp-menu-item-arrow.horizontal.open {
+  transform: rotate(0deg);
+}
+
+/* ========== 垂直模式 (Vertical) ========== */
+.idp-menu-vertical {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 200px;
+}
+
+.idp-menu-vertical.collapsed {
+  min-width: 56px;
+  width: 56px;
+}
+
+.idp-menu-vertical .idp-menu-item.root {
+  justify-content: center;
+}
+
+.idp-menu-vertical.collapsed .idp-menu-item.root {
+  padding: 0;
+  justify-content: center;
+}
+
+.idp-menu-vertical.collapsed .idp-menu-item-content {
+  justify-content: center;
+}
+
+.idp-menu-vertical.collapsed .idp-menu-item-label,
+.idp-menu-vertical.collapsed .idp-menu-item-arrow {
+  display: none;
+}
+
+/* 垂直模式子菜单 */
+.idp-menu-submenu.vertical {
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+}
+
+.idp-menu-submenu.vertical.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.idp-menu-submenu.vertical > .idp-menu-submenu-content {
+  overflow: hidden;
+}
+
+.idp-menu-submenu.vertical .idp-menu-item {
+  margin: 2px 0;
+  height: 36px;
+}
+
+/* ========== 水平模式 (Horizontal) ========== */
+.idp-menu-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+}
+
+.idp-menu-horizontal .idp-menu-item-wrapper.root {
+  position: relative;
+  display: inline-block;
+}
+
+.idp-menu-horizontal .idp-menu-item.root {
+  height: 48px;
+  margin: 0 4px;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.idp-menu-horizontal .idp-menu-item.root:hover:not(.disabled) {
+  background-color: transparent;
+  border-bottom-color: var(--idp-primary-color, #1890ff);
+}
+
+.idp-menu-horizontal .idp-menu-item.root.selected {
+  background-color: transparent;
+  border-bottom-color: var(--idp-primary-color, #1890ff);
+}
+
+/* 水平模式子菜单弹出 */
+.idp-menu-submenu.horizontal-popup {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 160px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  padding: 4px 0;
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.idp-menu-submenu.horizontal-popup .idp-menu-item {
+  margin: 0;
+  border-radius: 0;
+}
+
+.idp-menu-submenu.horizontal-popup .idp-menu-submenu {
   position: absolute;
   left: 100%;
   top: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 4px 8px;
+  min-width: 160px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-10px);
-  pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 4px 0;
   z-index: 1000;
-  margin-left: 8px;
+  margin-left: 2px;
 }
 
-.idp-menu-item.vertical-menu.collapsed .vertical-menu-item-content:hover::after {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.idp-menu-item.vertical-menu.collapsed .sub-menu-container {
-  display: none;
-}
-
-/* 菜单容器样式 */
-.idp-menu-item {
-  background-color: var(--menu-bg-color);
-  padding: var(--menu-item-padding);
-}
-
-.idp-menu-item.vertical-menu {
-  width: 230px;
-  transition: width var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1),
-              padding var(--menu-transition-duration) cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.idp-menu-item.vertical-menu.collapsed {
-  width: 48px;
-}
-
-.idp-menu-item.horizontal-menu {
-  width: 230px;
-}
-
-.menu-vertical-selected,
-.menu-horizontal-selected {
-  background-color: var(--menu-selected-bg);
-  color: var(--menu-selected-color);
-  transition: background-color var(--menu-transition-duration) var(--menu-transition-ease), 
-              color var(--menu-transition-duration) var(--menu-transition-ease);
-}
-
-/* 子菜单容器样式 */
-.sub-menu-container {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: max-height var(--menu-transition-duration) var(--menu-popup-transition), 
-              opacity var(--menu-transition-duration) var(--menu-popup-transition), 
-              transform var(--menu-transition-duration) var(--menu-popup-transition);
-}
-
-.sub-menu-container.open {
-  opacity: 1;
-  transform: scaleY(1);
-  transform-origin: top;
-}
-
-/* 为垂直菜单子项添加特定的过渡效果 */
-.vertical-menu .sub-menu-container {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
-              opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
-              transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.vertical-menu .sub-menu-container.open {
-  max-height: 500px; /* 限制最大高度，防止过度延伸 */
-  opacity: 1;
-  transform: scaleY(1);
-  transform-origin: top;
-}
-
-/* 菜单项容器 */
-.vertical-menu-item,
-.horizontal-menu-item {
-  position: relative;
-}
-
-.vertical-menu-item .vertical-menu-item,
-.horizontal-menu-item .vertical-menu-item {
-  margin-left: 16px;
-}
-
-/* 内联菜单样式 */
-.inline-menu {
+/* ========== 内联模式 (Inline) ========== */
+.idp-menu-inline {
   display: flex;
-  gap: 16px;
-}
-
-.inline-menu-item {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  padding: 6px 0px;
-  border-radius: var(--menu-item-radius);
-  transition: color var(--menu-transition-duration) var(--menu-transition-ease);
-  color: #666;
-  text-decoration: none;
-  position: relative;
-  padding: 0px 10px;
-}
-
-.inline-menu-item:hover {
-  text-decoration: none;
-  color: var(--menu-hover-color);
-}
-
-.inline-menu-item::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background-color: var(--menu-hover-color);
-  transition: width var(--menu-transition-duration) var(--menu-transition-ease);
-  transform: translateX(-50%);
-}
-
-.inline-menu-item:hover::after {
+  flex-direction: column;
   width: 100%;
-  left: 0;
-  transform: translateX(0);
+  border-right: 1px solid #f0f0f0;
 }
 
-/* 弹出菜单样式 */
-.menu-popup {
+.idp-menu-inline .idp-menu-item {
+  border-radius: 0;
+  margin: 0;
+}
+
+.idp-menu-submenu.inline {
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.02);
+  display: grid;
+  grid-template-rows: 0fr;
   opacity: 0;
-  transform: translateY(-8px) scale(0.98);
-  transition: opacity var(--menu-popup-transition), 
-              transform var(--menu-popup-transition);
-  pointer-events: none;
+  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
 }
 
-.menu-popup.visible {
+.idp-menu-submenu.inline.open {
+  grid-template-rows: 1fr;
   opacity: 1;
-  transform: translateY(0) scale(1);
-  pointer-events: auto;
 }
 
-.popup-menu-item {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border-radius: var(--menu-item-radius);
-  transition: background-color var(--menu-transition-duration) var(--menu-transition-ease), 
-              box-shadow var(--menu-transition-duration) var(--menu-transition-ease);
-  gap: 3px;
-  padding: var(--menu-item-padding);
+.idp-menu-submenu.inline > .idp-menu-submenu-content {
+  overflow: hidden;
 }
 
-.popup-menu-item:hover,
-.popup-menu-item.has-children:hover,
-.popup-menu-item.has-children.sub-menu-active {
-  background-color: var(--menu-hover-bg) !important;
+.idp-menu-submenu.inline .idp-menu-item {
+  height: 36px;
+  margin: 0;
 }
 
-/* 内联菜单选中状态 */
-.menu-inline-selected::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background-color: var(--menu-hover-color);
-  transform: translateX(-50%);
+/* ========== 嵌套层级样式 ========== */
+.idp-menu-submenu.level-0 {
+  margin-left: 0;
 }
 
-.menu-inline-selected {
-  color: var(--menu-hover-color);
-  transition: color var(--menu-transition-duration) var(--menu-transition-ease);
+.idp-menu-submenu.level-1 {
+  margin-left: 4px;
 }
 
-.common-item {
-  position: relative;
+.idp-menu-submenu.level-2 {
+  margin-left: 4px;
 }
 
-.common-menu-item-icon {
-  position: absolute;
-  right: 8px;
+/* ========== 选中状态下的父级高亮 ========== */
+.idp-menu-item.has-children.selected {
+  color: var(--idp-primary-color, #1890ff);
+}
+
+/* ========== 动画效果 ========== */
+@keyframes idp-menu-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.idp-menu-submenu.horizontal-popup,
+.idp-menu-submenu.horizontal-popup .idp-menu-submenu {
+  animation: idp-menu-slide-down 0.2s ease;
 }

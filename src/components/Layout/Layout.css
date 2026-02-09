@@ -1,0 +1,46 @@
+:root {
+  /* Layout 基础配置 */
+  --layout-bg: #f0f2f5;
+  --layout-min-height: 100vh;
+
+  /* Header 配置 */
+  --layout-header-bg: #001529;
+  --layout-header-height: 64px;
+  --layout-header-color: #fff;
+  --layout-header-padding: 0 24px;
+  --layout-header-z-index: 10;
+  --layout-header-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --layout-header-transition: all 0.3s ease;
+
+  /* Footer 配置 */
+  --layout-footer-bg: #f0f2f5;
+  --layout-footer-height: 48px;
+  --layout-footer-color: rgba(0, 0, 0, 0.65);
+  --layout-footer-padding: 24px 50px;
+  --layout-footer-z-index: 10;
+  --layout-footer-border-top: 1px solid #e8e8e8;
+  --layout-footer-transition: all 0.3s ease;
+
+  /* Sider 配置 */
+  --layout-sider-bg: #001529;
+  --layout-sider-width: 200px;
+  --layout-sider-collapsed-width: 64px;
+  --layout-sider-color: rgba(255, 255, 255, 0.65);
+  --layout-sider-z-index: 10;
+  --layout-sider-box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  --layout-sider-transition: all 0.3s ease;
+  --layout-sider-flex: 0 0 var(--layout-sider-width);
+
+  /* Content 配置 */
+  --layout-content-bg: #fff;
+  --layout-content-padding: 24px;
+  --layout-content-min-height: 280px;
+  --layout-content-transition: all 0.3s ease;
+
+  /* 触发器（Sider收缩按钮）配置 */
+  --layout-sider-trigger-height: 48px;
+  --layout-sider-trigger-bg: #002140;
+  --layout-sider-trigger-color: #fff;
+  --layout-sider-trigger-hover-bg: #1890ff;
+  --layout-sider-trigger-transition: all 0.3s ease;
+}
