@@ -37,3 +37,4 @@ export { default as Transfer } from './Transfer';
 export { default as Label } from './Label';
 export { default as Tooltip } from './Tooltip';
 export { default as Form } from './Form';
+export { default as Grid, Row, Col } from './Grid';

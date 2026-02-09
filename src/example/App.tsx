@@ -32,6 +32,7 @@ import PaginationExample from './Pagination';
 import NavigationExample from './Navigation';
 import StepsExample from './Steps';
 import SwitchExample from './Switch';
+import GridExample from './Grid';
 import TabsExample from './Tabs';
 import CascaderExample from './Cascader';
 import RateExample from './Rate';
@@ -67,6 +68,7 @@ const App: React.FC = () => {
         { key: 'empty', name: 'Empty', description: '空状态组件', icon: '📭' },
         { key: 'flex', name: 'Flex', description: 'Flex布局组件', icon: '🧱' },
         { key: 'form', name: 'Form', description: '表单组件', icon: '📝' },
+        { key: 'grid', name: 'Grid', description: '栅格布局组件', icon: '🔲' },
         { key: 'icon', name: 'Icon', description: '图标组件', icon: '🖼️' },
         { key: 'i18n', name: 'I18n', description: '国际化组件', icon: '🌐' },
         { key: 'input', name: 'Input', description: '输入框组件', icon: '🔤' },
@@ -124,6 +126,7 @@ const App: React.FC = () => {
         { key: 'empty', name: 'Empty', description: '空状态组件' },
         { key: 'flex', name: 'Flex', description: 'Flex布局组件' },
         { key: 'form', name: 'Form', description: '表单组件' },
+        { key: 'grid', name: 'Grid', description: '栅格布局组件' },
         { key: 'icon', name: 'Icon', description: '图标组件' },
         { key: 'i18n', name: 'I18n', description: '国际化组件' },
         { key: 'input', name: 'Input', description: '输入框组件' },
@@ -290,6 +293,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <ButtonExample />;
             case 'flex':
                 return <FlexExample />;
+            case 'grid':
+                return <GridExample />;
             case 'notice':
                 return <NoticeExample />;
             case 'marquee':
