@@ -507,3 +507,45 @@
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
+
+/* 拖拽相关样式 */
+.custom-table-body tr {
+  cursor: default;
+  will-change: transform; /* 添加will-change优化 */
+}
+
+.custom-table-body tr[draggable="true"] {
+  cursor: grab;
+}
+
+.custom-table-body tr[draggable="true"]:active {
+  cursor: grabbing;
+}
+
+/* 拖拽中的行样式优化 */
+.custom-table-body tr.idp-table-row-dragging {
+  opacity: 0.7;
+  background-color: #e6f7ff !important;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.custom-table-body tr.idp-table-row-dragging td {
+  background-color: #e6f7ff !important;
+}
+
+/* 拖拽时的占位符样式 */
+.custom-table-body tr.drag-over {
+  border-top: 2px solid #1890ff;
+}
+
+/* 优化拖拽动画性能 */
+.custom-table tbody tr {
+  transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.2s ease;
+  transform: translateZ(0); /* 触发GPU加速 */
+}
+
+/* 固定列在拖拽时的样式优化 */
+.custom-table tbody tr.idp-table-row-dragging td[style*="position: sticky"] {
+  z-index: 101 !important;
+}

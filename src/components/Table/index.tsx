@@ -1,4 +1,7 @@
-import { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback, ReactNode } from 'react';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import Empty from '../Empty';
 import Pagination from '../Pagination';
 import Tooltip from '../Tooltip';
@@ -51,6 +54,10 @@ interface TableProps {
     loadingText?: ReactNode;
     /** 加载延迟时间（毫秒），设置后loading状态会在指定时间后自动取消 */
     loadingDelay?: number;
+    /** 是否支持行拖拽 */
+    draggable?: boolean;
+    /** 拖拽结束时的回调 */
+    onDragEnd?: (newDataSource: any[]) => void;
 }
 
 const Table = ({
@@ -64,7 +71,9 @@ const Table = ({
     empty,
     loading = false,
     loadingText = '加载中...',
-    loadingDelay
+    loadingDelay,
+    draggable = false,
+    onDragEnd
 }: TableProps) => {
     const [fixedLeftColumns, setFixedLeftColumns] = useState<Column[]>([]);
     const [fixedRightColumns, setFixedRightColumns] = useState<Column[]>([]);
@@ -73,6 +82,7 @@ const Table = ({
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [internalLoading, setInternalLoading] = useState(loading);
+    const [dragDataSource, setDragDataSource] = useState<any[]>([]);
     const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const tableRef = useRef<HTMLDivElement>(null);
     const headerInnerRef = useRef<HTMLDivElement>(null);
@@ -81,6 +91,19 @@ const Table = ({
     // 编辑状态
     const [editingCell, setEditingCell] = useState<{ rowIndex: number; colKey: string } | null>(null);
     const [editingValue, setEditingValue] = useState('');
+
+    // 拖拽传感器配置
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    // 同步 dataSource 到 dragDataSource
+    useEffect(() => {
+        setDragDataSource(dataSource);
+    }, [dataSource]);
 
     // 处理 loading 延迟
     useEffect(() => {
@@ -210,13 +233,80 @@ const Table = ({
         };
     };
 
-    // 获取行键值
-    const getRowKey = (record: any, index: number): string | number => {
+    // 获取行键值 - 使用useCallback缓存函数，避免重复创建
+    const getRowKey = useCallback((record: any, index: number): string | number => {
         if (typeof rowKey === 'function') {
             return rowKey(record, index);
         }
         return record[rowKey] || index;
-    };
+    }, [rowKey]);
+
+    // 预计算行键值映射 - 大幅提升拖拽性能
+    const rowKeyToIndexMap = useMemo(() => {
+        const map = new Map<string | number, number>();
+        dragDataSource.forEach((item, index) => {
+            map.set(getRowKey(item, index), index);
+        });
+        return map;
+    }, [dragDataSource, getRowKey]);
+
+    // 处理拖拽结束 - 优化性能，减少重渲染
+    const handleDragEnd = useCallback((event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            // 使用预计算的映射表，大幅提升查找性能
+            const oldIndex = rowKeyToIndexMap.get(active.id);
+            const newIndex = rowKeyToIndexMap.get(over.id);
+
+            if (oldIndex !== undefined && newIndex !== undefined && oldIndex !== newIndex) {
+                // 使用函数式更新，避免闭包问题
+                setDragDataSource(prevData => {
+                    const newDataSource = [...prevData];
+                    const [removed] = newDataSource.splice(oldIndex, 1);
+                    newDataSource.splice(newIndex, 0, removed);
+                    
+                    // 同步调用回调，减少一次重渲染
+                    onDragEnd?.(newDataSource);
+                    
+                    return newDataSource;
+                });
+            }
+        }
+    }, [rowKeyToIndexMap, onDragEnd]);
+
+    // 可拖拽行组件 - 使用memo优化，避免不必要的重渲染
+    const DraggableRow = React.memo(({ record, index, children }: { record: any; index: number; children: ReactNode }) => {
+        const rowId = useMemo(() => getRowKey(record, index), [record, index, getRowKey]);
+        
+        const {
+            attributes,
+            listeners,
+            setNodeRef,
+            transform,
+            transition,
+            isDragging,
+        } = useSortable({ id: rowId });
+
+        const style = useMemo(() => ({
+            transform: CSS.Transform.toString(transform),
+            transition,
+            opacity: isDragging ? 0.5 : 1,
+            willChange: 'transform', // 添加will-change优化
+        }), [transform, transition, isDragging]);
+
+        return (
+            <tr 
+                ref={setNodeRef} 
+                style={style} 
+                {...attributes} 
+                {...listeners}
+                className={isDragging ? 'idp-table-row-dragging' : ''}
+            >
+                {children}
+            </tr>
+        );
+    });
 
     // 渲染表头单元格
     const renderHeaderCell = (column: Column, index: number, colGroup: Column[]) => {
@@ -426,10 +516,12 @@ const Table = ({
 
     const allColumns = [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns];
     
-    // 使用 useMemo 缓存 paginationData，避免每次渲染重新计算
+    // 使用 useMemo 缓存 paginationData，优化依赖项避免不必要的重新计算
     const paginationData = useMemo(() => getPaginationData(), [
-        dataSource,
-        pagination,
+        dataSource.length,
+        pagination === false ? false : pagination?.total,
+        pagination === false ? false : pagination?.current,
+        pagination === false ? false : pagination?.pageSize,
         pageSize,
         currentPage
     ]);
@@ -514,31 +606,45 @@ const Table = ({
             </div>
 
             {/* 表体 */}
-            <div
-                className="custom-table-body"
-                ref={bodyRef}
-                style={bodyStyle}
-                onScroll={handleBodyScroll}
-            >
-                <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
-                    <colgroup>
-                        {allColumns.map((col, index) => (
-                            <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
-                        ))}
-                    </colgroup>
-                    <tbody>
-                        {displayData.map((record, rowIndex) => (
-                            <tr key={getRowKey(record, rowIndex)}>
-                                {allColumns.map((column, colIndex) =>
-                                    renderTableCell(column, record, rowIndex, colIndex, allColumns)
-                                )}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <div
+                    className="custom-table-body"
+                    ref={bodyRef}
+                    style={bodyStyle}
+                    onScroll={handleBodyScroll}
+                >
+                    <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
+                        <colgroup>
+                            {allColumns.map((col, index) => (
+                                <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
+                            ))}
+                        </colgroup>
+                        <tbody>
+                            {draggable ? (
+                                <SortableContext items={dragDataSource.map((item, idx) => getRowKey(item, idx))} strategy={verticalListSortingStrategy}>
+                                    {dragDataSource.map((record, rowIndex) => (
+                                        <DraggableRow key={getRowKey(record, rowIndex)} record={record} index={rowIndex}>
+                                            {allColumns.map((column, colIndex) =>
+                                                renderTableCell(column, record, rowIndex, colIndex, allColumns)
+                                            )}
+                                        </DraggableRow>
+                                    ))}
+                                </SortableContext>
+                            ) : (
+                                displayData.map((record, rowIndex) => (
+                                    <tr key={getRowKey(record, rowIndex)}>
+                                        {allColumns.map((column, colIndex) =>
+                                            renderTableCell(column, record, rowIndex, colIndex, allColumns)
+                                        )}
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </DndContext>
 
-            {displayData.length === 0 && (
+            {(draggable ? dragDataSource : displayData).length === 0 && (
                 <div className="custom-table-empty">
                     {empty || <Empty size="small" description="暂无数据" />}
                 </div>

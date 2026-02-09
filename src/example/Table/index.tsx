@@ -640,6 +640,202 @@ const TableExample = () => {
 };`} />
       </Section>
 
+      {/* 行拖拽排序 */}
+      <Section title="行拖拽排序">
+        <p>开启 <code>draggable</code> 属性后，可以通过拖拽行来改变数据顺序。</p>
+        
+        <DemoRow title="基础拖拽">
+          {(() => {
+            const [dragDataSource, setDragDataSource] = useState([
+              { id: 1, name: '张三', age: 25, department: '研发部', priority: '高' },
+              { id: 2, name: '李四', age: 30, department: '市场部', priority: '中' },
+              { id: 3, name: '王五', age: 28, department: '财务部', priority: '低' },
+              { id: 4, name: '赵六', age: 32, department: '运营部', priority: '中' },
+              { id: 5, name: '孙七', age: 26, department: '产品部', priority: '高' }
+            ]);
+            
+            return (
+              <Table
+                columns={[
+                  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+                  { dataIndex: 'name', title: '姓名', width: '120px' },
+                  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+                  { dataIndex: 'department', title: '部门', width: '120px' },
+                  { dataIndex: 'priority', title: '优先级', width: '80px', align: 'center' }
+                ]}
+                dataSource={dragDataSource}
+                draggable={true}
+                onDragEnd={(newDataSource) => {
+                  setDragDataSource(newDataSource);
+                  console.log('拖拽后的数据顺序:', newDataSource);
+                }}
+              />
+            );
+          })()}
+        </DemoRow>
+        <CopyBlock code={`import { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+
+const DraggableTableExample = () => {
+  const [dataSource, setDataSource] = useState([
+    { id: 1, name: '张三', age: 25, department: '研发部', priority: '高' },
+    { id: 2, name: '李四', age: 30, department: '市场部', priority: '中' },
+    { id: 3, name: '王五', age: 28, department: '财务部', priority: '低' },
+    { id: 4, name: '赵六', age: 32, department: '运营部', priority: '中' },
+    { id: 5, name: '孙七', age: 26, department: '产品部', priority: '高' }
+  ]);
+
+  return (
+    <Table
+      columns={[
+        { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+        { dataIndex: 'name', title: '姓名', width: '120px' },
+        { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+        { dataIndex: 'department', title: '部门', width: '120px' },
+        { dataIndex: 'priority', title: '优先级', width: '80px', align: 'center' }
+      ]}
+      dataSource={dataSource}
+      draggable={true}
+      onDragEnd={(newDataSource) => {
+        setDataSource(newDataSource);
+        console.log('拖拽后的数据顺序:', newDataSource);
+      }}
+    />
+  );
+};`} />
+
+        <DemoRow title="拖拽 + 固定列">
+          {(() => {
+            const [dragDataSource, setDragDataSource] = useState([
+              { id: 1, name: '产品A', stock: 150, price: 99.99, sales: 1250 },
+              { id: 2, name: '产品B', stock: 89, price: 199.99, sales: 890 },
+              { id: 3, name: '产品C', stock: 230, price: 59.99, sales: 2100 },
+              { id: 4, name: '产品D', stock: 45, price: 299.99, sales: 450 },
+              { id: 5, name: '产品E', stock: 180, price: 79.99, sales: 1680 }
+            ]);
+            
+            return (
+              <Table
+                columns={[
+                  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center', fixed: 'start' },
+                  { dataIndex: 'name', title: '产品名称', width: '150px', fixed: 'start' },
+                  { dataIndex: 'stock', title: '库存', width: '100px', align: 'center' },
+                  { dataIndex: 'price', title: '价格', width: '100px', align: 'center' },
+                  { dataIndex: 'sales', title: '销量', width: '100px', align: 'center' },
+                  { dataIndex: 'revenue', title: '销售额', width: '120px', align: 'center', render: (_, record: any) => '¥' + (record.price * record.sales).toFixed(2) }
+                ]}
+                dataSource={dragDataSource}
+                draggable={true}
+                onDragEnd={(newDataSource) => setDragDataSource(newDataSource)}
+                scroll={{ x: '100%' }}
+              />
+            );
+          })()}
+        </DemoRow>
+        <CopyBlock code={`import { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+
+const DraggableTableWithFixedColumns = () => {
+  const [dataSource, setDataSource] = useState([
+    { id: 1, name: '产品A', stock: 150, price: 99.99, sales: 1250 },
+    { id: 2, name: '产品B', stock: 89, price: 199.99, sales: 890 },
+    { id: 3, name: '产品C', stock: 230, price: 59.99, sales: 2100 },
+    { id: 4, name: '产品D', stock: 45, price: 299.99, sales: 450 },
+    { id: 5, name: '产品E', stock: 180, price: 79.99, sales: 1680 }
+  ]);
+
+  return (
+    <Table
+      columns={[
+        { dataIndex: 'id', title: 'ID', width: '60px', align: 'center', fixed: 'start' },
+        { dataIndex: 'name', title: '产品名称', width: '150px', fixed: 'start' },
+        { dataIndex: 'stock', title: '库存', width: '100px', align: 'center' },
+        { dataIndex: 'price', title: '价格', width: '100px', align: 'center' },
+        { dataIndex: 'sales', title: '销量', width: '100px', align: 'center' },
+        { dataIndex: 'revenue', title: '销售额', width: '120px', align: 'center', render: (_, record) => '¥' + (record.price * record.sales).toFixed(2) }
+      ]}
+      dataSource={dataSource}
+      draggable={true}
+      onDragEnd={(newDataSource) => setDataSource(newDataSource)}
+      scroll={{ x: '100%' }}
+    />
+  );
+};`} />
+
+        <DemoRow title="拖拽 + 分页">
+          {(() => {
+            const [pageDataSource, setPageDataSource] = useState(
+              Array.from({ length: 20 }, (_, i) => ({
+                id: i + 1,
+                task: '任务 ' + (i + 1),
+                status: ['待处理', '进行中', '已完成', '已取消'][Math.floor(Math.random() * 4)],
+                progress: Math.floor(Math.random() * 100),
+                assignee: ['张三', '李四', '王五', '赵六'][Math.floor(Math.random() * 4)],
+                priority: ['高', '中', '低'][Math.floor(Math.random() * 3)]
+              }))
+            );
+            
+            return (
+              <Table
+                columns={[
+                  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+                  { dataIndex: 'task', title: '任务名称', width: '200px' },
+                  { dataIndex: 'status', title: '状态', width: '100px', align: 'center' },
+                  { dataIndex: 'progress', title: '进度', width: '100px', align: 'center', render: (value) => value + '%' },
+                  { dataIndex: 'assignee', title: '负责人', width: '100px' },
+                  { dataIndex: 'priority', title: '优先级', width: '80px', align: 'center' }
+                ]}
+                dataSource={pageDataSource}
+                draggable={true}
+                onDragEnd={(newDataSource) => setPageDataSource(newDataSource)}
+                pagination={{
+                  total: pageDataSource.length,
+                  pageSize: 5,
+                  current: 1
+                }}
+              />
+            );
+          })()}
+        </DemoRow>
+        <CopyBlock code={`import { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+
+const DraggableTableWithPagination = () => {
+  const [dataSource, setDataSource] = useState(
+    Array.from({ length: 20 }, (_, i) => ({
+      id: i + 1,
+      task: '任务 ' + (i + 1),
+      status: ['待处理', '进行中', '已完成', '已取消'][Math.floor(Math.random() * 4)],
+      progress: Math.floor(Math.random() * 100),
+      assignee: ['张三', '李四', '王五', '赵六'][Math.floor(Math.random() * 4)],
+      priority: ['高', '中', '低'][Math.floor(Math.random() * 3)]
+    }))
+  );
+
+  return (
+    <Table
+      columns={[
+        { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+        { dataIndex: 'task', title: '任务名称', width: '200px' },
+        { dataIndex: 'status', title: '状态', width: '100px', align: 'center' },
+        { dataIndex: 'progress', title: '进度', width: '100px', align: 'center', render: (value) => value + '%' },
+        { dataIndex: 'assignee', title: '负责人', width: '100px' },
+        { dataIndex: 'priority', title: '优先级', width: '80px', align: 'center' }
+      ]}
+      dataSource={dataSource}
+      draggable={true}
+      onDragEnd={(newDataSource) => setDataSource(newDataSource)}
+      pagination={{
+        total: dataSource.length,
+        pageSize: 5,
+        current: 1
+      }}
+    />
+  );
+};`} />
+        <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：拖拽功能基于 @dnd-kit 实现，支持平滑的拖拽体验和键盘操作</p>
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Table Props</h3>
@@ -711,6 +907,18 @@ const TableExample = () => {
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>loadingDelay</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>加载延迟时间（毫秒），设置后loading会在指定时间后自动取消</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>draggable</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否支持行拖拽排序</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onDragEnd</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>拖拽结束时的回调函数</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(newDataSource: any[]) => void`}</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
             </tr>
           </tbody>
