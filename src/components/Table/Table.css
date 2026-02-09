@@ -507,3 +507,127 @@
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
+
+/* ==================== 拖拽功能样式 ==================== */
+
+/* 可拖拽表格行的基础样式 */
+.idp-table-sortable-row {
+  cursor: grab;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.idp-table-sortable-row:active {
+  cursor: grabbing;
+}
+
+/* 拖拽时的行样式 - 保持与默认 tbody tr 样式一致 */
+.idp-table-sortable-row.is-dragging {
+  background-color: white !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+/* 拖拽时 td 样式与默认 tbody td 保持一致 */
+.idp-table-sortable-row.is-dragging td {
+  background-color: white !important;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 拖拽时保持固定列阴影效果 */
+.idp-table-sortable-row.is-dragging td.idp-table-fixed-left-shadow {
+  box-shadow: inset -3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
+}
+
+.idp-table-sortable-row.is-dragging td.idp-table-fixed-right-shadow {
+  box-shadow: inset 3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
+}
+
+/* 拖拽时的半透明效果 - 也保持默认样式 */
+.idp-table-sortable-row[style*="opacity: 0.5"] {
+  background-color: white;
+}
+
+.idp-table-sortable-row[style*="opacity: 0.5"] td {
+  background-color: white !important;
+}
+
+/* 拖拽容器样式 */
+.custom-table-container.draggable .custom-table tbody tr {
+  position: relative;
+}
+
+/* 拖拽时的视觉提示 - 在行前面显示拖拽图标区域 */
+.idp-table-sortable-row td:first-child::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 0;
+  transition: all 0.2s ease;
+}
+
+/* 鼠标悬停可拖拽行时的效果 - 与默认 hover 样式一致 */
+.idp-table-sortable-row:hover {
+  background-color: #F8F9FB !important;
+}
+
+.idp-table-sortable-row:hover td {
+  background-color: #F8F9FB !important;
+}
+
+/* 拖拽遮罩层样式 */
+.custom-table-container.draggable {
+  user-select: none;
+}
+
+/* 拖拽动画效果 */
+.idp-table-sortable-row {
+  will-change: transform;
+}
+
+/* 拖拽时的占位符样式 */
+.idp-table-sortable-row + tr {
+  transition: transform 0.2s ease;
+}
+
+/* 禁用文本选择以避免拖拽时的文本选中 */
+.custom-table-container.draggable .custom-table {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* 允许单元格内的输入框和按钮正常选择 */
+.custom-table-container.draggable .custom-table input,
+.custom-table-container.draggable .custom-table button,
+.custom-table-container.draggable .custom-table textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* 拖拽手柄提示 */
+.idp-table-sortable-row:hover td:first-child {
+  position: relative;
+}
+
+.idp-table-sortable-row:hover td:first-child::after {
+  content: '⋮⋮';
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bfbfbf;
+  font-size: 12px;
+  letter-spacing: -2px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* 拖拽时的边框高亮 */
+.idp-table-sortable-row.is-dragging {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}

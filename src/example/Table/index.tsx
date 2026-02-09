@@ -96,6 +96,44 @@ const TableExample: React.FC = () => {
     );
   };
 
+  // 拖拽排序表格示例组件
+  const DraggableTableDemo: React.FC = () => {
+    const [draggableData, setDraggableData] = useState([
+      { id: '1', name: '张三', age: 25, department: '研发部', priority: 1 },
+      { id: '2', name: '李四', age: 30, department: '市场部', priority: 2 },
+      { id: '3', name: '王五', age: 28, department: '财务部', priority: 3 },
+      { id: '4', name: '赵六', age: 32, department: '人事部', priority: 4 },
+      { id: '5', name: '孙七', age: 26, department: '技术部', priority: 5 }
+    ]);
+
+    const draggableColumns: Column[] = [
+      { dataIndex: 'priority', title: '序号', width: '80px', align: 'center' },
+      { dataIndex: 'name', title: '姓名', width: '120px' },
+      { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+      { dataIndex: 'department', title: '部门', width: '120px' }
+    ];
+
+    const handleDragEnd = (newData: any[]) => {
+      // 更新序号
+      const updatedData = newData.map((item, index) => ({
+        ...item,
+        priority: index + 1
+      }));
+      setDraggableData(updatedData);
+      console.log('新的数据顺序:', updatedData);
+    };
+
+    return (
+      <Table
+        columns={draggableColumns}
+        dataSource={draggableData}
+        draggable
+        onDragEnd={handleDragEnd}
+        rowKey="id"
+      />
+    );
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>Table 表格</h1>
@@ -640,6 +678,54 @@ const TableExample = () => {
 };`} />
       </Section>
 
+      {/* 行拖拽功能 */}
+      <Section title="行拖拽排序">
+        <p>启用 <code>draggable</code> 属性可以让表格行支持拖拽排序。拖拽完成后可通过 <code>onDragEnd</code> 回调获取新的数据顺序。</p>
+        <DemoRow title="拖拽排序">
+          <DraggableTableDemo />
+        </DemoRow>
+        <CopyBlock code={`import { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+
+const DraggableTableExample = () => {
+  const [dataSource, setDataSource] = useState([
+    { id: '1', name: '张三', age: 25, department: '研发部', priority: 1 },
+    { id: '2', name: '李四', age: 30, department: '市场部', priority: 2 },
+    { id: '3', name: '王五', age: 28, department: '财务部', priority: 3 },
+    { id: '4', name: '赵六', age: 32, department: '人事部', priority: 4 },
+    { id: '5', name: '孙七', age: 26, department: '技术部', priority: 5 }
+  ]);
+
+  const columns = [
+    { dataIndex: 'priority', title: '序号', width: '80px', align: 'center' },
+    { dataIndex: 'name', title: '姓名', width: '120px' },
+    { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+    { dataIndex: 'department', title: '部门', width: '120px' }
+  ];
+
+  const handleDragEnd = (newData: any[]) => {
+    // 更新序号
+    const updatedData = newData.map((item, index) => ({
+      ...item,
+      priority: index + 1
+    }));
+    setDataSource(updatedData);
+    console.log('新的数据顺序:', updatedData);
+  };
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      draggable
+      onDragEnd={handleDragEnd}
+      rowKey="id"
+    />
+  );
+};`} />
+        <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：鼠标悬停在行上时会出现拖拽手柄，按住行即可拖拽排序</p>
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Table Props</h3>
@@ -711,6 +797,18 @@ const TableExample = () => {
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>loadingDelay</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>加载延迟时间（毫秒），设置后loading会在指定时间后自动取消</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>draggable</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否开启行拖拽排序功能</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+            </tr>
+            <tr>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onDragEnd</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>拖拽排序完成时的回调函数，返回新的数据顺序</td>
+              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(newData: any[]) => void`}</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
             </tr>
           </tbody>

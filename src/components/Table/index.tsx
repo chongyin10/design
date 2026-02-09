@@ -1,8 +1,24 @@
 import { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+    DragEndEvent
+} from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import Empty from '../Empty';
 import Pagination from '../Pagination';
 import Tooltip from '../Tooltip';
 import Icon from '../Icon';
+import SortableRow from './SortableRow';
 import './Table.css';
 
 export interface Column {
@@ -51,6 +67,10 @@ interface TableProps {
     loadingText?: ReactNode;
     /** 加载延迟时间（毫秒），设置后loading状态会在指定时间后自动取消 */
     loadingDelay?: number;
+    /** 是否开启行拖拽功能 */
+    draggable?: boolean;
+    /** 拖拽结束时的回调函数，返回新的数据顺序 */
+    onDragEnd?: (newData: any[]) => void;
 }
 
 const Table = ({
@@ -64,7 +84,9 @@ const Table = ({
     empty,
     loading = false,
     loadingText = '加载中...',
-    loadingDelay
+    loadingDelay,
+    draggable = false,
+    onDragEnd,
 }: TableProps) => {
     const [fixedLeftColumns, setFixedLeftColumns] = useState<Column[]>([]);
     const [fixedRightColumns, setFixedRightColumns] = useState<Column[]>([]);
@@ -73,6 +95,7 @@ const Table = ({
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [internalLoading, setInternalLoading] = useState(loading);
+    const [internalDataSource, setInternalDataSource] = useState(dataSource);
     const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const tableRef = useRef<HTMLDivElement>(null);
     const headerInnerRef = useRef<HTMLDivElement>(null);
@@ -81,6 +104,11 @@ const Table = ({
     // 编辑状态
     const [editingCell, setEditingCell] = useState<{ rowIndex: number; colKey: string } | null>(null);
     const [editingValue, setEditingValue] = useState('');
+
+    // 同步外部数据源的变化
+    useEffect(() => {
+        setInternalDataSource(dataSource);
+    }, [dataSource]);
 
     // 处理 loading 延迟
     useEffect(() => {
@@ -181,7 +209,7 @@ const Table = ({
         if (pagination === false) {
             return null;
         }
-        const total = pagination?.total !== undefined ? pagination.total : dataSource.length;
+        const total = pagination?.total !== undefined ? pagination.total : internalDataSource.length;
         // 确保当前页码不超过总页数
         const totalPages = Math.ceil(total / ps) || 1;
         const validCurrent = Math.min(cp, totalPages);
@@ -193,12 +221,12 @@ const Table = ({
         let pagedData: any[];
         if (isBackendPagination) {
             // 后端分页：直接使用 dataSource（后端已分页）
-            pagedData = dataSource;
+            pagedData = internalDataSource;
         } else {
             // 前端分页：对 dataSource 进行切片
             const start = (validCurrent - 1) * ps;
             const end = start + ps;
-            pagedData = dataSource.slice(start, end);
+            pagedData = internalDataSource.slice(start, end);
         }
 
         return {
@@ -414,6 +442,58 @@ const Table = ({
         );
     };
 
+    // DnD 传感器配置
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8,
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    // 处理拖拽结束
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            const paginationData = getPaginationData();
+            const displayData = paginationData ? paginationData.data : internalDataSource;
+            
+            const oldIndex = displayData.findIndex(
+                (item, index) => String(getRowKey(item, index)) === String(active.id)
+            );
+            const newIndex = displayData.findIndex(
+                (item, index) => String(getRowKey(item, index)) === String(over.id)
+            );
+
+            if (oldIndex !== -1 && newIndex !== -1) {
+                const newData = arrayMove(displayData, oldIndex, newIndex);
+                
+                // 如果是前端分页，需要更新整个数据源
+                if (paginationData && pagination && typeof pagination === 'object' && pagination.total === undefined) {
+                    const start = (paginationData.current - 1) * paginationData.pageSize;
+                    const updatedDataSource = [...internalDataSource];
+                    newData.forEach((item, index) => {
+                        updatedDataSource[start + index] = item;
+                    });
+                    setInternalDataSource(updatedDataSource);
+                    if (onDragEnd) {
+                        onDragEnd(updatedDataSource);
+                    }
+                } else {
+                    // 后端分页或无分页
+                    setInternalDataSource(newData);
+                    if (onDragEnd) {
+                        onDragEnd(newData);
+                    }
+                }
+            }
+        }
+    };
+
     const tableStyle: React.CSSProperties = {
         width: scroll.x ? (typeof scroll.x === 'number' ? `${scroll.x}px` : scroll.x) : '100%',
     };
@@ -428,12 +508,12 @@ const Table = ({
     
     // 使用 useMemo 缓存 paginationData，避免每次渲染重新计算
     const paginationData = useMemo(() => getPaginationData(), [
-        dataSource,
+        internalDataSource,
         pagination,
         pageSize,
         currentPage
     ]);
-    const displayData = paginationData ? paginationData.data : dataSource;
+    const displayData = paginationData ? paginationData.data : internalDataSource;
 
     const renderPagination = () => {
         if (pagination === false || !paginationData) {
@@ -462,10 +542,60 @@ const Table = ({
         );
     };
 
+    // 渲染表格行
+    const renderTableRows = () => {
+        if (draggable) {
+            const itemIds = displayData.map((record, index) => String(getRowKey(record, index)));
+            
+            return (
+                <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext
+                        items={itemIds}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        {displayData.map((record, rowIndex) => (
+                            <SortableRow
+                                key={getRowKey(record, rowIndex)}
+                                id={String(getRowKey(record, rowIndex))}
+                                record={record}
+                                rowIndex={rowIndex}
+                                columns={columns}
+                                columnWidths={columnWidths}
+                                fixedLeftColumns={fixedLeftColumns}
+                                fixedRightColumns={fixedRightColumns}
+                                normalColumns={normalColumns}
+                                allColumns={allColumns}
+                                editingCell={editingCell}
+                                editingValue={editingValue}
+                                handleEdit={handleEdit}
+                                handleSave={handleSave}
+                                handleCancel={handleCancel}
+                                setEditingValue={setEditingValue}
+                                renderTableCell={renderTableCell}
+                            />
+                        ))}
+                    </SortableContext>
+                </DndContext>
+            );
+        }
+
+        return displayData.map((record, rowIndex) => (
+            <tr key={getRowKey(record, rowIndex)}>
+                {allColumns.map((column, colIndex) =>
+                    renderTableCell(column, record, rowIndex, colIndex, allColumns)
+                )}
+            </tr>
+        ));
+    };
+
     return (
         <div
             ref={tableRef}
-            className={`custom-table-container ${bordered ? 'bordered' : ''} ${className}`}
+            className={`custom-table-container ${bordered ? 'bordered' : ''} ${className} ${draggable ? 'draggable' : ''}`}
             style={tableStyle}
         >
             {/* 加载遮罩层 */}
@@ -527,13 +657,7 @@ const Table = ({
                         ))}
                     </colgroup>
                     <tbody>
-                        {displayData.map((record, rowIndex) => (
-                            <tr key={getRowKey(record, rowIndex)}>
-                                {allColumns.map((column, colIndex) =>
-                                    renderTableCell(column, record, rowIndex, colIndex, allColumns)
-                                )}
-                            </tr>
-                        ))}
+                        {renderTableRows()}
                     </tbody>
                 </table>
             </div>
