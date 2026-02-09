@@ -36,6 +36,31 @@
   display: none;
 }
 
+/* 自定义表体滚动条 */
+.custom-table-body::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.custom-table-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-table-body::-webkit-scrollbar-thumb {
+  background-color: #eaeaea;
+  border-radius: 3px;
+}
+
+.custom-table-body::-webkit-scrollbar-thumb:hover {
+  background-color: #00000020;
+}
+
+/* Firefox 滚动条 */
+.custom-table-body {
+  scrollbar-width: thin;
+  scrollbar-color: #eaeaea transparent;
+}
+
 .custom-table-body {
   overflow-x: auto;
   overflow-y: auto;
