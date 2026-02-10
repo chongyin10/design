@@ -45,7 +45,7 @@ interface LayoutComponent extends React.FC<LayoutProps> {
   Footer: typeof Footer;
 }
 
-const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, children, hasSider }) => {
+const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, children, hasSider, theme }) => {
   // 自动检测是否包含 Sider
   const detectHasSider = (children: React.ReactNode): boolean => {
     if (!children) return false;
@@ -62,6 +62,7 @@ const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, childre
         className={`layout-wrapper ${className}`}
         style={style}
         $hasSider={finalHasSider}
+        $theme={theme}
       >
         {children}
       </LayoutWrapper>
@@ -78,7 +79,6 @@ const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, childre
  * ```tsx
  * <Layout.Header fixed height={64}>
  *   <div>Logo</div>
- *   <nav>Navigation</nav>
  * </Layout.Header>
  * ```
  */
@@ -87,14 +87,20 @@ export const Header: React.FC<LayoutHeaderProps> = ({
   style = {},
   children,
   height,
-  fixed = false
+  fixed = false,
+  theme = 'light'
 }) => {
+
+  const bgColor:any = style?.background || '#3030302b';
+
   return (
     <HeaderWrapper
-      className={`layout-header ${className}`}
+      className={`layout-header layout-header-${theme} ${className}`}
       style={style}
       $height={height}
       $fixed={fixed}
+      $theme={theme}
+      $bgColor={bgColor}
     >
       {children}
     </HeaderWrapper>
@@ -130,7 +136,8 @@ export const Sider: React.FC<LayoutSiderProps> = ({
   trigger,
   triggerPlacement = 'bottom',
   zeroWidthMode = false,
-  fixed = false
+  fixed = false,
+  theme = "light"
 }) => {
   const { setSiderCollapsed, setZeroWidthMode, setOnExpand } = useLayoutContext();
 
@@ -160,6 +167,7 @@ export const Sider: React.FC<LayoutSiderProps> = ({
       $collapsedWidth={actualCollapsedWidth}
       $collapsed={collapsed}
       $fixed={fixed}
+      $theme={theme}
     >
       <SiderContentWrapper>{children}</SiderContentWrapper>
       {collapsible && (
@@ -169,12 +177,13 @@ export const Sider: React.FC<LayoutSiderProps> = ({
           $placement={zeroWidthMode ? 'top' : triggerPlacement}
           onClick={handleCollapse}
           $zeroWidthMode={zeroWidthMode}
+          $theme={theme}
         >
           {trigger || (
             <Icon
               type={collapsed ? 'arrowRight' : 'arrowLeft'}
               size={20}
-              color="#fff"
+              color={theme === 'dark' ? '#fff' : 'rgba(0, 0, 0, 0.65)'}
             />
           )}
         </SiderTrigger>
@@ -237,7 +246,8 @@ export const Footer: React.FC<LayoutFooterProps> = ({
   style = {},
   children,
   height,
-  fixed = false
+  fixed = false,
+  theme
 }) => {
   return (
     <FooterWrapper
@@ -245,6 +255,7 @@ export const Footer: React.FC<LayoutFooterProps> = ({
       style={style}
       $height={height}
       $fixed={fixed}
+      $theme={theme}
     >
       {children}
     </FooterWrapper>

@@ -10,6 +10,8 @@ export interface LayoutProps {
   style?: CSSProperties;
   /** 是否包含 Sider（会影响布局） */
   hasSider?: boolean;
+  /** 主题模式 */
+  theme?: 'light' | 'dark';
   /** 子元素 */
   children?: ReactNode;
 }
@@ -28,6 +30,8 @@ export interface LayoutHeaderProps {
   height?: string | number;
   /** 固定头部 */
   fixed?: boolean;
+  /** 主题模式 */
+  theme?: 'light' | 'dark';
 }
 
 /**
@@ -58,6 +62,8 @@ export interface LayoutFooterProps {
   height?: string | number;
   /** 固定页脚 */
   fixed?: boolean;
+  /** 主题模式 */
+  theme?: 'light' | 'dark';
 }
 
 /**

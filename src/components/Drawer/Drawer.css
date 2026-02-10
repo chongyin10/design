@@ -1,0 +1,223 @@
+/* Drawer 样式 */
+
+/* 遮罩层 */
+.idp-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 0.3s ease;
+    pointer-events: none;
+}
+
+.idp-drawer-overlay--visible {
+    background-color: rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+}
+
+.idp-drawer-overlay--closing {
+    background-color: rgba(0, 0, 0, 0);
+    pointer-events: auto;
+}
+
+/* 无遮罩层时的包装器 */
+.idp-drawer-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.idp-drawer-wrapper--visible {
+    pointer-events: auto;
+}
+
+/* Drawer 主体 */
+.idp-drawer {
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 左侧抽屉 */
+.idp-drawer--left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+}
+
+.idp-drawer--left.idp-drawer--visible {
+    transform: translateX(0);
+}
+
+.idp-drawer--left.idp-drawer--closing {
+    transform: translateX(-100%);
+}
+
+/* 右侧抽屉 */
+.idp-drawer--right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(100%);
+}
+
+.idp-drawer--right.idp-drawer--visible {
+    transform: translateX(0);
+}
+
+.idp-drawer--right.idp-drawer--closing {
+    transform: translateX(100%);
+}
+
+/* 顶部抽屉 */
+.idp-drawer--top {
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-100%);
+}
+
+.idp-drawer--top.idp-drawer--visible {
+    transform: translateY(0);
+}
+
+.idp-drawer--top.idp-drawer--closing {
+    transform: translateY(-100%);
+}
+
+/* 底部抽屉 */
+.idp-drawer--bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+}
+
+.idp-drawer--bottom.idp-drawer--visible {
+    transform: translateY(0);
+}
+
+.idp-drawer--bottom.idp-drawer--closing {
+    transform: translateY(100%);
+}
+
+/* 无遮罩层时的定位 */
+.idp-drawer--no-mask.idp-drawer--left,
+.idp-drawer--no-mask.idp-drawer--right {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+}
+
+.idp-drawer--no-mask.idp-drawer--top,
+.idp-drawer--no-mask.idp-drawer--bottom {
+    position: fixed;
+    left: 0;
+    right: 0;
+}
+
+/* 头部样式 */
+.idp-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+}
+
+.idp-drawer-header__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.85);
+    line-height: 1.5;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.idp-drawer-header__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+    margin-left: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.idp-drawer-header__close:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.idp-drawer-header__close:active {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+/* 内容区域 */
+.idp-drawer-content {
+    flex: 1;
+    overflow: auto;
+    padding: 24px;
+}
+
+/* 页脚 */
+.idp-drawer-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e8e8e8;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* 加载状态 */
+.idp-drawer-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+/* 滚动条样式 */
+.idp-drawer-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.idp-drawer-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.idp-drawer-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.idp-drawer-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

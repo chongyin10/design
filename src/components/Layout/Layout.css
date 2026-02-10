@@ -1,48 +1,75 @@
 :root {
   /* Layout 基础配置 */
-  --layout-bg: #f0f2f5;
   --layout-min-height: 100vh;
 
-  /* Header 配置 */
-  --layout-header-bg: #001529;
+  /* 边框控制变量 - 优先级最高 */
+  /* 可选值:
+   * - 颜色值: 如 1px solid #ff0000 (使用自定义边框)
+   * - none: 不显示边框
+   * - 不设置/删除: 使用主题默认值 (dark: #303030, light: transparent)
+   */
+  /* --layout-header-border: none; */
+  /* --layout-sider-border: none; */
+  /* --layout-footer-border: none; */
+
+  /* Light 主题 - 白底黑字 */
+  --layout-bg-light: #f5f5f5;
+  --layout-header-bg-light: #fff;
+  --layout-header-color-light: #000;
+  --layout-header-border-light: 1px solid #f0f0f0;
+  --layout-sider-bg-light: #fff;
+  --layout-sider-color-light: #000;
+  --layout-sider-border-light: 1px solid #f0f0f0;
+  --layout-footer-bg-light: #fff;
+  --layout-footer-color-light: #000;
+  --layout-footer-border-light: 1px solid #f0f0f0;
+  --layout-menu-hover-bg-light: #1890ff;
+  --layout-menu-hover-color-light: #fff;
+  --layout-menu-active-bg-light: #1890ff;
+  --layout-menu-active-color-light: #fff;
+
+  /* Dark 主题 - 黑底白字 */
+  --layout-bg-dark: #000;
+  --layout-header-bg-dark: #001529;
+  --layout-header-color-dark: #fff;
+  --layout-header-border-dark: 1px solid #303030;
+  --layout-sider-bg-dark: #001529;
+  --layout-sider-color-dark: #fff;
+  --layout-sider-border-dark: 1px solid #303030;
+  --layout-footer-bg-dark: #001529;
+  --layout-footer-color-dark: #fff;
+  --layout-footer-border-dark: 1px solid #303030;
+  --layout-menu-hover-bg-dark: #1890ff;
+  --layout-menu-hover-color-dark: #fff;
+  --layout-menu-active-bg-dark: #1890ff;
+  --layout-menu-active-color-dark: #fff;
+
+  /* 通用配置 */
   --layout-header-height: 64px;
-  --layout-header-color: #fff;
   --layout-header-padding: 0 24px;
   --layout-header-z-index: 10;
   --layout-header-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   --layout-header-transition: all 0.3s ease;
 
-  /* Footer 配置 */
-  --layout-footer-bg: #f0f2f5;
   --layout-footer-height: 48px;
-  --layout-footer-color: rgba(0, 0, 0, 0.65);
   --layout-footer-padding: 24px 50px;
   --layout-footer-z-index: 10;
-  --layout-footer-border-top: 1px solid #e8e8e8;
   --layout-footer-transition: all 0.3s ease;
 
-  /* Sider 配置 */
-  --layout-sider-bg: #001529;
   --layout-sider-width: 200px;
   --layout-sider-collapsed-width: 64px;
-  --layout-sider-color: rgba(255, 255, 255, 0.65);
   --layout-sider-z-index: 10;
   --layout-sider-box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
   --layout-sider-transition: all 0.3s ease;
   --layout-sider-flex: 0 0 var(--layout-sider-width);
 
-  /* Content 配置 */
-  --layout-content-bg: #fff;
+  --layout-content-bg: transparent;
   --layout-content-padding: 24px;
-  --layout-content-min-height: 280px;
+  --layout-content-min-height: 160px;
   --layout-content-transition: all 0.3s ease;
 
-  /* 触发器（Sider收缩按钮）配置 */
-  --layout-sider-trigger-height: 48px;
-  --layout-sider-trigger-bg: #002140;
-  --layout-sider-trigger-color: #fff;
-  --layout-sider-trigger-hover-bg: #1890ff;
-  --layout-sider-trigger-transition: all 0.3s ease;
+  --layout-trigger-height: 48px;
+  --layout-trigger-transition: all 0.3s ease;
 }
 
 /* 禁止浏览器最外层滚动 */

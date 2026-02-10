@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Icon, Menu } from '../components';
+import { Layout, Icon, Menu, Input } from '../components';
 import ButtonExample from './Button';
 import CheckboxExample from './Checkbox';
 import NoticeExample from './Notice';
@@ -29,7 +29,6 @@ import BreadcrumbExample from './Breadcrumb';
 import DropdownExample from './Dropdown';
 import MenuExample from './Menu';
 import PaginationExample from './Pagination';
-import NavigationExample from './Navigation';
 import StepsExample from './Steps';
 import SwitchExample from './Switch';
 import GridExample from './Grid';
@@ -41,9 +40,11 @@ import TransferExample from './Transfer';
 import LabelExample from './Label';
 import TreeSelectExample from './TreeSelect';
 import FormExample from './Form';
+import DrawerExample from './Drawer';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
+import LayoutExample from './Layout';
 
 const { Header, Sider, Content } = Layout;
 
@@ -62,6 +63,7 @@ const App: React.FC = () => {
         { key: 'colorpicker', label: 'ColorPicker', name: 'ColorPicker', description: '颜色选择器组件', icon: <span>🎨</span> },
         { key: 'copytoclipboard', label: 'CopyToClipboard', name: 'CopyToClipboard', description: '剪贴板复制组件', icon: <span>📋</span> },
         { key: 'divider', label: 'Divider', name: 'Divider', description: '分割线组件', icon: <span>➖</span> },
+        { key: 'drawer', label: 'Drawer', name: 'Drawer', description: '抽屉组件', icon: <span>🗄️</span> },
         { key: 'dropdown', label: 'Dropdown', name: 'Dropdown', description: '下拉菜单组件', icon: <span>🔽</span> },
         { key: 'empty', label: 'Empty', name: 'Empty', description: '空状态组件', icon: <span>📭</span> },
         { key: 'flex', label: 'Flex', name: 'Flex', description: 'Flex布局组件', icon: <span>🧱</span> },
@@ -77,7 +79,6 @@ const App: React.FC = () => {
         { key: 'menu', label: 'Menu', name: 'Menu', description: '菜单组件', icon: <span>🍽️</span> },
         { key: 'message', label: 'Message', name: 'Message', description: '消息提示组件', icon: <span>💬</span> },
         { key: 'modal', label: 'Modal', name: 'Modal', description: '弹窗组件', icon: <span>🪟</span> },
-        { key: 'navigation', label: 'Navigation', name: 'Navigation', description: '导航组件', icon: <span>🧭</span> },
         { key: 'notice', label: 'Notice', name: 'Notice', description: '公告栏组件', icon: <span>📢</span> },
         { key: 'notification', label: 'Notification', name: 'Notification', description: '通知组件', icon: <span>🔔</span> },
         { key: 'pagination', label: 'Pagination', name: 'Pagination', description: '分页器组件', icon: <span>📄</span> },
@@ -99,6 +100,7 @@ const App: React.FC = () => {
     ];
 
     const [selectedComponent, setSelectedComponent] = useState<string>('button');
+    const [searchValue, setSearchValue] = useState<string>('');
 
     // 从URL中获取初始选中的组件ID
     const getInitialComponentId = () => {
@@ -139,6 +141,31 @@ const App: React.FC = () => {
         setSelectedComponent(key);
         window.location.hash = `#/${key}`;
     }, []);
+
+    // 处理搜索
+    const handleSearch = useCallback(() => {
+        if (!searchValue.trim()) return;
+        
+        const searchTerm = searchValue.toLowerCase().trim();
+        const matchedItem = navigationItems.find(item =>
+            item.key.toLowerCase().includes(searchTerm) ||
+            item.label.toLowerCase().includes(searchTerm) ||
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.description.toLowerCase().includes(searchTerm)
+        );
+        
+        if (matchedItem) {
+            handleMenuClick(matchedItem.key);
+            setSearchValue('');
+        }
+    }, [searchValue, handleMenuClick]);
+
+    // 处理键盘回车
+    const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    }, [handleSearch]);
 
     // 渲染内容组件
     const renderContent = () => {
@@ -259,6 +286,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <IconExample />;
             case 'divider':
                 return <DividerExample />;
+            case 'drawer':
+                return <DrawerExample />;
             case 'input':
                 return <InputExample />;
             case 'i18n':
@@ -303,8 +332,6 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <MenuExample />;
             case 'pagination':
                 return <PaginationExample />;
-            case 'navigation':
-                return <NavigationExample />;
             case 'steps':
                 return <StepsExample />;
             case 'switch':
@@ -323,6 +350,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <TreeSelectExample />;
             case 'form':
                 return <FormExample />;
+            case 'layout':
+                return <LayoutExample />;
             default:
                 return <ButtonExample />;
         }
@@ -332,23 +361,30 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
 
     return (
         <MessageProvider>
-            <Layout style={{ minHeight: '100vh' }}>
-                <Header style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '0 24px',
-                    background: '#001529',
-                    color: '#fff',
-                    height: '64px'
-                }}>
+            <Layout  style={{ minHeight: '100vh' }}>
+                <Header>
                     <Icon type="home" size={24} />
                     <span style={{ marginLeft: '12px', fontSize: '18px', fontWeight: 600 }}>
                         IDP Design
                     </span>
+                    {/* 搜索组件 */}
+                    <div style={{
+                        marginLeft: 'auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    }}>
+                        <Input.Search
+                            value={searchValue}
+                            onChange={(e) => setSearchValue(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="搜索组件..."
+                            style={{ width: '300px' }}
+                        />
+                    </div>
                 </Header>
                 <Layout>
                     <Sider
-                        width={280}
                         collapsible
                         collapsed={collapsed}
                         onCollapse={setCollapsed}
@@ -360,7 +396,6 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                             onChange={(item) => handleMenuClick(item.key)}
                             mode="vertical"
                             collapsed={collapsed}
-                            theme="dark"
                         />
                     </Sider>
                     <Content style={{ padding: '0' }}>
