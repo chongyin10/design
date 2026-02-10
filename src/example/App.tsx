@@ -41,6 +41,7 @@ import LabelExample from './Label';
 import TreeSelectExample from './TreeSelect';
 import FormExample from './Form';
 import DrawerExample from './Drawer';
+import TestTextareaResize from './TestTextareaResize';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -90,6 +91,7 @@ const App: React.FC = () => {
         { key: 'steps', label: 'Steps', name: 'Steps', description: '步骤条组件', icon: <span>📋</span> },
         { key: 'switch', label: 'Switch', name: 'Switch', description: '开关组件', icon: <span>🔛</span> },
         { key: 'table', label: 'Table', name: 'Table', description: '表格组件', icon: <span>📊</span> },
+        { key: 'test-textarea-resize', label: 'TestTextareaResize', name: 'TestTextareaResize', description: 'Textarea拖拽测试', icon: <span>🧪</span> },
         { key: 'tabs', label: 'Tabs', name: 'Tabs', description: '选项卡组件', icon: <span>🗂️</span> },
         { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
         { key: 'tooltip', label: 'Tooltip', name: 'Tooltip', description: '提示框组件', icon: <span>💬</span> },
@@ -352,6 +354,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <FormExample />;
             case 'layout':
                 return <LayoutExample />;
+            case 'test-textarea-resize':
+                return <TestTextareaResize />;
             default:
                 return <ButtonExample />;
         }

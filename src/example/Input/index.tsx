@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Flex } from '../../components';
+import { Input, Flex, Table } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -61,6 +61,8 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 const InputExample: React.FC = () => {
   const [textValue, setTextValue] = useState('');
   const [searchValue, setSearchValue] = useState('');
+  const [textareaValue, setTextareaValue] = useState('');
+  const [textareaSize, setTextareaSize] = useState<{ width: number; height: number }>({ width: 300, height: 80 });
 
   return (
     <div style={{ padding: '20px' }}>
@@ -348,6 +350,61 @@ const Demo = () => {
 />`} />
       </Section>
 
+      {/* 密码输入框 */}
+      <Section title="密码输入框">
+        <DemoRow title="基本用法">
+          <Input.Password
+            placeholder="请输入密码"
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="受控模式">
+          <Input.Password
+            placeholder="请输入密码"
+            width="300px"
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+          />
+        </DemoRow>
+        <DemoRow title="默认可见">
+          <Input.Password
+            placeholder="默认可见密码"
+            defaultVisible
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="带可见性回调">
+          <Input.Password
+            placeholder="监听可见性变化"
+            onVisibleChange={(visible) => console.log('密码可见性:', visible)}
+            width="300px"
+          />
+        </DemoRow>
+        <CopyBlock code={`import { Input } from '@idp/design';
+
+// 基本用法
+<Input.Password placeholder="请输入密码" />
+
+// 受控模式
+<Input.Password
+  placeholder="请输入密码"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
+// 默认可见
+<Input.Password
+  placeholder="默认可见密码"
+  defaultVisible
+/>
+
+// 监听可见性变化
+<Input.Password
+  placeholder="监听可见性变化"
+  onVisibleChange={(visible) => console.log('密码可见性:', visible)}
+/>`} />
+      </Section>
+
       {/* 数字输入框 */}
       <Section title="数字输入框">
         <DemoRow title="正浮点数">
@@ -393,181 +450,284 @@ const Demo = () => {
 <Input.Number placeholder="正整数" nType="positive-integer" extra="请输入大于0的整数" />`} />
       </Section>
 
+      {/* 多行文本输入框 */}
+      <Section title="多行文本输入框">
+        <DemoRow title="基本用法">
+          <Input.Textarea
+            placeholder="请输入多行文本"
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="受控模式">
+          <Input.Textarea
+            placeholder="请输入多行文本"
+            width="300px"
+            value={textareaValue}
+            onChange={(e) => setTextareaValue(e.target.value)}
+          />
+        </DemoRow>
+        <DemoRow title="自定义行数">
+          <Input.Textarea
+            placeholder="6行文本"
+            rows={6}
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="自定义高度">
+          <Input.Textarea
+            placeholder="高度120px"
+            height="120px"
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="带提示信息">
+          <Input.Textarea
+            placeholder="请输入描述"
+            extra="最多200个字符"
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="带标签">
+          <Input.Textarea
+            label="描述"
+            labelGap={10}
+            placeholder="请输入描述"
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="带字数统计">
+          <Input.Textarea
+            placeholder="带字数统计"
+            maxLength={100}
+            showCount
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="带清除按钮">
+          <Input.Textarea
+            placeholder="带清除按钮"
+            clear
+            value={textareaValue}
+            onChange={(e) => setTextareaValue(e.target.value)}
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="可调整大小">
+          <Input.Textarea
+            placeholder="拖拽右下角可调整大小"
+            resizable
+            minWidth={200}
+            maxWidth={800}
+            minHeight={80}
+            maxHeight={400}
+            width="300px"
+          />
+        </DemoRow>
+        <DemoRow title="监听尺寸变化">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Input.Textarea
+              placeholder="拖拽查看实时尺寸"
+              resizable
+              minWidth={200}
+              maxWidth={800}
+              minHeight={80}
+              maxHeight={400}
+              width={textareaSize.width}
+              onResize={(size) => setTextareaSize({ width: size.width || textareaSize.width, height: size.height || textareaSize.height })}
+            />
+            <span style={{ fontSize: '12px', color: '#909399' }}>
+              当前尺寸: 宽度 {textareaSize.width}px × 高度 {textareaSize.height}px
+            </span>
+          </div>
+        </DemoRow>
+        <CopyBlock code={`import { Input } from '@idp/design';
+
+// 基本用法
+<Input.Textarea placeholder="请输入多行文本" />
+
+// 受控模式
+<Input.Textarea
+  placeholder="请输入多行文本"
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+/>
+
+// 自定义行数
+<Input.Textarea
+  placeholder="6行文本"
+  rows={6}
+/>
+
+// 自定义高度
+<Input.Textarea
+  placeholder="高度120px"
+  height="120px"
+/>
+
+// 带提示信息
+<Input.Textarea
+  placeholder="请输入描述"
+  extra="最多200个字符"
+/>
+
+// 带标签
+<Input.Textarea
+  label="描述"
+  labelGap={10}
+  placeholder="请输入描述"
+/>
+
+// 带字数统计
+<Input.Textarea
+  placeholder="带字数统计"
+  maxLength={100}
+  showCount
+/>
+
+// 带清除按钮
+<Input.Textarea
+  placeholder="带清除按钮"
+  clear
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+/>
+
+// 可调整大小
+<Input.Textarea
+  placeholder="拖拽右下角可调整大小"
+  resizable
+  minWidth={200}
+  maxWidth={800}
+  minHeight={80}
+  maxHeight={400}
+/>
+
+// 监听尺寸变化
+const [textareaSize, setTextareaSize] = useState({ width: 300, height: 80 });
+
+<Input.Textarea
+  placeholder="拖拽查看实时尺寸"
+  resizable
+  minWidth={200}
+  maxWidth={800}
+  minHeight={80}
+  maxHeight={400}
+  width={textareaSize.width}
+  onResize={(size) => setTextareaSize({
+    width: size.width || textareaSize.width,
+    height: size.height || textareaSize.height
+  })}
+/>
+<span>当前尺寸: 宽度 {textareaSize.width}px × 高度 {textareaSize.height}px</span>`} />
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Input Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>type</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>输入框类型</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'text'</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'text'</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>placeholder</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>占位符文本</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>value</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>输入值</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>width</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>自定义宽度</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>disabled</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否禁用</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>readOnly</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否只读</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>prefix</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>输入框前缀</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | React.ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>suffix</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>输入框后缀</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | React.ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>clear</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示清除按钮</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>extra</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>提示信息</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | React.ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>label</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>标签文案，显示在输入框前面</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | React.ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>labelGap</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>标签到输入框的距离</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>8</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>labelClassName</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>标签的CSS类名</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>labelStyle</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>标签的样式</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>React.CSSProperties</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onChange</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>输入变化事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(e: React.ChangeEvent) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onBlur</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>失去焦点事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(e: React.FocusEvent) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onFocus</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>获取焦点事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(e: React.FocusEvent) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onKeyDown</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>键盘按下事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(e: React.KeyboardEvent) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table
+          columns={[
+            { title: '属性', dataIndex: 'property', key: 'property' },
+            { title: '说明', dataIndex: 'description', key: 'description' },
+            { title: '类型', dataIndex: 'type', key: 'type' },
+            { title: '默认值', dataIndex: 'default', key: 'default' },
+          ]}
+          dataSource={[
+            { property: 'type', description: '输入框类型', type: `'text'`, default: `'text'` },
+            { property: 'placeholder', description: '占位符文本', type: 'string', default: '-' },
+            { property: 'value', description: '输入值', type: 'string', default: '-' },
+            { property: 'width', description: '自定义宽度', type: 'string | number', default: '-' },
+            { property: 'disabled', description: '是否禁用', type: 'boolean', default: 'false' },
+            { property: 'readOnly', description: '是否只读', type: 'boolean', default: 'false' },
+            { property: 'prefix', description: '输入框前缀', type: 'string | React.ReactNode', default: '-' },
+            { property: 'suffix', description: '输入框后缀', type: 'string | React.ReactNode', default: '-' },
+            { property: 'clear', description: '是否显示清除按钮', type: 'boolean', default: 'false' },
+            { property: 'extra', description: '提示信息', type: 'string | React.ReactNode', default: '-' },
+            { property: 'label', description: '标签文案，显示在输入框前面', type: 'string | React.ReactNode', default: '-' },
+            { property: 'labelGap', description: '标签到输入框的距离', type: 'string | number', default: '8' },
+            { property: 'labelClassName', description: '标签的CSS类名', type: 'string', default: '-' },
+            { property: 'labelStyle', description: '标签的样式', type: 'React.CSSProperties', default: '-' },
+            { property: 'onChange', description: '输入变化事件', type: '(e: React.ChangeEvent) => void', default: '-' },
+            { property: 'onBlur', description: '失去焦点事件', type: '(e: React.FocusEvent) => void', default: '-' },
+            { property: 'onFocus', description: '获取焦点事件', type: '(e: React.FocusEvent) => void', default: '-' },
+            { property: 'onKeyDown', description: '键盘按下事件', type: '(e: React.KeyboardEvent) => void', default: '-' },
+          ]}
+          rowKey="property"
+          pagination={false}
+        />
 
         <h3>Input.Search Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onSearch</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>搜索事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`() => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onClear</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>清除事件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`() => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table
+          columns={[
+            { title: '属性', dataIndex: 'property', key: 'property' },
+            { title: '说明', dataIndex: 'description', key: 'description' },
+            { title: '类型', dataIndex: 'type', key: 'type' },
+            { title: '默认值', dataIndex: 'default', key: 'default' },
+          ]}
+          dataSource={[
+            { property: 'onSearch', description: '搜索事件', type: '() => void', default: '-' },
+            { property: 'onClear', description: '清除事件', type: '() => void', default: '-' },
+          ]}
+          rowKey="property"
+          pagination={false}
+        />
 
         <h3>Input.Number Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>nType</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>数字类型验证</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'positive-float' | 'negative-float' | 'positive-integer' | 'negative-integer' | 'integer' | 'negative' | 'positive'</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>errorMessage</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>自定义错误消息</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table
+          columns={[
+            { title: '属性', dataIndex: 'property', key: 'property' },
+            { title: '说明', dataIndex: 'description', key: 'description' },
+            { title: '类型', dataIndex: 'type', key: 'type' },
+            { title: '默认值', dataIndex: 'default', key: 'default' },
+          ]}
+          dataSource={[
+            { property: 'nType', description: '数字类型验证', type: `'positive-float' | 'negative-float' | 'positive-integer' | 'negative-integer' | 'integer' | 'negative' | 'positive'`, default: '-' },
+            { property: 'errorMessage', description: '自定义错误消息', type: 'string', default: '-' },
+          ]}
+          rowKey="property"
+          pagination={false}
+        />
+
+        <h3>Input.Password Props</h3>
+        <Table
+          columns={[
+            { title: '属性', dataIndex: 'property', key: 'property' },
+            { title: '说明', dataIndex: 'description', key: 'description' },
+            { title: '类型', dataIndex: 'type', key: 'type' },
+            { title: '默认值', dataIndex: 'default', key: 'default' },
+          ]}
+          dataSource={[
+            { property: 'defaultVisible', description: '是否默认可见密码', type: 'boolean', default: 'false' },
+            { property: 'onVisibleChange', description: '切换可见性时的回调', type: '(visible: boolean) => void', default: '-' },
+          ]}
+          rowKey="property"
+          pagination={false}
+        />
+
+        <h3>Input.Textarea Props</h3>
+        <Table
+          columns={[
+            { title: '属性', dataIndex: 'property', key: 'property' },
+            { title: '说明', dataIndex: 'description', key: 'description' },
+            { title: '类型', dataIndex: 'type', key: 'type' },
+            { title: '默认值', dataIndex: 'default', key: 'default' },
+          ]}
+          dataSource={[
+            { property: 'rows', description: '文本域行数', type: 'number', default: '4' },
+            { property: 'height', description: '文本域高度', type: 'string | number', default: '-' },
+            { property: 'maxLength', description: '最大字符数', type: 'number', default: '-' },
+            { property: 'showCount', description: '是否显示字数统计', type: 'boolean', default: 'false' },
+            { property: 'clear', description: '是否显示清除按钮', type: 'boolean', default: 'false' },
+            { property: 'resizable', description: '是否可调整大小', type: 'boolean', default: 'false' },
+            { property: 'resizeHandleSize', description: '拖拽手柄大小（像素）', type: 'number', default: '10' },
+            { property: 'minWidth', description: '最小宽度', type: 'number', default: '200' },
+            { property: 'maxWidth', description: '最大宽度', type: 'number', default: '2000' },
+            { property: 'minHeight', description: '最小高度', type: 'number', default: '80' },
+            { property: 'maxHeight', description: '最大高度', type: 'number', default: '800' },
+            { property: 'onResize', description: '大小变化回调', type: '(size: { width?: number; height?: number }) => void', default: '-' },
+          ]}
+          rowKey="property"
+          pagination={false}
+        />
       </Section>
     </div>
   );
