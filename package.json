@@ -1,6 +1,6 @@
 {
   "name": "@zjpcy/simple-design",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "IDP Studio Design System - React Component Library",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",

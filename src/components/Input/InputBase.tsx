@@ -30,6 +30,8 @@ export interface InputProps {
     labelClassName?: string;
     /** 标签的样式 */
     labelStyle?: React.CSSProperties;
+    /** 错误状态（由 Form 组件传入，InputBase 内部不使用，需剔除避免传递给 input） */
+    error?: boolean;
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -54,6 +56,7 @@ const InputBase: React.FC<InputProps> = ({
     labelGap = 8,
     labelClassName = '',
     labelStyle,
+    error, // 从 Form 组件传入的错误状态，不传递给 input
     ...rest
 }) => {
     const [internalValue, setInternalValue] = React.useState<string>(defaultValue || '');

@@ -31,6 +31,7 @@ import MenuExample from './Menu';
 import PaginationExample from './Pagination';
 import StepsExample from './Steps';
 import SwitchExample from './Switch';
+import TagExample from './Tag';
 import GridExample from './Grid';
 import TabsExample from './Tabs';
 import CascaderExample from './Cascader';
@@ -91,6 +92,7 @@ const App: React.FC = () => {
         { key: 'steps', label: 'Steps', name: 'Steps', description: '步骤条组件', icon: <span>📋</span> },
         { key: 'switch', label: 'Switch', name: 'Switch', description: '开关组件', icon: <span>🔛</span> },
         { key: 'table', label: 'Table', name: 'Table', description: '表格组件', icon: <span>📊</span> },
+        { key: 'tag', label: 'Tag', name: 'Tag', description: '标签组件', icon: <span>🏷️</span> },
         { key: 'test-textarea-resize', label: 'TestTextareaResize', name: 'TestTextareaResize', description: 'Textarea拖拽测试', icon: <span>🧪</span> },
         { key: 'tabs', label: 'Tabs', name: 'Tabs', description: '选项卡组件', icon: <span>🗂️</span> },
         { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
@@ -338,6 +340,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <StepsExample />;
             case 'switch':
                 return <SwitchExample />;
+            case 'tag':
+                return <TagExample />;
             case 'tabs':
                 return <TabsExample />;
             case 'tooltip':

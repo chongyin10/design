@@ -96,6 +96,23 @@
   transform: translateY(1px);
 }
 
+.idp-btn--link {
+  background-color: transparent;
+  color: var(--idp-button-primary-bg);
+  border-color: transparent;
+  text-decoration: none;
+}
+
+.idp-btn--link:hover:not(.idp-btn--disabled) {
+  color: #1890ff;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.idp-btn--link:active:not(.idp-btn--disabled) {
+  color: #096dd9;
+}
+
 .idp-btn--small {
   height: 24px;
   padding: 0 8px;

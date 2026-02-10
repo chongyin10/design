@@ -41,3 +41,5 @@ export { default as Grid, Row, Col } from './Grid';
 export { default as Drawer } from './Drawer';
 export type { DrawerProps, DrawerPlacement } from './Drawer';
 export { default as Checkbox } from './Checkbox';
+export { default as Tag } from './Tag';
+export type { TagProps, TagSize } from './Tag';

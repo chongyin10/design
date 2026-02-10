@@ -356,6 +356,11 @@ const Table = ({
 
         let content = column.dataIndex ? record[column.dataIndex] : null;
 
+        // 处理对象类型的值：如果是普通对象（非 React 元素），转换为 JSON 字符串
+        if (content !== null && typeof content === 'object' && !('$$typeof' in content)) {
+            content = JSON.stringify(content);
+        }
+
         if (column.render) {
             content = column.render(content, record, rowIndex);
         }
@@ -545,8 +550,55 @@ const Table = ({
     // 渲染表格行
     const renderTableRows = () => {
         if (draggable) {
+            return displayData.map((record, rowIndex) => (
+                <SortableRow
+                    key={getRowKey(record, rowIndex)}
+                    id={String(getRowKey(record, rowIndex))}
+                    record={record}
+                    rowIndex={rowIndex}
+                    columns={columns}
+                    columnWidths={columnWidths}
+                    fixedLeftColumns={fixedLeftColumns}
+                    fixedRightColumns={fixedRightColumns}
+                    normalColumns={normalColumns}
+                    allColumns={allColumns}
+                    editingCell={editingCell}
+                    editingValue={editingValue}
+                    handleEdit={handleEdit}
+                    handleSave={handleSave}
+                    handleCancel={handleCancel}
+                    setEditingValue={setEditingValue}
+                    renderTableCell={renderTableCell}
+                />
+            ));
+        }
+
+        return displayData.map((record, rowIndex) => (
+            <tr key={getRowKey(record, rowIndex)}>
+                {allColumns.map((column, colIndex) =>
+                    renderTableCell(column, record, rowIndex, colIndex, allColumns)
+                )}
+            </tr>
+        ));
+    };
+
+    // 渲染带拖拽功能的表格主体
+    const renderTableBody = () => {
+        const tableContent = (
+            <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
+                <colgroup>
+                    {allColumns.map((col, index) => (
+                        <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
+                    ))}
+                </colgroup>
+                <tbody>
+                    {renderTableRows()}
+                </tbody>
+            </table>
+        );
+
+        if (draggable) {
             const itemIds = displayData.map((record, index) => String(getRowKey(record, index)));
-            
             return (
                 <DndContext
                     sensors={sensors}
@@ -557,39 +609,13 @@ const Table = ({
                         items={itemIds}
                         strategy={verticalListSortingStrategy}
                     >
-                        {displayData.map((record, rowIndex) => (
-                            <SortableRow
-                                key={getRowKey(record, rowIndex)}
-                                id={String(getRowKey(record, rowIndex))}
-                                record={record}
-                                rowIndex={rowIndex}
-                                columns={columns}
-                                columnWidths={columnWidths}
-                                fixedLeftColumns={fixedLeftColumns}
-                                fixedRightColumns={fixedRightColumns}
-                                normalColumns={normalColumns}
-                                allColumns={allColumns}
-                                editingCell={editingCell}
-                                editingValue={editingValue}
-                                handleEdit={handleEdit}
-                                handleSave={handleSave}
-                                handleCancel={handleCancel}
-                                setEditingValue={setEditingValue}
-                                renderTableCell={renderTableCell}
-                            />
-                        ))}
+                        {tableContent}
                     </SortableContext>
                 </DndContext>
             );
         }
 
-        return displayData.map((record, rowIndex) => (
-            <tr key={getRowKey(record, rowIndex)}>
-                {allColumns.map((column, colIndex) =>
-                    renderTableCell(column, record, rowIndex, colIndex, allColumns)
-                )}
-            </tr>
-        ));
+        return tableContent;
     };
 
     return (
@@ -650,16 +676,7 @@ const Table = ({
                 style={bodyStyle}
                 onScroll={handleBodyScroll}
             >
-                <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
-                    <colgroup>
-                        {allColumns.map((col, index) => (
-                            <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
-                        ))}
-                    </colgroup>
-                    <tbody>
-                        {renderTableRows()}
-                    </tbody>
-                </table>
+                {renderTableBody()}
             </div>
 
             {displayData.length === 0 && (

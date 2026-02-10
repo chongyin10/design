@@ -1,0 +1,115 @@
+.idp-tag {
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    font-size: var(--tag-font-size, 14px);
+    line-height: 1.5;
+    border-radius: var(--tag-border-radius, 4px);
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    background-color: var(--tag-bg-color, #f5f5f5);
+    color: var(--tag-text-color, #333);
+}
+
+/* 尺寸样式 */
+.idp-tag--small {
+    height: 20px;
+    padding: 0 6px;
+    font-size: 12px;
+}
+
+.idp-tag--small .idp-tag__icon {
+    margin-right: 2px;
+    font-size: 10px;
+}
+
+.idp-tag--small .idp-tag__close {
+    margin-left: 2px;
+    font-size: 10px;
+}
+
+.idp-tag--medium {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 13px;
+}
+
+.idp-tag--medium .idp-tag__icon {
+    margin-right: 4px;
+    font-size: 12px;
+}
+
+.idp-tag--medium .idp-tag__close {
+    margin-left: 4px;
+    font-size: 12px;
+}
+
+.idp-tag--large {
+    height: 28px;
+    padding: 0 12px;
+    font-size: 14px;
+}
+
+.idp-tag--large .idp-tag__icon {
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.idp-tag--large .idp-tag__close {
+    margin-left: 6px;
+    font-size: 14px;
+}
+
+/* 内容样式 */
+.idp-tag__content {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* 图标样式 */
+.idp-tag__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.idp-tag__icon svg {
+    width: 1em;
+    height: 1em;
+}
+
+/* 关闭按钮样式 */
+.idp-tag__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    margin-left: 4px;
+}
+
+.idp-tag__close:hover {
+    opacity: 1;
+}
+
+.idp-tag__close svg {
+    width: 1em;
+    height: 1em;
+}
+
+/* 可点击样式 */
+.idp-tag--clickable {
+    cursor: pointer;
+}
+
+.idp-tag--clickable:hover {
+    opacity: 0.85;
+}
+
+/* 可关闭标签的额外样式 */
+.idp-tag--closable {
+    padding-right: 4px;
+}

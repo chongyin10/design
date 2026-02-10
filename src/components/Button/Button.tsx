@@ -5,7 +5,7 @@ import './Button.css';
 
 export interface ButtonProps {
     children?: React.ReactNode;
-    variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning';
+    variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'link';
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     loading?: boolean;
@@ -14,9 +14,10 @@ export interface ButtonProps {
     style?: React.CSSProperties;
     icon?: string | React.ReactNode;
     type?: 'button' | 'submit' | 'reset';
+    href?: string;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
+const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     children,
     variant = 'primary',
     size = 'medium',
@@ -27,6 +28,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
     style,
     icon,
     type = 'button',
+    href,
+    ...rest
 }, ref) => {
     const classes = classNames(
         'idp-btn',
@@ -38,8 +41,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
         className
     );
 
-    const handleClick = () => {
-        if (!disabled && onClick) {
+    const handleClick = (e?: React.MouseEvent) => {
+        if (disabled || loading) {
+            e?.preventDefault();
+            return;
+        }
+        
+        if (onClick) {
             onClick();
         }
     };
@@ -58,14 +66,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
         return <span style={{ marginRight: children ? '8px' : 0, display: 'inline-flex', alignItems: 'center' }}>{icon}</span>;
     };
 
+    // 如果是 link 类型且有 href，渲染为 a 标签
+    if (variant === 'link' && href) {
+        return (
+            <a
+                ref={ref as React.Ref<HTMLAnchorElement>}
+                href={disabled ? undefined : href}
+                className={classes}
+                onClick={handleClick}
+                style={style}
+                {...rest}
+            >
+                {renderIcon()}
+                {children}
+            </a>
+        );
+    }
+
+    // 默认渲染为 button
     return (
         <button
-            ref={ref}
+            ref={ref as React.Ref<HTMLButtonElement>}
             type={type}
             className={classes}
             onClick={handleClick}
             disabled={disabled}
             style={style}
+            {...rest}
         >
             {renderIcon()}
             {children}

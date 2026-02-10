@@ -69,9 +69,48 @@ const TableExample: React.FC = () => {
   ];
 
   const basicDataSource = [
-    { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+    { id: 1, name: '张三', age: 25, gender: '男', email: {name: 'zhangsan@example.com'} },
     { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
     { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+  ];
+
+  // API 表格列配置
+  const apiTableColumns: Column[] = [
+    { dataIndex: 'property', title: '属性', width: '120px' },
+    { dataIndex: 'description', title: '说明', width: '250px' },
+    { dataIndex: 'type', title: '类型', width: '300px' },
+    { dataIndex: 'default', title: '默认值', width: '100px' },
+  ];
+
+  // Table Props 数据
+  const tablePropsData = [
+    { property: 'columns', description: '列配置数组', type: 'Column[]', default: '[]' },
+    { property: 'dataSource', description: '数据源数组', type: 'any[]', default: '[]' },
+    { property: 'bordered', description: '是否显示边框', type: 'boolean', default: 'false' },
+    { property: 'scroll', description: '滚动配置', type: '{ x?: number | string; y?: number | string }', default: '-' },
+    { property: 'rowKey', description: '行唯一标识', type: 'string | function', default: "'key'" },
+    { property: 'pagination', description: '分页配置，false表示禁用分页', type: 'PaginationProps | false', default: '-' },
+    { property: 'empty', description: '自定义空状态组件', type: 'ReactNode', default: '-' },
+    { property: 'loading', description: '是否显示加载状态', type: 'boolean', default: 'false' },
+    { property: 'loadingText', description: '自定义加载提示文案', type: 'ReactNode', default: "'加载中...'" },
+    { property: 'loadingDelay', description: '加载延迟时间（毫秒），设置后loading会在指定时间后自动取消', type: 'number', default: '-' },
+    { property: 'draggable', description: '是否开启行拖拽排序功能', type: 'boolean', default: 'false' },
+    { property: 'onDragEnd', description: '拖拽排序完成时的回调函数，返回新的数据顺序', type: '(newData: any[]) => void', default: '-' },
+  ];
+
+  // Column Props 数据
+  const columnPropsData = [
+    { property: 'key', description: '列唯一标识', type: 'string', default: '-' },
+    { property: 'dataIndex', description: '对应数据源的字段名', type: 'string', default: '-' },
+    { property: 'title', description: '列标题', type: 'ReactNode', default: '-' },
+    { property: 'width', description: '列宽度', type: 'number | string', default: '-' },
+    { property: 'align', description: '文本对齐方式', type: "'left' | 'center' | 'right'", default: "'left'" },
+    { property: 'fixed', description: '固定列位置', type: "boolean | 'start' | 'end'", default: '-' },
+    { property: 'maxLines', description: '限制单元格内容显示的最大行数', type: 'number', default: '-' },
+    { property: 'tooltip', description: '是否显示鼠标悬停提示（美观气泡框，无延迟）', type: 'boolean', default: 'false' },
+    { property: 'editable', description: '是否可编辑', type: 'boolean', default: 'false' },
+    { property: 'onSave', description: '编辑完成时的回调函数', type: '(record, value) => void', default: '-' },
+    { property: 'render', description: '自定义渲染函数', type: '(value, record, index) => ReactNode', default: '-' },
   ];
 
   // 可编辑单元格数据
@@ -729,170 +768,18 @@ const DraggableTableExample = () => {
       {/* API 文档 */}
       <Section title="API">
         <h3>Table Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>columns</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>列配置数组</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>Column[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>[]</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>dataSource</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>数据源数组</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>any[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>[]</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>bordered</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示边框</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>scroll</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>滚动配置</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`{ x?: number | string; y?: number | string }`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>rowKey</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>行唯一标识</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string | function</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'key'</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>pagination</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>分页配置，false表示禁用分页</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>PaginationProps | false</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>empty</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>自定义空状态组件</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>loading</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示加载状态</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>loadingText</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>自定义加载提示文案</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'加载中...'</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>loadingDelay</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>加载延迟时间（毫秒），设置后loading会在指定时间后自动取消</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>draggable</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否开启行拖拽排序功能</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onDragEnd</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>拖拽排序完成时的回调函数，返回新的数据顺序</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(newData: any[]) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table 
+          columns={apiTableColumns} 
+          dataSource={tablePropsData} 
+          pagination={false}
+        />
 
         <h3>Column Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>key</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>列唯一标识</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>dataIndex</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>对应数据源的字段名</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>title</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>列标题</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>width</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>列宽度</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number | string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>align</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>文本对齐方式</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'left' | 'center' | 'right'</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>'left'</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>fixed</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>固定列位置</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean | 'start' | 'end'</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>maxLines</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>限制单元格内容显示的最大行数</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>tooltip</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示鼠标悬停提示（美观气泡框，无延迟）</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>editable</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否可编辑</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onSave</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>编辑完成时的回调函数</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(record, value) => void`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>render</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>自定义渲染函数</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{`(value, record, index) => ReactNode`}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <Table 
+          columns={apiTableColumns} 
+          dataSource={columnPropsData} 
+          pagination={false}
+        />
       </Section>
 
       {/* 安装和使用说明 */}
