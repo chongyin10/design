@@ -4,7 +4,7 @@ export type DrawerPlacement = 'left' | 'right' | 'top' | 'bottom';
 
 export interface DrawerProps {
     /** 是否可见 */
-    visible: boolean;
+    open: boolean;
     /** 抽屉标题 */
     title?: React.ReactNode;
     /** 抽屉宽度（placement为left或right时有效） */
@@ -67,12 +67,8 @@ export interface DrawerProps {
     resizeHandleSize?: number;
     /** 拖拽时最小宽度 */
     minWidth?: number;
-    /** 拖拽时最大宽度 */
-    maxWidth?: number;
     /** 拖拽时最小高度 */
     minHeight?: number;
-    /** 拖拽时最大高度 */
-    maxHeight?: number;
     /** 大小变化回调 */
-    onSizeChange?: (size: { width?: number; height?: number }) => void;
+    onChange?: (size: { width?: number; height?: number }) => void;
 }

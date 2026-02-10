@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Drawer, Button, Flex, Space, Table } from '../../components';
+import { Drawer, Button, Flex, Space, Table, Form, Input, Checkbox, Radio, Select } from '../../components';
 import type { DrawerPlacement } from '../../components/Drawer';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -62,7 +62,7 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 const DrawerExample: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [placement, setPlacement] = useState<DrawerPlacement>('right');
-  const [width, setWidth] = useState<number | string>(360);
+  const [width, setWidth] = useState<number | string>(460);
   const [loading, setLoading] = useState(false);
   const [customContainer, setCustomContainer] = useState(false);
   const [destroyOnClose, setDestroyOnClose] = useState(false);
@@ -70,11 +70,24 @@ const DrawerExample: React.FC = () => {
   const [showFooter, setShowFooter] = useState(true);
   const [customHeader, setCustomHeader] = useState(false);
   const [resizable, setResizable] = useState(false);
+  const [mask, setMask] = useState(true);
   const [currentSize, setCurrentSize] = useState<{ width?: number; height?: number }>({});
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const showDrawer = (p: DrawerPlacement) => {
+  // 表单数据
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    gender: 'male',
+    city: 'beijing',
+    interests: ['reading'],
+    agreement: false,
+    description: ''
+  });
+
+  const showDrawer = (p: DrawerPlacement, withMask: boolean = true) => {
     setPlacement(p);
+    setMask(withMask);
     setVisible(true);
   };
 
@@ -117,15 +130,15 @@ const DrawerExample: React.FC = () => {
         <CopyBlock code={`import { Drawer, Button } from '@idp/design';
 
 const Demo = () => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
   
   return (
     <>
-      <Button onClick={() => setVisible(true)}>打开抽屉</Button>
+      <Button onClick={() => setOpen(true)}>打开抽屉</Button>
       <Drawer
         title="基础抽屉"
-        visible={visible}
-        onClose={() => setVisible(false)}
+        open={open}
+        onClose={() => setOpen(false)}
       >
         <p>抽屉内容</p>
       </Drawer>
@@ -152,13 +165,13 @@ const Demo = () => {
         <CopyBlock code={`import { Drawer } from '@idp/design';
 
 // 固定宽度
-<Drawer width={300} visible={visible} onClose={onClose} />
+<Drawer width={300} open={open} onClose={onClose} />
 
 // 百分比宽度
-<Drawer width="50%" visible={visible} onClose={onClose} />
+<Drawer width="50%" open={open} onClose={onClose} />
 
 // 自定义高度（top/bottom位置）
-<Drawer placement="top" height={400} visible={visible} onClose={onClose} />`} />
+<Drawer placement="top" height={400} open={open} onClose={onClose} />`} />
       </Section>
 
       {/* 加载状态 */}
@@ -170,9 +183,124 @@ const Demo = () => {
         </DemoRow>
         <CopyBlock code={`import { Drawer } from '@idp/design';
 
-<Drawer loading={true} visible={visible} onClose={onClose}>
+<Drawer loading={true} open={open} onClose={onClose}>
   <p>内容</p>
 </Drawer>`} />
+      </Section>
+
+      {/* 表单示例 */}
+      <Section title="表单示例">
+        <p>在 Drawer 中使用 Form、Input、Checkbox、Radio、Select 等表单组件</p>
+        <DemoRow title="表单抽屉">
+          <Button onClick={() => setVisible(true)}>
+            打开表单抽屉
+          </Button>
+        </DemoRow>
+        <CopyBlock code={`import { Drawer, Form, Input, Checkbox, Radio, Select, Button } from '@idp/design';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [visible, setVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    gender: 'male',
+    city: 'beijing',
+    interests: ['reading'],
+    agreement: false,
+    description: ''
+  });
+
+  return (
+    <>
+      <Button onClick={() => setVisible(true)}>打开表单抽屉</Button>
+      <Drawer
+        title="用户信息"
+        open={visible}
+        onClose={() => setVisible(false)}
+        width={520}
+        footer={
+          <>
+            <Button onClick={() => setVisible(false)}>取消</Button>
+            <Button variant="primary" onClick={() => console.log('提交', formData)}>
+              确认
+            </Button>
+          </>
+        }
+      >
+        <Form layout="vertical" style={{ width: '100%' }}>
+          <Form.Item label="姓名" name="name">
+            <Input
+              placeholder="请输入姓名"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            />
+          </Form.Item>
+
+          <Form.Item label="邮箱" name="email">
+            <Input
+              type="email"
+              placeholder="请输入邮箱"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            />
+          </Form.Item>
+
+          <Form.Item label="性别" name="gender">
+            <Radio.Group value={formData.gender} onChange={(value) => setFormData({ ...formData, gender: value })}>
+              <Radio value="male">男</Radio>
+              <Radio value="female">女</Radio>
+            </Radio.Group>
+          </Form.Item>
+
+          <Form.Item label="城市" name="city">
+            <Select
+              placeholder="请选择城市"
+              value={formData.city}
+              onChange={(value) => setFormData({ ...formData, city: value })}
+              style={{ width: '100%' }}
+            >
+              <Select.Option value="beijing">北京</Select.Option>
+              <Select.Option value="shanghai">上海</Select.Option>
+              <Select.Option value="guangzhou">广州</Select.Option>
+              <Select.Option value="shenzhen">深圳</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="兴趣爱好" name="interests">
+            <Checkbox.Group
+              value={formData.interests}
+              onChange={(checkedValues) => setFormData({ ...formData, interests: checkedValues as string[] })}
+            >
+              <Checkbox value="reading">阅读</Checkbox>
+              <Checkbox value="music">音乐</Checkbox>
+              <Checkbox value="sports">运动</Checkbox>
+              <Checkbox value="travel">旅游</Checkbox>
+            </Checkbox.Group>
+          </Form.Item>
+
+          <Form.Item label="用户协议" name="agreement">
+            <Checkbox
+              checked={formData.agreement}
+              onChange={(e) => setFormData({ ...formData, agreement: e.target.checked })}
+            >
+              我已阅读并同意用户协议
+            </Checkbox>
+          </Form.Item>
+
+          <Form.Item label="描述" name="description">
+            <Input.Textarea
+              placeholder="请输入描述"
+              rows={4}
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value as string })}
+            />
+          </Form.Item>
+        </Form>
+      </Drawer>
+    </>
+  );
+};`} />
       </Section>
 
       {/* 自定义容器 */}
@@ -216,7 +344,7 @@ const Demo = () => {
       </div>
       <Drawer
         getContainer={() => containerRef.current}
-        visible={visible}
+        open={open}
         onClose={onClose}
       />
     </>
@@ -239,12 +367,12 @@ const Demo = () => {
         <CopyBlock code={`import { Drawer } from '@idp/design';
 
 // 关闭后保留子元素（默认）
-<Drawer visible={visible} onClose={onClose}>
+<Drawer open={open} onClose={onClose}>
   <Form /> {/* 表单状态会被保留 */}
 </Drawer>
 
 // 关闭后销毁子元素
-<Drawer destroyOnClose={true} visible={visible} onClose={onClose}>
+<Drawer destroyOnClose={true} open={open} onClose={onClose}>
   <Form /> {/* 表单状态会被清空 */}
 </Drawer>`} />
       </Section>
@@ -284,7 +412,7 @@ const Demo = () => {
       <Button size="small">操作</Button>
     </Flex>
   )}
-  visible={visible}
+  open={open}
   onClose={onClose}
 />
 
@@ -296,28 +424,28 @@ const Demo = () => {
       <Button variant="primary" onClick={handleOk}>确认</Button>
     </Flex>
   )}
-  visible={visible}
+  open={open}
   onClose={onClose}
 />
 
 // 隐藏头部/底部
-<Drawer showHeader={false} showFooter={false} visible={visible} onClose={onClose} />`} />
+<Drawer showHeader={false} showFooter={false} open={open} onClose={onClose} />`} />
       </Section>
 
       {/* 遮罩层 */}
       <Section title="遮罩层">
         <DemoRow title="遮罩配置">
-          <Button onClick={() => { showDrawer('right'); }}>
+          <Button onClick={() => { showDrawer('right', false); }}>
             打开无遮罩层的抽屉
           </Button>
         </DemoRow>
         <CopyBlock code={`import { Drawer } from '@idp/design';
 
 // 无遮罩层
-<Drawer mask={false} visible={visible} onClose={onClose} />
+<Drawer mask={false} open={open} onClose={onClose} />
 
 // 点击遮罩不关闭
-<Drawer maskClosable={false} visible={visible} onClose={onClose} />`} />
+<Drawer maskClosable={false} open={open} onClose={onClose} />`} />
       </Section>
 
       {/* 可拖拽调整大小 */}
@@ -348,9 +476,9 @@ const Demo = () => {
 // 启用拖拽调整大小
 <Drawer
   resizable
-  visible={visible}
+  open={open}
   onClose={onClose}
-  onSizeChange={(size) => console.log('新尺寸:', size)}
+  onChange={(size) => console.log('新尺寸:', size)}
   minWidth={200}
   maxWidth={800}
   minHeight={150}
@@ -360,10 +488,10 @@ const Demo = () => {
 </Drawer>
 
 // 不同位置的拖拽
-<Drawer resizable placement="left" visible={visible} onClose={onClose} />
-<Drawer resizable placement="right" visible={visible} onClose={onClose} />
-<Drawer resizable placement="top" visible={visible} onClose={onClose} />
-<Drawer resizable placement="bottom" visible={visible} onClose={onClose} />`} />
+<Drawer resizable placement="left" open={open} onClose={onClose} />
+<Drawer resizable placement="right" open={open} onClose={onClose} />
+<Drawer resizable placement="top" open={open} onClose={onClose} />
+<Drawer resizable placement="bottom" open={open} onClose={onClose} />`} />
       </Section>
 
       {/* API 文档 */}
@@ -377,9 +505,9 @@ const Demo = () => {
             { title: '默认值', dataIndex: 'default', key: 'default' },
           ]}
           dataSource={[
-            { property: 'visible', description: '是否可见', type: 'boolean', default: '-' },
+            { property: 'open', description: '是否可见', type: 'boolean', default: '-' },
             { property: 'title', description: '抽屉标题', type: 'React.ReactNode', default: '-' },
-            { property: 'width', description: '抽屉宽度（placement为left或right时有效）', type: 'number | string', default: '360' },
+            { property: 'width', description: '抽屉宽度（placement为left或right时有效）', type: 'number | string', default: '460' },
             { property: 'height', description: '抽屉高度（placement为top或bottom时有效）', type: 'number | string', default: '300' },
             { property: 'placement', description: '抽屉位置', type: '\'left\' | \'right\' | \'top\' | \'bottom\'', default: '\'right\'' },
             { property: 'maskClosable', description: '点击遮罩层是否允许关闭', type: 'boolean', default: 'true' },
@@ -399,11 +527,11 @@ const Demo = () => {
             { property: 'loading', description: '是否加载中状态', type: 'boolean', default: 'false' },
             { property: 'resizable', description: '是否支持拖拽调整大小', type: 'boolean', default: 'false' },
             { property: 'resizeHandleSize', description: '拖拽手柄大小（像素）', type: 'number', default: '8' },
-            { property: 'minWidth', description: '拖拽时最小宽度', type: 'number', default: '200' },
+            { property: 'minWidth', description: '拖拽时最小宽度', type: 'number', default: '300' },
             { property: 'maxWidth', description: '拖拽时最大宽度', type: 'number', default: '1000' },
             { property: 'minHeight', description: '拖拽时最小高度', type: 'number', default: '150' },
             { property: 'maxHeight', description: '拖拽时最大高度', type: 'number', default: '800' },
-            { property: 'onSizeChange', description: '大小变化回调', type: '(size: { width?: number; height?: number }) => void', default: '-' },
+            { property: 'onChange', description: '大小变化回调', type: '(size: { width?: number; height?: number }) => void', default: '-' },
           ]}
           rowKey="property"
           pagination={false}
@@ -416,13 +544,14 @@ const Demo = () => {
         width={placement === 'left' || placement === 'right' ? width : undefined}
         height={placement === 'top' || placement === 'bottom' ? 300 : undefined}
         onClose={handleClose}
-        visible={visible}
+        open={visible}
         loading={loading}
         destroyOnClose={destroyOnClose}
         showHeader={showHeader}
         showFooter={showFooter}
         resizable={resizable}
-        onSizeChange={setCurrentSize}
+        mask={mask}
+        onChange={setCurrentSize}
         header={customHeader ? (
           <Flex justify="space-between" align="center" style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -451,18 +580,75 @@ const Demo = () => {
           <p>你可以在这里放置任何内容。</p>
           <div style={{ marginTop: '20px' }}>
             <h4>示例表单</h4>
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '4px' }}>姓名</label>
-              <input type="text" placeholder="请输入姓名" style={{ width: '100%', padding: '8px' }} />
-            </div>
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '4px' }}>邮箱</label>
-              <input type="email" placeholder="请输入邮箱" style={{ width: '100%', padding: '8px' }} />
-            </div>
-            <div style={{ marginBottom: '12px' }}>
-              <label style={{ display: 'block', marginBottom: '4px' }}>描述</label>
-              <textarea placeholder="请输入描述" rows={4} style={{ width: '100%', padding: '8px' }} />
-            </div>
+            <Form style={{ width: '100%' }}>
+              <Form.Item label="姓名" name="name" style={{ marginBottom: '16px' }}>
+                <Input
+                  placeholder="请输入姓名"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                />
+              </Form.Item>
+
+              <Form.Item label="邮箱" name="email" style={{ marginBottom: '16px' }}>
+                <Input
+                  type="text"
+                  placeholder="请输入邮箱"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
+              </Form.Item>
+
+              <Form.Item label="性别" name="gender" style={{ marginBottom: '16px' }}>
+                <Radio.Group value={formData.gender} onChange={(value) => setFormData({ ...formData, gender: value })}>
+                  <Radio value="male">男</Radio>
+                  <Radio value="female">女</Radio>
+                </Radio.Group>
+              </Form.Item>
+
+              <Form.Item label="城市" name="city" style={{ marginBottom: '16px' }}>
+                <Select
+                  placeholder="请选择城市"
+                  value={formData.city}
+                  onChange={(value) => setFormData({ ...formData, city: value })}
+                  style={{ width: '100%' }}
+                >
+                  <Select.Option value="beijing">北京</Select.Option>
+                  <Select.Option value="shanghai">上海</Select.Option>
+                  <Select.Option value="guangzhou">广州</Select.Option>
+                  <Select.Option value="shenzhen">深圳</Select.Option>
+                </Select>
+              </Form.Item>
+
+              <Form.Item label="兴趣爱好" name="interests" style={{ marginBottom: '16px' }}>
+                <Checkbox.Group
+                  value={formData.interests}
+                  onChange={(checkedValues) => setFormData({ ...formData, interests: checkedValues as string[] })}
+                >
+                  <Checkbox value="reading">阅读</Checkbox>
+                  <Checkbox value="music">音乐</Checkbox>
+                  <Checkbox value="sports">运动</Checkbox>
+                  <Checkbox value="travel">旅游</Checkbox>
+                </Checkbox.Group>
+              </Form.Item>
+
+              <Form.Item label="用户协议" name="agreement" style={{ marginBottom: '16px' }}>
+                <Checkbox
+                  checked={formData.agreement}
+                  onChange={(checked) => setFormData({ ...formData, agreement: checked })}
+                >
+                  我已阅读并同意用户协议
+                </Checkbox>
+              </Form.Item>
+
+              <Form.Item label="描述" name="description" style={{ marginBottom: '16px' }}>
+                <Input.Textarea
+                  placeholder="请输入描述"
+                  rows={4}
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value as string })}
+                />
+              </Form.Item>
+            </Form>
           </div>
         </div>
       </Drawer>

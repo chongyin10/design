@@ -40,3 +40,4 @@ export { default as Form } from './Form';
 export { default as Grid, Row, Col } from './Grid';
 export { default as Drawer } from './Drawer';
 export type { DrawerProps, DrawerPlacement } from './Drawer';
+export { default as Checkbox } from './Checkbox';

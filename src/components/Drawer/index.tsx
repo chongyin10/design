@@ -6,9 +6,9 @@ import { DrawerProps, DrawerPlacement } from './types';
 import './Drawer.css';
 
 const Drawer: React.FC<DrawerProps> = ({
-    visible,
+    open,
     title,
-    width = 360,
+    width = 460,
     height = 300,
     placement = 'right',
     maskClosable = true,
@@ -37,19 +37,20 @@ const Drawer: React.FC<DrawerProps> = ({
     loadingIcon,
     resizable = false,
     resizeHandleSize = 8,
-    minWidth = 200,
-    maxWidth = 1000,
+    minWidth = 460,
     minHeight = 150,
-    maxHeight = 800,
-    onSizeChange,
+    onChange,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpening, setIsOpening] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const animationDuration = 300;
 
+    const maxWidth = window.innerWidth;
+    const maxHeight = window.innerHeight;
+
     // 拖拽相关状态
-    const [currentWidth, setCurrentWidth] = useState<number>(typeof width === 'number' ? width : 360);
+    const [currentWidth, setCurrentWidth] = useState<number>(typeof width === 'number' ? width : 460);
     const [currentHeight, setCurrentHeight] = useState<number>(typeof height === 'number' ? height : 300);
     const [isResizing, setIsResizing] = useState(false);
     const drawerRef = useRef<HTMLDivElement>(null);
@@ -64,7 +65,7 @@ const Drawer: React.FC<DrawerProps> = ({
         maxWidth,
         minHeight,
         maxHeight,
-        onSizeChange,
+        onChange,
     });
 
     // 同步 ref 与 state
@@ -80,9 +81,9 @@ const Drawer: React.FC<DrawerProps> = ({
             maxWidth,
             minHeight,
             maxHeight,
-            onSizeChange,
+            onChange,
         };
-    }, [placement, minWidth, maxWidth, minHeight, maxHeight, onSizeChange]);
+    }, [placement, minWidth, maxWidth, minHeight, maxHeight, onChange]);
 
     // 当props变化时更新尺寸
     useEffect(() => {
@@ -98,7 +99,7 @@ const Drawer: React.FC<DrawerProps> = ({
     }, [height]);
 
     useEffect(() => {
-        if (visible) {
+        if (open) {
             setIsClosing(false);
             setIsVisible(true);
             // 禁用body滚动
@@ -122,7 +123,7 @@ const Drawer: React.FC<DrawerProps> = ({
         return () => {
             document.body.style.overflow = '';
         };
-    }, [visible, animationDuration]);
+    }, [open, animationDuration]);
 
     const handleMaskClick = () => {
         if (maskClosable && onClose) {
@@ -288,7 +289,7 @@ const Drawer: React.FC<DrawerProps> = ({
         // 同时更新 state 和 DOM，保持同步
         setCurrentWidth(newWidth);
         setCurrentHeight(newHeight);
-        config.onSizeChange?.({ width: newWidth, height: newHeight });
+        config.onChange?.({ width: newWidth, height: newHeight });
     }, []);
 
     // 结束拖拽

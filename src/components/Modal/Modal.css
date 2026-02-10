@@ -19,6 +19,8 @@
 .idp-modal-overlay--visible {
     opacity: 1;
     visibility: visible;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .idp-modal-overlay--closing {
