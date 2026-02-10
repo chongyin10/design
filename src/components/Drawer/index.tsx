@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
@@ -35,11 +35,67 @@ const Drawer: React.FC<DrawerProps> = ({
     zIndex = 1000,
     loading = false,
     loadingIcon,
+    resizable = false,
+    resizeHandleSize = 8,
+    minWidth = 200,
+    maxWidth = 1000,
+    minHeight = 150,
+    maxHeight = 800,
+    onSizeChange,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpening, setIsOpening] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const animationDuration = 300;
+
+    // 拖拽相关状态
+    const [currentWidth, setCurrentWidth] = useState<number>(typeof width === 'number' ? width : 360);
+    const [currentHeight, setCurrentHeight] = useState<number>(typeof height === 'number' ? height : 300);
+    const [isResizing, setIsResizing] = useState(false);
+    const drawerRef = useRef<HTMLDivElement>(null);
+    const resizeStartPosRef = useRef({ x: 0, y: 0 });
+    const resizeStartSizeRef = useRef({ width: 0, height: 0 });
+    const currentSizeRef = useRef({ width: currentWidth, height: currentHeight });
+
+    // 使用 ref 存储所有配置，避免闭包问题
+    const configRef = useRef({
+        placement,
+        minWidth,
+        maxWidth,
+        minHeight,
+        maxHeight,
+        onSizeChange,
+    });
+
+    // 同步 ref 与 state
+    useEffect(() => {
+        currentSizeRef.current = { width: currentWidth, height: currentHeight };
+    }, [currentWidth, currentHeight]);
+
+    // 同步配置 ref
+    useEffect(() => {
+        configRef.current = {
+            placement,
+            minWidth,
+            maxWidth,
+            minHeight,
+            maxHeight,
+            onSizeChange,
+        };
+    }, [placement, minWidth, maxWidth, minHeight, maxHeight, onSizeChange]);
+
+    // 当props变化时更新尺寸
+    useEffect(() => {
+        if (typeof width === 'number') {
+            setCurrentWidth(width);
+        }
+    }, [width]);
+
+    useEffect(() => {
+        if (typeof height === 'number') {
+            setCurrentHeight(height);
+        }
+    }, [height]);
 
     useEffect(() => {
         if (visible) {
@@ -88,6 +144,17 @@ const Drawer: React.FC<DrawerProps> = ({
         return size;
     };
 
+    // 根据placement获取当前尺寸
+    const getCurrentSize = (): { width: number | string; height: number | string } => {
+        if (resizable) {
+            return {
+                width: currentWidth,
+                height: currentHeight,
+            };
+        }
+        return { width, height };
+    };
+
     // 根据placement获取样式
     const getDrawerStyle = (): React.CSSProperties => {
         const baseStyle: React.CSSProperties = {
@@ -95,21 +162,155 @@ const Drawer: React.FC<DrawerProps> = ({
             zIndex,
         };
 
+        const size = getCurrentSize();
+
         switch (placement) {
             case 'left':
             case 'right':
-                baseStyle.width = getSizeValue(width);
+                baseStyle.width = getSizeValue(size.width);
                 baseStyle.height = '100%';
                 break;
             case 'top':
             case 'bottom':
-                baseStyle.height = getSizeValue(height);
+                baseStyle.height = getSizeValue(size.height);
                 baseStyle.width = '100%';
                 break;
         }
 
+        // 拖拽时禁用过渡动画
+        if (isResizing) {
+            baseStyle.transition = 'none';
+        }
+
         return baseStyle;
     };
+
+    // 判断是否需要渲染拖拽手柄
+    const shouldShowResizeHandle = resizable && isVisible;
+
+    // 获取拖拽手柄的位置类名
+    const getResizeHandleClassName = (): string => {
+        switch (placement) {
+            case 'left':
+                return 'idp-drawer-resize-handle--right';
+            case 'right':
+                return 'idp-drawer-resize-handle--left';
+            case 'top':
+                return 'idp-drawer-resize-handle--bottom';
+            case 'bottom':
+                return 'idp-drawer-resize-handle--top';
+            default:
+                return '';
+        }
+    };
+
+    // 获取拖拽手柄的光标样式
+    const getResizeHandleCursor = (): string => {
+        switch (placement) {
+            case 'left':
+            case 'right':
+                return 'col-resize';
+            case 'top':
+            case 'bottom':
+                return 'row-resize';
+            default:
+                return 'default';
+        }
+    };
+
+    // 开始拖拽
+    const handleResizeStart = useCallback((e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // 读取最新的 state 值作为起始尺寸
+        const startWidth = currentSizeRef.current.width;
+        const startHeight = currentSizeRef.current.height;
+
+        // 关键：先将当前尺寸设置到 DOM，避免 isResizing 变为 true 后样式丢失
+        if (drawerRef.current) {
+            const config = configRef.current;
+            if (config.placement === 'left' || config.placement === 'right') {
+                drawerRef.current.style.width = `${startWidth}px`;
+            } else {
+                drawerRef.current.style.height = `${startHeight}px`;
+            }
+        }
+
+        setIsResizing(true);
+        resizeStartPosRef.current = { x: e.clientX, y: e.clientY };
+        resizeStartSizeRef.current = { width: startWidth, height: startHeight };
+    }, []);
+
+    // 拖拽中 - 同步更新 DOM 和 state，避免两者不同步
+    const handleResizeMove = useCallback((e: MouseEvent) => {
+        const config = configRef.current;
+
+        const deltaX = e.clientX - resizeStartPosRef.current.x;
+        const deltaY = e.clientY - resizeStartPosRef.current.y;
+
+        let newWidth = resizeStartSizeRef.current.width;
+        let newHeight = resizeStartSizeRef.current.height;
+
+        if (config.placement === 'left') {
+            const rawWidth = resizeStartSizeRef.current.width + deltaX;
+            newWidth = Math.max(config.minWidth, Math.min(config.maxWidth, rawWidth));
+            if (newWidth !== rawWidth) {
+                resizeStartPosRef.current.x = e.clientX;
+                resizeStartSizeRef.current.width = newWidth;
+            }
+        } else if (config.placement === 'right') {
+            const rawWidth = resizeStartSizeRef.current.width - deltaX;
+            newWidth = Math.max(config.minWidth, Math.min(config.maxWidth, rawWidth));
+            if (newWidth !== rawWidth) {
+                resizeStartPosRef.current.x = e.clientX;
+                resizeStartSizeRef.current.width = newWidth;
+            }
+        } else if (config.placement === 'top') {
+            const rawHeight = resizeStartSizeRef.current.height + deltaY;
+            newHeight = Math.max(config.minHeight, Math.min(config.maxHeight, rawHeight));
+            if (newHeight !== rawHeight) {
+                resizeStartPosRef.current.y = e.clientY;
+                resizeStartSizeRef.current.height = newHeight;
+            }
+        } else if (config.placement === 'bottom') {
+            const rawHeight = resizeStartSizeRef.current.height - deltaY;
+            newHeight = Math.max(config.minHeight, Math.min(config.maxHeight, rawHeight));
+            if (newHeight !== rawHeight) {
+                resizeStartPosRef.current.y = e.clientY;
+                resizeStartSizeRef.current.height = newHeight;
+            }
+        }
+
+        // 更新 ref
+        currentSizeRef.current = { width: newWidth, height: newHeight };
+
+        // 同时更新 state 和 DOM，保持同步
+        setCurrentWidth(newWidth);
+        setCurrentHeight(newHeight);
+        config.onSizeChange?.({ width: newWidth, height: newHeight });
+    }, []);
+
+    // 结束拖拽
+    const handleResizeEnd = useCallback(() => {
+        setIsResizing(false);
+    }, []);
+
+    // 添加/移除全局鼠标事件监听
+    useEffect(() => {
+        if (isResizing) {
+            document.addEventListener('mousemove', handleResizeMove);
+            document.addEventListener('mouseup', handleResizeEnd);
+        } else {
+            document.removeEventListener('mousemove', handleResizeMove);
+            document.removeEventListener('mouseup', handleResizeEnd);
+        }
+
+        return () => {
+            document.removeEventListener('mousemove', handleResizeMove);
+            document.removeEventListener('mouseup', handleResizeEnd);
+        };
+    }, [isResizing, handleResizeMove, handleResizeEnd]);
 
     // 渲染加载状态
     const renderLoading = () => {
@@ -164,6 +365,25 @@ const Drawer: React.FC<DrawerProps> = ({
         );
     };
 
+    // 渲染拖拽手柄
+    const renderResizeHandle = () => {
+        if (!shouldShowResizeHandle) return null;
+
+        return (
+            <div
+                className={classNames(
+                    'idp-drawer-resize-handle',
+                    getResizeHandleClassName()
+                )}
+                style={{
+                    cursor: getResizeHandleCursor(),
+                    [placement === 'left' || placement === 'right' ? 'width' : 'height']: resizeHandleSize,
+                }}
+                onMouseDown={handleResizeStart}
+            />
+        );
+    };
+
     // 渲染内容
     const renderContent = () => {
         if (!isVisible && !isClosing) return null;
@@ -175,6 +395,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     {
                         'idp-drawer-overlay--visible': isOpening && !isClosing,
                         'idp-drawer-overlay--closing': isClosing,
+                        'idp-drawer-overlay--resizing': isResizing,
                     },
                     maskClassName
                 )}
@@ -185,6 +406,7 @@ const Drawer: React.FC<DrawerProps> = ({
                 onClick={handleMaskClick}
             >
                 <div
+                    ref={drawerRef}
                     className={classNames(
                         'idp-drawer',
                         `idp-drawer--${placement}`,
@@ -192,6 +414,7 @@ const Drawer: React.FC<DrawerProps> = ({
                             'idp-drawer--visible': isOpening && !isClosing,
                             'idp-drawer--closing': isClosing,
                             'idp-drawer--no-mask': !mask,
+                            'idp-drawer--resizing': isResizing,
                         },
                         className
                     )}
@@ -214,6 +437,7 @@ const Drawer: React.FC<DrawerProps> = ({
                             {footer}
                         </div>
                     )}
+                    {renderResizeHandle()}
                 </div>
             </div>
         );
@@ -232,6 +456,7 @@ const Drawer: React.FC<DrawerProps> = ({
                     style={{ zIndex }}
                 >
                     <div
+                        ref={drawerRef}
                         className={classNames(
                             'idp-drawer',
                             `idp-drawer--${placement}`,
@@ -239,6 +464,7 @@ const Drawer: React.FC<DrawerProps> = ({
                                 'idp-drawer--visible': isOpening && !isClosing,
                                 'idp-drawer--closing': isClosing,
                                 'idp-drawer--no-mask': !mask,
+                                'idp-drawer--resizing': isResizing,
                             },
                             className
                         )}
@@ -260,6 +486,7 @@ const Drawer: React.FC<DrawerProps> = ({
                                 {footer}
                             </div>
                         )}
+                        {renderResizeHandle()}
                     </div>
                 </div>
             );

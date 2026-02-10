@@ -61,4 +61,18 @@ export interface DrawerProps {
     loading?: boolean;
     /** 自定义加载图标 */
     loadingIcon?: React.ReactNode;
+    /** 是否支持拖拽调整大小，默认false */
+    resizable?: boolean;
+    /** 拖拽手柄大小（像素），默认8px */
+    resizeHandleSize?: number;
+    /** 拖拽时最小宽度 */
+    minWidth?: number;
+    /** 拖拽时最大宽度 */
+    maxWidth?: number;
+    /** 拖拽时最小高度 */
+    minHeight?: number;
+    /** 拖拽时最大高度 */
+    maxHeight?: number;
+    /** 大小变化回调 */
+    onSizeChange?: (size: { width?: number; height?: number }) => void;
 }

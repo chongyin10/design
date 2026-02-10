@@ -69,6 +69,8 @@ const DrawerExample: React.FC = () => {
   const [showHeader, setShowHeader] = useState(true);
   const [showFooter, setShowFooter] = useState(true);
   const [customHeader, setCustomHeader] = useState(false);
+  const [resizable, setResizable] = useState(false);
+  const [currentSize, setCurrentSize] = useState<{ width?: number; height?: number }>({});
   const containerRef = useRef<HTMLDivElement>(null);
 
   const showDrawer = (p: DrawerPlacement) => {
@@ -318,6 +320,52 @@ const Demo = () => {
 <Drawer maskClosable={false} visible={visible} onClose={onClose} />`} />
       </Section>
 
+      {/* 可拖拽调整大小 */}
+      <Section title="可拖拽调整大小">
+        <DemoRow title="拖拽调整">
+          <Space>
+            <Button onClick={() => { setResizable(false); showDrawer('right'); }}>
+              不可拖拽
+            </Button>
+            <Button onClick={() => { setResizable(true); setPlacement('right'); showDrawer('right'); }}>
+              右侧可拖拽
+            </Button>
+            <Button onClick={() => { setResizable(true); setPlacement('left'); showDrawer('left'); }}>
+              左侧可拖拽
+            </Button>
+            <Button onClick={() => { setResizable(true); setPlacement('top'); showDrawer('top'); }}>
+              顶部可拖拽
+            </Button>
+            <Button onClick={() => { setResizable(true); setPlacement('bottom'); showDrawer('bottom'); }}>
+              底部可拖拽
+            </Button>
+          </Space>
+        </DemoRow>
+        {currentSize.width && <p>当前宽度: {currentSize.width}px</p>}
+        {currentSize.height && <p>当前高度: {currentSize.height}px</p>}
+        <CopyBlock code={`import { Drawer } from '@idp/design';
+
+// 启用拖拽调整大小
+<Drawer
+  resizable
+  visible={visible}
+  onClose={onClose}
+  onSizeChange={(size) => console.log('新尺寸:', size)}
+  minWidth={200}
+  maxWidth={800}
+  minHeight={150}
+  maxHeight={600}
+>
+  内容
+</Drawer>
+
+// 不同位置的拖拽
+<Drawer resizable placement="left" visible={visible} onClose={onClose} />
+<Drawer resizable placement="right" visible={visible} onClose={onClose} />
+<Drawer resizable placement="top" visible={visible} onClose={onClose} />
+<Drawer resizable placement="bottom" visible={visible} onClose={onClose} />`} />
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Props</h3>
@@ -349,6 +397,13 @@ const Demo = () => {
             { property: 'closable', description: '是否显示关闭按钮', type: 'boolean', default: 'true' },
             { property: 'zIndex', description: 'z-index层级', type: 'number', default: '1000' },
             { property: 'loading', description: '是否加载中状态', type: 'boolean', default: 'false' },
+            { property: 'resizable', description: '是否支持拖拽调整大小', type: 'boolean', default: 'false' },
+            { property: 'resizeHandleSize', description: '拖拽手柄大小（像素）', type: 'number', default: '8' },
+            { property: 'minWidth', description: '拖拽时最小宽度', type: 'number', default: '200' },
+            { property: 'maxWidth', description: '拖拽时最大宽度', type: 'number', default: '1000' },
+            { property: 'minHeight', description: '拖拽时最小高度', type: 'number', default: '150' },
+            { property: 'maxHeight', description: '拖拽时最大高度', type: 'number', default: '800' },
+            { property: 'onSizeChange', description: '大小变化回调', type: '(size: { width?: number; height?: number }) => void', default: '-' },
           ]}
           rowKey="property"
           pagination={false}
@@ -366,6 +421,8 @@ const Demo = () => {
         destroyOnClose={destroyOnClose}
         showHeader={showHeader}
         showFooter={showFooter}
+        resizable={resizable}
+        onSizeChange={setCurrentSize}
         header={customHeader ? (
           <Flex justify="space-between" align="center" style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

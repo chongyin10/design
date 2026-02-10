@@ -221,3 +221,87 @@
 .idp-drawer-content::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
+
+/* 拖拽手柄 */
+.idp-drawer-resize-handle {
+    position: absolute;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    z-index: 1;
+}
+
+/* 左侧抽屉 - 手柄在右边 */
+.idp-drawer-resize-handle--right {
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: col-resize;
+}
+
+/* 右侧抽屉 - 手柄在左边 */
+.idp-drawer-resize-handle--left {
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    cursor: col-resize;
+}
+
+/* 顶部抽屉 - 手柄在底部 */
+.idp-drawer-resize-handle--bottom {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8px;
+    cursor: row-resize;
+}
+
+/* 底部抽屉 - 手柄在顶部 */
+.idp-drawer-resize-handle--top {
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 8px;
+    cursor: row-resize;
+}
+
+/* 拖拽手柄悬停效果 */
+.idp-drawer-resize-handle:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.idp-drawer-resize-handle:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* 拖拽中禁用遮罩层点击 */
+.idp-drawer-overlay--resizing {
+    cursor: inherit;
+}
+
+.idp-drawer--resizing {
+    transition: none !important;
+    will-change: width, height;
+    user-select: none;
+}
+
+/* 拖拽时禁用全局文本选择 */
+.idp-drawer--resizing,
+.idp-drawer--resizing * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+}
+
+/* 无遮罩层时的拖拽手柄定位 */
+.idp-drawer--no-mask .idp-drawer-resize-handle--left,
+.idp-drawer--no-mask .idp-drawer-resize-handle--right {
+    position: fixed;
+}
+
+.idp-drawer--no-mask .idp-drawer-resize-handle--top,
+.idp-drawer--no-mask .idp-drawer-resize-handle--bottom {
+    position: fixed;
+}
