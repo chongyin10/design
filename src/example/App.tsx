@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Layout, Icon, Navigation } from '../components';
+import { Layout, Icon, Menu } from '../components';
 import ButtonExample from './Button';
 import CheckboxExample from './Checkbox';
 import NoticeExample from './Notice';
@@ -52,50 +52,50 @@ const App: React.FC = () => {
 
     // 导航菜单项定义（按字母顺序排序）
     const navigationItems = [
-        { key: 'intro', name: '简介', description: 'IDP Design 组件库介绍', icon: '📖' },
-        { key: 'install', name: '安装', description: '如何安装和引用', icon: '📦' },
-        { key: 'anchor', name: 'Anchor', description: '锚点导航组件', icon: '🔗' },
-        { key: 'breadcrumb', name: 'Breadcrumb', description: '面包屑组件', icon: '📁' },
-        { key: 'button', name: 'Button', description: '按钮组件', icon: '🔘' },
-        { key: 'checkbox', name: 'Checkbox', description: '复选框组件', icon: '☑️' },
-        { key: 'cascader', name: 'Cascader', description: '级联选择器组件', icon: '🔀' },
-        { key: 'colorpicker', name: 'ColorPicker', description: '颜色选择器组件', icon: '🎨' },
-        { key: 'copytoclipboard', name: 'CopyToClipboard', description: '剪贴板复制组件', icon: '📋' },
-        { key: 'divider', name: 'Divider', description: '分割线组件', icon: '➖' },
-        { key: 'dropdown', name: 'Dropdown', description: '下拉菜单组件', icon: '🔽' },
-        { key: 'empty', name: 'Empty', description: '空状态组件', icon: '📭' },
-        { key: 'flex', name: 'Flex', description: 'Flex布局组件', icon: '🧱' },
-        { key: 'form', name: 'Form', description: '表单组件', icon: '📝' },
-        { key: 'grid', name: 'Grid', description: '栅格布局组件', icon: '🔲' },
-        { key: 'icon', name: 'Icon', description: '图标组件', icon: '🖼️' },
-        { key: 'i18n', name: 'I18n', description: '国际化组件', icon: '🌐' },
-        { key: 'input', name: 'Input', description: '输入框组件', icon: '🔤' },
-        { key: 'label', name: 'Label', description: '标签组件', icon: '🏷️' },
-        { key: 'layout', name: 'Layout', description: '页面布局组件', icon: '📐' },
-        { key: 'marquee', name: 'Marquee', description: '跑马灯组件', icon: '📜' },
-        { key: 'masonry', name: 'Masonry', description: '瀑布流布局组件', icon: '🗂️' },
-        { key: 'menu', name: 'Menu', description: '菜单组件', icon: '🍽️' },
-        { key: 'message', name: 'Message', description: '消息提示组件', icon: '💬' },
-        { key: 'modal', name: 'Modal', description: '弹窗组件', icon: '🪟' },
-        { key: 'navigation', name: 'Navigation', description: '导航组件', icon: '🧭' },
-        { key: 'notice', name: 'Notice', description: '公告栏组件', icon: '📢' },
-        { key: 'notification', name: 'Notification', description: '通知组件', icon: '🔔' },
-        { key: 'pagination', name: 'Pagination', description: '分页器组件', icon: '📄' },
-        { key: 'radio', name: 'Radio', description: '单选框组件', icon: '🔘' },
-        { key: 'rate', name: 'Rate', description: '评分组件', icon: '⭐' },
-        { key: 'select', name: 'Select', description: '选择器组件', icon: '🔽' },
-        { key: 'slider', name: 'Slider', description: '滑动条组件', icon: '🎚️' },
-        { key: 'space', name: 'Space', description: '组件间距设置', icon: '⚫' },
-        { key: 'steps', name: 'Steps', description: '步骤条组件', icon: '📋' },
-        { key: 'switch', name: 'Switch', description: '开关组件', icon: '🔛' },
-        { key: 'table', name: 'Table', description: '表格组件', icon: '📊' },
-        { key: 'tabs', name: 'Tabs', description: '选项卡组件', icon: '🗂️' },
-        { key: 'top', name: 'Top', description: '回到顶部组件', icon: '⬆️' },
-        { key: 'tooltip', name: 'Tooltip', description: '提示框组件', icon: '💬' },
-        { key: 'transfer', name: 'Transfer', description: '穿梭框组件', icon: '🔄' },
-        { key: 'treeselect', name: 'TreeSelect', description: '树型选择器组件', icon: '🌲' },
-        { key: 'typography', name: 'Typography', description: '排版组件', icon: '📝' },
-        { key: 'variables', name: 'Variables', description: '自定义组件库主题颜色', icon: '🎨' },
+        { key: 'intro', label: '简介', name: '简介', description: 'IDP Design 组件库介绍', icon: <span>📖</span> },
+        { key: 'install', label: '安装', name: '安装', description: '如何安装和引用', icon: <span>📦</span> },
+        { key: 'anchor', label: 'Anchor', name: 'Anchor', description: '锚点导航组件', icon: <span>🔗</span> },
+        { key: 'breadcrumb', label: 'Breadcrumb', name: 'Breadcrumb', description: '面包屑组件', icon: <span>📁</span> },
+        { key: 'button', label: 'Button', name: 'Button', description: '按钮组件', icon: <span>🔘</span> },
+        { key: 'checkbox', label: 'Checkbox', name: 'Checkbox', description: '复选框组件', icon: <span>☑️</span> },
+        { key: 'cascader', label: 'Cascader', name: 'Cascader', description: '级联选择器组件', icon: <span>🔀</span> },
+        { key: 'colorpicker', label: 'ColorPicker', name: 'ColorPicker', description: '颜色选择器组件', icon: <span>🎨</span> },
+        { key: 'copytoclipboard', label: 'CopyToClipboard', name: 'CopyToClipboard', description: '剪贴板复制组件', icon: <span>📋</span> },
+        { key: 'divider', label: 'Divider', name: 'Divider', description: '分割线组件', icon: <span>➖</span> },
+        { key: 'dropdown', label: 'Dropdown', name: 'Dropdown', description: '下拉菜单组件', icon: <span>🔽</span> },
+        { key: 'empty', label: 'Empty', name: 'Empty', description: '空状态组件', icon: <span>📭</span> },
+        { key: 'flex', label: 'Flex', name: 'Flex', description: 'Flex布局组件', icon: <span>🧱</span> },
+        { key: 'form', label: 'Form', name: 'Form', description: '表单组件', icon: <span>📝</span> },
+        { key: 'grid', label: 'Grid', name: 'Grid', description: '栅格布局组件', icon: <span>🔲</span> },
+        { key: 'icon', label: 'Icon', name: 'Icon', description: '图标组件', icon: <span>🖼️</span> },
+        { key: 'i18n', label: 'I18n', name: 'I18n', description: '国际化组件', icon: <span>🌐</span> },
+        { key: 'input', label: 'Input', name: 'Input', description: '输入框组件', icon: <span>🔤</span> },
+        { key: 'label', label: 'Label', name: 'Label', description: '标签组件', icon: <span>🏷️</span> },
+        { key: 'layout', label: 'Layout', name: 'Layout', description: '页面布局组件', icon: <span>📐</span> },
+        { key: 'marquee', label: 'Marquee', name: 'Marquee', description: '跑马灯组件', icon: <span>📜</span> },
+        { key: 'masonry', label: 'Masonry', name: 'Masonry', description: '瀑布流布局组件', icon: <span>🗂️</span> },
+        { key: 'menu', label: 'Menu', name: 'Menu', description: '菜单组件', icon: <span>🍽️</span> },
+        { key: 'message', label: 'Message', name: 'Message', description: '消息提示组件', icon: <span>💬</span> },
+        { key: 'modal', label: 'Modal', name: 'Modal', description: '弹窗组件', icon: <span>🪟</span> },
+        { key: 'navigation', label: 'Navigation', name: 'Navigation', description: '导航组件', icon: <span>🧭</span> },
+        { key: 'notice', label: 'Notice', name: 'Notice', description: '公告栏组件', icon: <span>📢</span> },
+        { key: 'notification', label: 'Notification', name: 'Notification', description: '通知组件', icon: <span>🔔</span> },
+        { key: 'pagination', label: 'Pagination', name: 'Pagination', description: '分页器组件', icon: <span>📄</span> },
+        { key: 'radio', label: 'Radio', name: 'Radio', description: '单选框组件', icon: <span>🔘</span> },
+        { key: 'rate', label: 'Rate', name: 'Rate', description: '评分组件', icon: <span>⭐</span> },
+        { key: 'select', label: 'Select', name: 'Select', description: '选择器组件', icon: <span>🔽</span> },
+        { key: 'slider', label: 'Slider', name: 'Slider', description: '滑动条组件', icon: <span>🎚️</span> },
+        { key: 'space', label: 'Space', name: 'Space', description: '组件间距设置', icon: <span>⚫</span> },
+        { key: 'steps', label: 'Steps', name: 'Steps', description: '步骤条组件', icon: <span>📋</span> },
+        { key: 'switch', label: 'Switch', name: 'Switch', description: '开关组件', icon: <span>🔛</span> },
+        { key: 'table', label: 'Table', name: 'Table', description: '表格组件', icon: <span>📊</span> },
+        { key: 'tabs', label: 'Tabs', name: 'Tabs', description: '选项卡组件', icon: <span>🗂️</span> },
+        { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
+        { key: 'tooltip', label: 'Tooltip', name: 'Tooltip', description: '提示框组件', icon: <span>💬</span> },
+        { key: 'transfer', label: 'Transfer', name: 'Transfer', description: '穿梭框组件', icon: <span>🔄</span> },
+        { key: 'treeselect', label: 'TreeSelect', name: 'TreeSelect', description: '树型选择器组件', icon: <span>🌲</span> },
+        { key: 'typography', label: 'Typography', name: 'Typography', description: '排版组件', icon: <span>📝</span> },
+        { key: 'variables', label: 'Variables', name: 'Variables', description: '自定义组件库主题颜色', icon: <span>🎨</span> },
     ];
 
     const [selectedComponent, setSelectedComponent] = useState<string>('button');
@@ -354,15 +354,13 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                         onCollapse={setCollapsed}
                         triggerPlacement="bottom"
                     >
-                        <Navigation
+                        <Menu
                             items={navigationItems}
                             selectedKey={selectedComponent}
                             onChange={(item) => handleMenuClick(item.key)}
                             mode="vertical"
-                            width={280}
-                            collapsedWidth={64}
                             collapsed={collapsed}
-                            showCollapseButton={false}
+                            theme="dark"
                         />
                     </Sider>
                     <Content style={{ padding: '0' }}>

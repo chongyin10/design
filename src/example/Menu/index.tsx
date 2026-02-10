@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Icon, Flex } from '../../components';
+import { Menu, Icon, Flex, Table } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -282,113 +282,76 @@ const menuItems = [
 />`} />
       </Section>
 
+      {/* 主题示例 */}
+      <Section title="主题效果">
+        <p style={{ marginBottom: '16px', color: '#666' }}>通过 theme 属性设置菜单主题，默认为深色主题，子目录自动切换为浅色效果。</p>
+        <DemoRow title="深色主题（根目录）">
+          <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', background: '#001529' }}>
+            <Menu
+              mode="vertical"
+              theme="dark"
+              items={menuItems}
+              onChange={(info, key) => console.log('菜单项点击:', info, key)}
+            />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`<Menu
+  mode="vertical"
+  theme="dark"
+  items={menuItems}
+  onChange={(info, key) => console.log('菜单项点击:', info, key)}
+/>`} />
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3 style={{ marginBottom: '16px' }}>Menu Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>mode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>菜单模式</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>"horizontal" | "vertical" | "inline"</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>"vertical"</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>items</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>菜单项数组</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>MenuItem[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>selectedKey</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>当前选中的菜单项 key（受控模式）</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>defaultOpenKeys</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>默认展开的菜单项 key 数组</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>[]</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>openKeys</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>展开的菜单项 key 数组（受控模式）</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>collapsed</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>垂直菜单的折叠状态</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onChange</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>菜单项点击回调</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{'(info: MenuItem, key: string) => void'}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onOpenChange</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>展开/折叠回调</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{'(openKeys: string[]) => void'}</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', marginBottom: '24px' }}>
+          <Table
+            dataSource={[
+              { property: 'mode', description: '菜单模式', type: '"horizontal" | "vertical" | "inline"', default: '"vertical"' },
+              { property: 'items', description: '菜单项数组', type: 'MenuItem[]', default: '-' },
+              { property: 'selectedKey', description: '当前选中的菜单项 key（受控模式）', type: 'string', default: '-' },
+              { property: 'defaultOpenKeys', description: '默认展开的菜单项 key 数组', type: 'string[]', default: '[]' },
+              { property: 'openKeys', description: '展开的菜单项 key 数组（受控模式）', type: 'string[]', default: '-' },
+              { property: 'collapsed', description: '垂直菜单的折叠状态', type: 'boolean', default: 'false' },
+              { property: 'theme', description: '菜单主题，根目录使用传入的主题，子目录自动切换为浅色', type: '"light" | "dark"', default: '"light"' },
+              { property: 'onChange', description: '菜单项点击回调', type: '(info: MenuItem, key: string) => void', default: '-' },
+              { property: 'onOpenChange', description: '展开/折叠回调', type: '(openKeys: string[]) => void', default: '-' }
+            ]}
+            columns={[
+              { dataIndex: 'property', title: '属性', width: '120px' },
+              { dataIndex: 'description', title: '说明' },
+              { dataIndex: 'type', title: '类型', width: '200px' },
+              { dataIndex: 'default', title: '默认值', width: '100px' }
+            ]}
+            bordered
+            rowKey="property"
+            pagination={false}
+          />
+        </div>
 
         <h3 style={{ marginBottom: '16px' }}>MenuItem Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>key</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>唯一标识</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>label</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>显示文本</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>string</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>icon</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>图标</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>React.ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>children</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>子菜单项数组</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>MenuItem[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>disabled</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否禁用</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px' }}>
+          <Table
+            dataSource={[
+              { property: 'key', description: '唯一标识', type: 'string', default: '-' },
+              { property: 'label', description: '显示文本', type: 'string', default: '-' },
+              { property: 'icon', description: '图标', type: 'React.ReactNode', default: '-' },
+              { property: 'children', description: '子菜单项数组', type: 'MenuItem[]', default: '-' },
+              { property: 'disabled', description: '是否禁用', type: 'boolean', default: 'false' }
+            ]}
+            columns={[
+              { dataIndex: 'property', title: '属性', width: '120px' },
+              { dataIndex: 'description', title: '说明' },
+              { dataIndex: 'type', title: '类型', width: '200px' },
+              { dataIndex: 'default', title: '默认值', width: '100px' }
+            ]}
+            bordered
+            rowKey="property"
+            pagination={false}
+          />
+        </div>
       </Section>
     </div>
   );

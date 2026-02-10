@@ -198,7 +198,8 @@ export const Sider: React.FC<LayoutSiderProps> = ({
 export const Content: React.FC<LayoutContentProps> = ({
   className = '',
   style = {},
-  children
+  children,
+  theme = 'light'
 }) => {
   const { siderCollapsed, zeroWidthMode, onExpand } = useLayoutContext();
 
@@ -206,6 +207,7 @@ export const Content: React.FC<LayoutContentProps> = ({
     <ContentWrapper
       className={`layout-content ${className}`}
       style={style}
+      $theme={theme}
     >
       {/* 零宽度模式下，Sider 收缩时在 Content 内显示展开按钮 */}
       {zeroWidthMode && siderCollapsed && (

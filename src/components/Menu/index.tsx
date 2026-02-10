@@ -21,6 +21,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   level,
   mode,
   collapsed,
+  theme,
   openKeySet,
   selectedKey,
   onItemClick,
@@ -70,6 +71,9 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
     return 'open';
   };
 
+  // 根据层级确定主题：根目录使用传入的 theme，子目录根据层级切换
+  const itemTheme =  theme || 'light';
+
   return (
     <div className={`idp-menu-item-wrapper ${isRoot ? 'root' : ''}`}>
       <div
@@ -81,6 +85,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
           ${isRoot ? 'root' : ''}
           ${collapsed && isRoot ? 'collapsed' : ''}
           ${mode}
+          ${itemTheme}
         `}
         style={{ paddingLeft }}
         title={collapsed && isRoot ? item.label : undefined}
@@ -124,6 +129,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
                 level={level + 1}
                 mode={mode}
                 collapsed={collapsed}
+                theme={theme}
                 openKeySet={openKeySet}
                 selectedKey={selectedKey}
                 onItemClick={onItemClick}
@@ -154,11 +160,15 @@ const Menu: React.FC<MenuProps> = ({
   defaultOpenKeys = [],
   openKeys: externalOpenKeys,
   collapsed = false,
+  open: externalOpen,
+  theme = 'light',
   onChange,
   onOpenChange
 }) => {
   // 菜单根元素 ref，用于点击外部检测
   const menuRef = useRef<HTMLDivElement>(null);
+  // 内部显示状态
+  const [internalOpen] = useState(true);
   // 内部状态
   const [internalOpenKeys, setInternalOpenKeys] = useState<string[]>(defaultOpenKeys);
   const [internalSelectedKey, setInternalSelectedKey] = useState<string>('');
@@ -166,10 +176,13 @@ const Menu: React.FC<MenuProps> = ({
   // 判断是否为受控模式
   const isOpenKeysControlled = externalOpenKeys !== undefined;
   const isSelectedKeyControlled = externalSelectedKey !== undefined;
+  const isOpenControlled = externalOpen !== undefined;
 
   // 当前展开的keys
   const currentOpenKeys = isOpenKeysControlled ? externalOpenKeys : internalOpenKeys;
   const currentSelectedKey = isSelectedKeyControlled ? externalSelectedKey : internalSelectedKey;
+  // 当前显示状态
+  const currentOpen = isOpenControlled ? externalOpen : internalOpen;
 
   // 构建 openKeySet 用于快速查找
   const openKeySet = useMemo(() => new Set(currentOpenKeys), [currentOpenKeys]);
@@ -264,10 +277,15 @@ const Menu: React.FC<MenuProps> = ({
     }
   }, [mode, currentOpenKeys.length, isOpenKeysControlled, onOpenChange]));
 
+  // 如果菜单不显示，返回 null
+  if (!currentOpen) {
+    return null;
+  }
+
   return (
     <div
       ref={menuRef}
-      className={`idp-menu idp-menu-${mode} ${effectiveCollapsed ? 'collapsed' : ''} ${className}`}
+      className={`idp-menu idp-menu-${theme} idp-menu-${mode} ${effectiveCollapsed ? 'collapsed' : ''} ${className}`}
       style={style}
       role="menu"
     >
@@ -278,6 +296,7 @@ const Menu: React.FC<MenuProps> = ({
           level={0}
           mode={mode}
           collapsed={effectiveCollapsed}
+          theme={theme}
           openKeySet={openKeySet}
           selectedKey={currentSelectedKey}
           onItemClick={handleItemClick}

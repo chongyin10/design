@@ -40,6 +40,8 @@ export interface LayoutContentProps {
   style?: CSSProperties;
   /** 子元素 */
   children?: ReactNode;
+  /** 主题模式 */
+  theme?: 'light' | 'dark';
 }
 
 /**
@@ -88,6 +90,8 @@ export interface LayoutSiderProps {
   placement?: 'left' | 'right';
   /** 是否固定 */
   fixed?: boolean;
+  /** 主题模式 */
+  theme?: 'light' | 'dark';
 }
 
 /**

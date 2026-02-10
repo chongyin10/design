@@ -8,9 +8,11 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean }>`
   display: flex;
   flex-direction: column;
   min-height: ${_props => getCSSVar('--layout-min-height', '100vh')};
+  max-height: 100vh;
   background-color: ${_props => getCSSVar('--layout-bg', '#f0f2f5')};
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 
   &.layout-wrapper {
     /* 外部可通过 .layout-wrapper 选择器覆盖样式 */
@@ -25,6 +27,7 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean }>`
 export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string | number }>`
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   padding: ${_props => getCSSVar('--layout-header-padding', '0 24px')};
   background-color: ${_props => getCSSVar('--layout-header-bg', '#001529')};
   color: ${_props => getCSSVar('--layout-header-color', '#fff')};
@@ -64,9 +67,7 @@ export const SiderWrapper = styled.aside<{
   box-sizing: border-box;
 
   /* Sider 高度 = 浏览器高度 - Header 高度 - Trigger 高度 */
-  height: calc(100vh - var(--layout-header-height, 64px) - var(--layout-sider-trigger-height, 48px));
-  min-height: calc(100vh - var(--layout-header-height, 64px) - var(--layout-sider-trigger-height, 48px));
-  max-height: calc(100vh - var(--layout-header-height, 64px) - var(--layout-sider-trigger-height, 48px));
+  max-height: calc(100vh - var(--layout-header-height, 64px) - 10px);
 
   &.layout-sider {
     /* 外部可通过 .layout-sider 选择器覆盖样式 */
@@ -91,7 +92,7 @@ export const SiderWrapper = styled.aside<{
 
   ${({ $fixed }) => $fixed && `
     position: fixed;
-    top: 0;
+    top: ${getCSSVar('--layout-header-height', '64px')};
     left: 0;
     bottom: 0;
     overflow-y: auto;
@@ -185,7 +186,7 @@ export const LayoutInnerWrapper = styled.div<{ $hasSider?: boolean }>`
 `;
 
 // Layout.Content
-export const ContentWrapper = styled.main<{ $fixed?: boolean }>`
+export const ContentWrapper = styled.main<{ $fixed?: boolean; $theme?: 'light' | 'dark' }>`
   flex: 1;
   padding: ${_props => getCSSVar('--layout-content-padding', '24px')};
   background-color: ${_props => getCSSVar('--layout-content-bg', '#fff')};
@@ -202,12 +203,37 @@ export const ContentWrapper = styled.main<{ $fixed?: boolean }>`
   ${({ $fixed }) => $fixed && `
     overflow-y: auto;
   `}
+
+  /* Dark 主题滚动条样式 */
+  ${({ $theme }) => $theme === 'dark' && `
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent);
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 70%, transparent);
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent) transparent;
+  `}
 `;
 
 // Layout.Footer
 export const FooterWrapper = styled.footer<{ $fixed?: boolean; $height?: string | number }>`
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   padding: ${_props => getCSSVar('--layout-footer-padding', '24px 50px')};
   background-color: ${_props => getCSSVar('--layout-footer-bg', '#f0f2f5')};
   color: ${_props => getCSSVar('--layout-footer-color', 'rgba(0, 0, 0, 0.65)')};

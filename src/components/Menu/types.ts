@@ -22,6 +22,11 @@ export interface MenuItem {
 export type MenuMode = 'horizontal' | 'vertical' | 'inline';
 
 /**
+ * 菜单主题类型
+ */
+export type MenuTheme = 'light' | 'dark';
+
+/**
  * Menu 组件 Props
  */
 export interface MenuProps {
@@ -41,6 +46,10 @@ export interface MenuProps {
   openKeys?: string[];
   /** 折叠状态，仅对 vertical 模式有效 */
   collapsed?: boolean;
+  /** 菜单是否显示（受控模式），默认 true */
+  open?: boolean;
+  /** 菜单主题 */
+  theme?: MenuTheme;
   /** 菜单项点击回调函数 */
   onChange?: (info: MenuItem, key: string) => void;
   /** 展开/折叠回调函数 */
@@ -55,6 +64,7 @@ export interface MenuItemComponentProps {
   level: number;
   mode: MenuMode;
   collapsed?: boolean;
+  theme?: MenuTheme;
   openKeySet: Set<string>;
   selectedKey: string;
   onItemClick: (item: MenuItem, key: string) => void;

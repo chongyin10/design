@@ -44,3 +44,17 @@
   --layout-sider-trigger-hover-bg: #1890ff;
   --layout-sider-trigger-transition: all 0.3s ease;
 }
+
+/* 禁止浏览器最外层滚动 */
+html,
+body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
