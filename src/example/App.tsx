@@ -44,6 +44,7 @@ import FormExample from './Form';
 import DrawerExample from './Drawer';
 import TestTextareaResize from './TestTextareaResize';
 import PopconfirmExample from './Popconfirm';
+import ProgressExample from './Progress';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -86,6 +87,7 @@ const App: React.FC = () => {
         { key: 'notification', label: 'Notification', name: 'Notification', description: '通知组件', icon: <span>🔔</span> },
         { key: 'pagination', label: 'Pagination', name: 'Pagination', description: '分页器组件', icon: <span>📄</span> },
         { key: 'popconfirm', label: 'Popconfirm', name: 'Popconfirm', description: '气泡确认框组件', icon: <span>❓</span> },
+        { key: 'progress', label: 'Progress', name: 'Progress', description: '进度条组件', icon: <span>📊</span> },
         { key: 'radio', label: 'Radio', name: 'Radio', description: '单选框组件', icon: <span>🔘</span> },
         { key: 'rate', label: 'Rate', name: 'Rate', description: '评分组件', icon: <span>⭐</span> },
         { key: 'select', label: 'Select', name: 'Select', description: '选择器组件', icon: <span>🔽</span> },
@@ -348,6 +350,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <TabsExample />;
             case 'popconfirm':
                 return <PopconfirmExample />;
+            case 'progress':
+                return <ProgressExample />;
             case 'tooltip':
                 return <TooltipExample />;
             case 'rate':

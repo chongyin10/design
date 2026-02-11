@@ -19,7 +19,7 @@ export interface ButtonProps {
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     children,
-    variant = 'primary',
+    variant = 'secondary',
     size = 'medium',
     disabled = false,
     loading = false,

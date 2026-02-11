@@ -17,8 +17,8 @@ export interface DrawerProps {
     maskClosable?: boolean;
     /** 是否显示遮罩层 */
     mask?: boolean;
-    /** 关闭回调 */
-    onClose?: () => void;
+    /** 关闭回调函数 */
+    onClose: () => void;
     /** 抽屉内容 */
     children?: React.ReactNode;
     /** 额外类名 */
@@ -33,18 +33,14 @@ export interface DrawerProps {
     contentClassName?: string;
     /** 内容区域样式 */
     contentStyle?: React.CSSProperties;
-    /** 是否显示头部，默认true */
-    showHeader?: boolean;
-    /** 自定义头部内容，优先级高于title */
-    header?: React.ReactNode;
+    /** 头部内容：false表示不显示，React.ReactNode表示自定义内容，未传值则显示默认的标题和关闭按钮 */
+    header?: React.ReactNode | false;
     /** 头部类名 */
     headerClassName?: string;
     /** 头部样式 */
     headerStyle?: React.CSSProperties;
-    /** 是否显示底部，默认true */
-    showFooter?: boolean;
-    /** 页脚 */
-    footer?: React.ReactNode;
+    /** 页脚：false表示不显示，React.ReactNode表示自定义内容，未传值则显示默认的取消和确认按钮 */
+    footer?: React.ReactNode | false;
     /** 页脚类名 */
     footerClassName?: string;
     /** 页脚样式 */

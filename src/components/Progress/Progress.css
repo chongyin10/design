@@ -1,0 +1,98 @@
+:root {
+    --progress-default-color: #1890ff;
+    --progress-success-color: #52c41a;
+    --progress-exception-color: #ff4d4f;
+    --progress-bg-color: #f5f5f5;
+    --progress-text-color: rgba(0, 0, 0, 0.88);
+    --progress-small-size: 8px;
+    --progress-default-size: 10px;
+    --progress-large-size: 12px;
+    --progress-small-height: 8px;
+    --progress-default-height: 10px;
+    --progress-large-height: 16px;
+    --progress-radius: 100px;
+    --progress-transition: all 0.3s cubic-bezier(0.34, 0.69, 0.1, 1);
+}
+
+.idp-progress {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.idp-progress--line {
+    flex-direction: row;
+}
+
+.idp-progress-wrapper {
+    flex: 1;
+    min-width: 0;
+}
+
+.idp-progress-outer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.idp-progress-inner {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    vertical-align: middle;
+    background-color: var(--progress-bg-color);
+    border-radius: var(--progress-radius);
+}
+
+.idp-progress-bg {
+    position: relative;
+    background-color: var(--progress-default-color);
+    border-radius: var(--progress-radius);
+    transition: var(--progress-transition);
+    height: 100%;
+}
+
+.idp-progress-bg--success {
+    background-color: var(--progress-success-color);
+}
+
+.idp-progress-bg--exception {
+    background-color: var(--progress-exception-color);
+}
+
+.idp-progress-info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 35px;
+    margin-left: 12px;
+    color: var(--progress-text-color);
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.idp-progress-icon {
+    margin-right: 8px;
+}
+
+.idp-progress-prefix {
+    margin-right: 8px;
+}
+
+.idp-progress-suffix {
+    margin-left: 8px;
+}
+
+.idp-progress--small .idp-progress-inner {
+    height: var(--progress-small-height);
+}
+
+.idp-progress--default .idp-progress-inner {
+    height: var(--progress-default-height);
+}
+
+.idp-progress--large .idp-progress-inner {
+    height: var(--progress-large-height);
+}

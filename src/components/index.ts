@@ -45,3 +45,5 @@ export { default as Tag } from './Tag';
 export type { TagProps, TagSize } from './Tag';
 export { default as Popconfirm } from './Popconfirm';
 export type { PopconfirmProps, PopconfirmPlacement } from './Popconfirm';
+export { default as Progress } from './Progress';
+export type { ProgressProps, ProgressType, ProgressStatus } from './Progress';

@@ -66,9 +66,8 @@ const DrawerExample: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [customContainer, setCustomContainer] = useState(false);
   const [destroyOnClose, setDestroyOnClose] = useState(false);
-  const [showHeader, setShowHeader] = useState(true);
-  const [showFooter, setShowFooter] = useState(true);
-  const [customHeader, setCustomHeader] = useState(false);
+  const [headerMode, setHeaderMode] = useState<'default' | 'false' | 'custom'>('default');
+  const [footerMode, setFooterMode] = useState<'default' | 'false'>('default');
   const [resizable, setResizable] = useState(false);
   const [mask, setMask] = useState(true);
   const [currentSize, setCurrentSize] = useState<{ width?: number; height?: number }>({});
@@ -85,22 +84,15 @@ const DrawerExample: React.FC = () => {
     description: ''
   });
 
-  const showDrawer = (p: DrawerPlacement, withMask: boolean = true) => {
+  const showDrawer = (p: DrawerPlacement, withMask: boolean = true, withFooter: boolean = true) => {
     setPlacement(p);
     setMask(withMask);
+    setFooterMode(withFooter ? 'default' : 'false');
     setVisible(true);
   };
 
   const handleClose = () => {
     setVisible(false);
-  };
-
-  const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setVisible(false);
-    }, 2000);
   };
 
   const placements: { value: DrawerPlacement; label: string }[] = [
@@ -117,11 +109,11 @@ const DrawerExample: React.FC = () => {
 
       {/* 基础用法 */}
       <Section title="基础用法">
-        <p>点击按钮从屏幕边缘滑出浮层面板。</p>
-        <DemoRow title="不同位置">
+        <p>点击按钮从屏幕边缘滑出浮层面板。支持受控和非受控两种模式。</p>
+        <DemoRow title="基础用法">
           <Space>
             {placements.map((p) => (
-              <Button key={p.value} onClick={() => showDrawer(p.value)}>
+              <Button key={p.value} onClick={() => showDrawer(p.value, true, footerMode === 'default')}>
                 {p.label}
               </Button>
             ))}
@@ -131,7 +123,7 @@ const DrawerExample: React.FC = () => {
 
 const Demo = () => {
   const [open, setOpen] = useState(false);
-  
+
   return (
     <>
       <Button onClick={() => setOpen(true)}>打开抽屉</Button>
@@ -147,17 +139,48 @@ const Demo = () => {
 };`} />
       </Section>
 
+      {/* 默认底部 */}
+      <Section title="默认底部">
+        <p>默认显示底部，包含"取消"和"确认"按钮，点击"取消"会自动关闭抽屉。</p>
+        <DemoRow title="默认 footer">
+          <Button onClick={() => setVisible(true)}>
+            打开默认 footer 的抽屉
+          </Button>
+        </DemoRow>
+        <CopyBlock code={`import { Drawer, Button } from '@idp/design';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>打开抽屉</Button>
+      <Drawer
+        title="默认底部"
+        open={open}
+        onClose={() => setOpen(false)}
+        // 默认显示 footer，包含"取消"和"确认"按钮
+        // 点击"取消"会自动调用 onClose 关闭抽屉
+      >
+        <p>这是抽屉内容</p>
+      </Drawer>
+    </>
+  );
+};`} />
+      </Section>
+
       {/* 自定义尺寸 */}
       <Section title="自定义尺寸">
         <DemoRow title="不同宽度">
           <Space>
-            <Button onClick={() => { setWidth(300); showDrawer('right'); }}>
+            <Button onClick={() => { setWidth(300); showDrawer('right', true, footerMode === 'default'); }}>
               300px
             </Button>
-            <Button onClick={() => { setWidth(480); showDrawer('right'); }}>
+            <Button onClick={() => { setWidth(480); showDrawer('right', true, footerMode === 'default'); }}>
               480px
             </Button>
-            <Button onClick={() => { setWidth('50%'); showDrawer('right'); }}>
+            <Button onClick={() => { setWidth('50%'); showDrawer('right', true, footerMode === 'default'); }}>
               50%
             </Button>
           </Space>
@@ -177,7 +200,7 @@ const Demo = () => {
       {/* 加载状态 */}
       <Section title="加载状态">
         <DemoRow title="加载中">
-          <Button onClick={() => { setLoading(true); showDrawer('right'); }}>
+          <Button onClick={() => { setLoading(true); showDrawer('right', true, footerMode === 'default'); }}>
             打开加载状态的抽屉
           </Button>
         </DemoRow>
@@ -192,7 +215,7 @@ const Demo = () => {
       <Section title="表单示例">
         <p>在 Drawer 中使用 Form、Input、Checkbox、Radio、Select 等表单组件</p>
         <DemoRow title="表单抽屉">
-          <Button onClick={() => setVisible(true)}>
+          <Button onClick={() => { setFooterMode('default'); setVisible(true); }}>
             打开表单抽屉
           </Button>
         </DemoRow>
@@ -307,10 +330,10 @@ const Demo = () => {
       <Section title="自定义容器">
         <DemoRow title="挂载位置">
           <Space>
-            <Button onClick={() => { setCustomContainer(false); showDrawer('right'); }}>
+            <Button onClick={() => { setCustomContainer(false); showDrawer('right', true, footerMode === 'default'); }}>
               默认挂载到当前DOM
             </Button>
-            <Button onClick={() => { setCustomContainer(true); showDrawer('right'); }}>
+            <Button onClick={() => { setCustomContainer(true); showDrawer('right', true, footerMode === 'default'); }}>
               挂载到自定义容器
             </Button>
           </Space>
@@ -356,10 +379,10 @@ const Demo = () => {
       <Section title="销毁子元素">
         <DemoRow title="关闭策略">
           <Space>
-            <Button onClick={() => { setDestroyOnClose(false); showDrawer('right'); }}>
+            <Button onClick={() => { setDestroyOnClose(false); showDrawer('right', true, footerMode === 'default'); }}>
               关闭后保留子元素
             </Button>
-            <Button onClick={() => { setDestroyOnClose(true); showDrawer('right'); }}>
+            <Button onClick={() => { setDestroyOnClose(true); showDrawer('right', true, footerMode === 'default'); }}>
               关闭后销毁子元素
             </Button>
           </Space>
@@ -379,30 +402,42 @@ const Demo = () => {
 
       {/* 头部和底部 */}
       <Section title="头部和底部">
+        <p>支持自定义头部和底部内容，也可以隐藏头部和底部。</p>
         <DemoRow title="头部">
           <Space>
-            <Button onClick={() => { setShowHeader(true); setCustomHeader(false); showDrawer('right'); }}>
+            <Button onClick={() => { setHeaderMode('default'); showDrawer('right', true, footerMode === 'default'); }}>
               显示头部
             </Button>
-            <Button onClick={() => { setShowHeader(false); setCustomHeader(false); showDrawer('right'); }}>
+            <Button onClick={() => { setHeaderMode('false'); showDrawer('right', true, footerMode === 'default'); }}>
               隐藏头部
             </Button>
-            <Button onClick={() => { setShowHeader(true); setCustomHeader(true); showDrawer('right'); }}>
+            <Button onClick={() => { setHeaderMode('custom'); showDrawer('right', true, footerMode === 'default'); }}>
               自定义头部
             </Button>
           </Space>
         </DemoRow>
         <DemoRow title="底部">
           <Space>
-            <Button onClick={() => { setShowFooter(true); showDrawer('right'); }}>
-              显示底部
+            <Button onClick={() => { setFooterMode('default'); showDrawer('right', true, true); }}>
+              显示默认底部
             </Button>
-            <Button onClick={() => { setShowFooter(false); showDrawer('right'); }}>
+            <Button onClick={() => { setFooterMode('false'); showDrawer('right', true, false); }}>
               隐藏底部
             </Button>
           </Space>
         </DemoRow>
         <CopyBlock code={`import { Drawer, Flex, Button } from '@idp/design';
+
+// 默认底部（推荐）- 不设置footer或设置为undefined
+<Drawer
+  title="默认底部"
+  open={open}
+  onClose={onClose}
+  // 默认显示 footer，包含"取消"和"确认"按钮
+  // 点击"取消"会自动调用onClose关闭抽屉
+>
+  <p>内容</p>
+</Drawer>
 
 // 自定义头部
 <Drawer
@@ -428,14 +463,14 @@ const Demo = () => {
   onClose={onClose}
 />
 
-// 隐藏头部/底部
-<Drawer showHeader={false} showFooter={false} open={open} onClose={onClose} />`} />
+// 隐藏底部
+<Drawer footer={false} open={open} onClose={onClose} />`} />
       </Section>
 
       {/* 遮罩层 */}
       <Section title="遮罩层">
         <DemoRow title="遮罩配置">
-          <Button onClick={() => { showDrawer('right', false); }}>
+          <Button onClick={() => { showDrawer('right', false, footerMode === 'default'); }}>
             打开无遮罩层的抽屉
           </Button>
         </DemoRow>
@@ -452,19 +487,19 @@ const Demo = () => {
       <Section title="可拖拽调整大小">
         <DemoRow title="拖拽调整">
           <Space>
-            <Button onClick={() => { setResizable(false); showDrawer('right'); }}>
+            <Button onClick={() => { setResizable(false); showDrawer('right', true, footerMode === 'default'); }}>
               不可拖拽
             </Button>
-            <Button onClick={() => { setResizable(true); setPlacement('right'); showDrawer('right'); }}>
+            <Button onClick={() => { setResizable(true); setPlacement('right'); showDrawer('right', true, footerMode === 'default'); }}>
               右侧可拖拽
             </Button>
-            <Button onClick={() => { setResizable(true); setPlacement('left'); showDrawer('left'); }}>
+            <Button onClick={() => { setResizable(true); setPlacement('left'); showDrawer('left', true, footerMode === 'default'); }}>
               左侧可拖拽
             </Button>
-            <Button onClick={() => { setResizable(true); setPlacement('top'); showDrawer('top'); }}>
+            <Button onClick={() => { setResizable(true); setPlacement('top'); showDrawer('top', true, footerMode === 'default'); }}>
               顶部可拖拽
             </Button>
-            <Button onClick={() => { setResizable(true); setPlacement('bottom'); showDrawer('bottom'); }}>
+            <Button onClick={() => { setResizable(true); setPlacement('bottom'); showDrawer('bottom', true, footerMode === 'default'); }}>
               底部可拖拽
             </Button>
           </Space>
@@ -507,19 +542,17 @@ const Demo = () => {
           dataSource={[
             { property: 'open', description: '是否可见', type: 'boolean', default: '-' },
             { property: 'title', description: '抽屉标题', type: 'React.ReactNode', default: '-' },
+            { property: 'onClose', description: '关闭回调函数', type: '() => void', default: '-' },
             { property: 'width', description: '抽屉宽度（placement为left或right时有效）', type: 'number | string', default: '460' },
             { property: 'height', description: '抽屉高度（placement为top或bottom时有效）', type: 'number | string', default: '300' },
             { property: 'placement', description: '抽屉位置', type: '\'left\' | \'right\' | \'top\' | \'bottom\'', default: '\'right\'' },
             { property: 'maskClosable', description: '点击遮罩层是否允许关闭', type: 'boolean', default: 'true' },
             { property: 'mask', description: '是否显示遮罩层', type: 'boolean', default: 'true' },
-            { property: 'onClose', description: '关闭回调', type: '() => void', default: '-' },
             { property: 'children', description: '抽屉内容', type: 'React.ReactNode', default: '-' },
             { property: 'className', description: '额外类名', type: 'string', default: '-' },
             { property: 'style', description: '抽屉样式', type: 'React.CSSProperties', default: '-' },
-            { property: 'showHeader', description: '是否显示头部', type: 'boolean', default: 'true' },
-            { property: 'header', description: '自定义头部内容', type: 'React.ReactNode', default: '-' },
-            { property: 'showFooter', description: '是否显示底部', type: 'boolean', default: 'true' },
-            { property: 'footer', description: '页脚', type: 'React.ReactNode', default: '-' },
+            { property: 'header', description: '头部内容：false表示不显示，React.ReactNode表示自定义内容，未传值则显示默认的标题和关闭按钮', type: 'React.ReactNode | false', default: '-' },
+            { property: 'footer', description: '页脚：false表示不显示，React.ReactNode表示自定义内容，未传值则显示默认的取消和确认按钮', type: 'React.ReactNode | false', default: '-' },
             { property: 'getContainer', description: '指定挂载节点', type: '(() => HTMLElement) | HTMLElement | false', default: 'false' },
             { property: 'destroyOnClose', description: '关闭后是否销毁子元素', type: 'boolean', default: 'false' },
             { property: 'closable', description: '是否显示关闭按钮', type: 'boolean', default: 'true' },
@@ -539,7 +572,7 @@ const Demo = () => {
       </Section>
 
       <Drawer
-        title={customHeader ? undefined : `${placements.find(p => p.value === placement)?.label} 抽屉`}
+        title={`${placements.find(p => p.value === placement)?.label} 抽屉`}
         placement={placement}
         width={placement === 'left' || placement === 'right' ? width : undefined}
         height={placement === 'top' || placement === 'bottom' ? 300 : undefined}
@@ -547,12 +580,10 @@ const Demo = () => {
         open={visible}
         loading={loading}
         destroyOnClose={destroyOnClose}
-        showHeader={showHeader}
-        showFooter={showFooter}
         resizable={resizable}
         mask={mask}
         onChange={setCurrentSize}
-        header={customHeader ? (
+        header={headerMode === 'custom' ? (
           <Flex justify="space-between" align="center" style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '18px', fontWeight: 500 }}>自定义头部</span>
@@ -560,23 +591,16 @@ const Demo = () => {
             </div>
             <Button size="small" onClick={handleClose}>关闭</Button>
           </Flex>
-        ) : undefined}
+        ) : headerMode === 'false' ? false : undefined}
+        footer={footerMode === 'false' ? false : undefined}
         getContainer={customContainer && containerRef.current ? () => containerRef.current! : false}
-        footer={
-          <Flex gap={12} justify="flex-end">
-            <Button onClick={handleClose}>取消</Button>
-            <Button variant="primary" loading={loading} onClick={handleOk}>
-              确认
-            </Button>
-          </Flex>
-        }
       >
         <div>
           <p>这是一个抽屉组件的示例内容。</p>
           <p>当前位置: {placement}</p>
-          <p>头部显示: {showHeader ? '是' : '否'}</p>
-          <p>底部显示: {showFooter ? '是' : '否'}</p>
-          <p>自定义头部: {customHeader ? '是' : '否'}</p>
+          <p>头部显示: {headerMode === 'false' ? '否' : '是'}</p>
+          <p>底部显示: {footerMode === 'false' ? '否' : '是'}</p>
+          <p>自定义头部: {headerMode === 'custom' ? '是' : '否'}</p>
           <p>你可以在这里放置任何内容。</p>
           <div style={{ marginTop: '20px' }}>
             <h4>示例表单</h4>

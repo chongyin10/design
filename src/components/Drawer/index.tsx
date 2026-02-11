@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import Icon from '../Icon';
 import { DrawerProps, DrawerPlacement } from './types';
 import './Drawer.css';
+import Button from '../Button';
 
 const Drawer: React.FC<DrawerProps> = ({
     open,
@@ -21,11 +22,9 @@ const Drawer: React.FC<DrawerProps> = ({
     maskClassName,
     contentClassName,
     contentStyle,
-    showHeader = true,
     header,
     headerClassName,
     headerStyle,
-    showFooter = true,
     footer,
     footerClassName,
     footerStyle,
@@ -126,15 +125,13 @@ const Drawer: React.FC<DrawerProps> = ({
     }, [open, animationDuration]);
 
     const handleMaskClick = () => {
-        if (maskClosable && onClose) {
+        if (maskClosable) {
             onClose();
         }
     };
 
     const handleCloseClick = () => {
-        if (onClose) {
-            onClose();
-        }
+        onClose();
     };
 
     // 获取尺寸值
@@ -328,8 +325,8 @@ const Drawer: React.FC<DrawerProps> = ({
 
     // 渲染头部
     const renderHeader = () => {
-        // 如果不显示头部，直接返回null
-        if (!showHeader) return null;
+        // 如果header为false，不显示头部
+        if (header === false) return null;
 
         // 如果有自定义头部内容，优先渲染自定义内容
         if (header) {
@@ -343,7 +340,7 @@ const Drawer: React.FC<DrawerProps> = ({
             );
         }
 
-        // 如果没有title且不可关闭，不渲染头部
+        // 默认头部：如果没有title且不可关闭，不渲染头部
         if (!title && !closable) return null;
 
         return (
@@ -430,12 +427,17 @@ const Drawer: React.FC<DrawerProps> = ({
                     >
                         {!(destroyOnClose && isClosing) ? children : null}
                     </div>
-                    {showFooter && footer && (
+                    {footer !== false && (
                         <div
                             className={classNames('idp-drawer-footer', footerClassName)}
                             style={footerStyle}
                         >
-                            {footer}
+                            {footer || (
+                                <>
+                                    <Button onClick={handleCloseClick} type="button">取消</Button>
+                                    <Button variant='primary' onClick={handleCloseClick} type="button">确认</Button>
+                                </>
+                            )}
                         </div>
                     )}
                     {renderResizeHandle()}
@@ -479,12 +481,17 @@ const Drawer: React.FC<DrawerProps> = ({
                         >
                             {!(destroyOnClose && isClosing) ? children : null}
                         </div>
-                        {showFooter && footer && (
+                        {footer !== false && (
                             <div
                                 className={classNames('idp-drawer-footer', footerClassName)}
                                 style={footerStyle}
                             >
-                                {footer}
+                                {footer || (
+                                    <>
+                                        <button onClick={handleCloseClick} type="button">取消</button>
+                                        <button onClick={handleCloseClick} type="button">确认</button>
+                                    </>
+                                )}
                             </div>
                         )}
                         {renderResizeHandle()}
