@@ -43,3 +43,5 @@ export type { DrawerProps, DrawerPlacement } from './Drawer';
 export { default as Checkbox } from './Checkbox';
 export { default as Tag } from './Tag';
 export type { TagProps, TagSize } from './Tag';
+export { default as Popconfirm } from './Popconfirm';
+export type { PopconfirmProps, PopconfirmPlacement } from './Popconfirm';
