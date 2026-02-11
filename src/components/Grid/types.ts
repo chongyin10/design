@@ -20,8 +20,10 @@ export interface RowProps {
     style?: React.CSSProperties;
     /** 栅格占位格数，总共 24 格 */
     span?: number;
-    /** 栅格间距 */
+    /** 栅格水平间距（Col 之间的间距） */
     gap?: number | string;
+    /** 栅格垂直间距（Row 之间的上下间距） */
+    rowGap?: number | string;
     /** 对齐方式 */
     align?: 'flex-start' | 'center' | 'flex-end' | 'stretch';
     /** 主轴对齐方式 */
@@ -44,4 +46,6 @@ export interface ColProps {
     pull?: number;
     /** 栅格顺序 */
     order?: number;
+    /** 栅格间距，优先级最高 */
+    gap?: number | string;
 }

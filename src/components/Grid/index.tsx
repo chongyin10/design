@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import classNames from 'classnames';
 import { GridProps, RowProps, ColProps } from './types';
 import { GridWrapper, RowWrapper, ColWrapper } from './styles';
 import './Grid.css';
 
+// 创建 Context 用于传递 Grid 的 gap
+const GridContext = createContext<{ gap?: number | string }>({});
+
+// 创建 Context 用于传递 Row 的 gap
+const RowContext = createContext<{ gap?: number | string }>({});
+
 export const Col = React.forwardRef<HTMLDivElement, ColProps>(
-    ({ children, className, style, span, offset, push, pull, order }, ref) => {
+    ({ children, className, style, span, offset, push, pull, order, gap: colGap }, ref) => {
+        // 获取 Row 传递的 gap（如果 Col 在 Row 内部）
+        const rowContext = useContext(RowContext);
+        const rowGap = rowContext?.gap;
+        
+        // 优先级：Col.gap > Row.gap
+        const finalGap = colGap !== undefined ? colGap : rowGap;
+
         return (
             <ColWrapper
                 ref={ref}
@@ -16,6 +29,7 @@ export const Col = React.forwardRef<HTMLDivElement, ColProps>(
                 push={push}
                 pull={pull}
                 order={order}
+                gap={finalGap}
             >
                 {children}
             </ColWrapper>
@@ -26,20 +40,29 @@ export const Col = React.forwardRef<HTMLDivElement, ColProps>(
 Col.displayName = 'Grid.Col';
 
 const RowComponent = React.forwardRef<HTMLDivElement, RowProps>(
-    ({ children, className, style, span, gap, align, justify, wrap = true }, ref) => {
+    ({ children, className, style, span, gap, rowGap, align, justify, wrap = true }, ref) => {
+        // 获取 Grid 传递的 gap（如果 Row 在 Grid 内部）
+        const gridContext = useContext(GridContext);
+        const gridGap = gridContext?.gap;
+        
+        // 优先级：Row.gap > Grid.gap（用于水平间距）
+        const finalGap = gap !== undefined ? gap : gridGap;
+
         return (
-            <RowWrapper
-                ref={ref}
-                className={classNames('idp-grid-row', className)}
-                style={style}
-                span={span}
-                gap={gap}
-                align={align}
-                justify={justify}
-                wrap={wrap}
-            >
-                {children}
-            </RowWrapper>
+            <RowContext.Provider value={{ gap: finalGap }}>
+                <RowWrapper
+                    ref={ref}
+                    className={classNames('idp-grid-row', className)}
+                    style={style}
+                    span={span}
+                    rowGap={rowGap}
+                    align={align}
+                    justify={justify}
+                    wrap={wrap}
+                >
+                    {children}
+                </RowWrapper>
+            </RowContext.Provider>
         );
     }
 );
@@ -51,18 +74,20 @@ export const Row: typeof RowComponent & { Col: typeof Col } = Object.assign(RowC
 const GridComponent = React.forwardRef<HTMLDivElement, GridProps>(
     ({ children, className, style, width, height, gap, padding, backgroundColor }, ref) => {
         return (
-            <GridWrapper
-                ref={ref}
-                className={classNames('idp-grid', className)}
-                style={style}
-                width={width}
-                height={height}
-                gap={gap}
-                padding={padding}
-                backgroundColor={backgroundColor}
-            >
-                {children}
-            </GridWrapper>
+            <GridContext.Provider value={{ gap }}>
+                <GridWrapper
+                    ref={ref}
+                    className={classNames('idp-grid', className)}
+                    style={style}
+                    width={width}
+                    height={height}
+                    gap={gap}
+                    padding={padding}
+                    backgroundColor={backgroundColor}
+                >
+                    {children}
+                </GridWrapper>
+            </GridContext.Provider>
         );
     }
 );

@@ -18,17 +18,17 @@ export const GridWrapper = styled.div.withConfig({
 `;
 
 export const RowWrapper = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['span', 'gap', 'align', 'justify', 'wrap'].includes(prop),
+    shouldForwardProp: (prop) => !['span', 'rowGap', 'align', 'justify', 'wrap'].includes(prop),
 })<{
     span?: number;
-    gap?: number | string;
+    rowGap?: number | string;
     align?: string;
     justify?: string;
     wrap?: boolean;
 }>`
     display: flex;
     width: ${props => props.span !== undefined ? `calc(${props.span} / 24 * 100%)` : '100%'};
-    gap: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap}px` : props.gap) : '0'};
+    row-gap: ${props => props.rowGap !== undefined ? (typeof props.rowGap === 'number' ? `${props.rowGap}px` : props.rowGap) : '0'};
     align-items: ${props => props.align || 'stretch'};
     justify-content: ${props => props.justify || 'flex-start'};
     flex-wrap: ${props => props.wrap !== false ? 'wrap' : 'nowrap'};
@@ -36,13 +36,14 @@ export const RowWrapper = styled.div.withConfig({
 `;
 
 export const ColWrapper = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['span', 'offset', 'push', 'pull', 'order'].includes(prop),
+    shouldForwardProp: (prop) => !['span', 'offset', 'push', 'pull', 'order', 'gap'].includes(prop),
 })<{
     span?: number;
     offset?: number;
     push?: number;
     pull?: number;
     order?: number;
+    gap?: number | string;
 }>`
     flex: ${props => props.span !== undefined ? `0 0 calc(${props.span} / 24 * 100%)` : '1'};
     max-width: ${props => props.span !== undefined ? `calc(${props.span} / 24 * 100%)` : '100%'};
@@ -53,5 +54,7 @@ export const ColWrapper = styled.div.withConfig({
     }};
     margin-right: ${props => props.push !== undefined ? `calc(${props.push} / 24 * 100%)` : '0'};
     order: ${props => props.order !== undefined ? props.order : '0'};
+    padding-left: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap / 2}px` : `calc(${props.gap} / 2)`) : '0'};
+    padding-right: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap / 2}px` : `calc(${props.gap} / 2)`) : '0'};
     box-sizing: border-box;
 `;

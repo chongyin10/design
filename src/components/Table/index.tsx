@@ -356,11 +356,6 @@ const Table = ({
 
         let content = column.dataIndex ? record[column.dataIndex] : null;
 
-        // 处理对象类型的值：如果是普通对象（非 React 元素），转换为 JSON 字符串
-        if (content !== null && typeof content === 'object' && !('$$typeof' in content)) {
-            content = JSON.stringify(content);
-        }
-
         if (column.render) {
             content = column.render(content, record, rowIndex);
         }
