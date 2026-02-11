@@ -7,7 +7,7 @@ export { default as Divider } from './Divider';
 export { default as Empty } from './Empty';
 export { default as Flex } from './Flex';
 export { default as Icon } from './Icon';
-export { default as Input } from './Input';
+export { default as Input, Textarea } from './Input';
 export { default as Marquee } from './Marquee';
 export { default as Message, MessageProvider, useMessage, message } from './Message';
 export { default as Modal } from './Modal';
