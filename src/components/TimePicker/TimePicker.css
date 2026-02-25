@@ -1,0 +1,495 @@
+/* CSS 变量定义 */
+:root {
+    --timepicker-primary: #1890ff;
+    --timepicker-primary-hover: #40a9ff;
+    --timepicker-primary-light: rgba(24, 144, 255, 0.1);
+    --timepicker-border: #d9d9d9;
+    --timepicker-border-hover: #40a9ff;
+    --timepicker-text: #262626;
+    --timepicker-text-secondary: #8c8c8c;
+    --timepicker-text-disabled: #bfbfbf;
+    --timepicker-bg: #ffffff;
+    --timepicker-bg-disabled: #f5f5f5;
+    --timepicker-bg-hover: #f5f5f5;
+    --timepicker-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --timepicker-shadow-hover: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    --timepicker-radius: 6px;
+    --timepicker-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.time-picker {
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+.time-picker-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--timepicker-border);
+    border-radius: var(--timepicker-radius);
+    background-color: var(--timepicker-bg);
+    cursor: pointer;
+    transition: var(--timepicker-transition);
+    box-sizing: border-box;
+}
+
+.time-picker-trigger:hover {
+    border-color: var(--timepicker-border-hover);
+    box-shadow: var(--timepicker-shadow-hover);
+}
+
+.time-picker-trigger.focused {
+    border-color: var(--timepicker-primary);
+    box-shadow: var(--timepicker-shadow-hover);
+}
+
+.time-picker-trigger.disabled {
+    background-color: var(--timepicker-bg-disabled);
+    border-color: var(--timepicker-border);
+    cursor: not-allowed;
+    color: var(--timepicker-text-disabled);
+}
+
+.time-picker-trigger.disabled:hover {
+    border-color: var(--timepicker-border);
+    box-shadow: none;
+}
+
+/* 尺寸样式 - 与 Input 组件保持一致 */
+.time-picker-trigger.size-small {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+}
+
+.time-picker-trigger.size-middle {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 14px;
+}
+
+.time-picker-trigger.size-large {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 16px;
+}
+
+.time-picker-value {
+    flex: 1;
+    color: var(--timepicker-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.time-picker-value.placeholder {
+    color: var(--timepicker-text-disabled);
+}
+
+.time-picker-trigger.disabled .time-picker-value {
+    color: var(--timepicker-text-disabled);
+}
+
+/* 不同尺寸下的字体大小 */
+.time-picker-trigger.size-small .time-picker-value {
+    font-size: 12px;
+}
+
+.time-picker-trigger.size-middle .time-picker-value {
+    font-size: 14px;
+}
+
+.time-picker-trigger.size-large .time-picker-value {
+    font-size: 16px;
+}
+
+.time-picker-suffix {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    color: var(--timepicker-text-secondary);
+    transition: var(--timepicker-transition);
+    position: relative;
+    width: 16px;
+    height: 16px;
+}
+
+/* 清除按钮和时间图标在同一位置互斥显示 */
+.time-picker-clear,
+.time-picker-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: var(--timepicker-transition);
+}
+
+.time-picker-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--timepicker-text-secondary);
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2;
+}
+
+/* 悬停触发器时显示清除按钮 */
+.time-picker-trigger:hover .time-picker-clear {
+    opacity: 1;
+    visibility: visible;
+}
+
+.time-picker-clear:hover {
+    color: var(--timepicker-text);
+    background-color: var(--timepicker-bg-hover);
+}
+
+.time-picker-icon {
+    font-size: 14px;
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+/* 下拉面板打开时的旋转动画 */
+.time-picker-icon.open {
+    transform: translate(-50%, -50%) rotate(180deg);
+}
+
+/* 当有清除按钮且悬停时，隐藏时间图标 */
+.time-picker-trigger:hover .time-picker-icon.has-clear {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 下拉面板 */
+.time-picker-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1050;
+    margin-top: 4px;
+    background-color: var(--timepicker-bg);
+    border-radius: var(--timepicker-radius);
+    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.time-picker-panel-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.time-picker-panel {
+    display: flex;
+    width: 200px;
+    height: 240px;
+}
+
+/* 时间列 */
+.time-picker-column {
+    flex: 1;
+    position: relative;
+    border-right: 1px solid #f0f0f0;
+    overflow: hidden;
+}
+
+.time-picker-column:last-child {
+    border-right: none;
+}
+
+.time-picker-column-header {
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--timepicker-text-secondary);
+    border-bottom: 1px solid #f0f0f0;
+    background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+    font-weight: 500;
+}
+
+.time-picker-column-list {
+    height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.time-picker-column-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.time-picker-column-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.time-picker-column-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.time-picker-column-list::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.time-picker-option {
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--timepicker-text);
+    cursor: pointer;
+    transition: var(--timepicker-transition);
+    position: relative;
+}
+
+.time-picker-option:hover {
+    background-color: var(--timepicker-bg-hover);
+}
+
+.time-picker-option.selected {
+    background-color: var(--timepicker-primary-light);
+    color: var(--timepicker-primary);
+    font-weight: 500;
+}
+
+.time-picker-option.selected::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 20px;
+    background-color: var(--timepicker-primary);
+    border-radius: 0 2px 2px 0;
+}
+
+.time-picker-option.disabled {
+    color: var(--timepicker-text-disabled);
+    cursor: not-allowed;
+    background-color: transparent;
+}
+
+.time-picker-option.disabled:hover {
+    background-color: transparent;
+}
+
+/* 标签布局 */
+.time-picker-with-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.time-picker-label {
+    font-size: 14px;
+    color: var(--timepicker-text);
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-weight: 500;
+}
+
+/* 底部按钮 */
+.time-picker-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-top: 1px solid #f0f0f0;
+    background-color: #fafafa;
+}
+
+.time-picker-now-btn,
+.time-picker-ok-btn {
+    padding: 4px 12px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: var(--timepicker-transition);
+    font-family: inherit;
+}
+
+.time-picker-now-btn {
+    background-color: transparent;
+    color: var(--timepicker-text-secondary);
+}
+
+.time-picker-now-btn:hover {
+    color: var(--timepicker-primary);
+    background-color: var(--timepicker-primary-light);
+}
+
+.time-picker-ok-btn {
+    background-color: var(--timepicker-primary);
+    color: #fff;
+    font-weight: 500;
+}
+
+.time-picker-ok-btn:hover {
+    background-color: var(--timepicker-primary-hover);
+}
+
+.time-picker-ok-btn:active {
+    background-color: var(--timepicker-primary);
+}
+
+/* 动画 */
+.time-picker-dropdown-enter {
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.95);
+    transform-origin: top;
+}
+
+.time-picker-dropdown-enter-active {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.time-picker-dropdown-exit {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    transform-origin: top;
+}
+
+.time-picker-dropdown-exit-active {
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.95);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* RangePicker 样式 */
+.time-range-picker-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--timepicker-border);
+    border-radius: var(--timepicker-radius);
+    background-color: var(--timepicker-bg);
+    cursor: pointer;
+    transition: var(--timepicker-transition);
+    box-sizing: border-box;
+}
+
+.time-range-picker-trigger:hover {
+    border-color: var(--timepicker-border-hover);
+    box-shadow: var(--timepicker-shadow-hover);
+}
+
+.time-range-picker-trigger.focused {
+    border-color: var(--timepicker-primary);
+    box-shadow: var(--timepicker-shadow-hover);
+}
+
+.time-range-picker-trigger.disabled {
+    background-color: var(--timepicker-bg-disabled);
+    border-color: var(--timepicker-border);
+    cursor: not-allowed;
+}
+
+.time-range-picker-trigger.disabled:hover {
+    border-color: var(--timepicker-border);
+    box-shadow: none;
+}
+
+/* RangePicker 尺寸样式 */
+.time-range-picker-trigger.size-small {
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+}
+
+.time-range-picker-trigger.size-middle {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 14px;
+}
+
+.time-range-picker-trigger.size-large {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 16px;
+}
+
+.time-range-picker-input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    cursor: pointer;
+    transition: var(--timepicker-transition);
+}
+
+.time-range-picker-input:hover {
+    background-color: var(--timepicker-bg-hover);
+}
+
+.time-range-picker-input.active {
+    background-color: var(--timepicker-primary-light);
+}
+
+.time-range-picker-value {
+    color: var(--timepicker-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.time-range-picker-value.placeholder {
+    color: var(--timepicker-text-disabled);
+}
+
+.time-range-picker-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    color: var(--timepicker-text-secondary);
+}
+
+.time-range-picker-suffix {
+    margin-left: 8px;
+}
+
+/* 响应式调整 */
+@media (max-width: 576px) {
+    .time-picker-panel {
+        width: 180px;
+        height: 220px;
+    }
+
+    .time-picker-column-header {
+        height: 36px;
+        line-height: 36px;
+        font-size: 12px;
+    }
+
+    .time-picker-column-list {
+        height: 184px;
+    }
+
+    .time-picker-option {
+        height: 32px;
+        line-height: 32px;
+        font-size: 13px;
+    }
+}

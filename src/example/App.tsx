@@ -45,6 +45,7 @@ import DrawerExample from './Drawer';
 import TextareaExample from './Input/Textarea';
 import PopconfirmExample from './Popconfirm';
 import ProgressExample from './Progress';
+import TimePickerExample from './TimePicker';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -99,6 +100,7 @@ const App: React.FC = () => {
         { key: 'tag', label: 'Tag', name: 'Tag', description: '标签组件', icon: <span>🏷️</span> },
         { key: 'tabs', label: 'Tabs', name: 'Tabs', description: '选项卡组件', icon: <span>🗂️</span> },
         { key: 'textarea', label: 'Textarea', name: 'Textarea', description: '多行文本框组件', icon: <span>📝</span> },
+        { key: 'timepicker', label: 'TimePicker', name: 'TimePicker', description: '时间选择器组件', icon: <span>⏰</span> },
         { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
         { key: 'tooltip', label: 'Tooltip', name: 'Tooltip', description: '提示框组件', icon: <span>💬</span> },
         { key: 'transfer', label: 'Transfer', name: 'Transfer', description: '穿梭框组件', icon: <span>🔄</span> },
@@ -368,6 +370,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <LayoutExample />;
             case 'textarea':
                 return <TextareaExample />;
+            case 'timepicker':
+                return <TimePickerExample />;
             default:
                 return <ButtonExample />;
         }

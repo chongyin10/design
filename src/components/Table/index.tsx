@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
+import React, { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
 import {
     DndContext,
     closestCenter,
@@ -287,8 +287,29 @@ const Table = ({
         if (node === null || node === undefined) return '';
         if (typeof node === 'string') return node;
         if (typeof node === 'number') return String(node);
+        if (typeof node === 'boolean') return '';
         if (Array.isArray(node)) {
             return node.map(extractTextFromReactNode).join('');
+        }
+        // 处理普通对象（非 React 元素）
+        if (typeof node === 'object' && !React.isValidElement(node)) {
+            // 如果对象有 name 属性，返回 name
+            if (node.name !== undefined) {
+                return String(node.name);
+            }
+            // 如果对象有 label 或 title 属性
+            if (node.label !== undefined) {
+                return String(node.label);
+            }
+            if (node.title !== undefined) {
+                return String(node.title);
+            }
+            // 尝试转换为 JSON 字符串
+            try {
+                return JSON.stringify(node);
+            } catch {
+                return '';
+            }
         }
         if (typeof node === 'object' && node.props && node.props.children) {
             return extractTextFromReactNode(node.props.children);
@@ -360,16 +381,37 @@ const Table = ({
             content = column.render(content, record, rowIndex);
         }
 
+        // 处理内容：确保不是对象类型
+        let safeContent: React.ReactNode = content;
+        if (content !== null && typeof content === 'object' && !React.isValidElement(content)) {
+            // 如果内容是普通对象，尝试提取可显示的内容
+            if (content.name !== undefined) {
+                safeContent = String(content.name);
+            } else if (content.label !== undefined) {
+                safeContent = String(content.label);
+            } else if (content.title !== undefined) {
+                safeContent = String(content.title);
+            } else {
+                // 其他对象类型，转为 JSON 字符串
+                try {
+                    safeContent = JSON.stringify(content);
+                } catch {
+                    safeContent = '';
+                }
+            }
+        }
+
         // 处理 maxLines 属性
         const shouldApplyMaxLines = column.maxLines && column.maxLines > 0;
 
         // 处理 tooltip 属性
         let tooltipTitle = '';
         if (column.tooltip && !isEditing) {
-            tooltipTitle = extractTextFromReactNode(content);
+            tooltipTitle = extractTextFromReactNode(safeContent);
             // 获取原始数据作为 tooltip（优先使用原始数据）
             if (!tooltipTitle && column.dataIndex) {
-                tooltipTitle = String(record[column.dataIndex] || '');
+                const rawValue = record[column.dataIndex];
+                tooltipTitle = typeof rawValue === 'object' ? extractTextFromReactNode(rawValue) : String(rawValue || '');
             }
         }
 
@@ -414,9 +456,9 @@ const Table = ({
         // 非编辑模式
         const cellContent = shouldApplyMaxLines ? (
             <div className="idp-table-cell-ellipsis" style={{ WebkitLineClamp: column.maxLines }}>
-                {content}
+                {safeContent}
             </div>
-        ) : content;
+        ) : safeContent;
 
         // 如果有 tooltip，用 Tooltip 包裹
         const finalContent = tooltipTitle ? (

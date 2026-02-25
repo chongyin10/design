@@ -47,3 +47,5 @@ export { default as Popconfirm } from './Popconfirm';
 export type { PopconfirmProps, PopconfirmPlacement } from './Popconfirm';
 export { default as Progress } from './Progress';
 export type { ProgressProps, ProgressType, ProgressStatus } from './Progress';
+export { default as TimePicker } from './TimePicker';
+export type { TimePickerProps } from './TimePicker';
