@@ -333,6 +333,91 @@
     color: var(--idp-text-color-light, #bfbfbf);
 }
 
+/* 日期选择器内容区域 - 支持左右布局 */
+.idp-datepicker-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.idp-datepicker-content-with-time {
+    flex-direction: row;
+    min-width: 480px;
+}
+
+/* 日历区域 */
+.idp-datepicker-calendar-section {
+    flex: 1;
+}
+
+/* 时间选择区域 - 左右布局时在右侧 */
+.idp-datepicker-time-section {
+    width: 200px;
+    border-left: 1px solid var(--idp-border-color-light, #f0f0f0);
+    background-color: var(--idp-bg-color-white, #fff);
+    display: flex;
+    flex-direction: column;
+}
+
+/* 时间选择头部 */
+.idp-datepicker-time-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+    text-align: center;
+}
+
+/* 时间选择面板样式调整 */
+.idp-datepicker-time-section .time-picker-panel-container {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.idp-datepicker-time-section .time-picker-panel {
+    padding: 8px 0;
+    height: auto;
+    flex: 1;
+}
+
+.idp-datepicker-time-section .time-picker-column {
+    height: auto;
+}
+
+.idp-datepicker-time-section .time-picker-column-list {
+    height: 220px;
+}
+
+/* 时间选择面板容器 - 上下布局时与底部连通 */
+.idp-datepicker-time-panel-wrapper {
+    border-top: 1px solid var(--idp-border-color-light, #f0f0f0);
+    background-color: var(--idp-bg-color-white, #fff);
+}
+
+/* 时间选择面板样式调整 - 上下布局 */
+.idp-datepicker-time-panel-wrapper .time-picker-panel-container {
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+}
+
+.idp-datepicker-time-panel-wrapper .time-picker-panel {
+    padding: 8px 16px;
+    height: 180px;
+}
+
+.idp-datepicker-time-panel-wrapper .time-picker-column {
+    height: 180px;
+}
+
+.idp-datepicker-time-panel-wrapper .time-picker-column-list {
+    height: 144px;
+}
+
 /* 日历底部 */
 .idp-datepicker-footer {
     display: flex;
@@ -341,6 +426,7 @@
     padding: 8px;
     border-top: 1px solid var(--idp-border-color-light, #f0f0f0);
     gap: 8px;
+    background-color: var(--idp-bg-color-white, #fff);
 }
 
 /* 日历底部按钮组 */

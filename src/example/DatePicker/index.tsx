@@ -65,6 +65,7 @@ const DatePickerExample: React.FC = () => {
   const [basicDate, setBasicDate] = useState<string>('');
   const [defaultDate, setDefaultDate] = useState<string>('2024-02-25');
   const [formatDate, setFormatDate] = useState<string>('2024/02/25');
+  const [dateTimeValue, setDateTimeValue] = useState<string>('');
 
   // RangePicker 状态
   const [basicRange, setBasicRange] = useState<[string, string]>(['', '']);
@@ -358,6 +359,18 @@ const Demo = () => {
             placeholder="选择日期"
           />
         </DemoRow>
+        <DemoRow title="日期时间选择">
+          <DatePicker
+            picker="date"
+            showTime
+            value={dateTimeValue}
+            onChange={setDateTimeValue}
+            placeholder="选择日期时间"
+          />
+          <span style={{ marginLeft: '8px', color: '#666' }}>
+            选中值: {dateTimeValue || '无'}
+          </span>
+        </DemoRow>
         <DemoRow title="月份选择">
           <DatePicker
             picker="month"
@@ -380,6 +393,9 @@ const Demo = () => {
 
 // 日期选择（默认）
 <DatePicker picker="date" />
+
+// 日期时间选择（带时分秒）
+<DatePicker picker="date" showTime />
 
 // 月份选择
 <DatePicker picker="month" />

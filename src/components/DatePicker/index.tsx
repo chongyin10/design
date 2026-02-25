@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import Tag from '../Tag';
+import TimePickerPanel from '../TimePicker/TimePickerPanel';
 import './DatePicker.css';
 import {
     DatePickerProps,
@@ -73,22 +74,25 @@ const formatDate = (date: Date | null, format: DateFormat): string => {
 const parseDate = (dateStr: string | undefined, format: DateFormat): Date | null => {
     if (!dateStr) return null;
 
+    // 如果字符串包含时间部分（空格分隔），只取日期部分
+    const datePart = dateStr.split(' ')[0];
+
     let year: number, month: number, day: number;
 
     try {
         switch (format) {
             case 'YYYY/MM/DD':
-                [year, month, day] = dateStr.split('/').map(Number);
+                [year, month, day] = datePart.split('/').map(Number);
                 break;
             case 'DD-MM-YYYY':
-                [day, month, year] = dateStr.split('-').map(Number);
+                [day, month, year] = datePart.split('-').map(Number);
                 break;
             case 'MM/DD/YYYY':
-                [month, day, year] = dateStr.split('/').map(Number);
+                [month, day, year] = datePart.split('/').map(Number);
                 break;
             case 'YYYY-MM-DD':
             default:
-                [year, month, day] = dateStr.split('-').map(Number);
+                [year, month, day] = datePart.split('-').map(Number);
                 break;
         }
 
@@ -287,6 +291,8 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
     showOk = true,
     onToday,
     onOk,
+    showTime,
+    onHasSelectedDateChange,
 }) => {
     const selectedDate = useMemo(() => parseDate(value, format), [value, format]);
     // 多选模式下的选中日期集合
@@ -306,6 +312,34 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
             setCurrentMonth(selectedDate);
         }
     }, [selectedDate]);
+
+    // 解析时间部分 - 默认 00:00:00
+    const parseTimeFromValue = (val?: string): { hour: number; minute: number; second: number } => {
+        if (!val || !showTime) {
+            // 默认时间为 00:00:00
+            return { hour: 0, minute: 0, second: 0 };
+        }
+        // 格式: YYYY-MM-DD HH:mm:ss
+        const parts = val.split(' ');
+        if (parts.length > 1) {
+            const timeParts = parts[1].split(':');
+            return {
+                hour: parseInt(timeParts[0], 10) || 0,
+                minute: parseInt(timeParts[1], 10) || 0,
+                second: parseInt(timeParts[2], 10) || 0,
+            };
+        }
+        // 如果没有时间部分，默认 00:00:00
+        return { hour: 0, minute: 0, second: 0 };
+    };
+
+    const initialTime = parseTimeFromValue(value);
+    const [timeValue, setTimeValue] = useState(initialTime);
+
+    // 同步外部值变化到时间
+    useEffect(() => {
+        setTimeValue(parseTimeFromValue(value));
+    }, [value]);
 
     // 处理年份选择
     const handleYearSelect = (year: number) => {
@@ -386,17 +420,49 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
         return false;
     }, [disabledDate, disabledDates, format]);
 
+    // 是否有选中的日期（用于控制时间区域显示）
+    const hasSelectedDate = !!selectedDate;
+
+    // 通知父组件日期选择状态变化
+    useEffect(() => {
+        onHasSelectedDateChange?.(hasSelectedDate);
+    }, [hasSelectedDate, onHasSelectedDateChange]);
+
     // 处理日期点击
     const handleDateClick = (date: Date) => {
         if (isDisabledDate(date)) return;
-        onChange?.(formatDate(date, format));
+        const dateStr = formatDate(date, format);
+        if (showTime) {
+            // 首次选择日期时，使用默认时间 00:00:00
+            const timeStr = hasSelectedDate
+                ? `${String(timeValue.hour).padStart(2, '0')}:${String(timeValue.minute).padStart(2, '0')}:${String(timeValue.second).padStart(2, '0')}`
+                : '00:00:00';
+            onChange?.(`${dateStr} ${timeStr}`);
+        } else {
+            onChange?.(dateStr);
+        }
+    };
+
+    // 处理时间变化
+    const handleTimeChange = (timeStr: string) => {
+        if (!selectedDate) return;
+        const [hour, minute, second] = timeStr.split(':').map(Number);
+        setTimeValue({ hour, minute, second });
+        const dateStr = formatDate(selectedDate, format);
+        onChange?.(`${dateStr} ${timeStr}`);
     };
 
     // 处理今天按钮点击
     const handleTodayClick = () => {
         const today = new Date();
         setCurrentMonth(today);
-        onChange?.(formatDate(today, format));
+        if (showTime) {
+            // 使用当前时间的时分秒
+            const timeStr = `${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}:${String(today.getSeconds()).padStart(2, '0')}`;
+            onChange?.(`${formatDate(today, format)} ${timeStr}`);
+        } else {
+            onChange?.(formatDate(today, format));
+        }
         onToday?.();
     };
 
@@ -428,52 +494,75 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
 
     return (
         <CalendarPanel>
-            <CalendarHeaderComponent
-                currentMonth={currentMonth}
-                onPrevMonth={() => {
-                    const newDate = new Date(currentMonth);
-                    newDate.setMonth(newDate.getMonth() - 1);
-                    setCurrentMonth(newDate);
-                }}
-                onNextMonth={() => {
-                    const newDate = new Date(currentMonth);
-                    newDate.setMonth(newDate.getMonth() + 1);
-                    setCurrentMonth(newDate);
-                }}
-                onYearClick={handleYearClick}
-                onMonthClick={handleMonthClick}
-            />
-            <CalendarBody>
-                <WeekHeader>
-                    {weekDays.map(day => (
-                        <WeekDay key={day}>{day}</WeekDay>
-                    ))}
-                </WeekHeader>
-                <DateGrid>
-                    {calendarDays.map((item, index) => {
-                        const { date, isCurrentMonth } = item;
-                        const dateStr = formatDate(date, format);
-                        const selected = isSameDate(date, selectedDate);
-                        const isInSelectedSet = selectedDatesSet.has(dateStr);
-                        const today = isToday(date);
-                        const disabled = isDisabledDate(date);
+            <div className={classNames('idp-datepicker-content', { 'idp-datepicker-content-with-time': showTime && hasSelectedDate })}>
+                <div className="idp-datepicker-calendar-section">
+                    <CalendarHeaderComponent
+                        currentMonth={currentMonth}
+                        onPrevMonth={() => {
+                            const newDate = new Date(currentMonth);
+                            newDate.setMonth(newDate.getMonth() - 1);
+                            setCurrentMonth(newDate);
+                        }}
+                        onNextMonth={() => {
+                            const newDate = new Date(currentMonth);
+                            newDate.setMonth(newDate.getMonth() + 1);
+                            setCurrentMonth(newDate);
+                        }}
+                        onYearClick={handleYearClick}
+                        onMonthClick={handleMonthClick}
+                    />
+                    <CalendarBody>
+                        <WeekHeader>
+                            {weekDays.map(day => (
+                                <WeekDay key={day}>{day}</WeekDay>
+                            ))}
+                        </WeekHeader>
+                        <DateGrid>
+                            {calendarDays.map((item, index) => {
+                                const { date, isCurrentMonth } = item;
+                                const dateStr = formatDate(date, format);
+                                const selected = isSameDate(date, selectedDate);
+                                const isInSelectedSet = selectedDatesSet.has(dateStr);
+                                const today = isToday(date);
+                                const disabled = isDisabledDate(date);
 
-                        return (
-                            <DateCell
-                                key={index}
-                                isSelected={selected}
-                                isInSelectedSet={isInSelectedSet}
-                                isToday={today}
-                                disabled={disabled}
-                                isCurrentMonth={isCurrentMonth}
-                                onClick={() => handleDateClick(date)}
-                            >
-                                {date.getDate()}
-                            </DateCell>
-                        );
-                    })}
-                </DateGrid>
-            </CalendarBody>
+                                return (
+                                    <DateCell
+                                        key={index}
+                                        isSelected={selected}
+                                        isInSelectedSet={isInSelectedSet}
+                                        isToday={today}
+                                        disabled={disabled}
+                                        isCurrentMonth={isCurrentMonth}
+                                        onClick={() => handleDateClick(date)}
+                                    >
+                                        {date.getDate()}
+                                    </DateCell>
+                                );
+                            })}
+                        </DateGrid>
+                    </CalendarBody>
+                </div>
+                {showTime && hasSelectedDate && (
+                    <div className="idp-datepicker-time-section">
+                        <div className="idp-datepicker-time-header">
+                            {String(timeValue.hour).padStart(2, '0')}:
+                            {String(timeValue.minute).padStart(2, '0')}:
+                            {String(timeValue.second).padStart(2, '0')}
+                        </div>
+                        <TimePickerPanel
+                            value={`${String(timeValue.hour).padStart(2, '0')}:${String(timeValue.minute).padStart(2, '0')}:${String(timeValue.second).padStart(2, '0')}`}
+                            onChange={handleTimeChange}
+                            format="HH:mm:ss"
+                            hourStep={1}
+                            minuteStep={1}
+                            secondStep={1}
+                            showNow={false}
+                            showOk={false}
+                        />
+                    </div>
+                )}
+            </div>
             {(showToday || showOk) && (
                 <CalendarFooter>
                     {showToday ? (
@@ -527,12 +616,15 @@ const DatePicker: React.FC<DatePickerProps> & {
     maxTagCount,
     maxTagDisplayCount,
     separator = ',',
+    showTime = false,
 }) => {
     const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
     const [internalOpen, setInternalOpen] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
     const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    // 跟踪日历面板中是否已选择日期（用于控制时间区域显示）
+    const [hasSelectedDate, setHasSelectedDate] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -568,12 +660,15 @@ const DatePicker: React.FC<DatePickerProps> & {
     const updateDropdownPosition = useCallback(() => {
         if (!triggerRef.current) return;
         const rect = triggerRef.current.getBoundingClientRect();
-        const dropdownWidth = Math.max(rect.width, 280);
+        // showTime 且已选择日期时，显示时间区域，需要更宽的面板
+        const minWidth = (showTime && hasSelectedDate) ? 480 : 280;
+        const dropdownWidth = Math.max(rect.width, minWidth);
 
         // 检查下方空间是否足够（使用估算高度作为初始判断）
         const viewportHeight = window.innerHeight;
         const spaceBelow = viewportHeight - rect.bottom;
-        const estimatedDropdownHeight = 360; // 估算下拉面板高度
+        // showTime 时左右布局，高度与日历差不多
+        const estimatedDropdownHeight = showTime ? 360 : 360;
 
         let top = rect.bottom + window.scrollY + 4;
         let left = rect.left + window.scrollX;
@@ -596,7 +691,7 @@ const DatePicker: React.FC<DatePickerProps> & {
             left,
             width: dropdownWidth,
         });
-    }, []);
+    }, [showTime, hasSelectedDate]);
 
     // 在弹出层渲染后，根据实际高度调整位置
     useEffect(() => {
@@ -1175,12 +1270,14 @@ const DatePicker: React.FC<DatePickerProps> & {
                         disabledDates={disabledDates}
                         showToday={showToday}
                         showOk={showOk}
+                        showTime={showTime}
                         onToday={() => {
                             if (!showOk) {
                                 handleOk();
                             }
                         }}
                         onOk={handleOk}
+                        onHasSelectedDateChange={setHasSelectedDate}
                     />
                 );
         }
@@ -1195,7 +1292,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 ref={dropdownRef}
                 top={dropdownPosition.top}
                 left={dropdownPosition.left}
-                minWidth={dropdownPosition.width || 280}
+                minWidth={dropdownPosition.width || ((showTime && hasSelectedDate) ? 480 : 280)}
                 className="idp-datepicker-dropdown"
                 style={{
                     opacity: dropdownVisible ? 1 : 0,

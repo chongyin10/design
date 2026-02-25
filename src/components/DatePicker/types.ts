@@ -54,6 +54,8 @@ export interface DatePickerProps {
     showOk?: boolean;
     /** 选择器类型，可选 'date' | 'month' | 'quarter' | 'year'，默认 'date' */
     picker?: PickerType;
+    /** 是否显示时间选择，仅在 picker='date' 时有效 */
+    showTime?: boolean;
     /** 是否支持多选，默认 false */
     multiple?: boolean;
     /** 多选时最多可选数量，默认无限制 */
@@ -86,6 +88,10 @@ export interface CalendarPanelProps {
     onToday?: () => void;
     /** 点击确定的回调 */
     onOk?: () => void;
+    /** 是否显示时间选择 */
+    showTime?: boolean;
+    /** 是否已选择日期改变的回调 */
+    onHasSelectedDateChange?: (hasSelected: boolean) => void;
 }
 
 /** 日历头部属性 */
