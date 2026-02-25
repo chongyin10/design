@@ -3,15 +3,18 @@ import React from 'react';
 /** 日期格式类型 */
 export type DateFormat = 'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD-MM-YYYY' | 'MM/DD/YYYY';
 
+/** 选择器类型 */
+export type PickerType = 'date' | 'month' | 'quarter' | 'year';
+
 /** 日期选择器属性 */
 export interface DatePickerProps {
     /** 尺寸，可选 'small' | 'middle' | 'large'，默认 'middle' */
     size?: 'small' | 'middle' | 'large';
-    /** 当前值 */
+    /** 当前值（单选时为字符串，多选时为逗号分隔的字符串） */
     value?: string;
-    /** 默认值 */
+    /** 默认值（单选时为字符串，多选时为逗号分隔的字符串） */
     defaultValue?: string;
-    /** 值改变时的回调 */
+    /** 值改变时的回调（单选时返回字符串，多选时返回逗号分隔的字符串） */
     onChange?: (date: string) => void;
     /** 占位符 */
     placeholder?: string;
@@ -49,12 +52,24 @@ export interface DatePickerProps {
     showToday?: boolean;
     /** 显示确定的按钮 */
     showOk?: boolean;
+    /** 选择器类型，可选 'date' | 'month' | 'quarter' | 'year'，默认 'date' */
+    picker?: PickerType;
+    /** 是否支持多选，默认 false */
+    multiple?: boolean;
+    /** 多选时最多可选数量，默认无限制 */
+    maxTagCount?: number;
+    /** 多选时最多显示几个tag，超过显示...+n模式，默认无限制 */
+    maxTagDisplayCount?: number;
+    /** 多选时值的连接符，默认 ',' */
+    separator?: string;
 }
 
 /** 日历面板属性 */
 export interface CalendarPanelProps {
     /** 当前选中的值 */
     value?: string;
+    /** 多选时当前选中的值列表 */
+    selectedValues?: string[];
     /** 值改变时的回调 */
     onChange?: (date: string) => void;
     /** 日期格式 */
@@ -129,12 +144,38 @@ export interface YearCellProps {
     isCurrentYear?: boolean;
 }
 
+/** 季度选择器属性 */
+export interface QuarterPickerProps {
+    /** 当前选中的年份 */
+    currentYear: number;
+    /** 当前选中的季度 */
+    currentQuarter: number;
+    /** 选择季度的回调 */
+    onQuarterSelect: (year: number, quarter: number) => void;
+    /** 返回的回调 */
+    onBack: () => void;
+    /** 切换到上一年的回调 */
+    onPrevYear: () => void;
+    /** 切换到下一年的回调 */
+    onNextYear: () => void;
+}
+
+/** 季度单元格属性 */
+export interface QuarterCellProps {
+    /** 是否被选中 */
+    isSelected?: boolean;
+    /** 是否是当前季度 */
+    isCurrentQuarter?: boolean;
+}
+
 /** 日历日期单元格属性 */
 export interface DateCellProps {
     /** 日期 */
     date: Date;
     /** 是否被选中 */
     isSelected: boolean;
+    /** 是否被选中（多选模式） */
+    isInSelectedSet?: boolean;
     /** 是否是今天 */
     isToday: boolean;
     /** 是否禁用 */

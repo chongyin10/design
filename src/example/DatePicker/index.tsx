@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex } from '../../components';
+import { Flex, Table } from '../../components';
 import DatePicker from '../../components/DatePicker';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -342,6 +342,149 @@ const Demo = () => {
     </>
   );
 };`} />
+      </Section>
+
+      {/* 选择器类型 */}
+      <Section title="选择器类型">
+        <DemoRow title="日期选择">
+          <DatePicker
+            picker="date"
+            placeholder="选择日期"
+          />
+        </DemoRow>
+        <DemoRow title="月份选择">
+          <DatePicker
+            picker="month"
+            placeholder="选择月份"
+          />
+        </DemoRow>
+        <DemoRow title="季度选择">
+          <DatePicker
+            picker="quarter"
+            placeholder="选择季度"
+          />
+        </DemoRow>
+        <DemoRow title="年份选择">
+          <DatePicker
+            picker="year"
+            placeholder="选择年份"
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+
+// 日期选择（默认）
+<DatePicker picker="date" />
+
+// 月份选择
+<DatePicker picker="month" />
+
+// 季度选择
+<DatePicker picker="quarter" />
+
+// 年份选择
+<DatePicker picker="year" />`} />
+      </Section>
+
+      {/* 多选模式 */}
+      <Section title="多选模式">
+        <DemoRow title="多选日期">
+          <DatePicker
+            multiple
+            placeholder="可选择多个日期"
+          />
+        </DemoRow>
+        <DemoRow title="多选月份">
+          <DatePicker
+            picker="month"
+            multiple
+            placeholder="可选择多个月份"
+          />
+        </DemoRow>
+        <DemoRow title="多选年份">
+          <DatePicker
+            picker="year"
+            multiple
+            placeholder="可选择多个年份"
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+
+// 多选日期
+<DatePicker multiple placeholder="可选择多个日期" />
+
+// 多选月份
+<DatePicker picker="month" multiple placeholder="可选择多个月份" />
+
+// 多选年份
+<DatePicker picker="year" multiple placeholder="可选择多个年份" />`} />
+      </Section>
+
+      {/* 多选标签显示限制 */}
+      <Section title="多选标签显示限制">
+        <p>多选模式下，可以通过 maxTagDisplayCount 限制显示的标签数量，超出部分以 "...+n" 形式展示。</p>
+        <DemoRow title="显示2个标签">
+          <DatePicker
+            multiple
+            maxTagDisplayCount={2}
+            placeholder="最多显示2个标签"
+          />
+        </DemoRow>
+        <DemoRow title="显示3个标签">
+          <DatePicker
+            picker="month"
+            multiple
+            maxTagDisplayCount={3}
+            placeholder="最多显示3个标签"
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+
+// 限制最多显示2个标签
+<DatePicker multiple maxTagDisplayCount={2} placeholder="最多显示2个标签" />
+
+// 限制最多显示3个标签（月份选择器）
+<DatePicker picker="month" multiple maxTagDisplayCount={3} placeholder="最多显示3个标签" />`} />
+      </Section>
+
+      {/* API 文档 */}
+      <Section title="API">
+        <h3>Props</h3>
+        <Table
+          bordered
+          dataSource={[
+            { key: 'value', prop: 'value', description: '当前值（受控模式）', type: 'string', default: '-' },
+            { key: 'defaultValue', prop: 'defaultValue', description: '默认值（非受控模式）', type: 'string', default: '-' },
+            { key: 'onChange', prop: 'onChange', description: '日期变化时的回调', type: '(date: string) => void', default: '-' },
+            { key: 'placeholder', prop: 'placeholder', description: '输入框占位符', type: 'string', default: '请选择日期' },
+            { key: 'size', prop: 'size', description: '输入框大小', type: "'small' | 'middle' | 'large'", default: "'middle'" },
+            { key: 'format', prop: 'format', description: '日期格式', type: "'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD-MM-YYYY' | 'MM/DD/YYYY'", default: "'YYYY-MM-DD'" },
+            { key: 'disabled', prop: 'disabled', description: '是否禁用', type: 'boolean', default: 'false' },
+            { key: 'readOnly', prop: 'readOnly', description: '是否只读', type: 'boolean', default: 'false' },
+            { key: 'allowClear', prop: 'allowClear', description: '是否显示清除按钮', type: 'boolean', default: 'true' },
+            { key: 'width', prop: 'width', description: '输入框宽度', type: 'string | number', default: '-' },
+            { key: 'disabledDate', prop: 'disabledDate', description: '禁用日期的函数', type: '(date: Date) => boolean', default: '-' },
+            { key: 'disabledDates', prop: 'disabledDates', description: '不可选择的日期列表', type: 'string[]', default: '-' },
+            { key: 'label', prop: 'label', description: '标签内容', type: 'string | ReactNode', default: '-' },
+            { key: 'labelGap', prop: 'labelGap', description: '标签到输入框的距离', type: 'string | number', default: '8' },
+            { key: 'labelClassName', prop: 'labelClassName', description: '标签的CSS类名', type: 'string', default: '-' },
+            { key: 'labelStyle', prop: 'labelStyle', description: '标签的样式', type: 'CSSProperties', default: '-' },
+            { key: 'showToday', prop: 'showToday', description: '是否显示"今天"按钮', type: 'boolean', default: 'false' },
+            { key: 'showOk', prop: 'showOk', description: '是否显示"确定"按钮', type: 'boolean', default: 'false' },
+            { key: 'open', prop: 'open', description: '面板是否打开（受控）', type: 'boolean', default: '-' },
+            { key: 'onOpenChange', prop: 'onOpenChange', description: '面板打开状态改变时的回调', type: '(open: boolean) => void', default: '-' },
+            { key: 'picker', prop: 'picker', description: '选择器类型', type: "'date' | 'month' | 'quarter' | 'year'", default: "'date'" },
+            { key: 'multiple', prop: 'multiple', description: '是否支持多选', type: 'boolean', default: 'false' },
+            { key: 'maxTagCount', prop: 'maxTagCount', description: '多选时最多可选数量', type: 'number', default: '-' },
+            { key: 'maxTagDisplayCount', prop: 'maxTagDisplayCount', description: '多选时最多显示几个标签，超过显示...+n模式', type: 'number', default: '-' },
+          ]}
+          columns={[
+            { title: '属性', dataIndex: 'prop', width: 150 },
+            { title: '说明', dataIndex: 'description' },
+            { title: '类型', dataIndex: 'type', width: 250 },
+            { title: '默认值', dataIndex: 'default', width: 120 },
+          ]}
+          pagination={false}
+        />
       </Section>
     </div>
   );

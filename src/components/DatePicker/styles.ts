@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 /** 日期选择器容器 */
-export const DatePickerContainer = styled.div<{ width?: string | number }>`
+export const DatePickerContainer = styled.div<{ width?: string | number; minWidth?: string | number }>`
     display: inline-block;
     position: relative;
     font-size: 14px;
     font-family: inherit;
     width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width || 'auto'};
+    min-width: ${props => props.minWidth ? (typeof props.minWidth === 'number' ? `${props.minWidth}px` : props.minWidth) : '0'};
 `;
 
 /** 触发器容器 */
@@ -16,14 +17,21 @@ export const DatePickerTrigger = styled.div.withConfig({
     display: flex;
     align-items: center;
     width: 100%;
-    height: ${props => {
+    min-height: ${props => {
         switch (props.size) {
             case 'small': return '24px';
             case 'large': return '40px';
             default: return '32px';
         }
     }};
-    padding: 0 12px;
+    height: auto;
+    padding: ${props => {
+        switch (props.size) {
+            case 'small': return '1px 12px';
+            case 'large': return '3px 12px';
+            default: return '2px 12px';
+        }
+    }};
     border: 1px solid ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : props.focused ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
     border-radius: var(--idp-border-radius-sm);
     background-color: ${props => props.disabled ? 'var(--idp-bg-color-light)' : 'var(--idp-bg-color-white)'};
@@ -51,6 +59,17 @@ export const DatePickerValue = styled.span.withConfig({
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 14px;
+
+    /* 多选模式下的 tags 布局 */
+    &.idp-datepicker-value--tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
+        overflow: visible;
+        white-space: normal;
+        padding: 2px 0;
+    }
 `;
 
 /** 后缀图标区域 */
@@ -246,9 +265,10 @@ export const DateGrid = styled.div`
 
 /** 日期单元格 */
 export const DateCell = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['isSelected', 'isToday', 'isCurrentMonth'].includes(prop)
+    shouldForwardProp: (prop) => !['isSelected', 'isInSelectedSet', 'isToday', 'isCurrentMonth'].includes(prop)
 })<{
     isSelected?: boolean;
+    isInSelectedSet?: boolean;
     isToday?: boolean;
     disabled?: boolean;
     isCurrentMonth?: boolean;
@@ -263,19 +283,25 @@ export const DateCell = styled.div.withConfig({
     color: ${props => {
         if (props.disabled) return 'var(--idp-text-color-light)';
         if (props.isSelected) return '#fff';
+        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
         if (props.isToday) return 'var(--idp-primary-color)';
         if (!props.isCurrentMonth) return 'var(--idp-text-color-light)';
         return 'var(--idp-text-color)';
     }};
     background-color: ${props => {
         if (props.isSelected) return 'var(--idp-primary-color)';
+        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
-    font-weight: ${props => (props.isToday || props.isSelected) ? '500' : 'normal'};
+    font-weight: ${props => (props.isToday || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
     transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 
     &:hover:not([disabled]) {
-        background-color: ${props => props.isSelected ? 'var(--idp-primary-hover-color)' : 'var(--idp-bg-color-light)'};
+        background-color: ${props => {
+            if (props.isSelected) return 'var(--idp-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--idp-bg-color-light)';
+        }};
     }
 
     ${props => props.isToday && !props.isSelected && `
@@ -288,8 +314,20 @@ export const CalendarFooter = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
+    padding: 8px;
     border-top: 1px solid var(--idp-border-color-light);
+    gap: 8px;
+`;
+
+/** 日历底部占位元素（用于保持确定按钮位置统一） */
+export const CalendarFooterSpacer = styled.div`
+    flex: 1;
+`;
+
+/** 日历底部按钮组 */
+export const CalendarFooterActions = styled.div`
+    display: flex;
+    align-items: center;
     gap: 8px;
 `;
 
@@ -369,8 +407,8 @@ export const MonthGrid = styled.div`
 
 /** 月份单元格 */
 export const MonthCell = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['isSelected', 'isCurrentMonth'].includes(prop)
-})<{ isSelected?: boolean; isCurrentMonth?: boolean }>`
+    shouldForwardProp: (prop) => !['isSelected', 'isInSelectedSet', 'isCurrentMonth'].includes(prop)
+})<{ isSelected?: boolean; isInSelectedSet?: boolean; isCurrentMonth?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -380,26 +418,35 @@ export const MonthCell = styled.div.withConfig({
     border-radius: var(--idp-border-radius-sm);
     color: ${props => {
         if (props.isSelected) return '#fff';
+        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
         if (props.isCurrentMonth) return 'var(--idp-primary-color)';
         return 'var(--idp-text-color)';
     }};
-    background-color: ${props => props.isSelected ? 'var(--idp-primary-color)' : 'transparent'};
-    font-weight: ${props => (props.isCurrentMonth || props.isSelected) ? '500' : 'normal'};
+    background-color: ${props => {
+        if (props.isSelected) return 'var(--idp-primary-color)';
+        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        return 'transparent';
+    }};
+    font-weight: ${props => (props.isCurrentMonth || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
     transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 
     &:hover:not([disabled]) {
-        background-color: ${props => props.isSelected ? 'var(--idp-primary-hover-color)' : 'var(--idp-bg-color-light)'};
+        background-color: ${props => {
+            if (props.isSelected) return 'var(--idp-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--idp-bg-color-light)';
+        }};
     }
 
-    ${props => props.isCurrentMonth && !props.isSelected && `
+    ${props => props.isCurrentMonth && !props.isSelected && !props.isInSelectedSet && `
         border: 1px solid var(--idp-primary-color);
     `}
 `;
 
 /** 年份单元格 */
 export const YearCell = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['isSelected', 'isCurrentYear'].includes(prop)
-})<{ isSelected?: boolean; isCurrentYear?: boolean }>`
+    shouldForwardProp: (prop) => !['isSelected', 'isInSelectedSet', 'isCurrentYear'].includes(prop)
+})<{ isSelected?: boolean; isInSelectedSet?: boolean; isCurrentYear?: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -409,18 +456,81 @@ export const YearCell = styled.div.withConfig({
     border-radius: var(--idp-border-radius-sm);
     color: ${props => {
         if (props.isSelected) return '#fff';
+        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
         if (props.isCurrentYear) return 'var(--idp-primary-color)';
         return 'var(--idp-text-color)';
     }};
-    background-color: ${props => props.isSelected ? 'var(--idp-primary-color)' : 'transparent'};
-    font-weight: ${props => (props.isCurrentYear || props.isSelected) ? '500' : 'normal'};
+    background-color: ${props => {
+        if (props.isSelected) return 'var(--idp-primary-color)';
+        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        return 'transparent';
+    }};
+    font-weight: ${props => (props.isCurrentYear || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
     transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 
     &:hover:not([disabled]) {
-        background-color: ${props => props.isSelected ? 'var(--idp-primary-hover-color)' : 'var(--idp-bg-color-light)'};
+        background-color: ${props => {
+            if (props.isSelected) return 'var(--idp-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--idp-bg-color-light)';
+        }};
     }
 
-    ${props => props.isCurrentYear && !props.isSelected && `
+    ${props => props.isCurrentYear && !props.isSelected && !props.isInSelectedSet && `
         border: 1px solid var(--idp-primary-color);
     `}
 `;
+
+/** 季度选择器面板 */
+export const QuarterPickerPanel = styled.div`
+    background-color: var(--idp-bg-color-white);
+    border-radius: var(--idp-border-radius-md);
+    min-width: 280px;
+`;
+
+/** 季度网格 */
+export const QuarterGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 16px;
+`;
+
+/** 季度单元格 */
+export const QuarterCell = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['isSelected', 'isInSelectedSet', 'isCurrentQuarter'].includes(prop)
+})<{ isSelected?: boolean; isInSelectedSet?: boolean; isCurrentQuarter?: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: var(--idp-border-radius-sm);
+    color: ${props => {
+        if (props.isSelected) return '#fff';
+        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
+        if (props.isCurrentQuarter) return 'var(--idp-primary-color)';
+        return 'var(--idp-text-color)';
+    }};
+    background-color: ${props => {
+        if (props.isSelected) return 'var(--idp-primary-color)';
+        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        return 'transparent';
+    }};
+    font-weight: ${props => (props.isCurrentQuarter || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+
+    &:hover:not([disabled]) {
+        background-color: ${props => {
+            if (props.isSelected) return 'var(--idp-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--idp-bg-color-light)';
+        }};
+    }
+
+    ${props => props.isCurrentQuarter && !props.isSelected && !props.isInSelectedSet && `
+        border: 1px solid var(--idp-primary-color);
+    `}
+`;
+
