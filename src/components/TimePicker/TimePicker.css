@@ -174,7 +174,7 @@
     visibility: hidden;
 }
 
-/* 下拉面板 */
+/* 下拉面板 - 高度与 DatePicker 的 idp-datepicker-dropdown 保持一致 */
 .time-picker-dropdown {
     position: absolute;
     top: 100%;
@@ -185,6 +185,7 @@
     border-radius: var(--timepicker-radius);
     box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    height: auto;
 }
 
 .time-picker-panel-container {
@@ -192,10 +193,11 @@
     flex-direction: column;
 }
 
+/* 面板高度与 DatePicker 的 idp-datepicker-dropdown 保持一致 - 自然撑开 */
 .time-picker-panel {
     display: flex;
     width: 200px;
-    height: 240px;
+    height: auto;
 }
 
 /* 时间列 */
@@ -311,7 +313,17 @@
     align-items: center;
     padding: 8px 12px;
     border-top: 1px solid #f0f0f0;
-    background-color: #fafafa;
+    background-color: #ffffff;
+}
+
+/* 确保确定按钮在最右边：当只有确定按钮时，使用 margin-left: auto 将其推到右侧 */
+.time-picker-footer .time-picker-ok-btn {
+    margin-left: auto;
+}
+
+/* 当同时有时刻按钮时，取消 margin-left: auto，让 space-between 生效 */
+.time-picker-footer .time-picker-now-btn + .time-picker-ok-btn {
+    margin-left: 0;
 }
 
 .time-picker-now-btn,
@@ -474,7 +486,7 @@
 @media (max-width: 576px) {
     .time-picker-panel {
         width: 180px;
-        height: 220px;
+        height: auto;
     }
 
     .time-picker-column-header {
