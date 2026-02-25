@@ -1,13 +1,15 @@
 import styled from 'styled-components';
 
 /** 日期选择器容器 */
-export const DatePickerContainer = styled.div<{ width?: string | number; minWidth?: string | number }>`
+export const DatePickerContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['width', 'minWidth'].includes(prop)
+})<{ width?: string | number; minWidth?: string | number }>`
     display: inline-block;
     position: relative;
     font-size: 14px;
     font-family: inherit;
     width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width || 'auto'};
-    min-width: ${props => props.minWidth ? (typeof props.minWidth === 'number' ? `${props.minWidth}px` : props.minWidth) : '0'};
+    min-width: ${props => props.minWidth ? (typeof props.minWidth === 'number' ? `${props.minWidth}px` : props.minWidth) : '0px'};
 `;
 
 /** 触发器容器 */
@@ -136,8 +138,8 @@ export const DatePickerIcon = styled.span`
 
 /** 下拉面板 */
 export const DatePickerDropdown = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['top', 'left'].includes(prop)
-})<{ top: number; left: number }>`
+    shouldForwardProp: (prop) => !['top', 'left', 'minWidth'].includes(prop)
+})<{ top: number; left: number; minWidth?: number }>`
     position: fixed;
     top: ${props => props.top}px;
     left: ${props => props.left}px;
@@ -146,7 +148,7 @@ export const DatePickerDropdown = styled.div.withConfig({
     border-radius: var(--idp-border-radius-md);
     box-shadow: var(--idp-shadow-lg);
     overflow: hidden;
-    min-width: 280px;
+    min-width: ${props => props.minWidth ? `${props.minWidth}px` : '280px'};
 `;
 
 /** 日历面板 */
@@ -532,5 +534,393 @@ export const QuarterCell = styled.div.withConfig({
     ${props => props.isCurrentQuarter && !props.isSelected && !props.isInSelectedSet && `
         border: 1px solid var(--idp-primary-color);
     `}
+`;
+
+/** ==================== 日期范围选择器样式 ==================== */
+
+/** 范围选择器容器 */
+export const DateRangePickerContainer = styled.div<{ width?: string | number }>`
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    font-family: inherit;
+    width: ${props => typeof props.width === 'number' ? `${props.width}px` : props.width || 'auto'};
+`;
+
+/** 范围选择器触发器 */
+export const DateRangePickerTrigger = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['focused', 'size', 'disabled'].includes(prop)
+})<{ focused?: boolean; disabled?: boolean; size?: string }>`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: ${props => {
+        switch (props.size) {
+            case 'small': return '24px';
+            case 'large': return '40px';
+            default: return '32px';
+        }
+    }};
+    height: auto;
+    padding: ${props => {
+        switch (props.size) {
+            case 'small': return '1px 12px';
+            case 'large': return '3px 12px';
+            default: return '2px 12px';
+        }
+    }};
+    border: 1px solid ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : props.focused ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
+    border-radius: var(--idp-border-radius-sm);
+    background-color: ${props => props.disabled ? 'var(--idp-bg-color-light)' : 'var(--idp-bg-color-white)'};
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    box-sizing: border-box;
+
+    &:hover {
+        border-color: ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : 'var(--idp-primary-color)'};
+    }
+
+    &:focus-within {
+        border-color: var(--idp-primary-color);
+        box-shadow: var(--idp-input-box-shadow-focus);
+    }
+`;
+
+/** 范围选择器输入框 */
+export const DateRangePickerInput = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['active'].includes(prop)
+})<{ active?: boolean }>`
+    flex: 1;
+    padding: 4px 8px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: var(--idp-border-radius-sm);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+
+    ${props => props.active && `
+        background-color: var(--idp-primary-light-color, rgba(24, 100, 240, 0.1));
+    `}
+
+    &:hover {
+        background-color: var(--idp-bg-color-light);
+    }
+`;
+
+/** 范围选择器值显示 */
+export const DateRangePickerValue = styled.span.withConfig({
+    shouldForwardProp: (prop) => !['isPlaceholder'].includes(prop)
+})<{ isPlaceholder?: boolean }>`
+    color: ${props => props.isPlaceholder ? 'var(--idp-text-color-light)' : 'var(--idp-text-color)'};
+    font-size: 14px;
+`;
+
+/** 范围选择器分隔符 */
+export const DateRangePickerSeparator = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    color: var(--idp-text-color-light);
+    font-size: 14px;
+`;
+
+/** 范围选择器后缀区域 */
+export const DateRangePickerSuffix = styled.span`
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    color: var(--idp-text-color-light);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    position: relative;
+    width: 16px;
+    height: 16px;
+`;
+
+/** 范围选择器清除按钮 */
+export const DateRangePickerClear = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--idp-text-color-tertiary);
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2;
+
+    &:hover {
+        color: var(--idp-text-color);
+        background-color: var(--idp-bg-color-light);
+    }
+
+    & > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+`;
+
+/** 范围选择器图标 */
+export const DateRangePickerIcon = styled.span`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+`;
+
+/** 范围选择器下拉面板 */
+export const DateRangePickerDropdown = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['top', 'left'].includes(prop)
+})<{ top: number; left: number }>`
+    position: fixed;
+    top: ${props => props.top}px;
+    left: ${props => props.left}px;
+    z-index: 999;
+    background-color: var(--idp-bg-color-white);
+    border-radius: var(--idp-border-radius-md);
+    box-shadow: var(--idp-shadow-lg);
+    overflow: hidden;
+    min-width: 560px;
+`;
+
+/** 范围选择器双面板容器 */
+export const DateRangePickerPanels = styled.div`
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+`;
+
+/** 范围选择器日历面板 */
+export const DateRangePickerCalendar = styled.div`
+    flex: 1;
+    min-width: 252px;
+`;
+
+/** 范围选择器日历头部 */
+export const DateRangePickerCalendarHeader = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    margin-bottom: 8px;
+`;
+
+/** 范围选择器日历头部左侧 */
+export const DateRangePickerHeaderLeft = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+`;
+
+/** 范围选择器日历头部中间 */
+export const DateRangePickerHeaderCenter = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--idp-text-color);
+`;
+
+/** 范围选择器日历头部右侧 */
+export const DateRangePickerHeaderRight = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 4px;
+`;
+
+/** 范围选择器日历头部按钮 */
+export const DateRangePickerHeaderButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: var(--idp-border-radius-sm);
+    color: var(--idp-text-color-secondary);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+
+    &:hover:not(:disabled) {
+        background-color: var(--idp-bg-color-light);
+        color: var(--idp-primary-color);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+`;
+
+/** 范围选择器日历头部标签 */
+export const DateRangePickerHeaderLabel = styled.span`
+    font-size: 12px;
+    color: var(--idp-text-color-tertiary);
+    margin-left: 8px;
+`;
+
+/** 范围选择器日历内容区域 */
+export const DateRangePickerCalendarBody = styled.div`
+    padding: 8px 0;
+`;
+
+/** 范围选择器星期标题行 */
+export const DateRangePickerWeekHeader = styled.div`
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 4px;
+`;
+
+/** 范围选择器星期标题 */
+export const DateRangePickerWeekDay = styled.div`
+    text-align: center;
+    font-size: 12px;
+    color: var(--idp-text-color-tertiary);
+    padding: 4px 0;
+    font-weight: 500;
+`;
+
+/** 范围选择器日期网格 */
+export const DateRangePickerDateGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+`;
+
+/** 范围选择器日期单元格 */
+export const DateRangePickerDateCell = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['isSelected', 'isToday', 'isCurrentMonth', 'isInRange', 'isRangeStart', 'isRangeEnd', 'disabled'].includes(prop)
+})<{
+    isSelected?: boolean;
+    isToday?: boolean;
+    isCurrentMonth?: boolean;
+    isInRange?: boolean;
+    isRangeStart?: boolean;
+    isRangeEnd?: boolean;
+    disabled?: boolean;
+}>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    font-size: 13px;
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
+    border-radius: ${props => {
+        if (props.isRangeStart) return '4px 0 0 4px';
+        if (props.isRangeEnd) return '0 4px 4px 0';
+        if (props.isInRange) return '0';
+        return 'var(--idp-border-radius-sm)';
+    }};
+    color: ${props => {
+        if (props.disabled) return 'var(--idp-text-color-light)';
+        if (props.isSelected) return '#fff';
+        if (!props.isCurrentMonth) return 'var(--idp-text-color-light)';
+        return 'var(--idp-text-color)';
+    }};
+    background-color: ${props => {
+        if (props.isSelected) return 'var(--idp-primary-color)';
+        if (props.isInRange) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        return 'transparent';
+    }};
+    font-weight: ${props => (props.isToday || props.isSelected) ? '500' : 'normal'};
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+
+    &:hover:not([disabled]) {
+        background-color: ${props => {
+            if (props.isSelected) return 'var(--idp-primary-hover-color)';
+            return 'var(--idp-bg-color-light)';
+        }};
+    }
+
+    ${props => props.isToday && !props.isSelected && !props.isInRange && `
+        border: 1px solid var(--idp-primary-color);
+    `}
+`;
+
+/** 范围选择器底部 */
+export const DateRangePickerFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    border-top: 1px solid var(--idp-border-color-light);
+    gap: 8px;
+`;
+
+/** 范围选择器底部占位 */
+export const DateRangePickerFooterSpacer = styled.div`
+    flex: 1;
+`;
+
+/** 范围选择器底部按钮组 */
+export const DateRangePickerFooterActions = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 8px;
+`;
+
+/** 范围选择器底部按钮 */
+export const DateRangePickerFooterButton = styled.button.withConfig({
+    shouldForwardProp: (prop) => !['variant'].includes(prop)
+})<{ variant?: 'primary' | 'default' }>`
+    padding: 4px 12px;
+    font-size: 13px;
+    border-radius: var(--idp-border-radius-sm);
+    cursor: pointer;
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border: 1px solid ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
+    background-color: ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-bg-color-white)'};
+    color: ${props => props.variant === 'primary' ? '#fff' : 'var(--idp-text-color)'};
+
+    &:hover:not(:disabled) {
+        border-color: var(--idp-primary-color);
+        ${props => props.variant === 'primary'
+            ? 'background-color: var(--idp-primary-hover-color);'
+            : 'color: var(--idp-primary-color);'
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+`;
+
+/** 范围选择器标签容器 */
+export const DateRangePickerLabelContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['gap'].includes(prop)
+})<{ gap?: string | number }>`
+    display: flex;
+    align-items: center;
+    gap: ${props => typeof props.gap === 'number' ? `${props.gap}px` : props.gap || '8px'};
+`;
+
+/** 范围选择器标签 */
+export const DateRangePickerLabel = styled.label`
+    font-size: 14px;
+    color: var(--idp-text-color);
+    white-space: nowrap;
+    user-select: none;
 `;
 

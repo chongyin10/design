@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import RangePicker from './RangePicker';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
@@ -496,7 +497,9 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
 };
 
 // 主组件
-const DatePicker: React.FC<DatePickerProps> = ({
+const DatePicker: React.FC<DatePickerProps> & {
+    RangePicker: typeof RangePicker;
+} = ({
     size = 'middle',
     value: externalValue,
     defaultValue,
@@ -1192,9 +1195,9 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 ref={dropdownRef}
                 top={dropdownPosition.top}
                 left={dropdownPosition.left}
+                minWidth={dropdownPosition.width || 280}
                 className="idp-datepicker-dropdown"
                 style={{
-                    minWidth: dropdownPosition.width,
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
                 }}
@@ -1247,5 +1250,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     );
 };
 
+DatePicker.RangePicker = RangePicker;
+
 export default DatePicker;
-export type { DatePickerProps, DateFormat, CalendarPanelProps, CalendarHeaderProps, DateCellProps } from './types';
+export type { DatePickerProps, DateRangePickerProps, DateFormat, CalendarPanelProps, CalendarHeaderProps, DateCellProps } from './types';

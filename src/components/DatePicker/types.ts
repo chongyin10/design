@@ -185,3 +185,51 @@ export interface DateCellProps {
     /** 点击回调 */
     onClick: () => void;
 }
+
+/** 日期范围选择器属性 */
+export interface DateRangePickerProps {
+    /** 尺寸，可选 'small' | 'middle' | 'large'，默认 'middle' */
+    size?: 'small' | 'middle' | 'large';
+    /** 当前值 [开始日期, 结束日期] */
+    value?: [string, string];
+    /** 默认值 */
+    defaultValue?: [string, string];
+    /** 值改变时的回调 */
+    onChange?: (dates: [string, string]) => void;
+    /** 占位符 [开始占位符, 结束占位符] */
+    placeholder?: [string, string];
+    /** 是否禁用 */
+    disabled?: boolean;
+    /** 只读 */
+    readOnly?: boolean;
+    /** 自定义类名 */
+    className?: string;
+    /** 自定义样式 */
+    style?: React.CSSProperties;
+    /** 宽度 */
+    width?: string | number;
+    /** 日期格式，默认 'YYYY-MM-DD' */
+    format?: DateFormat;
+    /** 是否显示清除按钮 */
+    allowClear?: boolean;
+    /** 禁用日期的函数 */
+    disabledDate?: (date: Date) => boolean;
+    /** 不可选择的日期 */
+    disabledDates?: string[];
+    /** 标签 */
+    label?: string | React.ReactNode;
+    /** 标签到输入框的距离 */
+    labelGap?: string | number;
+    /** 标签的CSS类名 */
+    labelClassName?: string;
+    /** 标签的样式 */
+    labelStyle?: React.CSSProperties;
+    /** 面板打开状态改变时的回调 */
+    onOpenChange?: (open: boolean) => void;
+    /** 是否打开面板（受控） */
+    open?: boolean;
+    /** 显示确定的按钮 */
+    showOk?: boolean;
+    /** 分隔符，默认使用 Icon type="arrow-right" */
+    separator?: React.ReactNode;
+}

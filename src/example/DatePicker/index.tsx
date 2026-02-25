@@ -4,6 +4,8 @@ import DatePicker from '../../components/DatePicker';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+const { RangePicker } = DatePicker;
+
 // 复制功能组件
 const CopyBlock: React.FC<{ code: string }> = ({ code }) => {
   const [copied, setCopied] = useState(false);
@@ -63,6 +65,10 @@ const DatePickerExample: React.FC = () => {
   const [basicDate, setBasicDate] = useState<string>('');
   const [defaultDate, setDefaultDate] = useState<string>('2024-02-25');
   const [formatDate, setFormatDate] = useState<string>('2024/02/25');
+
+  // RangePicker 状态
+  const [basicRange, setBasicRange] = useState<[string, string]>(['', '']);
+  const [controlledRange, setControlledRange] = useState<[string, string]>(['2024-01-01', '2024-01-15']);
 
   // 禁用周末
   const disabledWeekend = (date: Date) => {
@@ -446,6 +452,344 @@ const Demo = () => {
 <DatePicker picker="month" multiple maxTagDisplayCount={3} placeholder="最多显示3个标签" />`} />
       </Section>
 
+      {/* ============ RangePicker 示例 ============ */}
+      <h1 style={{ marginTop: '48px' }}>RangePicker 日期范围选择器</h1>
+      <p>用于选择日期范围的浮层控件组件。</p>
+
+      {/* RangePicker 基础用法 */}
+      <Section title="基础用法">
+        <DemoRow title="默认">
+          <RangePicker
+            value={basicRange}
+            onChange={setBasicRange}
+            placeholder={['开始日期', '结束日期']}
+          />
+          <span style={{ marginLeft: '8px', color: '#666' }}>
+            选中值: {basicRange[0] || '无'} ~ {basicRange[1] || '无'}
+          </span>
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+const Demo = () => {
+  const [dates, setDates] = useState<[string, string]>(['', '']);
+  
+  return (
+    <RangePicker
+      value={dates}
+      onChange={setDates}
+      placeholder={['开始日期', '结束日期']}
+    />
+  );
+};`} />
+      </Section>
+
+      {/* RangePicker 默认值 */}
+      <Section title="默认值">
+        <DemoRow title="默认日期范围">
+          <RangePicker
+            defaultValue={['2024-02-01', '2024-02-28']}
+            onChange={(val) => console.log('选中范围:', val)}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 带默认值的日期范围选择器
+<RangePicker defaultValue={['2024-02-01', '2024-02-28']} />`} />
+      </Section>
+
+      {/* RangePicker 不同尺寸 */}
+      <Section title="不同尺寸">
+        <DemoRow title="Small">
+          <RangePicker size="small" placeholder={['开始日期', '结束日期']} />
+        </DemoRow>
+        <DemoRow title="Middle">
+          <RangePicker size="middle" placeholder={['开始日期', '结束日期']} />
+        </DemoRow>
+        <DemoRow title="Large">
+          <RangePicker size="large" placeholder={['开始日期', '结束日期']} />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 小尺寸
+<RangePicker size="small" />
+
+// 中尺寸（默认）
+<RangePicker size="middle" />
+
+// 大尺寸
+<RangePicker size="large" />`} />
+      </Section>
+
+      {/* RangePicker 日期格式 */}
+      <Section title="日期格式">
+        <DemoRow title="YYYY-MM-DD">
+          <RangePicker
+            format="YYYY-MM-DD"
+            defaultValue={['2024-02-01', '2024-02-28']}
+          />
+        </DemoRow>
+        <DemoRow title="YYYY/MM/DD">
+          <RangePicker
+            format="YYYY/MM/DD"
+            defaultValue={['2024/02/01', '2024/02/28']}
+          />
+        </DemoRow>
+        <DemoRow title="DD-MM-YYYY">
+          <RangePicker
+            format="DD-MM-YYYY"
+            defaultValue={['01-02-2024', '28-02-2024']}
+          />
+        </DemoRow>
+        <DemoRow title="MM/DD/YYYY">
+          <RangePicker
+            format="MM/DD/YYYY"
+            defaultValue={['02/01/2024', '02/28/2024']}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 不同日期格式
+<RangePicker format="YYYY-MM-DD" />  {/* 2024-02-01 */}
+<RangePicker format="YYYY/MM/DD" />  {/* 2024/02/01 */}
+<RangePicker format="DD-MM-YYYY" />  {/* 01-02-2024 */}
+<RangePicker format="MM/DD/YYYY" />  {/* 02/01/2024 */}`} />
+      </Section>
+
+      {/* RangePicker 禁用状态 */}
+      <Section title="禁用状态">
+        <DemoRow title="禁用">
+          <RangePicker disabled defaultValue={['2024-02-01', '2024-02-28']} />
+        </DemoRow>
+        <DemoRow title="只读">
+          <RangePicker readOnly defaultValue={['2024-02-01', '2024-02-28']} />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 禁用状态
+<RangePicker disabled defaultValue={['2024-02-01', '2024-02-28']} />
+
+// 只读状态
+<RangePicker readOnly defaultValue={['2024-02-01', '2024-02-28']} />`} />
+      </Section>
+
+      {/* RangePicker 禁用日期 */}
+      <Section title="禁用日期">
+        <DemoRow title="禁用周末">
+          <RangePicker
+            placeholder={['开始日期', '结束日期']}
+            disabledDate={disabledWeekend}
+          />
+        </DemoRow>
+        <DemoRow title="禁用特定日期">
+          <RangePicker
+            placeholder={['开始日期', '结束日期']}
+            disabledDates={disabledDates}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 禁用周末
+<RangePicker
+  disabledDate={(date) => {
+    const day = date.getDay();
+    return day === 0 || day === 6;
+  }}
+/>
+
+// 禁用特定日期
+<RangePicker
+  disabledDates={['2024-02-14', '2024-02-20', '2024-02-28']}
+/>`} />
+      </Section>
+
+      {/* RangePicker 带标签 */}
+      <Section title="带标签">
+        <DemoRow title="标签">
+          <RangePicker
+            label="选择范围"
+            placeholder={['开始日期', '结束日期']}
+          />
+        </DemoRow>
+        <DemoRow title="自定义标签">
+          <RangePicker
+            label={<span style={{ color: '#1890ff' }}>📅 日期范围</span>}
+            placeholder={['开始日期', '结束日期']}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 文字标签
+<RangePicker label="选择范围" />
+
+// 自定义标签
+<RangePicker
+  label={<span style={{ color: '#1890ff' }}>📅 日期范围</span>}
+/>`} />
+      </Section>
+
+      {/* RangePicker 底部按钮 */}
+      <Section title="底部按钮">
+        <DemoRow title="无确定按钮">
+          <RangePicker
+            showOk={false}
+            placeholder={['选择后自动关闭', '']}
+          />
+        </DemoRow>
+        <DemoRow title="显示确定">
+          <RangePicker
+            showOk={true}
+            placeholder={['需要点击确定', '']}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 无确定按钮，选择后自动关闭
+<RangePicker showOk={false} />
+
+// 显示确定按钮
+<RangePicker showOk={true} />`} />
+      </Section>
+
+      {/* RangePicker 不允许清除 */}
+      <Section title="不允许清除">
+        <DemoRow title="无清除按钮">
+          <RangePicker
+            allowClear={false}
+            defaultValue={['2024-02-01', '2024-02-28']}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 隐藏清除按钮
+<RangePicker allowClear={false} defaultValue={['2024-02-01', '2024-02-28']} />`} />
+      </Section>
+
+      {/* RangePicker 受控模式 */}
+      <Section title="受控模式">
+        <DemoRow title="完全受控">
+          <RangePicker
+            value={controlledRange}
+            onChange={setControlledRange}
+          />
+          <button
+            onClick={() => setControlledRange(['2024-03-01', '2024-03-15'])}
+            style={{
+              marginLeft: '8px',
+              padding: '4px 12px',
+              background: '#1890ff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            设置为 2024-03-01 ~ 2024-03-15
+          </button>
+          <button
+            onClick={() => setControlledRange(['', ''])}
+            style={{
+              marginLeft: '8px',
+              padding: '4px 12px',
+              background: '#ff4d4f',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            清空
+          </button>
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+const Demo = () => {
+  const [dates, setDates] = useState<[string, string]>(['2024-01-01', '2024-01-15']);
+  
+  return (
+    <>
+      <RangePicker value={dates} onChange={setDates} />
+      <button onClick={() => setDates(['2024-03-01', '2024-03-15'])}>
+        设置为 2024-03-01 ~ 2024-03-15
+      </button>
+      <button onClick={() => setDates(['', ''])}>
+        清空
+      </button>
+    </>
+  );
+};`} />
+      </Section>
+
+      {/* RangePicker 自定义分隔符 */}
+      <Section title="自定义分隔符">
+        <DemoRow title="文字分隔符">
+          <RangePicker
+            separator="至"
+            placeholder={['开始日期', '结束日期']}
+          />
+        </DemoRow>
+        <DemoRow title="自定义分隔符">
+          <RangePicker
+            separator={<span style={{ color: '#1890ff' }}>→</span>}
+            placeholder={['开始日期', '结束日期']}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { DatePicker } from '@zjpcy/simple-design';
+const { RangePicker } = DatePicker;
+
+// 文字分隔符
+<RangePicker separator="至" />
+
+// 自定义分隔符
+<RangePicker separator={<span style={{ color: '#1890ff' }}>→</span>} />`} />
+      </Section>
+
+      {/* RangePicker API 文档 */}
+      <Section title="RangePicker API">
+        <h3>Props</h3>
+        <Table
+          bordered
+          dataSource={[
+            { key: 'value', prop: 'value', description: '当前值 [开始日期, 结束日期]', type: '[string, string]', default: '-' },
+            { key: 'defaultValue', prop: 'defaultValue', description: '默认值', type: '[string, string]', default: '-' },
+            { key: 'onChange', prop: 'onChange', description: '日期变化时的回调', type: '(dates: [string, string]) => void', default: '-' },
+            { key: 'placeholder', prop: 'placeholder', description: '输入框占位符 [开始占位符, 结束占位符]', type: '[string, string]', default: "['开始日期', '结束日期']" },
+            { key: 'size', prop: 'size', description: '输入框大小', type: "'small' | 'middle' | 'large'", default: "'middle'" },
+            { key: 'format', prop: 'format', description: '日期格式', type: "'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD-MM-YYYY' | 'MM/DD/YYYY'", default: "'YYYY-MM-DD'" },
+            { key: 'disabled', prop: 'disabled', description: '是否禁用', type: 'boolean', default: 'false' },
+            { key: 'readOnly', prop: 'readOnly', description: '是否只读', type: 'boolean', default: 'false' },
+            { key: 'allowClear', prop: 'allowClear', description: '是否显示清除按钮', type: 'boolean', default: 'true' },
+            { key: 'width', prop: 'width', description: '输入框宽度', type: 'string | number', default: "'auto'" },
+            { key: 'disabledDate', prop: 'disabledDate', description: '禁用日期的函数', type: '(date: Date) => boolean', default: '-' },
+            { key: 'disabledDates', prop: 'disabledDates', description: '不可选择的日期列表', type: 'string[]', default: '-' },
+            { key: 'label', prop: 'label', description: '标签内容', type: 'string | ReactNode', default: '-' },
+            { key: 'labelGap', prop: 'labelGap', description: '标签到输入框的距离', type: 'string | number', default: '8' },
+            { key: 'labelClassName', prop: 'labelClassName', description: '标签的CSS类名', type: 'string', default: '-' },
+            { key: 'labelStyle', prop: 'labelStyle', description: '标签的样式', type: 'CSSProperties', default: '-' },
+            { key: 'showOk', prop: 'showOk', description: '是否显示"确定"按钮', type: 'boolean', default: 'true' },
+            { key: 'open', prop: 'open', description: '面板是否打开（受控）', type: 'boolean', default: '-' },
+            { key: 'onOpenChange', prop: 'onOpenChange', description: '面板打开状态改变时的回调', type: '(open: boolean) => void', default: '-' },
+            { key: 'separator', prop: 'separator', description: '日期分隔符，默认使用箭头图标', type: 'ReactNode', default: '箭头图标' },
+          ]}
+          columns={[
+            { title: '属性', dataIndex: 'prop', width: 150 },
+            { title: '说明', dataIndex: 'description' },
+            { title: '类型', dataIndex: 'type', width: 250 },
+            { title: '默认值', dataIndex: 'default', width: 120 },
+          ]}
+          pagination={false}
+        />
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Props</h3>
@@ -468,8 +812,7 @@ const Demo = () => {
             { key: 'labelGap', prop: 'labelGap', description: '标签到输入框的距离', type: 'string | number', default: '8' },
             { key: 'labelClassName', prop: 'labelClassName', description: '标签的CSS类名', type: 'string', default: '-' },
             { key: 'labelStyle', prop: 'labelStyle', description: '标签的样式', type: 'CSSProperties', default: '-' },
-            { key: 'showToday', prop: 'showToday', description: '是否显示"今天"按钮', type: 'boolean', default: 'false' },
-            { key: 'showOk', prop: 'showOk', description: '是否显示"确定"按钮', type: 'boolean', default: 'false' },
+            { key: 'showOk', prop: 'showOk', description: '是否显示"确定"按钮', type: 'boolean', default: 'true' },
             { key: 'open', prop: 'open', description: '面板是否打开（受控）', type: 'boolean', default: '-' },
             { key: 'onOpenChange', prop: 'onOpenChange', description: '面板打开状态改变时的回调', type: '(open: boolean) => void', default: '-' },
             { key: 'picker', prop: 'picker', description: '选择器类型', type: "'date' | 'month' | 'quarter' | 'year'", default: "'date'" },
