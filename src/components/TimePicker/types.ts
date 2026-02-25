@@ -84,8 +84,8 @@ export interface TimePickerPanelProps {
     showOk?: boolean;
     /** 点击"此刻"按钮的回调 */
     onNow?: () => void;
-    /** 点击"确定"按钮的回调 */
-    onOk?: () => void;
+    /** 点击"确定"按钮的回调，参数为面板当前值 */
+    onOk?: (panelValue: string) => void;
 }
 
 export interface TimeColumnProps {

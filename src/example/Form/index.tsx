@@ -219,8 +219,8 @@ const FormExample: React.FC = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
-import { useForm } from '@idp/design/components/Form';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
   const [form] = useForm();
@@ -295,7 +295,7 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const onFinish = (values) => {
@@ -356,7 +356,7 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const onFinish = (values) => {
@@ -443,7 +443,7 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -510,7 +510,7 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -567,7 +567,7 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -643,8 +643,8 @@ const Demo = () => {
             </Form.Item>
           </Form>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@idp/design';
-import { useForm } from '@idp/design/components/Form';
+        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
   const [form] = useForm();
@@ -785,8 +785,8 @@ const Demo = () => {
             </Form>
           </Modal>
         </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button, Modal } from '@idp/design';
-import { useForm } from '@idp/design/components/Form';
+        <CopyBlock code={`import { Form, Input, Button, Modal } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 import { useState } from 'react';
 
 const Demo = () => {

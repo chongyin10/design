@@ -122,7 +122,7 @@ const PopconfirmExample: React.FC = () => {
             <Button variant="danger">删除</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -143,7 +143,7 @@ const PopconfirmExample: React.FC = () => {
             <Button variant="danger">删除项目</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除此项目吗？"
@@ -166,7 +166,7 @@ const PopconfirmExample: React.FC = () => {
             <Button variant="danger">删除</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -192,7 +192,7 @@ const PopconfirmExample: React.FC = () => {
         <DemoRow title="删除次数">
           <span>已删除 {deleteCount} 次</span>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 const PopconfirmExample = () => {
   const [count, setCount] = useState(0);
@@ -240,7 +240,7 @@ const PopconfirmExample = () => {
             <Button variant="primary">提交</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button, Icon } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button, Icon } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -321,7 +321,7 @@ const PopconfirmExample = () => {
             </Popconfirm>
           </Flex>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button, Flex } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button, Flex } from '@zjpcy/simple-design';
 
 <Flex gap="small" wrap>
   <Popconfirm placement="top">
@@ -350,7 +350,7 @@ const PopconfirmExample = () => {
             <Button variant="danger">删除</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -372,7 +372,7 @@ const PopconfirmExample = () => {
             <Button variant="danger">删除 (禁用)</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -404,7 +404,7 @@ const PopconfirmExample = () => {
             <Button variant="secondary">提交</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 <Popconfirm
   title="确认删除吗？"
@@ -435,7 +435,7 @@ const PopconfirmExample = () => {
             <Button variant="primary">操作</Button>
           </Popconfirm>
         </DemoRow>
-        <CopyBlock code={`import { Popconfirm, Button } from '@idp/design';
+        <CopyBlock code={`import { Popconfirm, Button } from '@zjpcy/simple-design';
 
 const PopconfirmExample = () => {
   const handleConfirm = () => {

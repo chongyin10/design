@@ -104,7 +104,7 @@ const GridExample: React.FC = () => {
                         <Col span={6}><DemoBox text="col-6" bgColor="#f5222d" /></Col>
                     </Row>
                 </div>
-                <CopyBlock code={`import { Grid, Row, Col } from '@idp/design';
+                <CopyBlock code={`import { Grid, Row, Col } from '@zjpcy/simple-design';
 
 const Demo = () => (
     <>
@@ -150,7 +150,7 @@ const Demo = () => (
                         <span style={{ marginLeft: '12px', fontSize: '16px', fontWeight: 500, color: '#1890ff' }}>{flexGap}px</span>
                     </div>
                 </div>
-                <CopyBlock code={`import { Flex, Slider } from '@idp/design';
+                <CopyBlock code={`import { Flex, Slider } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const FlexGapDemo = () => {
@@ -210,7 +210,7 @@ const FlexGapDemo = () => {
                         </div>
                     </div>
                 </div>
-                <CopyBlock code={`import { Grid, Row, Col, Slider } from '@idp/design';
+                <CopyBlock code={`import { Grid, Row, Col, Slider } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const RowGapDemo = () => {
@@ -275,7 +275,7 @@ const RowGapDemo = () => {
                         <span style={{ marginLeft: '12px', fontSize: '16px', fontWeight: 500, color: '#1890ff' }}>{gridGap}px</span>
                     </div>
                 </div>
-                <CopyBlock code={`import { Grid, Row, Col, Slider } from '@idp/design';
+                <CopyBlock code={`import { Grid, Row, Col, Slider } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const GridGapDemo = () => {
@@ -332,7 +332,7 @@ const GridGapDemo = () => {
                         </Button>
                     </div>
                 </div>
-                <CopyBlock code={`import { Flex, Grid, Row, Col, Button } from '@idp/design';
+                <CopyBlock code={`import { Flex, Grid, Row, Col, Button } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const FlexGridDemo = () => {
@@ -379,7 +379,7 @@ const FlexGridDemo = () => {
                         </Row>
                     </Grid>
                 </div>
-                <CopyBlock code={`import { Flex, Grid, Row, Col } from '@idp/design';
+                <CopyBlock code={`import { Flex, Grid, Row, Col } from '@zjpcy/simple-design';
 
 const NestedDemo = () => {
     return (
@@ -432,7 +432,7 @@ const NestedDemo = () => {
                         <Col span={8}><DemoBox text="Both" bgColor="#13c2c2" /></Col>
                     </Row>
                 </div>
-                <CopyBlock code={`import { Grid, Row, Col } from '@idp/design';
+                <CopyBlock code={`import { Grid, Row, Col } from '@zjpcy/simple-design';
 
 const Demo = () => (
     <>

@@ -46,6 +46,7 @@ import TextareaExample from './Input/Textarea';
 import PopconfirmExample from './Popconfirm';
 import ProgressExample from './Progress';
 import TimePickerExample from './TimePicker';
+import DatePickerExample from './DatePicker';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -65,6 +66,7 @@ const App: React.FC = () => {
         { key: 'button', label: 'Button', name: 'Button', description: '按钮组件', icon: <span>🔘</span> },
         { key: 'checkbox', label: 'Checkbox', name: 'Checkbox', description: '复选框组件', icon: <span>☑️</span> },
         { key: 'cascader', label: 'Cascader', name: 'Cascader', description: '级联选择器组件', icon: <span>🔀</span> },
+        { key: 'datepicker', label: 'DatePicker', name: 'DatePicker', description: '日期选择器组件', icon: <span>📅</span> },
         { key: 'colorpicker', label: 'ColorPicker', name: 'ColorPicker', description: '颜色选择器组件', icon: <span>🎨</span> },
         { key: 'copytoclipboard', label: 'CopyToClipboard', name: 'CopyToClipboard', description: '剪贴板复制组件', icon: <span>📋</span> },
         { key: 'divider', label: 'Divider', name: 'Divider', description: '分割线组件', icon: <span>➖</span> },
@@ -372,6 +374,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <TextareaExample />;
             case 'timepicker':
                 return <TimePickerExample />;
+            case 'datepicker':
+                return <DatePickerExample />;
             default:
                 return <ButtonExample />;
         }

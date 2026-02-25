@@ -154,7 +154,7 @@ const TreeSelectExample: React.FC = () => {
                 <div style={{ marginTop: '12px', color: '#666' }}>
                     <p>选中值: {singleValue || '无'}</p>
                 </div>
-                <CopyBlock code={`import { TreeSelect } from '@idp/design';
+                <CopyBlock code={`import { TreeSelect } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const [value, setValue] = useState<string>();

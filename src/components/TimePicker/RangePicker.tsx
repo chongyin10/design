@@ -37,7 +37,8 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
     const [internalOpen, setInternalOpen] = useState(false);
     const [activePicker, setActivePicker] = useState<'start' | 'end'>('start');
     const [isFocused, setIsFocused] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+    const [dropdownVisible, setDropdownVisible] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -52,11 +53,67 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
     const updateDropdownPosition = useCallback(() => {
         if (!triggerRef.current) return;
         const rect = triggerRef.current.getBoundingClientRect();
+        const dropdownWidth = Math.max(rect.width, 200);
+
+        // 检查下方空间是否足够
+        const viewportHeight = window.innerHeight;
+        const spaceBelow = viewportHeight - rect.bottom;
+        const estimatedDropdownHeight = 280; // 估算下拉面板高度
+
+        let top = rect.bottom + window.scrollY + 4;
+        let left = rect.left + window.scrollX;
+
+        // 如果下方空间不够，则显示在上方
+        if (spaceBelow < estimatedDropdownHeight && rect.top > estimatedDropdownHeight) {
+            top = rect.top + window.scrollY - estimatedDropdownHeight - 4;
+        }
+
+        // 确保不超出视口右边界
+        const viewportWidth = window.innerWidth;
+        if (left + dropdownWidth > viewportWidth) {
+            left = viewportWidth - dropdownWidth - 16;
+        }
+
         setDropdownPosition({
-            top: rect.bottom + window.scrollY + 4,
-            left: rect.left + window.scrollX,
+            top,
+            left,
+            width: dropdownWidth,
         });
     }, []);
+
+    // 在弹出层渲染后，根据实际高度调整位置
+    useEffect(() => {
+        if (!isOpen || !dropdownRef.current || !triggerRef.current) return;
+
+        const adjustPosition = () => {
+            const rect = triggerRef.current!.getBoundingClientRect();
+            const dropdownEl = dropdownRef.current!;
+            const actualHeight = dropdownEl.offsetHeight;
+            const viewportHeight = window.innerHeight;
+            const spaceBelow = viewportHeight - rect.bottom;
+
+            // 如果当前显示在上方（根据之前的判断），使用实际高度重新计算 top
+            if (spaceBelow < 280 && rect.top > 280) {
+                const newTop = rect.top + window.scrollY - actualHeight - 4;
+                setDropdownPosition(prev => ({
+                    ...prev,
+                    top: newTop,
+                }));
+            }
+            // 位置确定后显示下拉框
+            setDropdownVisible(true);
+        };
+
+        // 先隐藏下拉框，计算完成后再显示
+        setDropdownVisible(false);
+        // 使用 requestAnimationFrame 确保 DOM 已渲染
+        requestAnimationFrame(adjustPosition);
+
+        // 清理函数
+        return () => {
+            setDropdownVisible(false);
+        };
+    }, [isOpen]);
 
     // 处理点击外部关闭
     useEffect(() => {
@@ -147,14 +204,18 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
                 ref={dropdownRef}
                 className="time-picker-dropdown time-range-picker-dropdown"
                 style={{
+                    position: 'fixed',
                     top: dropdownPosition.top,
                     left: dropdownPosition.left,
-                    minWidth: typeof width === 'number' ? width : parseInt(width as string, 10),
+                    minWidth: dropdownPosition.width || (typeof width === 'number' ? width : parseInt(width as string, 10)),
+                    zIndex: 999,
+                    opacity: dropdownVisible ? 1 : 0,
+                    transition: 'opacity 0.15s ease',
                 }}
             >
                 <TimePickerPanel
                     value={activeValue}
-                    onChange={(newValue) => handleChange(activePicker === 'start' ? 0 : 1, newValue)}
+                    onChange={(newValue: string) => handleChange(activePicker === 'start' ? 0 : 1, newValue)}
                     format={format}
                     hourStep={hourStep}
                     minuteStep={minuteStep}

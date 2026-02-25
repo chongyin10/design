@@ -131,7 +131,7 @@ const TextareaResizeExample: React.FC = () => {
         <h2>代码示例</h2>
         <div style={{ backgroundColor: '#1e1e1e', borderRadius: '4px', padding: '16px', overflow: 'auto' }}>
           <pre style={{ margin: 0, color: '#d4d4d4', fontSize: '14px', fontFamily: 'Consolas, Monaco, monospace' }}>
-{`import { Input } from '@idp/design';
+{`import { Input } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {

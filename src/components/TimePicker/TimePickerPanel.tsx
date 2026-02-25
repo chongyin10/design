@@ -187,7 +187,10 @@ const TimePickerPanel: React.FC<TimePickerPanelProps> = ({
                         </button>
                     )}
                     {showOk && (
-                        <button className="time-picker-ok-btn" onClick={onOk}>
+                        <button
+                            className="time-picker-ok-btn"
+                            onClick={() => onOk?.(formatTime(hour, minute, second, format))}
+                        >
                             确定
                         </button>
                     )}

@@ -119,7 +119,7 @@ const DrawerExample: React.FC = () => {
             ))}
           </Space>
         </DemoRow>
-        <CopyBlock code={`import { Drawer, Button } from '@idp/design';
+        <CopyBlock code={`import { Drawer, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [open, setOpen] = useState(false);
@@ -147,7 +147,7 @@ const Demo = () => {
             打开默认 footer 的抽屉
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Drawer, Button } from '@idp/design';
+        <CopyBlock code={`import { Drawer, Button } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -185,7 +185,7 @@ const Demo = () => {
             </Button>
           </Space>
         </DemoRow>
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 
 // 固定宽度
 <Drawer width={300} open={open} onClose={onClose} />
@@ -204,7 +204,7 @@ const Demo = () => {
             打开加载状态的抽屉
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 
 <Drawer loading={true} open={open} onClose={onClose}>
   <p>内容</p>
@@ -219,7 +219,7 @@ const Demo = () => {
             打开表单抽屉
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Drawer, Form, Input, Checkbox, Radio, Select, Button } from '@idp/design';
+        <CopyBlock code={`import { Drawer, Form, Input, Checkbox, Radio, Select, Button } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -354,7 +354,7 @@ const Demo = () => {
             自定义容器区域
           </div>
         </div>
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 import { useRef } from 'react';
 
 const Demo = () => {
@@ -387,7 +387,7 @@ const Demo = () => {
             </Button>
           </Space>
         </DemoRow>
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 
 // 关闭后保留子元素（默认）
 <Drawer open={open} onClose={onClose}>
@@ -426,7 +426,7 @@ const Demo = () => {
             </Button>
           </Space>
         </DemoRow>
-        <CopyBlock code={`import { Drawer, Flex, Button } from '@idp/design';
+        <CopyBlock code={`import { Drawer, Flex, Button } from '@zjpcy/simple-design';
 
 // 默认底部（推荐）- 不设置footer或设置为undefined
 <Drawer
@@ -474,7 +474,7 @@ const Demo = () => {
             打开无遮罩层的抽屉
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 
 // 无遮罩层
 <Drawer mask={false} open={open} onClose={onClose} />
@@ -506,7 +506,7 @@ const Demo = () => {
         </DemoRow>
         {currentSize.width && <p>当前宽度: {currentSize.width}px</p>}
         {currentSize.height && <p>当前高度: {currentSize.height}px</p>}
-        <CopyBlock code={`import { Drawer } from '@idp/design';
+        <CopyBlock code={`import { Drawer } from '@zjpcy/simple-design';
 
 // 启用拖拽调整大小
 <Drawer

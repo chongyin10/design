@@ -82,7 +82,7 @@ const RadioExample: React.FC = () => {
           </Radio>
           <span style={{ marginLeft: '8px' }}>{basicChecked ? '已选中' : '未选中'}</span>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [checked, setChecked] = useState(false);
@@ -106,7 +106,7 @@ const Demo = () => {
         <DemoRow title="默认未选中">
           <Radio defaultChecked={false}>默认未选中</Radio>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 默认选中
 <Radio defaultChecked={true}>默认选中</Radio>
@@ -123,7 +123,7 @@ const Demo = () => {
         <DemoRow title="禁用已选中">
           <Radio disabled={true} defaultChecked={true}>禁用已选中</Radio>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 禁用未选中
 <Radio disabled>禁用未选中</Radio>
@@ -149,7 +149,7 @@ const Demo = () => {
             小尺寸
           </Radio>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 大尺寸
 <Radio size="large">大尺寸</Radio>
@@ -185,7 +185,7 @@ const Demo = () => {
             <Radio value="orange">橙子</Radio>
           </Radio.Group>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 单选组
 <Radio.Group value={value} onChange={setValue}>
@@ -233,7 +233,7 @@ const Demo = () => {
             <Radio value="c">选项 C</Radio>
           </Radio.Group>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 按钮组
 <Radio.Group type="button" value={value} onChange={setValue}>
@@ -293,7 +293,7 @@ const Demo = () => {
             选项 C
           </Radio>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 基本用法
 <Radio label="启用" checked={checked} onChange={setChecked}>
@@ -344,7 +344,7 @@ const Demo = () => {
             单选框
           </Radio>
         </DemoRow>
-        <CopyBlock code={`import { Radio } from '@idp/design';
+        <CopyBlock code={`import { Radio } from '@zjpcy/simple-design';
 
 // 单选组监听变化
 <Radio.Group 

@@ -165,7 +165,7 @@ const LayoutExample: React.FC = () => {
             <Footer>Footer</Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Content, Footer } = Layout;
 
@@ -212,7 +212,7 @@ function App() {
             <Footer>Footer</Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Sider, Content, Footer } = Layout;
 const [collapsed, setCollapsed] = useState(false);
@@ -271,7 +271,7 @@ function App() {
             <Footer>Footer</Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Sider, Content, Footer } = Layout;
 const [collapsed, setCollapsed] = useState(false);
@@ -332,7 +332,7 @@ function App() {
             <Footer>Footer</Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Sider, Content, Footer } = Layout;
 const [collapsed, setCollapsed] = useState(false);
@@ -391,7 +391,7 @@ function App() {
             </Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -489,7 +489,7 @@ function App() {
             <Footer>Footer</Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout } from '@idp/design';
+        <CopyBlock code={`import { Layout } from '@zjpcy/simple-design';
 
 const { Header, Sider, Content, Footer } = Layout;
 const [collapsed, setCollapsed] = useState(false);
@@ -589,7 +589,7 @@ function App() {
             </Footer>
           </Layout>
         </div>
-        <CopyBlock code={`import { Layout, Menu, Icon } from '@idp/design';
+        <CopyBlock code={`import { Layout, Menu, Icon } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const { Header, Sider, Content, Footer } = Layout;

@@ -200,7 +200,7 @@ const TransferExample: React.FC = () => {
             console.log('目标 keys:', targetKeys);
           }}
         />
-        <CopyBlock code={`import { Transfer } from '@idp/design';
+        <CopyBlock code={`import { Transfer } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const [targetKeys, setTargetKeys] = useState(['1', '2']);

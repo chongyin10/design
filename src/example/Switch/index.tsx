@@ -79,7 +79,7 @@ const SwitchExample: React.FC = () => {
           />
           <span style={{ marginLeft: '8px' }}>{basicChecked ? '开' : '关'}</span>
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [checked, setChecked] = useState(false);
@@ -101,7 +101,7 @@ const Demo = () => {
             onChange={(val) => console.log('开关状态:', val)}
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 默认选中的开关
 <Switch defaultChecked={true} />
@@ -118,7 +118,7 @@ const Demo = () => {
         <DemoRow title="禁用已选中">
           <Switch disabled={true} defaultChecked={true} />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 禁用未选中
 <Switch disabled />
@@ -141,7 +141,7 @@ const Demo = () => {
             defaultChecked={true}
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 加载中
 <Switch loading />
@@ -166,7 +166,7 @@ const Demo = () => {
             onChange={setSmallChecked}
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 默认尺寸
 <Switch size="default" />
@@ -205,7 +205,7 @@ const Demo = () => {
             unCheckedChildren="已关闭"
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 文字开关
 <Switch
@@ -247,7 +247,7 @@ const Demo = () => {
         <DemoRow title="小尺寸 + 自定义宽度">
           <Switch size="small" width={50} />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 自定义宽度 60px
 <Switch width={60} />
@@ -273,7 +273,7 @@ const Demo = () => {
             onChange={(val) => console.log('自定义开关:', val)}
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 <Switch
   styles={{
@@ -318,7 +318,7 @@ const Demo = () => {
             onChange={setTextChecked}
           />
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 // 基本用法
 <Switch label="启用" checked={checked} onChange={setChecked} />
@@ -354,7 +354,7 @@ const Demo = () => {
           />
           <span style={{ marginLeft: '8px' }}>状态: {loadingChecked ? '开启' : '关闭'}</span>
         </DemoRow>
-        <CopyBlock code={`import { Switch } from '@idp/design';
+        <CopyBlock code={`import { Switch } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [checked, setChecked] = useState(false);

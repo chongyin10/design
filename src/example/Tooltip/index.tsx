@@ -76,7 +76,7 @@ const TooltipExample: React.FC = () => {
             <Button>鼠标移入</Button>
           </Tooltip>
         </DemoRow>
-        <CopyBlock code={`import { Tooltip, Button } from '@idp/design';
+        <CopyBlock code={`import { Tooltip, Button } from '@zjpcy/simple-design';
 
 <Tooltip title="这是一段提示文字">
   <Button>鼠标移入</Button>

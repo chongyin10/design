@@ -158,7 +158,7 @@ const MenuExample: React.FC = () => {
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`import { Menu, Icon } from '@idp/design';
+        <CopyBlock code={`import { Menu, Icon } from '@zjpcy/simple-design';
 
 const menuItems = [
   {

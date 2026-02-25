@@ -108,7 +108,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="警告按钮">
           <Button variant="warning">Warning</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
@@ -128,7 +128,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="大号">
           <Button variant="primary" size="large">Large</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 小号
 <Button variant="primary" size="small">Small</Button>
@@ -148,7 +148,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="禁用次要">
           <Button variant="secondary" disabled>Disabled</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" disabled>Disabled</Button>
 <Button variant="secondary" disabled>Disabled</Button>`} />
@@ -171,7 +171,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="警告图标">
           <Button variant="warning" icon="exclamation">Warning</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" icon="search">Search</Button>
 <Button variant="secondary" icon="user">User</Button>
@@ -194,7 +194,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="小号链接">
           <Button variant="link" href="#" size="small">Small Link</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 基础链接
 <Button variant="link" href="https://example.com">Link Button</Button>
@@ -217,7 +217,7 @@ const ButtonExample: React.FC = () => {
         <DemoRow title="带图标加载">
           <Button variant="secondary" loading>Loading</Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" loading>Loading</Button>
 <Button variant="secondary" loading>Loading</Button>`} />
@@ -232,7 +232,7 @@ const ButtonExample: React.FC = () => {
           <span>已点击 {clickCount} 次</span>
         </DemoRow>
         <CopyBlock code={`import { useState } from 'react';
-import { Button } from '@idp/design';
+import { Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [count, setCount] = useState(0);
@@ -266,7 +266,7 @@ const Demo = () => {
             Gradient Button
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Button } from '@idp/design';
+        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 圆角按钮
 <Button 

@@ -86,7 +86,7 @@ const TextareaExample: React.FC = () => {
           />
         </DemoRow>
         <p>当前值: {basicValue}</p>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -116,7 +116,7 @@ const Demo = () => {
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 <Textarea
   placeholder="请输入内容"
@@ -138,7 +138,7 @@ const Demo = () => {
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 <Textarea
   placeholder="请输入内容"
@@ -167,7 +167,7 @@ const Demo = () => {
             style={{ width: '350px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 // 基础标签
 <Textarea
@@ -206,7 +206,7 @@ const Demo = () => {
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 // 禁用状态
 <Textarea
@@ -247,7 +247,7 @@ const Demo = () => {
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 // 固定尺寸
 <Textarea
@@ -297,7 +297,7 @@ const Demo = () => {
         </DemoRow>
         {currentSize.width && <p>当前宽度: {currentSize.width}px</p>}
         {currentSize.height && <p>当前高度: {currentSize.height}px</p>}
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const [currentSize, setCurrentSize] = useState({});
@@ -344,7 +344,7 @@ const [currentSize, setCurrentSize] = useState({});
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 // 简单提示
 <Textarea
@@ -379,7 +379,7 @@ const [currentSize, setCurrentSize] = useState({});
             style={{ width: '300px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 <Textarea
   placeholder="最多输入100个字符"
@@ -406,7 +406,7 @@ const [currentSize, setCurrentSize] = useState({});
             style={{ width: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Textarea } from '@idp/design';
+        <CopyBlock code={`import { Textarea } from '@zjpcy/simple-design';
 
 <Textarea
   label="评论:"

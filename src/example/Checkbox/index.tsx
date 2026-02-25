@@ -80,7 +80,7 @@ const CheckboxExample: React.FC = () => {
           </Checkbox>
           <span style={{ marginLeft: '8px' }}>{basicChecked ? '已选中' : '未选中'}</span>
         </DemoRow>
-        <CopyBlock code={`import { Checkbox } from '@idp/design';
+        <CopyBlock code={`import { Checkbox } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [checked, setChecked] = useState(false);
@@ -162,7 +162,7 @@ const Demo = () => {
             已选中的禁用
           </Checkbox>
         </DemoRow>
-        <CopyBlock code={`import { Checkbox } from '@idp/design';
+        <CopyBlock code={`import { Checkbox } from '@zjpcy/simple-design';
 
 // 禁用未选中
 <Checkbox disabled>禁用选项</Checkbox>
@@ -187,7 +187,7 @@ const Demo = () => {
           />
           <span style={{ marginLeft: '16px' }}>已选: {groupValues.join(', ')}</span>
         </DemoRow>
-        <CopyBlock code={`import { Checkbox } from '@idp/design';
+        <CopyBlock code={`import { Checkbox } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -298,7 +298,7 @@ const Demo = () => {
             全不选
           </Button>
         </DemoRow>
-        <CopyBlock code={`import { Checkbox, Button } from '@idp/design';
+        <CopyBlock code={`import { Checkbox, Button } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {

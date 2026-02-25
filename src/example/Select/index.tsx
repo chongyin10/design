@@ -110,7 +110,7 @@ const SelectExample: React.FC = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -137,7 +137,7 @@ const Demo = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 // 默认选中
 <Select
@@ -170,7 +170,7 @@ const Demo = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 // 禁用选择器
 <Select disabled options={options} placeholder="禁用状态" />
@@ -217,7 +217,7 @@ const Demo = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 // 大尺寸
 <Select size="large" options={options} placeholder="大尺寸" />
@@ -280,7 +280,7 @@ const Demo = () => {
             placeholder="请选择水果"
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 // 自定义宽度
 <Select width={300} options={options} placeholder="宽度 300px" />
@@ -330,7 +330,7 @@ const Demo = () => {
             {open ? '关闭' : '打开'}下拉
           </button>
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -373,7 +373,7 @@ const Demo = () => {
             </Select.OptGroup>
           </Select>
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 <Select value={value} onChange={setValue}>
   <Select.OptGroup label="热带水果">
@@ -434,7 +434,7 @@ const Demo = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 
 // 基本用法
 <Select label="水果" value={value} onChange={setValue} options={options} />
@@ -485,7 +485,7 @@ const Demo = () => {
             style={{ maxWidth: '400px' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Select } from '@idp/design';
+        <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {

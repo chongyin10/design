@@ -135,7 +135,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="100%">
           <Progress percent={100} />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 <Progress percent={0} />
 <Progress percent={30} />
@@ -155,7 +155,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="大号">
           <Progress percent={50} size="large" />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 <Progress percent={50} size="small" />
 <Progress percent={50} size="default" />
@@ -176,7 +176,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="异常">
           <Progress percent={70} status="exception" />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 <Progress percent={30} />
 <Progress percent={60} status="active" />
@@ -201,7 +201,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="紫色">
           <Progress percent={60} strokeColor="#722ed1" />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 <Progress percent={60} strokeColor="#1890ff" />
 <Progress percent={60} strokeColor="#52c41a" />
@@ -225,7 +225,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="自定义方向">
           <Progress percent={60} strokeColor={{ from: '#1890ff', to: '#722ed1', direction: 'to top right' }} />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 // 蓝紫渐变
 <Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
@@ -259,7 +259,7 @@ const ProgressExample: React.FC = () => {
             <Progress percent={60} size="large" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
           </Flex>
         </DemoRow>
-        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+        <CopyBlock code={`import { Progress, Flex } from '@zjpcy/simple-design';
 
 // 蓝紫波浪
 <Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
@@ -294,7 +294,7 @@ const ProgressExample: React.FC = () => {
             <Progress type="circle" percent={70} strokeColor={{ from: '#52c41a', to: '#1890ff' }} />
           </div>
         </Flex>
-        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+        <CopyBlock code={`import { Progress, Flex } from '@zjpcy/simple-design';
 
 <Flex gap="large">
   <Progress type="circle" percent={30} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
@@ -317,7 +317,7 @@ const ProgressExample: React.FC = () => {
         <DemoRow title="完全自定义">
           <Progress percent={75} format={(percent) => `${Math.floor(percent as number)} / 100 MB`} />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 // 自定义文本
 <Progress percent={60} format={() => '加载中'} />
@@ -346,7 +346,7 @@ const ProgressExample: React.FC = () => {
           </Button>
         </Flex>
         <CopyBlock code={`import { useState, useEffect } from 'react';
-import { Progress, Button } from '@idp/design';
+import { Progress, Button } from '@zjpcy/simple-design';
 
 const DynamicProgress = () => {
   const [percent, setPercent] = useState(0);
@@ -407,7 +407,7 @@ const DynamicProgress = () => {
             <Progress type="circle" percent={100} status="success" />
           </div>
         </Flex>
-        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+        <CopyBlock code={`import { Progress, Flex } from '@zjpcy/simple-design';
 
 <Flex gap="large">
   <Progress type="circle" percent={0} />
@@ -457,7 +457,7 @@ const DynamicProgress = () => {
             </Progress>
           </div>
         </Flex>
-        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+        <CopyBlock code={`import { Progress, Flex } from '@zjpcy/simple-design';
 
 // 自定义文案
 <Progress type="circle" percent={75}>
@@ -517,7 +517,7 @@ const DynamicProgress = () => {
           </Flex>
         </Flex>
         <CopyBlock code={`import { useState, useEffect } from 'react';
-import { Progress, Button, Flex } from '@idp/design';
+import { Progress, Button, Flex } from '@zjpcy/simple-design';
 
 const DynamicDemo = () => {
   const [percent, setPercent] = useState(0);
@@ -580,7 +580,7 @@ const DynamicDemo = () => {
             suffix="完成"
           />
         </DemoRow>
-        <CopyBlock code={`import { Progress } from '@idp/design';
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
 
 // 文件上传
 <Progress 

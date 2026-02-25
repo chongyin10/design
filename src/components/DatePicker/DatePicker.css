@@ -1,0 +1,400 @@
+/* DatePicker 组件样式 */
+
+/* 动画关键帧 */
+@keyframes datePickerSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 下拉面板动画 */
+.idp-datepicker-dropdown {
+    animation: datePickerSlideIn 0.2s ease-out;
+}
+
+/* 日期选择器基础样式 */
+.idp-datepicker {
+    display: inline-block;
+    position: relative;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 触发器样式 */
+.idp-datepicker-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 12px;
+    border: 1px solid var(--idp-border-color-extra-light, #d9d9d9);
+    border-radius: 4px;
+    background-color: var(--idp-bg-color-white, #fff);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.idp-datepicker-trigger:focus-within,
+.idp-datepicker-trigger:hover:not(.idp-datepicker-trigger--disabled) {
+    border-color: var(--idp-primary-color, #1890ff);
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.idp-datepicker-trigger--disabled {
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* 尺寸变体 */
+.idp-datepicker-trigger--small {
+    height: 24px;
+    font-size: 12px;
+}
+
+.idp-datepicker-trigger--middle {
+    height: 32px;
+    font-size: 14px;
+}
+
+.idp-datepicker-trigger--large {
+    height: 40px;
+    font-size: 16px;
+}
+
+/* 值显示区域 */
+.idp-datepicker-value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+.idp-datepicker-value--placeholder {
+    color: var(--idp-text-color-light, #bfbfbf);
+}
+
+.idp-datepicker-value--disabled {
+    color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+}
+
+/* 后缀图标区域 */
+.idp-datepicker-suffix {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    color: var(--idp-text-color-light, #bfbfbf);
+    transition: all 0.2s ease;
+    position: relative;
+    width: 16px;
+    height: 16px;
+}
+
+/* 清除按钮和日历图标在同一位置互斥显示 */
+.idp-datepicker-clear,
+.idp-datepicker-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.2s ease;
+}
+
+.idp-datepicker-clear {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: transparent;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 2;
+}
+
+/* 悬停触发器时显示清除按钮 */
+.idp-datepicker-trigger:hover .idp-datepicker-clear {
+    opacity: 1;
+    visibility: visible;
+}
+
+.idp-datepicker-clear:hover {
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+}
+
+.idp-datepicker-icon {
+    font-size: 14px;
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+}
+
+/* 当有清除按钮且悬停时，隐藏日历图标 */
+.idp-datepicker-trigger:hover .idp-datepicker-icon.has-clear {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 日历面板 */
+.idp-datepicker-panel {
+    background-color: var(--idp-bg-color-white, #fff);
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    min-width: 280px;
+}
+
+/* 日历头部 */
+.idp-datepicker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
+}
+
+.idp-datepicker-header-left,
+.idp-datepicker-header-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.idp-datepicker-header-center {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+/* 头部按钮 */
+.idp-datepicker-header-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    transition: all 0.2s ease;
+}
+
+.idp-datepicker-header-btn:hover:not(:disabled) {
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+    color: var(--idp-primary-color, #1890ff);
+}
+
+.idp-datepicker-header-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 年份/月份选择器 */
+.idp-datepicker-select {
+    border: none;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 16px;
+}
+
+.idp-datepicker-select:hover {
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+}
+
+.idp-datepicker-select:focus {
+    outline: none;
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+}
+
+/* 日历主体 */
+.idp-datepicker-body {
+    padding: 12px 16px;
+}
+
+/* 星期标题 */
+.idp-datepicker-week-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 8px;
+}
+
+.idp-datepicker-week-day {
+    text-align: center;
+    font-size: 12px;
+    color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+    padding: 8px 0;
+    font-weight: 500;
+}
+
+/* 日期网格 */
+.idp-datepicker-date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+/* 日期单元格 */
+.idp-datepicker-date-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+.idp-datepicker-date-cell:hover:not(.idp-datepicker-date-cell--disabled):not(.idp-datepicker-date-cell--selected) {
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+}
+
+.idp-datepicker-date-cell--selected {
+    background-color: var(--idp-primary-color, #1890ff);
+    color: #fff;
+    font-weight: 500;
+}
+
+.idp-datepicker-date-cell--today:not(.idp-datepicker-date-cell--selected) {
+    color: var(--idp-primary-color, #1890ff);
+    border: 1px solid var(--idp-primary-color, #1890ff);
+    font-weight: 500;
+}
+
+.idp-datepicker-date-cell--disabled {
+    cursor: not-allowed;
+    color: var(--idp-text-color-light, #bfbfbf);
+    background-color: transparent;
+}
+
+.idp-datepicker-date-cell--other-month {
+    color: var(--idp-text-color-light, #bfbfbf);
+}
+
+/* 日历底部 */
+.idp-datepicker-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-top: 1px solid var(--idp-border-color-light, #f0f0f0);
+    gap: 8px;
+}
+
+/* 底部按钮 */
+.idp-datepicker-btn {
+    padding: 4px 12px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--idp-border-color-extra-light, #d9d9d9);
+    background-color: var(--idp-bg-color-white, #fff);
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+.idp-datepicker-btn:hover:not(:disabled) {
+    border-color: var(--idp-primary-color, #1890ff);
+    color: var(--idp-primary-color, #1890ff);
+}
+
+.idp-datepicker-btn--primary {
+    border-color: var(--idp-primary-color, #1890ff);
+    background-color: var(--idp-primary-color, #1890ff);
+    color: #fff;
+}
+
+.idp-datepicker-btn--primary:hover:not(:disabled) {
+    background-color: var(--idp-primary-hover-color, #40a9ff);
+    border-color: var(--idp-primary-hover-color, #40a9ff);
+}
+
+.idp-datepicker-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* 标签样式 */
+.idp-datepicker-label {
+    font-size: 14px;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+    white-space: nowrap;
+    user-select: none;
+}
+
+.idp-datepicker-with-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 年份选择器面板 */
+.idp-datepicker-year-panel {
+    background-color: var(--idp-bg-color-white, #fff);
+    border-radius: 6px;
+    min-width: 280px;
+}
+
+/* 年份网格 */
+.idp-datepicker-year-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 16px;
+}
+
+/* 年份单元格 */
+.idp-datepicker-year-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+    transition: all 0.2s ease;
+}
+
+.idp-datepicker-year-cell:hover:not(.idp-datepicker-year-cell--selected) {
+    background-color: var(--idp-bg-color-light, #f5f5f5);
+}
+
+.idp-datepicker-year-cell--selected {
+    background-color: var(--idp-primary-color, #1890ff);
+    color: #fff;
+    font-weight: 500;
+}
+
+.idp-datepicker-year-cell--current {
+    color: var(--idp-primary-color, #1890ff);
+    border: 1px solid var(--idp-primary-color, #1890ff);
+    font-weight: 500;
+}

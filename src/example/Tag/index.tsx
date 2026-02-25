@@ -113,7 +113,7 @@ const TagExample: React.FC = () => {
         <DemoRow title="大号标签">
           <Tag size="large">大号标签</Tag>
         </DemoRow>
-        <CopyBlock code={`import { Tag } from '@idp/design';
+        <CopyBlock code={`import { Tag } from '@zjpcy/simple-design';
 
 <Tag>默认标签</Tag>
 <Tag size="small">小号标签</Tag>
@@ -138,7 +138,7 @@ const TagExample: React.FC = () => {
           </Button>
         </DemoRow>
         <CopyBlock code={`import { useState } from 'react';
-import { Tag, Button } from '@idp/design';
+import { Tag, Button } from '@zjpcy/simple-design';
 
 const TagExample = () => {
   const [visibleTags, setVisibleTags] = useState(['标签1', '标签2', '标签3']);
@@ -184,7 +184,7 @@ const TagExample = () => {
         <DemoRow title="关闭图标">
           <Tag icon="close">关闭</Tag>
         </DemoRow>
-        <CopyBlock code={`import { Tag } from '@idp/design';
+        <CopyBlock code={`import { Tag } from '@zjpcy/simple-design';
 
 <Tag icon="search">搜索</Tag>
 <Tag icon="user">用户</Tag>
@@ -210,7 +210,7 @@ const TagExample = () => {
         <DemoRow title="紫色">
           <Tag backgroundColor="#f9f0ff" color="#722ed1">紫色标签</Tag>
         </DemoRow>
-        <CopyBlock code={`import { Tag } from '@idp/design';
+        <CopyBlock code={`import { Tag } from '@zjpcy/simple-design';
 
 <Tag backgroundColor="#e6f7ff" color="#1890ff">蓝色标签</Tag>
 <Tag backgroundColor="#f6ffed" color="#52c41a">绿色标签</Tag>
@@ -228,7 +228,7 @@ const TagExample = () => {
           <span>已点击 {clickCount} 次</span>
         </DemoRow>
         <CopyBlock code={`import { useState } from 'react';
-import { Tag } from '@idp/design';
+import { Tag } from '@zjpcy/simple-design';
 
 const TagExample = () => {
   const [count, setCount] = useState(0);
@@ -263,7 +263,7 @@ const TagExample = () => {
             <Tag closable>Node.js</Tag>
           </Flex>
         </DemoRow>
-        <CopyBlock code={`import { Flex, Tag } from '@idp/design';
+        <CopyBlock code={`import { Flex, Tag } from '@zjpcy/simple-design';
 
 // 状态标签
 <Flex gap="small" wrap>

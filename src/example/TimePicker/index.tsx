@@ -83,7 +83,7 @@ const TimePickerExample: React.FC = () => {
           />
           <span style={{ marginLeft: '8px' }}>当前选择: {basicTime || '未选择'}</span>
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -107,7 +107,7 @@ const Demo = () => {
             onChange={setDefaultTime}
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 预设时间为 14:30:00
 <TimePicker defaultValue="14:30:00" />`} />
@@ -123,7 +123,7 @@ const Demo = () => {
             placeholder="请选择时间"
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 时分格式（不显示秒）
 <TimePicker format="HH:mm" placeholder="请选择时间" />`} />
@@ -144,7 +144,7 @@ const Demo = () => {
             placeholder="请选择时间"
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 基本标签
 <TimePicker label="时间：" placeholder="请选择时间" />
@@ -161,7 +161,7 @@ const Demo = () => {
             disabled
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 <TimePicker value="12:00:00" disabled />`} />
       </Section>
@@ -181,7 +181,7 @@ const Demo = () => {
             minuteStep={15}
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 小时步长为 2，分钟步长为 5
 <TimePicker hourStep={2} minuteStep={5} placeholder="请选择时间" />
@@ -198,7 +198,7 @@ const Demo = () => {
             disabledHours={() => [0, 1, 2, 3, 4, 5, 6, 7, 8]}
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 禁用 0-8 点
 <TimePicker 
@@ -235,7 +235,7 @@ const Demo = () => {
             showOk={false}
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 
 // 默认显示"此刻"和"确定"按钮
 <TimePicker placeholder="请选择时间" />
@@ -280,7 +280,7 @@ const Demo = () => {
             disabled
           />
         </DemoRow>
-        <CopyBlock code={`import { TimePicker } from '@idp/design';
+        <CopyBlock code={`import { TimePicker } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {

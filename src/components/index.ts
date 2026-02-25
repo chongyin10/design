@@ -49,3 +49,5 @@ export { default as Progress } from './Progress';
 export type { ProgressProps, ProgressType, ProgressStatus } from './Progress';
 export { default as TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
+export { default as DatePicker } from './DatePicker';
+export type { DatePickerProps } from './DatePicker';

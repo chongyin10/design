@@ -80,7 +80,7 @@ const InputExample: React.FC = () => {
           />
           <span>值: {textValue}</span>
         </DemoRow>
-        <CopyBlock code={`import { Input } from '@idp/design';
+        <CopyBlock code={`import { Input } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -330,7 +330,7 @@ const Demo = () => {
             width="300px"
           />
         </DemoRow>
-        <CopyBlock code={`import { Input } from '@idp/design';
+        <CopyBlock code={`import { Input } from '@zjpcy/simple-design';
 
 // 基础搜索
 <Input.Search
@@ -380,7 +380,7 @@ const Demo = () => {
             width="300px"
           />
         </DemoRow>
-        <CopyBlock code={`import { Input } from '@idp/design';
+        <CopyBlock code={`import { Input } from '@zjpcy/simple-design';
 
 // 基本用法
 <Input.Password placeholder="请输入密码" />
@@ -540,7 +540,7 @@ const Demo = () => {
             </span>
           </div>
         </DemoRow>
-        <CopyBlock code={`import { Input } from '@idp/design';
+        <CopyBlock code={`import { Input } from '@zjpcy/simple-design';
 
 // 基本用法
 <Input.Textarea placeholder="请输入多行文本" />
