@@ -3,6 +3,15 @@ import { ReactNode } from 'react';
 export type ProgressType = 'line' | 'circle' | 'dashboard';
 export type ProgressStatus = 'success' | 'exception' | 'active' | 'normal';
 
+/** 渐变色配置 */
+export interface GradientConfig {
+    from: string;
+    to: string;
+    direction?: 'to right' | 'to left' | 'to top' | 'to bottom' | 'to bottom right' | 'to top right' | 'to bottom left' | 'to top left';
+    /** 是否启用波浪动画 */
+    animated?: boolean;
+}
+
 export interface ProgressProps {
     /** 百分比 */
     percent?: number;
@@ -14,8 +23,8 @@ export interface ProgressProps {
     showInfo?: boolean;
     /** 自定义显示文字 */
     format?: (percent?: number, successPercent?: number) => ReactNode;
-    /** 成功进度条颜色 */
-    strokeColor?: string;
+    /** 进度条颜色，支持纯色字符串或渐变对象 */
+    strokeColor?: string | GradientConfig;
     /** 背景颜色 */
     trailColor?: string;
     /** 线条粗细 */
@@ -34,6 +43,8 @@ export interface ProgressProps {
     prefix?: string;
     /** 后缀文字 */
     suffix?: string;
+    /** 自定义内部内容，支持 ReactNode，优先级高于默认的进度显示 */
+    children?: ReactNode;
     className?: string;
     style?: React.CSSProperties;
 }

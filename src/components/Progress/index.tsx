@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Icon from '../Icon';
-import { ProgressProps, ProgressStatus, ProgressType } from './types';
+import { ProgressProps, ProgressStatus, ProgressType, GradientConfig } from './types';
 import './Progress.css';
 
 const Progress: React.FC<ProgressProps> = ({
@@ -18,6 +18,7 @@ const Progress: React.FC<ProgressProps> = ({
     icon,
     prefix,
     suffix,
+    children,
     className,
     style
 }) => {
@@ -38,11 +39,45 @@ const Progress: React.FC<ProgressProps> = ({
         return `${Math.floor(percent)}%`;
     };
 
+    // 判断是否为渐变色
+    const isGradient = (color: string | GradientConfig): color is GradientConfig => {
+        return typeof color === 'object' && 'from' in color && 'to' in color;
+    };
+
+    // 获取渐变色样式
+    const getGradientStyle = (): React.CSSProperties => {
+        const finalColor = status === 'success' ? '#52c41a' : status === 'exception' ? '#ff4d4f' : strokeColor;
+
+        if (isGradient(finalColor)) {
+            const { from, to, direction = 'to right' } = finalColor;
+            return {
+                background: `linear-gradient(${direction}, ${from}, ${to})`
+            };
+        }
+
+        return {};
+    };
+
+    // 判断是否启用波浪动画
+    const isAnimated = (): boolean => {
+        const finalColor = status === 'success' ? '#52c41a' : status === 'exception' ? '#ff4d4f' : strokeColor;
+        return isGradient(finalColor) && finalColor.animated === true;
+    };
+
     // 获取进度条颜色
-    const getStrokeColor = () => {
+    const getStrokeColor = (): string => {
         if (status === 'success') return '#52c41a';
         if (status === 'exception') return '#ff4d4f';
+        if (isGradient(strokeColor)) {
+            return strokeColor.from;
+        }
         return strokeColor;
+    };
+
+    // 获取圆形进度条的渐变定义
+    const getGradientDef = (gradient: GradientConfig): string => {
+        const { from, to } = gradient;
+        return `from-${from.replace('#', '')}-to-${to.replace('#', '')}`;
     };
 
     // 渲染状态图标
@@ -62,9 +97,11 @@ const Progress: React.FC<ProgressProps> = ({
         const radius = 50 - (strokeWidth || 6);
         const circumference = 2 * Math.PI * radius;
         const offset = circumference - (percent / 100) * circumference;
+        const finalColor = status === 'success' ? '#52c41a' : status === 'exception' ? '#ff4d4f' : strokeColor;
+        const gradientId = isGradient(finalColor) ? getGradientDef(finalColor) : null;
 
         return (
-            <div 
+            <div
                 className={classNames('idp-progress', 'idp-progress--circle', className)}
                 style={style}
             >
@@ -74,6 +111,14 @@ const Progress: React.FC<ProgressProps> = ({
                     viewBox="0 0 120 120"
                     style={{ transform: 'rotate(-90deg)' }}
                 >
+                    {gradientId && (
+                        <defs>
+                            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stopColor={(finalColor as GradientConfig).from} />
+                                <stop offset="100%" stopColor={(finalColor as GradientConfig).to} />
+                            </linearGradient>
+                        </defs>
+                    )}
                     <circle
                         cx={60}
                         cy={60}
@@ -86,7 +131,7 @@ const Progress: React.FC<ProgressProps> = ({
                         cx={60}
                         cy={60}
                         r={radius}
-                        stroke={getStrokeColor()}
+                        stroke={gradientId ? `url(#${gradientId})` : getStrokeColor()}
                         strokeWidth={strokeWidth || 6}
                         fill="none"
                         strokeDasharray={circumference}
@@ -99,10 +144,14 @@ const Progress: React.FC<ProgressProps> = ({
                 </svg>
                 {showInfo && (
                     <div className="idp-progress-info" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}>
-                        {renderIcon()}
-                        {prefix}
-                        {formatPercent()}
-                        {suffix}
+                        {children || (
+                            <>
+                                {renderIcon()}
+                                {prefix}
+                                {formatPercent()}
+                                {suffix}
+                            </>
+                        )}
                     </div>
                 )}
             </div>
@@ -111,7 +160,7 @@ const Progress: React.FC<ProgressProps> = ({
 
     // 渲染线性进度条（默认）
     return (
-        <div 
+        <div
             className={classNames(
                 'idp-progress',
                 `idp-progress--${size}`,
@@ -128,11 +177,13 @@ const Progress: React.FC<ProgressProps> = ({
                         <div
                             className={classNames('idp-progress-bg', {
                                 'idp-progress-bg--success': status === 'success',
-                                'idp-progress-bg--exception': status === 'exception'
+                                'idp-progress-bg--exception': status === 'exception',
+                                'idp-progress-bg--animated': isAnimated()
                             })}
                             style={{
                                 width: `${Math.min(100, Math.max(0, percent))}%`,
-                                backgroundColor: getStrokeColor(),
+                                backgroundColor: isGradient(strokeColor) ? undefined : getStrokeColor(),
+                                ...getGradientStyle(),
                                 transition: transition ? 'width 0.3s cubic-bezier(0.34, 0.69, 0.1, 1)' : 'none'
                             }}
                         />

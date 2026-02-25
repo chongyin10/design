@@ -78,7 +78,7 @@ const ProgressExample: React.FC = () => {
     { property: 'status', description: '状态', type: "'success' | 'exception' | 'active' | 'normal'", default: '自动判断' },
     { property: 'showInfo', description: '是否显示进度百分比', type: 'boolean', default: 'true' },
     { property: 'format', description: '自定义显示格式', type: '(percent: number) => ReactNode', default: '-' },
-    { property: 'strokeColor', description: '进度条颜色', type: 'string', default: "'#1890ff'" },
+    { property: 'strokeColor', description: '进度条颜色，支持纯色或渐变对象（渐变支持 animated 开启波浪动画）', type: 'string | { from: string; to: string; direction?: string; animated?: boolean }', default: "'#1890ff'" },
     { property: 'trailColor', description: '背景条颜色', type: 'string', default: "'#f5f5f5'" },
     { property: 'strokeWidth', description: '线条粗细', type: 'number', default: '10' },
     { property: 'size', description: '尺寸', type: "'small' | 'default' | 'large'", default: "'default'" },
@@ -86,6 +86,7 @@ const ProgressExample: React.FC = () => {
     { property: 'icon', description: '前缀图标', type: 'ReactNode', default: '-' },
     { property: 'prefix', description: '前缀文字', type: 'string', default: '-' },
     { property: 'suffix', description: '后缀文字', type: 'string', default: '-' },
+    { property: 'children', description: '自定义内部内容（圆形进度条），优先级高于默认进度显示', type: 'ReactNode', default: '-' },
   ];
 
   // 模拟加载进度
@@ -209,6 +210,99 @@ const ProgressExample: React.FC = () => {
 <Progress percent={60} strokeColor="#722ed1" />`} />
       </Section>
 
+      {/* 渐变色 */}
+      <Section title="渐变色">
+        <p>通过传递渐变对象来创建渐变色进度条，支持线性进度条和圆形进度条。</p>
+        <DemoRow title="蓝紫渐变">
+          <Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
+        </DemoRow>
+        <DemoRow title="橙红渐变">
+          <Progress percent={60} strokeColor={{ from: '#faad14', to: '#ff4d4f' }} />
+        </DemoRow>
+        <DemoRow title="绿蓝渐变">
+          <Progress percent={60} strokeColor={{ from: '#52c41a', to: '#1890ff' }} />
+        </DemoRow>
+        <DemoRow title="自定义方向">
+          <Progress percent={60} strokeColor={{ from: '#1890ff', to: '#722ed1', direction: 'to top right' }} />
+        </DemoRow>
+        <CopyBlock code={`import { Progress } from '@idp/design';
+
+// 蓝紫渐变
+<Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
+
+// 橙红渐变
+<Progress percent={60} strokeColor={{ from: '#faad14', to: '#ff4d4f' }} />
+
+// 绿蓝渐变
+<Progress percent={60} strokeColor={{ from: '#52c41a', to: '#1890ff' }} />
+
+// 自定义方向
+<Progress percent={60} strokeColor={{ from: '#1890ff', to: '#722ed1', direction: 'to top right' }} />`} />
+      </Section>
+
+      {/* 波浪动画 */}
+      <Section title="波浪动画">
+        <p>通过设置 `animated: true` 启用波浪动画效果，渐变色会从左到右持续流动。</p>
+        <DemoRow title="蓝紫波浪">
+          <Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+        </DemoRow>
+        <DemoRow title="橙红波浪">
+          <Progress percent={60} strokeColor={{ from: '#faad14', to: '#ff4d4f', animated: true }} />
+        </DemoRow>
+        <DemoRow title="绿蓝波浪">
+          <Progress percent={60} strokeColor={{ from: '#52c41a', to: '#1890ff', animated: true }} />
+        </DemoRow>
+        <DemoRow title="不同尺寸">
+          <Flex direction="column" gap="middle" style={{ width: '300px' }}>
+            <Progress percent={60} size="small" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+            <Progress percent={60} size="default" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+            <Progress percent={60} size="large" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+          </Flex>
+        </DemoRow>
+        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+
+// 蓝紫波浪
+<Progress percent={60} strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+
+// 橙红波浪
+<Progress percent={60} strokeColor={{ from: '#faad14', to: '#ff4d4f', animated: true }} />
+
+// 绿蓝波浪
+<Progress percent={60} strokeColor={{ from: '#52c41a', to: '#1890ff', animated: true }} />
+
+// 不同尺寸
+<Flex direction="column" gap="middle" style={{ width: '300px' }}>
+  <Progress percent={60} size="small" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+  <Progress percent={60} size="default" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+  <Progress percent={60} size="large" strokeColor={{ from: '#108ee9', to: '#722ed1', animated: true }} />
+</Flex>`} />
+      </Section>
+
+      {/* 渐变色圆形进度条 */}
+      <Section title="渐变色圆形进度条">
+        <Flex gap="large" align="center">
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>蓝紫渐变</div>
+            <Progress type="circle" percent={30} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
+          </div>
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>橙红渐变</div>
+            <Progress type="circle" percent={50} strokeColor={{ from: '#faad14', to: '#ff4d4f' }} />
+          </div>
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>绿蓝渐变</div>
+            <Progress type="circle" percent={70} strokeColor={{ from: '#52c41a', to: '#1890ff' }} />
+          </div>
+        </Flex>
+        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+
+<Flex gap="large">
+  <Progress type="circle" percent={30} strokeColor={{ from: '#108ee9', to: '#722ed1' }} />
+  <Progress type="circle" percent={50} strokeColor={{ from: '#faad14', to: '#ff4d4f' }} />
+  <Progress type="circle" percent={70} strokeColor={{ from: '#52c41a', to: '#1890ff' }} />
+</Flex>`} />
+      </Section>
+
       {/* 自定义格式 */}
       <Section title="自定义格式">
         <DemoRow title="自定义文本">
@@ -322,6 +416,79 @@ const DynamicProgress = () => {
   <Progress type="circle" percent={70} />
   <Progress type="circle" percent={100} status="success" />
 </Flex>`} />
+      </Section>
+
+      {/* 圆形进度条 - 自定义内容 */}
+      <Section title="圆形进度条 - 自定义内容">
+        <Flex gap="large" align="center">
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>自定义文案</div>
+            <Progress type="circle" percent={75}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 24, fontWeight: 'bold' }}>75%</div>
+                <div style={{ fontSize: 12, color: '#999' }}>已完成</div>
+              </div>
+            </Progress>
+          </div>
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>数据统计</div>
+            <Progress type="circle" percent={60} strokeColor="#52c41a">
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 28, fontWeight: 'bold', color: '#52c41a' }}>60</div>
+                <div style={{ fontSize: 12, color: '#999' }}>个任务</div>
+              </div>
+            </Progress>
+          </div>
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>自定义图标</div>
+            <Progress type="circle" percent={100} status="success">
+              <svg viewBox="0 0 1024 1024" width="32" height="32" fill="#52c41a">
+                <path d="M912 190h-69.9c-9.4 0-18.4 3.7-25.1 10.3L512 505.3 206.8 200.3c-6.7-6.6-15.7-10.3-25.1-10.3H112c-17.7 0-32 14.3-32 32s14.3 32 32 32h62.2l301.3 301.3c6.2 6.2 14.4 9.4 22.6 9.4s16.4-3.1 22.6-9.4l301.3-301.3H912c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+              </svg>
+            </Progress>
+          </div>
+          <div>
+            <div style={{ marginBottom: '8px', textAlign: 'center' }}>分数展示</div>
+            <Progress type="circle" percent={85} strokeColor="#faad14">
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: 32, fontWeight: 'bold', color: '#faad14' }}>85</div>
+                <div style={{ fontSize: 12, color: '#999' }}>分</div>
+              </div>
+            </Progress>
+          </div>
+        </Flex>
+        <CopyBlock code={`import { Progress, Flex } from '@idp/design';
+
+// 自定义文案
+<Progress type="circle" percent={75}>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ fontSize: 24, fontWeight: 'bold' }}>75%</div>
+    <div style={{ fontSize: 12, color: '#999' }}>已完成</div>
+  </div>
+</Progress>
+
+// 数据统计
+<Progress type="circle" percent={60} strokeColor="#52c41a">
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ fontSize: 28, fontWeight: 'bold', color: '#52c41a' }}>60</div>
+    <div style={{ fontSize: 12, color: '#999' }}>个任务</div>
+  </div>
+</Progress>
+
+// 自定义图标
+<Progress type="circle" percent={100} status="success">
+  <svg viewBox="0 0 1024 1024" width="32" height="32" fill="#52c41a">
+    <path d="M912 190h-69.9c-9.4 0-18.4 3.7-25.1 10.3L512 505.3 206.8 200.3c-6.7-6.6-15.7-10.3-25.1-10.3H112c-17.7 0-32 14.3-32 32s14.3 32 32 32h62.2l301.3 301.3c6.2 6.2 14.4 9.4 22.6 9.4s16.4-3.1 22.6-9.4l301.3-301.3H912c17.7 0 32-14.3 32-32s-14.3-32-32-32z" />
+  </svg>
+</Progress>
+
+// 分数展示
+<Progress type="circle" percent={85} strokeColor="#faad14">
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ fontSize: 32, fontWeight: 'bold', color: '#faad14' }}>85</div>
+    <div style={{ fontSize: 12, color: '#999' }}>分</div>
+  </div>
+</Progress>`} />
       </Section>
 
       {/* 实时动态 */}
