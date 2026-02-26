@@ -1,5 +1,7 @@
 import React from 'react';
 
+export type CarouselInfoPosition = 'bottom' | 'top' | 'left' | 'right' | 'center';
+
 export interface CarouselItem {
   /** 唯一标识 */
   key: string;
@@ -13,6 +15,8 @@ export interface CarouselItem {
   link?: string;
   /** 自定义渲染内容 */
   render?: () => React.ReactNode;
+  /** 文案位置 */
+  infoPosition?: CarouselInfoPosition;
 }
 
 export type CarouselEffect = 'slide' | 'fade' | 'flip' | 'cards' | 'creative' | 'coverflow' | 'parallax' | 'zoom' | 'book' | 'curtain' | 'mosaic' | 'rain';

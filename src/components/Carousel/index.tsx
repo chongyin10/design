@@ -455,7 +455,7 @@ const Carousel: React.FC<CarouselProps> = ({
                     draggable={false}
                   />
                   {(item.title || item.description) && (
-                    <div className="idp-carousel__info">
+                    <div className={classNames('idp-carousel__info', `idp-carousel__info--${item.infoPosition || 'bottom'}`)}>
                       {item.title && (
                         <div className="idp-carousel__title">{item.title}</div>
                       )}
