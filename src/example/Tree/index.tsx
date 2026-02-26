@@ -688,6 +688,50 @@ const treeData = [
 />`} />
       </Section>
 
+      {/* Title Tooltip */}
+      <Section title="Title Tooltip">
+        <p>通过 tooltip 属性为节点 title 添加提示信息，支持节点级别和全局配置。</p>
+        <DemoRow title="全局启用">
+          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+            <Tree
+              treeData={[
+                { key: '1', title: '鼠标悬停查看提示' },
+                { key: '2', title: '支持全局配置' },
+                { key: '3', title: '也支持节点级别' },
+              ]}
+              tooltip={{ placement: 'top', delay: 100 }}
+            />
+          </div>
+        </DemoRow>
+        <DemoRow title="节点级别配置">
+          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+            <Tree
+              treeData={[
+                { key: '1', title: '默认配置' },
+                { key: '2', title: '自定义提示内容', tooltip: { title: '这是自定义的提示内容', placement: 'bottom' } },
+                { key: '3', title: '仅启用', tooltip: true },
+              ]}
+            />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+
+// 全局启用
+<Tree
+  treeData={treeData}
+  tooltip={{ placement: 'top', delay: 100 }}
+/>
+
+// 节点级别配置
+const treeData: TreeNode[] = [
+  { key: '1', title: '默认配置' },
+  { key: '2', title: '自定义提示内容', tooltip: { title: '这是自定义的提示内容', placement: 'bottom' } },
+  { key: '3', title: '仅启用', tooltip: true },
+];
+
+<Tree treeData={treeData} />`} />
+      </Section>
+
       {/* 自定义节点渲染 */}
       <Section title="自定义节点渲染">
         <p>通过 renderNode 属性自定义节点的渲染方式。</p>
@@ -914,6 +958,7 @@ const Demo = () => {
             { key: '27', prop: 'onAddNode', description: '添加节点回调', type: '(parentNode: TreeNode) => TreeNode | TreeNode[] | void', default: '-' },
             { key: '28', prop: 'onRemoveNode', description: '删除节点回调，返回 false 可阻止删除', type: '(node: TreeNode) => boolean | void', default: '-' },
             { key: '29', prop: 'onEditNode', description: '编辑节点回调，返回新标题', type: '(node: TreeNode, newTitle: string) => string | void', default: '-' },
+            { key: '30', prop: 'tooltip', description: '全局 Tooltip 配置，默认关闭', type: 'TreeNodeTooltip | boolean', default: '-' },
           ]}
           columns={[
             { title: '属性', dataIndex: 'prop', width: 150 },
@@ -937,6 +982,29 @@ const Demo = () => {
             { key: '7', prop: 'selectable', description: '是否可选中', type: 'boolean', default: 'true' },
             { key: '8', prop: 'checkable', description: '是否可勾选', type: 'boolean', default: 'true' },
             { key: '9', prop: 'isLeaf', description: '是否为叶子节点', type: 'boolean', default: '-' },
+            { key: '10', prop: 'tooltip', description: 'Tooltip 配置，默认不启用', type: 'TreeNodeTooltip | boolean', default: '-' },
+          ]}
+          columns={[
+            { title: '属性', dataIndex: 'prop', width: 150 },
+            { title: '说明', dataIndex: 'description' },
+            { title: '类型', dataIndex: 'type', width: 250 },
+            { title: '默认值', dataIndex: 'default', width: 80 },
+          ]}
+          pagination={false}
+        />
+
+        <h3 style={{ marginTop: '24px' }}>TreeNodeTooltip 配置</h3>
+        <p>用于配置节点 title 的 Tooltip 提示。</p>
+        <Table
+          bordered
+          dataSource={[
+            { key: '1', prop: 'title', description: 'Tooltip 内容，不传则使用节点 title', type: 'React.ReactNode', default: '-' },
+            { key: '2', prop: 'placement', description: 'Tooltip 位置', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'" },
+            { key: '3', prop: 'trigger', description: '触发方式', type: "'hover' | 'click'", default: "'hover'" },
+            { key: '4', prop: 'delay', description: '延迟显示时间（毫秒）', type: 'number', default: '100' },
+            { key: '5', prop: 'backgroundColor', description: '自定义背景色', type: 'string', default: '-' },
+            { key: '6', prop: 'style', description: '自定义样式', type: 'React.CSSProperties', default: '-' },
+            { key: '7', prop: 'className', description: '自定义类名', type: 'string', default: '-' },
           ]}
           columns={[
             { title: '属性', dataIndex: 'prop', width: 150 },

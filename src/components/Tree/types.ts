@@ -1,5 +1,23 @@
 import * as React from 'react';
 
+/** Tooltip 配置 */
+export interface TreeNodeTooltip {
+  /** Tooltip 内容 */
+  title?: React.ReactNode;
+  /** 位置 */
+  placement?: 'top' | 'bottom' | 'left' | 'right';
+  /** 触发方式 */
+  trigger?: 'hover' | 'click';
+  /** 延迟显示时间（毫秒） */
+  delay?: number;
+  /** 自定义背景色 */
+  backgroundColor?: string;
+  /** 自定义样式 */
+  style?: React.CSSProperties;
+  /** 自定义类名 */
+  className?: string;
+}
+
 export interface TreeNode {
   /** 节点唯一标识 */
   key: string | number;
@@ -31,6 +49,8 @@ export interface TreeNode {
   render?: (node: TreeNode) => React.ReactNode;
   /** 节点拖拽相关 */
   draggable?: boolean;
+  /** Tooltip 配置，默认不启用 */
+  tooltip?: TreeNodeTooltip | boolean;
 }
 
 export interface TreeProps {
@@ -116,6 +136,8 @@ export interface TreeProps {
   defaultExpandAll?: boolean;
   /** 展开动画 */
   motion?: React.CSSProperties | ((node: TreeNode, isExpanded: boolean) => React.CSSProperties);
+  /** 全局 Tooltip 配置，默认关闭 */
+  tooltip?: TreeNodeTooltip | boolean;
 }
 
 export interface TreeNodeProps {

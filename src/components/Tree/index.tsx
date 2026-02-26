@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { useState, useCallback, useMemo, useRef, memo, forwardRef, useImperativeHandle } from 'react';
-import { TreeProps, TreeNode } from './types';
+import { TreeProps, TreeNode, TreeNodeTooltip } from './types';
+import Tooltip from '../Tooltip';
 import './Tree.css';
 
-export type { TreeProps, TreeNode } from './types';
+export type { TreeProps, TreeNode, TreeNodeTooltip } from './types';
 
 // Tree ref interface
 export interface TreeRef {
@@ -92,6 +93,8 @@ interface TreeNodeComponentProps {
   onSelect: (key: string | number, e: React.MouseEvent) => void;
   onCheck: (key: string | number, e: React.MouseEvent | React.KeyboardEvent) => void;
   onNodeMount?: (key: string | number, el: HTMLDivElement | null) => void;
+  // Tooltip
+  tooltip?: TreeNodeTooltip | boolean;
 }
 
 // ===== Utility Functions =====
@@ -286,6 +289,8 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   onSelect,
   onCheck,
   onNodeMount,
+  // Tooltip
+  tooltip: globalTooltip,
 }) => {
   const [dragOver, setDragOver] = useState(false);
   const [dropPosition, setDropPosition] = useState<'before' | 'after' | 'inside' | null>(null);
@@ -434,41 +439,86 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   // Render Title
   const renderTitle = () => {
     const titleClassName = `${prefixCls}-title`;
-    if (renderNode) {
-      return <span className={titleClassName}>{renderNode(node)}</span>;
-    }
-    if (isEditing) {
+
+    // 获取 Tooltip 配置（合并节点配置和全局配置）
+    const getTooltipConfig = (): TreeNodeTooltip | null => {
+      // 节点级别的配置优先
+      if (node.tooltip !== undefined) {
+        if (typeof node.tooltip === 'boolean') {
+          return node.tooltip ? { title: node.title } : null;
+        }
+        return { ...node.tooltip, title: node.tooltip.title || node.title };
+      }
+      // 使用全局配置
+      if (globalTooltip !== undefined) {
+        if (typeof globalTooltip === 'boolean') {
+          return globalTooltip ? { title: node.title } : null;
+        }
+        return { ...globalTooltip, title: globalTooltip.title || node.title };
+      }
+      return null;
+    };
+
+    const tooltipConfig = getTooltipConfig();
+
+    const renderTitleContent = () => {
+      if (renderNode) {
+        return <span className={titleClassName}>{renderNode(node)}</span>;
+      }
+      if (isEditing) {
+        return (
+          <span className={titleClassName}>
+            <input
+              type="text"
+              value={editValue || ''}
+              onChange={(e) => onEditChange?.(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  onEditConfirm?.();
+                } else if (e.key === 'Escape') {
+                  onEditCancel?.();
+                }
+              }}
+              onBlur={() => onEditConfirm?.()}
+              autoFocus
+              className={`${prefixCls}-title-input`}
+              style={{
+                border: '1px solid #1890ff',
+                borderRadius: '2px',
+                padding: '0 4px',
+                fontSize: 'inherit',
+                fontFamily: 'inherit',
+                outline: 'none',
+                width: 'auto',
+                minWidth: '60px',
+              }}
+            />
+          </span>
+        );
+      }
+      return <span className={titleClassName}>{node.title}</span>;
+    };
+
+    const titleContent = renderTitleContent();
+
+    // 如果配置了 tooltip，用 Tooltip 包裹
+    if (tooltipConfig && !isEditing) {
       return (
-        <span className={titleClassName}>
-          <input
-            type="text"
-            value={editValue || ''}
-            onChange={(e) => onEditChange?.(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                onEditConfirm?.();
-              } else if (e.key === 'Escape') {
-                onEditCancel?.();
-              }
-            }}
-            onBlur={() => onEditConfirm?.()}
-            autoFocus
-            className={`${prefixCls}-title-input`}
-            style={{
-              border: '1px solid #1890ff',
-              borderRadius: '2px',
-              padding: '0 4px',
-              fontSize: 'inherit',
-              fontFamily: 'inherit',
-              outline: 'none',
-              width: 'auto',
-              minWidth: '60px',
-            }}
-          />
-        </span>
+        <Tooltip
+          title={tooltipConfig.title || node.title}
+          placement={tooltipConfig.placement || 'top'}
+          trigger={tooltipConfig.trigger || 'hover'}
+          delay={tooltipConfig.delay ?? 100}
+          backgroundColor={tooltipConfig.backgroundColor}
+          style={tooltipConfig.style}
+          className={tooltipConfig.className}
+        >
+          {titleContent as React.ReactElement}
+        </Tooltip>
       );
     }
-    return <span className={titleClassName}>{node.title}</span>;
+
+    return titleContent;
   };
 
   // Render action buttons
@@ -703,6 +753,8 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
               onSelect={onSelect}
               onCheck={onCheck}
               onNodeMount={onNodeMount}
+              // Tooltip
+              tooltip={globalTooltip}
             />
           ))}
         </div>
@@ -751,6 +803,8 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   style = {},
   disabled = false,
   defaultExpandAll = false,
+  // Tooltip
+  tooltip: globalTooltip,
 }, ref) => {
   // State
   const [treeData, setTreeData] = useState<TreeNode[]>(externalTreeData);
@@ -1130,6 +1184,8 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
               onSelect={handleSelect}
               onCheck={handleCheck}
               onNodeMount={handleNodeMount}
+              // Tooltip
+              tooltip={globalTooltip}
             />
           ))}
         {renderEmpty()}

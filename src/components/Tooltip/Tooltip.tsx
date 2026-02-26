@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './Tooltip.css';
 
 export interface TooltipProps {
@@ -18,22 +18,30 @@ const Tooltip: React.FC<TooltipProps> = ({
     title,
     placement = 'top',
     trigger = 'hover',
-    delay = 300,
+    delay = 100,
     open,
     backgroundColor,
     style = {},
     className = ''
 }) => {
-    const [visible, setVisible] = useState(false);
+    // 内部状态
+    const [internalVisible, setInternalVisible] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
+
     const containerRef = useRef<HTMLSpanElement>(null);
     const tooltipRef = useRef<HTMLDivElement>(null);
-    const timeoutRef = useRef<number | null>(null);
+    const showTimeoutRef = useRef<number | null>(null);
+    const hideTimeoutRef = useRef<number | null>(null);
 
-    // 受控模式：使用 open；非受控模式：使用内部 visible
-    const isTooltipVisible = open !== undefined ? open : visible;
+    // 判断是否受控
+    const isControlled = open !== undefined;
+    // 最终显示状态
+    const shouldShow = isControlled ? open : internalVisible;
+    // 是否渲染 DOM（显示中或动画中）
+    const shouldRender = shouldShow || isAnimating;
 
-    const updatePosition = () => {
+    const updatePosition = useCallback(() => {
         if (!containerRef.current || !tooltipRef.current) return;
 
         const containerRect = containerRef.current.getBoundingClientRect();
@@ -64,76 +72,134 @@ const Tooltip: React.FC<TooltipProps> = ({
         }
 
         setPosition({ top: top + scrollTop, left: left + scrollLeft });
-    };
+    }, [placement]);
+
+    // 显示 tooltip
+    const show = useCallback(() => {
+        if (!title) return;
+
+        // 清除隐藏延时
+        if (hideTimeoutRef.current) {
+            clearTimeout(hideTimeoutRef.current);
+            hideTimeoutRef.current = null;
+        }
+
+        if (isControlled) return; // 受控模式下不处理内部状态
+
+        setInternalVisible(true);
+        // 下一帧触发动画
+        requestAnimationFrame(() => {
+            setIsAnimating(true);
+        });
+    }, [title, isControlled]);
+
+    // 隐藏 tooltip
+    const hide = useCallback(() => {
+        if (isControlled) return; // 受控模式下不处理内部状态
+
+        setIsAnimating(false);
+        // 等待动画结束后卸载 DOM
+        hideTimeoutRef.current = setTimeout(() => {
+            setInternalVisible(false);
+            hideTimeoutRef.current = null;
+        }, 200);
+    }, [isControlled]);
 
     const handleMouseEnter = () => {
-        if (title && open === undefined) {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-            timeoutRef.current = setTimeout(() => {
-                setVisible(true);
-                requestAnimationFrame(updatePosition);
-            }, delay);
+        if (trigger !== 'hover' || isControlled) return;
+
+        if (showTimeoutRef.current) {
+            clearTimeout(showTimeoutRef.current);
         }
+        showTimeoutRef.current = setTimeout(() => {
+            show();
+            showTimeoutRef.current = null;
+        }, delay);
     };
 
     const handleMouseLeave = () => {
-        if (open === undefined) {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-                timeoutRef.current = null;
-            }
-            setVisible(false);
+        if (trigger !== 'hover' || isControlled) return;
+
+        if (showTimeoutRef.current) {
+            clearTimeout(showTimeoutRef.current);
+            showTimeoutRef.current = null;
         }
+        hide();
     };
 
     const handleClick = () => {
-        if (trigger === 'click' && open === undefined) {
-            setVisible(!visible);
+        if (trigger !== 'click' || isControlled) return;
+
+        if (internalVisible) {
+            hide();
+        } else {
+            show();
         }
     };
 
-    // 检查点击是否发生在组件外部
-    const handleClickOutside = (event: MouseEvent) => {
-        if (trigger !== 'click' || open !== undefined || !visible) return;
+    // 点击外部关闭
+    const handleClickOutside = useCallback((event: MouseEvent) => {
+        if (trigger !== 'click' || isControlled || !internalVisible) return;
 
         const target = event.target as Node;
-        if (containerRef.current && !containerRef.current.contains(target) && tooltipRef.current && !tooltipRef.current.contains(target)) {
-            setVisible(false);
+        if (containerRef.current && !containerRef.current.contains(target) &&
+            tooltipRef.current && !tooltipRef.current.contains(target)) {
+            hide();
         }
-    };
+    }, [trigger, isControlled, internalVisible, hide]);
 
+    // 处理受控模式的动画
     useEffect(() => {
-        if (isTooltipVisible) {
+        if (isControlled) {
+            if (open) {
+                // 清除隐藏延时
+                if (hideTimeoutRef.current) {
+                    clearTimeout(hideTimeoutRef.current);
+                    hideTimeoutRef.current = null;
+                }
+                // 触发动画
+                requestAnimationFrame(() => {
+                    setIsAnimating(true);
+                });
+            } else {
+                setIsAnimating(false);
+                hideTimeoutRef.current = setTimeout(() => {
+                    hideTimeoutRef.current = null;
+                }, 200);
+            }
+        }
+    }, [open, isControlled]);
+
+    // 监听位置更新
+    useEffect(() => {
+        if (shouldRender) {
             requestAnimationFrame(updatePosition);
+
             const handleResize = () => updatePosition();
             const handleScroll = () => updatePosition();
 
             window.addEventListener('resize', handleResize);
             window.addEventListener('scroll', handleScroll, true);
 
-            // 为 click 触发方式添加外部点击关闭功能（仅在非受控模式下）
-            if (trigger === 'click' && open === undefined) {
+            if (trigger === 'click' && !isControlled) {
                 document.addEventListener('click', handleClickOutside);
             }
 
             return () => {
                 window.removeEventListener('resize', handleResize);
                 window.removeEventListener('scroll', handleScroll, true);
-                if (trigger === 'click' && open === undefined) {
+                if (trigger === 'click' && !isControlled) {
                     document.removeEventListener('click', handleClickOutside);
                 }
             };
         }
-    }, [isTooltipVisible, placement, trigger, open]);
+    }, [shouldRender, placement, trigger, isControlled, updatePosition, handleClickOutside]);
 
-    // 清理 timeout
+    // 清理
     useEffect(() => {
         return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
+            if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current);
+            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
         };
     }, []);
 
@@ -148,10 +214,10 @@ const Tooltip: React.FC<TooltipProps> = ({
             >
                 {children}
             </span>
-            {isTooltipVisible && title && (
+            {shouldRender && title && (
                 <div
                     ref={tooltipRef}
-                    className={`idp-tooltip idp-tooltip-${placement} ${className}`}
+                    className={`idp-tooltip idp-tooltip-${placement} ${isAnimating ? 'idp-tooltip-visible' : ''} ${className}`}
                     style={{
                         position: 'fixed',
                         top: position.top,
@@ -160,8 +226,15 @@ const Tooltip: React.FC<TooltipProps> = ({
                         backgroundColor: backgroundColor,
                         ...style
                     }}
-                    onMouseEnter={trigger === 'hover' && open === undefined ? () => setVisible(true) : undefined}
-                    onMouseLeave={trigger === 'hover' && open === undefined ? () => setVisible(false) : undefined}
+                    onMouseEnter={trigger === 'hover' && !isControlled ? () => {
+                        if (hideTimeoutRef.current) {
+                            clearTimeout(hideTimeoutRef.current);
+                            hideTimeoutRef.current = null;
+                        }
+                        setInternalVisible(true);
+                        setIsAnimating(true);
+                    } : undefined}
+                    onMouseLeave={trigger === 'hover' && !isControlled ? hide : undefined}
                 >
                     <div className="idp-tooltip-content">{title}</div>
                     <div
@@ -175,4 +248,3 @@ const Tooltip: React.FC<TooltipProps> = ({
 };
 
 export default Tooltip;
-
