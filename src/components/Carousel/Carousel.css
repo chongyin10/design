@@ -1,0 +1,323 @@
+.idp-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: var(--border-radius-base, 8px);
+  outline: none;
+}
+
+.idp-carousel:focus-visible {
+  box-shadow: 0 0 0 2px var(--primary-color, #1890ff);
+}
+
+/* 内容区域 */
+.idp-carousel__content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.idp-carousel--vertical .idp-carousel__content {
+  flex-direction: column;
+}
+
+.idp-carousel--fade .idp-carousel__content {
+  display: block;
+}
+
+/* 轮播项 */
+.idp-carousel__item {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.idp-carousel--fade .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.idp-carousel__item-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.idp-carousel__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* 信息区域 */
+.idp-carousel__info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    transparent 100%
+  );
+  color: #fff;
+}
+
+.idp-carousel__title {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.idp-carousel__description {
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* 箭头控制 */
+.idp-carousel__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.3s;
+  z-index: 10;
+  opacity: 0;
+}
+
+.idp-carousel:hover .idp-carousel__arrow,
+.idp-carousel--hover .idp-carousel__arrow {
+  opacity: 1;
+}
+
+.idp-carousel__arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.idp-carousel__arrow:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* 左箭头 */
+.idp-carousel__arrow--prev {
+  left: 0;
+  border-radius: 0 8px 8px 0;
+  clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%);
+}
+
+/* 右箭头 */
+.idp-carousel__arrow--next {
+  right: 0;
+  border-radius: 8px 0 0 8px;
+  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 85%);
+}
+
+/* 垂直方向的箭头 */
+.idp-carousel--vertical .idp-carousel__arrow {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 44px;
+}
+
+.idp-carousel--vertical .idp-carousel__arrow:hover {
+  transform: translateX(-50%) scale(1);
+}
+
+.idp-carousel--vertical .idp-carousel__arrow:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+/* 垂直方向上箭头 */
+.idp-carousel--vertical .idp-carousel__arrow--prev {
+  top: 0;
+  bottom: auto;
+  border-radius: 0 0 8px 8px;
+  clip-path: polygon(15% 100%, 0 0, 100% 0, 85% 100%);
+}
+
+/* 垂直方向下箭头 */
+.idp-carousel--vertical .idp-carousel__arrow--next {
+  top: auto;
+  bottom: 0;
+  border-radius: 8px 8px 0 0;
+  clip-path: polygon(0 100%, 15% 0, 85% 0, 100% 100%);
+}
+
+/* 指示器 */
+.idp-carousel__indicators {
+  position: absolute;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.idp-carousel__indicators--bottom {
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+}
+
+.idp-carousel__indicators--top {
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+}
+
+.idp-carousel__indicators--left {
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+}
+
+.idp-carousel__indicators--right {
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  flex-direction: column;
+}
+
+.idp-carousel__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+
+.idp-carousel__indicator:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.idp-carousel__indicator--active {
+  width: 24px;
+  background: #fff;
+}
+
+.idp-carousel__indicators--left .idp-carousel__indicator--active,
+.idp-carousel__indicators--right .idp-carousel__indicator--active {
+  width: 8px;
+  height: 24px;
+}
+
+/* 进度动画 */
+.idp-carousel__indicator--progress {
+  position: relative;
+  overflow: hidden;
+}
+
+.idp-carousel__indicator--progress .idp-carousel__indicator-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--idp-primary-color, #1890ff);
+  width: 0;
+  height: 100%;
+  animation: indicator-progress-horizontal var(--progress-duration, 3000ms) linear forwards;
+}
+
+.idp-carousel__indicators--left .idp-carousel__indicator--progress .idp-carousel__indicator-progress-bar,
+.idp-carousel__indicators--right .idp-carousel__indicator--progress .idp-carousel__indicator-progress-bar {
+  width: 100%;
+  height: 0;
+  animation-name: indicator-progress-vertical;
+}
+
+@keyframes indicator-progress-horizontal {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes indicator-progress-vertical {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+/* 页码显示 */
+.idp-carousel__pagination {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.idp-carousel__pagination-separator {
+  opacity: 0.6;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .idp-carousel__arrow {
+    width: 32px;
+    height: 56px;
+    opacity: 1;
+  }
+
+  .idp-carousel__arrow--prev,
+  .idp-carousel__arrow--next {
+    clip-path: none;
+    border-radius: 4px;
+  }
+
+  .idp-carousel__info {
+    padding: 16px;
+  }
+
+  .idp-carousel__title {
+    font-size: 16px;
+  }
+
+  .idp-carousel__description {
+    font-size: 12px;
+  }
+
+  .idp-carousel--vertical .idp-carousel__arrow {
+    width: 56px;
+    height: 32px;
+  }
+}

@@ -31,6 +31,7 @@ import MenuExample from './Menu';
 import PaginationExample from './Pagination';
 import StepsExample from './Steps';
 import SwitchExample from './Switch';
+import CarouselExample from './Carousel';
 import TagExample from './Tag';
 import GridExample from './Grid';
 import TabsExample from './Tabs';
@@ -65,6 +66,7 @@ const App: React.FC = () => {
         { key: 'breadcrumb', label: 'Breadcrumb', name: 'Breadcrumb', description: '面包屑组件', icon: <span>📁</span> },
         { key: 'button', label: 'Button', name: 'Button', description: '按钮组件', icon: <span>🔘</span> },
         { key: 'checkbox', label: 'Checkbox', name: 'Checkbox', description: '复选框组件', icon: <span>☑️</span> },
+        { key: 'carousel', label: 'Carousel', name: 'Carousel', description: '走马灯组件', icon: <span>🎠</span> },
         { key: 'cascader', label: 'Cascader', name: 'Cascader', description: '级联选择器组件', icon: <span>🔀</span> },
         { key: 'datepicker', label: 'DatePicker', name: 'DatePicker', description: '日期选择器组件', icon: <span>📅</span> },
         { key: 'colorpicker', label: 'ColorPicker', name: 'ColorPicker', description: '颜色选择器组件', icon: <span>🎨</span> },
@@ -336,6 +338,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <BreadcrumbExample />;
             case 'checkbox':
                 return <CheckboxExample />;
+            case 'carousel':
+                return <CarouselExample />;
             case 'cascader':
                 return <CascaderExample />;
             case 'dropdown':

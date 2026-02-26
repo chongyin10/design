@@ -1,4 +1,5 @@
 export { default as Button } from './Button';
+export { default as Carousel } from './Carousel';
 export { default as Cascader } from './Cascader';
 export { default as TreeSelect } from './TreeSelect';
 export { default as ColorPicker } from './ColorPicker';
