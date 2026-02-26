@@ -36,6 +36,10 @@ const Carousel: React.FC<CarouselProps> = ({
   
   const [isHovering, setIsHovering] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isRaining, setIsRaining] = useState(false);
+  const [rainDrops, setRainDrops] = useState<Array<{ id: number; left: number; delay: number; duration: number; isLarge: boolean }>>([]);
+  const [ripples, setRipples] = useState<Array<{ id: number; x: number; y: number }>>([]);
+  const rainTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const autoplayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
@@ -43,6 +47,7 @@ const Carousel: React.FC<CarouselProps> = ({
   const totalItems = items.length;
   const isVertical = direction === 'vertical';
   const isFade = effect === 'fade';
+  const is3D = ['flip', 'cards', 'creative', 'coverflow', 'parallax', 'zoom', 'book', 'curtain', 'mosaic', 'rain'].includes(effect);
 
   // 计算实际索引（用于循环）
   const getValidIndex = useCallback((index: number) => {
@@ -57,24 +62,47 @@ const Carousel: React.FC<CarouselProps> = ({
   }, [loop, totalItems]);
 
   // 切换到指定索引
-  const goTo = useCallback((index: number) => {
+  const goTo = useCallback((index: number, delayForRain = false) => {
     if (isTransitioning || totalItems <= 1) return;
     
     const validIndex = getValidIndex(index);
     
-    if (validIndex !== currentIndex) {
-      setIsTransitioning(true);
+    if (validIndex === currentIndex) return;
+    
+    // 如果是 rain 效果且需要延迟，先显示雨滴效果
+    if (effect === 'rain' && delayForRain && !isRaining) {
+      setIsRaining(true);
+      setRainDrops(generateRainDrops());
       
-      if (!isControlled) {
-        setInternalIndex(validIndex);
-      }
-      onChange?.(validIndex);
-      
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, duration);
+      // 延迟后执行切换
+      rainTimeoutRef.current = setTimeout(() => {
+        setIsTransitioning(true);
+        if (!isControlled) {
+          setInternalIndex(validIndex);
+        }
+        onChange?.(validIndex);
+        
+        setTimeout(() => {
+          setIsTransitioning(false);
+          setIsRaining(false);
+          setRainDrops([]);
+        }, duration);
+      }, 1500);
+      return;
     }
-  }, [currentIndex, isControlled, isTransitioning, onChange, getValidIndex, duration, totalItems]);
+    
+    // 普通切换
+    setIsTransitioning(true);
+    
+    if (!isControlled) {
+      setInternalIndex(validIndex);
+    }
+    onChange?.(validIndex);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, duration);
+  }, [currentIndex, isControlled, isTransitioning, onChange, getValidIndex, duration, totalItems, effect, isRaining]);
 
   // 下一张
   const goNext = useCallback(() => {
@@ -158,9 +186,168 @@ const Carousel: React.FC<CarouselProps> = ({
 
   // 计算滑动偏移量
   const slideOffset = useMemo(() => {
-    if (isFade) return 0;
+    if (isFade || is3D) return 0;
     return -currentIndex * 100;
-  }, [currentIndex, isFade]);
+  }, [currentIndex, isFade, is3D]);
+
+  // 计算循环模式下的最短路径差值
+  const getLoopDiff = useCallback((index: number, current: number, total: number): number => {
+    if (!loop) return index - current;
+    
+    const diff = index - current;
+    const altDiff = diff > 0 ? diff - total : diff + total;
+    
+    // 选择绝对值较小的路径
+    return Math.abs(diff) <= Math.abs(altDiff) ? diff : altDiff;
+  }, [loop]);
+
+  // 获取3D效果的样式
+  const get3DItemStyle = (index: number): React.CSSProperties => {
+    if (!is3D) return {};
+    
+    const isActive = index === currentIndex;
+    const diff = getLoopDiff(index, currentIndex, totalItems);
+    
+    switch (effect) {
+      case 'flip': {
+        const rotateY = diff * 180;
+        return {
+          transform: `rotateY(${rotateY}deg)`,
+          opacity: Math.abs(diff) <= 1 ? (isActive ? 1 : 0.5) : 0,
+          zIndex: isActive ? 10 : 1,
+        };
+      }
+      case 'cards': {
+        const translateX = diff * 30;
+        const translateZ = isActive ? 0 : -100;
+        const scale = isActive ? 1 : 0.9;
+        const rotateY = diff * 5;
+        return {
+          transform: `translateX(${translateX}%) translateZ(${translateZ}px) scale(${scale}) rotateY(${rotateY}deg)`,
+          opacity: isActive ? 1 : Math.abs(diff) <= 2 ? 0.6 - Math.abs(diff) * 0.2 : 0,
+          zIndex: isActive ? 10 : 5 - Math.abs(diff),
+        };
+      }
+      case 'coverflow': {
+        const absOffset = Math.abs(diff);
+        const rotateY = diff * -45;
+        const translateX = diff * 50;
+        const translateZ = isActive ? 0 : -200;
+        const scale = isActive ? 1 : 0.8;
+        return {
+          transform: `translateX(${translateX}%) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
+          opacity: absOffset <= 2 ? 1 - absOffset * 0.3 : 0,
+          zIndex: isActive ? 10 : 5 - absOffset,
+        };
+      }
+      case 'parallax': {
+        const translateX = diff * 100;
+        const scale = isActive ? 1 : 0.8;
+        return {
+          transform: `translateX(${translateX}%) scale(${scale})`,
+          opacity: Math.abs(diff) <= 1 ? 1 : 0,
+          zIndex: isActive ? 10 : 5,
+        };
+      }
+      case 'zoom': {
+        const scale = isActive ? 1 : 2;
+        const opacity = isActive ? 1 : 0;
+        const blur = isActive ? 0 : 10;
+        return {
+          transform: `scale(${scale})`,
+          opacity,
+          filter: `blur(${blur}px)`,
+          zIndex: isActive ? 10 : 1,
+        };
+      }
+      case 'book': {
+        const rotateY = diff < 0 ? -90 : diff > 0 ? 90 : 0;
+        const opacity = isActive ? 1 : diff === -1 ? 0.3 : 0;
+        return {
+          transform: `rotateY(${rotateY}deg)`,
+          opacity,
+          zIndex: isActive ? 10 : 5,
+        };
+      }
+      case 'mosaic': {
+        const scale = isActive ? 1 : 0.8;
+        const translateX = diff * 20;
+        const rotate = diff * 5;
+        return {
+          transform: `scale(${scale}) translateX(${translateX}%) rotate(${rotate}deg)`,
+          opacity: isActive ? 1 : 0,
+          filter: isActive ? 'blur(0)' : 'blur(5px)',
+          zIndex: isActive ? 10 : 5,
+        };
+      }
+      case 'creative': {
+        // 创意效果在CSS中处理
+        return {};
+      }
+      case 'curtain': {
+        const translateX = isActive ? 0 : diff < 0 ? -100 : 100;
+        const scaleX = isActive ? 1 : 0;
+        const origin = diff < 0 ? 'right' : 'left';
+        return {
+          transform: `translateX(${translateX}%) scaleX(${scaleX})`,
+          opacity: isActive ? 1 : 0,
+          zIndex: isActive ? 10 : 5,
+          transformOrigin: origin,
+        };
+      }
+      default:
+        return {};
+    }
+  };
+
+  // 生成雨滴
+  const generateRainDrops = useCallback(() => {
+    const drops = [];
+    for (let i = 0; i < 80; i++) {
+      const isLarge = Math.random() > 0.7;
+      drops.push({
+        id: i,
+        left: Math.random() * 100,
+        delay: Math.random() * 1.5,
+        duration: 0.4 + Math.random() * 0.4,
+        isLarge,
+      });
+    }
+    return drops;
+  }, []);
+
+  // 处理点击 - 触发雨滴效果
+  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (effect !== 'rain') {
+      return;
+    }
+    
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // 添加水波纹
+    const newRipple = { id: Date.now(), x, y };
+    setRipples(prev => [...prev, newRipple]);
+    
+    // 开始下雨
+    setIsRaining(true);
+    setRainDrops(generateRainDrops());
+    
+    // 延迟后切换到下一张
+    setTimeout(() => {
+      goNext();
+      setIsRaining(false);
+      setRainDrops([]);
+    }, 1500);
+    
+    // 清理水波纹
+    setTimeout(() => {
+      setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+    }, 1000);
+  };
 
   // 容器类名
   const containerClasses = classNames(
@@ -169,6 +356,7 @@ const Carousel: React.FC<CarouselProps> = ({
     `idp-carousel--${direction}`,
     {
       'idp-carousel--hover': isHovering,
+      'idp-carousel--raining': isRaining,
     },
     className
   );
@@ -200,6 +388,7 @@ const Carousel: React.FC<CarouselProps> = ({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
+      onClick={handleContainerClick}
       tabIndex={0}
       role="region"
       aria-roledescription="carousel"
@@ -209,7 +398,9 @@ const Carousel: React.FC<CarouselProps> = ({
         className={contentClasses}
         style={{
           ...contentStyle,
-          ...(isFade
+          ...(is3D
+            ? {}
+            : isFade
             ? {}
             : {
                 transform: isVertical
@@ -221,8 +412,12 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         {items.map((item, index) => {
           const isActive = index === currentIndex;
+          const diff = index - currentIndex;
           const itemClasses = classNames('idp-carousel__item', {
             'idp-carousel__item--active': isActive,
+            'idp-carousel__item--prev': diff === -1,
+            'idp-carousel__item--next': diff === 1,
+            'idp-carousel__item--exit': effect === 'book' && diff === -1,
           });
 
           return (
@@ -230,7 +425,9 @@ const Carousel: React.FC<CarouselProps> = ({
               key={item.key}
               className={itemClasses}
               style={{
-                ...(isFade
+                ...(is3D
+                  ? get3DItemStyle(index)
+                  : isFade
                   ? {
                       opacity: isActive ? 1 : 0,
                       zIndex: isActive ? 1 : 0,
@@ -345,8 +542,43 @@ const Carousel: React.FC<CarouselProps> = ({
         <span className="idp-carousel__pagination-separator">/</span>
         <span className="idp-carousel__pagination-total">{totalItems}</span>
       </div>
+
+      {/* 雨滴效果 - 雨雾遮罩 */}
+      {effect === 'rain' && (
+        <div className="idp-carousel__rain-overlay" />
+      )}
+
+      {/* 雨滴效果 - 雨滴 */}
+      {effect === 'rain' && rainDrops.map((drop) => (
+        <span
+          key={drop.id}
+          className={classNames('idp-carousel__rain-drop', {
+            'idp-carousel__rain-drop--large': drop.isLarge,
+          })}
+          style={{
+            left: `${drop.left}%`,
+            animationDelay: `${drop.delay}s`,
+            animationDuration: `${drop.duration}s`,
+          }}
+        />
+      ))}
+
+      {/* 雨滴效果 - 水波纹 */}
+      {effect === 'rain' && ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          className="idp-carousel__ripple"
+          style={{
+            left: ripple.x - 20,
+            top: ripple.y - 20,
+            width: 40,
+            height: 40,
+          }}
+        />
+      ))}
     </div>
   );
 };
 
 export default Carousel;
+

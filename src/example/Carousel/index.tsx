@@ -176,6 +176,72 @@ const [currentIndex, setCurrentIndex] = useState(0);
 <Carousel items={items} direction="vertical" style={{ height: 400 }} />`} />
       </Section>
 
+      {/* 3D 效果展示 */}
+      <Section title="3D 切换效果">
+        <DemoRow title="Flip 翻转">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="flip" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Cards 卡片">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="cards" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Coverflow 覆盖流">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="coverflow" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`import { Carousel } from '@zjpcy/simple-design';
+
+// 3D 效果：flip | cards | coverflow
+<Carousel items={items} effect="flip" style={{ height: 400 }} />`} />
+      </Section>
+
+      {/* 创意效果展示 */}
+      <Section title="创意切换效果">
+        <DemoRow title="Creative 创意">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="creative" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Parallax 视差">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="parallax" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Zoom 缩放">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="zoom" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Book 翻书">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="book" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Curtain 幕布">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="curtain" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Mosaic 马赛克">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="mosaic" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <DemoRow title="Rain 雨滴">
+          <div style={{ maxWidth: 800, width: '100%' }}>
+            <Carousel items={bannerItems} effect="rain" style={{ height: 300 }} autoplay={false} />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`import { Carousel } from '@zjpcy/simple-design';
+
+// 创意效果：creative | parallax | zoom | book | curtain | mosaic | rain
+<Carousel items={items} effect="creative" style={{ height: 400 }} />`} />
+      </Section>
+
       {/* 指示器位置 */}
       <Section title="指示器位置">
         <DemoRow title="左侧">
@@ -357,7 +423,7 @@ const imageOnlyItems = items.map(item => ({
             { key: 'onChange', prop: 'onChange', description: '切换时的回调', type: '(index: number) => void', default: '-' },
             { key: 'autoplay', prop: 'autoplay', description: '是否自动播放', type: 'boolean', default: 'true' },
             { key: 'interval', prop: 'interval', description: '自动播放间隔(ms)', type: 'number', default: '3000' },
-            { key: 'effect', prop: 'effect', description: '切换动画效果', type: "'slide' | 'fade'", default: "'slide'" },
+            { key: 'effect', prop: 'effect', description: '切换动画效果', type: "'slide' | 'fade' | 'cube' | 'flip' | 'cards' | 'creative' | 'coverflow' | 'parallax' | 'zoom' | 'book' | 'curtain' | 'mosaic' | 'rain'", default: "'slide'" },
             { key: 'direction', prop: 'direction', description: '切换方向', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
             { key: 'showIndicators', prop: 'showIndicators', description: '是否显示指示器', type: 'boolean', default: 'true' },
             { key: 'indicatorPosition', prop: 'indicatorPosition', description: '指示器位置', type: "'bottom' | 'top' | 'left' | 'right'", default: "'bottom'" },

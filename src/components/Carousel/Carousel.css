@@ -290,6 +290,280 @@
   opacity: 0.6;
 }
 
+/* ========== 3D 立体切换效果 ========== */
+
+/* 翻转效果 */
+.idp-carousel--flip {
+  perspective: 1000px;
+}
+
+.idp-carousel--flip .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--flip .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 卡片效果 */
+.idp-carousel--cards {
+  perspective: 1000px;
+}
+
+.idp-carousel--cards .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--cards .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 覆盖流效果 (coverflow) */
+.idp-carousel--coverflow {
+  perspective: 1000px;
+}
+
+.idp-carousel--coverflow .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--coverflow .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+}
+
+/* 视差效果 (parallax) */
+.idp-carousel--parallax {
+  perspective: 1000px;
+}
+
+.idp-carousel--parallax .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--parallax .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 缩放效果 (zoom) */
+.idp-carousel--zoom {
+  perspective: 1000px;
+}
+
+.idp-carousel--zoom .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--zoom .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 翻书效果 (book) */
+.idp-carousel--book {
+  perspective: 1500px;
+}
+
+.idp-carousel--book .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--book .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+
+.idp-carousel--book .idp-carousel__item--exit {
+  transform-origin: right center;
+}
+
+/* 幕布效果 (curtain) */
+.idp-carousel--curtain {
+  perspective: 1000px;
+}
+
+.idp-carousel--curtain .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--curtain .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 马赛克效果 (mosaic) */
+.idp-carousel--mosaic {
+  perspective: 1000px;
+}
+
+.idp-carousel--mosaic .idp-carousel__content {
+  transform-style: preserve-3d;
+}
+
+.idp-carousel--mosaic .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 创意效果 (creative) */
+.idp-carousel--creative {
+  overflow: visible;
+}
+
+.idp-carousel--creative .idp-carousel__content {
+  overflow: visible;
+}
+
+.idp-carousel--creative .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center center;
+}
+
+.idp-carousel--creative .idp-carousel__item--active {
+  z-index: 10;
+  transform: scale(1) rotate(0deg);
+  opacity: 1;
+}
+
+.idp-carousel--creative .idp-carousel__item:not(.idp-carousel__item--active) {
+  transform: scale(0.8) rotate(-15deg);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* 雨滴效果 (rain) */
+.idp-carousel--rain {
+  position: relative;
+  overflow: hidden;
+}
+
+.idp-carousel--rain .idp-carousel__content {
+  position: relative;
+  z-index: 1;
+}
+
+.idp-carousel--rain .idp-carousel__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 0.5s ease;
+}
+
+.idp-carousel__rain-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(180, 200, 220, 0.1) 0%,
+    rgba(160, 180, 200, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  animation: rain-fade-in 0.3s ease forwards;
+}
+
+.idp-carousel--raining .idp-carousel__rain-overlay {
+  opacity: 1;
+}
+
+@keyframes rain-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.idp-carousel__rain-drop {
+  position: absolute;
+  width: 2px;
+  height: 15px;
+  background: linear-gradient(to bottom, transparent, rgba(200, 210, 230, 0.8));
+  border-radius: 1px;
+  animation: rain-drop linear infinite;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.idp-carousel__rain-drop--large {
+  width: 3px;
+  height: 25px;
+  background: linear-gradient(to bottom, transparent, rgba(180, 195, 220, 0.9));
+}
+
+@keyframes rain-drop {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.idp-carousel__ripple {
+  position: absolute;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: ripple-effect 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 7;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+    border-width: 3px;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+    border-width: 0;
+  }
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
   .idp-carousel__arrow {
@@ -321,3 +595,4 @@
     height: 32px;
   }
 }
+

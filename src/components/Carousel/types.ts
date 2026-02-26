@@ -15,9 +15,13 @@ export interface CarouselItem {
   render?: () => React.ReactNode;
 }
 
-export type CarouselEffect = 'slide' | 'fade';
+export type CarouselEffect = 'slide' | 'fade' | 'flip' | 'cards' | 'creative' | 'coverflow' | 'parallax' | 'zoom' | 'book' | 'curtain' | 'mosaic' | 'rain';
 
 export type CarouselDirection = 'horizontal' | 'vertical';
+
+export type CarouselIndicatorPosition = 'bottom' | 'top' | 'left' | 'right' | 'center';
+
+export type CarouselArrowPosition = 'inside' | 'outside' | 'none';
 
 export interface CarouselProps {
   /** 轮播数据 */
@@ -39,7 +43,7 @@ export interface CarouselProps {
   /** 是否显示指示器 */
   showIndicators?: boolean;
   /** 指示器位置 */
-  indicatorPosition?: 'bottom' | 'top' | 'left' | 'right';
+  indicatorPosition?: CarouselIndicatorPosition;
   /** 是否显示箭头 */
   showArrows?: boolean;
   /** 是否循环播放 */
