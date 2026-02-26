@@ -52,3 +52,5 @@ export { default as TimePicker } from './TimePicker';
 export type { TimePickerProps } from './TimePicker';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps, DateRangePickerProps } from './DatePicker';
+export { default as Tree } from './Tree';
+export type { TreeProps, TreeNode, TreeRef } from './Tree';

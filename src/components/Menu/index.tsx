@@ -14,6 +14,44 @@ const renderCollapsedLabel = (label: string, icon?: React.ReactNode): React.Reac
 };
 
 /**
+ * 水平模式子菜单状态管理 Hook
+ * 处理子菜单的显示/隐藏动画，避免卸载导致的抖动
+ */
+const useHorizontalSubMenu = (isOpen: boolean) => {
+  const [isVisible, setIsVisible] = useState(isOpen);
+  const [shouldRender, setShouldRender] = useState(isOpen);
+
+  useEffect(() => {
+    let renderTimer: ReturnType<typeof setTimeout>;
+
+    if (isOpen) {
+      // 打开时：先渲染，再显示（触发进入动画）
+      setShouldRender(true);
+      // 使用 requestAnimationFrame 确保 DOM 已挂载
+      renderTimer = requestAnimationFrame(() => {
+        setIsVisible(true);
+      }) as unknown as ReturnType<typeof setTimeout>;
+    } else {
+      // 关闭时：先隐藏（触发退出动画），再卸载
+      setIsVisible(false);
+      renderTimer = setTimeout(() => {
+        setShouldRender(false);
+      }, 150); // 与 CSS 过渡时间匹配
+    }
+
+    return () => {
+      if (typeof renderTimer === 'number') {
+        cancelAnimationFrame(renderTimer);
+      } else {
+        clearTimeout(renderTimer);
+      }
+    };
+  }, [isOpen]);
+
+  return { isVisible, shouldRender };
+};
+
+/**
  * 菜单项组件 - 递归渲染菜单项及其子菜单
  */
 const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
@@ -37,14 +75,14 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
 
   const handleClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (item.disabled) return;
-    
+
     // 如果有子菜单，切换展开状态（先执行，避免与 onItemClick 的关闭逻辑冲突）
     if (hasChildren) {
       onToggleOpen(item.key);
     }
-    
+
     // 触发点击回调
     onItemClick(item, item.key);
   }, [item, onItemClick, onToggleOpen, hasChildren]);
@@ -60,15 +98,25 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   const paddingLeft = getPaddingLeft();
   const shouldOpen = isOpen && (!collapsed || isHorizontal);
 
+  // 水平模式使用延迟卸载避免抖动
+  const { isVisible: isHorizontalSubMenuVisible, shouldRender: shouldRenderHorizontalSubMenu } = useHorizontalSubMenu(
+    shouldOpen && isHorizontal && isRoot
+  );
+
   // 判断是否显示箭头
   const showArrow = hasChildren && (!collapsed || !isRoot);
 
   // 根据当前模式决定子菜单如何展开
   const getSubMenuClass = () => {
-    if (!shouldOpen) return '';
-    if (isHorizontal && isRoot) return 'open horizontal-popup';
-    if (isInline) return 'open inline';
-    return 'open';
+    const baseClass = isHorizontal && isRoot ? 'horizontal-popup' : '';
+    const openClass = (isHorizontal && isRoot)
+      ? (isHorizontalSubMenuVisible ? 'open' : '')
+      : (shouldOpen ? 'open' : '');
+    const inlineClass = isInline && shouldOpen ? 'open inline' : '';
+
+    if (isHorizontal && isRoot) return `${openClass} ${baseClass}`.trim();
+    if (isInline) return inlineClass;
+    return shouldOpen ? 'open' : '';
   };
 
   // 根据层级确定主题：根目录使用传入的 theme，子目录根据层级切换
@@ -118,8 +166,8 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       </div>
 
       {/* 子菜单 */}
-      {/* 水平弹出式子菜单仅在展开时渲染，垂直/内联模式始终渲染以支持动画 */}
-      {(hasChildren && (isHorizontal ? shouldOpen : true)) && (
+      {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联模式始终渲染以支持动画 */}
+      {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
         <div className={`idp-menu-submenu ${getSubMenuClass()} ${mode} level-${level}`}>
           <div className="idp-menu-submenu-content">
             {item.children?.map((child: MenuItem) => (

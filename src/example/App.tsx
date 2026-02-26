@@ -48,6 +48,7 @@ import PopconfirmExample from './Popconfirm';
 import ProgressExample from './Progress';
 import TimePickerExample from './TimePicker';
 import DatePickerExample from './DatePicker';
+import TreeExample from './Tree';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -108,6 +109,7 @@ const App: React.FC = () => {
         { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
         { key: 'tooltip', label: 'Tooltip', name: 'Tooltip', description: '提示框组件', icon: <span>💬</span> },
         { key: 'transfer', label: 'Transfer', name: 'Transfer', description: '穿梭框组件', icon: <span>🔄</span> },
+        { key: 'tree', label: 'Tree', name: 'Tree', description: '树形控件组件', icon: <span>🌳</span> },
         { key: 'treeselect', label: 'TreeSelect', name: 'TreeSelect', description: '树型选择器组件', icon: <span>🌲</span> },
         { key: 'typography', label: 'Typography', name: 'Typography', description: '排版组件', icon: <span>📝</span> },
         { key: 'variables', label: 'Variables', name: 'Variables', description: '自定义组件库主题颜色', icon: <span>🎨</span> },
@@ -380,6 +382,8 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <TimePickerExample />;
             case 'datepicker':
                 return <DatePickerExample />;
+            case 'tree':
+                return <TreeExample />;
             default:
                 return <ButtonExample />;
         }

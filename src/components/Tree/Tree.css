@@ -1,0 +1,541 @@
+/* Tree Component Styles - Modern Design */
+.idp-tree {
+  --tree-primary-color: #1890ff;
+  --tree-primary-light: #e6f7ff;
+  --tree-primary-hover: #bae7ff;
+  --tree-text-color: rgba(0, 0, 0, 0.85);
+  --tree-text-secondary: rgba(0, 0, 0, 0.45);
+  --tree-text-disabled: rgba(0, 0, 0, 0.25);
+  --tree-border-color: #d9d9d9;
+  --tree-bg-hover: rgba(0, 0, 0, 0.04);
+  --tree-bg-selected: #f0f7ff;
+  --tree-line-color: #e8e8e8;
+  --tree-shadow-focus: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  --tree-border-radius: 6px;
+  --tree-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  box-sizing: border-box;
+  margin: 0;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 1.5715;
+  list-style: none;
+  color: var(--tree-text-color);
+  background: #fff;
+  border-radius: var(--tree-border-radius);
+}
+
+/* Tree Node */
+.idp-tree-treenode {
+  position: relative;
+  padding: 2px 0;
+  margin: 0;
+  list-style: none;
+  outline: none;
+  white-space: nowrap;
+  transition: var(--tree-transition);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* 省略模式：启用 flex 布局 */
+.idp-tree-treenode-ellipsis {
+  display: flex;
+  align-items: center;
+}
+
+.idp-tree-treenode:focus > .idp-tree-node-content-wrapper {
+  outline: none;
+}
+
+/* Disabled State */
+.idp-tree-treenode-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.idp-tree-treenode-disabled .idp-tree-node-content-wrapper {
+  cursor: not-allowed;
+  color: var(--tree-text-disabled);
+  background: transparent !important;
+}
+
+.idp-tree-treenode-disabled .idp-tree-icon {
+  color: var(--tree-text-disabled);
+}
+
+/* Node Content Wrapper */
+.idp-tree-node-content-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: var(--tree-border-radius);
+  cursor: pointer;
+  transition: var(--tree-transition);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.idp-tree-node-content-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.idp-tree-node-content-wrapper:hover {
+  background-color: var(--tree-bg-hover);
+}
+
+.idp-tree-node-content-wrapper:hover::before {
+  transform: translateX(100%);
+}
+
+/* Selected State */
+.idp-tree-node-selected .idp-tree-node-content-wrapper {
+  background-color: var(--tree-bg-selected);
+  color: var(--tree-primary-color);
+  font-weight: 500;
+}
+
+.idp-tree-node-selected .idp-tree-node-content-wrapper:hover {
+  background-color: var(--tree-primary-hover);
+}
+
+.idp-tree-node-selected .idp-tree-icon {
+  color: var(--tree-primary-color);
+}
+
+/* Indent */
+.idp-tree-indent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+
+/* Remove indent line for the last level */
+.idp-tree-treenode:last-child > .idp-tree-indent::before {
+  height: 50%;
+}
+
+/* Switcher */
+.idp-tree-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: 0 2px;
+  padding: 0;
+  vertical-align: middle;
+  border: 0 none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  border-radius: 4px;
+  transition: var(--tree-transition);
+  color: var(--tree-text-secondary);
+}
+
+.idp-tree-switcher:hover {
+  background-color: var(--tree-bg-hover);
+  color: var(--tree-text-color);
+}
+
+.idp-tree-switcher-close {
+  transform: rotate(0deg);
+}
+
+.idp-tree-switcher-open {
+  transform: rotate(90deg);
+}
+
+.idp-tree-switcher svg {
+  transition: transform 0.2s ease;
+}
+
+.idp-tree-switcher-noline_close::after,
+.idp-tree-switcher-noline_open::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-left-color: currentColor;
+  transform: translate(-3px, -50%);
+}
+
+/* Checkbox - Unified with Checkbox component */
+.idp-tree-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin: 0 8px 0 0;
+  padding: 0;
+  vertical-align: middle;
+  border: 1px solid var(--tree-border-color);
+  border-radius: 2px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.idp-tree-checkbox:hover {
+  border-color: var(--tree-primary-color);
+}
+
+.idp-tree-checkbox-checked {
+  background-color: var(--tree-primary-color);
+  border-color: var(--tree-primary-color);
+}
+
+.idp-tree-checkbox-checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.idp-tree-checkbox-indeterminate {
+  background-color: var(--tree-primary-color);
+  border-color: var(--tree-primary-color);
+}
+
+.idp-tree-checkbox-indeterminate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 2px;
+  background-color: white;
+}
+
+.idp-tree-checkbox-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: var(--tree-bg-hover);
+}
+
+.idp-tree-checkbox-disabled:hover {
+  border-color: var(--tree-border-color);
+}
+
+.idp-tree-checkbox-disabled.idp-tree-checkbox-checked {
+  background-color: var(--tree-bg-hover);
+  border-color: var(--tree-border-color);
+}
+
+.idp-tree-checkbox-disabled.idp-tree-checkbox-checked::after {
+  border-color: var(--tree-text-disabled);
+}
+
+.idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate {
+  background-color: var(--tree-bg-hover);
+  border-color: var(--tree-border-color);
+}
+
+.idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate::after {
+  background-color: var(--tree-text-disabled);
+}
+
+/* Icon */
+.idp-tree-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0 6px 0 0;
+  font-size: 16px;
+  vertical-align: middle;
+  color: var(--tree-text-secondary);
+  transition: var(--tree-transition);
+}
+
+.idp-tree-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Title */
+.idp-tree-title {
+  padding: 0 4px;
+  transition: var(--tree-transition);
+}
+
+/* Node Content Wrapper - 统一使用 flex 布局 */
+.idp-tree-node-content-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.idp-tree-node-content-wrapper .idp-tree-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Child Tree */
+.idp-tree-child-tree {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  flex-basis: 100%;
+  flex-shrink: 0;
+  order: 99;
+}
+
+.idp-tree-child-tree-expand {
+  overflow: visible;
+}
+
+/* Animation */
+.idp-tree-child-tree-animated {
+  transition: height 0.25s ease, opacity 0.25s ease;
+}
+
+/* Show Line */
+.idp-tree-show-line .idp-tree-treenode {
+  position: relative;
+}
+
+.idp-tree-show-line .idp-tree-child-tree::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10px;
+  bottom: 14px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--tree-line-color), transparent);
+}
+
+.idp-tree-line-point {
+  position: absolute;
+  left: -14px;
+  top: 50%;
+  width: 8px;
+  height: 1px;
+  background-color: var(--tree-line-color);
+  transform: translateY(-50%);
+}
+
+/* Loading */
+.idp-tree-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.idp-tree-loading-icon {
+  animation: idp-tree-spin 1s linear infinite;
+  color: var(--tree-primary-color);
+}
+
+@keyframes idp-tree-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Draggable */
+.idp-tree-treenode-draggable {
+  cursor: grab;
+}
+
+.idp-tree-treenode-draggable:active {
+  cursor: grabbing;
+}
+
+.idp-tree-treenode-drag-over > .idp-tree-node-content-wrapper {
+  background-color: var(--tree-primary-light);
+  box-shadow: inset 0 0 0 2px var(--tree-primary-color);
+}
+
+.idp-tree-treenode-drop-target > .idp-tree-node-content-wrapper {
+  background-color: var(--tree-primary-hover);
+}
+
+.idp-tree-treenode-drag-over::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--tree-primary-color);
+  border-radius: 1px;
+}
+
+.idp-tree-treenode-drag-over[data-drop-position="before"]::before {
+  top: -1px;
+}
+
+.idp-tree-treenode-drag-over[data-drop-position="after"]::before {
+  bottom: -1px;
+}
+
+/* Search */
+.idp-tree-search-wrapper {
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%);
+  border-radius: var(--tree-border-radius);
+  border: 1px solid var(--tree-border-color);
+}
+
+.idp-tree-search-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--tree-border-color);
+  border-radius: var(--tree-border-radius);
+  font-size: 14px;
+  outline: none;
+  transition: var(--tree-transition);
+  background: #fff;
+}
+
+.idp-tree-search-input:focus {
+  border-color: var(--tree-primary-color);
+  box-shadow: var(--tree-shadow-focus);
+}
+
+.idp-tree-search-input:hover {
+  border-color: #40a9ff;
+}
+
+.idp-tree-search-input::placeholder {
+  color: var(--tree-text-secondary);
+}
+
+/* Highlight */
+.idp-tree-title-highlight {
+  background: linear-gradient(120deg, #ffe58f 0%, #ffd666 100%);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 500;
+  color: #874d00;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Empty State */
+.idp-tree-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--tree-text-secondary);
+  font-size: 14px;
+}
+
+.idp-tree-empty-icon {
+  font-size: 48px;
+  margin-bottom: 8px;
+  opacity: 0.3;
+}
+
+/* Node List */
+.idp-tree-node-list {
+  position: relative;
+}
+
+/* Leaf Node */
+.idp-tree-treenode-leaf .idp-tree-switcher {
+  visibility: hidden;
+}
+
+/* Custom Scrollbar */
+.idp-tree::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.idp-tree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.idp-tree::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+.idp-tree::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .idp-tree {
+    padding: 4px;
+    font-size: 13px;
+  }
+
+  .idp-tree-node-content-wrapper {
+    padding: 4px 8px;
+  }
+
+  .idp-tree-child-tree {
+    padding-left: 16px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .idp-tree {
+    --tree-text-color: rgba(255, 255, 255, 0.85);
+    --tree-text-secondary: rgba(255, 255, 255, 0.45);
+    --tree-text-disabled: rgba(255, 255, 255, 0.25);
+    --tree-border-color: #434343;
+    --tree-bg-hover: rgba(255, 255, 255, 0.08);
+    --tree-bg-selected: rgba(24, 144, 255, 0.15);
+    --tree-line-color: #434343;
+    background: #141414;
+  }
+
+  .idp-tree-checkbox {
+    background-color: transparent;
+    border-color: var(--tree-border-color);
+  }
+
+  .idp-tree-search-wrapper {
+    background: linear-gradient(135deg, #1f1f1f 0%, #141414 100%);
+  }
+
+  .idp-tree-search-input {
+    background: #1f1f1f;
+    color: var(--tree-text-color);
+  }
+}
