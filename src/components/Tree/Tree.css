@@ -453,6 +453,173 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Action Buttons */
+.idp-tree-actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.idp-tree-treenode:hover .idp-tree-actions {
+  opacity: 1;
+}
+
+.idp-tree-action-btn {
+  padding: 0 4px;
+  margin-left: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #1890ff;
+  transition: all 0.2s;
+  border-radius: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+}
+
+.idp-tree-action-btn:hover {
+  background-color: rgba(24, 144, 255, 0.1);
+}
+
+.idp-tree-action-remove {
+  color: #ff4d4f;
+}
+
+.idp-tree-action-remove:hover {
+  background-color: rgba(255, 77, 79, 0.1);
+}
+
+/* Dropdown Action Menu */
+.idp-tree-actions-dropdown {
+  position: relative;
+  margin-left: auto;
+}
+
+.idp-tree-action-trigger {
+  padding: 0 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #1890ff;
+  opacity: 0;
+  transition: all 0.2s;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+}
+
+.idp-tree-treenode:hover .idp-tree-action-trigger {
+  opacity: 1;
+}
+
+.idp-tree-action-trigger:hover {
+  background-color: rgba(24, 144, 255, 0.1);
+}
+
+.idp-tree-action-menu {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  min-width: 120px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  z-index: 1000;
+  margin-left: 8px;
+  animation: idp-tree-dropdown-in 0.15s ease;
+}
+
+/* 左侧箭头 */
+.idp-tree-action-menu::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid #fff;
+}
+
+/* 桥接区域：连接触发器和菜单，防止鼠标移动时菜单消失 */
+.idp-tree-action-menu::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: transparent;
+}
+
+@keyframes idp-tree-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.idp-tree-action-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--tree-text-color);
+  transition: all 0.2s;
+}
+
+.idp-tree-action-menu-item:hover {
+  background-color: var(--tree-bg-hover);
+}
+
+.idp-tree-action-menu-item.idp-tree-action-menu-remove {
+  color: #ff4d4f;
+}
+
+.idp-tree-action-menu-item.idp-tree-action-menu-remove:hover {
+  background-color: rgba(255, 77, 79, 0.1);
+}
+
+.idp-tree-action-menu-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+.idp-tree-title-input {
+  border: 1px solid #1890ff;
+  border-radius: 2px;
+  padding: 0 4px;
+  font-size: inherit;
+  font-family: inherit;
+  outline: none;
+  min-width: 60px;
+  height: 20px;
+}
+
 /* Empty State */
 .idp-tree-empty {
   padding: 24px;

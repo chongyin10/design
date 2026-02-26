@@ -35,7 +35,7 @@ export interface TreeNode {
 
 export interface TreeProps {
   /** 树数据 */
-  treeData: TreeNode[];
+  treeData?: TreeNode[];
   /** 默认展开的键 */
   defaultExpandedKeys?: (string | number)[];
   /** 展开的键（受控） */
@@ -86,6 +86,20 @@ export interface TreeProps {
   onDrop?: (params: { event: MouseEvent; node: TreeNode; dragNode: TreeNode; dragPosition: 'before' | 'after' | 'inside' }) => void;
   /** 拖拽结束回调 */
   onDragEnd?: (params: { event: MouseEvent; node: TreeNode }) => void;
+  /** 是否支持动态添加节点 */
+  addable?: boolean;
+  /** 是否支持删除节点 */
+  removable?: boolean;
+  /** 是否支持编辑节点 */
+  editable?: boolean;
+  /** 操作按钮显示模式：'inline' 行内显示 | 'dropdown' 下拉菜单 */
+  actionDisplayMode?: 'inline' | 'dropdown';
+  /** 添加节点回调 - 返回新节点的初始数据 */
+  onAddNode?: (parentNode: TreeNode) => TreeNode | TreeNode[] | void;
+  /** 删除节点回调 - 返回 false 可阻止删除 */
+  onRemoveNode?: (node: TreeNode) => boolean | void;
+  /** 编辑节点回调 - 返回编辑后的标题 */
+  onEditNode?: (node: TreeNode, newTitle: string) => string | void;
   /** 自定义节点渲染 */
   renderNode?: (node: TreeNode) => React.ReactNode;
   /** 节点前渲染 */

@@ -8,6 +8,9 @@ export type { TreeProps, TreeNode } from './types';
 // Tree ref interface
 export interface TreeRef {
   scrollTo: (key: string | number) => void;
+  addNode: (parentKey: string | number | null, newNode: TreeNode | TreeNode[]) => void;
+  removeNode: (key: string | number) => boolean;
+  updateNode: (key: string | number, updates: Partial<Omit<TreeNode, 'key' | 'children'>>) => boolean;
 }
 
 // ===== Icon Components =====
@@ -72,6 +75,19 @@ interface TreeNodeComponentProps {
   motionDuration: number;
   prefixCls: string;
   renderNode?: (node: TreeNode) => React.ReactNode;
+  // Dynamic node operations
+  addable?: boolean;
+  removable?: boolean;
+  editable?: boolean;
+  actionDisplayMode?: 'inline' | 'dropdown';
+  onAddNode?: (parentNode: TreeNode) => void;
+  onRemoveNode?: (node: TreeNode) => void;
+  onEditNode?: (node: TreeNode) => void;
+  editingNodeKey?: string | number | null;
+  editValue?: string;
+  onEditChange?: (value: string) => void;
+  onEditConfirm?: () => void;
+  onEditCancel?: () => void;
   onExpand: (key: string | number, e: React.MouseEvent) => void;
   onSelect: (key: string | number, e: React.MouseEvent) => void;
   onCheck: (key: string | number, e: React.MouseEvent | React.KeyboardEvent) => void;
@@ -132,6 +148,83 @@ const getAllChildKeys = (nodes: TreeNode[]): (string | number)[] => {
   }, []);
 };
 
+// Find parent node of a given key
+const findParentNode = (nodes: TreeNode[], key: string | number): TreeNode | null => {
+  for (const node of nodes) {
+    if (node.children) {
+      if (node.children.some((child) => child.key === key)) {
+        return node;
+      }
+      const found = findParentNode(node.children, key);
+      if (found) return found;
+    }
+  }
+  return null;
+};
+
+// Add nodes to a parent node (mutates the treeData array)
+const addNodesToTree = (
+  nodes: TreeNode[],
+  parentKey: string | number | null,
+  newNodes: TreeNode[]
+): boolean => {
+  if (parentKey === null) {
+    // Add to root level
+    nodes.push(...newNodes);
+    return true;
+  }
+
+  for (const node of nodes) {
+    if (node.key === parentKey) {
+      if (!node.children) {
+        node.children = [];
+      }
+      node.children.push(...newNodes);
+      return true;
+    }
+    if (node.children) {
+      const added = addNodesToTree(node.children, parentKey, newNodes);
+      if (added) return true;
+    }
+  }
+  return false;
+};
+
+// Remove a node from the tree (mutates the treeData array)
+const removeNodeFromTree = (nodes: TreeNode[], key: string | number): boolean => {
+  const index = nodes.findIndex((node) => node.key === key);
+  if (index !== -1) {
+    nodes.splice(index, 1);
+    return true;
+  }
+  for (const node of nodes) {
+    if (node.children) {
+      const removed = removeNodeFromTree(node.children, key);
+      if (removed) return true;
+    }
+  }
+  return false;
+};
+
+// Update a node in the tree (mutates the treeData array)
+const updateNodeInTree = (
+  nodes: TreeNode[],
+  key: string | number,
+  updates: Partial<Omit<TreeNode, 'key' | 'children'>>
+): boolean => {
+  for (const node of nodes) {
+    if (node.key === key) {
+      Object.assign(node, updates);
+      return true;
+    }
+    if (node.children) {
+      const updated = updateNodeInTree(node.children, key, updates);
+      if (updated) return true;
+    }
+  }
+  return false;
+};
+
 const filterTreeData = (
   nodes: TreeNode[],
   searchValue: string,
@@ -176,6 +269,19 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   motionDuration,
   prefixCls,
   renderNode,
+  // Dynamic node operations
+  addable,
+  removable,
+  editable,
+  actionDisplayMode,
+  onAddNode,
+  onRemoveNode,
+  onEditNode,
+  editingNodeKey,
+  editValue,
+  onEditChange,
+  onEditConfirm,
+  onEditCancel,
   onExpand,
   onSelect,
   onCheck,
@@ -183,7 +289,9 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
 }) => {
   const [dragOver, setDragOver] = useState(false);
   const [dropPosition, setDropPosition] = useState<'before' | 'after' | 'inside' | null>(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const innerRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   
   // 合并 ref
   const setRef = useCallback((el: HTMLDivElement | null) => {
@@ -320,13 +428,174 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
     );
   };
 
+  // Check if this node is being edited
+  const isEditing = editingNodeKey === node.key;
+
   // Render Title
   const renderTitle = () => {
     const titleClassName = `${prefixCls}-title`;
     if (renderNode) {
       return <span className={titleClassName}>{renderNode(node)}</span>;
     }
+    if (isEditing) {
+      return (
+        <span className={titleClassName}>
+          <input
+            type="text"
+            value={editValue || ''}
+            onChange={(e) => onEditChange?.(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                onEditConfirm?.();
+              } else if (e.key === 'Escape') {
+                onEditCancel?.();
+              }
+            }}
+            onBlur={() => onEditConfirm?.()}
+            autoFocus
+            className={`${prefixCls}-title-input`}
+            style={{
+              border: '1px solid #1890ff',
+              borderRadius: '2px',
+              padding: '0 4px',
+              fontSize: 'inherit',
+              fontFamily: 'inherit',
+              outline: 'none',
+              width: 'auto',
+              minWidth: '60px',
+            }}
+          />
+        </span>
+      );
+    }
     return <span className={titleClassName}>{node.title}</span>;
+  };
+
+  // Render action buttons
+  const renderActions = () => {
+    if (!addable && !removable && !editable) return null;
+    if (isEditing) return null;
+
+    const isDropdownMode = actionDisplayMode === 'dropdown';
+
+    const handleAdd = (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      onAddNode?.(node);
+      if (isDropdownMode) setDropdownVisible(false);
+    };
+
+    const handleRemove = (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      onRemoveNode?.(node);
+      if (isDropdownMode) setDropdownVisible(false);
+    };
+
+    const handleEdit = (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      onEditNode?.(node);
+      if (isDropdownMode) setDropdownVisible(false);
+    };
+
+    // Dropdown menu mode
+    if (isDropdownMode) {
+      return (
+        <span
+          className={`${prefixCls}-actions ${prefixCls}-actions-dropdown`}
+          ref={dropdownRef}
+          onMouseEnter={() => setDropdownVisible(true)}
+          onMouseLeave={() => setDropdownVisible(false)}
+        >
+          <button
+            className={`${prefixCls}-action-trigger`}
+            title="操作"
+            onClick={(e) => e.stopPropagation()}
+          >
+            ⋮
+          </button>
+          {dropdownVisible && (
+            <div className={`${prefixCls}-action-menu`}>
+              {addable && (
+                <div
+                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-add`}
+                  onClick={handleAdd}
+                >
+                  <span className={`${prefixCls}-action-menu-icon`}>+</span>
+                  <span>添加子节点</span>
+                </div>
+              )}
+              {editable && (
+                <div
+                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-edit`}
+                  onClick={handleEdit}
+                >
+                  <span className={`${prefixCls}-action-menu-icon`}>✎</span>
+                  <span>编辑</span>
+                </div>
+              )}
+              {removable && (
+                <div
+                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-remove`}
+                  onClick={handleRemove}
+                >
+                  <span className={`${prefixCls}-action-menu-icon`}>×</span>
+                  <span>删除</span>
+                </div>
+              )}
+            </div>
+          )}
+        </span>
+      );
+    }
+
+    // Inline mode (default)
+    const buttonStyle: React.CSSProperties = {
+      padding: '0 4px',
+      marginLeft: '4px',
+      fontSize: '12px',
+      cursor: 'pointer',
+      background: 'transparent',
+      border: 'none',
+      color: '#1890ff',
+      transition: 'opacity 0.2s',
+    };
+
+    return (
+      <span
+        className={`${prefixCls}-actions`}
+        style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center' }}
+      >
+        {addable && (
+          <button
+            onClick={handleAdd}
+            style={buttonStyle}
+            title="添加子节点"
+            className={`${prefixCls}-action-btn ${prefixCls}-action-add`}
+          >
+            +
+          </button>
+        )}
+        {editable && (
+          <button
+            onClick={handleEdit}
+            style={buttonStyle}
+            title="编辑"
+            className={`${prefixCls}-action-btn ${prefixCls}-action-edit`}
+          >
+            ✎
+          </button>
+        )}
+        {removable && (
+          <button
+            onClick={handleRemove}
+            style={{ ...buttonStyle, color: '#ff4d4f' }}
+            title="删除"
+            className={`${prefixCls}-action-btn ${prefixCls}-action-remove`}
+          >
+            ×
+          </button>
+        )}
+      </span>
+    );
   };
 
   // Class Names
@@ -380,6 +649,8 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
         {renderTitle()}
       </span>
 
+      {renderActions()}
+
       {hasChildren && (
         <div
           className={[
@@ -415,6 +686,19 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
               motionDuration={motionDuration}
               prefixCls={prefixCls}
               renderNode={renderNode}
+              // Dynamic node operations
+              addable={addable}
+              removable={removable}
+              editable={editable}
+              actionDisplayMode={actionDisplayMode}
+              onAddNode={onAddNode}
+              onRemoveNode={onRemoveNode}
+              onEditNode={onEditNode}
+              editingNodeKey={editingNodeKey}
+              editValue={editValue}
+              onEditChange={onEditChange}
+              onEditConfirm={onEditConfirm}
+              onEditCancel={onEditCancel}
               onExpand={onExpand}
               onSelect={onSelect}
               onCheck={onCheck}
@@ -432,7 +716,7 @@ TreeNodeComponent.displayName = 'TreeNodeComponent';
 // ===== Main Tree Component =====
 
 export const Tree = forwardRef<TreeRef, TreeProps>(({
-  treeData = [],
+  treeData: externalTreeData = [],
   defaultExpandedKeys = [],
   expandedKeys: controlledExpandedKeys,
   onExpand,
@@ -454,6 +738,14 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   motionDuration = 200,
   draggable = false,
   renderNode,
+  // Dynamic node operations
+  addable = false,
+  removable = false,
+  editable = false,
+  actionDisplayMode = 'inline',
+  onAddNode: onAddNodeProp,
+  onRemoveNode: onRemoveNodeProp,
+  onEditNode: onEditNodeProp,
   prefixCls = 'idp-tree',
   className = '',
   style = {},
@@ -461,6 +753,13 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   defaultExpandAll = false,
 }, ref) => {
   // State
+  const [treeData, setTreeData] = useState<TreeNode[]>(externalTreeData);
+  
+  // Sync with external treeData when it changes
+  useMemo(() => {
+    setTreeData(externalTreeData);
+  }, [externalTreeData]);
+
   const [expandedKeys, setExpandedKeys] = useState<(string | number)[]>(() => {
     if (defaultExpandAll) {
       const getAllKeys = (nodes: TreeNode[]): (string | number)[] => {
@@ -471,7 +770,7 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
           return keys;
         }, []);
       };
-      return getAllKeys(treeData);
+      return getAllKeys(externalTreeData);
     }
     return defaultExpandedKeys;
   });
@@ -480,8 +779,99 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   const [checkedKeys, setCheckedKeys] = useState<(string | number)[]>(defaultCheckedKeys);
   const [loadingKeys, setLoadingKeys] = useState<(string | number)[]>([]);
   const [searchValue, setSearchValue] = useState('');
+  // Edit state
+  const [editingNodeKey, setEditingNodeKey] = useState<string | number | null>(null);
+  const [editValue, setEditValue] = useState<string>('');
   const nodeRefs = useRef<Map<string | number, HTMLDivElement | null>>(new Map());
   const treeContainerRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic node operation handlers
+  const handleAddNode = useCallback((parentNode: TreeNode) => {
+    if (onAddNodeProp) {
+      const newNode = onAddNodeProp(parentNode);
+      if (newNode) {
+        const nodesToAdd = Array.isArray(newNode) ? newNode : [newNode];
+        setTreeData((prevData) => {
+          const newData = [...prevData];
+          addNodesToTree(newData, parentNode.key, nodesToAdd);
+          // Auto expand parent when adding child
+          if (!expandedKeys.includes(parentNode.key)) {
+            setExpandedKeys((prev) => [...prev, parentNode.key]);
+          }
+          return newData;
+        });
+      }
+    }
+  }, [onAddNodeProp, expandedKeys]);
+
+  const handleRemoveNode = useCallback((node: TreeNode) => {
+    if (onRemoveNodeProp) {
+      const canRemove = onRemoveNodeProp(node);
+      if (canRemove) {
+        setTreeData((prevData) => {
+          const newData = [...prevData];
+          removeNodeFromTree(newData, node.key);
+          // Clean up related states
+          setExpandedKeys((prev) => prev.filter((k) => k !== node.key));
+          setSelectedKeys((prev) => prev.filter((k) => k !== node.key));
+          setCheckedKeys((prev) => prev.filter((k) => k !== node.key));
+          nodeRefs.current.delete(node.key);
+          return newData;
+        });
+      }
+    } else {
+      // Default remove behavior without callback
+      setTreeData((prevData) => {
+        const newData = [...prevData];
+        removeNodeFromTree(newData, node.key);
+        setExpandedKeys((prev) => prev.filter((k) => k !== node.key));
+        setSelectedKeys((prev) => prev.filter((k) => k !== node.key));
+        setCheckedKeys((prev) => prev.filter((k) => k !== node.key));
+        nodeRefs.current.delete(node.key);
+        return newData;
+      });
+    }
+  }, [onRemoveNodeProp]);
+
+  const handleEditNode = useCallback((node: TreeNode) => {
+    setEditingNodeKey(node.key);
+    setEditValue(String(node.title || ''));
+  }, []);
+
+  const handleEditChange = useCallback((value: string) => {
+    setEditValue(value);
+  }, []);
+
+  const handleEditConfirm = useCallback(() => {
+    if (editingNodeKey !== null) {
+      if (onEditNodeProp) {
+        const node = findNode(treeData, editingNodeKey);
+        if (node) {
+          const newTitle = onEditNodeProp(node, editValue);
+          const finalTitle = newTitle !== undefined ? newTitle : editValue;
+          setTreeData((prevData) => {
+            const newData = [...prevData];
+            updateNodeInTree(newData, editingNodeKey, { title: finalTitle });
+            return newData;
+          });
+        }
+      } else {
+        // Default edit behavior without callback
+        setTreeData((prevData) => {
+          const newData = [...prevData];
+          updateNodeInTree(newData, editingNodeKey, { title: editValue });
+          return newData;
+        });
+      }
+      setEditingNodeKey(null);
+      setEditValue('');
+    }
+  }, [editingNodeKey, editValue, onEditNodeProp, treeData]);
+
+  const handleEditCancel = useCallback(() => {
+    setEditingNodeKey(null);
+    setEditValue('');
+  }, []);
 
   // Expose ref methods
   useImperativeHandle(ref, () => ({
@@ -490,6 +880,39 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
       if (nodeEl && treeContainerRef.current) {
         nodeEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    },
+    addNode: (parentKey: string | number | null, newNode: TreeNode | TreeNode[]) => {
+      setTreeData((prevData) => {
+        const newData = [...prevData];
+        const nodesToAdd = Array.isArray(newNode) ? newNode : [newNode];
+        addNodesToTree(newData, parentKey, nodesToAdd);
+        return newData;
+      });
+    },
+    removeNode: (key: string | number): boolean => {
+      let removed = false;
+      setTreeData((prevData) => {
+        const newData = [...prevData];
+        removed = removeNodeFromTree(newData, key);
+        if (removed) {
+          // Clean up related states
+          setExpandedKeys((prev) => prev.filter((k) => k !== key));
+          setSelectedKeys((prev) => prev.filter((k) => k !== key));
+          setCheckedKeys((prev) => prev.filter((k) => k !== key));
+          nodeRefs.current.delete(key);
+        }
+        return newData;
+      });
+      return removed;
+    },
+    updateNode: (key: string | number, updates: Partial<Omit<TreeNode, 'key' | 'children'>>): boolean => {
+      let updated = false;
+      setTreeData((prevData) => {
+        const newData = [...prevData];
+        updated = updateNodeInTree(newData, key, updates);
+        return newData;
+      });
+      return updated;
     },
   }));
 
@@ -690,6 +1113,19 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
               motionDuration={motionDuration}
               prefixCls={prefixCls}
               renderNode={renderNode}
+              // Dynamic node operations
+              addable={addable}
+              removable={removable}
+              editable={editable}
+              actionDisplayMode={actionDisplayMode}
+              onAddNode={handleAddNode}
+              onRemoveNode={handleRemoveNode}
+              onEditNode={handleEditNode}
+              editingNodeKey={editingNodeKey}
+              editValue={editValue}
+              onEditChange={handleEditChange}
+              onEditConfirm={handleEditConfirm}
+              onEditCancel={handleEditCancel}
               onExpand={handleExpand}
               onSelect={handleSelect}
               onCheck={handleCheck}

@@ -338,6 +338,89 @@ const ScrollToDemo: React.FC = () => {
   );
 };
 
+// 动态添加/删除/更新节点示例组件 - 使用回调函数方式
+const DynamicNodeDemo: React.FC = () => {
+  const [dynamicTreeData] = useState<TreeNode[]>([
+    {
+      key: 'root',
+      title: '根节点',
+      children: [
+        { key: 'child-1', title: '子节点 1' },
+        { key: 'child-2', title: '子节点 2' },
+      ],
+    },
+  ]);
+
+  const nodeCounter = useRef(3);
+
+  // 处理添加节点 - 点击 + 按钮时触发
+  const handleAddNode = (_parentNode: TreeNode) => {
+    const newKey = `child-${nodeCounter.current++}`;
+    return {
+      key: newKey,
+      title: `新增节点 ${nodeCounter.current - 1}`,
+    };
+  };
+
+  // 处理删除节点 - 点击 × 按钮时触发
+  const handleRemoveNode = (_node: TreeNode) => {
+    // 返回 true 允许删除，返回 false 阻止删除
+    return true;
+  };
+
+  // 处理编辑节点 - 点击编辑按钮时触发
+  const handleEditNode = (_node: TreeNode, newTitle: string) => {
+    // 返回编辑后的标题
+    return newTitle;
+  };
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <div>
+          <p style={{ marginBottom: '8px', fontSize: '13px', fontWeight: 500 }}>行内显示（默认）</p>
+          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', width: '280px', maxHeight: '250px', overflow: 'auto' }}>
+            <Tree
+              treeData={dynamicTreeData}
+              defaultExpandAll
+              // 启用动态操作
+              addable
+              removable
+              editable
+              actionDisplayMode="inline"
+              // 设置回调函数
+              onAddNode={handleAddNode}
+              onRemoveNode={handleRemoveNode}
+              onEditNode={handleEditNode}
+            />
+          </div>
+        </div>
+        <div>
+          <p style={{ marginBottom: '8px', fontSize: '13px', fontWeight: 500 }}>下拉菜单显示</p>
+          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', width: '280px', maxHeight: '250px' }}>
+            <Tree
+              treeData={dynamicTreeData}
+              defaultExpandAll
+              // 启用动态操作
+              addable
+              removable
+              editable
+              actionDisplayMode="dropdown"
+              // 设置回调函数
+              onAddNode={handleAddNode}
+              onRemoveNode={handleRemoveNode}
+              onEditNode={handleEditNode}
+            />
+          </div>
+        </div>
+      </div>
+      <p style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+        提示：鼠标悬停在节点上可显示操作按钮。支持两种显示模式：行内显示（inline）和下拉菜单（dropdown）
+      </p>
+    </>
+  );
+};
+
 const TreeExample: React.FC = () => {
   // 受控模式状态
   const [expandedKeys, setExpandedKeys] = useState<(string | number)[]>(['0-0']);
@@ -737,6 +820,65 @@ const Demo = () => {
 };`} />
       </Section>
 
+      {/* 动态节点操作 */}
+      <Section title="动态节点操作">
+        <p>通过设置 addable/removable/editable 属性启用节点操作功能，使用回调函数处理增删改操作。</p>
+        <DemoRow title="onAddNode / onRemoveNode / onEditNode">
+          <DynamicNodeDemo />
+        </DemoRow>
+        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [treeData, setTreeData] = useState<TreeNode[]>([
+    {
+      key: 'root',
+      title: '根节点',
+      children: [
+        { key: 'child-1', title: '子节点 1' },
+        { key: 'child-2', title: '子节点 2' },
+      ],
+    },
+  ]);
+
+  // 处理添加节点 - 点击 + 按钮时触发
+  const handleAddNode = (parentNode: TreeNode) => {
+    // 返回新节点数据
+    return {
+      key: Date.now(),
+      title: '新节点',
+    };
+  };
+
+  // 处理删除节点 - 点击 × 按钮时触发
+  const handleRemoveNode = (node: TreeNode) => {
+    // 返回 true 允许删除，返回 false 阻止删除
+    return window.confirm(\`确定删除 "\${node.title}" 吗？\`);
+  };
+
+  // 处理编辑节点 - 点击编辑按钮时触发
+  const handleEditNode = (node: TreeNode, newTitle: string) => {
+    // 返回编辑后的标题
+    return newTitle;
+  };
+
+  return (
+    <Tree
+      treeData={treeData}
+      defaultExpandAll
+      // 启用操作按钮
+      addable
+      removable
+      editable
+      // 设置回调函数
+      onAddNode={handleAddNode}
+      onRemoveNode={handleRemoveNode}
+      onEditNode={handleEditNode}
+    />
+  );
+};`} />
+      </Section>
+
       {/* API 文档 */}
       <Section title="API">
         <h3>Tree Props</h3>
@@ -765,6 +907,13 @@ const Demo = () => {
             { key: '20', prop: 'onRightClick', description: '右键点击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
             { key: '21', prop: 'onDoubleClick', description: '双击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
             { key: '22', prop: 'renderNode', description: '自定义节点渲染', type: '(node: TreeNode) => React.ReactNode', default: '-' },
+            { key: '23', prop: 'addable', description: '是否支持动态添加节点', type: 'boolean', default: 'false' },
+            { key: '24', prop: 'removable', description: '是否支持删除节点', type: 'boolean', default: 'false' },
+            { key: '25', prop: 'editable', description: '是否支持编辑节点', type: 'boolean', default: 'false' },
+            { key: '26', prop: 'actionDisplayMode', description: '操作按钮显示模式：inline 行内显示 | dropdown 下拉菜单', type: "'inline' | 'dropdown'", default: "'inline'" },
+            { key: '27', prop: 'onAddNode', description: '添加节点回调', type: '(parentNode: TreeNode) => TreeNode | TreeNode[] | void', default: '-' },
+            { key: '28', prop: 'onRemoveNode', description: '删除节点回调，返回 false 可阻止删除', type: '(node: TreeNode) => boolean | void', default: '-' },
+            { key: '29', prop: 'onEditNode', description: '编辑节点回调，返回新标题', type: '(node: TreeNode, newTitle: string) => string | void', default: '-' },
           ]}
           columns={[
             { title: '属性', dataIndex: 'prop', width: 150 },
@@ -794,6 +943,22 @@ const Demo = () => {
             { title: '说明', dataIndex: 'description' },
             { title: '类型', dataIndex: 'type', width: 250 },
             { title: '默认值', dataIndex: 'default', width: 80 },
+          ]}
+          pagination={false}
+        />
+
+        <h3 style={{ marginTop: '24px' }}>TreeRef 方法</h3>
+        <p>通过 <code>ref</code> 可获取 Tree 实例，调用以下方法：</p>
+        <Table
+          bordered
+          dataSource={[
+            { key: '1', method: 'scrollTo', description: '滚动到指定节点', params: '(key: string | number) => void', returnValue: '-' },
+          ]}
+          columns={[
+            { title: '方法', dataIndex: 'method', width: 120 },
+            { title: '说明', dataIndex: 'description' },
+            { title: '参数', dataIndex: 'params', width: 350 },
+            { title: '返回值', dataIndex: 'returnValue', width: 100 },
           ]}
           pagination={false}
         />
