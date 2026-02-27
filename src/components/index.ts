@@ -13,6 +13,7 @@ export { default as Marquee } from './Marquee';
 export { default as Message, MessageProvider, useMessage, message } from './Message';
 export { default as Modal } from './Modal';
 export { default as Notice } from './Notice/Notice';
+export type { NoticeProps, NoticeType } from './Notice/Notice';
 export { default as Notification } from './Notification/Notification';
 export { default as Radio } from './Radio';
 export { default as Select } from './Select';

@@ -5,14 +5,26 @@ export interface PaginationProps {
   pageSize?: number;
   defaultPageSize?: number;
   onChange?: (current: number, pageSize: number) => void;
-  pageSizeOptions?: string[];
+  pageSizeOptions?: (string | number)[];
   showSizeChanger?: boolean;
   showQuickJumper?: boolean;
   showTotal?: (total: number, range: [number, number]) => React.ReactNode;
   size?: 'default' | 'small';
   /**
-  * 分页组件位置对齐方式
-  */
+   * 简洁模式
+   */
+  simple?: boolean;
+  /**
+   * 禁用状态
+   */
+  disabled?: boolean;
+  /**
+   * 只有一页时隐藏
+   */
+  hideOnSinglePage?: boolean;
+  /**
+   * 分页组件位置对齐方式
+   */
   align?: 'flex-start' | 'center' | 'flex-end';
   /**
    * 自定义CSS类名

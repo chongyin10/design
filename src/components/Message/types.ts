@@ -1,4 +1,4 @@
-export type MessageType = 'success' | 'warning' | 'error';
+export type MessageType = 'success' | 'warning' | 'error' | 'info';
 
 export interface MessageProps {
   type: MessageType;
@@ -13,5 +13,6 @@ export interface MessageInstance {
   success: (content: React.ReactNode, duration?: number) => void;
   warning: (content: React.ReactNode, duration?: number) => void;
   error: (content: React.ReactNode, duration?: number) => void;
+  info: (content: React.ReactNode, duration?: number) => void;
   close: () => void;
 }

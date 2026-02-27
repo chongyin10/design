@@ -78,6 +78,7 @@ export const message: MessageInstance = {
   success: (content, duration) => { addMessage('success', content, duration); },
   warning: (content, duration) => { addMessage('warning', content, duration); },
   error: (content, duration) => { addMessage('error', content, duration); },
+  info: (content, duration) => { addMessage('info', content, duration); },
   close: () => {
     messages.forEach((_, id) => removeMessage(id));
   }
@@ -128,6 +129,7 @@ export const MessageProvider: React.FC<MessageProviderProps> = ({ children }) =>
     success: (content, duration) => addProviderMessage('success', content, duration),
     warning: (content, duration) => addProviderMessage('warning', content, duration),
     error: (content, duration) => addProviderMessage('error', content, duration),
+    info: (content, duration) => addProviderMessage('info', content, duration),
     close: () => setMessageList([])
   };
 

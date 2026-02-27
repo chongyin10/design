@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Icon from '../Icon';
 import './Pagination.css';
 import type { PaginationProps } from './types';
 
 // 内联自定义选择器组件
 interface PageSizeSelectProps {
   value: number;
-  options: string[];
+  options: (string | number)[];
   onChange: (value: number) => void;
 }
 
@@ -15,31 +16,38 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties>({});
 
-  // 计算下拉菜单位置
+  // 计算下拉菜单位置 - 居中显示在触发器下方
   const updateDropdownPosition = useCallback(() => {
     if (!selectRef.current) return;
-    
+
     const rect = selectRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
+    const dropdownWidth = dropdownRef.current?.offsetWidth || 120;
     const dropdownHeight = dropdownRef.current?.offsetHeight || 200;
-    
+
+    // 计算居中位置
+    const centerLeft = rect.left + rect.width / 2;
+    const dropdownLeft = centerLeft - dropdownWidth / 2 + window.scrollX;
+
     // 计算下方空间是否足够
     const spaceBelow = viewportHeight - rect.bottom;
     const showBelow = spaceBelow >= dropdownHeight || spaceBelow >= rect.top;
-    
+
     if (showBelow) {
-      // 显示在下方
+      // 显示在触发器下方居中
       setDropdownStyle({
-        top: rect.bottom + window.scrollY,
-        left: rect.left + window.scrollX,
-        width: rect.width,
+        top: rect.bottom + window.scrollY + 6,
+        left: dropdownLeft,
+        width: 'auto',
+        minWidth: Math.max(dropdownWidth, 120),
       });
     } else {
-      // 显示在上方
+      // 显示在上方居中
       setDropdownStyle({
-        top: rect.top + window.scrollY - dropdownHeight - 5,
-        left: rect.left + window.scrollX,
-        width: rect.width,
+        top: rect.top + window.scrollY - dropdownHeight - 6,
+        left: dropdownLeft,
+        width: 'auto',
+        minWidth: Math.max(dropdownWidth, 120),
       });
     }
   }, []);
@@ -102,7 +110,7 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
       {isOpen && (
         <div className={`idp-page-size-select-dropdown is-open`} ref={dropdownRef} style={dropdownStyle}>
           {options.map((option) => {
-            const numValue = parseInt(option, 10);
+            const numValue = typeof option === 'number' ? option : parseInt(option, 10);
             return (
               <div
                 key={option}
@@ -138,32 +146,32 @@ const Pagination: React.FC<PaginationProps> = ({
   const [internalPageSize, setInternalPageSize] = useState(externalPageSize);
   // 用于标记是否是初始渲染
   const isFirstRender = useRef(true);
-  
+
   // 使用外部传入的值或内部状态
   const current = externalCurrent !== undefined ? externalCurrent : internalCurrent;
   const pageSize = externalPageSize !== undefined ? externalPageSize : internalPageSize;
-  
+
   // 计算总页数
   const totalPages = Math.ceil(total / pageSize);
-  
+
   // 使用 ref 存储 onChange，避免依赖变化导致重复触发
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
-  
+
   // 当 externalPageSize 变化时，同步更新 internalPageSize
   useEffect(() => {
     if (externalPageSize !== undefined) {
       setInternalPageSize(externalPageSize);
     }
   }, [externalPageSize]);
-  
+
   // 当 externalCurrent 变化时，同步更新 internalCurrent
   useEffect(() => {
     if (externalCurrent !== undefined) {
       setInternalCurrent(externalCurrent);
     }
   }, [externalCurrent]);
-  
+
   // 确保当前页在有效范围内（只在真正的页码超出范围时触发 onChange，初始渲染不触发）
   useEffect(() => {
     // 跳过初始渲染
@@ -171,7 +179,7 @@ const Pagination: React.FC<PaginationProps> = ({
       isFirstRender.current = false;
       return;
     }
-    
+
     if (current > totalPages && totalPages > 0) {
       const newCurrent = totalPages;
       if (externalCurrent === undefined) {
@@ -190,12 +198,12 @@ const Pagination: React.FC<PaginationProps> = ({
       // 如果总页数小于等于7，直接显示所有页码
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
-    
+
     const pages: (number | string)[] = [];
-    
+
     // 第一页始终显示
     pages.push(1);
-    
+
     if (current <= 4) {
       // 当前页靠近开头
       for (let i = 2; i <= 5; i++) {
@@ -219,18 +227,18 @@ const Pagination: React.FC<PaginationProps> = ({
       pages.push('...');
       pages.push(totalPages);
     }
-    
+
     return pages;
   };
 
   // 处理页码变化
   const handlePageChange = (page: number) => {
     if (page === current || page < 1 || page > totalPages) return;
-    
+
     if (externalCurrent === undefined) {
       setInternalCurrent(page);
     }
-    
+
     if (onChange) {
       onChange(page, pageSize);
     }
@@ -256,13 +264,13 @@ const Pagination: React.FC<PaginationProps> = ({
     if (externalPageSize === undefined) {
       setInternalPageSize(newPageSize);
     }
-    
+
     // 重新计算当前页
     const newCurrent = 1; // 切换每页条数时回到第一页
     if (externalCurrent === undefined) {
       setInternalCurrent(newCurrent);
     }
-    
+
     if (onChange) {
       onChange(newCurrent, newPageSize);
     }
@@ -273,7 +281,7 @@ const Pagination: React.FC<PaginationProps> = ({
     if (e.key === 'Enter') {
       const input = e.target as HTMLInputElement;
       const page = parseInt(input.value, 10);
-      
+
       if (!isNaN(page) && page >= 1 && page <= totalPages) {
         handlePageChange(page);
         input.value = ''; // 清空输入框
@@ -293,25 +301,24 @@ const Pagination: React.FC<PaginationProps> = ({
           {showTotal(total, [startItem, endItem])}
         </div>
       )}
-      
+
       <ul className="idp-pagination-list">
         <li
           className={`idp-pagination-prev ${current <= 1 ? 'idp-pagination-prev-disabled' : ''}`}
           onClick={() => handlePrev()}
         >
-          &lt;
+          <Icon type="arrowLeft" />
         </li>
-        
+
         {generatePages().map((page, index) => (
           <li
             key={index}
             className={
               typeof page === 'number'
-                ? `idp-pagination-item ${
-                    page === current
-                      ? 'idp-pagination-item-active'
-                      : ''
-                  }`
+                ? `idp-pagination-item ${page === current
+                  ? 'idp-pagination-item-active'
+                  : ''
+                }`
                 : 'idp-pagination-ellipsis'
             }
             onClick={() => typeof page === 'number' && handlePageChange(page)}
@@ -319,15 +326,14 @@ const Pagination: React.FC<PaginationProps> = ({
             {page}
           </li>
         ))}
-        
+
         <li
           className={`idp-pagination-next ${current >= totalPages ? 'idp-pagination-next-disabled' : ''}`}
-          onClick={() => handleNext()}
-        >
-          &gt;
+          onClick={() => handleNext()}>
+          <Icon type="arrowRight" />
         </li>
       </ul>
-      
+
       {(showSizeChanger || showQuickJumper) && (
         <div className="idp-pagination-options">
           {showSizeChanger && (
@@ -337,7 +343,7 @@ const Pagination: React.FC<PaginationProps> = ({
               onChange={(value) => handlePageSizeChange(value.toString())}
             />
           )}
-          
+
           {showQuickJumper && (
             <div className="idp-pagination-options-quick-jumper">
               <div style={{ minWidth: '30px' }}>跳至</div>

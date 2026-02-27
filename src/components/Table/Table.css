@@ -237,95 +237,11 @@
 .custom-table-pagination-wrapper {
   overflow: visible;
   position: relative;
-}
-
-/* 分页样式 */
-.custom-table-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
   padding: 12px 16px;
   border-top: 1px solid #f0f0f0;
-  gap: 8px;
-  flex-wrap: wrap;
 }
 
-.custom-table-pagination-total {
-  color: rgba(0, 0, 0, 0.65);
-  font-size: 14px;
-  margin-right: 8px;
-}
-
-.custom-table-pagination-btn {
-  padding: 4px 12px;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.custom-table-pagination-btn:hover:not(:disabled) {
-  color: #1a2980;
-  border-color: #1a2980;
-}
-
-.custom-table-pagination-btn:disabled {
-  color: rgba(0, 0, 0, 0.25);
-  cursor: not-allowed;
-}
-
-.custom-table-pagination-page {
-  min-width: 32px;
-  height: 32px;
-  line-height: 32px;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-}
-
-.custom-table-pagination-page:hover {
-  color: #1a2980;
-  border-color: #1a2980;
-}
-
-.custom-table-pagination-page.active {
-  color: #fff;
-  background: #1a2980;
-  border-color: #1a2980;
-}
-
-.custom-table-pagination-page.ellipsis {
-  border: none;
-  cursor: default;
-}
-
-.custom-table-pagination-page.ellipsis:hover {
-  color: rgba(0, 0, 0, 0.65);
-  border-color: #d9d9d9;
-}
-
-.custom-table-pagination-select {
-  padding: 4px 8px;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.65);
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
-}
-
-.custom-table-pagination-select:focus {
-  border-color: #1a2980;
-}
+/* Table 使用 Pagination 组件，样式统一来自 Pagination.css */
 
 /* 单元格内容多行省略样式 */
 .idp-table-cell-ellipsis {

@@ -1,3 +1,7 @@
+/* ============================================
+   IDP Message Component - Modern Design System
+   ============================================ */
+
 /* 消息提示框基础样式 */
 .idp-message {
   position: fixed;
@@ -11,13 +15,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1050;
+  background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+  border-radius: var(--idp-border-radius-lg);
+  box-shadow: var(--idp-shadow-md);
+  z-index: var(--idp-z-index-message);
   opacity: 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
   pointer-events: auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* 显示状态 */
@@ -31,80 +37,128 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   height: 100%;
-  padding: 0 20px;
+  padding: 12px 24px;
 }
 
 /* 消息文本 */
 .idp-message-text {
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.5;
-  color: #333;
+  color: var(--idp-text-color);
   white-space: nowrap;
   text-align: left;
-  padding: 5px 0px
+  letter-spacing: 0.2px;
 }
 
-/* 成功类型样式 */
+/* ============================================
+   成功类型样式
+   ============================================ */
 .idp-message--success {
-  background-color: #fff;
-  border: 1px solid #b7eb8f;
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.04) 100%);
+  border: 1px solid rgba(82, 196, 26, 0.3);
+  box-shadow: 0 4px 16px rgba(82, 196, 26, 0.15), var(--idp-shadow-sm);
 }
 
 .idp-message--success .idp-message-text {
-  color: #52c41a;
+  color: var(--idp-success-color);
+  font-weight: 600;
 }
 
-/* 警告类型样式 */
+/* ============================================
+   警告类型样式
+   ============================================ */
 .idp-message--warning {
-  background-color: #fff;
-  border: 1px solid #ffe58f;
+  background: linear-gradient(135deg, rgba(250, 173, 20, 0.08) 0%, rgba(250, 173, 20, 0.04) 100%);
+  border: 1px solid rgba(250, 173, 20, 0.3);
+  box-shadow: 0 4px 16px rgba(250, 173, 20, 0.15), var(--idp-shadow-sm);
 }
 
 .idp-message--warning .idp-message-text {
-  color: #faad14;
+  color: var(--idp-warning-color);
+  font-weight: 600;
 }
 
-/* 错误类型样式 */
+/* ============================================
+   错误类型样式
+   ============================================ */
 .idp-message--error {
-  background-color: #fff;
-  border: 1px solid #ffccc7;
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, rgba(245, 34, 45, 0.04) 100%);
+  border: 1px solid rgba(245, 34, 45, 0.3);
+  box-shadow: 0 4px 16px rgba(245, 34, 45, 0.15), var(--idp-shadow-sm);
 }
 
 .idp-message--error .idp-message-text {
-  color: #f5222d;
+  color: var(--idp-error-color);
+  font-weight: 600;
 }
 
-/* 动画效果 */
+/* ============================================
+   信息类型样式 (默认)
+   ============================================ */
+.idp-message--info {
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.04) 100%);
+  border: 1px solid rgba(24, 144, 255, 0.3);
+  box-shadow: 0 4px 16px rgba(24, 144, 255, 0.15), var(--idp-shadow-sm);
+}
+
+.idp-message--info .idp-message-text {
+  color: var(--idp-primary-color);
+  font-weight: 600;
+}
+
+/* ============================================
+   动画效果
+   ============================================ */
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(-100%);
+    transform: translateX(-50%) translateY(-100%) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
 @keyframes slideUp {
   from {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) translateY(0) scale(1);
   }
   to {
     opacity: 0;
-    transform: translateX(-50%) translateY(-100%);
+    transform: translateX(-50%) translateY(-100%) scale(0.95);
   }
 }
 
 /* 显示动画 */
 .idp-message--show {
-  animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideDown 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* 隐藏动画 */
 .idp-message:not(.idp-message--show) {
-  animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+@media (max-width: 768px) {
+  .idp-message {
+    max-width: 90vw;
+    top: 16px;
+  }
+
+  .idp-message-content {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+
+  .idp-message-text {
+    font-size: 13px;
+  }
 }

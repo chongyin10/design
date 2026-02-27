@@ -34,6 +34,8 @@ const Message: React.FC<MessageProps> = ({
         return 'warning';
       case 'error':
         return 'error';
+      case 'info':
+        return 'infoCircleFill';
       default:
         return 'infoCircleFill';
     }
@@ -42,13 +44,15 @@ const Message: React.FC<MessageProps> = ({
   const getIconColor = () => {
     switch (type) {
       case 'success':
-        return '#52c41a';
+        return 'var(--idp-success-color)';
       case 'warning':
-        return '#faad14';
+        return 'var(--idp-warning-color)';
       case 'error':
-        return '#f5222d';
+        return 'var(--idp-error-color)';
+      case 'info':
+        return 'var(--idp-primary-color)';
       default:
-        return '#1890ff';
+        return 'var(--idp-primary-color)';
     }
   };
 

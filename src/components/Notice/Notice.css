@@ -1,41 +1,264 @@
+/* ============================================
+   IDP Notice Component - Modern Design System
+   ============================================ */
+
+/* 通知栏基础样式 */
 .idp-notice {
     width: 100%;
-    background: linear-gradient(90deg, #1a2980, #26d0ce);
-    border-radius: 0px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(90deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+    border-radius: var(--idp-border-radius-lg);
+    box-shadow: var(--idp-shadow-md);
     box-sizing: border-box;
     display: flex;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     position: relative;
     overflow: hidden;
-    color: #fff;
+    color: var(--idp-button-text-white);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
+/* 悬停效果 */
+.idp-notice:hover {
+    box-shadow: var(--idp-shadow-lg);
+}
+
+/* ============================================
+   关闭按钮样式
+   ============================================ */
 .idp-notice-close {
     position: absolute;
     right: 0;
     top: 0;
-    width: 45px;
+    width: 48px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 9999;
-    background: linear-gradient(90deg, #26d0ce, #1a2980);
+    z-index: 100;
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border-top-right-radius: var(--idp-border-radius-lg);
+    border-bottom-right-radius: var(--idp-border-radius-lg);
 }
 
 .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.25) 100%);
     transform: scale(1.05);
 }
 
+.idp-notice-close:active {
+    transform: scale(0.95);
+}
+
+/* 关闭按钮图标 */
+.idp-notice-close-icon {
+    color: var(--idp-button-text-white);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform var(--idp-transition-duration) ease;
+}
+
+.idp-notice-close:hover .idp-notice-close-icon {
+    transform: rotate(90deg);
+}
+
+/* ============================================
+   固定顶部样式
+   ============================================ */
 .idp-notice-floating {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 99999;
+    z-index: var(--idp-z-index-marquee-fixed);
     width: 100% !important;
     box-sizing: border-box;
+    border-radius: 0;
+    box-shadow: var(--idp-shadow-lg);
+}
+
+.idp-notice-floating .idp-notice-close {
+    border-radius: 0;
+}
+
+/* ============================================
+   类型变体样式
+   ============================================ */
+
+/* 主要类型 (默认) */
+.idp-notice--primary {
+    background: linear-gradient(90deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+}
+
+/* 成功类型 */
+.idp-notice--success {
+    background: linear-gradient(90deg, var(--idp-success-color) 0%, #73d13d 100%);
+    box-shadow: 0 4px 16px rgba(82, 196, 26, 0.3);
+}
+
+.idp-notice--success:hover {
+    box-shadow: 0 6px 20px rgba(82, 196, 26, 0.4);
+}
+
+.idp-notice--success .idp-notice-close {
+    background: linear-gradient(90deg, transparent 0%, rgba(56, 158, 13, 0.3) 100%);
+}
+
+.idp-notice--success .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(56, 158, 13, 0.5) 100%);
+}
+
+/* 警告类型 */
+.idp-notice--warning {
+    background: linear-gradient(90deg, var(--idp-warning-color) 0%, #ffc53d 100%);
+    box-shadow: 0 4px 16px rgba(250, 173, 20, 0.3);
+}
+
+.idp-notice--warning:hover {
+    box-shadow: 0 6px 20px rgba(250, 173, 20, 0.4);
+}
+
+.idp-notice--warning .idp-notice-close {
+    background: linear-gradient(90deg, transparent 0%, rgba(212, 136, 6, 0.3) 100%);
+}
+
+.idp-notice--warning .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(212, 136, 6, 0.5) 100%);
+}
+
+/* 错误类型 */
+.idp-notice--error {
+    background: linear-gradient(90deg, var(--idp-error-color) 0%, #ff7875 100%);
+    box-shadow: 0 4px 16px rgba(245, 34, 45, 0.3);
+}
+
+.idp-notice--error:hover {
+    box-shadow: 0 6px 20px rgba(245, 34, 45, 0.4);
+}
+
+.idp-notice--error .idp-notice-close {
+    background: linear-gradient(90deg, transparent 0%, rgba(207, 19, 34, 0.3) 100%);
+}
+
+.idp-notice--error .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(207, 19, 34, 0.5) 100%);
+}
+
+/* 信息类型 */
+.idp-notice--info {
+    background: linear-gradient(90deg, var(--idp-info-color) 0%, #69c0ff 100%);
+    box-shadow: 0 4px 16px rgba(24, 144, 255, 0.3);
+}
+
+.idp-notice--info:hover {
+    box-shadow: 0 6px 20px rgba(24, 144, 255, 0.4);
+}
+
+.idp-notice--info .idp-notice-close {
+    background: linear-gradient(90deg, transparent 0%, rgba(9, 109, 217, 0.3) 100%);
+}
+
+.idp-notice--info .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(9, 109, 217, 0.5) 100%);
+}
+
+/* 深色类型 */
+.idp-notice--dark {
+    background: linear-gradient(90deg, #1a1a2e 0%, #16213e 100%);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.idp-notice--dark:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.idp-notice--dark .idp-notice-close {
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+}
+
+.idp-notice--dark .idp-notice-close:hover {
+    background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* ============================================
+   内容区域样式
+   ============================================ */
+.idp-notice-content {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.idp-notice-icon {
+    margin-right: 8px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.idp-notice-text {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================
+   动画效果
+   ============================================ */
+@keyframes noticeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes noticeSlideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+}
+
+.idp-notice--enter {
+    animation: noticeSlideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.idp-notice--exit {
+    animation: noticeSlideUp 0.25s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ============================================
+   响应式设计
+   ============================================ */
+@media (max-width: 768px) {
+    .idp-notice {
+        border-radius: var(--idp-border-radius-md);
+    }
+
+    .idp-notice-close {
+        width: 40px;
+        border-top-right-radius: var(--idp-border-radius-md);
+        border-bottom-right-radius: var(--idp-border-radius-md);
+    }
+
+    .idp-notice-close-icon {
+        font-size: 18px;
+    }
+
+    .idp-notice-floating {
+        border-radius: 0;
+    }
+
+    .idp-notice-floating .idp-notice-close {
+        border-radius: 0;
+    }
 }
