@@ -100,6 +100,8 @@ const Table = ({
     const tableRef = useRef<HTMLDivElement>(null);
     const headerInnerRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
+    const scrollSyncFrameRef = useRef<number | null>(null);
+    const lastScrollLeftRef = useRef<number>(0);
 
     // 编辑状态
     const [editingCell, setEditingCell] = useState<{ rowIndex: number; colKey: string } | null>(null);
@@ -141,6 +143,15 @@ const Table = ({
         }
     }, [pagination && typeof pagination === 'object' ? pagination.current : undefined, pagination && typeof pagination === 'object' ? pagination.pageSize : undefined]);
 
+    // 清理 requestAnimationFrame
+    useEffect(() => {
+        return () => {
+            if (scrollSyncFrameRef.current) {
+                cancelAnimationFrame(scrollSyncFrameRef.current);
+            }
+        };
+    }, []);
+
     const getColumnWidth = (width: number | string | undefined): number => {
         if (!width) return 0;
         return typeof width === 'number' ? width : parseInt(width, 10) || 0;
@@ -172,13 +183,30 @@ const Table = ({
         setColumnWidths(widths);
     }, [columns]);
 
-    // 同步表头和表体的滚动
+    // 同步表头和表体的滚动 - 使用 requestAnimationFrame 防抖优化
+    const syncScroll = (_source: HTMLDivElement, target: HTMLDivElement, scrollLeft: number) => {
+        if (scrollSyncFrameRef.current) {
+            cancelAnimationFrame(scrollSyncFrameRef.current);
+        }
+        scrollSyncFrameRef.current = requestAnimationFrame(() => {
+            if (target && target.scrollLeft !== scrollLeft) {
+                target.scrollLeft = scrollLeft;
+            }
+            scrollSyncFrameRef.current = null;
+        });
+    };
+
     const handleBodyScroll = (e: React.UIEvent<HTMLDivElement>) => {
         if (headerInnerRef.current && bodyRef.current) {
             const target = e.target as HTMLDivElement;
             // 只有当滚动的是body区域时才同步到header
-            if (target === bodyRef.current && headerInnerRef.current.scrollLeft !== target.scrollLeft) {
-                headerInnerRef.current.scrollLeft = target.scrollLeft;
+            if (target === bodyRef.current) {
+                const newScrollLeft = target.scrollLeft;
+                // 过滤掉微小的滚动变化，减少抖动
+                if (Math.abs(newScrollLeft - lastScrollLeftRef.current) > 0.5) {
+                    lastScrollLeftRef.current = newScrollLeft;
+                    syncScroll(bodyRef.current, headerInnerRef.current, newScrollLeft);
+                }
             }
         }
     };
@@ -186,8 +214,13 @@ const Table = ({
     const handleHeaderScroll = (e: React.UIEvent<HTMLDivElement>) => {
         if (headerInnerRef.current && bodyRef.current) {
             const target = e.target as HTMLDivElement;
-            if (target === headerInnerRef.current && bodyRef.current.scrollLeft !== target.scrollLeft) {
-                bodyRef.current.scrollLeft = target.scrollLeft;
+            if (target === headerInnerRef.current) {
+                const newScrollLeft = target.scrollLeft;
+                // 过滤掉微小的滚动变化，减少抖动
+                if (Math.abs(newScrollLeft - lastScrollLeftRef.current) > 0.5) {
+                    lastScrollLeftRef.current = newScrollLeft;
+                    syncScroll(headerInnerRef.current, bodyRef.current, newScrollLeft);
+                }
             }
         }
     };

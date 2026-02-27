@@ -314,11 +314,40 @@ const Drawer: React.FC<DrawerProps> = ({
     const renderLoading = () => {
         if (!loading) return null;
 
+        if (loadingIcon) {
+            return (
+                <div className="idp-drawer-loading">
+                    <div className="idp-drawer-loading-content">
+                        {loadingIcon}
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div className="idp-drawer-loading">
-                {loadingIcon || (
-                    <Icon type="loading" size="large" spin />
-                )}
+                <div className="idp-drawer-loading-content">
+                    <div className="idp-drawer-loading-spinner">
+                        <svg viewBox="0 0 24 24" className="idp-drawer-loading-icon">
+                            <circle
+                                className="idp-drawer-loading-track"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                fill="none"
+                                strokeWidth="2"
+                            />
+                            <circle
+                                className="idp-drawer-loading-indicator"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                fill="none"
+                                strokeWidth="2"
+                            />
+                        </svg>
+                    </div>
+                </div>
             </div>
         );
     };

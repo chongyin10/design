@@ -1,34 +1,46 @@
-/* Table.css */
+/* ============================================
+   IDP Table Component - Modern Design System
+   ============================================ */
+
+/* 表格容器 */
 .custom-table-container {
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.88);
-  background: #ffffff;
-  box-shadow: 0 2px 8px #00000021;
-  border-radius: 8px;
+  color: var(--idp-table-text-color, rgba(0, 0, 0, 0.88));
+  background: var(--idp-table-bg, #ffffff);
+  box-shadow: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  border-radius: var(--idp-border-radius-lg, 8px);
   padding: 12px;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  transition: box-shadow var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+}
+
+.custom-table-container:hover {
+  box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
 }
 
 .custom-table-container.bordered {
-  /* border: 1px solid #e8e8e8; */
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-radius: var(--idp-border-radius-lg, 8px);
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
   overflow: hidden;
 }
 
+/* 表头区域 */
 .custom-table-header {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: auto;
   will-change: scroll-position;
-  /* border-bottom: 1px solid #f0f0f0; */
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
+  /* 防止固定列抖动 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* 隐藏表头滚动条 */
@@ -47,18 +59,19 @@
 }
 
 .custom-table-body::-webkit-scrollbar-thumb {
-  background-color: #eaeaea;
+  background-color: var(--idp-border-color-light, #f0f0f0);
   border-radius: 3px;
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .custom-table-body::-webkit-scrollbar-thumb:hover {
-  background-color: #00000020;
+  background-color: var(--idp-border-color, #e8e8e8);
 }
 
 /* Firefox 滚动条 */
 .custom-table-body {
   scrollbar-width: thin;
-  scrollbar-color: #eaeaea transparent;
+  scrollbar-color: var(--idp-border-color-light, #f0f0f0) transparent;
 }
 
 .custom-table-body {
@@ -69,6 +82,10 @@
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  /* 防止固定列抖动 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* 确保表格不会撑破容器 */
@@ -86,45 +103,50 @@
   min-width: 0;
 }
 
+/* Bordered 模式样式 */
 .custom-table.bordered th,
 .custom-table.bordered td {
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
 .custom-table.bordered th {
-  background-color: #fafafa !important;
-  font-weight: 500;
+  background-color: var(--idp-table-header-bg, #fafafa) !important;
+  font-weight: 600;
 }
 
 .custom-table.bordered tbody tr {
-  transition: background-color 0.3s ease;
+  transition: background-color var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 }
 
 .custom-table.bordered tbody tr:hover td {
-  background-color: #F8F9FB;
+  background-color: var(--idp-table-row-hover-bg, #fafafa);
 }
 
 .custom-table.bordered tbody tr:last-child td {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
+/* 表头样式 */
 .custom-table thead {
-  background-color: #fafafa;
+  background-color: var(--idp-table-header-bg, #fafafa);
 }
 
 .custom-table th {
   padding: 12px 8px;
   font-weight: 600;
   text-align: left;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--idp-table-header-border, #f0f0f0);
   overflow-wrap: break-word;
-  background-color: #fafafa !important;
+  background-color: var(--idp-table-header-bg, #fafafa) !important;
   max-width: 100%;
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
+  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
 }
 
+/* 表头分隔线样式（非 bordered 模式） */
 .custom-table:not(.bordered) thead th {
   position: relative;
 }
@@ -136,7 +158,7 @@
   right: 0;
   width: 1px;
   height: 60%;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--idp-border-color-light, rgba(0, 0, 0, 0.08));
   transform: translateY(-50%);
 }
 
@@ -147,7 +169,7 @@
   left: 0;
   width: 1px;
   height: 60%;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: var(--idp-border-color-light, rgba(0, 0, 0, 0.08));
   transform: translateY(-50%);
 }
 
@@ -155,45 +177,53 @@
   display: none;
 }
 
+/* 单元格样式 */
 .custom-table td {
   padding: 12px 8px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--idp-table-body-border, #f0f0f0);
   overflow-wrap: break-word;
   max-width: 100%;
   word-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
 }
 
+/* 表格行悬停效果 */
 .custom-table tbody tr {
-  transition: background-color 0.3s ease;
+  transition: background-color var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 }
 
 .custom-table tbody tr:hover {
-  background-color: #F8F9FB !important;
+  background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
 }
 
 .custom-table tbody tr:hover td {
-  background-color: #F8F9FB !important;
+  background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
 }
 
+/* 空数据状态 */
 .custom-table-empty {
-  padding: 16px;
+  padding: 24px;
   text-align: center;
-  color: rgba(0, 0, 0, 0.25);
-  border-top: 1px solid #f0f0f0;
+  color: var(--idp-table-empty-text-color, rgba(0, 0, 0, 0.25));
+  border-top: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
-/* 固定列阴影效果 */
+/* 固定列基础样式 - GPU加速优化防止抖动 */
 .custom-table th[style*="sticky"],
 .custom-table td[style*="sticky"] {
-  box-shadow: 1px 0 0 0 #f0f0f0;
+  box-shadow: 1px 0 0 0 var(--idp-table-border-light, #f0f0f0);
+  transform: translateZ(0);
+  will-change: transform, left, right;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .custom-table th[style*="right: 0"],
 .custom-table td[style*="right: 0"] {
-  box-shadow: -1px 0 0 0 #f0f0f0;
+  box-shadow: -1px 0 0 0 var(--idp-table-border-light, #f0f0f0);
 }
 
 /* 修复右侧固定列样式 */
@@ -201,6 +231,10 @@
 .custom-table td[style*="position: sticky"][style*="right"] {
   position: sticky !important;
   z-index: 5 !important;
+  transform: translateZ(0);
+  will-change: transform, left, right;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* 修复表头固定列样式 */
@@ -208,29 +242,40 @@
 .custom-table thead td[style*="position: sticky"] {
   top: 0;
   z-index: 10 !important;
-  background-color: #fafafa;
+  background-color: var(--idp-table-header-bg, #fafafa);
+  transform: translateZ(0);
+  will-change: transform, left, right;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
-
-/* 固定列阴影强调（仅表体） */
+/* 固定列阴影强调（仅表体）- GPU加速优化 */
 .custom-table tbody td.idp-table-fixed-left-shadow {
-  background-color: #fff;
+  background-color: var(--idp-table-bg, #fff);
   z-index: 6;
-  box-shadow: inset -3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
-  transition: background-color 0.3s ease;
+  box-shadow: inset -3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
+  transform: translateZ(0);
+  will-change: transform, left, right;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .custom-table tbody td.idp-table-fixed-right-shadow {
-  background-color: #fff;
+  background-color: var(--idp-table-bg, #fff);
   z-index: 6;
-  box-shadow: inset 3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
-  transition: background-color 0.3s ease;
+  box-shadow: inset 3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
+  transform: translateZ(0);
+  will-change: transform, left, right;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* hover 时固定列的背景色 */
 .custom-table tbody tr:hover td.idp-table-fixed-left-shadow,
 .custom-table tbody tr:hover td.idp-table-fixed-right-shadow {
-  background-color: #F8F9FB !important;
+  background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
 }
 
 /* 分页包装器 - 允许下拉菜单溢出 */
@@ -238,7 +283,7 @@
   overflow: visible;
   position: relative;
   padding: 12px 16px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
 /* Table 使用 Pagination 组件，样式统一来自 Pagination.css */
@@ -251,6 +296,7 @@
   text-overflow: ellipsis;
   word-break: break-word;
   overflow-wrap: anywhere;
+  color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
 }
 
 /* 含有省略内容的单元格样式 */
@@ -279,7 +325,9 @@
   box-sizing: border-box;
 }
 
-/* Loading 遮罩层 */
+/* ============================================
+   Loading 遮罩层
+   ============================================ */
 .custom-table-loading-mask {
   position: absolute;
   top: 0;
@@ -291,7 +339,8 @@
   align-items: center;
   justify-content: center;
   z-index: 100;
-  border-radius: 8px;
+  border-radius: var(--idp-border-radius-lg, 8px);
+  backdrop-filter: blur(2px);
 }
 
 .custom-table-loading-content {
@@ -313,11 +362,11 @@
 }
 
 .custom-table-loading-track {
-  stroke: rgba(0, 0, 0, 0.1);
+  stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
 }
 
 .custom-table-loading-indicator {
-  stroke: #1a2980;
+  stroke: var(--idp-primary-color, #1890ff);
   stroke-dasharray: 60;
   stroke-dashoffset: 40;
   stroke-linecap: round;
@@ -326,7 +375,7 @@
 
 .custom-table-loading-text {
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.65);
+  color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
   text-align: center;
 }
 
@@ -339,15 +388,17 @@
   }
 }
 
-/* 可编辑单元格样式 */
+/* ============================================
+   可编辑单元格样式
+   ============================================ */
 .idp-table-editable-cell {
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--idp-transition-duration, 0.2s);
   position: relative;
 }
 
 .idp-table-editable-cell:hover {
-  background-color: #fafafa !important;
+  background-color: var(--idp-table-header-bg, #fafafa) !important;
 }
 
 .idp-table-editable-cell:hover::after {
@@ -357,9 +408,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid #1890ff36;
-  border-radius: 4px;
+  border: 1px solid var(--idp-primary-color, #1890ff);
+  border-radius: var(--idp-border-radius-sm, 4px);
   pointer-events: none;
+  opacity: 0.36;
 }
 
 /* 非编辑状态的编辑图标 */
@@ -372,7 +424,7 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: all 0.2s;
+  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
   pointer-events: none;
 }
 
@@ -397,25 +449,25 @@
 .idp-table-edit-input {
   flex: 1;
   padding: 6px 10px;
-  border: 1px solid #e8e8e8;
-  border-radius: 6px;
+  border: 1px solid var(--idp-input-border, #d9d9d9);
+  border-radius: var(--idp-border-radius-md, 6px);
   font-size: 14px;
   line-height: 1.5;
-  color: rgba(0, 0, 0, 0.88);
+  color: var(--idp-input-text-color, rgba(0, 0, 0, 0.88));
   outline: none;
-  transition: all 0.2s;
-  background-color: #fff;
+  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  background-color: var(--idp-input-bg, #fff);
   min-width: 0;
 }
 
 .idp-table-edit-input:focus {
-  border-color: #1890ff;
-  box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.1);
-  background-color: #fff;
+  border-color: var(--idp-input-border-focus, #1890ff);
+  box-shadow: var(--idp-input-box-shadow-focus, 0 0 0 2px rgba(24, 144, 255, 0.2));
+  background-color: var(--idp-input-bg, #fff);
 }
 
 .idp-table-edit-input::placeholder {
-  color: rgba(0, 0, 0, 0.25);
+  color: var(--idp-input-placeholder-color, #bfbfbf);
 }
 
 /* 编辑操作图标 */
@@ -431,9 +483,9 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border-radius: 6px;
+  border-radius: var(--idp-border-radius-md, 6px);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
   user-select: none;
   background-color: transparent;
   border: 1px solid transparent;
@@ -441,55 +493,60 @@
 
 .idp-table-edit-icon:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  background-color: var(--idp-bg-color-light, #f5f5f5);
 }
 
 .idp-table-edit-icon:active {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--idp-shadow-extra-light, 0 1px 4px rgba(0, 0, 0, 0.08));
 }
 
-/* ==================== 拖拽功能样式 ==================== */
+/* ============================================
+   拖拽功能样式
+   ============================================ */
 
 /* 可拖拽表格行的基础样式 */
 .idp-table-sortable-row {
   cursor: grab;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color var(--idp-transition-duration, 0.2s) ease, 
+              box-shadow var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-table-sortable-row:active {
   cursor: grabbing;
 }
 
-/* 拖拽时的行样式 - 保持与默认 tbody tr 样式一致 */
+/* 拖拽时的行样式 */
 .idp-table-sortable-row.is-dragging {
-  background-color: white !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--idp-table-bg, #fff) !important;
+  box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
   z-index: 100;
+  border-radius: var(--idp-border-radius-md, 6px);
 }
 
 /* 拖拽时 td 样式与默认 tbody td 保持一致 */
 .idp-table-sortable-row.is-dragging td {
-  background-color: white !important;
-  border-bottom: 1px solid #f0f0f0;
+  background-color: var(--idp-table-bg, #fff) !important;
+  border-bottom: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
 /* 拖拽时保持固定列阴影效果 */
 .idp-table-sortable-row.is-dragging td.idp-table-fixed-left-shadow {
-  box-shadow: inset -3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
+  box-shadow: inset -3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
 }
 
 .idp-table-sortable-row.is-dragging td.idp-table-fixed-right-shadow {
-  box-shadow: inset 3px 0px 12px -10px rgb(166 57 57 / 24%) !important;
+  box-shadow: inset 3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
 }
 
-/* 拖拽时的半透明效果 - 也保持默认样式 */
+/* 拖拽时的半透明效果 */
 .idp-table-sortable-row[style*="opacity: 0.5"] {
-  background-color: white;
+  background-color: var(--idp-table-bg, #fff);
 }
 
 .idp-table-sortable-row[style*="opacity: 0.5"] td {
-  background-color: white !important;
+  background-color: var(--idp-table-bg, #fff) !important;
 }
 
 /* 拖拽容器样式 */
@@ -497,23 +554,13 @@
   position: relative;
 }
 
-/* 拖拽时的视觉提示 - 在行前面显示拖拽图标区域 */
-.idp-table-sortable-row td:first-child::before {
-  content: '';
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-right: 0;
-  transition: all 0.2s ease;
-}
-
-/* 鼠标悬停可拖拽行时的效果 - 与默认 hover 样式一致 */
+/* 鼠标悬停可拖拽行时的效果 */
 .idp-table-sortable-row:hover {
-  background-color: #F8F9FB !important;
+  background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
 }
 
 .idp-table-sortable-row:hover td {
-  background-color: #F8F9FB !important;
+  background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
 }
 
 /* 拖拽遮罩层样式 */
@@ -528,7 +575,7 @@
 
 /* 拖拽时的占位符样式 */
 .idp-table-sortable-row + tr {
-  transition: transform 0.2s ease;
+  transition: transform var(--idp-transition-duration, 0.2s) ease;
 }
 
 /* 禁用文本选择以避免拖拽时的文本选中 */
@@ -560,7 +607,7 @@
   left: 4px;
   top: 50%;
   transform: translateY(-50%);
-  color: #bfbfbf;
+  color: var(--idp-text-color-tertiary, #bfbfbf);
   font-size: 12px;
   letter-spacing: -2px;
   line-height: 1;
@@ -570,5 +617,5 @@
 
 /* 拖拽时的边框高亮 */
 .idp-table-sortable-row.is-dragging {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
 }

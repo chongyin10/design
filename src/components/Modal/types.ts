@@ -27,4 +27,8 @@ export interface ModalProps {
     contentStyle?: React.CSSProperties;
     /** 关闭时销毁 Modal 里的子元素 */
     destroyOnClose?: boolean;
+    /** 是否加载中状态 */
+    loading?: boolean;
+    /** 自定义加载图标 */
+    loadingIcon?: React.ReactNode;
 }

@@ -11,25 +11,24 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0.45) 0%,
-        rgba(0, 0, 0, 0.55) 100%
-    );
+    background: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: var(--idp-z-index-modal);
     opacity: 0;
-    visibility: hidden;
-    transition: 
-        opacity var(--idp-transition-duration) var(--idp-transition-timing-function),
-        visibility var(--idp-transition-duration) var(--idp-transition-timing-function);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 .idp-modal-overlay--visible {
+    background: linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.45) 0%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
 
 .idp-modal-overlay::before {
@@ -51,7 +50,7 @@
 
 .idp-modal-overlay--closing {
     opacity: 0;
-    visibility: hidden;
+    pointer-events: none;
 }
 
 /* 模态框容器 */
@@ -444,4 +443,68 @@
 
 .idp-modal-content::-webkit-scrollbar-thumb:hover {
     background: var(--idp-text-color-light);
+}
+
+/* ============================================
+   加载状态 - 与 Table 组件同步
+   ============================================ */
+.idp-modal-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: var(--idp-border-radius-lg);
+}
+
+.idp-modal-loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.idp-modal-loading-spinner {
+    width: 32px;
+    height: 32px;
+}
+
+.idp-modal-loading-icon {
+    width: 100%;
+    height: 100%;
+    animation: idp-modal-loading-rotate 1s linear infinite;
+}
+
+.idp-modal-loading-track {
+    stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
+}
+
+.idp-modal-loading-indicator {
+    stroke: var(--idp-primary-color, #1890ff);
+    stroke-dasharray: 60;
+    stroke-dashoffset: 40;
+    stroke-linecap: round;
+    transform-origin: center;
+}
+
+.idp-modal-loading-text {
+    font-size: 14px;
+    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    text-align: center;
+}
+
+@keyframes idp-modal-loading-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

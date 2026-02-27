@@ -33,6 +33,8 @@ const Modal: React.FC<ModalProps> = ({
     contentClassName,
     contentStyle: externalContentStyle,
     destroyOnClose = false,
+    loading = false,
+    loadingIcon,
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -177,6 +179,48 @@ const Modal: React.FC<ModalProps> = ({
         height: typeof footerHeight === 'number' ? `${footerHeight}px` : footerHeight
     };
 
+    // 渲染加载状态
+    const renderLoading = () => {
+        if (!loading) return null;
+
+        if (loadingIcon) {
+            return (
+                <div className="idp-modal-loading">
+                    <div className="idp-modal-loading-content">
+                        {loadingIcon}
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <div className="idp-modal-loading">
+                <div className="idp-modal-loading-content">
+                    <div className="idp-modal-loading-spinner">
+                        <svg viewBox="0 0 24 24" className="idp-modal-loading-icon">
+                            <circle
+                                className="idp-modal-loading-track"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                fill="none"
+                                strokeWidth="2"
+                            />
+                            <circle
+                                className="idp-modal-loading-indicator"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                fill="none"
+                                strokeWidth="2"
+                            />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     // 渲染Modal内容
     const renderModalContent = () => {
         if (!isVisible && !isClosing) return null;
@@ -233,6 +277,7 @@ const Modal: React.FC<ModalProps> = ({
                     style={containerStyle}
                     onClick={(e) => e.stopPropagation()}
                 >
+                    {renderLoading()}
                     <div
                         className="idp-modal-header"
                         style={headerStyle}
