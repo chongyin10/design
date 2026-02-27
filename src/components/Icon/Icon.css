@@ -1,21 +1,210 @@
+/* ============================================
+   IDP Icon Component - Modern Design System
+   ============================================ */
+
+/* ============================================
+   图标容器 - 基础样式
+   ============================================ */
 .icon-container {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     line-height: 1;
     background-color: transparent;
-    border-radius: 4px;
+    border-radius: var(--idp-border-radius-sm);
     position: relative;
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
+/* ============================================
+   图标 - 基础样式
+   ============================================ */
 .icon {
     display: inline-block;
     vertical-align: middle;
-    fill: #339af0;
-    transition: fill 0.2s ease, transform 0.3s ease;
+    fill: var(--idp-icon-fill);
+    transition: fill var(--idp-transition-duration) ease, transform var(--idp-transition-duration) ease;
     cursor: pointer;
 }
 
+/* 图标悬停效果 */
+.icon-container:hover .icon {
+    fill: var(--idp-icon-hover-fill);
+}
+
+/* ============================================
+   主题色 - 与 Button 组件保持一致
+   ============================================ */
+
+/* Primary 主题 */
+.icon-container.icon-primary .icon {
+    fill: var(--idp-primary-color);
+}
+
+.icon-container.icon-primary:hover .icon {
+    fill: var(--idp-primary-hover-color);
+}
+
+/* Success 主题 */
+.icon-container.icon-success .icon {
+    fill: var(--idp-success-color);
+}
+
+.icon-container.icon-success:hover .icon {
+    fill: #73d13d;
+}
+
+/* Warning 主题 */
+.icon-container.icon-warning .icon {
+    fill: var(--idp-warning-color);
+}
+
+.icon-container.icon-warning:hover .icon {
+    fill: #ffc53d;
+}
+
+/* Danger 主题 */
+.icon-container.icon-danger .icon {
+    fill: var(--idp-error-color);
+}
+
+.icon-container.icon-danger:hover .icon {
+    fill: #ff7875;
+}
+
+/* Info 主题 */
+.icon-container.icon-info .icon {
+    fill: var(--idp-info-color);
+}
+
+.icon-container.icon-info:hover .icon {
+    fill: var(--idp-primary-hover-color);
+}
+
+/* Secondary 主题 */
+.icon-container.icon-secondary .icon {
+    fill: var(--idp-text-color-secondary);
+}
+
+.icon-container.icon-secondary:hover .icon {
+    fill: var(--idp-text-color);
+}
+
+/* ============================================
+   尺寸变体
+   ============================================ */
+.icon-container.icon-small {
+    font-size: 12px;
+}
+
+.icon-container.icon-small .icon {
+    width: 12px;
+    height: 12px;
+}
+
+.icon-container.icon-medium {
+    font-size: 14px;
+}
+
+.icon-container.icon-medium .icon {
+    width: 14px;
+    height: 14px;
+}
+
+.icon-container.icon-large {
+    font-size: 16px;
+}
+
+.icon-container.icon-large .icon {
+    width: 16px;
+    height: 16px;
+}
+
+.icon-container.icon-xlarge {
+    font-size: 20px;
+}
+
+.icon-container.icon-xlarge .icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* ============================================
+   圆形图标按钮样式 - 带背景
+   ============================================ */
+.icon-container.icon-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-light) 100%);
+    border: 1px solid var(--idp-border-color-extra-light);
+    box-shadow: var(--idp-shadow-extra-light);
+}
+
+.icon-container.icon-circle:hover {
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    border-color: var(--idp-primary-hover-color);
+    box-shadow: var(--idp-shadow-sm);
+    transform: translateY(-1px);
+}
+
+.icon-container.icon-circle:active {
+    transform: translateY(0);
+    box-shadow: var(--idp-shadow-extra-light);
+}
+
+/* 圆形图标按钮 - 尺寸 */
+.icon-container.icon-circle.icon-small {
+    width: 24px;
+    height: 24px;
+}
+
+.icon-container.icon-circle.icon-large {
+    width: 40px;
+    height: 40px;
+}
+
+/* ============================================
+   禁用状态
+   ============================================ */
+.icon-container.icon-disabled,
+.icon-container.icon-disabled .icon {
+    cursor: not-allowed;
+    opacity: var(--idp-opacity-disabled);
+}
+
+.icon-container.icon-disabled:hover .icon {
+    fill: var(--idp-icon-fill);
+}
+
+/* 禁用状态下各主题 */
+.icon-container.icon-disabled.icon-primary:hover .icon {
+    fill: var(--idp-primary-color);
+}
+
+.icon-container.icon-disabled.icon-success:hover .icon {
+    fill: var(--idp-success-color);
+}
+
+.icon-container.icon-disabled.icon-warning:hover .icon {
+    fill: var(--idp-warning-color);
+}
+
+.icon-container.icon-disabled.icon-danger:hover .icon {
+    fill: var(--idp-error-color);
+}
+
+.icon-container.icon-disabled.icon-info:hover .icon {
+    fill: var(--idp-info-color);
+}
+
+.icon-container.icon-disabled.icon-secondary:hover .icon {
+    fill: var(--idp-text-color-secondary);
+}
+
+/* ============================================
+   旋转动画
+   ============================================ */
 .icon-spin {
     animation: icon-spin 1s infinite linear;
 }
@@ -29,9 +218,19 @@
     }
 }
 
+/* 旋转动画 - 快速 */
+.icon-spin-fast {
+    animation: icon-spin 0.5s infinite linear;
+}
 
+/* 旋转动画 - 慢速 */
+.icon-spin-slow {
+    animation: icon-spin 2s infinite linear;
+}
 
-/* 对齐方式 */
+/* ============================================
+   对齐方式
+   ============================================ */
 .icon-container.align-left {
     justify-content: flex-start;
 }
@@ -42,4 +241,41 @@
 
 .icon-container.align-right {
     justify-content: flex-end;
+}
+
+/* ============================================
+   脉冲效果 - 用于通知等场景
+   ============================================ */
+.icon-pulse {
+    animation: icon-pulse 2s infinite;
+}
+
+@keyframes icon-pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   旋转图标 - 用于展开/收起
+   ============================================ */
+.icon-rotate-90 {
+    transform: rotate(90deg);
+}
+
+.icon-rotate-180 {
+    transform: rotate(180deg);
+}
+
+.icon-rotate-270 {
+    transform: rotate(270deg);
 }

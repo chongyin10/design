@@ -120,7 +120,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   };
 
   // 根据层级确定主题：根目录使用传入的 theme，子目录根据层级切换
-  const itemTheme =  theme || 'light';
+  const itemTheme = theme || 'light';
 
   return (
     <div className={`idp-menu-item-wrapper ${isRoot ? 'root' : ''}`}>
@@ -168,7 +168,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       {/* 子菜单 */}
       {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联模式始终渲染以支持动画 */}
       {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
-        <div className={`idp-menu-submenu ${getSubMenuClass()} ${mode} level-${level}`}>
+        <div style={{ marginLeft: '0px' }} className={`idp-menu-submenu ${getSubMenuClass()} ${mode}`}>
           <div className="idp-menu-submenu-content">
             {item.children?.map((child: MenuItem) => (
               <MenuItemComponent

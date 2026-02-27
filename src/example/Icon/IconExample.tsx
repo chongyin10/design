@@ -186,9 +186,8 @@ const IconExample: React.FC = () => {
       </div>
       <div className="icon-display-section">
         {filteredIcons.map((type) => (
-          <div>
+          <div key={type}>
             <ColorPicker
-              key={type}
               color={selectedColor}
               onChange={handleColorChange}
               presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}

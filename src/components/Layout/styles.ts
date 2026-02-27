@@ -3,16 +3,18 @@ import styled from 'styled-components';
 // 从 CSS 变量中读取值的辅助函数
 const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
 
+// ============================================
 // Layout 容器
+// ============================================
 export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' | 'dark' }>`
   display: flex;
   flex-direction: column;
   min-height: ${getCSSVar('--layout-min-height', '100vh')};
   max-height: 100vh;
-  background-color: ${({ $theme }) =>
+  background: ${({ $theme }) =>
     $theme === 'dark'
-      ? getCSSVar('--layout-bg-dark', '#000')
-      : getCSSVar('--layout-bg-light', '#f5f5f5')};
+      ? `linear-gradient(180deg, ${getCSSVar('--layout-bg-dark', '#000')} 0%, ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')} 100%)`
+      : `linear-gradient(180deg, ${getCSSVar('--layout-bg-light', '#f5f5f5')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -26,23 +28,25 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' 
   `}
 `;
 
+// ============================================
 // Layout.Header
+// ============================================
 export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string | number; $theme?: 'light' | 'dark', $bgColor?: string }>`
   display: flex;
   align-items: center;
   flex-shrink: 0;
   padding: ${getCSSVar('--layout-header-padding', '0 24px')};
-  background-color: ${({ $theme }) =>
+  background: ${({ $theme }) =>
     $theme === 'dark'
-      ? getCSSVar('--layout-header-bg-dark', '#001529')
-      : getCSSVar('--layout-header-bg-light', '#fff')};
+      ? `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-dark', '#001529')} 0%, #002140 100%)`
+      : `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
   color: ${({ $theme }) =>
     $theme === 'dark'
       ? getCSSVar('--layout-header-color-dark', '#fff')
-      : getCSSVar('--layout-header-color-light', '#000')};
+      : getCSSVar('--layout-header-color-light', 'rgba(0, 0, 0, 0.85)')};
   height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-header-height', '64px')};
   z-index: ${getCSSVar('--layout-header-z-index', '10')};
-  transition: ${getCSSVar('--layout-header-transition', 'all 0.3s ease')};
+  transition: ${getCSSVar('--layout-header-transition', 'all 0.2s ease-in-out')};
   box-sizing: border-box;
 
   &.layout-header-light {
@@ -50,7 +54,7 @@ export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string 
   }
 
   &.layout-header-dark {
-    border-bottom: 1px solid transition;
+    border-bottom: 1px solid transparent;
   }
 
   &.layout-header {
@@ -66,7 +70,9 @@ export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string 
   `}
 `;
 
+// ============================================
 // Layout.Sider
+// ============================================
 export const SiderWrapper = styled.aside<{
   $width?: string | number;
   $collapsedWidth?: number;
@@ -77,26 +83,26 @@ export const SiderWrapper = styled.aside<{
 }>`
   display: flex;
   flex-direction: column;
-  background-color: ${({ $theme }) =>
+  background: ${({ $theme }) =>
     $theme === 'dark'
-      ? getCSSVar('--layout-sider-bg-dark', '#001529')
-      : getCSSVar('--layout-sider-bg-light', '#fff')};
+      ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
+      : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
   color: ${({ $theme }) =>
     $theme === 'dark'
       ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', '#000')};
+      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
   z-index: ${getCSSVar('--layout-sider-z-index', '10')};
-  transition: ${getCSSVar('--layout-sider-transition', 'all 0.3s ease')};
+  transition: ${getCSSVar('--layout-sider-transition', 'all 0.2s ease-in-out')};
   flex: ${getCSSVar('--layout-sider-flex', '0 0 200px')};
   box-sizing: border-box;
   border-right: ${({ $theme }) =>
     $theme === 'dark'
-      ? 'var(--layout-sider-border, 1px solid #303030)'
-      : 'var(--layout-sider-border, 1px solid transparent)'};
+      ? `var(--layout-sider-border, 1px solid #303030)`
+      : `var(--layout-sider-border, 1px solid ${getCSSVar('--idp-border-color-light', '#f0f0f0')})`};
   box-shadow: ${({ $theme }) =>
     $theme === 'dark'
       ? '2px 0 8px rgba(0, 0, 0, 0.3)'
-      : '2px 0 8px rgba(0, 0, 0, 0.08)'};
+      : getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.08)')};
 
   /* Sider 高度 = 浏览器高度 - Header 高度 */
   height: calc(100vh - var(--layout-header-height, 64px));
@@ -129,30 +135,67 @@ export const SiderWrapper = styled.aside<{
     left: 0;
     bottom: 0;
     overflow-y: auto;
-    box-shadow: ${getCSSVar('--layout-sider-box-shadow', '2px 0 8px rgba(0, 0, 0, 0.15)')};
+    box-shadow: ${getCSSVar('--layout-sider-box-shadow', '0 4px 12px rgba(0, 0, 0, 0.15)')};
   `}
 
-  /* 菜单项样式 */
-  .layout-menu-item {
-    color: ${({ $theme }) =>
-    $theme === 'dark'
-      ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', '#000')};
-    transition: all 0.3s ease;
+  /* ============================================
+     集成 Menu 组件样式 - 确保选中状态正确显示
+     ============================================ */
+  
+  /* 覆盖 Menu 组件基础样式 */
+  .idp-menu {
+    background: transparent;
+  }
 
-    &:hover {
-      background-color: ${getCSSVar('--layout-menu-hover-bg-light', '#1890ff')};
-      color: ${getCSSVar('--layout-menu-hover-color-light', '#fff')};
+  /* Menu 菜单项在 Sider 中的样式 */
+  .idp-menu-item {
+    border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
+    margin: 4px 8px;
+    
+    /* Light 主题 */
+    &.light {
+      color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+      
+      &:hover:not(.disabled) {
+        background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+        color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+      }
+      
+      &.selected {
+        background-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+        color: ${getCSSVar('--idp-bg-color-white', '#fff')};
+        box-shadow: ${getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.15)')};
+      }
     }
+    
+    /* Dark 主题 */
+    &.dark {
+      color: rgba(255, 255, 255, 0.85);
+      
+      &:hover:not(.disabled) {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: #fff;
+      }
+      
+      &.selected {
+        background-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(24, 144, 255, 0.4);
+      }
+    }
+  }
 
-    &.active {
-      background-color: ${getCSSVar('--layout-menu-active-bg-light', '#1890ff')};
-      color: ${getCSSVar('--layout-menu-active-color-light', '#fff')};
+  /* 子菜单样式 */
+  .idp-menu-submenu {
+    .idp-menu-item {
+      margin: 2px 8px 2px 16px;
     }
   }
 `;
 
+// ============================================
 // Sider 内容包装器
+// ============================================
 export const SiderContentWrapper = styled.div<{ $collapsed?: boolean }>`
   flex: 1;
   overflow-y: auto;
@@ -160,7 +203,7 @@ export const SiderContentWrapper = styled.div<{ $collapsed?: boolean }>`
 
   /* 内容过渡动画 */
   & > * {
-    transition: all 0.3s ease;
+    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
   }
 
   /* 收缩状态下的内容样式 */
@@ -174,22 +217,24 @@ export const SiderContentWrapper = styled.div<{ $collapsed?: boolean }>`
   `}
 `;
 
+// ============================================
 // Sider 收缩触发器
+// ============================================
 export const SiderTrigger = styled.div<{ $collapsed?: boolean; $placement?: 'top' | 'bottom'; $zeroWidthMode?: boolean; $theme?: 'light' | 'dark' }>`
   display: flex;
   align-items: center;
   justify-content: center;
   height: ${getCSSVar('--layout-trigger-height', '48px')};
-  background-color: ${({ $theme }) =>
+  background: ${({ $theme }) =>
     $theme === 'dark'
-      ? getCSSVar('--layout-sider-bg-dark', '#001529')
-      : getCSSVar('--layout-sider-bg-light', '#fff')};
+      ? `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
+      : `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
   color: ${({ $theme }) =>
     $theme === 'dark'
       ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', '#000')};
+      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
   cursor: pointer;
-  transition: ${getCSSVar('--layout-trigger-transition', 'all 0.3s ease')};
+  transition: ${getCSSVar('--layout-trigger-transition', 'all 0.2s ease-in-out')};
   user-select: none;
   order: ${({ $placement }) => $placement === 'top' ? '-1' : 'auto'};
 
@@ -198,17 +243,23 @@ export const SiderTrigger = styled.div<{ $collapsed?: boolean; $placement?: 'top
   }
 
   &:hover {
-    background-color: ${getCSSVar('--layout-menu-hover-bg-light', '#1890ff')};
-    color: ${getCSSVar('--layout-menu-hover-color-light', '#fff')};
+    background: ${({ $theme }) =>
+    $theme === 'dark'
+      ? `linear-gradient(135deg, #002140 0%, ${getCSSVar('--idp-primary-color', '#1890ff')} 100%)`
+      : `linear-gradient(135deg, ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')} 0%, ${getCSSVar('--idp-bg-color-light', '#f5f5f5')} 100%)`};
+    color: ${({ $theme }) =>
+    $theme === 'dark'
+      ? '#fff'
+      : getCSSVar('--idp-primary-color', '#1890ff')};
   }
 
   /* 分割线 */
   ${({ $placement, $theme }) => $placement === 'top' && `
-    border-bottom: 1px solid ${$theme === 'dark' ? '#303030' : 'transparent'};
+    border-bottom: 1px solid ${$theme === 'dark' ? '#303030' : getCSSVar('--idp-border-color-light', '#f0f0f0')};
   `}
 
   ${({ $placement, $theme }) => $placement !== 'top' && `
-    border-top: 1px solid ${$theme === 'dark' ? '#303030' : 'transparent'};
+    border-top: 1px solid ${$theme === 'dark' ? '#303030' : getCSSVar('--idp-border-color-light', '#f0f0f0')};
   `}
 
   /* 零宽度模式下，收缩时隐藏触发器 */
@@ -217,7 +268,9 @@ export const SiderTrigger = styled.div<{ $collapsed?: boolean; $placement?: 'top
   `}
 `;
 
+// ============================================
 // 零宽度模式下，在 Content 内显示的展开按钮
+// ============================================
 export const ZeroWidthTriggerInContent = styled.div`
   position: absolute;
   top: 16px;
@@ -225,23 +278,30 @@ export const ZeroWidthTriggerInContent = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #1890ff;
+  background: linear-gradient(135deg, ${getCSSVar('--idp-primary-color', '#1890ff')} 0%, ${getCSSVar('--idp-primary-hover-color', '#40a9ff')} 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: ${getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.15)')};
   z-index: 100;
-  transition: all 0.3s ease;
+  transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ${getCSSVar('--idp-transition-timing-function', 'ease-in-out')};
 
   &:hover {
-    background-color: #40a9ff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    background: linear-gradient(135deg, ${getCSSVar('--idp-primary-hover-color', '#40a9ff')} 0%, #69c0ff 100%);
+    box-shadow: ${getCSSVar('--idp-shadow-md', '0 4px 12px rgba(0, 0, 0, 0.25)')};
     transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: ${getCSSVar('--idp-shadow-extra-light', '0 2px 8px rgba(0, 0, 0, 0.08)')};
   }
 `;
 
+// ============================================
 // Layout 内容区域容器（包含 Content 和 Sider）
+// ============================================
 export const LayoutInnerWrapper = styled.div<{ $hasSider?: boolean }>`
   display: flex;
   flex: 1;
@@ -253,13 +313,15 @@ export const LayoutInnerWrapper = styled.div<{ $hasSider?: boolean }>`
   `}
 `;
 
+// ============================================
 // Layout.Content
+// ============================================
 export const ContentWrapper = styled.main<{ $fixed?: boolean; $theme?: 'light' | 'dark' }>`
   flex: 1;
   padding: ${getCSSVar('--layout-content-padding', '24px')};
-  background-color: ${getCSSVar('--layout-content-bg', 'transparent')};
+  background: ${getCSSVar('--layout-content-bg', 'transparent')};
   min-height: ${getCSSVar('--layout-content-min-height', '280px')};
-  transition: ${getCSSVar('--layout-content-transition', 'all 0.3s ease')};
+  transition: ${getCSSVar('--layout-content-transition', 'all 0.2s ease-in-out')};
   overflow-y: auto;
   box-sizing: border-box;
   position: relative;
@@ -272,52 +334,64 @@ export const ContentWrapper = styled.main<{ $fixed?: boolean; $theme?: 'light' |
     overflow-y: auto;
   `}
 
+  /* 滚动条样式 */
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${getCSSVar('--idp-border-color-extra-light', '#d9d9d9')};
+    border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
+    transition: background-color ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+  }
+
   /* Dark 主题滚动条样式 */
   ${({ $theme }) => $theme === 'dark' && `
-    &::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
     &::-webkit-scrollbar-thumb {
-      background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent);
-      border-radius: 3px;
+      background-color: color-mix(in srgb, ${getCSSVar('--idp-primary-color', '#1890ff')} 50%, transparent);
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 70%, transparent);
+      background-color: color-mix(in srgb, ${getCSSVar('--idp-primary-color', '#1890ff')} 70%, transparent);
     }
 
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent) transparent;
+    scrollbar-color: color-mix(in srgb, ${getCSSVar('--idp-primary-color', '#1890ff')} 50%, transparent) transparent;
   `}
 `;
 
+// ============================================
 // Layout.Footer
+// ============================================
 export const FooterWrapper = styled.footer<{ $fixed?: boolean; $height?: string | number; $theme?: 'light' | 'dark' }>`
   display: flex;
   align-items: center;
   flex-shrink: 0;
   padding: ${getCSSVar('--layout-footer-padding', '24px 50px')};
-  background-color: ${({ $theme }) =>
+  background: ${({ $theme }) =>
     $theme === 'dark'
-      ? getCSSVar('--layout-footer-bg-dark', '#001529')
-      : getCSSVar('--layout-footer-bg-light', '#fff')};
+      ? `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-dark', '#001529')} 0%, #002140 100%)`
+      : `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
   color: ${({ $theme }) =>
     $theme === 'dark'
       ? getCSSVar('--layout-footer-color-dark', '#fff')
-      : getCSSVar('--layout-footer-color-light', '#000')};
+      : getCSSVar('--layout-footer-color-light', 'rgba(0, 0, 0, 0.85)')};
   height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-footer-height', '48px')};
   border-top: ${({ $theme }) =>
     $theme === 'dark'
-      ? 'var(--layout-footer-border, 1px solid #303030)'
-      : 'var(--layout-footer-border, 1px solid transparent)'};
+      ? `var(--layout-footer-border, 1px solid #303030)`
+      : `var(--layout-footer-border, 1px solid ${getCSSVar('--idp-border-color-light', '#f0f0f0')})`};
   z-index: ${getCSSVar('--layout-footer-z-index', '10')};
-  transition: ${getCSSVar('--layout-footer-transition', 'all 0.3s ease')};
+  transition: ${getCSSVar('--layout-footer-transition', 'all 0.2s ease-in-out')};
   box-sizing: border-box;
 
   &.layout-footer {

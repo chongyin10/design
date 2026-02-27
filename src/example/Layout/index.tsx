@@ -533,7 +533,7 @@ function App() {
           <Layout style={{ minHeight: '500px' }}>
             <Header style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#001529' }}>
               <Icon type="home" />
-              <span style={{ fontWeight: 600 }}>管理系统</span>
+              <span style={{ fontWeight: 600, color: '#fff' }}>管理系统</span>
             </Header>
             <Layout>
               <Sider
@@ -547,7 +547,6 @@ function App() {
                   items={menuItems}
                   selectedKey={selectedMenuKey}
                   collapsed={collapsed}
-                  theme="dark"
                   onChange={(_info, key) => setSelectedMenuKey(key)}
                 />
               </Sider>

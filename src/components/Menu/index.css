@@ -432,11 +432,11 @@
 }
 
 .idp-menu-submenu.level-1 {
-  margin-left: 4px;
+  margin-left: 0px;
 }
 
 .idp-menu-submenu.level-2 {
-  margin-left: 4px;
+  margin-left: 0px;
 }
 
 /* ========== 选中状态下的父级高亮 ========== */

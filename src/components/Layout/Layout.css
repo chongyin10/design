@@ -1,8 +1,81 @@
+/* ============================================
+   IDP Layout Component - Modern Design System
+   ============================================ */
+
 :root {
-  /* Layout 基础配置 */
+  /* ============================================
+     Layout 基础配置
+     ============================================ */
   --layout-min-height: 100vh;
 
-  /* 边框控制变量 - 优先级最高 */
+  /* ============================================
+     Light 主题 - 使用统一 CSS 变量
+     ============================================ */
+  --layout-bg-light: var(--idp-bg-color-light, #f5f5f5);
+  --layout-header-bg-light: var(--idp-bg-color-white, #fff);
+  --layout-header-color-light: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --layout-header-border-light: 1px solid var(--idp-border-color-light, #f0f0f0);
+  --layout-sider-bg-light: var(--idp-bg-color-white, #fff);
+  --layout-sider-color-light: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --layout-sider-border-light: 1px solid var(--idp-border-color-light, #f0f0f0);
+  --layout-footer-bg-light: var(--idp-bg-color-white, #fff);
+  --layout-footer-color-light: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --layout-footer-border-light: 1px solid var(--idp-border-color-light, #f0f0f0);
+  --layout-menu-hover-bg-light: var(--idp-primary-light-color, rgba(24, 144, 255, 0.1));
+  --layout-menu-hover-color-light: var(--idp-primary-color, #1890ff);
+  --layout-menu-active-bg-light: var(--idp-primary-color, #1890ff);
+  --layout-menu-active-color-light: var(--idp-bg-color-white, #fff);
+
+  /* ============================================
+     Dark 主题 - 使用统一 CSS 变量
+     ============================================ */
+  --layout-bg-dark: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --layout-header-bg-dark: #001529;
+  --layout-header-color-dark: var(--idp-bg-color-white, #fff);
+  --layout-header-border-dark: 1px solid #303030;
+  --layout-sider-bg-dark: #001529;
+  --layout-sider-color-dark: var(--idp-bg-color-white, #fff);
+  --layout-sider-border-dark: 1px solid #303030;
+  --layout-footer-bg-dark: #001529;
+  --layout-footer-color-dark: var(--idp-bg-color-white, #fff);
+  --layout-footer-border-dark: 1px solid #303030;
+  --layout-menu-hover-bg-dark: rgba(255, 255, 255, 0.08);
+  --layout-menu-hover-color-dark: var(--idp-bg-color-white, #fff);
+  --layout-menu-active-bg-dark: var(--idp-primary-color, #1890ff);
+  --layout-menu-active-color-dark: var(--idp-bg-color-white, #fff);
+
+  /* ============================================
+     通用配置 - 使用统一 CSS 变量
+     ============================================ */
+  --layout-header-height: 64px;
+  --layout-header-padding: 0 24px;
+  --layout-header-z-index: 10;
+  --layout-header-box-shadow: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  --layout-header-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+
+  --layout-footer-height: 48px;
+  --layout-footer-padding: 24px 50px;
+  --layout-footer-z-index: 10;
+  --layout-footer-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+
+  --layout-sider-width: 200px;
+  --layout-sider-collapsed-width: 64px;
+  --layout-sider-z-index: 10;
+  --layout-sider-box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
+  --layout-sider-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  --layout-sider-flex: 0 0 var(--layout-sider-width);
+
+  --layout-content-bg: transparent;
+  --layout-content-padding: 24px;
+  --layout-content-min-height: 160px;
+  --layout-content-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+
+  --layout-trigger-height: 48px;
+  --layout-trigger-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+
+  /* ============================================
+     边框控制变量 - 优先级最高
+     ============================================ */
   /* 可选值:
    * - 颜色值: 如 1px solid #ff0000 (使用自定义边框)
    * - none: 不显示边框
@@ -11,68 +84,11 @@
   /* --layout-header-border: none; */
   /* --layout-sider-border: none; */
   /* --layout-footer-border: none; */
-
-  /* Light 主题 - 白底黑字 */
-  --layout-bg-light: #f5f5f5;
-  --layout-header-bg-light: #fff;
-  --layout-header-color-light: #000;
-  --layout-header-border-light: 1px solid #f0f0f0;
-  --layout-sider-bg-light: #fff;
-  --layout-sider-color-light: #000;
-  --layout-sider-border-light: 1px solid #f0f0f0;
-  --layout-footer-bg-light: #fff;
-  --layout-footer-color-light: #000;
-  --layout-footer-border-light: 1px solid #f0f0f0;
-  --layout-menu-hover-bg-light: #1890ff;
-  --layout-menu-hover-color-light: #fff;
-  --layout-menu-active-bg-light: #1890ff;
-  --layout-menu-active-color-light: #fff;
-
-  /* Dark 主题 - 黑底白字 */
-  --layout-bg-dark: #000;
-  --layout-header-bg-dark: #001529;
-  --layout-header-color-dark: #fff;
-  --layout-header-border-dark: 1px solid #303030;
-  --layout-sider-bg-dark: #001529;
-  --layout-sider-color-dark: #fff;
-  --layout-sider-border-dark: 1px solid #303030;
-  --layout-footer-bg-dark: #001529;
-  --layout-footer-color-dark: #fff;
-  --layout-footer-border-dark: 1px solid #303030;
-  --layout-menu-hover-bg-dark: #1890ff;
-  --layout-menu-hover-color-dark: #fff;
-  --layout-menu-active-bg-dark: #1890ff;
-  --layout-menu-active-color-dark: #fff;
-
-  /* 通用配置 */
-  --layout-header-height: 64px;
-  --layout-header-padding: 0 24px;
-  --layout-header-z-index: 10;
-  --layout-header-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --layout-header-transition: all 0.3s ease;
-
-  --layout-footer-height: 48px;
-  --layout-footer-padding: 24px 50px;
-  --layout-footer-z-index: 10;
-  --layout-footer-transition: all 0.3s ease;
-
-  --layout-sider-width: 200px;
-  --layout-sider-collapsed-width: 64px;
-  --layout-sider-z-index: 10;
-  --layout-sider-box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
-  --layout-sider-transition: all 0.3s ease;
-  --layout-sider-flex: 0 0 var(--layout-sider-width);
-
-  --layout-content-bg: transparent;
-  --layout-content-padding: 24px;
-  --layout-content-min-height: 160px;
-  --layout-content-transition: all 0.3s ease;
-
-  --layout-trigger-height: 48px;
-  --layout-trigger-transition: all 0.3s ease;
 }
 
-/* 禁止浏览器最外层滚动 */
+/* ============================================
+   全局样式重置
+   ============================================ */
 html,
 body {
   overflow: hidden;
@@ -84,4 +100,41 @@ body {
 #root {
   height: 100%;
   overflow: hidden;
+}
+
+/* ============================================
+   滚动条样式 - 与整体风格统一
+   ============================================ */
+.layout-sider ::-webkit-scrollbar,
+.layout-content ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.layout-sider ::-webkit-scrollbar-track,
+.layout-content ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.layout-sider ::-webkit-scrollbar-thumb,
+.layout-content ::-webkit-scrollbar-thumb {
+  background-color: var(--idp-border-color-extra-light, #d9d9d9);
+  border-radius: var(--idp-border-radius-sm, 4px);
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
+}
+
+.layout-sider ::-webkit-scrollbar-thumb:hover,
+.layout-content ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+}
+
+/* Dark 主题滚动条 */
+.layout-sider-dark ::-webkit-scrollbar-thumb,
+.layout-content-dark ::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 40%, transparent);
+}
+
+.layout-sider-dark ::-webkit-scrollbar-thumb:hover,
+.layout-content-dark ::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 60%, transparent);
 }
