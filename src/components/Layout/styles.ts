@@ -201,6 +201,28 @@ export const SiderWrapper = styled.aside<{
       margin: 2px 8px 2px 16px;
     }
   }
+
+  /* Dark 主题下的子菜单样式 */
+  .idp-menu-submenu.horizontal-popup,
+  .idp-menu-submenu.horizontal-popup .idp-menu-submenu {
+    background: linear-gradient(135deg, #001529 0%, #002140 100%);
+    border: 1px solid #303030;
+  }
+
+  /* Dark 主题下子菜单中的菜单项 */
+  .idp-menu-submenu .idp-menu-item.dark {
+    color: rgba(255, 255, 255, 0.85);
+    
+    &:hover:not(.disabled) {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+    
+    &.selected {
+      background-color: rgba(24, 144, 255, 0.25);
+      color: #fff;
+    }
+  }
 `;
 
 // ============================================

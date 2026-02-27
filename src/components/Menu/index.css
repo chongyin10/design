@@ -126,6 +126,41 @@
 }
 
 /* ============================================
+   Dark 主题子菜单样式
+   ============================================ */
+/* 水平模式弹出菜单 - Dark 主题 */
+.idp-menu-dark .idp-menu-submenu.horizontal-popup,
+.idp-menu-dark .idp-menu-submenu.horizontal-popup .idp-menu-submenu {
+  background: linear-gradient(135deg, #001529 0%, #002140 100%);
+  border: 1px solid #303030;
+}
+
+/* 垂直模式子菜单 - Dark 主题 */
+.idp-menu-dark .idp-menu-submenu.vertical {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* 内联模式子菜单 - Dark 主题 */
+.idp-menu-dark .idp-menu-submenu.inline {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Dark 主题下子菜单中的菜单项 */
+.idp-menu-dark .idp-menu-submenu .idp-menu-item.dark {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.idp-menu-dark .idp-menu-submenu .idp-menu-item.dark:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.idp-menu-dark .idp-menu-submenu .idp-menu-item.dark.selected {
+  background-color: rgba(24, 144, 255, 0.25);
+  color: #fff;
+}
+
+/* ============================================
    禁用状态
    ============================================ */
 .idp-menu-item.disabled {
@@ -276,6 +311,15 @@
   display: none;
 }
 
+/* 子菜单 wrapper 通用样式 */
+.idp-menu-submenu-wrapper {
+  position: relative;
+}
+
+.idp-menu-submenu-wrapper.horizontal {
+  position: static;
+}
+
 /* 垂直模式子菜单 */
 .idp-menu-submenu.vertical {
   overflow: hidden;
@@ -354,11 +398,21 @@
   box-shadow: none;
 }
 
-/* 水平模式子菜单弹出 */
-.idp-menu-submenu.horizontal-popup {
+/* 水平模式子菜单 wrapper - 用于定位 */
+.idp-menu-submenu-wrapper.horizontal-popup-wrapper {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* 水平模式子菜单弹出 */
+.idp-menu-submenu.horizontal-popup {
+  position: relative;
   min-width: 160px;
   background: var(--idp-bg-color-white, #fff);
   box-shadow: var(--idp-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
@@ -376,6 +430,11 @@
 .idp-menu-submenu.horizontal-popup.open {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 展开时 wrapper 也需要可交互 */
+.idp-menu-submenu-wrapper.horizontal-popup-wrapper .idp-menu-submenu.horizontal-popup.open {
   pointer-events: auto;
 }
 
@@ -413,12 +472,18 @@
   border-radius: var(--idp-border-radius-md, 6px);
   padding: 4px 0;
   z-index: var(--idp-z-index-modal, 1000);
-  margin-left: 2px;
+  margin-left: 4px;
   opacity: 0;
   transform: translateX(-4px);
   pointer-events: none;
   transition: opacity 0.15s ease-out, transform 0.15s ease-out;
   will-change: opacity, transform;
+}
+
+/* Dark 主题嵌套子菜单 */
+.idp-menu-dark .idp-menu-submenu.horizontal-popup .idp-menu-submenu {
+  background: linear-gradient(135deg, #001529 0%, #002140 100%);
+  border: 1px solid #303030;
 }
 
 .idp-menu-submenu.horizontal-popup .idp-menu-submenu.open {

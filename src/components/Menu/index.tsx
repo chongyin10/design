@@ -168,22 +168,24 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       {/* 子菜单 */}
       {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联模式始终渲染以支持动画 */}
       {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
-        <div style={{ marginLeft: '0px' }} className={`idp-menu-submenu ${getSubMenuClass()} ${mode}`}>
-          <div className="idp-menu-submenu-content">
-            {item.children?.map((child: MenuItem) => (
-              <MenuItemComponent
-                key={child.key}
-                item={child}
-                level={level + 1}
-                mode={mode}
-                collapsed={collapsed}
-                theme={theme}
-                openKeySet={openKeySet}
-                selectedKey={selectedKey}
-                onItemClick={onItemClick}
-                onToggleOpen={onToggleOpen}
-              />
-            ))}
+        <div className={`idp-menu-submenu-wrapper ${mode} ${isHorizontal && isRoot ? 'horizontal-popup-wrapper' : ''}`}>
+          <div className={`idp-menu-submenu ${getSubMenuClass()} ${mode}`}>
+            <div className="idp-menu-submenu-content">
+              {item.children?.map((child: MenuItem) => (
+                <MenuItemComponent
+                  key={child.key}
+                  item={child}
+                  level={level + 1}
+                  mode={mode}
+                  collapsed={collapsed}
+                  theme={theme}
+                  openKeySet={openKeySet}
+                  selectedKey={selectedKey}
+                  onItemClick={onItemClick}
+                  onToggleOpen={onToggleOpen}
+                />
+              ))}
+            </div>
           </div>
         </div>
       )}
