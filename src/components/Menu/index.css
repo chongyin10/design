@@ -1,22 +1,23 @@
-/**
- * Menu 组件样式
- * 
- * 支持水平、垂直和内联三种模式
- * 支持折叠模式
- */
+/* ============================================
+   IDP Menu Component - Modern Design System
+   ============================================ */
 
-/* 菜单根容器 */
+/* ============================================
+   菜单根容器
+   ============================================ */
 .idp-menu {
   margin: 0;
   padding: 0;
   list-style: none;
   font-size: 14px;
   line-height: 1.5;
-  background: #fff;
-  transition: all 0.2s ease;
+  background: var(--idp-bg-color-white, #fff);
+  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 }
 
-/* ========== 通用菜单项样式 ========== */
+/* ============================================
+   通用菜单项样式
+   ============================================ */
 .idp-menu-item-wrapper {
   position: relative;
 }
@@ -27,28 +28,116 @@
   height: 40px;
   padding: 0 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 4px;
+  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  border-radius: var(--idp-border-radius-sm, 4px);
   margin: 4px 0;
   user-select: none;
+  position: relative;
+  overflow: hidden;
 }
 
-.idp-menu-item:hover:not(.disabled) {
-  background-color: rgba(24, 144, 255, 0.06);
+/* 水波纹效果 */
+.idp-menu-item::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, var(--idp-primary-light-color, rgba(24, 144, 255, 0.1)) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.idp-menu-item:active::after {
+  width: 200%;
+  height: 200%;
+  opacity: 1;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.1s ease;
+}
+
+/* ============================================
+   Light 主题样式
+   ============================================ */
+.idp-menu-item.light {
+  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+.idp-menu-item.light:hover:not(.disabled) {
+  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.06));
   color: var(--idp-primary-color, #1890ff);
 }
 
-.idp-menu-item.selected {
-  background-color: rgba(24, 144, 255, 0.1);
+.idp-menu-item.light.selected {
+  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.12));
+  color: var(--idp-primary-color, #1890ff);
+  box-shadow: inset 3px 0 0 var(--idp-primary-color, #1890ff);
+  font-weight: 600;
+}
+
+.idp-menu-item.light.selected:hover {
+  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.18));
+}
+
+.idp-menu-item.light .idp-menu-item-arrow {
+  color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+}
+
+.idp-menu-item.light:hover:not(.disabled) .idp-menu-item-arrow {
   color: var(--idp-primary-color, #1890ff);
 }
 
+/* ============================================
+   Dark 主题样式
+   ============================================ */
+.idp-menu-dark {
+  background: transparent;
+}
+
+.idp-menu-item.dark {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.idp-menu-item.dark:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.idp-menu-item.dark.selected {
+  background-color: rgba(24, 144, 255, 0.25);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--idp-primary-color, #1890ff);
+  font-weight: 600;
+}
+
+.idp-menu-item.dark.selected:hover {
+  background-color: rgba(24, 144, 255, 0.35);
+}
+
+.idp-menu-item.dark .idp-menu-item-arrow {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.idp-menu-item.dark:hover:not(.disabled) .idp-menu-item-arrow {
+  color: #fff;
+}
+
+/* ============================================
+   禁用状态
+   ============================================ */
 .idp-menu-item.disabled {
   cursor: not-allowed;
-  color: rgba(0, 0, 0, 0.25);
+  color: var(--idp-text-color-light, #bfbfbf);
   background-color: transparent;
+  opacity: var(--idp-opacity-disabled, 0.65);
 }
 
+/* ============================================
+   菜单项内容区域
+   ============================================ */
 .idp-menu-item-content {
   display: flex;
   align-items: center;
@@ -57,6 +146,9 @@
   overflow: hidden;
 }
 
+/* ============================================
+   菜单项图标
+   ============================================ */
 .idp-menu-item-icon {
   display: flex;
   align-items: center;
@@ -64,20 +156,28 @@
   margin-right: 8px;
   flex-shrink: 0;
   color: inherit;
+  transition: all var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-menu-item-icon.collapsed {
   margin-right: 0;
 }
 
+/* ============================================
+   菜单项标签
+   ============================================ */
 .idp-menu-item-label {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: inherit;
+  font-weight: 500;
 }
 
+/* ============================================
+   折叠状态下的缩略标签
+   ============================================ */
 .idp-menu-item-collapsed-label {
   width: 24px;
   height: 24px;
@@ -85,19 +185,22 @@
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  font-weight: 500;
-  background-color: var(--idp-primary-color, #1890ff);
-  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--idp-primary-color, #1890ff) 0%, var(--idp-primary-hover-color, #40a9ff) 100%);
+  color: var(--idp-bg-color-white, #fff);
   border-radius: 50%;
   margin: 0 auto;
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
+/* ============================================
+   菜单项箭头
+   ============================================ */
 .idp-menu-item-arrow {
   display: flex;
   align-items: center;
   margin-left: 8px;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  color: rgba(0, 0, 0, 0.45);
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color var(--idp-transition-duration, 0.2s) ease;
   flex-shrink: 0;
 }
 
@@ -113,15 +216,11 @@
   transform: rotate(0deg);
 }
 
-/* ========== 深色主题 (Dark Theme) ========== */
-
-.idp-menu-dark {
-  background: transparent;
-}
-
-/* Dark 主题滚动条样式 - 与选中颜色保持一致，透明度 0.5 */
+/* ============================================
+   滚动条样式 - Dark 主题
+   ============================================ */
 .idp-menu-dark::-webkit-scrollbar {
-  width: 3px;
+  width: 4px;
   height: 6px;
 }
 
@@ -131,69 +230,22 @@
 
 .idp-menu-dark::-webkit-scrollbar-thumb {
   background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent);
-  border-radius: 3px;
+  border-radius: var(--idp-border-radius-sm, 4px);
+  transition: background-color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-menu-dark::-webkit-scrollbar-thumb:hover {
   background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 70%, transparent);
 }
 
-/* Firefox 滚动条 */
 .idp-menu-dark {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent) transparent;
 }
 
-.idp-menu-item.dark {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.idp-menu-item.dark .idp-menu-item-label {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.idp-menu-item.dark:hover:not(.disabled) {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
-
-.idp-menu-item.dark:hover:not(.disabled) .idp-menu-item-label {
-  color: #fff;
-}
-
-.idp-menu-item.dark.selected {
-  background-color: var(--idp-primary-color, #1890ff);
-  color: #fff;
-}
-
-.idp-menu-item.dark.selected .idp-menu-item-label {
-  color: #fff;
-}
-
-.idp-menu-item.dark .idp-menu-item-arrow {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-/* 浅色主题 (Light Theme) - 默认样式 */
-.idp-menu-item.light {
-  color: rgba(0, 0, 0, 0.85);
-}
-
-.idp-menu-item.light:hover:not(.disabled) {
-  background-color: rgba(24, 144, 255, 0.06);
-  color: var(--idp-primary-color, #1890ff);
-}
-
-.idp-menu-item.light.selected {
-  background-color: rgba(24, 144, 255, 0.1);
-  color: var(--idp-primary-color, #1890ff);
-}
-
-.idp-menu-item.light .idp-menu-item-arrow {
-  color: rgba(0, 0, 0, 0.45);
-}
-
-/* ========== 垂直模式 (Vertical) ========== */
+/* ============================================
+   垂直模式 (Vertical)
+   ============================================ */
 .idp-menu-vertical {
   display: flex;
   flex-direction: column;
@@ -227,8 +279,8 @@
 /* 垂直模式子菜单 */
 .idp-menu-submenu.vertical {
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.02);
-  border-radius: 4px;
+  background-color: var(--idp-bg-color-light, rgba(0, 0, 0, 0.02));
+  border-radius: var(--idp-border-radius-sm, 4px);
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -250,7 +302,7 @@
   height: 36px;
   opacity: 0;
   transform: translateX(-8px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color 0.2s ease, color 0.2s ease;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-menu-submenu.vertical.open .idp-menu-item {
@@ -258,7 +310,7 @@
   transform: translateX(0);
 }
 
-/* 子菜单项依次动画 - 减少延迟避免卡顿 */
+/* 子菜单项依次动画 */
 .idp-menu-submenu.vertical.open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
 .idp-menu-submenu.vertical.open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
 .idp-menu-submenu.vertical.open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
@@ -268,12 +320,14 @@
 .idp-menu-submenu.vertical.open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
 .idp-menu-submenu.vertical.open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
-/* ========== 水平模式 (Horizontal) ========== */
+/* ============================================
+   水平模式 (Horizontal)
+   ============================================ */
 .idp-menu-horizontal {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
   width: 100%;
 }
 
@@ -297,6 +351,7 @@
 .idp-menu-horizontal .idp-menu-item.root.selected {
   background-color: transparent;
   border-bottom-color: var(--idp-primary-color, #1890ff);
+  box-shadow: none;
 }
 
 /* 水平模式子菜单弹出 */
@@ -305,11 +360,11 @@
   top: 100%;
   left: 0;
   min-width: 160px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+  background: var(--idp-bg-color-white, #fff);
+  box-shadow: var(--idp-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
+  border-radius: var(--idp-border-radius-md, 6px);
   padding: 4px 0;
-  z-index: 1000;
+  z-index: var(--idp-z-index-modal, 1000);
   margin-top: 4px;
   opacity: 0;
   transform: translateY(-4px);
@@ -329,7 +384,7 @@
   border-radius: 0;
   opacity: 0;
   transform: translateX(-4px);
-  transition: opacity 0.15s ease-out, transform 0.15s ease-out, background-color 0.2s ease, color 0.2s ease;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item {
@@ -337,7 +392,7 @@
   transform: translateX(0);
 }
 
-/* 子菜单项依次动画 - 减少延迟避免卡顿 */
+/* 子菜单项依次动画 */
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
@@ -347,16 +402,17 @@
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
 .idp-menu-submenu.horizontal-popup.open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
+/* 水平模式嵌套子菜单 */
 .idp-menu-submenu.horizontal-popup .idp-menu-submenu {
   position: absolute;
   left: 100%;
   top: 0;
   min-width: 160px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+  background: var(--idp-bg-color-white, #fff);
+  box-shadow: var(--idp-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
+  border-radius: var(--idp-border-radius-md, 6px);
   padding: 4px 0;
-  z-index: 1000;
+  z-index: var(--idp-z-index-modal, 1000);
   margin-left: 2px;
   opacity: 0;
   transform: translateX(-4px);
@@ -371,12 +427,14 @@
   pointer-events: auto;
 }
 
-/* ========== 内联模式 (Inline) ========== */
+/* ============================================
+   内联模式 (Inline)
+   ============================================ */
 .idp-menu-inline {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid var(--idp-border-color-light, #f0f0f0);
 }
 
 .idp-menu-inline .idp-menu-item {
@@ -386,7 +444,7 @@
 
 .idp-menu-submenu.inline {
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.02);
+  background-color: var(--idp-bg-color-light, rgba(0, 0, 0, 0.02));
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -408,7 +466,7 @@
   margin: 0;
   opacity: 0;
   transform: translateX(-8px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color 0.2s ease, color 0.2s ease;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-menu-submenu.inline.open .idp-menu-item {
@@ -416,7 +474,7 @@
   transform: translateX(0);
 }
 
-/* 子菜单项依次动画 - 减少延迟避免卡顿 */
+/* 子菜单项依次动画 */
 .idp-menu-submenu.inline.open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
 .idp-menu-submenu.inline.open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
 .idp-menu-submenu.inline.open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
@@ -426,61 +484,37 @@
 .idp-menu-submenu.inline.open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
 .idp-menu-submenu.inline.open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
-/* ========== 嵌套层级样式 ========== */
-.idp-menu-submenu.level-0 {
+/* ============================================
+   嵌套层级样式
+   ============================================ */
+.idp-menu-submenu.level-0,
+.idp-menu-submenu.level-1,
+.idp-menu-submenu.level-2 {
   margin-left: 0;
 }
 
-.idp-menu-submenu.level-1 {
-  margin-left: 0px;
-}
-
-.idp-menu-submenu.level-2 {
-  margin-left: 0px;
-}
-
-/* ========== 选中状态下的父级高亮 ========== */
+/* ============================================
+   选中状态下的父级高亮
+   ============================================ */
 .idp-menu-item.has-children.selected {
   color: var(--idp-primary-color, #1890ff);
 }
 
-/* ========== 动画效果 ========== */
-
-/* 菜单项悬停效果增强 */
-.idp-menu-item {
-  position: relative;
-  overflow: hidden;
+.idp-menu-item.has-children.selected .idp-menu-item-arrow {
+  color: var(--idp-primary-color, #1890ff);
 }
 
-.idp-menu-item::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(24, 144, 255, 0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.idp-menu-item:active::after {
-  width: 200%;
-  height: 200%;
-  opacity: 1;
-  transition: width 0.2s ease, height 0.2s ease, opacity 0.1s ease;
-}
-
-/* 菜单整体淡入效果 */
+/* ============================================
+   菜单整体淡入动画
+   ============================================ */
 @keyframes idp-menu-fade-in {
   from {
     opacity: 0;
+    transform: translateY(-4px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 

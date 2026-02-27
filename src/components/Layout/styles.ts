@@ -139,7 +139,7 @@ export const SiderWrapper = styled.aside<{
   `}
 
   /* ============================================
-     集成 Menu 组件样式 - 确保选中状态正确显示
+     集成 Menu 组件样式 - 与 Menu.css 保持一致
      ============================================ */
   
   /* 覆盖 Menu 组件基础样式 */
@@ -147,28 +147,33 @@ export const SiderWrapper = styled.aside<{
     background: transparent;
   }
 
-  /* Menu 菜单项在 Sider 中的样式 */
+  /* Menu 菜单项在 Sider 中的样式 - 覆盖默认样式 */
   .idp-menu-item {
     border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
     margin: 4px 8px;
     
-    /* Light 主题 */
+    /* Light 主题 - 与 Menu.css 保持一致 */
     &.light {
       color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
       
       &:hover:not(.disabled) {
-        background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+        background: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 144, 255, 0.06)')};
         color: ${getCSSVar('--idp-primary-color', '#1890ff')};
       }
       
       &.selected {
-        background-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
-        color: ${getCSSVar('--idp-bg-color-white', '#fff')};
-        box-shadow: ${getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.15)')};
+        background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 144, 255, 0.12)')};
+        color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+        box-shadow: inset 3px 0 0 ${getCSSVar('--idp-primary-color', '#1890ff')};
+        font-weight: 600;
+        
+        &:hover {
+          background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 144, 255, 0.18)')};
+        }
       }
     }
     
-    /* Dark 主题 */
+    /* Dark 主题 - 与 Menu.css 保持一致 */
     &.dark {
       color: rgba(255, 255, 255, 0.85);
       
@@ -178,9 +183,14 @@ export const SiderWrapper = styled.aside<{
       }
       
       &.selected {
-        background-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+        background-color: rgba(24, 144, 255, 0.25);
         color: #fff;
-        box-shadow: 0 2px 8px rgba(24, 144, 255, 0.4);
+        box-shadow: inset 3px 0 0 ${getCSSVar('--idp-primary-color', '#1890ff')};
+        font-weight: 600;
+        
+        &:hover {
+          background-color: rgba(24, 144, 255, 0.35);
+        }
       }
     }
   }
