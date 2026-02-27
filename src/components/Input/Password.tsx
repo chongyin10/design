@@ -8,11 +8,14 @@ export interface PasswordProps extends Omit<InputProps, 'type' | 'suffix'> {
     defaultVisible?: boolean;
     /** 切换可见性时的回调 */
     onVisibleChange?: (visible: boolean) => void;
+    /** 自动完成属性 */
+    autoComplete?: string;
 }
 
 const Password: React.FC<PasswordProps> = ({
     defaultVisible = false,
     onVisibleChange,
+    autoComplete = 'current-password',
     ...rest
 }) => {
     const [visible, setVisible] = React.useState(defaultVisible);
@@ -42,6 +45,7 @@ const Password: React.FC<PasswordProps> = ({
         <Input
             type={visible ? 'text' : 'password'}
             suffix={renderPasswordIcon()}
+            autoComplete={autoComplete}
             {...rest}
         />
     );

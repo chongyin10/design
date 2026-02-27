@@ -32,6 +32,8 @@ export interface InputProps {
     labelStyle?: React.CSSProperties;
     /** 错误状态（由 Form 组件传入，InputBase 内部不使用，需剔除避免传递给 input） */
     error?: boolean;
+    /** 自动完成属性 */
+    autoComplete?: string;
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -57,6 +59,7 @@ const InputBase: React.FC<InputProps> = ({
     labelClassName = '',
     labelStyle,
     error, // 从 Form 组件传入的错误状态，不传递给 input
+    autoComplete,
     ...rest
 }) => {
     const [internalValue, setInternalValue] = React.useState<string>(defaultValue || '');
@@ -158,6 +161,7 @@ const InputBase: React.FC<InputProps> = ({
                     disabled={disabled}
                     readOnly={readOnly}
                     onKeyDown={onKeyDown}
+                    autoComplete={autoComplete ?? (type === 'password' ? 'current-password' : undefined)}
                     {...rest}
                 />
                 <div className="input-suffix-group">

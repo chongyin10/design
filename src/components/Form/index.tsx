@@ -315,6 +315,34 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
   );
 };
 
+// 根据字段名推断 autoComplete 值
+const getAutoCompleteValue = (name: string | undefined): string | undefined => {
+  if (!name) return undefined;
+
+  const autoCompleteMap: Record<string, string> = {
+    username: 'username',
+    email: 'email',
+    password: 'current-password',
+    'new-password': 'new-password',
+    'current-password': 'current-password',
+    name: 'name',
+    'given-name': 'given-name',
+    'family-name': 'family-name',
+    tel: 'tel',
+    'phone': 'tel',
+    address: 'street-address',
+    city: 'address-level2',
+    country: 'country-name',
+    zipcode: 'postal-code',
+    'postal-code': 'postal-code',
+    organization: 'organization',
+    company: 'organization',
+  };
+
+  const lowerName = name.toLowerCase();
+  return autoCompleteMap[lowerName];
+};
+
 const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: any) => () => void }> = ({
   name,
   label,
@@ -361,21 +389,21 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
 
   const currentLabelSpan = itemLabelSpan !== undefined ? itemLabelSpan : context?.labelSpan;
   const currentWrapperSpan = itemWrapperSpan !== undefined ? itemWrapperSpan : context?.wrapperSpan;
-  
+
   const labelWidth = currentLabelSpan ? (currentLabelSpan / 24) * 100 : undefined;
-  
+
   let controlWidth = undefined;
   if (currentLabelSpan !== undefined) {
     const maxWrapperSpan = 24 - currentLabelSpan;
     let actualWrapperSpan = currentWrapperSpan !== undefined ? currentWrapperSpan : maxWrapperSpan;
-    
+
     if (actualWrapperSpan > maxWrapperSpan) {
       actualWrapperSpan = maxWrapperSpan;
     }
     if (actualWrapperSpan < 1) {
       actualWrapperSpan = 1;
     }
-    
+
     controlWidth = (actualWrapperSpan / 24) * 100;
   }
 
@@ -401,8 +429,8 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
           {label}
         </FormLabel>
       )}
-      <FormControl 
-        className="form-control" 
+      <FormControl
+        className="form-control"
         $styles={{
           ...styles?.input,
           ...(controlWidth !== undefined ? { width: `${controlWidth}%` } : {})
@@ -411,15 +439,19 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
         {React.Children.map(
           React.Children.toArray(children).filter(child => React.isValidElement(child)),
           (child: React.ReactElement) => {
+            const childProps = child.props as any;
+            // 自动推断 autoComplete 值，如果子组件未设置
+            const autoCompleteValue = childProps.autoComplete || getAutoCompleteValue(name);
+
             return React.cloneElement(child, {
               value: localValue,
               onChange: (e: any) => {
                 const value = e?.target?.value !== undefined ? e.target.value : e;
                 handleChange(value);
-                const childProps = child.props as any;
                 childProps.onChange?.(e);
               },
-              error: hasError
+              error: hasError || undefined,
+              autoComplete: autoCompleteValue
             } as any);
           }
         )}
