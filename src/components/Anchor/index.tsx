@@ -24,6 +24,7 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
   const scrollListenerRef = useRef<(() => void) | null>(null);
   const activeLinkRef = useRef<string>(''); // 使用ref来跟踪最新的activeLink
   const isUserClickingRef = useRef<boolean>(false); // 标记用户是否正在点击锚点
+  const targetHrefRef = useRef<string>(''); // 记录当前点击的目标锚点
 
   // 同步activeLink到ref
   useEffect(() => {
@@ -117,8 +118,27 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
       }
     }
 
+    // 如果当前有目标锚点，且滚动的位置接近目标锚点，才更新选中状态
+    if (targetHrefRef.current) {
+      const targetLink = sortedLinks.find(link => link.href === targetHrefRef.current);
+      if (targetLink) {
+        // 检查是否接近目标位置（在 50px 范围内）
+        if (Math.abs(currentScroll - targetLink.top) < 50) {
+          if (targetHrefRef.current !== activeLinkRef.current) {
+            setActiveLink(targetHrefRef.current);
+            activeLinkRef.current = targetHrefRef.current;
+            onChange?.(targetHrefRef.current);
+          }
+          targetHrefRef.current = ''; // 清除目标
+        }
+        // 如果还没到达目标位置，保持当前选中状态不变
+        return;
+      }
+    }
+
     if (nextActive !== activeLinkRef.current) {
       setActiveLink(nextActive);
+      activeLinkRef.current = nextActive;
       onChange?.(nextActive);
     }
   };
@@ -131,14 +151,14 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
       
       // 标记用户正在点击锚点
       isUserClickingRef.current = true;
-      console.log('开始点击锚点，设置isUserClickingRef为true');
+      targetHrefRef.current = href; // 记录目标锚点
       
       // 立即更新激活链接状态，提供即时反馈
       setActiveLink(href);
+      activeLinkRef.current = href;
       
       // 确保onChange回调传递正确的href值
       if (onChange) {
-        console.log('点击锚点，触发onChange:', href);
         onChange(href);
       }
       
@@ -171,12 +191,12 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
         }
         
         // 滚动完成后，延迟清除点击标记，允许滚动检测重新工作
+        // 延长到1500ms确保滚动完全结束
         setTimeout(() => {
           isUserClickingRef.current = false;
-          console.log('滚动完成，清除isUserClickingRef标记');
-        }, 800); // 等待滚动动画完全完成
+        }, 1500);
         
-      }, 0); // 使用0ms延迟，在下一个事件循环中执行滚动
+      }, 0);
     }
   };
 

@@ -1,15 +1,26 @@
+@import '../variables.css';
+
+/* ============================================
+   IDP Anchor Component - Modern Design System
+   ============================================ */
+
 .idp-anchor {
   position: relative;
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    var(--idp-bg-color-white) 0%,
+    var(--idp-bg-color) 100%
+  );
+  border-radius: var(--idp-border-radius-lg);
+  box-shadow: var(--idp-shadow-sm);
+  border: 1px solid var(--idp-border-color-light);
 }
 
 .idp-anchor-affix {
   position: fixed;
-  top: 16px;
-  left: 16px;
+  top: 20px;
+  left: 20px;
   z-index: 100;
 }
 
@@ -17,36 +28,85 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  position: relative;
+}
+
+/* 左侧指示线 */
+.idp-anchor-list::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--idp-border-color);
+  border-radius: 1px;
 }
 
 .idp-anchor-link {
-  margin: 8px 0;
-  padding: 4px 0;
+  margin: 4px 0;
+  padding: 0;
+  position: relative;
 }
 
 .idp-anchor-link-a {
   display: block;
-  padding: 6px 12px;
-  color: #666;
+  padding: 8px 16px;
+  color: var(--idp-text-color-secondary);
   text-decoration: none;
-  border-radius: 4px;
-  transition: all 0.3s ease;
+  border-radius: var(--idp-border-radius-md);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
   font-size: 14px;
   line-height: 1.5;
+  font-weight: 400;
+  margin-left: 8px;
 }
 
 .idp-anchor-link-a:hover {
-  color: #1890ff;
-  background-color: #e6f7ff;
+  color: var(--idp-primary-color);
+  background: var(--idp-primary-light-color);
+}
+
+/* 激活状态 */
+.idp-anchor-link-active {
+  position: relative;
+}
+
+/* 激活指示器 - 使用 transition 替代 animation 避免跳动 */
+.idp-anchor-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 20px;
+  background: var(--idp-primary-color);
+  border-radius: 0 2px 2px 0;
+  box-shadow: 2px 0 8px rgba(24, 144, 255, 0.3);
+  opacity: 0;
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.idp-anchor-link-active::before {
+  transform: translateY(-50%) scaleY(1);
+  opacity: 1;
 }
 
 .idp-anchor-link-active .idp-anchor-link-a {
-  color: #1890ff;
-  background-color: #e6f7ff;
+  color: var(--idp-primary-color);
+  background: var(--idp-primary-light-color);
   font-weight: 500;
-  border-left: 3px solid #1890ff;
 }
 
+/* 滚动定位时的平滑过渡 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 响应式适配 */
 @media (max-width: 768px) {
   .idp-anchor-affix {
     position: static;
@@ -54,10 +114,10 @@
   }
   
   .idp-anchor {
-    padding: 12px;
+    padding: 16px;
   }
   
   .idp-anchor-link-a {
-    padding: 8px 12px;
+    padding: 10px 14px;
   }
 }

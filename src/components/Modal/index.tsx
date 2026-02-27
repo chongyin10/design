@@ -241,13 +241,13 @@ const Modal: React.FC<ModalProps> = ({
                             <span className="idp-modal-header__title">{title}</span>
                         </div>
                         <div className="idp-modal-header__right">
-                            <Icon
-                                type="close"
-                                size={24}
-                                color="#339af0"
-                                onClick={handleCancel}
-                                style={{ cursor: 'pointer', padding: '4px' }}
-                            />
+                            <div className="idp-modal-close-btn" onClick={handleCancel}>
+                                <Icon
+                                    type="close"
+                                    size={20}
+                                    color="currentColor"
+                                />
+                            </div>
                         </div>
                     </div>
 
