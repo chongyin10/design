@@ -24,6 +24,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
     extra,
     value,
     onChange,
+    clear = false,
     ...rest
 }) => {
     // 验证输入值是否符合nType要求
@@ -142,6 +143,7 @@ const NumberInput: React.FC<NumberInputProps> = ({
                 type="text"
                 value={value}
                 onChange={handleChange}
+                clear={clear}
                 {...rest}
                 className={`${rest.className || ''} ${hasError ? 'input-error' : ''}`}
             />

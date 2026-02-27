@@ -1,137 +1,274 @@
-/* 使用CSS变量 */
+/* ============================================
+   IDP Button Component - Modern Design System
+   ============================================ */
+
+/* 基础按钮样式 */
 .idp-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.5;
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  transition: all 0.2s ease-in-out;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
+/* 涟漪效果层 */
+.idp-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.idp-btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* ============================================
+   Primary 主题 - 主色调
+   ============================================ */
 .idp-btn--primary {
-  background-color: var(--idp-button-primary-bg);
+  background: linear-gradient(135deg, var(--idp-button-primary-bg) 0%, #40a9ff 100%);
   color: var(--idp-button-text-white);
-  border-color: var(--idp-button-primary-border);
+  box-shadow: 0 4px 14px rgba(24, 144, 255, 0.35);
 }
 
 .idp-btn--primary:hover:not(.idp-btn--disabled) {
-  background-color: var(--idp-button-primary-hover-bg);
-  border-color: var(--idp-button-primary-hover-border);
+  background: linear-gradient(135deg, #40a9ff 0%, #69c0ff 100%);
+  box-shadow: 0 6px 20px rgba(24, 144, 255, 0.45);
+  transform: translateY(-2px);
 }
 
 .idp-btn--primary:active:not(.idp-btn--disabled) {
-  box-shadow: var(--idp-button-primary-active-shadow);
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #096dd9 0%, #1890ff 100%);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.3);
+  transform: translateY(0);
 }
 
+/* ============================================
+   Secondary 主题 - 次色调
+   ============================================ */
 .idp-btn--secondary {
-  background-color: var(--idp-button-secondary-bg);
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
   color: var(--idp-button-text-dark);
-  border-color: var(--idp-button-secondary-border);
+  border: 1px solid #d9d9d9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .idp-btn--secondary:hover:not(.idp-btn--disabled) {
-  background-color: var(--idp-button-secondary-hover-bg);
-  border-color: var(--idp-button-secondary-hover-border);
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-color: #40a9ff;
+  color: #40a9ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .idp-btn--secondary:active:not(.idp-btn--disabled) {
-  box-shadow: var(--idp-button-secondary-active-shadow);
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+  border-color: #096dd9;
+  color: #096dd9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transform: translateY(0);
 }
 
+/* ============================================
+   Danger 主题 - 危险操作
+   ============================================ */
 .idp-btn--danger {
-  background-color: var(--idp-button-danger-bg);
+  background: linear-gradient(135deg, #ff4d4f 0%, #ff7875 100%);
   color: var(--idp-button-text-white);
-  border-color: var(--idp-button-danger-border);
+  box-shadow: 0 4px 14px rgba(255, 77, 79, 0.35);
 }
 
 .idp-btn--danger:hover:not(.idp-btn--disabled) {
-  background-color: var(--idp-button-danger-hover-bg);
-  border-color: var(--idp-button-danger-hover-border);
+  background: linear-gradient(135deg, #ff7875 0%, #ffa39e 100%);
+  box-shadow: 0 6px 20px rgba(255, 77, 79, 0.45);
+  transform: translateY(-2px);
 }
 
 .idp-btn--danger:active:not(.idp-btn--disabled) {
-  box-shadow: var(--idp-button-danger-active-shadow);
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #cf1322 0%, #ff4d4f 100%);
+  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.3);
+  transform: translateY(0);
 }
 
+/* ============================================
+   Success 主题 - 成功状态
+   ============================================ */
 .idp-btn--success {
-  background-color: var(--idp-button-success-bg);
+  background: linear-gradient(135deg, #52c41a 0%, #73d13d 100%);
   color: var(--idp-button-text-white);
-  border-color: var(--idp-button-success-border);
+  box-shadow: 0 4px 14px rgba(82, 196, 26, 0.35);
 }
 
 .idp-btn--success:hover:not(.idp-btn--disabled) {
-  background-color: var(--idp-button-success-hover-bg);
-  border-color: var(--idp-button-success-hover-border);
+  background: linear-gradient(135deg, #73d13d 0%, #95de64 100%);
+  box-shadow: 0 6px 20px rgba(82, 196, 26, 0.45);
+  transform: translateY(-2px);
 }
 
 .idp-btn--success:active:not(.idp-btn--disabled) {
-  box-shadow: var(--idp-button-success-active-shadow);
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #389e0d 0%, #52c41a 100%);
+  box-shadow: 0 2px 8px rgba(82, 196, 26, 0.3);
+  transform: translateY(0);
 }
 
+/* ============================================
+   Warning 主题 - 警告状态
+   ============================================ */
 .idp-btn--warning {
-  background-color: var(--idp-button-warning-bg);
-  color: var(--idp-button-text-dark);
-  border-color: var(--idp-button-warning-border);
+  background: linear-gradient(135deg, #faad14 0%, #ffc53d 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(250, 173, 20, 0.35);
 }
 
 .idp-btn--warning:hover:not(.idp-btn--disabled) {
-  background-color: var(--idp-button-warning-hover-bg);
-  border-color: var(--idp-button-warning-hover-border);
+  background: linear-gradient(135deg, #ffc53d 0%, #ffd666 100%);
+  box-shadow: 0 6px 20px rgba(250, 173, 20, 0.45);
+  transform: translateY(-2px);
 }
 
 .idp-btn--warning:active:not(.idp-btn--disabled) {
-  box-shadow: var(--idp-button-warning-active-shadow);
-  transform: translateY(1px);
+  background: linear-gradient(135deg, #d48806 0%, #faad14 100%);
+  box-shadow: 0 2px 8px rgba(250, 173, 20, 0.3);
+  transform: translateY(0);
 }
 
+/* ============================================
+   Link 主题 - 链接样式
+   ============================================ */
 .idp-btn--link {
-  background-color: transparent;
+  background: transparent;
   color: var(--idp-button-primary-bg);
-  border-color: transparent;
+  border: none;
   text-decoration: none;
+  box-shadow: none;
+  font-weight: 500;
+}
+
+.idp-btn--link::before {
+  display: none;
 }
 
 .idp-btn--link:hover:not(.idp-btn--disabled) {
-  color: #1890ff;
-  background-color: transparent;
-  border-color: transparent;
+  color: #40a9ff;
+  background: rgba(24, 144, 255, 0.08);
+  transform: none;
 }
 
 .idp-btn--link:active:not(.idp-btn--disabled) {
   color: #096dd9;
+  background: rgba(24, 144, 255, 0.12);
 }
 
+/* ============================================
+   尺寸变体
+   ============================================ */
 .idp-btn--small {
-  height: 24px;
-  padding: 0 8px;
+  height: 28px;
+  padding: 0 12px;
   font-size: 12px;
+  border-radius: 6px;
 }
 
 .idp-btn--medium {
-  height: 32px;
-  padding: 0 12px;
+  height: 36px;
+  padding: 0 20px;
   font-size: 14px;
+  border-radius: 8px;
 }
 
 .idp-btn--large {
-  height: 40px;
-  padding: 0 16px;
+  height: 44px;
+  padding: 0 28px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+/* ============================================
+   禁用状态
+   ============================================ */
+.idp-btn--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(30%);
+  box-shadow: none !important;
+}
+
+.idp-btn--disabled:hover {
+  transform: none !important;
+}
+
+.idp-btn--disabled::before {
+  display: none;
+}
+
+/* ============================================
+   加载状态动画
+   ============================================ */
+@keyframes idp-btn-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.idp-btn .idp-icon--loading {
+  animation: idp-btn-spin 1s linear infinite;
+}
+
+/* ============================================
+   焦点状态
+   ============================================ */
+.idp-btn:focus-visible {
+  outline: 2px solid var(--idp-button-primary-bg);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   图标间距优化
+   ============================================ */
+.idp-btn .idp-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.idp-btn--small .idp-icon {
+  font-size: 12px;
+}
+
+.idp-btn--medium .idp-icon {
+  font-size: 14px;
+}
+
+.idp-btn--large .idp-icon {
   font-size: 16px;
 }
 
-.idp-btn--disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
+/* 图标与文字间距 */
+.idp-btn .idp-icon + span,
+.idp-btn span + .idp-icon {
+  margin-left: 6px;
 }

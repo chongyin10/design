@@ -1,11 +1,22 @@
-/* Input标签样式 */
+/* ============================================
+   IDP Input Component - Modern Design System
+   ============================================ */
+
+/* ============================================
+   标签样式
+   ============================================ */
 .input-label {
     font-size: 14px;
-    color: #333;
+    color: #262626;
     white-space: nowrap;
     flex-shrink: 0;
+    font-weight: 500;
+    letter-spacing: 0.2px;
 }
 
+/* ============================================
+   输入框容器 - 主样式
+   ============================================ */
 .input-wrapper {
     width: 100%;
     position: relative;
@@ -14,32 +25,46 @@
     font-size: 14px;
     font-family: inherit;
     border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background-color: #fff;
-    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     box-sizing: border-box;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
 }
 
 .input-wrapper:hover {
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
-    border-color: #339af0;
+    border-color: #40a9ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.15),
+        0 0 0 3px rgba(24, 144, 255, 0.08);
+    transform: translateY(-1px);
 }
 
+/* ============================================
+   输入框内部样式
+   ============================================ */
 .input-inner {
     flex: 1;
-    padding: 8px;
+    min-width: 0;
+    padding: 10px 12px;
     font-size: 14px;
     font-family: inherit;
     border: none;
     background-color: transparent;
     outline: none;
     box-sizing: border-box;
+    color: #262626;
+    transition: color 0.3s ease;
 }
 
 .input-inner::placeholder {
     color: #bfbfbf;
     opacity: 1;
+    transition: color 0.3s ease;
 }
 
 .input-inner::-webkit-input-placeholder {
@@ -55,12 +80,24 @@
     color: #bfbfbf;
 }
 
+.input-wrapper:hover .input-inner::placeholder {
+    color: #8c8c8c;
+}
+
+/* ============================================
+   前缀/后缀样式
+   ============================================ */
 .input-prefix {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #909399;
-    margin: 0 0 0 6px;
+    color: #8c8c8c;
+    margin: 0 0 0 12px;
+    transition: color 0.3s ease;
+}
+
+.input-wrapper:hover .input-prefix {
+    color: #40a9ff;
 }
 
 .input-prefix .icon-container {
@@ -70,27 +107,38 @@
 .input-suffix-group {
     display: flex;
     align-items: center;
-    margin: 0 4px;
+    margin: 0 12px 0 8px;
+    gap: 8px;
 }
 
+/* 清除按钮 */
 .input-suffix-clear {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1890ff;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.06);
+    color: #8c8c8c;
     cursor: pointer;
-    margin-right: 4px;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
-    overflow: hidden;
+    transform: scale(0.8) rotate(-45deg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .input-suffix-clear.visible {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
+    transform: scale(1) rotate(0deg);
+}
+
+.input-suffix-clear:hover {
+    background: rgba(0, 0, 0, 0.12);
+    color: #595959;
+    transform: scale(1.1);
 }
 
 .input-suffix-clear .icon-container {
@@ -98,15 +146,21 @@
 }
 
 .input-suffix-clear .icon {
-    fill: #1890ff;
+    fill: currentColor;
 }
 
 .input-suffix-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #909399;
+    color: #8c8c8c;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-suffix-content:hover {
+    color: #40a9ff;
+    transform: scale(1.05);
 }
 
 .input-suffix-content .icon-container {
@@ -118,55 +172,76 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #909399;
+    color: #8c8c8c;
     cursor: pointer;
-    margin: 0 8px;
+    margin: 0 12px;
+    transition: color 0.3s ease;
+}
+
+.input-suffix:hover {
+    color: #40a9ff;
 }
 
 .input-suffix .icon-container {
     padding: 0;
 }
 
-/* NumberInput组件样式 */
+/* ============================================
+   NumberInput组件样式
+   ============================================ */
 .number-input-wrapper {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-/* InputBase容器样式 */
+/* ============================================
+   InputBase容器样式
+   ============================================ */
 .input-base-container {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-/* 默认提示信息样式 */
+/* ============================================
+   提示信息样式
+   ============================================ */
 .input-extra {
     font-size: 12px;
-    color: #00000073;
+    color: #8c8c8c;
     line-height: 1.5;
-    padding: 4px 0px;
+    padding: 6px 4px 0;
     text-align: left;
+    transition: color 0.3s ease;
 }
 
-/* 错误状态样式 */
+.input-wrapper:hover ~ .input-extra {
+    color: #595959;
+}
+
+/* ============================================
+   错误状态样式
+   ============================================ */
 .input-error {
-    border-color: #f5222d !important;
+    border-color: #ff4d4f !important;
+    box-shadow: 0 2px 4px rgba(255, 77, 79, 0.1) !important;
 }
 
 .input-error:hover,
 .input-error:focus-within {
-    border-color: #f5222d !important;
-    box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2) !important;
+    border-color: #ff7875 !important;
+    box-shadow: 
+        0 4px 12px rgba(255, 77, 79, 0.15),
+        0 0 0 3px rgba(255, 77, 79, 0.08) !important;
 }
 
-/* 错误消息样式 - 从上而下动画 */
+/* 错误消息动画 - 从上而下淡入 */
 .input-error-message {
     font-size: 12px;
-    color: #f5222d;
+    color: #ff4d4f;
     line-height: 1.5;
-    padding: 4px 0px;
+    padding: 6px 4px 0;
     text-align: left;
     opacity: 0;
     visibility: hidden;
@@ -201,17 +276,21 @@
     transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
 }
 
-/* 禁用和只读状态 */
+/* ============================================
+   禁用和只读状态
+   ============================================ */
 .input-wrapper.input-disabled {
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
     border-color: #d9d9d9;
     color: #bfbfbf;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .input-wrapper.input-disabled:hover {
     box-shadow: none;
     border-color: #d9d9d9;
+    transform: none;
 }
 
 .input-wrapper.input-disabled .input-inner {
@@ -221,14 +300,17 @@
 }
 
 .input-wrapper.input-readonly {
-    background-color: #f5f5f5;
-    border-color: #d9d9d9;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-color: #e8e8e8;
     cursor: default;
 }
 
 .input-wrapper.input-readonly:hover {
-    box-shadow: none;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 1px 2px rgba(0, 0, 0, 0.04);
     border-color: #d9d9d9;
+    transform: none;
 }
 
 .input-wrapper.input-readonly .input-inner {
@@ -236,36 +318,55 @@
     cursor: default;
 }
 
-/* 聚焦状态 */
+/* ============================================
+   聚焦状态
+   ============================================ */
 .input-wrapper:focus-within {
-    border-color: #339af0;
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
+    border-color: #1890ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.2),
+        0 0 0 3px rgba(24, 144, 255, 0.1);
+    background: #ffffff;
 }
 
-/* 兼容旧的input样式，确保现有代码继续工作 */
+/* ============================================
+   兼容旧的input样式
+   ============================================ */
 .input {
-    padding: 8px 12px;
+    padding: 10px 14px;
     font-size: 14px;
     font-family: inherit;
     border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background-color: #fff;
-    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     box-sizing: border-box;
     display: inline-block;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .input:hover {
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
-    border-color: #339af0;
+    border-color: #40a9ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.15),
+        0 0 0 3px rgba(24, 144, 255, 0.08);
+    transform: translateY(-1px);
 }
 
 .input:focus {
-    border-color: #339af0;
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
+    border-color: #1890ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.2),
+        0 0 0 3px rgba(24, 144, 255, 0.1);
+    background: #ffffff;
 }
 
+/* ============================================
+   搜索输入框样式
+   ============================================ */
 .search-input-wrapper {
     position: relative;
     display: inline-block;
@@ -273,19 +374,28 @@
 
 .search-input-suffix {
     position: absolute;
-    right: 8px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     align-items: center;
     pointer-events: none;
+    gap: 8px;
 }
 
 .search-input-suffix svg {
     pointer-events: all;
+    transition: all 0.3s ease;
 }
 
-/* Textarea 样式 */
+.search-input-suffix svg:hover {
+    transform: scale(1.1);
+    color: #1890ff;
+}
+
+/* ============================================
+   Textarea 样式
+   ============================================ */
 .textarea-wrapper {
     display: inline-flex;
     flex-direction: column;
@@ -299,28 +409,38 @@
     display: flex;
     align-items: flex-start;
     border: 1px solid #d9d9d9;
-    border-radius: 4px;
-    background-color: #fff;
-    transition: all 0.3s ease;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none;
     box-sizing: border-box;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
 }
 
 .textarea-input-wrapper:hover {
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
-    border-color: #339af0;
+    border-color: #40a9ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.15),
+        0 0 0 3px rgba(24, 144, 255, 0.08);
 }
 
 .textarea-input-wrapper.focused {
-    border-color: #339af0;
-    box-shadow: 0 0 0 2px rgba(51, 154, 240, 0.2);
+    border-color: #1890ff;
+    box-shadow: 
+        0 4px 12px rgba(24, 144, 255, 0.2),
+        0 0 0 3px rgba(24, 144, 255, 0.1);
+    background: #ffffff;
 }
 
 .textarea-input-wrapper.disabled {
-    background-color: #f5f5f5;
+    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
     border-color: #d9d9d9;
     color: #bfbfbf;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .textarea-input-wrapper.disabled:hover {
@@ -329,13 +449,15 @@
 }
 
 .textarea-input-wrapper.readonly {
-    background-color: #f5f5f5;
-    border-color: #d9d9d9;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+    border-color: #e8e8e8;
     cursor: default;
 }
 
 .textarea-input-wrapper.readonly:hover {
-    box-shadow: none;
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 1px 2px rgba(0, 0, 0, 0.04);
     border-color: #d9d9d9;
 }
 
@@ -348,8 +470,10 @@
     outline: none;
     box-sizing: border-box;
     resize: none;
-    line-height: 1.5;
-    padding: 8px;
+    line-height: 1.6;
+    padding: 12px;
+    color: #262626;
+    min-height: 80px;
 }
 
 .textarea-base::placeholder {
@@ -368,6 +492,10 @@
 
 .textarea-base:-ms-input-placeholder {
     color: #bfbfbf;
+}
+
+.textarea-input-wrapper:hover .textarea-base::placeholder {
+    color: #8c8c8c;
 }
 
 .textarea-base:disabled {
@@ -392,28 +520,42 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.06);
+    color: #8c8c8c;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
+    opacity: 0.8;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .textarea-clear:hover {
     opacity: 1;
+    background: rgba(0, 0, 0, 0.12);
+    color: #595959;
+    transform: scale(1.1) rotate(90deg);
 }
 
 .textarea-count {
     font-size: 12px;
-    color: #909399;
+    color: #8c8c8c;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.textarea-wrapper:focus-within .textarea-count {
+    color: #1890ff;
 }
 
 /* Textarea 拖拽手柄 */
 .textarea-resize-handle {
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .textarea-input-wrapper:hover .textarea-resize-handle {
-    opacity: 1;
+    opacity: 0.6;
 }
 
 .textarea-input-wrapper.resizing .textarea-resize-handle {
@@ -426,4 +568,33 @@
 
 .textarea-input-wrapper.resizing textarea {
     cursor: nwse-resize;
+}
+
+/* ============================================
+   焦点可见性样式
+   ============================================ */
+.input-wrapper:focus-visible,
+.textarea-input-wrapper:focus-visible {
+    outline: 2px solid #1890ff;
+    outline-offset: 2px;
+}
+
+/* ============================================
+   过渡动画关键帧
+   ============================================ */
+@keyframes input-glow {
+    0%, 100% {
+        box-shadow: 
+            0 4px 12px rgba(24, 144, 255, 0.2),
+            0 0 0 3px rgba(24, 144, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 4px 16px rgba(24, 144, 255, 0.3),
+            0 0 0 4px rgba(24, 144, 255, 0.15);
+    }
+}
+
+.input-wrapper:focus-within {
+    animation: input-glow 2s ease-in-out infinite;
 }
