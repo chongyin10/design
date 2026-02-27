@@ -1,46 +1,61 @@
+@import '../variables.css';
+
+/* ============================================
+   IDP Cascader Component - Modern Design System
+   ============================================ */
+
 .cascader {
     position: relative;
     display: inline-block;
     box-sizing: border-box;
     font-size: 14px;
     line-height: 1.5715;
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--idp-text-color);
     min-width: 180px;
     max-width: 100%;
 }
 
+/* ============================================
+   触发器样式 - Modern Input Style
+   ============================================ */
 .cascader-trigger {
     position: relative;
     display: flex;
     align-items: center;
     min-height: 32px;
     padding: 4px 11px;
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    border: 1px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-md);
     cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     user-select: none;
     overflow: hidden;
+    box-shadow: var(--idp-shadow-extra-light);
 }
 
 .cascader:hover:not(.cascader-disabled) .cascader-trigger {
-    border-color: #4096ff;
+    border-color: var(--idp-primary-hover-color);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 .cascader.cascader-open .cascader-trigger {
-    border-color: #4096ff;
-    box-shadow: 0 0 0 2px rgba(5, 145, 255, 0.1);
+    border-color: var(--idp-primary-color);
+    box-shadow: var(--idp-input-box-shadow-focus);
 }
 
 .cascader.cascader-disabled .cascader-trigger {
-    color: rgba(0, 0, 0, 0.25);
-    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--idp-text-color-light);
+    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
     cursor: not-allowed;
+    opacity: var(--idp-opacity-disabled);
 }
 
+/* ============================================
+   选择区域样式
+   ============================================ */
 .cascader-selection-placeholder {
-    color: rgba(0, 0, 0, 0.25);
+    color: var(--idp-text-color-light);
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -59,19 +74,34 @@
     flex-wrap: wrap;
     gap: 4px;
     align-items: center;
+    padding-right: 20px;
 }
 
+/* 有值时，选择区域的右侧留出清除按钮的空间 */
+.cascader-has-value .cascader-selection-value {
+    padding-right: 32px;
+}
+
+/* ============================================
+   标签样式 - Modern Tag Style
+   ============================================ */
 .cascader-tag {
     display: inline-flex;
     align-items: center;
-    padding: 2px;
-    background-color: #f0f0f0;
-    border: 1px solid #d9d9d9;
-    border-radius: 4px;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
+    border: 1px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-sm);
     font-size: 12px;
     line-height: 1.5;
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--idp-text-color);
     max-width: -webkit-fill-available;
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+}
+
+.cascader-tag:hover {
+    border-color: var(--idp-primary-color);
+    box-shadow: var(--idp-shadow-extra-light);
 }
 
 .cascader-tag-content {
@@ -87,73 +117,110 @@
     justify-content: center;
     margin-left: 4px;
     cursor: pointer;
-    color: rgba(0, 0, 0, 0.45);
-    transition: color 0.2s;
+    color: var(--idp-text-color-tertiary);
+    transition: all var(--idp-transition-duration);
     flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
 }
 
 .cascader-tag-close:hover {
-    color: rgba(0, 0, 0, 0.88);
+    color: var(--idp-error-color);
+    background: rgba(245, 34, 45, 0.1);
 }
 
 .cascader-selection-hidden {
     display: none;
 }
 
+/* ============================================
+   箭头与清除按钮
+   ============================================ */
 .cascader-arrow {
     flex-shrink: 0;
     margin-left: 5px;
-    color: rgba(0, 0, 0, 0.25);
-    transition: transform 0.2s;
+    color: var(--idp-text-color-tertiary);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     display: flex;
     align-items: center;
     position: absolute;
     right: 10px;
-    width: 5px;
+    width: 12px;
     justify-content: center;
 }
 
 .cascader-open .cascader-arrow {
     transform: rotate(180deg);
+    color: var(--idp-primary-color);
+}
+
+/* 当有值且鼠标悬停时，隐藏下拉箭头 */
+.cascader-has-value:hover .cascader-arrow {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .cascader-clear {
     position: absolute;
-    right: 18px;
+    right: 8px;
     top: 50%;
     transform: translateY(-50%);
-    color: rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    transition: color 0.2s;
     display: flex;
-    background: #fff;
-    height: 100%;
-    width: 18px;
     align-items: center;
     justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--idp-text-color-tertiary);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) scale(0.8) rotate(-45deg);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    z-index: 1;
+}
+
+/* 有值且悬停时，清除按钮显示，下拉箭头隐藏 */
+.cascader-has-value:hover .cascader-clear {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1) rotate(0deg);
 }
 
 .cascader-clear:hover {
-    color: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.12);
+    color: var(--idp-text-color-secondary);
+    transform: translateY(-50%) scale(1.1);
 }
 
+.cascader-clear svg {
+    fill: currentColor;
+}
+
+/* ============================================
+   下拉菜单样式 - Modern Dropdown Style
+   ============================================ */
 .cascader-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1050;
+    z-index: var(--idp-z-index-modal);
     min-width: 180px;
     margin-top: 4px;
     background-color: transparent;
+    animation: cascaderFadeIn 0.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* placement: bottomRight */
+/* placement 变体 */
 .cascader-dropdown-bottomRight {
     left: auto;
     right: 0;
 }
 
-/* placement: topLeft */
 .cascader-dropdown-topLeft {
     top: auto;
     bottom: 100%;
@@ -161,7 +228,6 @@
     margin-bottom: 4px;
 }
 
-/* placement: topRight */
 .cascader-dropdown-topRight {
     top: auto;
     bottom: 100%;
@@ -186,68 +252,116 @@
     padding: 4px 0;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--idp-border-color-light);
     border-left: none;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 var(--idp-border-radius-lg) var(--idp-border-radius-lg) 0;
     margin-left: -1px;
-    background-color: #fff;
-    box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    box-shadow: var(--idp-shadow-lg);
 }
 
 .cascader-menu:first-child {
-    border: 1px solid #f0f0f0;
-    border-radius: 8px 0 0 8px;
+    border: 1px solid var(--idp-border-color-light);
+    border-radius: var(--idp-border-radius-lg) 0 0 var(--idp-border-radius-lg);
     margin-left: 0;
 }
 
-/* 空状态样式 */
-.cascader-menu-empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0;
-    text-align: center;
+.cascader-menu:only-child {
+    border-radius: var(--idp-border-radius-lg);
 }
 
-.cascader-menu-empty .idp-empty {
-    padding: 0;
-}
-
-.cascader-menu-empty .idp-empty__icon-wrapper {
-    margin-bottom: 8px;
-}
-
-.cascader-menu-empty .idp-empty__description {
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.45);
-}
-
+/* ============================================
+   滚动条样式
+   ============================================ */
 .cascader-menu::-webkit-scrollbar {
     width: 6px;
 }
 
+.cascader-menu::-webkit-scrollbar-track {
+    background: var(--idp-bg-color);
+    border-radius: 3px;
+}
+
 .cascader-menu::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--idp-border-color-extra-light);
     border-radius: 3px;
 }
 
 .cascader-menu::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--idp-text-color-light);
 }
 
+/* ============================================
+   菜单项样式 - Modern Menu Item Style
+   ============================================ */
 .cascader-menu-item {
     position: relative;
     display: flex;
     align-items: center;
     padding: 5px 12px;
     cursor: pointer;
-    transition: all 0.2s;
-    color: rgba(0, 0, 0, 0.88);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    color: var(--idp-text-color);
     font-size: 14px;
     line-height: 22px;
+    border-radius: var(--idp-border-radius-sm);
+    margin: 0 4px;
 }
 
-/* Checkbox 模式 */
+.cascader-menu-item:hover {
+    background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.04) 100%);
+    color: var(--idp-primary-color);
+}
+
+.cascader-menu-item-active {
+    background: linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.06) 100%);
+    color: var(--idp-primary-color);
+    font-weight: 500;
+}
+
+.cascader-menu-item-selected {
+    background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.04) 100%);
+    color: var(--idp-success-color);
+}
+
+.cascader-menu-item-selected.cascader-menu-item-active {
+    background: linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.06) 100%);
+    color: var(--idp-primary-color);
+}
+
+.cascader-menu-item-disabled {
+    color: var(--idp-text-color-light) !important;
+    cursor: not-allowed;
+    opacity: var(--idp-opacity-disabled);
+}
+
+.cascader-menu-item-disabled:hover {
+    background: transparent;
+}
+
+.cascader-menu-item-content {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cascader-menu-item-expand-icon {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--idp-text-color-tertiary);
+    transition: all var(--idp-transition-duration);
+}
+
+.cascader-menu-item:hover .cascader-menu-item-expand-icon {
+    color: var(--idp-primary-color);
+}
+
+/* ============================================
+   Checkbox 模式
+   ============================================ */
 .cascader-menu-checkbox .cascader-menu-item {
     padding-left: 32px;
 }
@@ -269,104 +383,103 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    -ms-appearance: none;
     outline: none;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-    background-color: #fff;
-    transition: all 0.2s;
+    border: 1px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-sm);
+    background: var(--idp-bg-color-white);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     position: relative;
 }
 
 .cascader-menu-item-checkbox input[type="checkbox"]:hover {
-    border-color: #4096ff;
+    border-color: var(--idp-primary-hover-color);
 }
 
 .cascader-menu-item-checkbox input[type="checkbox"]:checked {
-    background-color: #1677ff;
-    border-color: #1677ff;
-    color: #fff;
+    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+    border-color: var(--idp-primary-color);
 }
 
 .cascader-menu-item-checkbox input[type="checkbox"]:checked::before {
-    content: '✓';
+    content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1;
+    width: 10px;
+    height: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
-.cascader-menu-item:hover {
-    background-color: #deaff21c;
-    color: #1677ff;
-}
-
-.cascader-menu-item-active {
-    background-color: #e6f4ff;
-    color: #1677ff;
-}
-
-.cascader-menu-item-selected.cascader-menu-item-active {
-    background-color: #e6f4ff;
-    color: #1677ff;
-}
-
-.cascader-menu-item-selected .cascader-menu-item-expand-icon {
-    color: #fff;
-}
-
-.cascader-menu-item-disabled {
-    color: rgba(0, 0, 0, 0.25) !important;
-    cursor: not-allowed;
-}
-
-.cascader-menu-item-disabled:hover {
-    color: rgba(0, 0, 0, 0.25) !important;
-    background-color: transparent;
-}
-
-.cascader-menu-item-content {
-    flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.cascader-menu-item-expand-icon {
-    margin-left: 8px;
+/* ============================================
+   空状态样式
+   ============================================ */
+.cascader-menu-empty {
     display: flex;
     align-items: center;
-    flex-shrink: 0;
+    justify-content: center;
+    padding: 24px 0;
+    text-align: center;
+    color: var(--idp-text-color-tertiary);
 }
 
-/* 尺寸变体 */
+.cascader-menu-empty .idp-empty {
+    padding: 0;
+}
+
+.cascader-menu-empty .idp-empty__icon-wrapper {
+    margin-bottom: 8px;
+}
+
+.cascader-menu-empty .idp-empty__description {
+    font-size: 14px;
+    color: var(--idp-text-color-tertiary);
+}
+
+/* ============================================
+   尺寸变体
+   ============================================ */
 .cascader-large .cascader-trigger {
     min-height: 40px;
     padding: 6.5px 11px;
     font-size: 16px;
+    border-radius: var(--idp-border-radius-lg);
 }
 
 .cascader-small .cascader-trigger {
     min-height: 24px;
     padding: 0 7px;
     font-size: 14px;
+    border-radius: var(--idp-border-radius-sm);
 }
 
-/* 动画 */
-@keyframes fadeIn {
+/* ============================================
+   动画
+   ============================================ */
+@keyframes cascaderFadeIn {
     from {
         opacity: 0;
+        transform: translateY(-4px);
     }
-
     to {
         opacity: 1;
+        transform: translateY(0);
     }
 }
 
-.cascader-dropdown {
-    animation: fadeIn 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+/* 响应式 */
+@media (max-width: 768px) {
+    .cascader {
+        min-width: 150px;
+    }
+
+    .cascader-menu {
+        min-width: 150px;
+    }
+
+    .cascader-dropdown {
+        min-width: 150px;
+    }
 }

@@ -1,6 +1,12 @@
-/* Drawer 样式 */
+/* ============================================
+   IDP Drawer Component - Modern Design System
+   ============================================ */
 
-/* 遮罩层 */
+@import '../variables.css';
+
+/* ============================================
+   遮罩层
+   ============================================ */
 .idp-drawer-overlay {
     position: fixed;
     top: 0;
@@ -13,7 +19,7 @@
 }
 
 .idp-drawer-overlay--visible {
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: var(--idp-modal-mask-bg);
     pointer-events: auto;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
@@ -24,7 +30,9 @@
     pointer-events: auto;
 }
 
-/* 无遮罩层时的包装器 */
+/* ============================================
+   无遮罩层时的包装器
+   ============================================ */
 .idp-drawer-wrapper {
     position: fixed;
     top: 0;
@@ -38,11 +46,13 @@
     pointer-events: auto;
 }
 
-/* Drawer 主体 */
+/* ============================================
+   Drawer 主体
+   ============================================ */
 .idp-drawer {
     position: absolute;
-    background-color: #ffffff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-white) 100%);
+    box-shadow: var(--idp-shadow-lg);
     display: flex;
     flex-direction: column;
     transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
@@ -50,7 +60,9 @@
     min-height: 0;
 }
 
-/* 左侧抽屉 */
+/* ============================================
+   左侧抽屉
+   ============================================ */
 .idp-drawer--left {
     left: 0;
     top: 0;
@@ -66,7 +78,9 @@
     transform: translateX(-100%);
 }
 
-/* 右侧抽屉 */
+/* ============================================
+   右侧抽屉
+   ============================================ */
 .idp-drawer--right {
     right: 0;
     top: 0;
@@ -82,7 +96,9 @@
     transform: translateX(100%);
 }
 
-/* 顶部抽屉 */
+/* ============================================
+   顶部抽屉
+   ============================================ */
 .idp-drawer--top {
     top: 0;
     left: 0;
@@ -98,7 +114,9 @@
     transform: translateY(-100%);
 }
 
-/* 底部抽屉 */
+/* ============================================
+   底部抽屉
+   ============================================ */
 .idp-drawer--bottom {
     bottom: 0;
     left: 0;
@@ -114,7 +132,9 @@
     transform: translateY(100%);
 }
 
-/* 无遮罩层时的定位 */
+/* ============================================
+   无遮罩层时的定位
+   ============================================ */
 .idp-drawer--no-mask.idp-drawer--left,
 .idp-drawer--no-mask.idp-drawer--right {
     position: fixed;
@@ -129,62 +149,67 @@
     right: 0;
 }
 
-/* 头部样式 */
+/* ============================================
+   头部样式
+   ============================================ */
 .idp-drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px;
-    border-bottom: 1px solid #e8e8e8;
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--idp-border-color-light);
     flex-shrink: 0;
+    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
 }
 
 .idp-drawer-header__title {
     font-size: 16px;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 0.85);
+    font-weight: 600;
+    color: var(--idp-text-color);
     line-height: 1.5;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    letter-spacing: 0.3px;
 }
 
 .idp-drawer-header__close {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 32px;
     height: 32px;
     padding: 0;
     margin: 0;
-    margin-left: 8px;
+    margin-left: 12px;
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-    color: rgba(0, 0, 0, 0.45);
+    border-radius: var(--idp-border-radius-md);
+    transition: all var(--idp-transition-duration) ease;
+    color: var(--idp-text-color-tertiary);
 }
 
 .idp-drawer-header__close:hover {
-    /* background-color: rgba(0, 0, 0, 0.04); */
-    color: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--idp-error-color);
+    transform: rotate(90deg);
 }
 
-.idp-drawer-header__close:active {
-    background-color: rgba(0, 0, 0, transition);
-}
 
-/* 内容区域 */
+/* ============================================
+   内容区域
+   ============================================ */
 .idp-drawer-content {
     flex: 1;
     overflow: auto;
-    padding: 16px;
+    padding: 24px;
     box-sizing: border-box;
     min-width: 0;
     min-height: 0;
     width: 100%;
+    background: var(--idp-bg-color-white);
 }
 
 /* 确保内容区域内的所有元素使用 border-box */
@@ -194,54 +219,91 @@
     box-sizing: border-box;
 }
 
-/* 页脚 */
+/* ============================================
+   页脚
+   ============================================ */
 .idp-drawer-footer {
-    padding: 8px;
-    border-top: 1px solid #e8e8e8;
+    padding: 16px 24px;
+    border-top: 1px solid var(--idp-border-color-light);
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
+    gap: 12px;
+    background: linear-gradient(180deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
 }
 
-/* 加载状态 */
+/* ============================================
+   加载状态
+   ============================================ */
 .idp-drawer-loading {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
-/* 滚动条样式 */
+.idp-drawer-loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border-radius: var(--idp-border-radius-lg);
+    box-shadow: var(--idp-shadow-md);
+    opacity: .5;
+}
+
+.idp-drawer-loading .icon-container {
+    position: relative;
+    z-index: 1;
+    opacity: .7;
+}
+
+.idp-drawer-loading .icon {
+    color: var(--idp-primary-color);
+    filter: drop-shadow(0 2px 4px rgba(24, 144, 255, 0.3));
+}
+
+/* ============================================
+   滚动条样式
+   ============================================ */
 .idp-drawer-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
 .idp-drawer-content::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: var(--idp-bg-color);
+    border-radius: var(--idp-border-radius-sm);
 }
 
 .idp-drawer-content::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
+    background: var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-sm);
+    border: 2px solid var(--idp-bg-color);
+    transition: background var(--idp-transition-duration) ease;
 }
 
 .idp-drawer-content::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: var(--idp-text-color-light);
 }
 
-/* 拖拽手柄 */
+/* ============================================
+   拖拽手柄
+   ============================================ */
 .idp-drawer-resize-handle {
     position: absolute;
-    background-color: transparent;
-    transition: background-color 0.2s ease;
+    background: transparent;
+    transition: all var(--idp-transition-duration) ease;
     z-index: 1;
 }
 
@@ -283,14 +345,16 @@
 
 /* 拖拽手柄悬停效果 */
 .idp-drawer-resize-handle:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background: rgba(24, 144, 255, 0.1);
 }
 
 .idp-drawer-resize-handle:active {
-    background-color: rgba(0, 0, 0, 0.2);
+    background: rgba(24, 144, 255, 0.2);
 }
 
-/* 拖拽中禁用遮罩层点击 */
+/* ============================================
+   拖拽中状态
+   ============================================ */
 .idp-drawer-overlay--resizing {
     cursor: inherit;
 }

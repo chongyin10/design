@@ -483,8 +483,8 @@ const Carousel: React.FC<CarouselProps> = ({
             type="button"
           >
             {isVertical
-              ? (upIcon ?? <Icon type="up" size={20} />)
-              : (prevIcon ?? <Icon type="left" size={20} />)}
+              ? (upIcon ?? <Icon type="arrow-up" size={20} />)
+              : (prevIcon ?? <Icon type="chevron-left" size={20} />)}
           </button>
           <button
             className={classNames('idp-carousel__arrow', 'idp-carousel__arrow--next')}
@@ -493,8 +493,8 @@ const Carousel: React.FC<CarouselProps> = ({
             type="button"
           >
             {isVertical
-              ? (downIcon ?? <Icon type="down" size={20} />)
-              : (nextIcon ?? <Icon type="right" size={20} />)}
+              ? (downIcon ?? <Icon type="arrow-down" size={20} />)
+              : (nextIcon ?? <Icon type="chevron-right" size={20} />)}
           </button>
         </>
       )}

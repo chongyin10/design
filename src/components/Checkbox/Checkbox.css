@@ -1,5 +1,12 @@
+/* ============================================
+   IDP Checkbox Component - Modern Design System
+   ============================================ */
+
 @import '../variables.css';
 
+/* ============================================
+   基础复选框样式
+   ============================================ */
 .idp-checkbox {
     display: inline-flex;
     align-items: center;
@@ -7,8 +14,17 @@
     user-select: none;
     font-size: 14px;
     color: var(--idp-text-color);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    gap: 8px;
 }
 
+.idp-checkbox:hover {
+    color: var(--idp-text-color);
+}
+
+/* ============================================
+   隐藏的原生输入框
+   ============================================ */
 .idp-checkbox__input {
     position: absolute;
     opacity: 0;
@@ -17,42 +33,73 @@
     width: 0;
 }
 
+/* ============================================
+   复选框内部样式
+   ============================================ */
 .idp-checkbox__inner {
     position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border: 1px solid var(--idp-border-color);
-    border-radius: 2px;
-    background-color: #fff;
-    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-sm);
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     flex-shrink: 0;
+    box-shadow: var(--idp-shadow-extra-light);
 }
 
+/* 悬停状态 */
 .idp-checkbox:hover .idp-checkbox__inner {
-    border-color: var(--idp-primary-color);
+    border-color: var(--idp-primary-hover-color);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
+/* ============================================
+   选中状态
+   ============================================ */
 .idp-checkbox--checked .idp-checkbox__inner {
-    background-color: var(--idp-primary-color);
+    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
     border-color: var(--idp-primary-color);
+    box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
+/* 选中状态的勾选图标 */
 .idp-checkbox--checked .idp-checkbox__inner::after {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 5px;
-    width: 4px;
-    height: 8px;
+    width: 5px;
+    height: 9px;
     border: solid white;
     border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    transform: rotate(45deg) translate(-1px, -1px);
+    animation: checkbox-check 0.2s ease-in-out;
 }
 
+/* 勾选动画 */
+@keyframes checkbox-check {
+    0% {
+        transform: rotate(45deg) scale(0) translate(-1px, -1px);
+        opacity: 0;
+    }
+    50% {
+        transform: rotate(45deg) scale(1.2) translate(-1px, -1px);
+    }
+    100% {
+        transform: rotate(45deg) scale(1) translate(-1px, -1px);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   半选状态
+   ============================================ */
 .idp-checkbox--indeterminate .idp-checkbox__inner {
-    background-color: var(--idp-primary-color);
+    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
     border-color: var(--idp-primary-color);
+    box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
 .idp-checkbox--indeterminate .idp-checkbox__inner::after {
@@ -64,46 +111,95 @@
     width: 8px;
     height: 2px;
     background-color: white;
+    border: none;
+    border-radius: 1px;
+    animation: checkbox-indeterminate 0.2s ease-in-out;
 }
 
+/* 半选动画 */
+@keyframes checkbox-indeterminate {
+    0% {
+        transform: translate(-50%, -50%) scaleX(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, -50%) scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   禁用状态
+   ============================================ */
 .idp-checkbox--disabled {
     cursor: not-allowed;
-    opacity: 0.6;
+    opacity: var(--idp-opacity-disabled);
+}
+
+.idp-checkbox--disabled:hover .idp-checkbox__inner {
+    border-color: var(--idp-border-color-extra-light);
+    box-shadow: none;
 }
 
 .idp-checkbox--disabled .idp-checkbox__inner {
-    background-color: var(--idp-disabled-bg);
-    border-color: var(--idp-disabled-border-color);
+    background: var(--idp-input-disabled-bg);
+    border-color: var(--idp-input-disabled-border);
+    box-shadow: none;
 }
 
 .idp-checkbox--disabled.idp-checkbox--checked .idp-checkbox__inner {
-    background-color: var(--idp-disabled-bg);
-    border-color: var(--idp-disabled-border-color);
+    background: var(--idp-input-disabled-bg);
+    border-color: var(--idp-input-disabled-border);
 }
 
 .idp-checkbox--disabled.idp-checkbox--checked .idp-checkbox__inner::after {
-    border-color: var(--idp-disabled-text-color);
+    border-color: var(--idp-text-color-light);
 }
 
 .idp-checkbox--disabled.idp-checkbox--indeterminate .idp-checkbox__inner {
-    background-color: var(--idp-disabled-bg);
-    border-color: var(--idp-disabled-border-color);
+    background: var(--idp-input-disabled-bg);
+    border-color: var(--idp-input-disabled-border);
 }
 
 .idp-checkbox--disabled.idp-checkbox--indeterminate .idp-checkbox__inner::after {
-    background-color: var(--idp-disabled-text-color);
+    background-color: var(--idp-text-color-light);
 }
 
+.idp-checkbox--disabled .idp-checkbox__label {
+    color: var(--idp-input-disabled-text);
+}
+
+/* ============================================
+   标签样式
+   ============================================ */
 .idp-checkbox__label {
-    margin-left: 8px;
+    font-size: 14px;
+    color: var(--idp-text-color);
+    line-height: 1.5;
+    font-weight: 400;
+    transition: color var(--idp-transition-duration) ease;
 }
 
+.idp-checkbox:hover .idp-checkbox__label {
+    color: var(--idp-text-color);
+}
+
+/* ============================================
+   复选框组样式
+   ============================================ */
 .idp-checkbox-group {
     display: flex;
     flex-direction: column;
+    gap: 12px;
 }
 
 .idp-checkbox-group--horizontal {
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* 组内的复选框间距调整 */
+.idp-checkbox-group .idp-checkbox {
+    margin: 0;
 }

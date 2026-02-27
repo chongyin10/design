@@ -89,7 +89,7 @@ const Checkbox: React.FC<CheckboxProps> & { Group: React.FC<CheckboxGroupProps> 
                         {label}
                     </div>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <input
                         type="checkbox"
                         className="idp-checkbox__input"

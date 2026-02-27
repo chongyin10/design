@@ -1,34 +1,222 @@
+/* ============================================
+   IDP Divider Component - Modern Design System
+   ============================================ */
+
+@import '../variables.css';
+
+/* ============================================
+   基础分割线样式
+   ============================================ */
 .divider {
     padding: 0;
     margin: 0;
     width: auto;
-    background-color: #339af0;
+    background-color: var(--idp-border-color-extra-light);
+    border: none;
+    position: relative;
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
+/* ============================================
+   水平分割线
+   ============================================ */
 .divider-horizontal {
     height: 1px;
     width: auto;
+    display: block;
+    clear: both;
 }
 
+/* ============================================
+   垂直分割线
+   ============================================ */
 .divider-vertical {
-    width: 0;
+    width: 1px;
     height: 100%;
-    border-left: 1px solid #339af0;
-    background-color: transparent;
+    min-height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    background-color: var(--idp-border-color-extra-light);
 }
 
+/* ============================================
+   虚线样式 - 水平
+   ============================================ */
 .divider-dashed.divider-horizontal {
     background: repeating-linear-gradient(
         to right,
-        currentColor,
-        currentColor 4px,
-        transparent 4px,
-        transparent 8px
+        var(--idp-border-color-extra-light),
+        var(--idp-border-color-extra-light) 6px,
+        transparent 6px,
+        transparent 12px
     );
 }
 
+/* ============================================
+   虚线样式 - 垂直
+   ============================================ */
 .divider-dashed.divider-vertical {
-    border-left: 1px dashed currentColor;
-    background-color: transparent;
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--idp-border-color-extra-light),
+        var(--idp-border-color-extra-light) 6px,
+        transparent 6px,
+        transparent 12px
+    );
 }
 
+/* ============================================
+   带文字的分割线
+   ============================================ */
+.divider-with-text {
+    display: flex;
+    align-items: center;
+    background: transparent;
+    white-space: nowrap;
+    text-align: center;
+    border-top: 0;
+    margin: 16px 0;
+}
+
+.divider-with-text::before,
+.divider-with-text::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: var(--idp-border-color-extra-light);
+}
+
+.divider-with-text.divider-dashed::before,
+.divider-with-text.divider-dashed::after {
+    background: repeating-linear-gradient(
+        to right,
+        var(--idp-border-color-extra-light),
+        var(--idp-border-color-extra-light) 6px,
+        transparent 6px,
+        transparent 12px
+    );
+}
+
+.divider-text {
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--idp-text-color-secondary);
+    line-height: 1.5;
+}
+
+/* ============================================
+   文字位置变体
+   ============================================ */
+.divider-text-left::before {
+    flex: 0.2;
+}
+
+.divider-text-left::after {
+    flex: 1;
+}
+
+.divider-text-right::before {
+    flex: 1;
+}
+
+.divider-text-right::after {
+    flex: 0.2;
+}
+
+/* ============================================
+   主题色变体 - 主色调
+   ============================================ */
+.divider-primary {
+    background-color: var(--idp-primary-color);
+}
+
+.divider-primary.divider-vertical {
+    background-color: var(--idp-primary-color);
+}
+
+.divider-primary.divider-dashed.divider-horizontal {
+    background: repeating-linear-gradient(
+        to right,
+        var(--idp-primary-color),
+        var(--idp-primary-color) 6px,
+        transparent 6px,
+        transparent 12px
+    );
+}
+
+.divider-primary.divider-dashed.divider-vertical {
+    background: repeating-linear-gradient(
+        to bottom,
+        var(--idp-primary-color),
+        var(--idp-primary-color) 6px,
+        transparent 6px,
+        transparent 12px
+    );
+}
+
+.divider-primary .divider-text {
+    color: var(--idp-primary-color);
+}
+
+.divider-primary.divider-with-text::before,
+.divider-primary.divider-with-text::after {
+    background-color: var(--idp-primary-color);
+}
+
+.divider-primary.divider-with-text.divider-dashed::before,
+.divider-primary.divider-with-text.divider-dashed::after {
+    background: repeating-linear-gradient(
+        to right,
+        var(--idp-primary-color),
+        var(--idp-primary-color) 6px,
+        transparent 6px,
+        transparent 12px
+    );
+}
+
+/* ============================================
+   尺寸变体
+   ============================================ */
+.divider-thin.divider-horizontal {
+    height: 0.5px;
+}
+
+.divider-thin.divider-vertical {
+    width: 0.5px;
+}
+
+.divider-thick.divider-horizontal {
+    height: 2px;
+}
+
+.divider-thick.divider-vertical {
+    width: 2px;
+}
+
+/* ============================================
+   间距变体
+   ============================================ */
+.divider-margin-small {
+    margin: 8px 0;
+}
+
+.divider-margin-small.divider-vertical {
+    margin: 0 8px;
+}
+
+.divider-margin-medium {
+    margin: 16px 0;
+}
+
+.divider-margin-medium.divider-vertical {
+    margin: 0 16px;
+}
+
+.divider-margin-large {
+    margin: 24px 0;
+}
+
+.divider-margin-large.divider-vertical {
+    margin: 0 24px;
+}

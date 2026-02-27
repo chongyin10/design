@@ -25,18 +25,26 @@ export const Dropdown: React.FC<DropdownProps> = ({
   // 受控组件逻辑：如果提供了 open 参数，则使用外部控制的状态
   const isControlled = open !== undefined;
   const [internalVisible, setInternalVisible] = useState(false);
+  const [closing, setClosing] = useState(false);
   const visible = isControlled ? open : internalVisible;
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
+  const closingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // 清理定时器
+  useEffect(() => {
+    return () => {
+      if (closingTimerRef.current) {
+        clearTimeout(closingTimerRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        if (!isControlled) {
-          setInternalVisible(false);
-        }
-        onVisibleChange?.(false);
+        handleClose();
       }
     };
 
@@ -49,32 +57,59 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
   }, [visible, onVisibleChange, isControlled]);
 
-  const handleTriggerClick = () => {
-    if (disabled) return;
+  const handleClose = () => {
+    // 先设置 closing 状态，触发动画
+    setClosing(true);
     
-    if (trigger === 'click') {
-      const newVisible = !visible;
-      if (!isControlled) {
-        setInternalVisible(newVisible);
-      }
-      onVisibleChange?.(newVisible);
+    // 清理之前的定时器
+    if (closingTimerRef.current) {
+      clearTimeout(closingTimerRef.current);
     }
+    
+    // 200ms 后真正关闭
+    closingTimerRef.current = setTimeout(() => {
+      setClosing(false);
+      if (!isControlled) {
+        setInternalVisible(false);
+      }
+      onVisibleChange?.(false);
+    }, 200);
   };
 
-  const handleMouseEnter = () => {
-    if (disabled || trigger !== 'hover') return;
+  const handleOpen = () => {
+    // 如果有正在进行的关闭动画，先取消
+    if (closingTimerRef.current) {
+      clearTimeout(closingTimerRef.current);
+      closingTimerRef.current = null;
+    }
+    setClosing(false);
+    
     if (!isControlled) {
       setInternalVisible(true);
     }
     onVisibleChange?.(true);
   };
 
+  const handleTriggerClick = () => {
+    if (disabled) return;
+    
+    if (trigger === 'click') {
+      if (visible || closing) {
+        handleClose();
+      } else {
+        handleOpen();
+      }
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (disabled || trigger !== 'hover') return;
+    handleOpen();
+  };
+
   const handleMouseLeave = () => {
     if (disabled || trigger !== 'hover') return;
-    if (!isControlled) {
-      setInternalVisible(false);
-    }
-    onVisibleChange?.(false);
+    handleClose();
   };
 
   const handleItemClick = (item: any) => {
@@ -82,10 +117,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     
     item.onClick?.();
     onChange?.(item);
-    if (!isControlled) {
-      setInternalVisible(false);
-    }
-    onVisibleChange?.(false);
+    handleClose();
   };
 
   const renderTrigger = () => {
@@ -122,13 +154,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const renderDropdownMenu = () => {
-    if (!items || items.length === 0 || !visible) {
+    if (!items || items.length === 0 || (!visible && !closing)) {
       return null;
     }
 
     const dropdownMenu = (
       <div className={classNames(`dropdown-menu dropdown-menu--${placement} dropdown-menu--p-${placement}`, {
-        'dropdown-menu--visible': visible
+        'dropdown-menu--visible': visible && !closing,
+        'dropdown-menu--closing': closing
       })}>
         <ul className="dropdown-list" style={contentStyles}>
           {items.map((item) => (
@@ -178,8 +211,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
       })}
       style={style}
     >
-      {renderTrigger()}
       <div className="dropdown-content-wrapper">
+        {renderTrigger()}
         {renderDropdownMenu()}
       </div>
     </div>

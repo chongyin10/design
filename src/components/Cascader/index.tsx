@@ -733,19 +733,27 @@ const Cascader: React.FC<CascaderProps> = ({
     return baseStyle;
   }, [dropdownWidth, dropdownHeight, dropdownStyle, placement]);
 
+  // 判断是否有值
+  const hasValue = checkbox
+    ? selectedOptions.filter(opt => {
+        const children = getOptionChildren(opt);
+        return !children || children.length === 0;
+      }).length > 0
+    : (internalValue.length > 0 && internalValue[0]?.length > 0);
+
   return (
     <div
       ref={containerRef}
-      className={`cascader cascader-${size} ${className} ${disabled ? 'cascader-disabled' : ''} ${open ? 'cascader-open' : ''}`}
+      className={`cascader cascader-${size} ${className} ${disabled ? 'cascader-disabled' : ''} ${open ? 'cascader-open' : ''} ${hasValue ? 'cascader-has-value' : ''}`}
       style={triggerStyle()}
     >
       <div className="cascader-trigger" onClick={handleContainerClick}>
-        <span className={`cascader-selection-placeholder ${checkbox ? (selectedOptions.length > 0 ? 'cascader-selection-hidden' : '') : (internalValue.length > 0 && internalValue[0]?.length > 0 ? 'cascader-selection-hidden' : '')}`}>
+        <span className={`cascader-selection-placeholder ${hasValue ? 'cascader-selection-hidden' : ''}`}>
           {placeholder}
         </span>
         {checkbox ? (
           // 多选模式：渲染带删除按钮的标签
-          <div className={`cascader-selection-value ${selectedOptions.length === 0 ? 'cascader-selection-hidden' : ''}`}>
+          <div className={`cascader-selection-value ${!hasValue ? 'cascader-selection-hidden' : ''}`}>
             {selectedOptions
               .filter(opt => {
                 const children = getOptionChildren(opt);
@@ -765,14 +773,14 @@ const Cascader: React.FC<CascaderProps> = ({
           </div>
         ) : (
           // 单选模式：渲染文本
-          <span className={`cascader-selection-value ${!internalValue[0] || internalValue[0].length === 0 ? 'cascader-selection-hidden' : ''}`}>
+          <span className={`cascader-selection-value ${!hasValue ? 'cascader-selection-hidden' : ''}`}>
             {getDisplayText()}
           </span>
         )}
         <span className="cascader-arrow">
           <Icon type="arrowDown" size={12} />
         </span>
-        {allowClear && (checkbox ? selectedOptions.length > 0 : (internalValue.length > 0 && internalValue[0]?.length > 0)) && !disabled && (
+        {allowClear && hasValue && !disabled && (
           <span className="cascader-clear" onClick={handleClear}>
             <Icon type="close" size={12} />
           </span>
