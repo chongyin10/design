@@ -7,7 +7,7 @@
    ============================================ */
 .input-label {
     font-size: 14px;
-    color: #262626;
+    color: var(--idp-text-color);
     white-space: nowrap;
     flex-shrink: 0;
     font-weight: 500;
@@ -24,24 +24,19 @@
     align-items: center;
     font-size: 14px;
     font-family: inherit;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--idp-input-border);
+    border-radius: var(--idp-border-radius-lg);
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     outline: none;
     box-sizing: border-box;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.02),
-        0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--idp-shadow-extra-light);
     overflow: hidden;
 }
 
 .input-wrapper:hover {
-    border-color: #40a9ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.15),
-        0 0 0 3px rgba(24, 144, 255, 0.08);
-    transform: translateY(-1px);
+    border-color: var(--idp-input-border-hover);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 /* ============================================
@@ -57,31 +52,31 @@
     background-color: transparent;
     outline: none;
     box-sizing: border-box;
-    color: #262626;
-    transition: color 0.3s ease;
+    color: var(--idp-text-color);
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .input-inner::placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     opacity: 1;
-    transition: color 0.3s ease;
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .input-inner::-webkit-input-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
 }
 
 .input-inner::-moz-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     opacity: 1;
 }
 
 .input-inner:-ms-input-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
 }
 
 .input-wrapper:hover .input-inner::placeholder {
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
 }
 
 /* ============================================
@@ -91,13 +86,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     margin: 0 0 0 12px;
-    transition: color 0.3s ease;
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .input-wrapper:hover .input-prefix {
-    color: #40a9ff;
+    color: var(--idp-primary-hover-color);
 }
 
 .input-prefix .icon-container {
@@ -121,12 +116,12 @@
     flex-shrink: 0;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transform: scale(0.8) rotate(-45deg);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
 .input-suffix-clear.visible {
@@ -137,7 +132,7 @@
 
 .input-suffix-clear:hover {
     background: rgba(0, 0, 0, 0.12);
-    color: #595959;
+    color: var(--idp-text-color-secondary);
     transform: scale(1.1);
 }
 
@@ -153,13 +148,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--idp-transition-duration) ease;
 }
 
 .input-suffix-content:hover {
-    color: #40a9ff;
+    color: var(--idp-primary-hover-color);
     transform: scale(1.05);
 }
 
@@ -172,14 +167,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     cursor: pointer;
     margin: 0 12px;
-    transition: color 0.3s ease;
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .input-suffix:hover {
-    color: #40a9ff;
+    color: var(--idp-primary-hover-color);
 }
 
 .input-suffix .icon-container {
@@ -209,37 +204,35 @@
    ============================================ */
 .input-extra {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     line-height: 1.5;
     padding: 6px 4px 0;
     text-align: left;
-    transition: color 0.3s ease;
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .input-wrapper:hover ~ .input-extra {
-    color: #595959;
+    color: var(--idp-text-color-secondary);
 }
 
 /* ============================================
    错误状态样式
    ============================================ */
 .input-error {
-    border-color: #ff4d4f !important;
-    box-shadow: 0 2px 4px rgba(255, 77, 79, 0.1) !important;
+    border-color: var(--idp-error-color) !important;
+    box-shadow: 0 2px 4px rgba(245, 34, 45, 0.1) !important;
 }
 
 .input-error:hover,
 .input-error:focus-within {
     border-color: #ff7875 !important;
-    box-shadow: 
-        0 4px 12px rgba(255, 77, 79, 0.15),
-        0 0 0 3px rgba(255, 77, 79, 0.08) !important;
+    box-shadow: 0 4px 12px rgba(245, 34, 45, 0.15), 0 0 0 3px rgba(245, 34, 45, 0.08) !important;
 }
 
 /* 错误消息动画 - 从上而下淡入 */
 .input-error-message {
     font-size: 12px;
-    color: #ff4d4f;
+    color: var(--idp-error-color);
     line-height: 1.5;
     padding: 6px 4px 0;
     text-align: left;
@@ -247,11 +240,11 @@
     visibility: hidden;
     transform: translateY(-10px);
     transform-origin: top center;
-    border-radius: 4px;
+    border-radius: var(--idp-border-radius-sm);
     transition:
-        opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-        visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        opacity var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
+        visibility var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
+        transform var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1);
     max-height: 50px;
     overflow: hidden;
     white-space: normal;
@@ -280,37 +273,33 @@
    禁用和只读状态
    ============================================ */
 .input-wrapper.input-disabled {
-    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
-    border-color: #d9d9d9;
-    color: #bfbfbf;
+    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
+    border-color: var(--idp-border-color-extra-light);
+    color: var(--idp-text-color-light);
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .input-wrapper.input-disabled:hover {
     box-shadow: none;
-    border-color: #d9d9d9;
-    transform: none;
+    border-color: var(--idp-border-color-extra-light);
 }
 
 .input-wrapper.input-disabled .input-inner {
     background-color: transparent;
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     cursor: not-allowed;
 }
 
 .input-wrapper.input-readonly {
-    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-    border-color: #e8e8e8;
+    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    border-color: var(--idp-border-color);
     cursor: default;
 }
 
 .input-wrapper.input-readonly:hover {
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.02),
-        0 1px 2px rgba(0, 0, 0, 0.04);
-    border-color: #d9d9d9;
-    transform: none;
+    box-shadow: var(--idp-shadow-extra-light);
+    border-color: var(--idp-border-color-extra-light);
 }
 
 .input-wrapper.input-readonly .input-inner {
@@ -322,11 +311,9 @@
    聚焦状态
    ============================================ */
 .input-wrapper:focus-within {
-    border-color: #1890ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.2),
-        0 0 0 3px rgba(24, 144, 255, 0.1);
-    background: #ffffff;
+    border-color: var(--idp-input-border-focus);
+    box-shadow: var(--idp-input-box-shadow-focus);
+    background: var(--idp-bg-color-white);
 }
 
 /* ============================================
@@ -336,32 +323,25 @@
     padding: 10px 14px;
     font-size: 14px;
     font-family: inherit;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-lg);
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     outline: none;
     box-sizing: border-box;
     display: inline-block;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.02),
-        0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--idp-shadow-extra-light);
 }
 
 .input:hover {
-    border-color: #40a9ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.15),
-        0 0 0 3px rgba(24, 144, 255, 0.08);
-    transform: translateY(-1px);
+    border-color: var(--idp-primary-hover-color);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 .input:focus {
-    border-color: #1890ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.2),
-        0 0 0 3px rgba(24, 144, 255, 0.1);
-    background: #ffffff;
+    border-color: var(--idp-primary-color);
+    box-shadow: var(--idp-input-box-shadow-focus);
+    background: var(--idp-bg-color-white);
 }
 
 /* ============================================
@@ -385,12 +365,12 @@
 
 .search-input-suffix svg {
     pointer-events: all;
-    transition: all 0.3s ease;
+    transition: all var(--idp-transition-duration) ease;
 }
 
 .search-input-suffix svg:hover {
     transform: scale(1.1);
-    color: #1890ff;
+    color: var(--idp-primary-color);
 }
 
 /* ============================================
@@ -408,57 +388,49 @@
     position: relative;
     display: flex;
     align-items: flex-start;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--idp-border-color-extra-light);
+    border-radius: var(--idp-border-radius-lg);
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     outline: none;
     box-sizing: border-box;
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.02),
-        0 1px 2px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--idp-shadow-extra-light);
     overflow: hidden;
 }
 
 .textarea-input-wrapper:hover {
-    border-color: #40a9ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.15),
-        0 0 0 3px rgba(24, 144, 255, 0.08);
+    border-color: var(--idp-input-border-hover);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 .textarea-input-wrapper.focused {
-    border-color: #1890ff;
-    box-shadow: 
-        0 4px 12px rgba(24, 144, 255, 0.2),
-        0 0 0 3px rgba(24, 144, 255, 0.1);
-    background: #ffffff;
+    border-color: var(--idp-input-border-focus);
+    box-shadow: var(--idp-input-box-shadow-focus);
+    background: var(--idp-bg-color-white);
 }
 
 .textarea-input-wrapper.disabled {
-    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
-    border-color: #d9d9d9;
-    color: #bfbfbf;
+    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
+    border-color: var(--idp-border-color-extra-light);
+    color: var(--idp-text-color-light);
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .textarea-input-wrapper.disabled:hover {
     box-shadow: none;
-    border-color: #d9d9d9;
+    border-color: var(--idp-border-color-extra-light);
 }
 
 .textarea-input-wrapper.readonly {
-    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-    border-color: #e8e8e8;
+    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    border-color: var(--idp-border-color);
     cursor: default;
 }
 
 .textarea-input-wrapper.readonly:hover {
-    box-shadow: 
-        0 2px 4px rgba(0, 0, 0, 0.02),
-        0 1px 2px rgba(0, 0, 0, 0.04);
-    border-color: #d9d9d9;
+    box-shadow: var(--idp-shadow-extra-light);
+    border-color: var(--idp-border-color-extra-light);
 }
 
 .textarea-base {
@@ -472,35 +444,35 @@
     resize: none;
     line-height: 1.6;
     padding: 12px;
-    color: #262626;
+    color: var(--idp-text-color);
     min-height: 80px;
 }
 
 .textarea-base::placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     opacity: 1;
 }
 
 .textarea-base::-webkit-input-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
 }
 
 .textarea-base::-moz-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     opacity: 1;
 }
 
 .textarea-base:-ms-input-placeholder {
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
 }
 
 .textarea-input-wrapper:hover .textarea-base::placeholder {
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
 }
 
 .textarea-base:disabled {
     background-color: transparent;
-    color: #bfbfbf;
+    color: var(--idp-text-color-light);
     cursor: not-allowed;
 }
 
@@ -524,34 +496,34 @@
     height: 20px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     cursor: pointer;
     opacity: 0.8;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
 .textarea-clear:hover {
     opacity: 1;
     background: rgba(0, 0, 0, 0.12);
-    color: #595959;
+    color: var(--idp-text-color-secondary);
     transform: scale(1.1) rotate(90deg);
 }
 
 .textarea-count {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--idp-text-color-tertiary);
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color var(--idp-transition-duration) ease;
 }
 
 .textarea-wrapper:focus-within .textarea-count {
-    color: #1890ff;
+    color: var(--idp-primary-color);
 }
 
 /* Textarea 拖拽手柄 */
 .textarea-resize-handle {
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: all var(--idp-transition-duration) ease;
 }
 
 .textarea-input-wrapper:hover .textarea-resize-handle {
@@ -575,7 +547,7 @@
    ============================================ */
 .input-wrapper:focus-visible,
 .textarea-input-wrapper:focus-visible {
-    outline: 2px solid #1890ff;
+    outline: 2px solid var(--idp-primary-color);
     outline-offset: 2px;
 }
 
@@ -584,14 +556,10 @@
    ============================================ */
 @keyframes input-glow {
     0%, 100% {
-        box-shadow: 
-            0 4px 12px rgba(24, 144, 255, 0.2),
-            0 0 0 3px rgba(24, 144, 255, 0.1);
+        box-shadow: var(--idp-input-box-shadow-focus);
     }
     50% {
-        box-shadow: 
-            0 4px 16px rgba(24, 144, 255, 0.3),
-            0 0 0 4px rgba(24, 144, 255, 0.15);
+        box-shadow: 0 4px 16px rgba(24, 144, 255, 0.3), 0 0 0 4px rgba(24, 144, 255, 0.15);
     }
 }
 
