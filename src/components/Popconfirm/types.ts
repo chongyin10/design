@@ -14,6 +14,8 @@ export type PopconfirmPlacement =
   | 'rightTop'
   | 'rightBottom';
 
+export type PopconfirmType = 'info' | 'success' | 'warning' | 'error' | 'danger';
+
 export interface PopconfirmProps {
   title?: ReactNode;
   description?: ReactNode;
@@ -32,6 +34,7 @@ export interface PopconfirmProps {
   onCancel?: () => void;
   disabled?: boolean;
   icon?: ReactNode;
+  type?: PopconfirmType;
   placement?: PopconfirmPlacement;
   showCancel?: boolean;
   getContainer?: HTMLElement | (() => HTMLElement) | false;

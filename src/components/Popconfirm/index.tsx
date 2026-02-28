@@ -16,7 +16,8 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
   onConfirm,
   onCancel,
   disabled = false,
-  icon = <Icon type="warning-circle" size={16} color="#faad14" />,
+  icon,
+  type = 'warning',
   placement = 'top',
   showCancel = true,
   getContainer = () => document.body,
@@ -167,8 +168,17 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
         calculatePosition();
       }, 0);
       document.addEventListener('mousedown', handleClickOutside);
+
+      // 监听滚动和窗口变化事件，重新计算位置
+      const handleScroll = () => calculatePosition();
+      const handleResize = () => calculatePosition();
+      window.addEventListener('scroll', handleScroll, true);
+      window.addEventListener('resize', handleResize);
+
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
+        window.removeEventListener('scroll', handleScroll, true);
+        window.removeEventListener('resize', handleResize);
       };
     }
   }, [visible, placement]);
@@ -186,19 +196,38 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
     );
   };
 
+  // 根据类型获取默认图标
+  const getDefaultIcon = () => {
+    const iconMap = {
+      info: { type: 'info-circle', color: '#1890ff' },
+      success: { type: 'check-circle', color: '#52c41a' },
+      warning: { type: 'warning-circle', color: '#faad14' },
+      error: { type: 'close-circle', color: '#f5222d' },
+      danger: { type: 'close-circle', color: '#f5222d' }
+    };
+    const config = iconMap[type];
+    return <Icon type={config.type} size={18} color={config.color} />;
+  };
+
   const renderPopover = () => {
     if (!visible) return null;
 
     const popoverContent = (
       <div
         ref={popoverRef}
-        className={classNames('idp-popconfirm', placementMap[placement], className)}
+        className={classNames(
+          'idp-popconfirm',
+          'idp-popconfirm-visible',
+          placementMap[placement],
+          `idp-popconfirm--${type}`,
+          className
+        )}
         style={{ position: 'fixed', top: `${position.top}px`, left: `${position.left}px`, ...style }}
       >
         <div className="idp-popconfirm-arrow"></div>
         <div className="idp-popconfirm-inner">
           <div className="idp-popconfirm-header">
-            {icon && <span className="idp-popconfirm-icon">{icon}</span>}
+            <span style={{ display: icon ? 'inline-block' : 'none'}} className="idp-popconfirm-icon">{icon || getDefaultIcon()}</span>
             <span className="idp-popconfirm-title">{title}</span>
           </div>
           {description && <div className="idp-popconfirm-description">{description}</div>}
