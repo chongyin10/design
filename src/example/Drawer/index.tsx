@@ -633,14 +633,15 @@ const Demo = () => {
                 <Select
                   placeholder="请选择城市"
                   value={formData.city}
-                  onChange={(value) => setFormData({ ...formData, city: value })}
+                  onChange={(value) => setFormData({ ...formData, city: value as string })}
+                  options={[
+                    { value: 'beijing', label: '北京' },
+                    { value: 'shanghai', label: '上海' },
+                    { value: 'guangzhou', label: '广州' },
+                    { value: 'shenzhen', label: '深圳' },
+                  ]}
                   style={{ width: '100%' }}
-                >
-                  <Select.Option value="beijing">北京</Select.Option>
-                  <Select.Option value="shanghai">上海</Select.Option>
-                  <Select.Option value="guangzhou">广州</Select.Option>
-                  <Select.Option value="shenzhen">深圳</Select.Option>
-                </Select>
+                />
               </Form.Item>
 
               <Form.Item label="兴趣爱好" name="interests" style={{ marginBottom: '16px' }}>
