@@ -11,7 +11,7 @@ const Progress: React.FC<ProgressProps> = ({
     showInfo = true,
     format,
     strokeColor = '#1890ff',
-    trailColor = '#f5f5f5',
+    trailColor = 'gainsboro',
     strokeWidth,
     size = 'default',
     transition = true,
@@ -302,7 +302,7 @@ const Progress: React.FC<ProgressProps> = ({
                     ) : segments && segments.length > 0 ? (
                         renderSegments()
                     ) : (
-                        <div className="idp-progress-inner">
+                        <div className="idp-progress-inner" style={{ background: trailColor }}>
                             <div
                                 className={classNames('idp-progress-bg', {
                                     'idp-progress-bg--success': status === 'success',
