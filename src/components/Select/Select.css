@@ -1,9 +1,17 @@
+/* ============================================
+   IDP Select Component - Modern Design System
+   ============================================ */
+
+@import '../variables.css';
+
 /* Select标签样式 */
 .idp-select-label {
     font-size: 14px;
-    color: #333;
+    color: var(--idp-text-color);
     white-space: nowrap;
     flex-shrink: 0;
+    font-weight: 500;
+    letter-spacing: 0.2px;
 }
 
 .idp-select-wrapper {
@@ -21,33 +29,40 @@
     box-sizing: border-box;
 }
 
+/* ============================================
+   触发器样式 - 参考 Input 组件
+   ============================================ */
 .idp-select__trigger {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 6px 0 12px;
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
+    padding: 0 8px 0 12px;
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    border: 1px solid var(--idp-input-border);
+    border-radius: var(--idp-border-radius-lg);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     box-sizing: border-box;
     user-select: none;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--idp-shadow-extra-light);
+    overflow: visible;
+    min-width: 120px;
 }
 
 .idp-select__trigger:hover {
-    border-color: #40a9ff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-color: var(--idp-input-border-hover);
+    box-shadow: var(--idp-input-box-shadow-hover);
 }
 
+.idp-select__trigger:active {
+    transform: scale(0.995);
+}
+
+/* 打开状态 */
 .idp-select--open .idp-select__trigger {
-    border-color: #40a9ff;
-    box-shadow: 0 2px 8px rgba(64, 169, 255, 0.2);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: 1px solid transparent;
+    border-color: var(--idp-primary-color);
+    box-shadow: var(--idp-input-box-shadow-focus);
 }
 
 .idp-select__value {
@@ -55,17 +70,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #000000d9;
+    color: var(--idp-text-color);
 }
 
 .idp-select__value--placeholder {
-    color: #00000040;
+    color: var(--idp-text-color-tertiary);
 }
 
+/* ============================================
+   箭头图标 - 弹性旋转动画
+   ============================================ */
 .idp-select__arrow {
     margin-left: 8px;
-    color: #8c8c8c;
-    transition: transform 0.3s;
+    color: var(--idp-text-color-tertiary);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -74,213 +92,214 @@
     height: 20px;
 }
 
-.idp-select--open .idp-select__arrow {
-    transform: rotate(180deg);
+.idp-select__trigger:hover .idp-select__arrow {
+    color: var(--idp-primary-hover-color);
 }
 
+.idp-select--open .idp-select__arrow {
+    transform: rotate(180deg);
+    color: var(--idp-primary-color);
+}
+
+/* ============================================
+   下拉菜单 - 过渡动画效果
+   ============================================ */
 .idp-select-dropdown {
     position: absolute;
     top: calc(100% + 4px);
     left: 0;
     min-width: 100%;
     width: max-content;
-    background-color: #fff;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--idp-bg-color-white);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--idp-border-radius-lg);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04),
+        0 0 1px rgba(0, 0, 0, 0.04);
     z-index: 9999;
     box-sizing: border-box;
+    padding: 4px;
+    
+    /* 默认隐藏状态 */
     opacity: 0;
     visibility: hidden;
-    max-height: 0;
-    overflow: hidden;
     transform-origin: top center;
-    transform: translateY(-8px) scale(0.95);
-    transition:
-        opacity 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-        max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1),
-        visibility 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-        transform 0.35s cubic-bezier(0.23, 1, 0.32, 1),
-        box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(-10px) scale(0.96);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.idp-select--open .idp-select-dropdown {
+/* 打开状态 */
+.idp-select-dropdown.is-open {
     opacity: 1;
     visibility: visible;
-    max-height: 300px;
     transform: translateY(0) scale(1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .idp-select-dropdown__content {
     max-height: 200px;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 和 Edge */
 }
 
+.idp-select-dropdown__content::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, Opera */
+}
+
+/* ============================================
+   选项样式 - 现代化悬停效果
+   ============================================ */
 .idp-select-option {
-    padding: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    color: var(--idp-text-color);
     cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition:
+        background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+        padding-left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    box-sizing: border-box;
-    position: relative;
+    border-radius: var(--idp-border-radius-md);
+    margin: 2px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: optionFadeIn 0.3s ease-out forwards;
 }
 
-@keyframes optionFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.idp-select-option:first-child {
+    margin-top: 0;
 }
 
-/* 为每个选项添加不同的延迟，创建错开的动画效果 */
-.idp-select-option:nth-child(1) { animation-delay: 0.05s; }
-.idp-select-option:nth-child(2) { animation-delay: 0.1s; }
-.idp-select-option:nth-child(3) { animation-delay: 0.15s; }
-.idp-select-option:nth-child(4) { animation-delay: 0.2s; }
-.idp-select-option:nth-child(5) { animation-delay: 0.25s; }
-.idp-select-option:nth-child(n+6) { animation-delay: 0.3s; }
+.idp-select-option:last-child {
+    margin-bottom: 0;
+}
 
 .idp-select-option:hover {
-    background-color: #f0f7ff;
+    background-color: var(--idp-bg-color-light);
+    color: var(--idp-primary-color);
 }
 
 .idp-select-option--selected {
-    background-color: #e6f7ff;
-    color: #1890ff;
+    background-color: var(--idp-primary-light-color);
+    color: var(--idp-primary-color);
     font-weight: 500;
 }
 
-/* 调整选中选项中图标的容器样式，确保高度一致 */
+.idp-select-option--selected:hover {
+    background-color: var(--idp-primary-light-color);
+}
+
+/* 调整选中选项中图标的容器样式 */
 .idp-select-option .icon-container {
     padding: 0;
     margin-left: 8px;
     flex-shrink: 0;
 }
 
-
-
+/* 禁用状态 */
 .idp-select-option--disabled {
-    color: #00000040;
+    color: var(--idp-text-color-light);
     cursor: not-allowed;
 }
 
 .idp-select-option--disabled:hover {
     background-color: transparent;
+    color: var(--idp-text-color-light);
 }
 
+/* ============================================
+   选项组样式
+   ============================================ */
 .idp-select-optgroup {
     padding: 0;
 }
 
 .idp-select-optgroup__label {
-    padding: 12px 16px 8px;
+    padding: 12px 12px 8px;
     font-weight: 600;
-    color: #00000073;
-    background-color: #fafafa;
+    color: var(--idp-text-color-tertiary);
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid #f0f0f0;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: optionFadeIn 0.3s ease-out forwards;
-    animation-delay: 0.05s;
 }
 
 .idp-select-optgroup__content {
-    padding: 4px 0;
+    padding: 0;
 }
 
 .idp-select-optgroup .idp-select-option {
-    padding-left: 32px;
+    padding-left: 24px;
 }
 
-/* 改进下拉菜单滚动条样式 */
-.idp-select-dropdown__content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-track {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-thumb:hover {
-    background-color: #999;
-}
-
-/* 尺寸样式 */
+/* ============================================
+   尺寸样式 - 大尺寸
+   ============================================ */
 .idp-select--large .idp-select__trigger {
     height: 40px;
-    padding: 0 6px 0px 12px;
+    padding: 0 10px 0 16px;
     font-size: 16px;
 }
 
+.idp-select--large .idp-select__arrow {
+    width: 24px;
+    height: 24px;
+}
+
+/* ============================================
+   尺寸样式 - 中等尺寸（默认）
+   ============================================ */
 .idp-select--middle .idp-select__trigger {
     height: 36px;
     font-size: 14px;
 }
 
+/* ============================================
+   尺寸样式 - 小尺寸
+   ============================================ */
 .idp-select--small .idp-select__trigger {
-    height: 24px;
-    padding: 0 8px;
-    font-size: 12px;
+    height: 28px;
+    padding: 0 6px 0 8px;
+    font-size: 13px;
 }
 
-/* 禁用状态 */
+.idp-select--small .idp-select__arrow {
+    width: 16px;
+    height: 16px;
+}
+
+.idp-select--small .idp-select-option {
+    padding: 7px 10px;
+    font-size: 13px;
+}
+
+/* ============================================
+   禁用状态
+   ============================================ */
 .idp-select--disabled .idp-select__trigger {
-    background-color: #f5f5f5;
-    border-color: #d9d9d9;
-    color: #00000040;
+    background: var(--idp-input-disabled-bg);
+    border-color: var(--idp-input-disabled-border);
+    color: var(--idp-input-disabled-text);
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .idp-select--disabled .idp-select__trigger:hover {
-    border-color: #d9d9d9;
+    border-color: var(--idp-input-disabled-border);
+    box-shadow: none;
 }
 
 .idp-select--disabled .idp-select__arrow {
-    color: #00000040;
+    color: var(--idp-text-color-light);
 }
 
-/* 下拉菜单滚动条样式 */
-.idp-select-dropdown__content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-track {
-    background-color: #f5f5f5;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 3px;
-}
-
-.idp-select-dropdown__content::-webkit-scrollbar-thumb:hover {
-    background-color: #999;
-}
-
-.idp-select-option__icon {
-    padding: 0px;
+/* ============================================
+   空状态样式
+   ============================================ */
+.idp-select-dropdown .idp-empty {
+    padding: 20px;
 }

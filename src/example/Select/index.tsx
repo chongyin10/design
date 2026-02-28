@@ -107,7 +107,7 @@ const SelectExample: React.FC = () => {
             onChange={setValue1}
             options={options}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
@@ -134,7 +134,7 @@ const Demo = () => {
             defaultValue="apple"
             options={simpleOptions}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
@@ -154,7 +154,7 @@ const Demo = () => {
             disabled={true}
             options={simpleOptions}
             placeholder="禁用状态"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="禁用选项">
@@ -167,7 +167,7 @@ const Demo = () => {
               { value: 'orange', label: '橙子' }
             ]}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
@@ -194,7 +194,7 @@ const Demo = () => {
             onChange={setValue5}
             options={simpleOptions}
             placeholder="大尺寸"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="Middle">
@@ -204,7 +204,7 @@ const Demo = () => {
             onChange={setValue6}
             options={simpleOptions}
             placeholder="中尺寸"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="Small">
@@ -214,7 +214,7 @@ const Demo = () => {
             onChange={setValue7}
             options={simpleOptions}
             placeholder="小尺寸"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
@@ -324,7 +324,7 @@ const Demo = () => {
             placeholder="请选择水果"
             open={open}
             onOpenChange={setOpen}
-            style={{ maxWidth: '400px' }}
+            
           />
           <button onClick={() => setOpen(!open)} style={{ marginLeft: '10px' }}>
             {open ? '关闭' : '打开'}下拉
@@ -361,7 +361,7 @@ const Demo = () => {
             value={value3}
             onChange={setValue3}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           >
             <Select.OptGroup label="热带水果">
               <Select.Option value="banana">香蕉</Select.Option>
@@ -396,7 +396,7 @@ const Demo = () => {
             onChange={setValue1}
             options={simpleOptions}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="自定义间距">
@@ -407,7 +407,7 @@ const Demo = () => {
             onChange={setValue2}
             options={simpleOptions}
             placeholder="请选择状态"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="自定义样式">
@@ -419,7 +419,7 @@ const Demo = () => {
             onChange={setValue3}
             options={simpleOptions}
             placeholder="请选择优先级"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <DemoRow title="自定义类名">
@@ -431,7 +431,7 @@ const Demo = () => {
             onChange={setValue4}
             options={simpleOptions}
             placeholder="请选择分类"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
@@ -471,7 +471,7 @@ const Demo = () => {
             onChange={(val) => console.log('选中值:', val)}
             options={simpleOptions}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
           <span style={{ marginLeft: '8px' }}>选中: {value1}</span>
         </DemoRow>
@@ -482,7 +482,7 @@ const Demo = () => {
             onOpenChange={(open) => console.log('下拉状态:', open)}
             options={simpleOptions}
             placeholder="请选择水果"
-            style={{ maxWidth: '400px' }}
+            
           />
         </DemoRow>
         <CopyBlock code={`import { Select } from '@zjpcy/simple-design';

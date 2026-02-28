@@ -222,15 +222,18 @@ const Select: React.FC<SelectProps> & {
                         'idp-select-option--selected': value === option.value,
                         'idp-select-option--disabled': option.disabled
                     })}
-                    onClick={() => !option.disabled && handleOptionSelect(option.value, option.label)}
+                    onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        if (!option.disabled) {
+                            handleOptionSelect(option.value, option.label);
+                        }
+                    }}
                 >
                     <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                         {option.icon && <Icon type={option.icon} size={16} color={option.disabled ? '#00000040' : '#8c8c8c'} style={{ marginRight: '8px' }} />}
                         {option.label}
                     </div>
-                    {value === option.value && (
-                        <Icon type="check" size={18} color="#339af0" />
-                    )}
                 </div>
         ));
     };
@@ -300,7 +303,7 @@ const Select: React.FC<SelectProps> & {
                             </svg>
                         </span>
                         {isOpen && (
-                            <div className="idp-select-dropdown" ref={menuRef} role="listbox" style={dropdownStyle}>
+                            <div className={`idp-select-dropdown is-open`} ref={menuRef} role="listbox" style={dropdownStyle}>
                                 <div className="idp-select-dropdown__content" style={dropdownContentStyle}>
                                     {(() => {
                                         // 检查是否有选项
@@ -342,7 +345,9 @@ Select.Option = ({ value, children, disabled = false, icon }: SelectOptionProps)
     const isSelected = selectValue === value;
     const isDisabled = disabled || selectDisabled;
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
         if (!isDisabled) {
             onOptionSelect(value, children);
         }
@@ -354,7 +359,7 @@ Select.Option = ({ value, children, disabled = false, icon }: SelectOptionProps)
                 'idp-select-option--selected': isSelected,
                 'idp-select-option--disabled': isDisabled
             })}
-            onClick={handleClick}
+            onMouseDown={handleClick}
             role="option"
             aria-selected={isSelected}
             aria-disabled={isDisabled}
