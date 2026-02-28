@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import './Slider.css';
 import { SliderProps } from './types';
 
@@ -11,7 +11,6 @@ export const Slider: React.FC<SliderProps> = ({
   disabled = false,
   marks = {},
   showValue = false,
-  transitionSpeed = 300,
   trackColor = '#1890ff',
   handleColor = '#1890ff',
   gradient,
@@ -23,8 +22,16 @@ export const Slider: React.FC<SliderProps> = ({
   const [internalValue, setInternalValue] = useState<number>(defaultValue);
   const [isDragging, setIsDragging] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastValueRef = useRef<number>(value !== undefined ? value : defaultValue);
+  const isControlled = value !== undefined;
 
-  const currentValue = value !== undefined ? value : internalValue;
+  const currentValue = isControlled ? value : internalValue;
+
+  // 同步 ref
+  useEffect(() => {
+    lastValueRef.current = currentValue;
+  }, [currentValue]);
 
   const getPositionFromValue = useCallback((val: number) => {
     const ratio = (val - min) / (max - min);
@@ -50,18 +57,31 @@ export const Slider: React.FC<SliderProps> = ({
     return (e as MouseEvent).clientX;
   };
 
+  // 优化：使用 RAF 限制更新频率，避免重复渲染
   const updateValueFromPosition = useCallback((clientX: number) => {
     if (!trackRef.current || disabled) return;
 
-    const rect = trackRef.current.getBoundingClientRect();
-    const position = (clientX - rect.left) / rect.width;
-    const newValue = getValueFromPosition(position);
-    
-    if (value === undefined) {
-      setInternalValue(newValue);
+    // 取消之前的 RAF
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
     }
-    onChange?.(newValue);
-  }, [disabled, value, getValueFromPosition, onChange]);
+
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = trackRef.current!.getBoundingClientRect();
+      const position = (clientX - rect.left) / rect.width;
+      const newValue = getValueFromPosition(position);
+      
+      // 只有当值真正变化时才更新
+      if (newValue !== lastValueRef.current) {
+        lastValueRef.current = newValue;
+        
+        if (!isControlled) {
+          setInternalValue(newValue);
+        }
+        onChange?.(newValue);
+      }
+    });
+  }, [disabled, isControlled, getValueFromPosition, onChange]);
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     if (disabled) return;
@@ -135,7 +155,12 @@ export const Slider: React.FC<SliderProps> = ({
 
     const handleEnd = () => {
       setIsDragging(false);
-      onAfterChange?.(currentValue);
+      // 清理 RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      onAfterChange?.(lastValueRef.current);
     };
 
     document.addEventListener('mousemove', handleMove);
@@ -148,96 +173,95 @@ export const Slider: React.FC<SliderProps> = ({
       document.removeEventListener('mouseup', handleEnd);
       document.removeEventListener('touchmove', handleMove);
       document.removeEventListener('touchend', handleEnd);
+      // 清理 RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
     };
-  }, [isDragging, updateValueFromPosition, currentValue, onAfterChange]);
+  }, [isDragging, updateValueFromPosition, onAfterChange]);
 
   const position = getPositionFromValue(currentValue);
-  const filledWidth = `${position * 100}%`;
-  const handleLeft = `${position * 100}%`;
 
-  // 获取当前值对应的分段配置
-  const getSegmentConfig = useCallback((val: number) => {
-    const markEntries = Object.entries(marks).sort((a, b) => Number(a[0]) - Number(b[0]));
-    
-    for (let i = 0; i < markEntries.length; i++) {
-      const [key, value] = markEntries[i];
-      const markValue = Number(key);
-      
-      if (val <= markValue) {
-        const config = typeof value === 'string' 
+  // 缓存 marks 数组，避免每次渲染重新计算
+  const markEntries = useMemo(() => {
+    return Object.entries(marks)
+      .map(([key, value]) => {
+        const markValue = Number(key);
+        const markConfig = typeof value === 'string'
           ? { trackColor: undefined, handleColor: undefined, mark: value }
           : value;
-        return config;
+        
+        return {
+          value: markValue,
+          label: markConfig.mark,
+          trackColor: markConfig.trackColor,
+          handleColor: markConfig.handleColor,
+          position: getPositionFromValue(markValue)
+        };
+      })
+      .sort((a, b) => a.value - b.value);
+  }, [marks, getPositionFromValue]);
+
+  // 获取当前值对应的分段配置
+  const currentSegment = useMemo(() => {
+    for (let i = 0; i < markEntries.length; i++) {
+      const mark = markEntries[i];
+      if (currentValue <= mark.value) {
+        return {
+          trackColor: mark.trackColor,
+          handleColor: mark.handleColor,
+          mark: mark.label
+        };
       }
     }
     
     // 如果值大于所有标记点，使用最后一个标记点的配置
-    const lastEntry = markEntries[markEntries.length - 1];
-    if (lastEntry) {
-      const [_, value] = lastEntry;
-      return typeof value === 'string' 
-        ? { trackColor: undefined, handleColor: undefined, mark: value }
-        : value;
+    const lastMark = markEntries[markEntries.length - 1];
+    if (lastMark) {
+      return {
+        trackColor: lastMark.trackColor,
+        handleColor: lastMark.handleColor,
+        mark: lastMark.label
+      };
     }
     
     return { trackColor: undefined, handleColor: undefined, mark: '' };
-  }, [marks]);
-
-  const currentSegment = getSegmentConfig(currentValue);
+  }, [markEntries, currentValue]);
   
   // 获取 style 中的 CSS 变量值（如果存在）
-  const styleTrackColor = style && (style as any)['--slider-track-filled-bg-color'];
-  const styleHandleColor = style && (style as any)['--slider-handle-border-color'];
+  const styleTrackColor = style && (style as any)['--idp-slider-track-filled-bg'];
+  const styleHandleColor = style && (style as any)['--idp-slider-handle-border'];
   
   // 判断是否可以使用 gradient
-  // 只有当 marks 中没有 trackColor、style 中没有 trackColor、没有 trackColor 参数时才使用
-  const canUseGradient = gradient && 
-    !currentSegment.trackColor && 
-    !styleTrackColor && 
-    trackColor === '#1890ff'; // 只有使用默认颜色时才启用渐变
+  const canUseGradient = gradient &&
+    !currentSegment.trackColor &&
+    !styleTrackColor &&
+    trackColor === '#1890ff';
   
   // 优先级：marks > style > SliderProps > gradient > 默认
   const effectiveTrackColor = currentSegment.trackColor || styleTrackColor || trackColor;
   const effectiveHandleColor = currentSegment.handleColor || styleHandleColor || handleColor;
 
-  const markArray = Object.entries(marks)
-    .map(([key, value]) => {
-      const markValue = Number(key);
-      const markConfig = typeof value === 'string' 
-        ? { trackColor: undefined, handleColor: undefined, mark: value }
-        : value;
-      
-      return {
-        value: markValue,
-        label: markConfig.mark,
-        trackColor: markConfig.trackColor,
-        handleColor: markConfig.handleColor,
-        position: getPositionFromValue(markValue)
-      };
-    })
-    .sort((a, b) => a.value - b.value);
-
   return (
-    <div 
-      className={`slider-container ${disabled ? 'disabled' : ''} ${className}`}
+    <div
+      className={`slider-container ${disabled ? 'disabled' : ''} ${isDragging ? 'dragging' : ''} ${className}`}
       style={{
-        ['--slider-track-filled-bg-color' as any]: effectiveTrackColor,
-        ['--slider-handle-border-color' as any]: effectiveHandleColor,
-        ['--slider-track-filled-transition' as any]: `width ${transitionSpeed}ms ease`,
-        ['--slider-handle-transition' as any]: `all ${transitionSpeed}ms ease`,
+        ['--idp-slider-track-filled-bg' as any]: effectiveTrackColor,
+        ['--idp-slider-handle-border' as any]: `2px solid ${effectiveHandleColor}`,
         ...style
       }}
     >
-      <div 
+      <div
         ref={trackRef}
         className="slider-track"
         onClick={handleTrackClick}
         role="presentation"
       >
-        <div 
-          className="slider-track-filled" 
-          style={{ 
-            width: filledWidth,
+        <div
+          className="slider-track-filled"
+          style={{
+            width: `${position * 100}%`,
             ...(canUseGradient && gradient ? {
               background: `linear-gradient(to right, ${gradient.startColor}, ${gradient.endColor})`
             } : {})
@@ -245,7 +269,7 @@ export const Slider: React.FC<SliderProps> = ({
         />
         <div
           className="slider-handle"
-          style={{ left: handleLeft }}
+          style={{ left: `${position * 100}%` }}
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
           onKeyDown={handleKeyDown}
@@ -262,9 +286,9 @@ export const Slider: React.FC<SliderProps> = ({
         </div>
       </div>
       
-      {Object.keys(marks).length > 0 && (
+      {markEntries.length > 0 && (
         <div className="slider-marks">
-          {markArray.map((mark) => (
+          {markEntries.map((mark) => (
             <div
               key={mark.value}
               className="slider-mark"

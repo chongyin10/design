@@ -166,4 +166,29 @@
   --idp-progress-shadow: 0 2px 8px rgba(24, 144, 255, 0.25); /* 进度条默认阴影 */
   --idp-progress-shadow-success: 0 2px 8px rgba(82, 196, 26, 0.35); /* 进度条成功阴影 */
   --idp-progress-shadow-exception: 0 2px 8px rgba(245, 34, 45, 0.35); /* 进度条异常阴影 */
+  
+  /* Slider 组件 - 滑块相关样式变量 */
+  --idp-slider-track-height: 6px; /* 滑块轨道高度 */
+  --idp-slider-track-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-border-color) 100%); /* 滑块轨道背景 */
+  --idp-slider-track-filled-bg: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%); /* 滑块已填充轨道背景 */
+  --idp-slider-track-border-radius: var(--idp-border-radius-sm); /* 滑块轨道圆角 */
+  
+  --idp-slider-handle-size: 18px; /* 滑块手柄大小 */
+  --idp-slider-handle-bg: var(--idp-bg-color-white); /* 滑块手柄背景 */
+  --idp-slider-handle-border: 2px solid var(--idp-primary-color); /* 滑块手柄边框 */
+  --idp-slider-handle-shadow: var(--idp-shadow-sm); /* 滑块手柄阴影 */
+  --idp-slider-handle-shadow-hover: var(--idp-shadow-md); /* 滑块手柄悬停阴影 */
+  --idp-slider-handle-shadow-active: 0 2px 8px rgba(24, 144, 255, 0.4); /* 滑块手柄激活阴影 */
+  
+  --idp-slider-disabled-track-bg: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-border-color-light) 100%); /* 滑块禁用轨道背景 */
+  --idp-slider-disabled-filled-bg: linear-gradient(135deg, var(--idp-text-color-light) 0%, #d9d9d9 100%); /* 滑块禁用已填充背景 */
+  --idp-slider-disabled-handle-border: var(--idp-text-color-light); /* 滑块禁用手柄边框 */
+  
+  --idp-slider-mark-color: var(--idp-text-color-tertiary); /* 滑块标记文字颜色 */
+  --idp-slider-mark-line-bg: var(--idp-border-color); /* 滑块标记线颜色 */
+  --idp-slider-value-color: var(--idp-text-color); /* 滑块值显示颜色 */
+  
+  --idp-slider-tooltip-bg: rgba(0, 0, 0, 0.75); /* 滑块工具提示背景 */
+  --idp-slider-tooltip-color: var(--idp-bg-color-white); /* 滑块工具提示文字颜色 */
+  --idp-slider-tooltip-shadow: var(--idp-shadow-md); /* 滑块工具提示阴影 */
 }
