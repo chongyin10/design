@@ -153,4 +153,17 @@
   --idp-modal-container-bg: var(--idp-bg-color-white); /* 模态框容器背景色 */
   --idp-modal-header-bg: var(--idp-bg-color); /* 模态框头部背景色 */
   --idp-modal-footer-bg: var(--idp-bg-color); /* 模态框底部背景色 */
+  
+  /* Progress 组件 - 进度条相关样式变量 */
+  --idp-progress-default-bg: var(--idp-primary-color); /* 进度条默认背景色 */
+  --idp-progress-default-bg-gradient: var(--idp-primary-hover-color); /* 进度条默认渐变色 */
+  --idp-progress-success-bg: var(--idp-success-color); /* 进度条成功背景色 */
+  --idp-progress-success-bg-gradient: #73d13d; /* 进度条成功渐变色 */
+  --idp-progress-exception-bg: var(--idp-error-color); /* 进度条异常背景色 */
+  --idp-progress-exception-bg-gradient: #ff7875; /* 进度条异常渐变色 */
+  --idp-progress-trail-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%); /* 进度条轨道背景 */
+  --idp-progress-text-color: var(--idp-text-color); /* 进度条文字颜色 */
+  --idp-progress-shadow: 0 2px 8px rgba(24, 144, 255, 0.25); /* 进度条默认阴影 */
+  --idp-progress-shadow-success: 0 2px 8px rgba(82, 196, 26, 0.35); /* 进度条成功阴影 */
+  --idp-progress-shadow-exception: 0 2px 8px rgba(245, 34, 45, 0.35); /* 进度条异常阴影 */
 }

@@ -33,14 +33,17 @@
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: auto;
-  will-change: scroll-position;
   flex-shrink: 0;
   width: 100%;
   box-sizing: border-box;
-  /* 防止固定列抖动 */
+  /* 防止固定列抖动 - 使用硬件加速 */
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染性能 */
+  contain: layout style paint;
+  /* 禁用滚动锚定防止闪动 */
+  overflow-anchor: none;
 }
 
 /* 隐藏表头滚动条 */
@@ -78,14 +81,17 @@
   overflow-x: auto;
   overflow-y: auto;
   scroll-behavior: auto;
-  will-change: scroll-position;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  /* 防止固定列抖动 */
+  /* 防止固定列抖动 - 使用硬件加速 */
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染性能 */
+  contain: layout style paint;
+  /* 禁用滚动锚定防止闪动 */
+  overflow-anchor: none;
 }
 
 /* 确保表格不会撑破容器 */
@@ -215,10 +221,15 @@
 .custom-table th[style*="sticky"],
 .custom-table td[style*="sticky"] {
   box-shadow: 1px 0 0 0 var(--idp-table-border-light, #f0f0f0);
-  transform: translateZ(0);
-  will-change: transform, left, right;
+  /* 硬件加速 */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 使用contain优化渲染 */
+  contain: layout style paint;
+  /* 移除transition避免快速滚动时的闪动 */
+  transition: none !important;
+  /* 禁用滚动锚定 */
+  overflow-anchor: none;
 }
 
 .custom-table th[style*="right: 0"],
@@ -231,10 +242,13 @@
 .custom-table td[style*="position: sticky"][style*="right"] {
   position: sticky !important;
   z-index: 5 !important;
-  transform: translateZ(0);
-  will-change: transform, left, right;
+  /* 硬件加速 */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染 */
+  contain: layout style paint;
+  /* 移除transition避免快速滚动时的闪动 */
+  transition: none !important;
 }
 
 /* 修复表头固定列样式 */
@@ -243,10 +257,13 @@
   top: 0;
   z-index: 10 !important;
   background-color: var(--idp-table-header-bg, #fafafa);
-  transform: translateZ(0);
-  will-change: transform, left, right;
+  /* 硬件加速 */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染 */
+  contain: layout style paint;
+  /* 移除transition避免快速滚动时的闪动 */
+  transition: none !important;
 }
 
 /* 固定列阴影强调（仅表体）- GPU加速优化 */
@@ -254,28 +271,33 @@
   background-color: var(--idp-table-bg, #fff);
   z-index: 6;
   box-shadow: inset -3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
-  transition: background-color var(--idp-transition-duration, 0.2s) ease;
-  transform: translateZ(0);
-  will-change: transform, left, right;
+  /* 硬件加速 */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染 */
+  contain: layout style paint;
+  /* 移除transition避免快速滚动时的闪动 */
+  transition: none !important;
 }
 
 .custom-table tbody td.idp-table-fixed-right-shadow {
   background-color: var(--idp-table-bg, #fff);
   z-index: 6;
   box-shadow: inset 3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
-  transition: background-color var(--idp-transition-duration, 0.2s) ease;
-  transform: translateZ(0);
-  will-change: transform, left, right;
+  /* 硬件加速 */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* 优化渲染 */
+  contain: layout style paint;
+  /* 移除transition避免快速滚动时的闪动 */
+  transition: none !important;
 }
 
 /* hover 时固定列的背景色 */
 .custom-table tbody tr:hover td.idp-table-fixed-left-shadow,
 .custom-table tbody tr:hover td.idp-table-fixed-right-shadow {
   background-color: var(--idp-table-row-hover-bg, #fafafa) !important;
+  /* 保持transition: none以防止闪动 */
 }
 
 /* 分页包装器 - 允许下拉菜单溢出 */

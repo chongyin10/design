@@ -102,6 +102,9 @@ const Table = ({
     const bodyRef = useRef<HTMLDivElement>(null);
     const scrollSyncFrameRef = useRef<number | null>(null);
     const lastScrollLeftRef = useRef<number>(0);
+    const isScrollingRef = useRef<boolean>(false);
+    const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const scrollLeftRef = useRef<number>(0);
 
     // 编辑状态
     const [editingCell, setEditingCell] = useState<{ rowIndex: number; colKey: string } | null>(null);
@@ -143,11 +146,14 @@ const Table = ({
         }
     }, [pagination && typeof pagination === 'object' ? pagination.current : undefined, pagination && typeof pagination === 'object' ? pagination.pageSize : undefined]);
 
-    // 清理 requestAnimationFrame
+    // 清理 requestAnimationFrame 和 timeout
     useEffect(() => {
         return () => {
             if (scrollSyncFrameRef.current) {
                 cancelAnimationFrame(scrollSyncFrameRef.current);
+            }
+            if (scrollTimeoutRef.current) {
+                clearTimeout(scrollTimeoutRef.current);
             }
         };
     }, []);
@@ -181,17 +187,49 @@ const Table = ({
         setFixedRightColumns(rightCols);
         setNormalColumns(normalCols);
         setColumnWidths(widths);
+        
+        // 初始化固定列位置 - 延迟执行以确保DOM已更新
+        requestAnimationFrame(() => {
+            updateFixedColumnsPosition.current(0);
+        });
     }, [columns]);
 
+    // 更新固定列位置的函数 - 使用useCallback避免重复创建
+    const updateFixedColumnsPosition = useRef((newScrollLeft: number) => {
+        if (!tableRef.current) return;
+        
+        // 查找所有固定列元素
+        const fixedCells = tableRef.current.querySelectorAll('.custom-table th[style*="sticky"], .custom-table td[style*="sticky"]');
+        
+        fixedCells.forEach((cell) => {
+            const element = cell as HTMLElement;
+            const style = window.getComputedStyle(element);
+            const left = style.left;
+            const right = style.right;
+            
+            // 判断是左侧固定列还是右侧固定列
+            if (left !== 'auto' && left !== '0px') {
+                // 左侧固定列，应用正向transform
+                element.style.transform = `translateX(${newScrollLeft}px)`;
+            } else if (right !== 'auto' && right !== '0px') {
+                // 右侧固定列，应用反向transform
+                element.style.transform = `translateX(${-newScrollLeft}px)`;
+            }
+        });
+    });
+
     // 同步表头和表体的滚动 - 使用 requestAnimationFrame 防抖优化
-    const syncScroll = (_source: HTMLDivElement, target: HTMLDivElement, scrollLeft: number) => {
+    const syncScroll = (_source: HTMLDivElement, target: HTMLDivElement, newScrollLeft: number) => {
         if (scrollSyncFrameRef.current) {
             cancelAnimationFrame(scrollSyncFrameRef.current);
         }
         scrollSyncFrameRef.current = requestAnimationFrame(() => {
-            if (target && target.scrollLeft !== scrollLeft) {
-                target.scrollLeft = scrollLeft;
+            if (target && target.scrollLeft !== newScrollLeft) {
+                // 直接设置scrollLeft，避免触发滚动事件
+                target.scrollLeft = newScrollLeft;
             }
+            // 更新固定列位置
+            updateFixedColumnsPosition.current(newScrollLeft);
             scrollSyncFrameRef.current = null;
         });
     };
@@ -202,9 +240,24 @@ const Table = ({
             // 只有当滚动的是body区域时才同步到header
             if (target === bodyRef.current) {
                 const newScrollLeft = target.scrollLeft;
+                
+                // 标记正在滚动
+                isScrollingRef.current = true;
+                
+                // 清除之前的timeout
+                if (scrollTimeoutRef.current) {
+                    clearTimeout(scrollTimeoutRef.current);
+                }
+                
+                // 设置滚动结束的timeout
+                scrollTimeoutRef.current = setTimeout(() => {
+                    isScrollingRef.current = false;
+                }, 150);
+                
                 // 过滤掉微小的滚动变化，减少抖动
                 if (Math.abs(newScrollLeft - lastScrollLeftRef.current) > 0.5) {
                     lastScrollLeftRef.current = newScrollLeft;
+                    scrollLeftRef.current = newScrollLeft;
                     syncScroll(bodyRef.current, headerInnerRef.current, newScrollLeft);
                 }
             }
@@ -216,9 +269,24 @@ const Table = ({
             const target = e.target as HTMLDivElement;
             if (target === headerInnerRef.current) {
                 const newScrollLeft = target.scrollLeft;
+                
+                // 标记正在滚动
+                isScrollingRef.current = true;
+                
+                // 清除之前的timeout
+                if (scrollTimeoutRef.current) {
+                    clearTimeout(scrollTimeoutRef.current);
+                }
+                
+                // 设置滚动结束的timeout
+                scrollTimeoutRef.current = setTimeout(() => {
+                    isScrollingRef.current = false;
+                }, 150);
+                
                 // 过滤掉微小的滚动变化，减少抖动
                 if (Math.abs(newScrollLeft - lastScrollLeftRef.current) > 0.5) {
                     lastScrollLeftRef.current = newScrollLeft;
+                    scrollLeftRef.current = newScrollLeft;
                     syncScroll(headerInnerRef.current, bodyRef.current, newScrollLeft);
                 }
             }

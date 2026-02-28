@@ -12,6 +12,14 @@ export interface GradientConfig {
     animated?: boolean;
 }
 
+/** 进度段配置 - 用于多段颜色展示 */
+export interface ProgressSegment {
+    /** 该段的颜色 */
+    color: string | GradientConfig;
+    /** 该段占总的百分比（0-100） */
+    percent: number;
+}
+
 export interface ProgressProps {
     /** 百分比 */
     percent?: number;
@@ -33,6 +41,10 @@ export interface ProgressProps {
     size?: 'small' | 'default' | 'large';
     /** 是否开启动画 */
     transition?: boolean;
+    /** 步骤进度条的总步数 */
+    steps?: number;
+    /** 多段颜色配置，用于展示多个进度段 */
+    segments?: ProgressSegment[];
     /** 是否开启仪表盘样式 */
     gapDegree?: number;
     /** 仪表盘缺口位置 */

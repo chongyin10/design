@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import Icon from '../Icon';
-import { ProgressProps, ProgressStatus, ProgressType, GradientConfig } from './types';
+import { ProgressProps, ProgressStatus, ProgressType, GradientConfig, ProgressSegment } from './types';
 import './Progress.css';
 
 const Progress: React.FC<ProgressProps> = ({
@@ -15,6 +15,8 @@ const Progress: React.FC<ProgressProps> = ({
     strokeWidth,
     size = 'default',
     transition = true,
+    steps,
+    segments,
     icon,
     prefix,
     suffix,
@@ -158,6 +160,126 @@ const Progress: React.FC<ProgressProps> = ({
         );
     }
 
+    // 渲染步骤进度条
+    const renderSteps = () => {
+        if (!steps || steps <= 0) return null;
+        
+        // 计算当前进度应该激活多少个步骤
+        const progressRatio = percent / 100;
+        const clampedRatio = Math.min(1, Math.max(0, progressRatio));
+        
+        const stepList = Array.from({ length: steps }, (_, index) => {
+            const stepStart = index / steps;
+            const stepEnd = (index + 1) / steps;
+            
+            const isCompleted = clampedRatio >= stepEnd;
+            const isCurrent = clampedRatio > stepStart && clampedRatio < stepEnd;
+            const isPending = clampedRatio <= stepStart;
+            const isSuccess = clampedRatio >= 1;
+            
+            return (
+                <div
+                    key={index}
+                    className={classNames('idp-progress-step', {
+                        'idp-progress-step--completed': isCompleted,
+                        'idp-progress-step--current': isCurrent,
+                        'idp-progress-step--pending': isPending,
+                        'idp-progress-step--success': isSuccess
+                    })}
+                    style={{
+                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                    }}
+                />
+            );
+        });
+        
+        return (
+            <div className="idp-progress-steps">
+                {stepList}
+            </div>
+        );
+    };
+
+    // 获取段的颜色样式
+    const getSegmentStyle = (segment: ProgressSegment): React.CSSProperties => {
+        const { color } = segment;
+        if (isGradient(color)) {
+            const { from, to, direction = 'to right' } = color;
+            return {
+                background: `linear-gradient(${direction}, ${from}, ${to})`
+            };
+        }
+        return {
+            backgroundColor: color
+        };
+    };
+
+    // 渲染多段进度条
+    const renderSegments = () => {
+        if (!segments || segments.length === 0) return null;
+        
+        // 计算所有段落的总百分比
+        const totalSegmentPercent = segments.reduce((sum, seg) => sum + seg.percent, 0);
+        
+        // 根据 percent 和总段落百分比计算实际进度比例
+        // 如果没有传递 percent 或 percent 为 0，默认显示所有段落的颜色
+        const effectivePercent = (percent === undefined || percent === 0) ? totalSegmentPercent : percent;
+        const progressRatio = totalSegmentPercent > 0 ? effectivePercent / totalSegmentPercent : effectivePercent / 100;
+        const clampedRatio = Math.min(1, Math.max(0, progressRatio));
+        
+        let accumulatedPercent = 0;
+        
+        const segmentList = segments.map((segment, index) => {
+            const segmentPercent = segment.percent;
+            const segmentStart = accumulatedPercent / totalSegmentPercent;
+            const segmentEnd = (accumulatedPercent + segmentPercent) / totalSegmentPercent;
+            accumulatedPercent += segmentPercent;
+            
+            // 判断该段落的状态
+            const isCompleted = clampedRatio >= segmentEnd;
+            const isCurrent = clampedRatio > segmentStart && clampedRatio < segmentEnd;
+            const isPending = clampedRatio <= segmentStart;
+            
+            return (
+                <div
+                    key={index}
+                    className={classNames('idp-progress-segment', {
+                        'idp-progress-segment--completed': isCompleted,
+                        'idp-progress-segment--current': isCurrent,
+                        'idp-progress-segment--pending': isPending
+                    })}
+                    style={{
+                        width: `${segmentPercent}%`,
+                        ...(isPending ? {} : getSegmentStyle(segment)),
+                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                    }}
+                />
+            );
+        });
+        
+        // 如果总百分比不足 100，添加灰色占位段落
+        const remainingPercent = 100 - totalSegmentPercent;
+        if (remainingPercent > 0) {
+            segmentList.push(
+                <div
+                    key="remaining"
+                    className="idp-progress-segment idp-progress-segment--remaining"
+                    style={{
+                        width: `${remainingPercent}%`,
+                        backgroundColor: 'gainsboro',
+                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                    }}
+                />
+            );
+        }
+        
+        return (
+            <div className="idp-progress-segments">
+                {segmentList}
+            </div>
+        );
+    };
+
     // 渲染线性进度条（默认）
     return (
         <div
@@ -167,27 +289,35 @@ const Progress: React.FC<ProgressProps> = ({
                 `idp-progress--line`,
                 { 'idp-progress--success': status === 'success' },
                 { 'idp-progress--exception': status === 'exception' },
+                { 'idp-progress--steps': steps && steps > 0 },
+                { 'idp-progress--has-segments': segments && segments.length > 0 },
                 className
             )}
             style={style}
         >
             <div className="idp-progress-wrapper">
                 <div className="idp-progress-outer">
-                    <div className="idp-progress-inner">
-                        <div
-                            className={classNames('idp-progress-bg', {
-                                'idp-progress-bg--success': status === 'success',
-                                'idp-progress-bg--exception': status === 'exception',
-                                'idp-progress-bg--animated': isAnimated()
-                            })}
-                            style={{
-                                width: `${Math.min(100, Math.max(0, percent))}%`,
-                                backgroundColor: isGradient(strokeColor) ? undefined : getStrokeColor(),
-                                ...getGradientStyle(),
-                                transition: transition ? 'width 0.3s cubic-bezier(0.34, 0.69, 0.1, 1)' : 'none'
-                            }}
-                        />
-                    </div>
+                    {steps && steps > 0 ? (
+                        renderSteps()
+                    ) : segments && segments.length > 0 ? (
+                        renderSegments()
+                    ) : (
+                        <div className="idp-progress-inner">
+                            <div
+                                className={classNames('idp-progress-bg', {
+                                    'idp-progress-bg--success': status === 'success',
+                                    'idp-progress-bg--exception': status === 'exception',
+                                    'idp-progress-bg--animated': isAnimated()
+                                })}
+                                style={{
+                                    width: `${Math.min(100, Math.max(0, percent))}%`,
+                                    backgroundColor: isGradient(strokeColor) ? undefined : getStrokeColor(),
+                                    ...getGradientStyle(),
+                                    transition: transition ? 'width 0.3s cubic-bezier(0.34, 0.69, 0.1, 1)' : 'none'
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
             {showInfo && (
@@ -203,4 +333,4 @@ const Progress: React.FC<ProgressProps> = ({
 };
 
 export default Progress;
-export type { ProgressProps, ProgressType, ProgressStatus };
+export type { ProgressProps, ProgressType, ProgressStatus, ProgressSegment };

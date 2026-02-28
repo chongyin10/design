@@ -83,6 +83,8 @@ const ProgressExample: React.FC = () => {
     { property: 'strokeWidth', description: '线条粗细', type: 'number', default: '10' },
     { property: 'size', description: '尺寸', type: "'small' | 'default' | 'large'", default: "'default'" },
     { property: 'transition', description: '是否开启动画', type: 'boolean', default: 'true' },
+    { property: 'steps', description: '步骤进度条的总步数', type: 'number', default: '-' },
+    { property: 'segments', description: '多段颜色配置', type: 'Array<{ color: string | GradientConfig; percent: number }>', default: '-' },
     { property: 'icon', description: '前缀图标', type: 'ReactNode', default: '-' },
     { property: 'prefix', description: '前缀文字', type: 'string', default: '-' },
     { property: 'suffix', description: '后缀文字', type: 'string', default: '-' },
@@ -553,6 +555,84 @@ const DynamicDemo = () => {
     </Flex>
   );
 };`} />
+      </Section>
+
+      {/* 步骤进度条 */}
+      <Section title="步骤进度条">
+        <DemoRow title="5步骤">
+          <Progress percent={60} steps={5} />
+        </DemoRow>
+        <DemoRow title="10步骤">
+          <Progress percent={70} steps={10} />
+        </DemoRow>
+        <DemoRow title="大尺寸步骤">
+          <Progress percent={80} steps={8} size="large" />
+        </DemoRow>
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
+
+// 5步骤进度条
+<Progress percent={60} steps={5} />
+
+// 10步骤进度条
+<Progress percent={70} steps={10} />
+
+// 大尺寸步骤进度条
+<Progress percent={80} steps={8} size="large" />`} />
+      </Section>
+
+      {/* 多段颜色进度条 */}
+      <Section title="多段颜色进度条">
+        <DemoRow title="双色分段">
+          <Progress
+            segments={[
+              { color: '#1890ff', percent: 30 },
+              { color: '#52c41a', percent: 40 },
+            ]}
+          />
+        </DemoRow>
+        <DemoRow title="三色分段">
+          <Progress
+            segments={[
+              { color: '#1890ff', percent: 25 },
+              { color: '#52c41a', percent: 25 },
+              { color: 'red', percent: 25 },
+            ]}
+          />
+        </DemoRow>
+        <DemoRow title="渐变分段">
+          <Progress
+            segments={[
+              { color: { from: '#1890ff', to: '#40a9ff' }, percent: 40 },
+              { color: { from: '#52c41a', to: '#73d13d' }, percent: 35 },
+            ]}
+          />
+        </DemoRow>
+        <CopyBlock code={`import { Progress } from '@zjpcy/simple-design';
+
+// 双色分段
+<Progress
+  segments={[
+    { color: '#1890ff', percent: 30 },
+    { color: '#52c41a', percent: 40 },
+  ]}
+/>
+
+// 三色分段
+<Progress
+  segments={[
+    { color: '#1890ff', percent: 25 },
+    { color: '#52c41a', percent: 25 },
+    { color: '#faad14', percent: 25 },
+  ]}
+/>
+
+// 渐变色分段
+<Progress
+  segments={[
+    { color: { from: '#1890ff', to: '#40a9ff' }, percent: 40 },
+    { color: { from: '#52c41a', to: '#73d13d' }, percent: 35 },
+  ]}
+/>`} />
       </Section>
 
       {/* 组合使用 */}
