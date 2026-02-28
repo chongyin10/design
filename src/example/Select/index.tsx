@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flex } from '../../components';
+import { Flex, Table } from '../../components';
 import Select from '../../components/Select';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -89,6 +89,35 @@ const SelectExample: React.FC = () => {
     const [multipleValue, setMultipleValue] = useState<(string | number)[]>([]);
     const [cityValue, setCityValue] = useState<string>('');
 
+    // API 表格数据
+    const apiColumns = [
+        { title: '属性', dataIndex: 'prop', key: 'prop' },
+        { title: '说明', dataIndex: 'desc', key: 'desc' },
+        { title: '类型', dataIndex: 'type', key: 'type' },
+        { title: '默认值', dataIndex: 'default', key: 'default' },
+    ];
+
+    const apiData = [
+        { key: '1', prop: 'value', desc: '当前选中的值（受控模式）', type: 'string | number | (string | number)[]', default: '-' },
+        { key: '2', prop: 'defaultValue', desc: '默认选中的值（非受控模式）', type: 'string | number | (string | number)[]', default: '-' },
+        { key: '3', prop: 'options', desc: '选项列表', type: 'SelectOption[]', default: '[]' },
+        { key: '4', prop: 'disabled', desc: '是否禁用', type: 'boolean', default: 'false' },
+        { key: '5', prop: 'loading', desc: '加载中状态', type: 'boolean', default: 'false' },
+        { key: '6', prop: 'mode', desc: '选择模式', type: "'single' | 'multiple'", default: "'single'" },
+        { key: '7', prop: 'placeholder', desc: '占位符文本', type: 'string', default: "'请选择'" },
+        { key: '8', prop: 'searchable', desc: '是否可搜索', type: 'boolean', default: 'false' },
+        { key: '9', prop: 'clearable', desc: '是否可清除', type: 'boolean', default: 'false' },
+        { key: '10', prop: 'size', desc: '组件尺寸', type: "'small' | 'default' | 'large'", default: "'default'" },
+        { key: '11', prop: 'width', desc: '组件宽度', type: 'string | number', default: '-' },
+        { key: '12', prop: 'styles', desc: '自定义组件内部各语义化结构的行内 style', type: 'SelectStyles', default: '-' },
+        { key: '13', prop: 'onChange', desc: '变化时的回调函数', type: '(value, option) => void', default: '-' },
+        { key: '14', prop: 'onOpenChange', desc: '展开/收起时的回调函数', type: '(open: boolean) => void', default: '-' },
+        { key: '15', prop: 'onSearch', desc: '搜索时的回调函数', type: '(value: string) => void', default: '-' },
+        { key: '16', prop: 'label', desc: '标签文案，显示在选择框前面', type: 'string | ReactNode', default: '-' },
+        { key: '17', prop: 'labelGap', desc: '标签到选择框的距离', type: 'string | number', default: '8' },
+        { key: '18', prop: 'emptyContent', desc: '自定义空状态显示内容', type: 'ReactNode', default: "'暂无数据'" },
+    ];
+
     return (
         <div style={{ padding: '20px' }}>
             <h1>Select 选择器</h1>
@@ -129,7 +158,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select
   options={options}
   defaultValue="1"
   placeholder="请选择"
@@ -162,7 +193,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`// 小尺寸
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+// 小尺寸
 <Select size="small" options={options} />
 
 // 默认尺寸
@@ -189,7 +222,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`// 禁用选择器
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+// 禁用选择器
 <Select options={options} disabled />
 
 // 禁用特定选项
@@ -211,7 +246,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select options={options} clearable />`} />
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select options={options} clearable />`} />
             </Section>
 
             {/* 加载中 */}
@@ -224,7 +261,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select options={options} loading />`} />
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select options={options} loading />`} />
             </Section>
 
             {/* 可搜索 */}
@@ -237,7 +276,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select options={options} searchable />`} />
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select options={options} searchable />`} />
             </Section>
 
             {/* 多选模式 */}
@@ -261,7 +302,9 @@ const options = [
                         style={{ width: '320px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`const [values, setValues] = useState([]);
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+const [values, setValues] = useState([]);
 
 <Select
   mode="multiple"
@@ -290,7 +333,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`// 基础标签
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+// 基础标签
 <Select options={options} label="城市" />
 
 // 自定义标签间距
@@ -315,7 +360,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select
   options={options}
   onChange={(value, option) => {
     console.log('选中值:', value);
@@ -336,7 +383,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select
   options={[]}
   emptyContent="暂无可用选项"
 />`} />
@@ -359,7 +408,9 @@ const options = [
                         style={{ width: '200px' }}
                     />
                 </DemoRow>
-                <CopyBlock code={`<Select
+                <CopyBlock code={`import { Select } from '@zjpcy/simple-design';
+
+<Select
   options={options}
   styles={{
     selector: { borderRadius: '20px' },
@@ -367,6 +418,18 @@ const options = [
     option: { padding: '12px 16px' }
   }}
 />`} />
+            </Section>
+
+            {/* API 文档 */}
+            <Section title="API">
+                <h3>Props</h3>
+                <div style={{ marginBottom: '16px' }}>
+                    <Table
+                        columns={apiColumns}
+                        dataSource={apiData}
+                        bordered
+                    />
+                </div>
             </Section>
         </div>
     );

@@ -86,6 +86,7 @@ const Select: React.FC<SelectProps> = ({
     const [open, setOpen] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [activeIndex, setActiveIndex] = useState(-1);
+    const [isHovered, setIsHovered] = useState(false);
 
     // 引用
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -408,8 +409,11 @@ const Select: React.FC<SelectProps> = ({
         ? Array.isArray(currentValue) && currentValue.length > 0
         : currentValue !== '' && currentValue !== undefined && currentValue !== null;
 
-    // 显示清除按钮的条件
-    const showClear = clearable && !disabled && hasValue && !loading;
+    // 显示清除按钮的条件：可清除、非禁用、有值、非加载中、鼠标悬停
+    const showClear = clearable && !disabled && hasValue && !loading && isHovered;
+
+    // 显示下拉箭头的条件：需要显示箭头、非加载中、不满足清除按钮显示条件时
+    const showArrowIcon = showArrow && !loading && !showClear;
 
     return (
         <Wrapper
@@ -440,6 +444,8 @@ const Select: React.FC<SelectProps> = ({
                         $styles={styles?.selector}
                         onClick={() => !disabled && !loading && setOpen(!open)}
                         onKeyDown={handleKeyDown}
+                        onMouseEnter={() => setIsHovered(true)}
+                        onMouseLeave={() => setIsHovered(false)}
                         tabIndex={disabled ? -1 : 0}
                         role="combobox"
                         aria-expanded={open}
@@ -466,7 +472,7 @@ const Select: React.FC<SelectProps> = ({
                                     </svg>
                                 </LoadingIcon>
                             )}
-                            {showArrow && !loading && (
+                            {showArrowIcon && (
                                 <Arrow className={`select-arrow ${open ? 'select-open' : ''}`} $open={open}>
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M7 10l5 5 5-5z"/>
