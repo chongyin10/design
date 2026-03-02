@@ -161,7 +161,7 @@ export const Sider: React.FC<LayoutSiderProps> = ({
 
   return (
     <SiderWrapper
-      className={`layout-sider ${className}`}
+      className={`layout-sider ${collapsed ? 'collapsed' : ''} ${className}`}
       style={style}
       $width={width}
       $collapsedWidth={actualCollapsedWidth}

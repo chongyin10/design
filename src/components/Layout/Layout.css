@@ -65,7 +65,7 @@
   --layout-sider-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
   --layout-sider-flex: 0 0 var(--layout-sider-width);
 
-  --layout-content-bg: transparent;
+  --layout-content-bg: #fff;
   --layout-content-padding: 24px;
   --layout-content-min-height: 160px;
   --layout-content-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
@@ -105,10 +105,21 @@ body {
 /* ============================================
    滚动条样式 - 与整体风格统一
    ============================================ */
+.layout-sider,
+.layout-content {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.layout-sider:hover,
+.layout-content:hover {
+  scrollbar-color: var(--idp-border-color-extra-light, #d9d9d9) transparent;
+}
+
 .layout-sider ::-webkit-scrollbar,
 .layout-content ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 
 .layout-sider ::-webkit-scrollbar-track,
@@ -118,9 +129,14 @@ body {
 
 .layout-sider ::-webkit-scrollbar-thumb,
 .layout-content ::-webkit-scrollbar-thumb {
-  background-color: var(--idp-border-color-extra-light, #d9d9d9);
+  background-color: transparent;
   border-radius: var(--idp-border-radius-sm, 4px);
   transition: background-color var(--idp-transition-duration, 0.2s) ease;
+}
+
+.layout-sider:hover ::-webkit-scrollbar-thumb,
+.layout-content:hover ::-webkit-scrollbar-thumb {
+  background-color: var(--idp-border-color-extra-light, #d9d9d9);
 }
 
 .layout-sider ::-webkit-scrollbar-thumb:hover,
@@ -129,8 +145,23 @@ body {
 }
 
 /* Dark 主题滚动条 */
+.layout-sider-dark,
+.layout-content-dark {
+  scrollbar-color: transparent transparent;
+}
+
+.layout-sider-dark:hover,
+.layout-content-dark:hover {
+  scrollbar-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 40%, transparent) transparent;
+}
+
 .layout-sider-dark ::-webkit-scrollbar-thumb,
 .layout-content-dark ::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.layout-sider-dark:hover ::-webkit-scrollbar-thumb,
+.layout-content-dark:hover ::-webkit-scrollbar-thumb {
   background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 40%, transparent);
 }
 
