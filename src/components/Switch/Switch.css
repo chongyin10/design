@@ -1,38 +1,239 @@
-/* Switch标签样式 */
-.switch-label {
-  font-size: 14px;
-  color: #333;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+/* ============================================
+   IDP Switch Component - Modern Design System
+   ============================================ */
 
+/* ============================================
+   CSS Variables - Switch组件专用变量
+   ============================================ */
 :root {
   /* Switch 尺寸变量 - default */
-  --switch-default-width: 44px;
-  --switch-default-height: 22px;
-  --switch-default-thumb-size: 18px;
-  --switch-default-thumb-left: 2px;
-  --switch-default-thumb-checked-left: 24px;
-  
+  --idp-switch-default-width: 44px;
+  --idp-switch-default-height: 22px;
+  --idp-switch-default-thumb-size: 18px;
+  --idp-switch-default-thumb-left: 2px;
+  --idp-switch-default-thumb-checked-left: 24px;
+
   /* Switch 尺寸变量 - small */
-  --switch-small-width: 28px;
-  --switch-small-height: 16px;
-  --switch-small-thumb-size: 12px;
-  --switch-small-thumb-left: 2px;
-  --switch-small-thumb-checked-left: 14px;
-  
-  /* 颜色和样式变量 */
-  --switch-track-bg: #dcdfe6;
-  --switch-track-active-bg: #409eff;
-  --switch-track-radius: 10px;
-  --switch-thumb-bg: #fff;
-  --switch-thumb-radius: 50%;
-  --switch-thumb-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --switch-transition: 0.3s;
-  
+  --idp-switch-small-width: 28px;
+  --idp-switch-small-height: 16px;
+  --idp-switch-small-thumb-size: 12px;
+  --idp-switch-small-thumb-left: 2px;
+  --idp-switch-small-thumb-checked-left: 14px;
+
+  /* 颜色变量 - 使用全局变量 */
+  --idp-switch-track-bg: var(--idp-border-color-extra-light, #d9d9d9);
+  --idp-switch-track-bg-gradient: linear-gradient(135deg, var(--idp-border-color, #e8e8e8) 0%, var(--idp-border-color-extra-light, #d9d9d9) 100%);
+  --idp-switch-track-active-bg: var(--idp-primary-color, #1890ff);
+  --idp-switch-track-active-gradient: linear-gradient(135deg, var(--idp-primary-color, #1890ff) 0%, var(--idp-primary-hover-color, #40a9ff) 100%);
+  --idp-switch-track-radius: var(--idp-border-radius-lg, 8px);
+
+  /* Thumb 滑块样式 */
+  --idp-switch-thumb-bg: var(--idp-bg-color-white, #fff);
+  --idp-switch-thumb-radius: 50%;
+  --idp-switch-thumb-shadow: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  --idp-switch-thumb-shadow-hover: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
+  --idp-switch-thumb-shadow-active: 0 2px 8px rgba(24, 144, 255, 0.4);
+
+  /* 过渡动画 */
+  --idp-switch-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  --idp-switch-transition-bg: background-color var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+
   /* 加载动画变量 */
-  --switch-loading-size: 12px;
-  --switch-loading-border: transparent;
-  --switch-loading-border-top: #fff;
-  --switch-loading-animation: switch-spin 1s linear infinite;
+  --idp-switch-loading-size: 12px;
+  --idp-switch-loading-color: var(--idp-primary-color, #1890ff);
+
+  /* 标签样式 */
+  --idp-switch-label-color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --idp-switch-label-font-size: 14px;
+
+  /* 禁用状态 */
+  --idp-switch-disabled-opacity: var(--idp-opacity-disabled, 0.65);
+  --idp-switch-disabled-bg: var(--idp-bg-color-light, #f5f5f5);
+}
+
+/* ============================================
+   Switch Label - 标签样式
+   ============================================ */
+.switch-label {
+  font-size: var(--idp-switch-label-font-size);
+  color: var(--idp-switch-label-color);
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* ============================================
+   Switch Track - 轨道样式
+   ============================================ */
+.switch-track {
+  position: relative;
+  background: var(--idp-switch-track-bg-gradient);
+  border-radius: var(--idp-switch-track-radius);
+  transition: var(--idp-switch-transition);
+  cursor: pointer;
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 选中状态 - 使用渐变背景 */
+.switch-track.switch-track-checked {
+  background: var(--idp-switch-track-active-gradient);
+  box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* 禁用状态 */
+.switch-track.switch-track-disabled {
+  cursor: not-allowed;
+  opacity: var(--idp-switch-disabled-opacity);
+  background: var(--idp-switch-disabled-bg);
+}
+
+.switch-track.switch-track-disabled.switch-track-checked {
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.5) 0%, rgba(64, 169, 255, 0.5) 100%);
+}
+
+/* 加载状态 */
+.switch-track.switch-track-loading {
+  cursor: wait;
+}
+
+/* 悬停效果（非禁用状态） */
+.switch-track:not(.switch-track-disabled):hover {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.switch-track.switch-track-checked:not(.switch-track-disabled):hover {
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   Switch Thumb - 滑块样式
+   ============================================ */
+.switch-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, var(--idp-switch-thumb-bg) 0%, var(--idp-bg-color-light, #f5f5f5) 100%);
+  border-radius: var(--idp-switch-thumb-radius);
+  box-shadow: var(--idp-switch-thumb-shadow);
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow var(--idp-transition-duration, 0.2s) ease;
+  z-index: 2;
+}
+
+/* 滑块悬停效果 */
+.switch-track:not(.switch-track-disabled):hover .switch-thumb {
+  box-shadow: var(--idp-switch-thumb-shadow-hover);
+}
+
+/* 选中状态的滑块 */
+.switch-thumb.switch-thumb-checked {
+  box-shadow: var(--idp-switch-thumb-shadow-active);
+}
+
+/* 加载动画 */
+@keyframes idp-switch-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes idp-switch-thumb-spin {
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* ============================================
+   Loading Icon - 加载图标
+   ============================================ */
+.switch-loading-icon {
+  position: absolute;
+  top: 50%;
+  margin-top: -6px;
+  width: var(--idp-switch-loading-size);
+  height: var(--idp-switch-loading-size);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-loading-icon > svg {
+  width: 100%;
+  height: 100%;
+  animation: idp-switch-spin 1s linear infinite;
+  transform-origin: center center;
+  display: block;
+  fill: var(--idp-switch-loading-color);
+}
+
+/* ============================================
+   Inner Text - 内部文字
+   ============================================ */
+.switch-checked-inner,
+.switch-unchecked-inner {
+  font-size: 12px;
+  color: var(--idp-bg-color-white, #fff);
+  white-space: nowrap;
+  user-select: none;
+  z-index: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================================
+   Size Variants - 尺寸变体
+   ============================================ */
+/* Default 尺寸 */
+.switch-track[data-size="default"] {
+  width: var(--idp-switch-default-width);
+  min-width: var(--idp-switch-default-width);
+  height: var(--idp-switch-default-height);
+}
+
+.switch-track[data-size="default"] .switch-thumb {
+  width: var(--idp-switch-default-thumb-size);
+  height: var(--idp-switch-default-thumb-size);
+}
+
+/* Small 尺寸 */
+.switch-track[data-size="small"] {
+  width: var(--idp-switch-small-width);
+  min-width: var(--idp-switch-small-width);
+  height: var(--idp-switch-small-height);
+}
+
+.switch-track[data-size="small"] .switch-thumb {
+  width: var(--idp-switch-small-thumb-size);
+  height: var(--idp-switch-small-thumb-size);
+}
+
+/* ============================================
+   Focus States - 聚焦状态
+   ============================================ */
+.switch-track:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2), var(--idp-switch-track-active-gradient);
+}
+
+/* ============================================
+   Transition Enhancements - 过渡增强
+   ============================================ */
+.switch-track,
+.switch-thumb {
+  will-change: transform, background-color, box-shadow;
+}
+
+/* 平滑的颜色过渡 */
+.switch-track {
+  transition: background var(--idp-transition-duration, 0.2s) ease-in-out,
+              box-shadow var(--idp-transition-duration, 0.2s) ease-in-out,
+              opacity var(--idp-transition-duration, 0.2s) ease-in-out;
 }

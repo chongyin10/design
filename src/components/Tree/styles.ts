@@ -1,55 +1,21 @@
 import { CSSProperties } from 'react';
 
-// ===== Modern Tree Design System =====
-
-export const treeTokens = {
-  colors: {
-    primary: '#1890ff',
-    primaryLight: '#e6f7ff',
-    primaryHover: '#bae7ff',
-    text: 'rgba(0, 0, 0, 0.85)',
-    textSecondary: 'rgba(0, 0, 0, 0.45)',
-    textDisabled: 'rgba(0, 0, 0, 0.25)',
-    border: '#d9d9d9',
-    bgHover: 'rgba(0, 0, 0, 0.04)',
-    bgSelected: '#f0f7ff',
-    line: '#e8e8e8',
-    white: '#ffffff',
-  },
-  spacing: {
-    xs: 4,
-    sm: 8,
-    md: 12,
-    lg: 16,
-    xl: 24,
-  },
-  borderRadius: {
-    sm: 3,
-    md: 6,
-  },
-  transition: {
-    default: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-    fast: 'all 0.2s ease',
-    slow: 'all 0.3s ease',
-  },
-  shadow: {
-    focus: '0 0 0 2px rgba(24, 144, 255, 0.2)',
-    subtle: '0 1px 2px rgba(0, 0, 0, 0.1)',
-  },
-} as const;
+// ============================================
+// IDP Tree Design System - 使用统一 CSS 变量
+// ============================================
 
 // ===== Container Styles =====
 
 export const treeContainerStyle: CSSProperties = {
   boxSizing: 'border-box',
   margin: 0,
-  padding: treeTokens.spacing.sm,
+  padding: 'var(--idp-spacing-sm)',
   fontSize: 14,
   lineHeight: 1.5715,
   listStyle: 'none',
-  color: treeTokens.colors.text,
-  background: treeTokens.colors.white,
-  borderRadius: treeTokens.borderRadius.md,
+  color: 'var(--idp-text-color)',
+  background: 'var(--idp-bg-color-white)',
+  borderRadius: 'var(--idp-border-radius-lg)',
 };
 
 // ===== Node Styles =====
@@ -71,12 +37,12 @@ export const treeTreenodeStyle: CSSProperties = {
   whiteSpace: 'nowrap',
   fontSize: 14,
   lineHeight: 1.5715,
-  transition: treeTokens.transition.default,
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
 };
 
 export const treeNodeDisabledStyle: CSSProperties = {
   cursor: 'not-allowed',
-  opacity: 0.6,
+  opacity: 'var(--idp-opacity-disabled)',
 };
 
 // ===== Content Styles =====
@@ -84,27 +50,28 @@ export const treeNodeDisabledStyle: CSSProperties = {
 export const treeNodeContentStyle: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
-  padding: `${treeTokens.spacing.xs + 2}px ${treeTokens.spacing.md}px`,
-  borderRadius: treeTokens.borderRadius.md,
+  padding: '4px var(--idp-spacing-sm)',
+  borderRadius: 'var(--idp-border-radius-md)',
   cursor: 'pointer',
-  transition: treeTokens.transition.default,
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
   userSelect: 'none',
   position: 'relative',
   overflow: 'hidden',
 };
 
 export const treeNodeContentHoverStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.bgHover,
+  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%)',
 };
 
 export const treeNodeSelectedStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.bgSelected,
-  color: treeTokens.colors.primary,
+  background: 'linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.08) 100%)',
+  color: 'var(--idp-primary-color)',
   fontWeight: 500,
+  boxShadow: 'var(--idp-shadow-extra-light)',
 };
 
 export const treeNodeSelectedHoverStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.primaryHover,
+  background: 'linear-gradient(135deg, rgba(24, 144, 255, 0.15) 0%, rgba(24, 144, 255, 0.1) 100%)',
 };
 
 // ===== Indent Styles =====
@@ -132,14 +99,14 @@ export const treeSwitcherStyle: CSSProperties = {
   background: 'transparent',
   cursor: 'pointer',
   outline: 'none',
-  borderRadius: 4,
-  transition: treeTokens.transition.default,
-  color: treeTokens.colors.textSecondary,
+  borderRadius: 'var(--idp-border-radius-sm)',
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  color: 'var(--idp-text-color-tertiary)',
 };
 
 export const treeSwitcherHoverStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.bgHover,
-  color: treeTokens.colors.text,
+  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%)',
+  color: 'var(--idp-text-color)',
 };
 
 export const treeSwitcherCloseStyle: CSSProperties = {
@@ -162,33 +129,33 @@ export const treeCheckboxStyle: CSSProperties = {
   margin: '0 8px 0 0',
   padding: 0,
   verticalAlign: 'middle',
-  border: `2px solid ${treeTokens.colors.border}`,
-  borderRadius: treeTokens.borderRadius.sm,
-  backgroundColor: treeTokens.colors.white,
+  border: '2px solid var(--idp-border-color-extra-light)',
+  borderRadius: 'var(--idp-border-radius-sm)',
+  background: 'var(--idp-bg-color-white)',
   cursor: 'pointer',
-  transition: treeTokens.transition.default,
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
   boxSizing: 'border-box',
 };
 
 export const treeCheckboxHoverStyle: CSSProperties = {
-  borderColor: treeTokens.colors.primary,
-  boxShadow: treeTokens.shadow.focus,
+  borderColor: 'var(--idp-primary-color)',
+  boxShadow: 'var(--idp-input-box-shadow-hover)',
 };
 
 export const treeCheckboxCheckedStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.primary,
-  borderColor: treeTokens.colors.primary,
+  background: 'linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%)',
+  borderColor: 'var(--idp-primary-color)',
 };
 
 export const treeCheckboxIndeterminateStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.white,
-  borderColor: treeTokens.colors.primary,
+  background: 'linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%)',
+  borderColor: 'var(--idp-primary-color)',
 };
 
 export const treeCheckboxDisabledStyle: CSSProperties = {
   cursor: 'not-allowed',
-  opacity: 0.5,
-  backgroundColor: '#f5f5f5',
+  opacity: 'var(--idp-opacity-disabled)',
+  background: 'var(--idp-bg-color-light)',
 };
 
 // ===== Icon Styles =====
@@ -202,12 +169,12 @@ export const treeIconStyle: CSSProperties = {
   margin: '0 6px 0 0',
   fontSize: 16,
   verticalAlign: 'middle',
-  color: treeTokens.colors.textSecondary,
-  transition: treeTokens.transition.default,
+  color: 'var(--idp-text-color-tertiary)',
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
 };
 
 export const treeIconSelectedStyle: CSSProperties = {
-  color: treeTokens.colors.primary,
+  color: 'var(--idp-primary-color)',
 };
 
 // ===== Title Styles =====
@@ -218,7 +185,7 @@ export const treeTitleStyle: CSSProperties = {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  transition: treeTokens.transition.default,
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
 };
 
 // ===== Child Tree Styles =====
@@ -244,7 +211,7 @@ export const treeLoadingStyle: CSSProperties = {
   justifyContent: 'center',
   width: 24,
   height: 24,
-  color: treeTokens.colors.primary,
+  color: 'var(--idp-primary-color)',
 };
 
 export const treeLoadingIconStyle: CSSProperties = {
@@ -254,32 +221,35 @@ export const treeLoadingIconStyle: CSSProperties = {
 // ===== Search Styles =====
 
 export const treeSearchStyle: CSSProperties = {
-  padding: `${treeTokens.spacing.sm}px ${treeTokens.spacing.md}px`,
-  marginBottom: treeTokens.spacing.sm + 4,
-  background: 'linear-gradient(135deg, #f5f7fa 0%, #fff 100%)',
-  borderRadius: treeTokens.borderRadius.md,
-  border: `1px solid ${treeTokens.colors.border}`,
+  padding: 'var(--idp-spacing-sm) var(--idp-spacing-md)',
+  marginBottom: 'var(--idp-spacing-sm)',
+  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color-white) 100%)',
+  borderRadius: 'var(--idp-border-radius-lg)',
+  border: '1px solid var(--idp-border-color-extra-light)',
+  boxShadow: 'var(--idp-shadow-extra-light)',
 };
 
 export const treeSearchInputStyle: CSSProperties = {
   boxSizing: 'border-box',
   width: '100%',
-  padding: `${treeTokens.spacing.sm}px ${treeTokens.spacing.md}px`,
-  border: `1px solid ${treeTokens.colors.border}`,
-  borderRadius: treeTokens.borderRadius.md,
+  padding: 'var(--idp-spacing-sm) var(--idp-spacing-md)',
+  border: '1px solid var(--idp-input-border)',
+  borderRadius: 'var(--idp-border-radius-lg)',
   fontSize: 14,
   outline: 'none',
-  transition: treeTokens.transition.default,
-  background: treeTokens.colors.white,
+  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  background: 'var(--idp-bg-color-white)',
+  boxShadow: 'var(--idp-shadow-extra-light)',
 };
 
 export const treeSearchInputFocusStyle: CSSProperties = {
-  borderColor: treeTokens.colors.primary,
-  boxShadow: treeTokens.shadow.focus,
+  borderColor: 'var(--idp-input-border-focus)',
+  boxShadow: 'var(--idp-input-box-shadow-focus)',
 };
 
 export const treeSearchInputHoverStyle: CSSProperties = {
-  borderColor: '#40a9ff',
+  borderColor: 'var(--idp-input-border-hover)',
+  boxShadow: 'var(--idp-input-box-shadow-hover)',
 };
 
 // ===== Highlight Styles =====
@@ -287,10 +257,10 @@ export const treeSearchInputHoverStyle: CSSProperties = {
 export const treeHighlightStyle: CSSProperties = {
   background: 'linear-gradient(120deg, #ffe58f 0%, #ffd666 100%)',
   padding: '1px 4px',
-  borderRadius: treeTokens.borderRadius.sm,
+  borderRadius: 'var(--idp-border-radius-sm)',
   fontWeight: 500,
   color: '#874d00',
-  boxShadow: treeTokens.shadow.subtle,
+  boxShadow: 'var(--idp-shadow-extra-light)',
 };
 
 // ===== Empty State Styles =====
@@ -298,7 +268,7 @@ export const treeHighlightStyle: CSSProperties = {
 export const treeEmptyStyle: CSSProperties = {
   padding: 24,
   textAlign: 'center',
-  color: treeTokens.colors.textSecondary,
+  color: 'var(--idp-text-color-tertiary)',
   fontSize: 14,
 };
 
@@ -319,12 +289,12 @@ export const treeDraggingStyle: CSSProperties = {
 };
 
 export const treeDragOverStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.primaryLight,
-  boxShadow: `inset 0 0 0 2px ${treeTokens.colors.primary}`,
+  background: 'linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.12) 100%)',
+  boxShadow: 'inset 0 0 0 2px var(--idp-primary-color)',
 };
 
 export const treeDropTargetStyle: CSSProperties = {
-  backgroundColor: treeTokens.colors.primaryHover,
+  background: 'linear-gradient(135deg, rgba(24, 144, 255, 0.15) 0%, rgba(24, 144, 255, 0.08) 100%)',
 };
 
 // ===== Line Styles =====
@@ -335,7 +305,7 @@ export const treeLineStyle: CSSProperties = {
   left: 10,
   bottom: 14,
   width: 1,
-  background: `linear-gradient(to bottom, ${treeTokens.colors.line}, transparent)`,
+  background: 'linear-gradient(to bottom, var(--idp-border-color), transparent)',
 };
 
 export const treeLinePointStyle: CSSProperties = {
@@ -344,7 +314,7 @@ export const treeLinePointStyle: CSSProperties = {
   top: '50%',
   width: 8,
   height: 1,
-  backgroundColor: treeTokens.colors.line,
+  backgroundColor: 'var(--idp-border-color)',
   transform: 'translateY(-50%)',
 };
 

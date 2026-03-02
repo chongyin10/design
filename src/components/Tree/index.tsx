@@ -706,57 +706,53 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
           className={[
             `${prefixCls}-child-tree`,
             isExpanded && `${prefixCls}-child-tree-expand`,
-            `${prefixCls}-child-tree-animated`,
           ].filter(Boolean).join(' ')}
-          style={{
-            height: isExpanded ? 'auto' : 0,
-            opacity: isExpanded ? 1 : 0,
-            transition: `height ${motionDuration}ms ease, opacity ${motionDuration}ms ease`,
-          }}
         >
-          {node.children!.map((child, index) => (
-            <TreeNodeComponent
-              key={`${child.key}-${index}`}
-              node={child}
-              level={level + 1}
-              expanded={expanded}
-              selected={selectedKeys.includes(child.key)}
-              checked={checkedKeys.includes(child.key)}
-              halfChecked={getSomeChildrenChecked(child, checkedKeys)}
-              loading={child.loading || false}
-              isLeaf={!child.children || child.children.length === 0}
-              showIcon={showIcon}
-              showLine={showLine}
-              checkable={checkable}
-              draggable={draggable}
-              checkStrictly={checkStrictly}
-              expandedKeys={expandedKeys}
-              selectedKeys={selectedKeys}
-              checkedKeys={checkedKeys}
-              motionDuration={motionDuration}
-              prefixCls={prefixCls}
-              renderNode={renderNode}
-              // Dynamic node operations
-              addable={addable}
-              removable={removable}
-              editable={editable}
-              actionDisplayMode={actionDisplayMode}
-              onAddNode={onAddNode}
-              onRemoveNode={onRemoveNode}
-              onEditNode={onEditNode}
-              editingNodeKey={editingNodeKey}
-              editValue={editValue}
-              onEditChange={onEditChange}
-              onEditConfirm={onEditConfirm}
-              onEditCancel={onEditCancel}
-              onExpand={onExpand}
-              onSelect={onSelect}
-              onCheck={onCheck}
-              onNodeMount={onNodeMount}
-              // Tooltip
-              tooltip={globalTooltip}
-            />
-          ))}
+          <div>
+            {node.children!.map((child, index) => (
+              <TreeNodeComponent
+                key={`${child.key}-${index}`}
+                node={child}
+                level={level + 1}
+                expanded={expanded}
+                selected={selectedKeys.includes(child.key)}
+                checked={checkedKeys.includes(child.key)}
+                halfChecked={getSomeChildrenChecked(child, checkedKeys)}
+                loading={child.loading || false}
+                isLeaf={!child.children || child.children.length === 0}
+                showIcon={showIcon}
+                showLine={showLine}
+                checkable={checkable}
+                draggable={draggable}
+                checkStrictly={checkStrictly}
+                expandedKeys={expandedKeys}
+                selectedKeys={selectedKeys}
+                checkedKeys={checkedKeys}
+                motionDuration={motionDuration}
+                prefixCls={prefixCls}
+                renderNode={renderNode}
+                // Dynamic node operations
+                addable={addable}
+                removable={removable}
+                editable={editable}
+                actionDisplayMode={actionDisplayMode}
+                onAddNode={onAddNode}
+                onRemoveNode={onRemoveNode}
+                onEditNode={onEditNode}
+                editingNodeKey={editingNodeKey}
+                editValue={editValue}
+                onEditChange={onEditChange}
+                onEditConfirm={onEditConfirm}
+                onEditCancel={onEditCancel}
+                onExpand={onExpand}
+                onSelect={onSelect}
+                onCheck={onCheck}
+                onNodeMount={onNodeMount}
+                // Tooltip
+                tooltip={globalTooltip}
+              />
+            ))}
+          </div>
         </div>
       )}
     </div>

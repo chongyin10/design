@@ -1,480 +1,579 @@
+/* ============================================
+   IDP Steps Component - Modern Design System
+   ============================================ */
+
+/* ============================================
+   CSS Variables - 步骤条组件专用变量
+   ============================================ */
 :root {
-    --steps-primary-color: var(--primary-color, #1890ff);
-    --steps-wait-color: var(--text-color-secondary, #8c8c8c);
-    --steps-finish-color: var(--success-color, #52c41a);
-    --steps-error-color: var(--error-color, #ff4d4f);
-    --steps-process-color: var(--primary-color, #1890ff);
-    --steps-bg-color: var(--background-color, #ffffff);
-    --steps-border-color: var(--border-color, #d9d9d9);
-    --steps-text-color: var(--text-color, #262626);
-    --steps-description-color: var(--text-color-secondary, #8c8c8c);
-    --steps-disabled-color: var(--disabled-color, #bfbfbf);
+  /* 状态颜色 - 使用全局变量 */
+  --idp-steps-primary-color: var(--idp-primary-color, #1890ff);
+  --idp-steps-primary-hover: var(--idp-primary-hover-color, #40a9ff);
+  --idp-steps-success-color: var(--idp-success-color, #52c41a);
+  --idp-steps-success-hover: #73d13d;
+  --idp-steps-error-color: var(--idp-error-color, #f5222d);
+  --idp-steps-error-hover: #ff7875;
+  --idp-steps-wait-color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+  --idp-steps-text-color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  --idp-steps-text-secondary: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+  --idp-steps-disabled-color: var(--idp-text-color-light, #bfbfbf);
+  
+  /* 背景与边框 */
+  --idp-steps-bg: var(--idp-bg-color-white, #ffffff);
+  --idp-steps-bg-light: var(--idp-bg-color-light, #f5f5f5);
+  --idp-steps-border-color: var(--idp-border-color-extra-light, #d9d9d9);
+  --idp-steps-border-light: var(--idp-border-color-light, #f0f0f0);
+  
+  /* 阴影效果 */
+  --idp-steps-shadow-sm: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  --idp-steps-shadow-md: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
+  --idp-steps-shadow-primary: 0 4px 12px rgba(24, 144, 255, 0.35);
+  --idp-steps-shadow-success: 0 4px 12px rgba(82, 196, 26, 0.35);
+  --idp-steps-shadow-error: 0 4px 12px rgba(245, 34, 45, 0.35);
+  
+  /* 尺寸 */
+  --idp-steps-node-size: 32px;
+  --idp-steps-node-small: 24px;
+  --idp-steps-border-radius: var(--idp-border-radius-lg, 8px);
+  --idp-steps-border-radius-sm: var(--idp-border-radius-sm, 4px);
+  
+  /* 过渡动画 */
+  --idp-steps-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 }
 
+/* ============================================
+   Steps Container - 步骤条容器
+   ============================================ */
 .idp-steps {
-    display: flex;
-    width: 100%;
-    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+  display: flex;
+  width: 100%;
+  font-family: inherit;
 }
 
+/* 面板类型容器 */
 .idp-steps.panel {
-    background: var(--steps-bg-color);
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--steps-border-color);
+  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
+  border-radius: var(--idp-steps-border-radius);
+  padding: 24px;
+  box-shadow: var(--idp-steps-shadow-sm);
+  border: 1px solid var(--idp-steps-border-light);
 }
 
+/* 方向布局 */
 .idp-steps.horizontal {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .idp-steps.vertical {
-    flex-direction: column;
+  flex-direction: column;
 }
 
+/* ============================================
+   Size Variants - 尺寸变体
+   ============================================ */
 .idp-steps.small .idp-step-node {
-    width: 24px;
-    height: 24px;
-    font-size: 12px;
+  width: var(--idp-steps-node-small);
+  height: var(--idp-steps-node-small);
+  font-size: 12px;
+  min-width: var(--idp-steps-node-small);
 }
 
 .idp-steps.small .idp-step-title {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .idp-steps.small .idp-step-description {
-    font-size: 11px;
+  font-size: 11px;
 }
 
+/* ============================================
+   Step Item - 单个步骤
+   ============================================ */
 .idp-step {
-    position: relative;
-    flex: 1;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--idp-steps-transition);
 }
 
+/* 面板类型步骤项 */
 .idp-steps.panel .idp-step {
-    background: var(--steps-bg-color);
-    border-radius: 6px;
-    padding: 16px;
-    margin: 0 8px;
-    border: 1px solid var(--steps-border-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
+  border-radius: var(--idp-border-radius-md, 6px);
+  padding: 16px;
+  margin: 0 8px;
+  border: 1px solid var(--idp-steps-border-light);
+  transition: var(--idp-steps-transition);
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
 .idp-steps.panel .idp-step:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+  box-shadow: var(--idp-steps-shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--idp-steps-primary-color);
 }
 
 .idp-steps.panel .idp-step.process {
-    border-color: var(--steps-process-color);
-    background: rgba(24, 144, 255, 0.05);
-    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.2);
+  border-color: var(--idp-steps-primary-color);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.02) 100%);
+  box-shadow: var(--idp-steps-shadow-primary);
 }
 
 .idp-steps.panel .idp-step.finish {
-    border-color: var(--steps-finish-color);
-    background: rgba(82, 196, 26, 0.05);
+  border-color: var(--idp-steps-success-color);
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.02) 100%);
+  box-shadow: var(--idp-steps-shadow-success);
 }
 
 .idp-steps.panel .idp-step.error {
-    border-color: var(--steps-error-color);
-    background: rgba(245, 34, 45, 0.05);
+  border-color: var(--idp-steps-error-color);
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, rgba(245, 34, 45, 0.02) 100%);
+  box-shadow: var(--idp-steps-shadow-error);
 }
 
+/* 禁用状态 */
 .idp-step.disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+  cursor: not-allowed;
+  opacity: var(--idp-opacity-disabled, 0.65);
 }
 
+/* 水平方向 */
 .idp-step.horizontal {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-    position: relative;
-    padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+  position: relative;
+  padding: 0 16px;
 }
 
-.idp-step-node:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
-}
-
+/* 垂直方向 */
 .idp-step.vertical {
-    display: flex;
-    align-items: flex-start;
-    padding: 8px 0;
-    min-height: 60px;
+  display: flex;
+  align-items: flex-start;
+  padding: 8px 0;
+  min-height: 60px;
 }
 
+/* ============================================
+   Step Head - 步骤头部
+   ============================================ */
 .idp-step-head {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .idp-step.horizontal .idp-step-head {
-    margin-bottom: 8px;
-    position: relative;
-    width: 100%;
+  margin-bottom: 8px;
+  position: relative;
+  width: 100%;
 }
 
 .idp-step.vertical .idp-step-head {
-    margin-right: 16px;
+  margin-right: 16px;
 }
 
+/* ============================================
+   Step Node - 步骤节点（图标/数字）
+   ============================================ */
 .idp-step-node {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    padding: 6px;
-    height: 32px;
-    min-width: 32px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    border: 2px solid var(--steps-wait-color);
-    background-color: var(--steps-bg-color);
-    color: var(--steps-wait-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 6px;
+  height: var(--idp-steps-node-size);
+  min-width: var(--idp-steps-node-size);
+  border-radius: var(--idp-steps-border-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  border: 2px solid var(--idp-steps-wait-color);
+  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
+  color: var(--idp-steps-wait-color);
+  transition: var(--idp-steps-transition);
+  z-index: 1;
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
+.idp-step-node:hover {
+  box-shadow: var(--idp-steps-shadow-sm);
+  transform: translateY(-2px);
+}
+
+/* 等待状态 */
 .idp-step-node.wait {
-    border-color: var(--steps-wait-color);
-    color: var(--steps-wait-color);
+  border-color: var(--idp-steps-wait-color);
+  color: var(--idp-steps-wait-color);
 }
 
+/* 进行中状态 */
 .idp-step-node.process {
-    border-color: var(--steps-process-color);
-    background-color: var(--steps-process-color);
-    color: var(--steps-bg-color);
-    transform: scale(1.1);
-    box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.1);
+  border-color: var(--idp-steps-primary-color);
+  background: linear-gradient(135deg, var(--idp-steps-primary-color) 0%, var(--idp-steps-primary-hover) 100%);
+  color: var(--idp-steps-bg);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.15), var(--idp-steps-shadow-primary);
 }
 
+/* 完成状态 */
 .idp-step-node.finish {
-    border-color: var(--steps-finish-color);
-    background-color: var(--steps-finish-color);
-    color: var(--steps-bg-color);
-    transform: scale(1.05);
+  border-color: var(--idp-steps-success-color);
+  background: linear-gradient(135deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
+  color: var(--idp-steps-bg);
+  transform: scale(1.05);
+  box-shadow: var(--idp-steps-shadow-success);
 }
 
+/* 错误状态 */
 .idp-step-node.error {
-    border-color: var(--steps-error-color);
-    background-color: var(--steps-error-color);
-    color: var(--steps-bg-color);
-    transform: scale(1.05);
+  border-color: var(--idp-steps-error-color);
+  background: linear-gradient(135deg, var(--idp-steps-error-color) 0%, var(--idp-steps-error-hover) 100%);
+  color: var(--idp-steps-bg);
+  transform: scale(1.05);
+  box-shadow: var(--idp-steps-shadow-error);
 }
 
+/* ============================================
+   Step Tail - 连接线
+   ============================================ */
 .idp-step-tail {
-    position: absolute;
-    background-color: var(--steps-border-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  background-color: var(--idp-steps-border-color);
+  transition: var(--idp-steps-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.idp-step-tail-solid {
-    /* 实线样式 - 默认 */
-}
-
+/* 虚线样式 */
 .idp-step-tail-dashed {
-    background: repeating-linear-gradient(
-        90deg,
-        var(--steps-border-color),
-        var(--steps-border-color) 4px,
-        transparent 4px,
-        transparent 8px
-    );
+  background: repeating-linear-gradient(
+    90deg,
+    var(--idp-steps-border-color),
+    var(--idp-steps-border-color) 4px,
+    transparent 4px,
+    transparent 8px
+  );
 }
 
+/* Tail 标题 */
 .idp-step-tail-title {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    color: var(--steps-wait-color);
-    white-space: nowrap;
-    background: var(--steps-bg-color);
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid var(--steps-wait-color);
-    z-index: 2;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--idp-steps-wait-color);
+  white-space: nowrap;
+  background: var(--idp-steps-bg);
+  padding: 2px 6px;
+  border-radius: var(--idp-steps-border-radius-sm);
+  border: 1px solid var(--idp-steps-wait-color);
+  z-index: 2;
+  transition: var(--idp-steps-transition);
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-/* 面板类型箭头图标 */
+/* ============================================
+   Panel Type Arrow - 面板类型箭头图标
+   ============================================ */
 .idp-step-arrow {
-    position: absolute;
-    top: 50%;
-    left: calc(100% + 17px);
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    color: var(--steps-border-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 17px);
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--idp-steps-border-color);
+  transition: var(--idp-steps-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .idp-step.finish .idp-step-arrow {
-    color: var(--steps-finish-color);
+  color: var(--idp-steps-success-color);
 }
 
 .idp-step.process .idp-step-arrow {
-    color: var(--steps-process-color);
-    transform: translateY(-50%) scale(1.2);
+  color: var(--idp-steps-primary-color);
+  transform: translateY(-50%) scale(1.2);
 }
 
 .idp-step.error .idp-step-arrow {
-    color: var(--steps-error-color);
+  color: var(--idp-steps-error-color);
 }
 
 .idp-step.finish .idp-step-tail-title {
-    color: var(--steps-finish-color);
-    border-color: var(--steps-finish-color);
+  color: var(--idp-steps-success-color);
+  border-color: var(--idp-steps-success-color);
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
 .idp-step.process .idp-step-tail-title {
-    color: var(--steps-process-color);
-    border-color: var(--steps-process-color);
+  color: var(--idp-steps-primary-color);
+  border-color: var(--idp-steps-primary-color);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
 .idp-step.error .idp-step-tail-title {
-    color: var(--steps-error-color);
-    border-color: var(--steps-error-color);
+  color: var(--idp-steps-error-color);
+  border-color: var(--idp-steps-error-color);
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
+/* ============================================
+   Horizontal Direction - 水平方向样式
+   ============================================ */
 .idp-step.horizontal .idp-step-tail {
-    top: 50%;
-    left: 50%; /* 从步骤头部容器中心开始 */
-    width: 110%; /* 延伸到下一个步骤 */
-    height: 2px;
-    transform: translateY(-50%);
-    background-color: var(--steps-border-color);
-    z-index: 0;
+  top: 50%;
+  left: 50%;
+  width: 110%;
+  height: 2px;
+  transform: translateY(-50%);
+  background-color: var(--idp-steps-border-color);
+  z-index: 0;
 }
 
+/* ============================================
+   Vertical Direction - 垂直方向样式
+   ============================================ */
 .idp-step.vertical .idp-step-tail {
-    top: 100%;
-    left: 50%;
-    width: 2px;
-    height: 100%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  top: 100%;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .idp-step.vertical .idp-step-tail-dashed {
-    background: repeating-linear-gradient(
-        180deg,
-        var(--steps-border-color),
-        var(--steps-border-color) 4px,
-        transparent 4px,
-        transparent 8px
-    );
+  background: repeating-linear-gradient(
+    180deg,
+    var(--idp-steps-border-color),
+    var(--idp-steps-border-color) 4px,
+    transparent 4px,
+    transparent 8px
+  );
 }
 
 .idp-step.vertical .idp-step-tail-title {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%) rotate(-90deg);
-    font-size: 12px;
-    color: var(--steps-wait-color);
-    white-space: nowrap;
-    background: var(--steps-bg-color);
-    padding: 2px 6px;
-    border-radius: 4px;
-    border: 1px solid var(--steps-wait-color);
-    z-index: 2;
-    transform-origin: left center;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-size: 12px;
+  color: var(--idp-steps-wait-color);
+  white-space: nowrap;
+  background: var(--idp-steps-bg);
+  padding: 2px 6px;
+  border-radius: var(--idp-steps-border-radius-sm);
+  border: 1px solid var(--idp-steps-wait-color);
+  z-index: 2;
+  transform-origin: left center;
+  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
 .idp-step.vertical.finish .idp-step-tail-title {
-    color: var(--steps-finish-color);
-    border-color: var(--steps-finish-color);
+  color: var(--idp-steps-success-color);
+  border-color: var(--idp-steps-success-color);
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
 .idp-step.vertical.process .idp-step-tail-title {
-    color: var(--steps-process-color);
-    border-color: var(--steps-process-color);
+  color: var(--idp-steps-primary-color);
+  border-color: var(--idp-steps-primary-color);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
 .idp-step.vertical.error .idp-step-tail-title {
-    color: var(--steps-error-color);
-    border-color: var(--steps-error-color);
+  color: var(--idp-steps-error-color);
+  border-color: var(--idp-steps-error-color);
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
+/* ============================================
+   Tail Color States - 连接线状态颜色
+   ============================================ */
 .idp-step.finish .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-finish-color) 100%);
-    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
+  background-size: 200% 100%;
+  animation: idpStepsColorFlow 1.2s ease-in-out forwards;
 }
 
 .idp-step.process .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-process-color) 100%);
-    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-primary-color) 50%, var(--idp-steps-primary-color) 100%);
+  background-size: 200% 100%;
+  animation: idpStepsColorFlow 0.8s ease-in-out forwards;
 }
 
 .idp-step.error .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-error-color) 100%);
-    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-error-color) 50%, var(--idp-steps-error-color) 100%);
+  background-size: 200% 100%;
+  animation: idpStepsColorFlow 0.6s ease-in-out forwards;
 }
 
+/* ============================================
+   Step Content - 步骤内容
+   ============================================ */
 .idp-step-content {
-    flex: 1;
+  flex: 1;
 }
 
 .idp-step.horizontal .idp-step-content {
-    max-width: 120px;
-    word-wrap: break-word;
+  max-width: 120px;
+  word-wrap: break-word;
 }
 
 .idp-step.vertical .idp-step-content {
-    padding-top: 4px;
-    max-width: 180px;
-    min-width: 100px;
-    word-wrap: break-word;
+  padding-top: 4px;
+  max-width: 180px;
+  min-width: 100px;
+  word-wrap: break-word;
 }
 
 .idp-steps.panel .idp-step-content {
-    margin-top: 12px;
-    padding: 0;
-    max-width: 150px;
-    word-wrap: break-word;
+  margin-top: 12px;
+  padding: 0;
+  max-width: 150px;
+  word-wrap: break-word;
 }
 
+/* ============================================
+   Step Title - 步骤标题
+   ============================================ */
 .idp-step-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--steps-text-color);
-    margin-bottom: 4px;
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--idp-steps-text-color);
+  margin-bottom: 4px;
+  transition: color var(--idp-transition-duration, 0.2s) ease;
 }
 
 .idp-steps.panel .idp-step-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
+/* 标题状态颜色 */
 .idp-step.wait .idp-step-title {
-    color: var(--steps-wait-color);
+  color: var(--idp-steps-wait-color);
 }
 
 .idp-step.process .idp-step-title {
-    color: var(--steps-process-color);
+  color: var(--idp-steps-primary-color);
 }
 
 .idp-step.finish .idp-step-title {
-    color: var(--steps-finish-color);
+  color: var(--idp-steps-success-color);
 }
 
 .idp-step.error .idp-step-title {
-    color: var(--steps-error-color);
+  color: var(--idp-steps-error-color);
 }
 
 .idp-step.disabled .idp-step-title {
-    color: var(--steps-disabled-color);
+  color: var(--idp-steps-disabled-color);
 }
 
+/* ============================================
+   Step Description - 步骤描述
+   ============================================ */
 .idp-step-description {
-    font-size: 12px;
-    color: var(--steps-description-color);
-    line-height: 1.4;
+  font-size: 12px;
+  color: var(--idp-steps-text-secondary);
+  line-height: 1.4;
 }
 
 .idp-steps.panel .idp-step-description {
-    font-size: 14px;
-    line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
+/* 描述状态颜色 */
 .idp-step.wait .idp-step-description {
-    color: var(--steps-wait-color);
+  color: var(--idp-steps-wait-color);
 }
 
 .idp-step.process .idp-step-description {
-    color: var(--steps-process-color);
+  color: var(--idp-steps-primary-color);
+  opacity: 0.85;
 }
 
 .idp-step.finish .idp-step-description {
-    color: var(--steps-finish-color);
+  color: var(--idp-steps-success-color);
+  opacity: 0.85;
 }
 
 .idp-step.error .idp-step-description {
-    color: var(--steps-error-color);
+  color: var(--idp-steps-error-color);
+  opacity: 0.85;
 }
 
 .idp-step.disabled .idp-step-description {
-    color: var(--steps-disabled-color);
+  color: var(--idp-steps-disabled-color);
 }
 
-/* 步骤连接线颜色过渡动画 */
-@keyframes colorFlow {
-    0% {
-        background-position: -100% 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
+/* ============================================
+   Animations - 动画效果
+   ============================================ */
+@keyframes idpStepsColorFlow {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
 }
 
-/* 步骤连接线渐变效果 */
-.idp-step.finish .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-finish-color) 100%);
-    background-size: 200% 100%;
-    animation: colorFlow 1.2s ease-in-out forwards;
-}
-
-.idp-step.process .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-process-color) 50%, var(--steps-process-color) 100%);
-    background-size: 200% 100%;
-    animation: colorFlow 0.8s ease-in-out forwards;
-}
-
-.idp-step.error .idp-step-tail {
-    background: linear-gradient(90deg, var(--steps-finish-color) 0%, var(--steps-error-color) 50%, var(--steps-error-color) 100%);
-    background-size: 200% 100%;
-    animation: colorFlow 0.6s ease-in-out forwards;
-}
-
-/* 响应式设计 */
+/* ============================================
+   Responsive Design - 响应式设计
+   ============================================ */
 @media (max-width: 768px) {
-    .idp-steps.horizontal {
-        flex-direction: column;
-    }
-    
-    .idp-step.horizontal {
-        align-items: flex-start;
-        text-align: left;
-        padding: 8px 0;
-    }
-    
-    .idp-step.horizontal .idp-step-head {
-        flex-direction: row;
-        margin-bottom: 0;
-        margin-right: 12px;
-    }
-    
-    .idp-step.horizontal .idp-step-tail {
-        display: none;
-    }
-    
-    .idp-step.vertical .idp-step-head {
-        margin-right: 12px;
-    }
+  .idp-steps.horizontal {
+    flex-direction: column;
+  }
+  
+  .idp-step.horizontal {
+    align-items: flex-start;
+    text-align: left;
+    padding: 8px 0;
+  }
+  
+  .idp-step.horizontal .idp-step-head {
+    flex-direction: row;
+    margin-bottom: 0;
+    margin-right: 12px;
+  }
+  
+  .idp-step.horizontal .idp-step-tail {
+    display: none;
+  }
+  
+  .idp-step.vertical .idp-step-head {
+    margin-right: 12px;
+  }
+  
+  /* 面板类型在移动端调整 */
+  .idp-steps.panel {
+    padding: 16px;
+  }
+  
+  .idp-steps.panel .idp-step {
+    margin: 8px 0;
+    padding: 12px;
+  }
+  
+  .idp-step-arrow {
+    display: none;
+  }
 }

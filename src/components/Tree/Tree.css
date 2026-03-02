@@ -1,31 +1,23 @@
-/* Tree Component Styles - Modern Design */
-.idp-tree {
-  --tree-primary-color: #1890ff;
-  --tree-primary-light: #e6f7ff;
-  --tree-primary-hover: #bae7ff;
-  --tree-text-color: rgba(0, 0, 0, 0.85);
-  --tree-text-secondary: rgba(0, 0, 0, 0.45);
-  --tree-text-disabled: rgba(0, 0, 0, 0.25);
-  --tree-border-color: #d9d9d9;
-  --tree-bg-hover: rgba(0, 0, 0, 0.04);
-  --tree-bg-selected: #f0f7ff;
-  --tree-line-color: #e8e8e8;
-  --tree-shadow-focus: 0 0 0 2px rgba(24, 144, 255, 0.2);
-  --tree-border-radius: 6px;
-  --tree-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+/* ============================================
+   IDP Tree Component - Modern Design System
+   ============================================ */
 
+/* 基础树形结构 */
+.idp-tree {
   box-sizing: border-box;
   margin: 0;
-  padding: 8px;
+  padding: var(--idp-spacing-sm);
   font-size: 14px;
   line-height: 1.5715;
   list-style: none;
-  color: var(--tree-text-color);
-  background: #fff;
-  border-radius: var(--tree-border-radius);
+  color: var(--idp-text-color);
+  background: var(--idp-bg-color-white);
+  border-radius: var(--idp-border-radius-lg);
 }
 
-/* Tree Node */
+/* ============================================
+   树节点样式
+   ============================================ */
 .idp-tree-treenode {
   position: relative;
   padding: 2px 0;
@@ -33,7 +25,7 @@
   list-style: none;
   outline: none;
   white-space: nowrap;
-  transition: var(--tree-transition);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -49,71 +41,74 @@
   outline: none;
 }
 
-/* Disabled State */
+/* ============================================
+   禁用状态
+   ============================================ */
 .idp-tree-treenode-disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--idp-opacity-disabled);
 }
 
 .idp-tree-treenode-disabled .idp-tree-node-content-wrapper {
   cursor: not-allowed;
-  color: var(--tree-text-disabled);
+  color: var(--idp-text-color-light);
   background: transparent !important;
 }
 
 .idp-tree-treenode-disabled .idp-tree-icon {
-  color: var(--tree-text-disabled);
+  color: var(--idp-text-color-light);
 }
 
-/* Node Content Wrapper */
+/* ============================================
+   节点内容包装器
+   ============================================ */
 .idp-tree-node-content-wrapper {
   display: flex;
   align-items: center;
-  padding: 4px;
-  border-radius: var(--tree-border-radius);
+  padding: 4px var(--idp-spacing-sm);
+  border-radius: var(--idp-border-radius-md);
   cursor: pointer;
-  transition: var(--tree-transition);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
   user-select: none;
   position: relative;
   overflow: hidden;
-}
-
-.idp-tree-node-content-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.6s ease;
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .idp-tree-node-content-wrapper:hover {
-  background-color: var(--tree-bg-hover);
+  background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
 }
 
-.idp-tree-node-content-wrapper:hover::before {
-  transform: translateX(100%);
+.idp-tree-node-content-wrapper .idp-tree-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* Selected State */
+/* ============================================
+   选中状态
+   ============================================ */
 .idp-tree-node-selected .idp-tree-node-content-wrapper {
-  background-color: var(--tree-bg-selected);
-  color: var(--tree-primary-color);
+  background: linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.08) 100%);
+  color: var(--idp-primary-color);
   font-weight: 500;
+  box-shadow: var(--idp-shadow-extra-light);
 }
 
 .idp-tree-node-selected .idp-tree-node-content-wrapper:hover {
-  background-color: var(--tree-primary-hover);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.15) 0%, rgba(24, 144, 255, 0.1) 100%);
 }
 
 .idp-tree-node-selected .idp-tree-icon {
-  color: var(--tree-primary-color);
+  color: var(--idp-primary-color);
 }
 
-/* Indent */
+/* ============================================
+   缩进样式
+   ============================================ */
 .idp-tree-indent {
   display: inline-flex;
   align-items: center;
@@ -123,13 +118,14 @@
   flex-shrink: 0;
 }
 
-
-/* Remove indent line for the last level */
+/* 移除最后一级的缩进线 */
 .idp-tree-treenode:last-child > .idp-tree-indent::before {
   height: 50%;
 }
 
-/* Switcher */
+/* ============================================
+   切换器样式（展开/收起）
+   ============================================ */
 .idp-tree-switcher {
   position: relative;
   display: inline-flex;
@@ -144,14 +140,14 @@
   background: transparent;
   cursor: pointer;
   outline: none;
-  border-radius: 4px;
-  transition: var(--tree-transition);
-  color: var(--tree-text-secondary);
+  border-radius: var(--idp-border-radius-sm);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  color: var(--idp-text-color-tertiary);
 }
 
 .idp-tree-switcher:hover {
-  background-color: var(--tree-bg-hover);
-  color: var(--tree-text-color);
+  background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
+  color: var(--idp-text-color);
 }
 
 .idp-tree-switcher-close {
@@ -163,7 +159,7 @@
 }
 
 .idp-tree-switcher svg {
-  transition: transform 0.2s ease;
+  transition: transform var(--idp-transition-duration) ease;
 }
 
 .idp-tree-switcher-noline_close::after,
@@ -179,7 +175,9 @@
   transform: translate(-3px, -50%);
 }
 
-/* Checkbox - Unified with Checkbox component */
+/* ============================================
+   复选框样式 - 统一 Checkbox 组件风格
+   ============================================ */
 .idp-tree-checkbox {
   position: relative;
   display: inline-flex;
@@ -190,22 +188,23 @@
   margin: 0 8px 0 0;
   padding: 0;
   vertical-align: middle;
-  border: 1px solid var(--tree-border-color);
-  border-radius: 2px;
-  background-color: #fff;
+  border: 2px solid var(--idp-border-color-extra-light);
+  border-radius: var(--idp-border-radius-sm);
+  background: var(--idp-bg-color-white);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
 .idp-tree-checkbox:hover {
-  border-color: var(--tree-primary-color);
+  border-color: var(--idp-primary-color);
+  box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 .idp-tree-checkbox-checked {
-  background-color: var(--tree-primary-color);
-  border-color: var(--tree-primary-color);
+  background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+  border-color: var(--idp-primary-color);
 }
 
 .idp-tree-checkbox-checked::after {
@@ -221,8 +220,8 @@
 }
 
 .idp-tree-checkbox-indeterminate {
-  background-color: var(--tree-primary-color);
-  border-color: var(--tree-primary-color);
+  background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+  border-color: var(--idp-primary-color);
 }
 
 .idp-tree-checkbox-indeterminate::after {
@@ -238,33 +237,35 @@
 
 .idp-tree-checkbox-disabled {
   cursor: not-allowed;
-  opacity: 0.6;
-  background-color: var(--tree-bg-hover);
+  opacity: var(--idp-opacity-disabled);
+  background: var(--idp-bg-color-light);
 }
 
 .idp-tree-checkbox-disabled:hover {
-  border-color: var(--tree-border-color);
+  border-color: var(--idp-border-color-extra-light);
 }
 
 .idp-tree-checkbox-disabled.idp-tree-checkbox-checked {
-  background-color: var(--tree-bg-hover);
-  border-color: var(--tree-border-color);
+  background: var(--idp-bg-color-light);
+  border-color: var(--idp-border-color-extra-light);
 }
 
 .idp-tree-checkbox-disabled.idp-tree-checkbox-checked::after {
-  border-color: var(--tree-text-disabled);
+  border-color: var(--idp-text-color-light);
 }
 
 .idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate {
-  background-color: var(--tree-bg-hover);
-  border-color: var(--tree-border-color);
+  background: var(--idp-bg-color-light);
+  border-color: var(--idp-border-color-extra-light);
 }
 
 .idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate::after {
-  background-color: var(--tree-text-disabled);
+  background-color: var(--idp-text-color-light);
 }
 
-/* Icon */
+/* ============================================
+   图标样式
+   ============================================ */
 .idp-tree-icon {
   display: inline-flex;
   align-items: center;
@@ -274,8 +275,8 @@
   margin: 0 6px 0 0;
   font-size: 16px;
   vertical-align: middle;
-  color: var(--tree-text-secondary);
-  transition: var(--tree-transition);
+  color: var(--idp-text-color-tertiary);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
 .idp-tree-icon svg {
@@ -283,30 +284,17 @@
   height: 16px;
 }
 
-/* Title */
+/* ============================================
+   标题样式
+   ============================================ */
 .idp-tree-title {
   padding: 0 4px;
-  transition: var(--tree-transition);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
-/* Node Content Wrapper - 统一使用 flex 布局 */
-.idp-tree-node-content-wrapper {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  max-width: 100%;
-}
-
-.idp-tree-node-content-wrapper .idp-tree-title {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-/* Child Tree */
+/* ============================================
+   子树样式 - 与 Menu 组件动画保持一致
+   ============================================ */
 .idp-tree-child-tree {
   overflow: hidden;
   position: relative;
@@ -314,18 +302,49 @@
   flex-basis: 100%;
   flex-shrink: 0;
   order: 99;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.3s ease-out, opacity 0.2s ease-out;
+  will-change: grid-template-rows, opacity;
 }
 
 .idp-tree-child-tree-expand {
   overflow: visible;
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
-/* Animation */
-.idp-tree-child-tree-animated {
-  transition: height 0.25s ease, opacity 0.25s ease;
+.idp-tree-child-tree > div {
+  overflow: hidden;
 }
 
-/* Show Line */
+.idp-tree-child-tree-expand > div > .idp-tree-treenode {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.idp-tree-child-tree-expand > div > .idp-tree-treenode {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 子树节点依次动画 */
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(1) { transition-delay: 0.01s, 0.01s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(2) { transition-delay: 0.02s, 0.02s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(3) { transition-delay: 0.03s, 0.03s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(4) { transition-delay: 0.04s, 0.04s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(5) { transition-delay: 0.05s, 0.05s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(6) { transition-delay: 0.06s, 0.06s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(7) { transition-delay: 0.07s, 0.07s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(8) { transition-delay: 0.08s, 0.08s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(9) { transition-delay: 0.09s, 0.09s; }
+.idp-tree-child-tree-expand > div > .idp-tree-treenode:nth-child(10) { transition-delay: 0.10s, 0.10s; }
+
+/* ============================================
+   连接线样式
+   ============================================ */
 .idp-tree-show-line .idp-tree-treenode {
   position: relative;
 }
@@ -337,7 +356,7 @@
   left: 10px;
   bottom: 14px;
   width: 1px;
-  background: linear-gradient(to bottom, var(--tree-line-color), transparent);
+  background: linear-gradient(to bottom, var(--idp-border-color), transparent);
 }
 
 .idp-tree-line-point {
@@ -346,11 +365,13 @@
   top: 50%;
   width: 8px;
   height: 1px;
-  background-color: var(--tree-line-color);
+  background-color: var(--idp-border-color);
   transform: translateY(-50%);
 }
 
-/* Loading */
+/* ============================================
+   加载中样式
+   ============================================ */
 .idp-tree-loading {
   display: inline-flex;
   align-items: center;
@@ -361,7 +382,7 @@
 
 .idp-tree-loading-icon {
   animation: idp-tree-spin 1s linear infinite;
-  color: var(--tree-primary-color);
+  color: var(--idp-primary-color);
 }
 
 @keyframes idp-tree-spin {
@@ -373,7 +394,9 @@
   }
 }
 
-/* Draggable */
+/* ============================================
+   拖拽样式
+   ============================================ */
 .idp-tree-treenode-draggable {
   cursor: grab;
 }
@@ -383,12 +406,12 @@
 }
 
 .idp-tree-treenode-drag-over > .idp-tree-node-content-wrapper {
-  background-color: var(--tree-primary-light);
-  box-shadow: inset 0 0 0 2px var(--tree-primary-color);
+  background: linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.12) 100%);
+  box-shadow: inset 0 0 0 2px var(--idp-primary-color);
 }
 
 .idp-tree-treenode-drop-target > .idp-tree-node-content-wrapper {
-  background-color: var(--tree-primary-hover);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.15) 0%, rgba(24, 144, 255, 0.08) 100%);
 }
 
 .idp-tree-treenode-drag-over::before {
@@ -397,7 +420,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background-color: var(--tree-primary-color);
+  background: linear-gradient(90deg, var(--idp-primary-color), var(--idp-primary-hover-color));
   border-radius: 1px;
 }
 
@@ -409,57 +432,66 @@
   bottom: -1px;
 }
 
-/* Search */
+/* ============================================
+   搜索框样式 - 统一 Input 组件风格
+   ============================================ */
 .idp-tree-search-wrapper {
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #fff 100%);
-  border-radius: var(--tree-border-radius);
-  border: 1px solid var(--tree-border-color);
+  padding: var(--idp-spacing-sm) var(--idp-spacing-md);
+  margin-bottom: var(--idp-spacing-sm);
+  background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color-white) 100%);
+  border-radius: var(--idp-border-radius-lg);
+  border: 1px solid var(--idp-border-color-extra-light);
+  box-shadow: var(--idp-shadow-extra-light);
 }
 
 .idp-tree-search-input {
   box-sizing: border-box;
   width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--tree-border-color);
-  border-radius: var(--tree-border-radius);
+  padding: var(--idp-spacing-sm) var(--idp-spacing-md);
+  border: 1px solid var(--idp-input-border);
+  border-radius: var(--idp-border-radius-lg);
   font-size: 14px;
   outline: none;
-  transition: var(--tree-transition);
-  background: #fff;
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  background: var(--idp-bg-color-white);
+  box-shadow: var(--idp-shadow-extra-light);
 }
 
 .idp-tree-search-input:focus {
-  border-color: var(--tree-primary-color);
-  box-shadow: var(--tree-shadow-focus);
+  border-color: var(--idp-input-border-focus);
+  box-shadow: var(--idp-input-box-shadow-focus);
 }
 
 .idp-tree-search-input:hover {
-  border-color: #40a9ff;
+  border-color: var(--idp-input-border-hover);
+  box-shadow: var(--idp-input-box-shadow-hover);
 }
 
 .idp-tree-search-input::placeholder {
-  color: var(--tree-text-secondary);
+  color: var(--idp-input-placeholder-color);
 }
 
-/* Highlight */
+/* ============================================
+   高亮样式
+   ============================================ */
 .idp-tree-title-highlight {
   background: linear-gradient(120deg, #ffe58f 0%, #ffd666 100%);
   padding: 1px 4px;
-  border-radius: 3px;
+  border-radius: var(--idp-border-radius-sm);
   font-weight: 500;
   color: #874d00;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--idp-shadow-extra-light);
 }
 
-/* Action Buttons */
+/* ============================================
+   操作按钮样式
+   ============================================ */
 .idp-tree-actions {
   display: flex;
   align-items: center;
   margin-left: auto;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity var(--idp-transition-duration);
 }
 
 .idp-tree-treenode:hover .idp-tree-actions {
@@ -473,9 +505,9 @@
   cursor: pointer;
   background: transparent;
   border: none;
-  color: #1890ff;
-  transition: all 0.2s;
-  border-radius: 2px;
+  color: var(--idp-primary-color);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  border-radius: var(--idp-border-radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -484,18 +516,20 @@
 }
 
 .idp-tree-action-btn:hover {
-  background-color: rgba(24, 144, 255, 0.1);
+  background: var(--idp-primary-light-color);
 }
 
 .idp-tree-action-remove {
-  color: #ff4d4f;
+  color: var(--idp-error-color);
 }
 
 .idp-tree-action-remove:hover {
-  background-color: rgba(255, 77, 79, 0.1);
+  background: rgba(245, 34, 45, 0.1);
 }
 
-/* Dropdown Action Menu */
+/* ============================================
+   下拉操作菜单样式
+   ============================================ */
 .idp-tree-actions-dropdown {
   position: relative;
   margin-left: auto;
@@ -507,10 +541,10 @@
   cursor: pointer;
   background: transparent;
   border: none;
-  color: #1890ff;
+  color: var(--idp-primary-color);
   opacity: 0;
-  transition: all 0.2s;
-  border-radius: 4px;
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  border-radius: var(--idp-border-radius-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -523,7 +557,7 @@
 }
 
 .idp-tree-action-trigger:hover {
-  background-color: rgba(24, 144, 255, 0.1);
+  background: var(--idp-primary-light-color);
 }
 
 .idp-tree-action-menu {
@@ -532,11 +566,11 @@
   left: 100%;
   transform: translateY(-50%);
   min-width: 120px;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: var(--idp-bg-color-white);
+  border-radius: var(--idp-border-radius-md);
+  box-shadow: var(--idp-shadow-lg);
   padding: 4px 0;
-  z-index: 1000;
+  z-index: var(--idp-z-index-modal);
   margin-left: 8px;
   animation: idp-tree-dropdown-in 0.15s ease;
 }
@@ -552,7 +586,7 @@
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-right: 6px solid #fff;
+  border-right: 6px solid var(--idp-bg-color-white);
 }
 
 /* 桥接区域：连接触发器和菜单，防止鼠标移动时菜单消失 */
@@ -580,23 +614,23 @@
 .idp-tree-action-menu-item {
   display: flex;
   align-items: center;
-  padding: 6px 12px;
+  padding: 6px var(--idp-spacing-md);
   cursor: pointer;
   font-size: 13px;
-  color: var(--tree-text-color);
-  transition: all 0.2s;
+  color: var(--idp-text-color);
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
 }
 
 .idp-tree-action-menu-item:hover {
-  background-color: var(--tree-bg-hover);
+  background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
 }
 
 .idp-tree-action-menu-item.idp-tree-action-menu-remove {
-  color: #ff4d4f;
+  color: var(--idp-error-color);
 }
 
 .idp-tree-action-menu-item.idp-tree-action-menu-remove:hover {
-  background-color: rgba(255, 77, 79, 0.1);
+  background: rgba(245, 34, 45, 0.1);
 }
 
 .idp-tree-action-menu-icon {
@@ -609,42 +643,54 @@
   font-size: 12px;
 }
 
+/* ============================================
+   标题输入框样式
+   ============================================ */
 .idp-tree-title-input {
-  border: 1px solid #1890ff;
-  border-radius: 2px;
+  border: 1px solid var(--idp-primary-color);
+  border-radius: var(--idp-border-radius-sm);
   padding: 0 4px;
   font-size: inherit;
   font-family: inherit;
   outline: none;
   min-width: 60px;
   height: 20px;
+  box-shadow: var(--idp-input-box-shadow-focus);
 }
 
-/* Empty State */
+/* ============================================
+   空状态样式
+   ============================================ */
 .idp-tree-empty {
-  padding: 24px;
+  padding: var(--idp-spacing-xl);
   text-align: center;
-  color: var(--tree-text-secondary);
+  color: var(--idp-text-color-tertiary);
   font-size: 14px;
 }
 
 .idp-tree-empty-icon {
   font-size: 48px;
-  margin-bottom: 8px;
+  margin-bottom: var(--idp-spacing-sm);
   opacity: 0.3;
 }
 
-/* Node List */
+/* ============================================
+   节点列表样式
+   ============================================ */
 .idp-tree-node-list {
   position: relative;
 }
 
-/* Leaf Node */
+/* ============================================
+   叶子节点样式
+   ============================================ */
 .idp-tree-treenode-leaf .idp-tree-switcher {
   visibility: hidden;
 }
 
-/* Custom Scrollbar */
+/* ============================================
+   自定义滚动条
+   ============================================ */
 .idp-tree::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -655,15 +701,17 @@
 }
 
 .idp-tree::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 3px;
+  background: var(--idp-border-color);
+  border-radius: var(--idp-border-radius-sm);
 }
 
 .idp-tree::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--idp-border-color-extra-light);
 }
 
-/* Responsive */
+/* ============================================
+   响应式样式
+   ============================================ */
 @media (max-width: 768px) {
   .idp-tree {
     padding: 4px;
@@ -671,30 +719,26 @@
   }
 
   .idp-tree-node-content-wrapper {
-    padding: 4px 8px;
+    padding: 4px var(--idp-spacing-sm);
   }
 
   .idp-tree-child-tree {
-    padding-left: 16px;
+    padding-left: var(--idp-spacing-md);
   }
 }
 
-/* Dark Mode Support */
+/* ============================================
+   暗黑模式支持
+   ============================================ */
 @media (prefers-color-scheme: dark) {
   .idp-tree {
-    --tree-text-color: rgba(255, 255, 255, 0.85);
-    --tree-text-secondary: rgba(255, 255, 255, 0.45);
-    --tree-text-disabled: rgba(255, 255, 255, 0.25);
-    --tree-border-color: #434343;
-    --tree-bg-hover: rgba(255, 255, 255, 0.08);
-    --tree-bg-selected: rgba(24, 144, 255, 0.15);
-    --tree-line-color: #434343;
+    color: rgba(255, 255, 255, 0.85);
     background: #141414;
   }
 
   .idp-tree-checkbox {
     background-color: transparent;
-    border-color: var(--tree-border-color);
+    border-color: var(--idp-border-color);
   }
 
   .idp-tree-search-wrapper {
@@ -703,6 +747,18 @@
 
   .idp-tree-search-input {
     background: #1f1f1f;
-    color: var(--tree-text-color);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .idp-tree-node-content-wrapper:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
+  }
+
+  .idp-tree-node-selected .idp-tree-node-content-wrapper {
+    background: linear-gradient(135deg, rgba(24, 144, 255, 0.2) 0%, rgba(24, 144, 255, 0.12) 100%);
+  }
+
+  .idp-tree-switcher:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
   }
 }
