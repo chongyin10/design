@@ -118,7 +118,7 @@ const MenuExample: React.FC = () => {
     }
   ];
 
-  // 内联菜单数据
+  // 内联菜单数据 - 包含带 icon 和无 icon 的菜单项，用于测试折叠模式
   const inlineMenuItems = [
     {
       key: '1',
@@ -138,6 +138,11 @@ const MenuExample: React.FC = () => {
       key: '3',
       label: '关于',
       icon: <Icon type="infoCircle" size={16} />
+    },
+    {
+      key: '4',
+      label: '无图标项',
+      // 无 icon，折叠时显示首字母
     }
   ];
 

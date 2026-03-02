@@ -60,17 +60,15 @@ import LayoutExample from './Layout';
 const { Header, Sider, Content } = Layout;
 
 // 组件分类配置
-const componentCategories = [
+const componentCategories: { key: string; label: string; icon?: string; components: string[] }[] = [
     {
         key: 'general',
         label: '通用',
-        icon: 'app',
         components: ['button', 'icon', 'typography']
     },
     {
         key: 'layout',
         label: '布局',
-        icon: 'layout',
         components: ['flex', 'grid', 'space', 'divider', 'layout', 'masonry', 'splitter']
     },
     {
@@ -185,7 +183,7 @@ const App: React.FC = () => {
                 items.push({
                     key: category.key,
                     label: category.label,
-                    icon: <Icon type={category.icon as any} />,
+                    icon: category.icon ? <Icon type={category.icon as any} /> : undefined,
                     children
                 });
             }

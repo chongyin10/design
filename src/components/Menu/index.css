@@ -251,13 +251,49 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   background: linear-gradient(135deg, var(--idp-primary-color, #1890ff) 0%, var(--idp-primary-hover-color, #40a9ff) 100%);
   color: var(--idp-bg-color-white, #fff);
-  border-radius: 50%;
+  border-radius: 6px;
   margin: 0 auto;
-  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.25);
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+/* 折叠状态下悬停效果 */
+.idp-menu-item:hover .idp-menu-item-collapsed-label {
+  transform: scale(1.05);
+  box-shadow: 0 3px 8px rgba(24, 144, 255, 0.35);
+}
+
+/* Dark 主题下折叠标签 */
+.idp-menu-item.dark .idp-menu-item-collapsed-label {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.75) 100%);
+  color: var(--idp-primary-color, #1890ff);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.idp-menu-item.dark:hover .idp-menu-item-collapsed-label {
+  background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* 选中状态下的折叠标签 */
+.idp-menu-item.selected .idp-menu-item-collapsed-label {
+  box-shadow: 0 2px 6px rgba(24, 144, 255, 0.4);
+}
+
+.idp-menu-item.selected:hover .idp-menu-item-collapsed-label {
+  box-shadow: 0 3px 8px rgba(24, 144, 255, 0.5);
+}
+
+/* Dark 主题选中状态下的折叠标签 */
+.idp-menu-item.dark.selected .idp-menu-item-collapsed-label {
+  background: linear-gradient(135deg, #fff 0%, #fff 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================

@@ -5,11 +5,9 @@ import './index.css';
 
 /**
  * 渲染缩略标签（折叠状态下显示）
+ * 当菜单项无 icon 时，显示 label 的第一个字符
  */
-const renderCollapsedLabel = (label: string, icon?: React.ReactNode): React.ReactNode => {
-  if (icon) {
-    return icon;
-  }
+const renderCollapsedLabel = (label: string): React.ReactNode => {
   return label.charAt(0).toUpperCase();
 };
 
