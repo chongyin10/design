@@ -49,6 +49,8 @@ import ProgressExample from './Progress';
 import TimePickerExample from './TimePicker';
 import DatePickerExample from './DatePicker';
 import TreeExample from './Tree';
+import UploadExample from './Upload';
+import SplitterExample from './Splitter';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -98,6 +100,7 @@ const App: React.FC = () => {
         { key: 'rate', label: 'Rate', name: 'Rate', description: '评分组件', icon: <span>⭐</span> },
         { key: 'select', label: 'Select', name: 'Select', description: '选择器组件', icon: <span>🔽</span> },
         { key: 'slider', label: 'Slider', name: 'Slider', description: '滑动条组件', icon: <span>🎚️</span> },
+        { key: 'splitter', label: 'Splitter', name: 'Splitter', description: '切分面板组件', icon: <span>📂</span> },
         { key: 'space', label: 'Space', name: 'Space', description: '组件间距设置', icon: <span>⚫</span> },
         { key: 'steps', label: 'Steps', name: 'Steps', description: '步骤条组件', icon: <span>📋</span> },
         { key: 'switch', label: 'Switch', name: 'Switch', description: '开关组件', icon: <span>🔛</span> },
@@ -112,6 +115,7 @@ const App: React.FC = () => {
         { key: 'tree', label: 'Tree', name: 'Tree', description: '树形控件组件', icon: <span>🌳</span> },
         { key: 'treeselect', label: 'TreeSelect', name: 'TreeSelect', description: '树型选择器组件', icon: <span>🌲</span> },
         { key: 'typography', label: 'Typography', name: 'Typography', description: '排版组件', icon: <span>📝</span> },
+        { key: 'upload', label: 'Upload', name: 'Upload', description: '文件上传组件', icon: <span>📤</span> },
         { key: 'variables', label: 'Variables', name: 'Variables', description: '自定义组件库主题颜色', icon: <span>🎨</span> },
     ];
 
@@ -384,6 +388,10 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
                 return <DatePickerExample />;
             case 'tree':
                 return <TreeExample />;
+            case 'upload':
+                return <UploadExample />;
+            case 'splitter':
+                return <SplitterExample />;
             default:
                 return <ButtonExample />;
         }

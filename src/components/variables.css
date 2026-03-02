@@ -191,4 +191,35 @@
   --idp-slider-tooltip-bg: rgba(0, 0, 0, 0.75); /* 滑块工具提示背景 */
   --idp-slider-tooltip-color: var(--idp-bg-color-white); /* 滑块工具提示文字颜色 */
   --idp-slider-tooltip-shadow: var(--idp-shadow-md); /* 滑块工具提示阴影 */
+  
+  /* Splitter 组件 - 分割面板相关样式变量（现代化设计） */
+  --idp-splitter-bar-size: 10px; /* 分割条大小 - 略微增大提升操作体验 */
+  --idp-splitter-bar-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%); /* 分割条渐变背景 */
+  --idp-splitter-bar-hover-bg: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-border-color-light) 100%); /* 分割条悬停渐变背景 */
+  --idp-splitter-bar-radius: var(--idp-border-radius-md); /* 分割条圆角 */
+  
+  /* 分割线样式 */
+  --idp-splitter-line-color: var(--idp-border-color-extra-light); /* 分割线默认颜色 */
+  --idp-splitter-line-hover-color: var(--idp-primary-color); /* 分割线悬停颜色 */
+  --idp-splitter-line-active-color: var(--idp-primary-hover-color); /* 分割线激活颜色 */
+  --idp-splitter-line-disabled-color: var(--idp-text-color-light); /* 分割线禁用颜色 */
+  --idp-splitter-line-width: 2px; /* 分割线宽度 - 增加可视性 */
+  --idp-splitter-line-length: 32px; /* 分割线长度 */
+  --idp-splitter-line-min-length: 24px; /* 分割线最小长度 */
+  --idp-splitter-line-bg: linear-gradient(180deg, var(--idp-border-color-light) 0%, var(--idp-border-color) 50%, var(--idp-border-color-light) 100%); /* 分割线渐变背景 */
+  --idp-splitter-line-hover-bg: linear-gradient(180deg, var(--idp-primary-light-color) 0%, var(--idp-primary-color) 50%, var(--idp-primary-light-color) 100%); /* 分割线悬停渐变背景 */
+  
+  /* 分割条阴影效果 */
+  --idp-splitter-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08); /* 分割条轻微阴影 */
+  --idp-splitter-shadow-md: 0 2px 8px rgba(24, 144, 255, 0.25); /* 分割条悬停阴影 */
+  --idp-splitter-shadow-active: 0 0 12px rgba(24, 144, 255, 0.4); /* 分割条激活发光效果 */
+  
+  /* 面板样式 */
+  --idp-splitter-panel-bg: var(--idp-bg-color-white); /* 面板背景色 */
+  --idp-splitter-panel-border: var(--idp-border-color-light); /* 面板边框色 */
+  --idp-splitter-panel-radius: var(--idp-border-radius-md); /* 面板圆角 */
+  
+  /* 面板阴影效果 - 用于增强层次感 */
+  --idp-splitter-panel-shadow: 2px 0 8px rgba(0, 0, 0, 0.08); /* 水平布局时左侧面板右侧阴影 */
+  --idp-splitter-panel-shadow-vertical: 0 2px 8px rgba(0, 0, 0, 0.08); /* 垂直布局时上面板底部阴影 */
 }

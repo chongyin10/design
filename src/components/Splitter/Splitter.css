@@ -1,0 +1,224 @@
+/* ============================================
+   IDP Splitter Component - Modern Design System
+   分割面板组件 - 支持水平和垂直分隔
+   ============================================ */
+
+/* 容器基础样式 */
+.idp-splitter {
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--idp-splitter-panel-bg);
+  border-radius: var(--idp-splitter-panel-radius);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
+}
+
+/* 水平布局 */
+.idp-splitter.idp-splitter--horizontal {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* 垂直布局 */
+.idp-splitter.idp-splitter--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* 面板基础样式 */
+.idp-splitter__panel {
+  box-sizing: border-box;
+  position: relative;
+  overflow: auto;
+  flex-shrink: 0;
+  align-self: stretch;
+  background: var(--idp-splitter-panel-bg);
+}
+
+/* 面板阴影效果 - 第一个面板添加阴影 */
+.idp-splitter--horizontal .idp-splitter__panel:first-child {
+  box-shadow: var(--idp-splitter-panel-shadow);
+}
+
+.idp-splitter--vertical .idp-splitter__panel:first-child {
+  box-shadow: var(--idp-splitter-panel-shadow-vertical);
+}
+
+/* 面板阴影效果 - 悬停时增强 */
+.idp-splitter--horizontal:hover .idp-splitter__panel:first-child {
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.12);
+}
+
+.idp-splitter--vertical:hover .idp-splitter__panel:first-child {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* 水平布局面板 */
+.idp-splitter--horizontal .idp-splitter__panel {
+  height: auto;
+  min-height: 100%;
+}
+
+/* 垂直布局面板 */
+.idp-splitter--vertical .idp-splitter__panel {
+  width: auto;
+  min-width: 100%;
+}
+
+/* ============================================
+   分割条样式 - Modern Design
+   ============================================ */
+.idp-splitter__bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+  background: var(--idp-splitter-bar-bg);
+  user-select: none;
+  touch-action: none;
+  z-index: 10;
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  box-shadow: var(--idp-splitter-shadow-sm);
+}
+
+/* 水平分割条 */
+.idp-splitter--horizontal .idp-splitter__bar {
+  cursor: col-resize;
+  width: var(--idp-splitter-bar-size);
+  height: 100%;
+  min-height: 100%;
+  align-self: stretch;
+}
+
+/* 垂直分割条 */
+.idp-splitter--vertical .idp-splitter__bar {
+  cursor: row-resize;
+  width: 100%;
+  height: var(--idp-splitter-bar-size);
+  min-width: 100%;
+  align-self: stretch;
+}
+
+/* 分割条悬停状态 - 渐变背景和阴影增强 */
+.idp-splitter__bar:not(.idp-splitter__bar--disabled):hover {
+  background: var(--idp-splitter-bar-hover-bg);
+  box-shadow: var(--idp-splitter-shadow-md);
+}
+
+/* 分割条拖拽状态 - 发光效果和层级提升 */
+.idp-splitter__bar--dragging {
+  z-index: 100;
+  background: var(--idp-splitter-bar-hover-bg);
+  box-shadow: var(--idp-splitter-shadow-active);
+}
+
+/* 分割条禁用状态 */
+.idp-splitter__bar--disabled {
+  cursor: not-allowed !important;
+  background: var(--idp-bg-color-light);
+  opacity: var(--idp-opacity-disabled);
+}
+
+.idp-splitter__bar--disabled .idp-splitter__line {
+  background: var(--idp-splitter-line-disabled-color) !important;
+}
+
+/* ============================================
+   分割线样式 - 圆点设计
+   ============================================ */
+.idp-splitter__line {
+  position: relative;
+  transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+  background: var(--idp-splitter-line-color);
+  border-radius: var(--idp-border-radius-sm);
+}
+
+/* 水平分割线 - 垂直方向的小圆点 */
+.idp-splitter--horizontal .idp-splitter__line {
+  width: var(--idp-splitter-line-width);
+  height: var(--idp-splitter-line-length);
+  min-height: var(--idp-splitter-line-min-length);
+  background: var(--idp-splitter-line-bg);
+}
+
+/* 垂直分割线 - 水平方向的小圆点 */
+.idp-splitter--vertical .idp-splitter__line {
+  width: var(--idp-splitter-line-length);
+  min-width: var(--idp-splitter-line-min-length);
+  height: var(--idp-splitter-line-width);
+  background: var(--idp-splitter-line-bg);
+}
+
+/* 分割线悬停状态 - 主色调渐变 */
+.idp-splitter__bar:not(.idp-splitter__bar--disabled):hover .idp-splitter__line {
+  background: var(--idp-splitter-line-hover-bg);
+  box-shadow: 0 0 6px rgba(24, 144, 255, 0.4);
+}
+
+/* 分割线拖拽激活状态 */
+.idp-splitter__bar--dragging .idp-splitter__line {
+  background: var(--idp-splitter-line-active-color) !important;
+  box-shadow: var(--idp-splitter-shadow-active);
+}
+
+/* ============================================
+   拖拽时的全局样式
+   ============================================ */
+.idp-splitter--dragging {
+  user-select: none;
+}
+
+.idp-splitter--dragging .idp-splitter__panel {
+  pointer-events: none;
+}
+
+/* ============================================
+   响应式调整
+   ============================================ */
+@media (max-width: 768px) {
+  .idp-splitter__bar {
+    min-width: 14px;
+    min-height: 14px;
+  }
+}
+
+/* 触摸设备优化 */
+@media (pointer: coarse) {
+  .idp-splitter--horizontal .idp-splitter__bar {
+    width: 14px;
+  }
+  
+  .idp-splitter--vertical .idp-splitter__bar {
+    height: 14px;
+  }
+  
+  /* 触摸设备增大分割线 */
+  .idp-splitter--horizontal .idp-splitter__line {
+    width: 3px;
+    height: 40px;
+    min-height: 40px;
+  }
+  
+  .idp-splitter--vertical .idp-splitter__line {
+    width: 40px;
+    min-width: 40px;
+    height: 3px;
+  }
+}
+
+/* ============================================
+   暗色主题支持（预留）
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  .idp-splitter {
+    background: var(--idp-bg-color-light);
+  }
+  
+  .idp-splitter__panel {
+    background: var(--idp-bg-color-light);
+  }
+}

@@ -55,3 +55,7 @@ export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps, DateRangePickerProps } from './DatePicker';
 export { default as Tree } from './Tree';
 export type { TreeProps, TreeNode, TreeRef } from './Tree';
+export { default as Upload } from './Upload';
+export type { UploadProps, UploadFile, UploadRequestOptions } from './Upload';
+export { default as Splitter } from './Splitter';
+export type { SplitterProps } from './Splitter/types';
