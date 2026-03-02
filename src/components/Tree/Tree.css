@@ -414,24 +414,6 @@
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.15) 0%, rgba(24, 144, 255, 0.08) 100%);
 }
 
-.idp-tree-treenode-drag-over::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--idp-primary-color), var(--idp-primary-hover-color));
-  border-radius: 1px;
-}
-
-.idp-tree-treenode-drag-over[data-drop-position="before"]::before {
-  top: -1px;
-}
-
-.idp-tree-treenode-drag-over[data-drop-position="after"]::before {
-  bottom: -1px;
-}
-
 /* ============================================
    搜索框样式 - 统一 Input 组件风格
    ============================================ */

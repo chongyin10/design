@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useCallback, useMemo, useRef, memo, forwardRef, useImperativeHandle } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect, memo, forwardRef, useImperativeHandle } from 'react';
 import { TreeProps, TreeNode, TreeNodeTooltip } from './types';
 import Tooltip from '../Tooltip';
 import './Tree.css';
@@ -93,6 +93,9 @@ interface TreeNodeComponentProps {
   onSelect: (key: string | number, e: React.MouseEvent) => void;
   onCheck: (key: string | number, e: React.MouseEvent | React.KeyboardEvent) => void;
   onNodeMount?: (key: string | number, el: HTMLDivElement | null) => void;
+  // Drag and drop
+  onDrop?: (dragKey: string | number, dropKey: string | number, position: 'before' | 'after' | 'inside') => void;
+  dragEndCounter?: number;
   // Tooltip
   tooltip?: TreeNodeTooltip | boolean;
 }
@@ -289,6 +292,9 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   onSelect,
   onCheck,
   onNodeMount,
+  // Drag and drop
+  onDrop,
+  dragEndCounter,
   // Tooltip
   tooltip: globalTooltip,
 }) => {
@@ -297,6 +303,14 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const innerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Reset drag state when drag operation ends globally
+  useEffect(() => {
+    if (dragEndCounter !== undefined && dragEndCounter > 0) {
+      setDragOver(false);
+      setDropPosition(null);
+    }
+  }, [dragEndCounter]);
   
   // 合并 ref
   const setRef = useCallback((el: HTMLDivElement | null) => {
@@ -307,11 +321,13 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   }, [onNodeMount, node.key]);
 
   const hasChildren = Boolean(node.children && node.children.length > 0);
+  // 修复：当 node.children 存在时（即使是空数组），该节点可以拥有子节点，应视为文件夹
+  const canHaveChildren = node.children !== undefined;
   const isExpanded = expandedKeys.includes(node.key);
   const isDisabled = node.disabled;
   const isDraggable = draggable && !isDisabled;
-  // 使用 node.isLeaf 属性（如果设置了），否则根据 children 判断
-  const isLeafNode = node.isLeaf !== undefined ? node.isLeaf : isLeaf;
+  // 修复：使用 node.isLeaf 属性（如果设置了），否则根据 node.children 判断（保留文件夹属性）
+  const isLeafNode = node.isLeaf !== undefined ? node.isLeaf : !canHaveChildren;
 
   const handleExpand = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -341,10 +357,51 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
 
   const handleDragStart = useCallback((e: React.DragEvent) => {
     if (isDraggable) {
+      e.stopPropagation(); // Prevent parent nodes from overriding drag data
       e.dataTransfer.setData('text/plain', String(node.key));
       e.dataTransfer.effectAllowed = 'move';
+      
+      // Create custom drag image showing only the current node (not children)
+      const dragImage = document.createElement('div');
+      dragImage.style.cssText = `
+        position: absolute;
+        top: -1000px;
+        left: -1000px;
+        padding: 4px 8px;
+        background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+        color: white;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+        white-space: nowrap;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+        pointer-events: none;
+      `;
+      
+      // Get the title text
+      const titleText = typeof node.title === 'string' ? node.title : String(node.title);
+      dragImage.textContent = titleText;
+      document.body.appendChild(dragImage);
+      
+      // Set custom drag image with offset
+      e.dataTransfer.setDragImage(dragImage, 10, 10);
+      
+      // Remove the element after drag starts
+      setTimeout(() => {
+        document.body.removeChild(dragImage);
+      }, 0);
     }
-  }, [isDraggable, node.key]);
+  }, [isDraggable, node.key, node.title]);
+
+  const handleDragEnd = useCallback(() => {
+    // Reset drag state when drag operation ends
+    setDragOver(false);
+    setDropPosition(null);
+  }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     if (!isDraggable) return;
@@ -352,26 +409,70 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
 
+    // Check if the event target is inside a child TreeNode component
+    // If so, don't process it here - let the child handle it
+    const target = e.target as HTMLElement;
+    const currentNode = innerRef.current;
+    if (currentNode && target && currentNode.contains(target)) {
+      // Check if target is inside the child tree container of this node
+      const childTree = currentNode.querySelector(`.${prefixCls}-child-tree`);
+      if (childTree && childTree.contains(target)) {
+        // Event is from within the child tree area, not the current node itself
+        // Let the child node handle it
+        return;
+      }
+      // Otherwise, the event is on the current node (title/switcher area)
+      // and should be processed by this node
+    }
+
     const rect = innerRef.current?.getBoundingClientRect();
     if (rect) {
       const y = e.clientY - rect.top;
       const height = rect.height;
 
-      if (y < height / 3) {
-        setDropPosition('before');
-      } else if (y > height * 2 / 3) {
-        setDropPosition('after');
+      // For leaf nodes, don't allow 'inside' placement
+      // Treat middle area as 'after' instead
+      if (isLeafNode) {
+        if (y < height / 2) {
+          setDropPosition('before');
+        } else {
+          setDropPosition('after');
+        }
       } else {
-        setDropPosition('inside');
+        if (y < height / 3) {
+          setDropPosition('before');
+        } else if (y > height * 2 / 3) {
+          setDropPosition('after');
+        } else {
+          setDropPosition('inside');
+        }
       }
       setDragOver(true);
     }
-  }, [isDraggable]);
+  }, [isDraggable, isLeafNode, prefixCls]);
 
   const handleDragLeave = useCallback(() => {
     setDragOver(false);
     setDropPosition(null);
   }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Reset drag state immediately
+    setDragOver(false);
+    setDropPosition(null);
+    
+    const dragKey = e.dataTransfer.getData('text/plain');
+    if (!dragKey || dragKey === String(node.key)) {
+      return;
+    }
+
+    if (onDrop && dropPosition) {
+      onDrop(dragKey, node.key, dropPosition);
+    }
+  }, [node.key, dropPosition, onDrop]);
 
   // Render Switcher
   const renderSwitcher = () => {
@@ -684,8 +785,10 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
       className={nodeClasses}
       draggable={isDraggable}
       onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
       data-drop-position={dropPosition}
     >
       {renderIndent()}
@@ -701,7 +804,8 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
 
       {renderActions()}
 
-      {hasChildren && (
+      {/* 修复：当节点可以拥有子节点（不是叶子节点）时，渲染子树容器 */}
+      {!isLeafNode && (
         <div
           className={[
             `${prefixCls}-child-tree`,
@@ -709,49 +813,63 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
           ].filter(Boolean).join(' ')}
         >
           <div>
-            {node.children!.map((child, index) => (
-              <TreeNodeComponent
-                key={`${child.key}-${index}`}
-                node={child}
-                level={level + 1}
-                expanded={expanded}
-                selected={selectedKeys.includes(child.key)}
-                checked={checkedKeys.includes(child.key)}
-                halfChecked={getSomeChildrenChecked(child, checkedKeys)}
-                loading={child.loading || false}
-                isLeaf={!child.children || child.children.length === 0}
-                showIcon={showIcon}
-                showLine={showLine}
-                checkable={checkable}
-                draggable={draggable}
-                checkStrictly={checkStrictly}
-                expandedKeys={expandedKeys}
-                selectedKeys={selectedKeys}
-                checkedKeys={checkedKeys}
-                motionDuration={motionDuration}
-                prefixCls={prefixCls}
-                renderNode={renderNode}
-                // Dynamic node operations
-                addable={addable}
-                removable={removable}
-                editable={editable}
-                actionDisplayMode={actionDisplayMode}
-                onAddNode={onAddNode}
-                onRemoveNode={onRemoveNode}
-                onEditNode={onEditNode}
-                editingNodeKey={editingNodeKey}
-                editValue={editValue}
-                onEditChange={onEditChange}
-                onEditConfirm={onEditConfirm}
-                onEditCancel={onEditCancel}
-                onExpand={onExpand}
-                onSelect={onSelect}
-                onCheck={onCheck}
-                onNodeMount={onNodeMount}
-                // Tooltip
-                tooltip={globalTooltip}
+            {hasChildren ? (
+              node.children!.map((child, index) => (
+                <TreeNodeComponent
+                  key={`${child.key}-${index}`}
+                  node={child}
+                  level={level + 1}
+                  expanded={expanded}
+                  selected={selectedKeys.includes(child.key)}
+                  checked={checkedKeys.includes(child.key)}
+                  halfChecked={getSomeChildrenChecked(child, checkedKeys)}
+                  loading={child.loading || false}
+                  isLeaf={!child.children || child.children.length === 0}
+                  showIcon={showIcon}
+                  showLine={showLine}
+                  checkable={checkable}
+                  draggable={draggable}
+                  checkStrictly={checkStrictly}
+                  expandedKeys={expandedKeys}
+                  selectedKeys={selectedKeys}
+                  checkedKeys={checkedKeys}
+                  motionDuration={motionDuration}
+                  prefixCls={prefixCls}
+                  renderNode={renderNode}
+                  // Dynamic node operations
+                  addable={addable}
+                  removable={removable}
+                  editable={editable}
+                  actionDisplayMode={actionDisplayMode}
+                  onAddNode={onAddNode}
+                  onRemoveNode={onRemoveNode}
+                  onEditNode={onEditNode}
+                  editingNodeKey={editingNodeKey}
+                  editValue={editValue}
+                  onEditChange={onEditChange}
+                  onEditConfirm={onEditConfirm}
+                  onEditCancel={onEditCancel}
+                  onExpand={onExpand}
+                  onSelect={onSelect}
+                  onCheck={onCheck}
+                  onNodeMount={onNodeMount}
+                  // Drag and drop
+                  onDrop={onDrop}
+                  dragEndCounter={dragEndCounter}
+                  // Tooltip
+                  tooltip={globalTooltip}
+                />
+              ))
+            ) : (
+              /* 空文件夹时渲染一个可拖拽区域（固定高度避免抖动） */
+              <div
+                className={`${prefixCls}-empty-drop-zone`}
+                style={{
+                  minHeight: '4px',
+                  width: '100%',
+                }}
               />
-            ))}
+            )}
           </div>
         </div>
       )}
@@ -801,13 +919,21 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   defaultExpandAll = false,
   // Tooltip
   tooltip: globalTooltip,
+  // Drag and drop
+  onDrop: onDropProp,
 }, ref) => {
   // State
   const [treeData, setTreeData] = useState<TreeNode[]>(externalTreeData);
   
   // Sync with external treeData when it changes
-  useMemo(() => {
-    setTreeData(externalTreeData);
+  const externalTreeDataRef = useRef<TreeNode[]>(externalTreeData);
+  
+  useEffect(() => {
+    // Only update if external data actually changed (by reference or content)
+    if (externalTreeDataRef.current !== externalTreeData) {
+      externalTreeDataRef.current = externalTreeData;
+      setTreeData(externalTreeData);
+    }
   }, [externalTreeData]);
 
   const [expandedKeys, setExpandedKeys] = useState<(string | number)[]>(() => {
@@ -832,6 +958,8 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   // Edit state
   const [editingNodeKey, setEditingNodeKey] = useState<string | number | null>(null);
   const [editValue, setEditValue] = useState<string>('');
+  // Drag state - used to force all nodes to reset drag styles
+  const [dragEndCounter, setDragEndCounter] = useState(0);
   const nodeRefs = useRef<Map<string | number, HTMLDivElement | null>>(new Map());
   const treeContainerRef = useRef<HTMLDivElement>(null);
 
@@ -1090,6 +1218,92 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
     [disabled, currentCheckedKeys, isCheckedControlled, checkStrictly, onCheck, treeData]
   );
 
+  // Simple drag and drop handler
+  const handleDrop = useCallback(
+    (dragKey: string | number, dropKey: string | number, position: 'before' | 'after' | 'inside') => {
+      if (dragKey === dropKey) return;
+
+      // Find the drag node and its parent
+      const dragNode = findNode(treeData, dragKey);
+      const dropNode = findNode(treeData, dropKey);
+      
+      if (!dragNode || !dropNode) return;
+
+      // Prevent dropping parent into its own child
+      const isDescendant = (parent: TreeNode, childKey: string | number): boolean => {
+        if (parent.children) {
+          for (const child of parent.children) {
+            if (child.key === childKey) return true;
+            if (isDescendant(child, childKey)) return true;
+          }
+        }
+        return false;
+      };
+
+      if (isDescendant(dragNode, dropKey)) return;
+
+      // Check if dropNode is a leaf node (cannot accept children)
+      const isDropNodeLeaf = dropNode.isLeaf !== undefined 
+        ? dropNode.isLeaf 
+        : dropNode.children === undefined;
+
+      // Deep clone a node to avoid mutating original data
+      const cloneNode = (node: TreeNode): TreeNode => ({
+        ...node,
+        children: node.children ? node.children.map(cloneNode) : undefined,
+      });
+
+      // Update tree data
+      setTreeData((prevData) => {
+        // Deep clone the tree to avoid mutating original data
+        const newData = prevData.map(cloneNode);
+        
+        // Remove drag node from its current position
+        removeNodeFromTree(newData, dragKey);
+        
+        // Clone drag node for insertion (to avoid reference issues)
+        const clonedDragNode = cloneNode(dragNode);
+        
+        // If dropNode is a leaf and position is 'inside', treat it as 'after' placement
+        const effectivePosition = (position === 'inside' && isDropNodeLeaf) ? 'after' : position;
+        
+        // Add drag node to new position
+        if (effectivePosition === 'inside') {
+          // Add as child (only for folder nodes)
+          addNodesToTree(newData, dropKey, [clonedDragNode]);
+          // Auto expand the drop node
+          if (!expandedKeys.includes(dropKey)) {
+            setExpandedKeys((prev) => [...prev, dropKey]);
+          }
+        } else {
+          // Add before or after
+          const dropParent = findParentNode(newData, dropKey);
+          const targetArray = dropParent ? (dropParent.children || []) : newData;
+          const dropIndex = targetArray.findIndex((n) => n.key === dropKey);
+          
+          if (dropIndex !== -1) {
+            const insertIndex = effectivePosition === 'before' ? dropIndex : dropIndex + 1;
+            targetArray.splice(insertIndex, 0, clonedDragNode);
+          }
+        }
+        
+        return newData;
+      });
+
+      // Call user callback
+      onDropProp?.({
+        event: {} as MouseEvent,
+        node: dropNode,
+        dragNode: dragNode,
+        dragPosition: position,
+      });
+
+      // Force all nodes to reset drag styles
+      setDragEndCounter((prev) => prev + 1);
+    },
+    [treeData, expandedKeys, onDropProp]
+  );
+
   // Filtered Data
   const filteredTreeData = useMemo(() => {
     if (!showSearch || !searchValue || !filterOption) {
@@ -1150,7 +1364,8 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
               checked={currentCheckedKeys.includes(node.key)}
               halfChecked={getSomeChildrenChecked(node, currentCheckedKeys)}
               loading={loadingKeys.includes(node.key)}
-              isLeaf={node.isLeaf !== undefined ? node.isLeaf : !node.children || node.children.length === 0}
+              // 修复：判断是否为叶子节点时，考虑 children 属性存在性
+              isLeaf={node.isLeaf !== undefined ? node.isLeaf : node.children === undefined}
               showIcon={showIcon}
               showLine={showLine}
               showIndent={showIndent}
@@ -1180,6 +1395,9 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
               onSelect={handleSelect}
               onCheck={handleCheck}
               onNodeMount={handleNodeMount}
+              // Drag and drop
+              onDrop={handleDrop}
+              dragEndCounter={dragEndCounter}
               // Tooltip
               tooltip={globalTooltip}
             />

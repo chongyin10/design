@@ -421,6 +421,59 @@ const DynamicNodeDemo: React.FC = () => {
   );
 };
 
+// 拖拽示例组件
+const DraggableTreeDemo: React.FC = () => {
+  const [treeData] = useState<TreeNode[]>([
+    {
+      key: 'drag-1',
+      title: '文件夹 A',
+      children: [
+        { key: 'drag-1-1', title: '文件 1-1' },
+        { key: 'drag-1-2', title: '文件 1-2' },
+      ],
+    },
+    {
+      key: 'drag-2',
+      title: '文件夹 B',
+      children: [
+        { key: 'drag-2-1', title: '文件 2-1' },
+      ],
+    },
+    {
+      key: 'drag-3',
+      title: '文件夹 C',
+      children: [
+        { key: 'drag-3-1', title: '文件 3-1' },
+        { key: 'drag-3-2', title: '文件 3-2' },
+        { key: 'drag-3-3', title: '文件 3-3' },
+      ],
+    },
+  ]);
+
+  return (
+    <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      <div>
+        <p style={{ marginBottom: '8px', fontSize: '13px', fontWeight: 500 }}>基础拖拽</p>
+        <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', width: '280px', maxHeight: '300px', overflow: 'auto' }}>
+          <Tree
+            treeData={treeData}
+            draggable
+            defaultExpandAll
+            onDrop={({ dragNode, node, dragPosition }) => {
+              console.log('拖拽节点:', dragNode.title);
+              console.log('目标节点:', node.title);
+              console.log('放置位置:', dragPosition);
+            }}
+          />
+        </div>
+        <p style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+          提示：拖拽到节点上方/下方/内部可改变位置
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const TreeExample: React.FC = () => {
   // 受控模式状态
   const [expandedKeys, setExpandedKeys] = useState<(string | number)[]>(['0-0']);
@@ -864,6 +917,49 @@ const Demo = () => {
 };`} />
       </Section>
 
+      {/* 拖拽示例 */}
+      <Section title="拖拽排序">
+        <p>通过设置 draggable 属性启用拖拽功能，支持拖拽到节点上方、下方或内部。</p>
+        <DemoRow title="可拖拽树">
+          <DraggableTreeDemo />
+        </DemoRow>
+        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [treeData, setTreeData] = useState<TreeNode[]>([
+    {
+      key: '1',
+      title: '文件夹 A',
+      children: [
+        { key: '1-1', title: '文件 1-1' },
+        { key: '1-2', title: '文件 1-2' },
+      ],
+    },
+    {
+      key: '2',
+      title: '文件夹 B',
+      children: [
+        { key: '2-1', title: '文件 2-1' },
+      ],
+    },
+  ]);
+
+  return (
+    <Tree
+      treeData={treeData}
+      draggable
+      defaultExpandAll
+      onDrop={({ dragNode, node, dragPosition }) => {
+        console.log('拖拽节点:', dragNode.title);
+        console.log('目标节点:', node.title);
+        console.log('放置位置:', dragPosition); // 'before' | 'after' | 'inside'
+      }}
+    />
+  );
+};`} />
+      </Section>
+
       {/* 动态节点操作 */}
       <Section title="动态节点操作">
         <p>通过设置 addable/removable/editable 属性启用节点操作功能，使用回调函数处理增删改操作。</p>
@@ -959,6 +1055,7 @@ const Demo = () => {
             { key: '28', prop: 'onRemoveNode', description: '删除节点回调，返回 false 可阻止删除', type: '(node: TreeNode) => boolean | void', default: '-' },
             { key: '29', prop: 'onEditNode', description: '编辑节点回调，返回新标题', type: '(node: TreeNode, newTitle: string) => string | void', default: '-' },
             { key: '30', prop: 'tooltip', description: '全局 Tooltip 配置，默认关闭', type: 'TreeNodeTooltip | boolean', default: '-' },
+            { key: '31', prop: 'onDrop', description: '拖拽放置回调', type: '(params: { event: MouseEvent; node: TreeNode; dragNode: TreeNode; dragPosition: \'before\' | \'after\' | \'inside\' }) => void', default: '-' },
           ]}
           columns={[
             { title: '属性', dataIndex: 'prop', width: 150 },
