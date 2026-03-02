@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Layout, Icon, Menu, Input } from '../components';
 import ButtonExample from './Button';
 import CheckboxExample from './Checkbox';
@@ -51,6 +51,7 @@ import DatePickerExample from './DatePicker';
 import TreeExample from './Tree';
 import UploadExample from './Upload';
 import SplitterExample from './Splitter';
+import SpinExample from './Spin';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -58,81 +59,152 @@ import LayoutExample from './Layout';
 
 const { Header, Sider, Content } = Layout;
 
+// 组件分类配置
+const componentCategories = [
+    {
+        key: 'general',
+        label: '通用',
+        icon: 'app',
+        components: ['button', 'icon', 'typography']
+    },
+    {
+        key: 'layout',
+        label: '布局',
+        icon: 'layout',
+        components: ['flex', 'grid', 'space', 'divider', 'layout', 'masonry', 'splitter']
+    },
+    {
+        key: 'navigation',
+        label: '导航',
+        components: ['anchor', 'breadcrumb', 'dropdown', 'menu', 'pagination', 'steps', 'tabs', 'top']
+    },
+    {
+        key: 'data-entry',
+        label: '数据录入',
+        components: ['cascader', 'checkbox', 'datepicker', 'form', 'input', 'radio', 'select', 'slider', 'switch', 'textarea', 'timepicker', 'transfer', 'treeselect', 'upload', 'rate', 'colorpicker']
+    },
+    {
+        key: 'data-display',
+        label: '数据展示',
+        components: ['carousel', 'empty', 'label', 'table', 'tag', 'tree', 'tooltip']
+    },
+    {
+        key: 'feedback',
+        label: '反馈',
+        components: ['drawer', 'message', 'modal', 'notification', 'notice', 'popconfirm', 'progress', 'spin']
+    },
+    {
+        key: 'other',
+        label: '其他',
+        components: ['copytoclipboard', 'i18n', 'marquee', 'variables']
+    }
+];
+
+// 组件元数据
+const componentMeta: Record<string, { name: string; description: string }> = {
+    intro: { name: '简介', description: 'ZjpCy Design 组件库介绍' },
+    install: { name: '安装', description: '安装指南' },
+    anchor: { name: 'Anchor', description: '锚点' },
+    breadcrumb: { name: 'Breadcrumb', description: '层级结构' },
+    button: { name: 'Button', description: '按钮' },
+    checkbox: { name: 'Checkbox', description: '多选框' },
+    carousel: { name: 'Carousel', description: '走马灯' },
+    cascader: { name: 'Cascader', description: '级联选择器' },
+    datepicker: { name: 'DatePicker', description: '日期选择器' },
+    colorpicker: { name: 'ColorPicker', description: '颜色选择器' },
+    copytoclipboard: { name: 'CopyToClipboard', description: '剪贴板' },
+    divider: { name: 'Divider', description: '分割线' },
+    drawer: { name: 'Drawer', description: '抽屉式浮层' },
+    dropdown: { name: 'Dropdown', description: '下拉菜单' },
+    empty: { name: 'Empty', description: '空状态' },
+    flex: { name: 'Flex', description: 'Flex 布局' },
+    form: { name: 'Form', description: '表单组件' },
+    grid: { name: 'Grid', description: '24栅格系统' },
+    icon: { name: 'Icon', description: '图标' },
+    i18n: { name: 'I18n', description: '国际化' },
+    input: { name: 'Input', description: '输入框' },
+    label: { name: 'Label', description: '标签' },
+    layout: { name: 'Layout', description: '页面布局' },
+    marquee: { name: 'Marquee', description: '跑马灯' },
+    masonry: { name: 'Masonry', description: '瀑布流布局' },
+    menu: { name: 'Menu', description: '导航菜单' },
+    message: { name: 'Message', description: '全局提示' },
+    modal: { name: 'Modal', description: '模态对话框' },
+    notice: { name: 'Notice', description: '通知提醒' },
+    notification: { name: 'Notification', description: '通知提示框' },
+    pagination: { name: 'Pagination', description: '分页器' },
+    popconfirm: { name: 'Popconfirm', description: '气泡确认框' },
+    progress: { name: 'Progress', description: '进度条' },
+    radio: { name: 'Radio', description: '单选框' },
+    rate: { name: 'Rate', description: '评分' },
+    select: { name: 'Select', description: '选择器' },
+    slider: { name: 'Slider', description: '滑动输入条' },
+    spin: { name: 'Spin', description: '加载中' },
+    splitter: { name: 'Splitter', description: '切分面板' },
+    space: { name: 'Space', description: '间距' },
+    steps: { name: 'Steps', description: '步骤条' },
+    switch: { name: 'Switch', description: '开关' },
+    table: { name: 'Table', description: '表格' },
+    tag: { name: 'Tag', description: '标签' },
+    tabs: { name: 'Tabs', description: '标签页' },
+    textarea: { name: 'Textarea', description: '多行文本输入' },
+    timepicker: { name: 'TimePicker', description: '时间选择器' },
+    top: { name: 'Top', description: '返回顶部' },
+    tooltip: { name: 'Tooltip', description: '提示' },
+    transfer: { name: 'Transfer', description: '穿梭框' },
+    tree: { name: 'Tree', description: '树形控件' },
+    treeselect: { name: 'TreeSelect', description: '树型选择器' },
+    typography: { name: 'Typography', description: '排版' },
+    upload: { name: 'Upload', description: '文件上传' },
+    variables: { name: 'Variables', description: '主题变量配置' },
+};
+
 const App: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
-
-    // 导航菜单项定义（按字母顺序排序）
-    const navigationItems = [
-        { key: 'intro', label: '简介', name: '简介', description: 'IDP Design 组件库介绍', icon: <span>📖</span> },
-        { key: 'install', label: '安装', name: '安装', description: '如何安装和引用', icon: <span>📦</span> },
-        { key: 'anchor', label: 'Anchor', name: 'Anchor', description: '锚点导航组件', icon: <span>🔗</span> },
-        { key: 'breadcrumb', label: 'Breadcrumb', name: 'Breadcrumb', description: '面包屑组件', icon: <span>📁</span> },
-        { key: 'button', label: 'Button', name: 'Button', description: '按钮组件', icon: <span>🔘</span> },
-        { key: 'checkbox', label: 'Checkbox', name: 'Checkbox', description: '复选框组件', icon: <span>☑️</span> },
-        { key: 'carousel', label: 'Carousel', name: 'Carousel', description: '走马灯组件', icon: <span>🎠</span> },
-        { key: 'cascader', label: 'Cascader', name: 'Cascader', description: '级联选择器组件', icon: <span>🔀</span> },
-        { key: 'datepicker', label: 'DatePicker', name: 'DatePicker', description: '日期选择器组件', icon: <span>📅</span> },
-        { key: 'colorpicker', label: 'ColorPicker', name: 'ColorPicker', description: '颜色选择器组件', icon: <span>🎨</span> },
-        { key: 'copytoclipboard', label: 'CopyToClipboard', name: 'CopyToClipboard', description: '剪贴板复制组件', icon: <span>📋</span> },
-        { key: 'divider', label: 'Divider', name: 'Divider', description: '分割线组件', icon: <span>➖</span> },
-        { key: 'drawer', label: 'Drawer', name: 'Drawer', description: '抽屉组件', icon: <span>🗄️</span> },
-        { key: 'dropdown', label: 'Dropdown', name: 'Dropdown', description: '下拉菜单组件', icon: <span>🔽</span> },
-        { key: 'empty', label: 'Empty', name: 'Empty', description: '空状态组件', icon: <span>📭</span> },
-        { key: 'flex', label: 'Flex', name: 'Flex', description: 'Flex布局组件', icon: <span>🧱</span> },
-        { key: 'form', label: 'Form', name: 'Form', description: '表单组件', icon: <span>📝</span> },
-        { key: 'grid', label: 'Grid', name: 'Grid', description: '栅格布局组件', icon: <span>🔲</span> },
-        { key: 'icon', label: 'Icon', name: 'Icon', description: '图标组件', icon: <span>🖼️</span> },
-        { key: 'i18n', label: 'I18n', name: 'I18n', description: '国际化组件', icon: <span>🌐</span> },
-        { key: 'input', label: 'Input', name: 'Input', description: '输入框组件', icon: <span>🔤</span> },
-        { key: 'label', label: 'Label', name: 'Label', description: '标签组件', icon: <span>🏷️</span> },
-        { key: 'layout', label: 'Layout', name: 'Layout', description: '页面布局组件', icon: <span>📐</span> },
-        { key: 'marquee', label: 'Marquee', name: 'Marquee', description: '跑马灯组件', icon: <span>📜</span> },
-        { key: 'masonry', label: 'Masonry', name: 'Masonry', description: '瀑布流布局组件', icon: <span>🗂️</span> },
-        { key: 'menu', label: 'Menu', name: 'Menu', description: '菜单组件', icon: <span>🍽️</span> },
-        { key: 'message', label: 'Message', name: 'Message', description: '消息提示组件', icon: <span>💬</span> },
-        { key: 'modal', label: 'Modal', name: 'Modal', description: '弹窗组件', icon: <span>🪟</span> },
-        { key: 'notice', label: 'Notice', name: 'Notice', description: '公告栏组件', icon: <span>📢</span> },
-        { key: 'notification', label: 'Notification', name: 'Notification', description: '通知组件', icon: <span>🔔</span> },
-        { key: 'pagination', label: 'Pagination', name: 'Pagination', description: '分页器组件', icon: <span>📄</span> },
-        { key: 'popconfirm', label: 'Popconfirm', name: 'Popconfirm', description: '气泡确认框组件', icon: <span>❓</span> },
-        { key: 'progress', label: 'Progress', name: 'Progress', description: '进度条组件', icon: <span>📊</span> },
-        { key: 'radio', label: 'Radio', name: 'Radio', description: '单选框组件', icon: <span>🔘</span> },
-        { key: 'rate', label: 'Rate', name: 'Rate', description: '评分组件', icon: <span>⭐</span> },
-        { key: 'select', label: 'Select', name: 'Select', description: '选择器组件', icon: <span>🔽</span> },
-        { key: 'slider', label: 'Slider', name: 'Slider', description: '滑动条组件', icon: <span>🎚️</span> },
-        { key: 'splitter', label: 'Splitter', name: 'Splitter', description: '切分面板组件', icon: <span>📂</span> },
-        { key: 'space', label: 'Space', name: 'Space', description: '组件间距设置', icon: <span>⚫</span> },
-        { key: 'steps', label: 'Steps', name: 'Steps', description: '步骤条组件', icon: <span>📋</span> },
-        { key: 'switch', label: 'Switch', name: 'Switch', description: '开关组件', icon: <span>🔛</span> },
-        { key: 'table', label: 'Table', name: 'Table', description: '表格组件', icon: <span>📊</span> },
-        { key: 'tag', label: 'Tag', name: 'Tag', description: '标签组件', icon: <span>🏷️</span> },
-        { key: 'tabs', label: 'Tabs', name: 'Tabs', description: '选项卡组件', icon: <span>🗂️</span> },
-        { key: 'textarea', label: 'Textarea', name: 'Textarea', description: '多行文本框组件', icon: <span>📝</span> },
-        { key: 'timepicker', label: 'TimePicker', name: 'TimePicker', description: '时间选择器组件', icon: <span>⏰</span> },
-        { key: 'top', label: 'Top', name: 'Top', description: '回到顶部组件', icon: <span>⬆️</span> },
-        { key: 'tooltip', label: 'Tooltip', name: 'Tooltip', description: '提示框组件', icon: <span>💬</span> },
-        { key: 'transfer', label: 'Transfer', name: 'Transfer', description: '穿梭框组件', icon: <span>🔄</span> },
-        { key: 'tree', label: 'Tree', name: 'Tree', description: '树形控件组件', icon: <span>🌳</span> },
-        { key: 'treeselect', label: 'TreeSelect', name: 'TreeSelect', description: '树型选择器组件', icon: <span>🌲</span> },
-        { key: 'typography', label: 'Typography', name: 'Typography', description: '排版组件', icon: <span>📝</span> },
-        { key: 'upload', label: 'Upload', name: 'Upload', description: '文件上传组件', icon: <span>📤</span> },
-        { key: 'variables', label: 'Variables', name: 'Variables', description: '自定义组件库主题颜色', icon: <span>🎨</span> },
-    ];
-
     const [selectedComponent, setSelectedComponent] = useState<string>('button');
     const [searchValue, setSearchValue] = useState<string>('');
+    const [mobileMenuVisible, setMobileMenuVisible] = useState(false);
 
-    // 从URL中获取初始选中的组件ID
-    const getInitialComponentId = () => {
+    // 构建菜单项
+    const menuItems = useMemo(() => {
+        const items: { key: string; label: string; icon?: React.ReactNode; children?: { key: string; label: string }[] }[] = [
+            { key: 'intro', label: '简介' },
+            { key: 'install', label: '安装' },
+        ];
+
+        componentCategories.forEach(category => {
+            const children = category.components
+                .filter(key => componentMeta[key])
+                .map(key => ({
+                    key,
+                    label: componentMeta[key].name,
+                    description: componentMeta[key].description,
+                }));
+
+            if (children.length > 0) {
+                items.push({
+                    key: category.key,
+                    label: category.label,
+                    icon: <Icon type={category.icon as any} />,
+                    children
+                });
+            }
+        });
+
+        return items;
+    }, []);
+
+    // 从URL获取初始选中项
+    const getInitialComponentId = useCallback(() => {
         const hash = window.location.hash;
         if (hash.startsWith('#/')) {
             const id = hash.slice(2);
-            return navigationItems.some(item => item.key === id) ? id : 'button';
+            return componentMeta[id] ? id : 'button';
         }
         return 'button';
-    };
+    }, []);
 
-    // 监听URL变化，更新选中的组件
+    // 监听URL变化
     useEffect(() => {
         const initialId = getInitialComponentId();
         setSelectedComponent(initialId);
@@ -141,46 +213,41 @@ const App: React.FC = () => {
             const hash = window.location.hash;
             if (hash.startsWith('#/')) {
                 const id = hash.slice(2);
-                if (navigationItems.some(item => item.key === id)) {
+                if (componentMeta[id]) {
                     setSelectedComponent(id);
                 }
             }
         };
 
-        // 监听hash变化事件
         window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [getInitialComponentId]);
 
-        // 清理函数
-        return () => {
-            window.removeEventListener('hashchange', handleHashChange);
-        };
-    }, []);
-
-    // 处理菜单项点击
+    // 处理菜单点击
     const handleMenuClick = useCallback((key: string) => {
         setSelectedComponent(key);
         window.location.hash = `#/${key}`;
+        setMobileMenuVisible(false);
     }, []);
 
     // 处理搜索
     const handleSearch = useCallback(() => {
         if (!searchValue.trim()) return;
-        
+
         const searchTerm = searchValue.toLowerCase().trim();
-        const matchedItem = navigationItems.find(item =>
-            item.key.toLowerCase().includes(searchTerm) ||
-            item.label.toLowerCase().includes(searchTerm) ||
-            item.name.toLowerCase().includes(searchTerm) ||
-            item.description.toLowerCase().includes(searchTerm)
-        );
-        
-        if (matchedItem) {
-            handleMenuClick(matchedItem.key);
+        const matchedKey = Object.keys(componentMeta).find(key => {
+            const meta = componentMeta[key];
+            return key.toLowerCase().includes(searchTerm) ||
+                meta.name.toLowerCase().includes(searchTerm) ||
+                meta.description.toLowerCase().includes(searchTerm);
+        });
+
+        if (matchedKey) {
+            handleMenuClick(matchedKey);
             setSearchValue('');
         }
     }, [searchValue, handleMenuClick]);
 
-    // 处理键盘回车
     const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch();
@@ -188,270 +255,161 @@ const App: React.FC = () => {
     }, [handleSearch]);
 
     // 渲染内容组件
-    const renderContent = () => {
-        switch (selectedComponent) {
-            case 'intro':
-                return (
-                    <div className="content-section">
-                        <h2 className="section-title">1. 简介</h2>
-                        <p className="section-text">IDP Design 是一个基于 React 的现代化 UI 组件库，提供了一系列简洁、美观、易用的组件，适用于各种 Web 应用开发。</p>
-                    </div>
-                );
-            case 'install':
-                return (
-                    <div className="content-section">
-                        <h2 className="section-title">2. 安装</h2>
-                        <p className="section-text">IDP Design 组件库支持多种安装方式，您可以根据实际需求选择适合的安装方法。</p>
+    const renderContent = useCallback(() => {
+        const components: Record<string, React.ReactNode> = {
+            intro: <IntroContent />,
+            install: <InstallContent />,
+            button: <ButtonExample />,
+            flex: <FlexExample />,
+            grid: <GridExample />,
+            notice: <NoticeExample />,
+            marquee: <MarqueeExample />,
+            table: <TableExample />,
+            top: <TopExample />,
+            icon: <IconExample />,
+            divider: <DividerExample />,
+            drawer: <DrawerExample />,
+            input: <InputExample />,
+            i18n: <I18nExample />,
+            radio: <RadioExample />,
+            select: <SelectExample />,
+            slider: <SliderExample />,
+            modal: <ModalExample />,
+            notification: <NotificationExample />,
+            colorpicker: <ColorPickerExample />,
+            copytoclipboard: <CopyToClipboardExample />,
+            message: <MessageExample />,
+            empty: <EmptyExample />,
+            typography: <TypographyExample />,
+            variables: <VariablesExample />,
+            masonry: <MasonryExample />,
+            space: <SpaceExample />,
+            anchor: <AnchorExample />,
+            breadcrumb: <BreadcrumbExample />,
+            checkbox: <CheckboxExample />,
+            carousel: <CarouselExample />,
+            cascader: <CascaderExample />,
+            dropdown: <DropdownExample />,
+            menu: <MenuExample />,
+            pagination: <PaginationExample />,
+            steps: <StepsExample />,
+            switch: <SwitchExample />,
+            tag: <TagExample />,
+            tabs: <TabsExample />,
+            popconfirm: <PopconfirmExample />,
+            progress: <ProgressExample />,
+            tooltip: <TooltipExample />,
+            rate: <RateExample />,
+            transfer: <TransferExample />,
+            label: <LabelExample />,
+            treeselect: <TreeSelectExample />,
+            form: <FormExample />,
+            layout: <LayoutExample />,
+            textarea: <TextareaExample />,
+            timepicker: <TimePickerExample />,
+            datepicker: <DatePickerExample />,
+            tree: <TreeExample />,
+            upload: <UploadExample />,
+            spin: <SpinExample />,
+            splitter: <SplitterExample />,
+        };
 
-                        <h3 className="subsection-title">2.1 从本地文件安装</h3>
-                        <p className="section-text">如果您已经获取了 IDP Design 组件库的本地文件，可以通过以下方式安装：</p>
+        return components[selectedComponent] || <ButtonExample />;
+    }, [selectedComponent]);
 
-                        <h4 className="subsubsection-title">2.1.1 使用 npm 从本地目录安装</h4>
-                        <p className="section-text">将本地组件库目录作为依赖安装到您的项目中：</p>
-                        <div className="code-block">
-                            npm install /path/to/idp-design
-                        </div>
+    const selectedMeta = componentMeta[selectedComponent];
 
-                        <h4 className="subsubsection-title">2.1.2 使用 yarn 从本地目录安装</h4>
-                        <p className="section-text">将本地组件库目录作为依赖安装到您的项目中：</p>
-                        <div className="code-block">
-                            yarn add /path/to/idp-design
-                        </div>
-                        <p className="section-text">其中 <code>/path/to/idp-design</code> 是您本地 IDP Design 组件库的绝对路径。</p>
-
-                        <h3 className="subsection-title">2.2 从 Git 仓库安装</h3>
-                        <p className="section-text">您可以直接从 Git 仓库安装 IDP Design 组件库，支持指定分支或标签：</p>
-
-                        <h4 className="subsubsection-title">2.2.1 安装主分支最新版本</h4>
-                        <div className="code-block">
-                            npm install git+https://github.com/your-repo/idp-design.git
-                        </div>
-                        <div className="code-block">
-                            yarn add git+https://github.com/your-repo/idp-design.git
-                        </div>
-
-                        <h4 className="subsubsection-title">2.2.2 安装指定分支</h4>
-                        <div className="code-block">
-                            npm install git+https://github.com/your-repo/idp-design.git#branch-name
-                        </div>
-                        <div className="code-block">
-                            yarn add git+https://github.com/your-repo/idp-design.git#branch-name
-                        </div>
-                        <p className="section-text">将 <code>branch-name</code> 替换为您想要安装的分支名称，例如 <code>dev</code> 或 <code>feature/new-component</code>。</p>
-
-                        <h4 className="subsubsection-title">2.2.3 安装指定标签版本</h4>
-                        <div className="code-block">
-                            npm install git+https://github.com/your-repo/idp-design.git#v1.0.0
-                        </div>
-                        <div className="code-block">
-                            yarn add git+https://github.com/your-repo/idp-design.git#v1.0.0
-                        </div>
-                        <p className="section-text">将 <code>v1.0.0</code> 替换为您想要安装的具体版本标签。</p>
-
-                        <h3 className="subsection-title">2.3 更新依赖</h3>
-                        <p className="section-text">当 IDP Design 组件库有新版本发布时，您可以通过以下方式更新依赖：</p>
-
-                        <h4 className="subsubsection-title">2.3.1 更新本地安装的依赖</h4>
-                        <div className="code-block">
-                            npm update idp-design
-                        </div>
-                        <div className="code-block">
-                            yarn upgrade idp-design
-                        </div>
-
-                        <h4 className="subsubsection-title">2.3.2 重新安装本地文件依赖</h4>
-                        <p className="section-text">如果您使用本地文件安装方式，需要重新安装以获取最新版本：</p>
-                        <div className="code-block">
-                            npm install /path/to/idp-design --force
-                        </div>
-                        <div className="code-block">
-                            yarn add /path/to/idp-design --force
-                        </div>
-                        <p className="section-text">使用 <code>--force</code> 参数强制重新安装，确保获取最新的本地文件。</p>
-
-                        <h4 className="subsubsection-title">2.3.3 更新 Git 仓库依赖</h4>
-                        <p className="section-text">如果您使用 Git 仓库安装方式，可以通过以下命令更新：</p>
-                        <div className="code-block">
-                            npm install git+https://github.com/your-repo/idp-design.git#branch-name --force
-                        </div>
-                        <div className="code-block">
-                            yarn add git+https://github.com/your-repo/idp-design.git#branch-name --force
-                        </div>
-                        <p className="section-text">或者先卸载再重新安装：</p>
-                        <div className="code-block">
-                            npm uninstall idp-design
-npm install git+https://github.com/your-repo/idp-design.git#branch-name
-                        </div>
-                        <div className="code-block">
-                            yarn remove idp-design
-yarn add git+https://github.com/your-repo/idp-design.git#branch-name
-                        </div>
-                    </div>
-                );
-            case 'button':
-                return <ButtonExample />;
-            case 'flex':
-                return <FlexExample />;
-            case 'grid':
-                return <GridExample />;
-            case 'notice':
-                return <NoticeExample />;
-            case 'marquee':
-                return <MarqueeExample />;
-            case 'table':
-                return <TableExample />;
-            case 'top':
-                return <TopExample />;
-            case 'icon':
-                return <IconExample />;
-            case 'divider':
-                return <DividerExample />;
-            case 'drawer':
-                return <DrawerExample />;
-            case 'input':
-                return <InputExample />;
-            case 'i18n':
-                return <I18nExample />;
-            case 'radio':
-                return <RadioExample />;
-            case 'select':
-                return <SelectExample />;
-            case 'slider':
-                return <SliderExample />;
-            case 'modal':
-                return <ModalExample />;
-            case 'notification':
-                return <NotificationExample />;
-            case 'colorpicker':
-                return <ColorPickerExample />;
-            case 'copytoclipboard':
-                return <CopyToClipboardExample />;
-            case 'message':
-                return <MessageExample />;
-            case 'empty':
-                return <EmptyExample />;
-            case 'typography':
-                return <TypographyExample />;
-            case 'variables':
-                return <VariablesExample />;
-            case 'masonry':
-                return <MasonryExample />;
-            case 'space':
-                return <SpaceExample />;
-            case 'anchor':
-                return <AnchorExample />;
-            case 'breadcrumb':
-                return <BreadcrumbExample />;
-            case 'checkbox':
-                return <CheckboxExample />;
-            case 'carousel':
-                return <CarouselExample />;
-            case 'cascader':
-                return <CascaderExample />;
-            case 'dropdown':
-                return <DropdownExample />;
-            case 'menu':
-                return <MenuExample />;
-            case 'pagination':
-                return <PaginationExample />;
-            case 'steps':
-                return <StepsExample />;
-            case 'switch':
-                return <SwitchExample />;
-            case 'tag':
-                return <TagExample />;
-            case 'tabs':
-                return <TabsExample />;
-            case 'popconfirm':
-                return <PopconfirmExample />;
-            case 'progress':
-                return <ProgressExample />;
-            case 'tooltip':
-                return <TooltipExample />;
-            case 'rate':
-                return <RateExample />;
-            case 'transfer':
-                return <TransferExample />;
-            case 'label':
-                return <LabelExample />;
-            case 'treeselect':
-                return <TreeSelectExample />;
-            case 'form':
-                return <FormExample />;
-            case 'layout':
-                return <LayoutExample />;
-            case 'textarea':
-                return <TextareaExample />;
-            case 'timepicker':
-                return <TimePickerExample />;
-            case 'datepicker':
-                return <DatePickerExample />;
-            case 'tree':
-                return <TreeExample />;
-            case 'upload':
-                return <UploadExample />;
-            case 'splitter':
-                return <SplitterExample />;
-            default:
-                return <ButtonExample />;
+    // 查找当前选中项所属的父菜单
+    const findParentKey = useCallback((key: string): string => {
+        for (const category of componentCategories) {
+            if (category.components.includes(key)) {
+                return category.key;
+            }
         }
-    };
+        return key === 'intro' || key === 'install' ? key : '';
+    }, []);
 
-    const selectedComponentData = navigationItems.find(c => c.key === selectedComponent);
+    const openKeys = useMemo(() => {
+        const parentKey = findParentKey(selectedComponent);
+        return parentKey ? [parentKey] : [];
+    }, [selectedComponent, findParentKey]);
 
     return (
         <MessageProvider>
-            <Layout  style={{ minHeight: '100vh' }}>
-                <Header>
-                    <Icon type="home" size={24} />
-                    <span style={{ marginLeft: '12px', fontSize: '18px', fontWeight: 600 }}>
-                        IDP Design
-                    </span>
-                    {/* 搜索组件 */}
-                    <div style={{
-                        marginLeft: 'auto',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                    }}>
+            <Layout className="app-layout">
+                {/* 移动端遮罩 */}
+                {mobileMenuVisible && (
+                    <div
+                        className="mobile-menu-mask"
+                        onClick={() => setMobileMenuVisible(false)}
+                    />
+                )}
+
+                <Header className="app-header">
+                    <div className="header-left">
+                        <button
+                            className="mobile-menu-toggle"
+                            onClick={() => setMobileMenuVisible(!mobileMenuVisible)}
+                        >
+                            <Icon type={mobileMenuVisible ? 'close' : 'menu'} />
+                        </button>
+                        <div className="logo">
+                            <Icon type="app" className="logo-icon" />
+                            <span className="logo-text">ZjpCy Design</span>
+                        </div>
+                    </div>
+                    <div className="header-right">
                         <Input.Search
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                             onKeyDown={handleKeyDown}
                             placeholder="搜索组件..."
-                            style={{ width: '300px' }}
+                            className="header-search"
+                            onSearch={handleSearch}
                         />
+                        <a
+                            href="https://github.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="header-link"
+                        >
+                            <Icon type="github" />
+                        </a>
                     </div>
                 </Header>
-                <Layout>
+
+                <Layout className="app-main">
                     <Sider
+                        className={`app-sider ${mobileMenuVisible ? 'mobile-visible' : ''}`}
                         collapsible
                         collapsed={collapsed}
                         onCollapse={setCollapsed}
                         triggerPlacement="bottom"
+                        width={256}
                     >
                         <Menu
-                            items={navigationItems}
+                            items={menuItems}
                             selectedKey={selectedComponent}
+                            defaultOpenKeys={openKeys}
                             onChange={(item) => handleMenuClick(item.key)}
-                            mode="vertical"
+                            mode="inline"
                             collapsed={collapsed}
+                            className="app-menu"
                         />
                     </Sider>
-                    <Content style={{ padding: '0' }}>
-                        {/* 内容头部 */}
-                        <div className="content-header">
-                            <h1 className="content-title">
-                                {selectedComponentData?.name || 'API 参考'}
-                            </h1>
-                            <p className="content-subtitle">
-                                {selectedComponentData?.description || '查看组件 API 文档'}
-                            </p>
-                        </div>
 
-                        {/* 内容主体 */}
-                        <div className="content-main">
-                            {renderContent()}
+                    <Content className="app-content">
+                        <div className="content-container">
+                            <div className="content-header">
+                                <h1 className="content-title">{selectedMeta?.name}</h1>
+                                <p className="content-desc">{selectedMeta?.description}</p>
+                            </div>
+                            <div className="content-body">
+                                {renderContent()}
+                            </div>
+                            <footer className="content-footer">
+                                <p>ZjpCy Design ©2024 Created by IDP Team</p>
+                            </footer>
                         </div>
                     </Content>
                 </Layout>
@@ -459,5 +417,102 @@ yarn add git+https://github.com/your-repo/idp-design.git#branch-name
         </MessageProvider>
     );
 };
+
+// 简介内容组件
+const IntroContent: React.FC = () => (
+    <div className="intro-content">
+        <div className="intro-hero">
+            <h1>ZjpCy Design</h1>
+            <p className="intro-subtitle">一套基于 React 的企业级 UI 设计语言和组件库</p>
+            <div className="intro-actions">
+                <a href="#/install" className="intro-btn intro-btn-primary">开始使用</a>
+                <a
+                    href="https://www.npmjs.com/package/@zjpcy/simple-design?activeTab=readme"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="intro-btn"
+                >
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+        <div className="intro-features">
+            <div className="feature-card">
+                <div className="feature-icon">📦</div>
+                <h3>开箱即用</h3>
+                <p>提供高质量 React 组件，可直接使用，无需额外配置</p>
+            </div>
+            <div className="feature-card">
+                <div className="feature-icon">🎨</div>
+                <h3>主题定制</h3>
+                <p>支持自定义主题，轻松打造符合品牌的设计系统</p>
+            </div>
+            <div className="feature-card">
+                <div className="feature-icon">⚡</div>
+                <h3>性能优秀</h3>
+                <p>精心优化的组件实现，确保流畅的用户体验</p>
+            </div>
+            <div className="feature-card">
+                <div className="feature-icon">🌍</div>
+                <h3>国际化支持</h3>
+                <p>内置多语言支持，轻松应对全球化需求</p>
+            </div>
+        </div>
+    </div>
+);
+
+// 安装内容组件
+const InstallContent: React.FC = () => (
+    <div className="install-content">
+        <section className="install-section">
+            <h2>安装</h2>
+            <p>推荐使用 npm 或 yarn 安装</p>
+
+            <div className="code-block">
+                <div className="code-header">
+                    <span>npm</span>
+                </div>
+                <pre><code>npm install @zjpcy/simple-design</code></pre>
+            </div>
+
+            <div className="code-block">
+                <div className="code-header">
+                    <span>yarn</span>
+                </div>
+                <pre><code>yarn add @zjpcy/simple-design</code></pre>
+            </div>
+        </section>
+
+        <section className="install-section">
+            <h2>本地安装</h2>
+            <p>从本地文件安装：</p>
+
+            <div className="code-block">
+                <pre><code>npm install /path/to/@zjpcy/simple-design</code></pre>
+            </div>
+        </section>
+
+        <section className="install-section">
+            <h2>使用</h2>
+
+            <div className="code-block">
+                <div className="code-header">
+                    <span>完整引入</span>
+                </div>
+                <pre><code>{`import React from 'react';
+import { Button, Input } from '@zjpcy/simple-design';
+import 'idp-design/dist/index.css';
+
+const App = () => (
+  <>
+    <Button type="primary">按钮</Button>
+    <Input placeholder="请输入" />
+  </>
+);`}</code></pre>
+            </div>
+        </section>
+    </div>
+);
 
 export default App;

@@ -8,6 +8,8 @@ export interface MenuItem {
   key: string;
   /** 菜单项显示文本 */
   label: string;
+  /** 菜单项描述 */
+  description?: string;
   /** 菜单项图标 */
   icon?: React.ReactNode;
   /** 子菜单项数组 */

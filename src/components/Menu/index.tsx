@@ -146,9 +146,12 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
             </span>
           )}
           {(!collapsed || !isRoot) && (
-            <>
+            <div className="idp-menu-item-text">
               <span className="idp-menu-item-label">{item.label}</span>
-            </>
+              {item.description && !hasChildren && (
+                <span className="idp-menu-item-description">{item.description}</span>
+              )}
+            </div>
           )}
           {collapsed && isRoot && !item.icon && (
             <span className="idp-menu-item-collapsed-label">
@@ -197,7 +200,7 @@ MenuItemComponent.displayName = 'MenuItemComponent';
 
 /**
  * Menu 菜单导航组件
- * 
+ *
  * 为页面和功能提供导航的菜单列表，支持水平顶部导航和垂直菜单
  * 子菜单内嵌在菜单区域，支持缩起/展开功能
  */

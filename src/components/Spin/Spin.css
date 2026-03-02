@@ -1,0 +1,151 @@
+/* ============================================
+   IDP Spin Component - Loading State
+   ============================================ */
+
+/* 基础 Spin 容器 */
+.idp-spin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Spin 内容区域 */
+.idp-spin-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 带提示文本时的间距 */
+.idp-spin-has-tip {
+    gap: 12px;
+}
+
+/* 加载图标 */
+.idp-spin-icon {
+    animation: idp-spin-rotate 1s linear infinite;
+}
+
+/* 加载轨道 - 背景圆环 */
+.idp-spin-track {
+    stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
+}
+
+/* 加载指示器 - 旋转部分 */
+.idp-spin-indicator {
+    stroke: var(--idp-primary-color, #1890ff);
+    stroke-dasharray: 60;
+    stroke-dashoffset: 40;
+    stroke-linecap: round;
+    transform-origin: center;
+}
+
+/* 提示文本 */
+.idp-spin-tip {
+    font-size: 14px;
+    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    text-align: center;
+}
+
+/* 尺寸变体 - small */
+.idp-spin-small .idp-spin-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.idp-spin-small .idp-spin-tip {
+    font-size: 12px;
+}
+
+/* 尺寸变体 - default */
+.idp-spin-default .idp-spin-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* 尺寸变体 - large */
+.idp-spin-large .idp-spin-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.idp-spin-large .idp-spin-tip {
+    font-size: 16px;
+}
+
+/* ============================================
+   嵌套模式 - 作为包裹组件
+   ============================================ */
+.idp-spin-nested-wrapper {
+    position: relative;
+}
+
+/* 遮罩层 */
+.idp-spin-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    border-radius: var(--idp-border-radius-lg, 8px);
+}
+
+/* 遮罩层尺寸 */
+.idp-spin-mask-small .idp-spin-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.idp-spin-mask-default .idp-spin-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.idp-spin-mask-large .idp-spin-icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* ============================================
+   全屏模式
+   ============================================ */
+.idp-spin-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.idp-spin-fullscreen .idp-spin-icon {
+    width: 48px;
+    height: 48px;
+}
+
+.idp-spin-fullscreen .idp-spin-tip {
+    font-size: 16px;
+    margin-top: 16px;
+}
+
+/* ============================================
+   旋转动画
+   ============================================ */
+@keyframes idp-spin-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

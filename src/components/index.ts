@@ -1,4 +1,6 @@
 export { default as Button } from './Button';
+export { default as Spin } from './Spin';
+export type { SpinProps, SpinSize } from './Spin';
 export { default as Carousel } from './Carousel';
 export { default as Cascader } from './Cascader';
 export { default as TreeSelect } from './TreeSelect';

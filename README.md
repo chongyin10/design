@@ -1,8 +1,8 @@
-# IDP Design Component Library Usage Guide
+# ZjpCy Design Component Library Usage Guide
 
 ## 1. Introduction
 
-IDP Design is a modern UI component library based on React, offering a range of concise, visually appealing, and user-friendly components suitable for various web application developments.
+ZjpCy Design is a modern UI component library based on React, offering a range of concise, visually appealing, and user-friendly components suitable for various web application developments.
 
 ## 2. Installation
 

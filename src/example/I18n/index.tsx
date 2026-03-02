@@ -57,7 +57,7 @@ const I18nExample: React.FC = () => {
   return (
     <div style={{ padding: '20px' }}>
       <h2>国际化</h2>
-      <p>IDP Design 组件库提供了完善的国际化支持，允许您轻松切换不同语言。</p>
+      <p>ZjpCy Design 组件库提供了完善的国际化支持，允许您轻松切换不同语言。</p>
 
       {/* 基本使用示例 */}
       <div style={{ marginBottom: '40px' }}>
