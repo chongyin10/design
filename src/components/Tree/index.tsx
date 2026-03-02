@@ -1200,7 +1200,10 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
           const node = findNode(treeData, key);
           if (node?.children) {
             const childKeys = getAllChildKeys(node.children);
-            newCheckedKeys = [...new Set([...newCheckedKeys, ...childKeys])];
+            // Use ES5-compatible array deduplication instead of Set
+            newCheckedKeys = newCheckedKeys.concat(
+              childKeys.filter(key => newCheckedKeys.indexOf(key) === -1)
+            );
           }
         }
       }
