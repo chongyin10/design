@@ -193,7 +193,7 @@
   --idp-slider-tooltip-shadow: var(--idp-shadow-md); /* 滑块工具提示阴影 */
   
   /* Splitter 组件 - 分割面板相关样式变量（现代化设计） */
-  --idp-splitter-bar-size: 10px; /* 分割条大小 - 略微增大提升操作体验 */
+  --idp-splitter-bar-size: 6px; /* 分割条大小 - 细线设计更精致 */
   --idp-splitter-bar-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%); /* 分割条渐变背景 */
   --idp-splitter-bar-hover-bg: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-border-color-light) 100%); /* 分割条悬停渐变背景 */
   --idp-splitter-bar-radius: var(--idp-border-radius-md); /* 分割条圆角 */
@@ -203,7 +203,7 @@
   --idp-splitter-line-hover-color: var(--idp-primary-color); /* 分割线悬停颜色 */
   --idp-splitter-line-active-color: var(--idp-primary-hover-color); /* 分割线激活颜色 */
   --idp-splitter-line-disabled-color: var(--idp-text-color-light); /* 分割线禁用颜色 */
-  --idp-splitter-line-width: 2px; /* 分割线宽度 - 增加可视性 */
+  --idp-splitter-line-width: 2px; /* 分割线宽度 */
   --idp-splitter-line-length: 32px; /* 分割线长度 */
   --idp-splitter-line-min-length: 24px; /* 分割线最小长度 */
   --idp-splitter-line-bg: linear-gradient(180deg, var(--idp-border-color-light) 0%, var(--idp-border-color) 50%, var(--idp-border-color-light) 100%); /* 分割线渐变背景 */

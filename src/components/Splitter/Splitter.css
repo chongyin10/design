@@ -1,6 +1,6 @@
 /* ============================================
    IDP Splitter Component - Modern Design System
-   分割面板组件 - 支持水平和垂直分隔
+   分割面板组件 - 支持水平和垂直分隔，支持多面板
    ============================================ */
 
 /* 容器基础样式 */
@@ -12,7 +12,6 @@
   overflow: hidden;
   background: var(--idp-splitter-panel-bg);
   border-radius: var(--idp-splitter-panel-radius);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
 }
 
 /* 水平布局 */
@@ -37,24 +36,6 @@
   background: var(--idp-splitter-panel-bg);
 }
 
-/* 面板阴影效果 - 第一个面板添加阴影 */
-.idp-splitter--horizontal .idp-splitter__panel:first-child {
-  box-shadow: var(--idp-splitter-panel-shadow);
-}
-
-.idp-splitter--vertical .idp-splitter__panel:first-child {
-  box-shadow: var(--idp-splitter-panel-shadow-vertical);
-}
-
-/* 面板阴影效果 - 悬停时增强 */
-.idp-splitter--horizontal:hover .idp-splitter__panel:first-child {
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.12);
-}
-
-.idp-splitter--vertical:hover .idp-splitter__panel:first-child {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-}
-
 /* 水平布局面板 */
 .idp-splitter--horizontal .idp-splitter__panel {
   height: auto;
@@ -65,6 +46,24 @@
 .idp-splitter--vertical .idp-splitter__panel {
   width: auto;
   min-width: 100%;
+}
+
+/* 面板阴影效果 - 非最后一个面板添加阴影 */
+.idp-splitter--horizontal .idp-splitter__panel:not(:last-of-type) {
+  box-shadow: var(--idp-splitter-panel-shadow);
+}
+
+.idp-splitter--vertical .idp-splitter__panel:not(:last-of-type) {
+  box-shadow: var(--idp-splitter-panel-shadow-vertical);
+}
+
+/* 面板悬停时阴影增强 */
+.idp-splitter:hover .idp-splitter__panel:not(:last-of-type) {
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.12);
+}
+
+.idp-splitter--vertical:hover .idp-splitter__panel:not(:last-of-type) {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
 /* ============================================
@@ -111,7 +110,7 @@
 
 /* 分割条拖拽状态 - 发光效果和层级提升 */
 .idp-splitter__bar--dragging {
-  z-index: 100;
+  z-index: 100 !important;
   background: var(--idp-splitter-bar-hover-bg);
   box-shadow: var(--idp-splitter-shadow-active);
 }
@@ -191,18 +190,18 @@
   .idp-splitter--horizontal .idp-splitter__bar {
     width: 14px;
   }
-  
+
   .idp-splitter--vertical .idp-splitter__bar {
     height: 14px;
   }
-  
+
   /* 触摸设备增大分割线 */
   .idp-splitter--horizontal .idp-splitter__line {
     width: 3px;
     height: 40px;
     min-height: 40px;
   }
-  
+
   .idp-splitter--vertical .idp-splitter__line {
     width: 40px;
     min-width: 40px;
@@ -217,7 +216,7 @@
   .idp-splitter {
     background: var(--idp-bg-color-light);
   }
-  
+
   .idp-splitter__panel {
     background: var(--idp-bg-color-light);
   }
