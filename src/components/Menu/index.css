@@ -347,6 +347,163 @@
 }
 
 /* ============================================
+   扁平垂直模式 (Vertical Flat)
+   ============================================ */
+.idp-menu-vertical-flat {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 200px;
+}
+
+/* 扁平模式下子菜单容器始终可见 */
+.idp-menu-submenu-wrapper.vertical-flat {
+  position: relative;
+  width: 100%;
+}
+
+/* 扁平模式子菜单 - 无展开/关闭动画，直接显示 */
+.idp-menu-submenu.vertical-flat {
+  overflow: visible;
+  background-color: transparent;
+  display: block;
+  opacity: 1;
+  width: 100%;
+}
+
+.idp-menu-submenu.vertical-flat > .idp-menu-submenu-content {
+  overflow: visible;
+  width: 100%;
+}
+
+/* 扁平模式子菜单项样式 */
+.idp-menu-submenu.vertical-flat .idp-menu-item {
+  margin: 2px 0;
+  height: 36px;
+  opacity: 1;
+  transform: none;
+  transition: background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
+}
+
+/* 扁平模式下禁用箭头 */
+.idp-menu-vertical-flat .idp-menu-item-arrow {
+  display: none;
+}
+
+/* ============================================
+   扁平模式下祖节点（有子菜单的父级）样式
+   ============================================ */
+/* 祖节点不可选中 - 移除选中效果 */
+.idp-menu-vertical-flat .idp-menu-item.has-children {
+  cursor: default;
+  pointer-events: none;
+  font-weight: 600;
+  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  border-bottom: 1px solid #E5E5E5;
+}
+
+.idp-menu-vertical-flat .idp-menu-item.has-children:hover {
+  background-color: transparent;
+  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+/* 祖节点内容区域可交互（用于显示） */
+.idp-menu-vertical-flat .idp-menu-item.has-children > .idp-menu-item-content {
+  pointer-events: auto;
+}
+
+/* 祖节点下方添加分隔线 */
+.idp-menu-vertical-flat .idp-menu-item.has-children::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--idp-border-color-light, #f0f0f0) 20%,
+    var(--idp-border-color-light, #f0f0f0) 80%,
+    transparent 100%
+  );
+}
+
+/* 扁平模式下子菜单容器 - 添加层级背景和间距 */
+.idp-menu-submenu-wrapper.vertical-flat {
+  position: relative;
+  width: 100%;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
+}
+
+/* 最后一个子菜单容器不需要下边框 */
+.idp-menu-submenu-wrapper.vertical-flat:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* 扁平模式下子菜单项缩进 */
+.idp-menu-submenu.vertical-flat .idp-menu-item {
+  padding-left: 24px;
+}
+
+/* 扁平模式下多级嵌套缩进 */
+.idp-menu-submenu.vertical-flat .idp-menu-submenu.vertical-flat .idp-menu-item {
+  padding-left: 40px;
+}
+
+.idp-menu-submenu.vertical-flat .idp-menu-submenu.vertical-flat .idp-menu-submenu.vertical-flat .idp-menu-item {
+  padding-left: 56px;
+}
+
+/* 扁平模式下嵌套子菜单也需要占满宽度 */
+.idp-menu-submenu.vertical-flat .idp-menu-submenu-wrapper.vertical-flat {
+  width: 100%;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* ============================================
+   Dark 主题下扁平模式样式
+   ============================================ */
+.idp-menu-dark.idp-menu-vertical-flat {
+  background: transparent;
+}
+
+.idp-menu-dark .idp-menu-submenu.vertical-flat {
+  background-color: transparent;
+}
+
+/* Dark 主题下祖节点样式 */
+.idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.has-children {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.has-children:hover {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Dark 主题下分隔线 */
+.idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.has-children::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 20%,
+    rgba(255, 255, 255, 0.15) 80%,
+    transparent 100%
+  );
+}
+
+.idp-menu-dark .idp-menu-submenu-wrapper.vertical-flat {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================
    垂直模式 (Vertical)
    ============================================ */
 .idp-menu-vertical {
@@ -567,7 +724,6 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-right: 1px solid var(--idp-border-color-light, #f0f0f0);
 }
 
 .idp-menu-inline .idp-menu-item {
@@ -653,4 +809,8 @@
 
 .idp-menu {
   animation: idp-menu-fade-in 0.3s ease;
+}
+
+.idp-menu-item-warrper-vertical-flat {
+  border-bottom: 1px solid #E5E5E5;
 }

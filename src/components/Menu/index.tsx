@@ -69,6 +69,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
 
   const isHorizontal = mode === 'horizontal';
   const isInline = mode === 'inline';
+  const isVerticalFlat = mode === 'vertical-flat';
   const isRoot = level === 0;
 
   const handleClick = useCallback((e: React.MouseEvent) => {
@@ -76,14 +77,19 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
 
     if (item.disabled) return;
 
-    // 如果有子菜单，切换展开状态（先执行，避免与 onItemClick 的关闭逻辑冲突）
-    if (hasChildren) {
+    // 扁平垂直模式下不处理展开/关闭
+    if (hasChildren && !isVerticalFlat) {
       onToggleOpen(item.key);
+    }
+
+    // 扁平垂直模式下，有子菜单的父节点不可被选中
+    if (isVerticalFlat && hasChildren) {
+      return;
     }
 
     // 触发点击回调
     onItemClick(item, item.key);
-  }, [item, onItemClick, onToggleOpen, hasChildren]);
+  }, [item, onItemClick, onToggleOpen, hasChildren, isVerticalFlat]);
 
   // 水平模式下根级项目的内边距不同
   const getPaddingLeft = () => {
@@ -101,8 +107,8 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
     shouldOpen && isHorizontal && isRoot
   );
 
-  // 判断是否显示箭头
-  const showArrow = hasChildren && (!collapsed || !isRoot);
+  // 判断是否显示箭头 - 扁平垂直模式下不显示箭头
+  const showArrow = hasChildren && (!collapsed || !isRoot) && !isVerticalFlat;
 
   // 根据当前模式决定子菜单如何展开
   const getSubMenuClass = () => {
@@ -111,6 +117,9 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       ? (isHorizontalSubMenuVisible ? 'open' : '')
       : (shouldOpen ? 'open' : '');
     const inlineClass = isInline && shouldOpen ? 'open inline' : '';
+
+    // 扁平垂直模式下子菜单始终展开
+    if (isVerticalFlat) return 'open vertical-flat';
 
     if (isHorizontal && isRoot) return `${openClass} ${baseClass}`.trim();
     if (isInline) return inlineClass;
@@ -167,9 +176,9 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       </div>
 
       {/* 子菜单 */}
-      {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联模式始终渲染以支持动画 */}
+      {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联/扁平垂直模式始终渲染以支持动画 */}
       {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
-        <div className={`idp-menu-submenu-wrapper ${mode} ${isHorizontal && isRoot ? 'horizontal-popup-wrapper' : ''}`}>
+        <div className={`idp-menu-submenu-wrapper ${mode} ${isHorizontal && isRoot ? 'horizontal-popup-wrapper' : ''} ${isVerticalFlat ? 'vertical-flat' : ''}`}>
           <div className={`idp-menu-submenu ${getSubMenuClass()} ${mode}`}>
             <div className="idp-menu-submenu-content">
               {item.children?.map((child: MenuItem) => (
@@ -246,9 +255,9 @@ const Menu: React.FC<MenuProps> = ({
   }, [externalSelectedKey]);
 
   // 当 selectedKey 变化时，自动展开其父级菜单
-  // 注意：水平模式下不自动展开，因为水平模式的子菜单是弹出式的
+  // 注意：水平模式和扁平垂直模式下不自动展开
   useEffect(() => {
-    if (currentSelectedKey && !isOpenKeysControlled && mode !== 'horizontal') {
+    if (currentSelectedKey && !isOpenKeysControlled && mode !== 'horizontal' && mode !== 'vertical-flat') {
       // 查找当前选中项的父级key
       const findParentKeys = (menuItems: MenuItem[], targetKey: string, parentKeys: string[] = []): string[] => {
         for (const item of menuItems) {

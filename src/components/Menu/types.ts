@@ -20,8 +20,12 @@ export interface MenuItem {
 
 /**
  * 菜单模式类型
+ * - horizontal: 水平顶部导航
+ * - vertical: 垂直菜单，可展开/折叠子菜单
+ * - inline: 内联菜单，子菜单嵌入显示
+ * - vertical-flat: 扁平垂直菜单，子菜单直接扁平化展示，无展开/关闭功能
  */
-export type MenuMode = 'horizontal' | 'vertical' | 'inline';
+export type MenuMode = 'horizontal' | 'vertical' | 'inline' | 'vertical-flat';
 
 /**
  * 菜单主题类型

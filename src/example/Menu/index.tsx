@@ -251,11 +251,22 @@ const menuItems = [
       <Section title="内联菜单 (Inline)">
         <p style={{ marginBottom: '16px', color: '#666' }}>垂直排列的内联菜单，子菜单内嵌展开。</p>
         <DemoRow title="内联菜单">
-          <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', width: '200px' }}>
+          <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', width: 'auto' }}>
             <Menu mode="inline" items={inlineMenuItems} />
           </div>
         </DemoRow>
         <CopyBlock code={`<Menu mode="inline" items={menuItems} />`} />
+      </Section>
+
+      {/* 扁平垂直菜单 */}
+      <Section title="扁平垂直菜单 (Vertical Flat)">
+        <p style={{ marginBottom: '16px', color: '#666' }}>子菜单直接扁平化展示的垂直菜单，没有展开/关闭功能，所有层级一目了然。</p>
+        <DemoRow title="扁平菜单">
+          <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', width: 'auto' }}>
+            <Menu mode="vertical-flat" items={inlineMenuItems} />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`<Menu mode="vertical-flat" items={menuItems} />`} />
       </Section>
 
       {/* 受控组件模式 */}
@@ -314,7 +325,7 @@ const menuItems = [
         <div style={{ border: '1px solid #e1e1e1', borderRadius: '8px', padding: '16px', marginBottom: '24px' }}>
           <Table
             dataSource={[
-              { property: 'mode', description: '菜单模式', type: '"horizontal" | "vertical" | "inline"', default: '"vertical"' },
+              { property: 'mode', description: '菜单模式', type: '"horizontal" | "vertical" | "inline" | "vertical-flat"', default: '"vertical"' },
               { property: 'items', description: '菜单项数组', type: 'MenuItem[]', default: '-' },
               { property: 'selectedKey', description: '当前选中的菜单项 key（受控模式）', type: 'string', default: '-' },
               { property: 'defaultOpenKeys', description: '默认展开的菜单项 key 数组', type: 'string[]', default: '[]' },
@@ -327,7 +338,7 @@ const menuItems = [
             columns={[
               { dataIndex: 'property', title: '属性', width: '120px' },
               { dataIndex: 'description', title: '说明' },
-              { dataIndex: 'type', title: '类型', width: '200px' },
+              { dataIndex: 'type', title: '类型', width: 'auto' },
               { dataIndex: 'default', title: '默认值', width: '100px' }
             ]}
             bordered
@@ -349,7 +360,7 @@ const menuItems = [
             columns={[
               { dataIndex: 'property', title: '属性', width: '120px' },
               { dataIndex: 'description', title: '说明' },
-              { dataIndex: 'type', title: '类型', width: '200px' },
+              { dataIndex: 'type', title: '类型', width: 'auto' },
               { dataIndex: 'default', title: '默认值', width: '100px' }
             ]}
             bordered
