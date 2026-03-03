@@ -4,6 +4,7 @@ node_modules/
 .roo
 # Build output
 dist/
+distweb/
 .codebuddy/**
 # Logs
 logs

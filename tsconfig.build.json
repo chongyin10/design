@@ -6,6 +6,7 @@
     "declarationMap": false,
     "emitDeclarationOnly": true,
     "outDir": "./dist/types",
+    "rootDir": "./src/components",
     "types": []
   },
   "include": [
