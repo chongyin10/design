@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Transfer from '../../components/Transfer';
 import { TransferItem } from '../../components/Transfer/types';
 import Table from '../../components/Table';
+import Anchor from '../../components/Anchor';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -84,6 +85,14 @@ const TransferExample: React.FC = () => {
   const [lazyLoadTargetKeys, setLazyLoadTargetKeys] = useState<string[]>([]);
   const [lazyLoading, setLazyLoading] = useState(false);
 
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   // 模拟懒加载更多数据
   const handleLazyLoad = (direction: 'left' | 'right') => {
     if (lazyLoading || direction === 'right') return;
@@ -102,29 +111,33 @@ const TransferExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Transfer 穿梭框</h1>
-      <p>双栏穿梭选择框，用于大量数据项的转移和选择。支持双栏穿梭模式和单栏选择模式。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="transfer-intro">Transfer 穿梭框</h1>
+          <p>双栏穿梭选择框，用于大量数据项的转移和选择。支持双栏穿梭模式和单栏选择模式。</p>
 
-      {/* 单栏选择模式 */}
-      <Section title="单栏选择模式">
-        <Transfer
-          mode="single"
-          dataSource={mockData.slice(0, 8)}
-          targetKeys={singleSelectedKeys}
-          showSearch
-          leftTitle="请选择项目"
-          onChange={(targetKeys) => {
-            setSingleSelectedKeys(targetKeys);
-            console.log('【单栏模式】选中项:', targetKeys);
-          }}
-          onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
-            console.log('【单栏模式】onSelectChange:', sourceSelectedKeys, targetSelectedKeys);
-          }}
-        />
-        <div style={{ marginTop: '12px', color: '#666' }}>
-          <p>当前选中: [{singleSelectedKeys.join(', ')}]</p>
-        </div>
-        <CopyBlock code={`<Transfer
+          {/* 单栏选择模式 */}
+          <div id="transfer-single">
+            <Section title="单栏选择模式">
+              <Transfer
+                mode="single"
+                dataSource={mockData.slice(0, 8)}
+                targetKeys={singleSelectedKeys}
+                showSearch
+                leftTitle="请选择项目"
+                onChange={(targetKeys) => {
+                  setSingleSelectedKeys(targetKeys);
+                  console.log('【单栏模式】选中项:', targetKeys);
+                }}
+                onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
+                  console.log('【单栏模式】onSelectChange:', sourceSelectedKeys, targetSelectedKeys);
+                }}
+              />
+              <div style={{ marginTop: '12px', color: '#666' }}>
+                <p>当前选中: [{singleSelectedKeys.join(', ')}]</p>
+              </div>
+              <CopyBlock code={`<Transfer
   mode="single"  // 单栏选择模式
   dataSource={dataSource}
   targetKeys={selectedKeys}
@@ -132,45 +145,47 @@ const TransferExample: React.FC = () => {
   leftTitle="请选择项目"
   onChange={(targetKeys) => setSelectedKeys(targetKeys)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 单栏选择模式 + render */}
-      <Section title="单栏选择模式 + render">
-        <Transfer
-          mode="single"
-          dataSource={[
-            { key: '1', title: '选项 1', tag: '热门' },
-            { key: '2', title: '选项 2', tag: '推荐' },
-            { key: '3', title: '选项 3', tag: '新品' },
-            { key: '4', title: '选项 4', tag: '默认' },
-          ]}
-          showSearch
-          leftTitle="单栏+render测试"
-          onChange={(targetKeys) => {
-            console.log('【单栏+render】onChange 选中项:', targetKeys);
-          }}
-          onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
-            console.log('【单栏+render】onSelectChange 左侧:', sourceSelectedKeys);
-            console.log('【单栏+render】onSelectChange 右侧:', targetSelectedKeys);
-          }}
-          render={(item) => (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  fontSize: '10px',
-                  background: item.tag === '热门' ? '#ff4d4f' : '#1890ff',
-                  color: '#fff',
+          {/* 单栏选择模式 + render */}
+          <div id="transfer-single-render">
+            <Section title="单栏选择模式 + render">
+              <Transfer
+                mode="single"
+                dataSource={[
+                  { key: '1', title: '选项 1', tag: '热门' },
+                  { key: '2', title: '选项 2', tag: '推荐' },
+                  { key: '3', title: '选项 3', tag: '新品' },
+                  { key: '4', title: '选项 4', tag: '默认' },
+                ]}
+                showSearch
+                leftTitle="单栏+render测试"
+                onChange={(targetKeys) => {
+                  console.log('【单栏+render】onChange 选中项:', targetKeys);
                 }}
-              >
-                {item.tag}
-              </span>
-              <span>{item.title}</span>
-            </span>
-          )}
-        />
-        <CopyBlock code={`<Transfer
+                onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
+                  console.log('【单栏+render】onSelectChange 左侧:', sourceSelectedKeys);
+                  console.log('【单栏+render】onSelectChange 右侧:', targetSelectedKeys);
+                }}
+                render={(item) => (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        background: item.tag === '热门' ? '#ff4d4f' : '#1890ff',
+                        color: '#fff',
+                      }}
+                    >
+                      {item.tag}
+                    </span>
+                    <span>{item.title}</span>
+                  </span>
+                )}
+              />
+              <CopyBlock code={`<Transfer
   mode="single"
   dataSource={[...]}
   showSearch
@@ -185,22 +200,24 @@ const TransferExample: React.FC = () => {
     </span>
   )}
 />`} />
-        <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
-          此示例测试单栏模式下同时使用 render 时 onSelectChange 是否能正确获取值
-        </p>
-      </Section>
+              <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
+                此示例测试单栏模式下同时使用 render 时 onSelectChange 是否能正确获取值
+              </p>
+            </Section>
+          </div>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
-        <Transfer
-          dataSource={mockData.slice(0, 10)}
-          targetKeys={baseTargetKeys}
-          onChange={(targetKeys) => {
-            setBaseTargetKeys(targetKeys);
-            console.log('目标 keys:', targetKeys);
-          }}
-        />
-        <CopyBlock code={`import { Transfer } from '@zjpcy/simple-design';
+          {/* 基础用法 */}
+          <div id="transfer-basic">
+            <Section title="基础用法">
+              <Transfer
+                dataSource={mockData.slice(0, 10)}
+                targetKeys={baseTargetKeys}
+                onChange={(targetKeys) => {
+                  setBaseTargetKeys(targetKeys);
+                  console.log('目标 keys:', targetKeys);
+                }}
+              />
+              <CopyBlock code={`import { Transfer } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const [targetKeys, setTargetKeys] = useState(['1', '2']);
@@ -214,25 +231,27 @@ const [targetKeys, setTargetKeys] = useState(['1', '2']);
   targetKeys={targetKeys}
   onChange={(targetKeys) => setTargetKeys(targetKeys)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 带搜索框 */}
-      <Section title="带搜索框">
-        <Transfer
-          dataSource={mockData}
-          targetKeys={searchTargetKeys}
-          showSearch
-          leftTitle="源列表"
-          rightTitle="目标列表"
-          onChange={(targetKeys, direction, moveKeys) => {
-            setSearchTargetKeys(targetKeys);
-            console.log('方向:', direction, '移动的 keys:', moveKeys);
-          }}
-          onSearch={(direction, value) => {
-            console.log('搜索方向:', direction, '搜索值:', value);
-          }}
-        />
-        <CopyBlock code={`<Transfer
+          {/* 带搜索框 */}
+          <div id="transfer-search">
+            <Section title="带搜索框">
+              <Transfer
+                dataSource={mockData}
+                targetKeys={searchTargetKeys}
+                showSearch
+                leftTitle="源列表"
+                rightTitle="目标列表"
+                onChange={(targetKeys, direction, moveKeys) => {
+                  setSearchTargetKeys(targetKeys);
+                  console.log('方向:', direction, '移动的 keys:', moveKeys);
+                }}
+                onSearch={(direction, value) => {
+                  console.log('搜索方向:', direction, '搜索值:', value);
+                }}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   targetKeys={targetKeys}
   showSearch
@@ -245,47 +264,51 @@ const [targetKeys, setTargetKeys] = useState(['1', '2']);
     console.log('搜索:', direction, value);
   }}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义标题和描述 */}
-      <Section title="自定义标题和描述">
-        <Transfer
-          dataSource={mockData.slice(0, 8)}
-          defaultTargetKeys={['1']}
-          leftTitle={<span style={{ color: '#1890ff' }}>📋 可选项目</span>}
-          rightTitle={<span style={{ color: '#52c41a' }}>✅ 已选项目</span>}
-          leftDescription="共 7 个可选项目"
-          rightDescription="已选择 1 个项目"
-        />
-        <CopyBlock code={`<Transfer
+          {/* 自定义标题和描述 */}
+          <div id="transfer-title">
+            <Section title="自定义标题和描述">
+              <Transfer
+                dataSource={mockData.slice(0, 8)}
+                defaultTargetKeys={['1']}
+                leftTitle={<span style={{ color: '#1890ff' }}>📋 可选项目</span>}
+                rightTitle={<span style={{ color: '#52c41a' }}>✅ 已选项目</span>}
+                leftDescription="共 7 个可选项目"
+                rightDescription="已选择 1 个项目"
+              />
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   leftTitle={<span>📋 可选项目</span>}
   rightTitle={<span>✅ 已选项目</span>}
   leftDescription="共 7 个可选项目"
   rightDescription="已选择 1 个项目"
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 受控模式 */}
-      <Section title="受控模式">
-        <Transfer
-          dataSource={mockData.slice(0, 6)}
-          targetKeys={controlledTargetKeys}
-          selectedKeys={controlledSelectedKeys}
-          onChange={(targetKeys, direction, moveKeys) => {
-            setControlledTargetKeys(targetKeys);
-            console.log('onChange:', targetKeys, direction, moveKeys);
-          }}
-          onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
-            setControlledSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-            console.log('onSelectChange:', sourceSelectedKeys, targetSelectedKeys);
-          }}
-        />
-        <div style={{ marginTop: '12px', color: '#666' }}>
-          <p>当前目标 keys: [{controlledTargetKeys.join(', ')}]</p>
-          <p>当前选中 keys: [{controlledSelectedKeys.join(', ')}]</p>
-        </div>
-        <CopyBlock code={`const [targetKeys, setTargetKeys] = useState(['5', '6']);
+          {/* 受控模式 */}
+          <div id="transfer-controlled">
+            <Section title="受控模式">
+              <Transfer
+                dataSource={mockData.slice(0, 6)}
+                targetKeys={controlledTargetKeys}
+                selectedKeys={controlledSelectedKeys}
+                onChange={(targetKeys, direction, moveKeys) => {
+                  setControlledTargetKeys(targetKeys);
+                  console.log('onChange:', targetKeys, direction, moveKeys);
+                }}
+                onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
+                  setControlledSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+                  console.log('onSelectChange:', sourceSelectedKeys, targetSelectedKeys);
+                }}
+              />
+              <div style={{ marginTop: '12px', color: '#666' }}>
+                <p>当前目标 keys: [{controlledTargetKeys.join(', ')}]</p>
+                <p>当前选中 keys: [{controlledSelectedKeys.join(', ')}]</p>
+              </div>
+              <CopyBlock code={`const [targetKeys, setTargetKeys] = useState(['5', '6']);
 const [selectedKeys, setSelectedKeys] = useState(['5', '7']);
 
 <Transfer
@@ -297,63 +320,69 @@ const [selectedKeys, setSelectedKeys] = useState(['5', '7']);
     setSelectedKeys([...sourceKeys, ...targetKeys]);
   }}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义高度和宽度 */}
-      <Section title="自定义高度和宽度">
-        <Transfer
-          dataSource={mockData.slice(0, 10)}
-          defaultTargetKeys={['1', '2']}
-          listHeight={400}
-          listWidth={280}
-        />
-        <CopyBlock code={`<Transfer
+          {/* 自定义高度和宽度 */}
+          <div id="transfer-size">
+            <Section title="自定义高度和宽度">
+              <Transfer
+                dataSource={mockData.slice(0, 10)}
+                defaultTargetKeys={['1', '2']}
+                listHeight={400}
+                listWidth={280}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   defaultTargetKeys={['1', '2']}
   listHeight={400}
   listWidth={280}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
-        <Transfer
-          dataSource={mockData.slice(0, 6)}
-          defaultTargetKeys={['1', '2']}
-          disabled
-        />
-        <CopyBlock code={`<Transfer
+          {/* 禁用状态 */}
+          <div id="transfer-disabled">
+            <Section title="禁用状态">
+              <Transfer
+                dataSource={mockData.slice(0, 6)}
+                defaultTargetKeys={['1', '2']}
+                disabled
+              />
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   defaultTargetKeys={['1', '2']}
   disabled
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义渲染 */}
-      <Section title="自定义渲染">
-        <Transfer
-          dataSource={[
-            { key: '1', title: '张三', disabled: false },
-            { key: '2', title: '李四', disabled: false },
-            { key: '3', title: '王五', disabled: false },
-            { key: '4', title: '赵六', disabled: true },
-          ]}
-          defaultTargetKeys={['1']}
-          render={(item) => (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  background: item.disabled ? '#999' : '#52c41a',
-                }}
+          {/* 自定义渲染 */}
+          <div id="transfer-render">
+            <Section title="自定义渲染">
+              <Transfer
+                dataSource={[
+                  { key: '1', title: '张三', disabled: false },
+                  { key: '2', title: '李四', disabled: false },
+                  { key: '3', title: '王五', disabled: false },
+                  { key: '4', title: '赵六', disabled: true },
+                ]}
+                defaultTargetKeys={['1']}
+                render={(item) => (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        background: item.disabled ? '#999' : '#52c41a',
+                      }}
+                    />
+                    {item.title}
+                  </span>
+                )}
               />
-              {item.title}
-            </span>
-          )}
-        />
-        <CopyBlock code={`<Transfer
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   render={(item) => (
     <span>
@@ -367,47 +396,49 @@ const [selectedKeys, setSelectedKeys] = useState(['5', '7']);
     </span>
   )}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义渲染（带点击事件查看选中状态） */}
-      <Section title="自定义渲染（带点击事件）">
-        <Transfer
-          dataSource={[
-            { key: '1', title: '选项 1', tag: '热门' },
-            { key: '2', title: '选项 2', tag: '推荐' },
-            { key: '3', title: '选项 3', tag: '新品' },
-            { key: '4', title: '选项 4', tag: '默认' },
-          ]}
-          defaultTargetKeys={['1']}
-          onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
-            console.log('【render示例】左侧选中:', sourceSelectedKeys);
-            console.log('【render示例】右侧选中:', targetSelectedKeys);
-          }}
-          render={(item) => (
-            <span
-              onClick={(e) => {
-                // 阻止事件冒泡，避免触发默认的选择逻辑
-                e.stopPropagation();
-                console.log('【render示例】点击了项目:', item.title, 'key:', item.key);
-              }}
-              style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
-            >
-              <span
-                style={{
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  fontSize: '10px',
-                  background: item.tag === '热门' ? '#ff4d4f' : item.tag === '推荐' ? '#1890ff' : '#52c41a',
-                  color: '#fff',
+          {/* 自定义渲染（带点击事件查看选中状态） */}
+          <div id="transfer-render-click">
+            <Section title="自定义渲染（带点击事件）">
+              <Transfer
+                dataSource={[
+                  { key: '1', title: '选项 1', tag: '热门' },
+                  { key: '2', title: '选项 2', tag: '推荐' },
+                  { key: '3', title: '选项 3', tag: '新品' },
+                  { key: '4', title: '选项 4', tag: '默认' },
+                ]}
+                defaultTargetKeys={['1']}
+                onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
+                  console.log('【render示例】左侧选中:', sourceSelectedKeys);
+                  console.log('【render示例】右侧选中:', targetSelectedKeys);
                 }}
-              >
-                {item.tag}
-              </span>
-              <span>{item.title}</span>
-            </span>
-          )}
-        />
-        <CopyBlock code={`<Transfer
+                render={(item) => (
+                  <span
+                    onClick={(e) => {
+                      // 阻止事件冒泡，避免触发默认的选择逻辑
+                      e.stopPropagation();
+                      console.log('【render示例】点击了项目:', item.title, 'key:', item.key);
+                    }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}
+                  >
+                    <span
+                      style={{
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        background: item.tag === '热门' ? '#ff4d4f' : item.tag === '推荐' ? '#1890ff' : '#52c41a',
+                        color: '#fff',
+                      }}
+                    >
+                      {item.tag}
+                    </span>
+                    <span>{item.title}</span>
+                  </span>
+                )}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={[
     { key: '1', title: '选项 1', tag: '热门' },
     { key: '2', title: '选项 2', tag: '推荐' },
@@ -430,51 +461,53 @@ const [selectedKeys, setSelectedKeys] = useState(['5', '7']);
     </span>
   )}
 />`} />
-        <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
-          点击标签时会打印当前点击的项目信息，同时 onSelectChange 会打印两侧选中的 keys
-        </p>
-      </Section>
+              <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
+                点击标签时会打印当前点击的项目信息，同时 onSelectChange 会打印两侧选中的 keys
+              </p>
+            </Section>
+          </div>
 
-      {/* render + filterOption 组合测试 */}
-      <Section title="render + filterOption 组合测试">
-        <Transfer
-          dataSource={[
-            { key: '1', title: '张三', dept: '技术部' },
-            { key: '2', title: '李四', dept: '产品部' },
-            { key: '3', title: '王五', dept: '设计部' },
-            { key: '4', title: '赵六', dept: '技术部' },
-            { key: '5', title: '钱七', dept: '运营部' },
-          ]}
-          defaultTargetKeys={['1']}
-          showSearch
-          filterOption={(inputValue, item) => {
-            // 同时搜索 title 和 dept
-            const titleMatch = String(item.title).toLowerCase().includes(inputValue.toLowerCase());
-            const deptMatch = String(item.dept).toLowerCase().includes(inputValue.toLowerCase());
-            return titleMatch || deptMatch;
-          }}
-          onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
-            console.log('【render+filterOption】左侧选中:', sourceSelectedKeys);
-            console.log('【render+filterOption】右侧选中:', targetSelectedKeys);
-          }}
-          render={(item) => (
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span
-                style={{
-                  padding: '2px 6px',
-                  borderRadius: '4px',
-                  fontSize: '10px',
-                  background: item.dept === '技术部' ? '#1890ff' : '#52c41a',
-                  color: '#fff',
+          {/* render + filterOption 组合测试 */}
+          <div id="transfer-filter">
+            <Section title="render + filterOption 组合测试">
+              <Transfer
+                dataSource={[
+                  { key: '1', title: '张三', dept: '技术部' },
+                  { key: '2', title: '李四', dept: '产品部' },
+                  { key: '3', title: '王五', dept: '设计部' },
+                  { key: '4', title: '赵六', dept: '技术部' },
+                  { key: '5', title: '钱七', dept: '运营部' },
+                ]}
+                defaultTargetKeys={['1']}
+                showSearch
+                filterOption={(inputValue, item) => {
+                  // 同时搜索 title 和 dept
+                  const titleMatch = String(item.title).toLowerCase().includes(inputValue.toLowerCase());
+                  const deptMatch = String(item.dept).toLowerCase().includes(inputValue.toLowerCase());
+                  return titleMatch || deptMatch;
                 }}
-              >
-                {item.dept}
-              </span>
-              <span>{item.title}</span>
-            </span>
-          )}
-        />
-        <CopyBlock code={`<Transfer
+                onSelectChange={(sourceSelectedKeys, targetSelectedKeys) => {
+                  console.log('【render+filterOption】左侧选中:', sourceSelectedKeys);
+                  console.log('【render+filterOption】右侧选中:', targetSelectedKeys);
+                }}
+                render={(item) => (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span
+                      style={{
+                        padding: '2px 6px',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        background: item.dept === '技术部' ? '#1890ff' : '#52c41a',
+                        color: '#fff',
+                      }}
+                    >
+                      {item.dept}
+                    </span>
+                    <span>{item.title}</span>
+                  </span>
+                )}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={[
     { key: '1', title: '张三', dept: '技术部' },
     { key: '2', title: '李四', dept: '产品部' },
@@ -499,27 +532,29 @@ const [selectedKeys, setSelectedKeys] = useState(['5', '7']);
     </span>
   )}
 />`} />
-        <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
-          搜索时同时匹配姓名和部门，选择项后会在控制台打印两侧选中的 keys
-        </p>
-      </Section>
+              <p style={{ color: '#666', fontSize: '14px', marginTop: '8px' }}>
+                搜索时同时匹配姓名和部门，选择项后会在控制台打印两侧选中的 keys
+              </p>
+            </Section>
+          </div>
 
-      {/* 自定义字段名称 */}
-      <Section title="自定义字段名称">
-        <Transfer
-          dataSource={[
-            { id: '1', name: '张三', disabled: false },
-            { id: '2', name: '李四', disabled: false },
-            { id: '3', name: '王五', disabled: false },
-            { id: '4', name: '赵六', disabled: true },
-          ] as any}
-          defaultTargetKeys={['1']}
-          fieldNames={{
-            key: 'id',
-            title: 'name'
-          }}
-        />
-        <CopyBlock code={`const customFieldNames = {
+          {/* 自定义字段名称 */}
+          <div id="transfer-fieldnames">
+            <Section title="自定义字段名称">
+              <Transfer
+                dataSource={[
+                  { id: '1', name: '张三', disabled: false },
+                  { id: '2', name: '李四', disabled: false },
+                  { id: '3', name: '王五', disabled: false },
+                  { id: '4', name: '赵六', disabled: true },
+                ] as any}
+                defaultTargetKeys={['1']}
+                fieldNames={{
+                  key: 'id',
+                  title: 'name'
+                }}
+              />
+              <CopyBlock code={`const customFieldNames = {
   key: 'id',
   title: 'name'
 };
@@ -536,93 +571,99 @@ const dataSource = [
   fieldNames={customFieldNames}
   onChange={(targetKeys) => console.log('选中的 keys:', targetKeys)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义 Header */}
-      <Section title="自定义 Header">
-        <Transfer
-          dataSource={mockData.slice(0, 8)}
-          defaultTargetKeys={['1']}
-          header={({ direction, dataSource, selectedKeys }) => (
-            <div style={{
-              padding: '12px',
-              background: '#f0f5ff',
-              borderBottom: '1px solid #d9d9d9',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <span style={{ fontWeight: 500, color: '#1890ff' }}>
-                {direction === 'left' ? '📥 待选列表' : '📤 已选列表'}
-              </span>
-              <span style={{ fontSize: '12px', color: '#666' }}>
-                {selectedKeys.length}/{dataSource.length}
-              </span>
-            </div>
-          )}
-        />
-        <CopyBlock code={`header={({ direction, dataSource, selectedKeys }) => (
+          {/* 自定义 Header */}
+          <div id="transfer-header">
+            <Section title="自定义 Header">
+              <Transfer
+                dataSource={mockData.slice(0, 8)}
+                defaultTargetKeys={['1']}
+                header={({ direction, dataSource, selectedKeys }) => (
+                  <div style={{
+                    padding: '12px',
+                    background: '#f0f5ff',
+                    borderBottom: '1px solid #d9d9d9',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{ fontWeight: 500, color: '#1890ff' }}>
+                      {direction === 'left' ? '📥 待选列表' : '📤 已选列表'}
+                    </span>
+                    <span style={{ fontSize: '12px', color: '#666' }}>
+                      {selectedKeys.length}/{dataSource.length}
+                    </span>
+                  </div>
+                )}
+              />
+              <CopyBlock code={`header={({ direction, dataSource, selectedKeys }) => (
   <div>
     {direction === 'left' ? '📥 待选' : '📤 已选'}
     {selectedKeys.length}/{dataSource.length}
   </div>
 )}`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 隐藏 Header */}
-      <Section title="隐藏 Header">
-        <Transfer
-          dataSource={mockData.slice(0, 6)}
-          defaultTargetKeys={['1', '2']}
-          header={() => null}
-        />
-        <CopyBlock code={`header={() => null}  // 返回 null 隐藏 header`} />
-      </Section>
+          {/* 隐藏 Header */}
+          <div id="transfer-noheader">
+            <Section title="隐藏 Header">
+              <Transfer
+                dataSource={mockData.slice(0, 6)}
+                defaultTargetKeys={['1', '2']}
+                header={() => null}
+              />
+              <CopyBlock code={`header={() => null}  // 返回 null 隐藏 header`} />
+            </Section>
+          </div>
 
-      {/* 自定义 Body */}
-      <Section title="自定义 Body">
-        <Transfer
-          dataSource={mockData.slice(0, 6)}
-          defaultTargetKeys={['1']}
-          listHeight={200}
-          body={({ direction, dataSource, selectedKeys, sourceSelectedKeys, targetSelectedKeys, onSelectChange }) => (
-            <div style={{ padding: '8px', height: '100%', overflow: 'auto' }}>
-              <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
-                左侧选中: {sourceSelectedKeys.length} | 右侧选中: {targetSelectedKeys.length}
-              </div>
-              {dataSource.map(item => {
-                const itemKey = item.key as string;
-                return (
-                  <div
-                    key={itemKey}
-                    onClick={() => {
-                      if (item.disabled) return;
-                      const newSelectedKeys = selectedKeys.includes(itemKey)
-                        ? selectedKeys.filter(k => k !== itemKey)
-                        : [...selectedKeys, itemKey];
-                      if (direction === 'left') {
-                        onSelectChange(newSelectedKeys, targetSelectedKeys);
-                      } else {
-                        onSelectChange(sourceSelectedKeys, newSelectedKeys);
-                      }
-                    }}
-                    style={{
-                      padding: '8px 12px',
-                      margin: '4px 0',
-                      borderRadius: '4px',
-                      cursor: item.disabled ? 'not-allowed' : 'pointer',
-                      background: selectedKeys.includes(itemKey) ? '#e6f7ff' : '#f5f5f5',
-                      border: selectedKeys.includes(itemKey) ? '1px solid #1890ff' : '1px solid #d9d9d9',
-                    }}
-                  >
-                    {selectedKeys.includes(itemKey) ? '✅' : '⭕'} {item.title}
+          {/* 自定义 Body */}
+          <div id="transfer-body">
+            <Section title="自定义 Body">
+              <Transfer
+                dataSource={mockData.slice(0, 6)}
+                defaultTargetKeys={['1']}
+                listHeight={200}
+                body={({ direction, dataSource, selectedKeys, sourceSelectedKeys, targetSelectedKeys, onSelectChange }) => (
+                  <div style={{ padding: '8px', height: '100%', overflow: 'auto' }}>
+                    <div style={{ marginBottom: '8px', fontSize: '12px', color: '#666' }}>
+                      左侧选中: {sourceSelectedKeys.length} | 右侧选中: {targetSelectedKeys.length}
+                    </div>
+                    {dataSource.map(item => {
+                      const itemKey = item.key as string;
+                      return (
+                        <div
+                          key={itemKey}
+                          onClick={() => {
+                            if (item.disabled) return;
+                            const newSelectedKeys = selectedKeys.includes(itemKey)
+                              ? selectedKeys.filter(k => k !== itemKey)
+                              : [...selectedKeys, itemKey];
+                            if (direction === 'left') {
+                              onSelectChange(newSelectedKeys, targetSelectedKeys);
+                            } else {
+                              onSelectChange(sourceSelectedKeys, newSelectedKeys);
+                            }
+                          }}
+                          style={{
+                            padding: '8px 12px',
+                            margin: '4px 0',
+                            borderRadius: '4px',
+                            cursor: item.disabled ? 'not-allowed' : 'pointer',
+                            background: selectedKeys.includes(itemKey) ? '#e6f7ff' : '#f5f5f5',
+                            border: selectedKeys.includes(itemKey) ? '1px solid #1890ff' : '1px solid #d9d9d9',
+                          }}
+                        >
+                          {selectedKeys.includes(itemKey) ? '✅' : '⭕'} {item.title}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-          )}
-        />
-        <CopyBlock code={`body={({ direction, dataSource, selectedKeys, sourceSelectedKeys, targetSelectedKeys, onSelectChange }) => (
+                )}
+              />
+              <CopyBlock code={`body={({ direction, dataSource, selectedKeys, sourceSelectedKeys, targetSelectedKeys, onSelectChange }) => (
   <div>
     <div>左侧选中: {sourceSelectedKeys.length} | 右侧选中: {targetSelectedKeys.length}</div>
     {dataSource.map(item => {
@@ -643,23 +684,25 @@ const dataSource = [
     })}
   </div>
 )}`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义搜索区域 */}
-      <Section title="自定义搜索区域">
-        <Transfer
-          dataSource={mockData}
-          defaultTargetKeys={['1', '2']}
-          showSearch
-          leftTitle="源列表"
-          rightTitle="目标列表"
-          search={() => (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              自定义区域
-            </div>
-          )}
-        />
-        <CopyBlock code={`<Transfer
+          {/* 自定义搜索区域 */}
+          <div id="transfer-search-custom">
+            <Section title="自定义搜索区域">
+              <Transfer
+                dataSource={mockData}
+                defaultTargetKeys={['1', '2']}
+                showSearch
+                leftTitle="源列表"
+                rightTitle="目标列表"
+                search={() => (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    自定义区域
+                  </div>
+                )}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={mockData}
   showSearch
   search={({ direction, value, onChange, disabled }) => (
@@ -674,28 +717,30 @@ const dataSource = [
     </div>
   )}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义字段名 */}
-      <Section title="自定义字段名">
-        <Transfer
-          dataSource={[
-            { id: '1', name: '用户 1', disabled: false },
-            { id: '2', name: '用户 2', disabled: false },
-            { id: '3', name: '用户 3', disabled: true },
-            { id: '4', name: '用户 4', disabled: false },
-            { id: '5', name: '用户 5', disabled: false },
-          ]}
-          defaultTargetKeys={['1', '2']}
-          showSearch
-          leftTitle="用户列表"
-          rightTitle="已选用户"
-          fieldNames={{ key: 'id', title: 'name' }}
-          onChange={(targetKeys) => {
-            console.log('目标 keys:', targetKeys);
-          }}
-        />
-        <CopyBlock code={`<Transfer
+          {/* 自定义字段名 */}
+          <div id="transfer-custom-field">
+            <Section title="自定义字段名">
+              <Transfer
+                dataSource={[
+                  { id: '1', name: '用户 1', disabled: false },
+                  { id: '2', name: '用户 2', disabled: false },
+                  { id: '3', name: '用户 3', disabled: true },
+                  { id: '4', name: '用户 4', disabled: false },
+                  { id: '5', name: '用户 5', disabled: false },
+                ]}
+                defaultTargetKeys={['1', '2']}
+                showSearch
+                leftTitle="用户列表"
+                rightTitle="已选用户"
+                fieldNames={{ key: 'id', title: 'name' }}
+                onChange={(targetKeys) => {
+                  console.log('目标 keys:', targetKeys);
+                }}
+              />
+              <CopyBlock code={`<Transfer
   dataSource={[
     { id: '1', name: '用户 1' },
     { id: '2', name: '用户 2' },
@@ -707,26 +752,28 @@ const dataSource = [
   fieldNames={{ key: 'id', title: 'name' }}
   onChange={(targetKeys) => console.log(targetKeys)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 懒加载示例 */}
-      <Section title="懒加载">
-        <p style={{ color: '#666', marginBottom: '12px' }}>
-          向下滚动左侧面列表到底部，会自动加载更多数据。当前数据总数: {lazyLoadDataSource.length}
-        </p>
-        <Transfer
-          dataSource={lazyLoadDataSource}
-          targetKeys={lazyLoadTargetKeys}
-          lazyLoad={true}
-          lazyLoadThreshold={50}
-          loading={lazyLoading}
-          onChange={(targetKeys) => setLazyLoadTargetKeys(targetKeys)}
-          onLazyLoad={handleLazyLoad}
-          listHeight={300}
-          leftTitle="源列表（滚动加载更多）"
-          rightTitle="目标列表"
-        />
-        <CopyBlock code={`const [dataSource, setDataSource] = useState([
+          {/* 懒加载示例 */}
+          <div id="transfer-lazy">
+            <Section title="懒加载">
+              <p style={{ color: '#666', marginBottom: '12px' }}>
+                向下滚动左侧面列表到底部，会自动加载更多数据。当前数据总数: {lazyLoadDataSource.length}
+              </p>
+              <Transfer
+                dataSource={lazyLoadDataSource}
+                targetKeys={lazyLoadTargetKeys}
+                lazyLoad={true}
+                lazyLoadThreshold={50}
+                loading={lazyLoading}
+                onChange={(targetKeys) => setLazyLoadTargetKeys(targetKeys)}
+                onLazyLoad={handleLazyLoad}
+                listHeight={300}
+                leftTitle="源列表（滚动加载更多）"
+                rightTitle="目标列表"
+              />
+              <CopyBlock code={`const [dataSource, setDataSource] = useState([
   { key: '0', title: '选项 1' },
   // ... 初始数据
 ]);
@@ -750,100 +797,138 @@ const handleLazyLoad = (direction: 'left' | 'right') => {
   loading={loading}
   onLazyLoad={handleLazyLoad}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 延迟加载示例 */}
-      <Section title="延迟加载">
-        <p style={{ color: '#666', marginBottom: '12px' }}>
-          设置 loadingDelay 属性，loading 状态会在指定时间后自动取消（示例为 3 秒）
-        </p>
-        <Transfer
-          dataSource={mockData}
-          defaultTargetKeys={['1', '2']}
-          loading={true}
-          loadingDelay={3000}
-          leftTitle="源列表"
-          rightTitle="目标列表"
-        />
-        <CopyBlock code={`<Transfer
+          {/* 延迟加载示例 */}
+          <div id="transfer-delay">
+            <Section title="延迟加载">
+              <p style={{ color: '#666', marginBottom: '12px' }}>
+                设置 loadingDelay 属性，loading 状态会在指定时间后自动取消（示例为 3 秒）
+              </p>
+              <Transfer
+                dataSource={mockData}
+                defaultTargetKeys={['1', '2']}
+                loading={true}
+                loadingDelay={3000}
+                leftTitle="源列表"
+                rightTitle="目标列表"
+              />
+              <CopyBlock code={`<Transfer
   dataSource={dataSource}
   loading={true}
   loadingDelay={3000}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Transfer Props</h3>
-        <Table
-          dataSource={[
-            { param: 'dataSource', type: 'TransferItem[]', default: '[]', description: '数据源' },
-            { param: 'targetKeys', type: 'string[]', default: '-', description: '右侧已选中的 key 集合（受控）' },
-            { param: 'defaultTargetKeys', type: 'string[]', default: '[]', description: '默认已选中的 key 集合' },
-            { param: 'selectedKeys', type: 'string[]', default: '-', description: '当前选中的 key 集合（受控）' },
-            { param: 'showSearch', type: 'boolean', default: 'false', description: '是否显示搜索框' },
-            { param: 'disabled', type: 'boolean', default: 'false', description: '是否禁用整个组件' },
-            { param: 'leftTitle', type: 'ReactNode', default: "'源列表'", description: '左侧标题' },
-            { param: 'rightTitle', type: 'ReactNode', default: "'目标列表'", description: '右侧标题' },
-            { param: 'leftDescription', type: 'ReactNode', default: '-', description: '左侧描述信息' },
-            { param: 'rightDescription', type: 'ReactNode', default: '-', description: '右侧描述信息' },
-            { param: 'onChange', type: '(targetKeys, direction, moveKeys) => void', default: '-', description: '选项转移时的回调' },
-            { param: 'onSelectChange', type: '(sourceSelectedKeys, targetSelectedKeys) => void', default: '-', description: '选中项改变时的回调' },
-            { param: 'onSearch', type: '(direction, value) => void', default: '-', description: '搜索框内容变化时的回调' },
-            { param: 'render', type: '(item) => ReactNode', default: '-', description: '自定义渲染每一项' },
-            { param: 'listHeight', type: 'number | string', default: '300', description: '列表高度（像素）' },
-            { param: 'listWidth', type: 'number | string', default: '200', description: '列表宽度（像素）' },
-            { param: 'header', type: '(props) => ReactNode | null', default: '-', description: '自定义 header，返回 null 则不显示' },
-            { param: 'search', type: '({ direction, value, onChange, disabled }) => ReactNode', default: '-', description: '自定义搜索区域，传入此函数则替换默认搜索框' },
-            { param: 'body', type: '(props) => ReactNode', default: '-', description: '自定义 body 渲染' },
-            { param: 'mode', type: "'transfer' | 'single'", default: "'transfer'", description: '模式，transfer 为双栏穿梭模式，single 为单栏选择模式' },
-            { param: 'lazyLoad', type: 'boolean', default: 'false', description: '是否开启懒加载，滚动到底部时触发加载' },
-            { param: 'lazyLoadThreshold', type: 'number', default: '100', description: '懒加载阈值，距离底部多少像素时触发加载' },
-            { param: 'onLazyLoad', type: '(direction) => void', default: '-', description: '懒加载回调，滚动到底部时触发' },
-            { param: 'loading', type: 'boolean', default: 'false', description: '是否显示加载状态' },
-            { param: 'loadingRender', type: '() => ReactNode', default: '-', description: '自定义 loading 渲染' },
-            { param: 'loadingDelay', type: 'number', default: '-', description: '加载延迟时间（毫秒），设置后loading会在指定时间后自动取消' },
-            { param: 'fieldNames', type: 'FieldNames', default: '-', description: '自定义字段名称' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'param', width: '150px' },
-            { title: '说明', dataIndex: 'description', width: '300px' },
-            { title: '类型', dataIndex: 'type', width: '200px' },
-            { title: '默认值', dataIndex: 'default', width: '150px' },
-          ]}
-          pagination={false}
-        />
+          {/* API 文档 */}
+          <div id="transfer-api">
+            <Section title="API">
+              <h3>Transfer Props</h3>
+              <Table
+                dataSource={[
+                  { param: 'dataSource', type: 'TransferItem[]', default: '[]', description: '数据源' },
+                  { param: 'targetKeys', type: 'string[]', default: '-', description: '右侧已选中的 key 集合（受控）' },
+                  { param: 'defaultTargetKeys', type: 'string[]', default: '[]', description: '默认已选中的 key 集合' },
+                  { param: 'selectedKeys', type: 'string[]', default: '-', description: '当前选中的 key 集合（受控）' },
+                  { param: 'showSearch', type: 'boolean', default: 'false', description: '是否显示搜索框' },
+                  { param: 'disabled', type: 'boolean', default: 'false', description: '是否禁用整个组件' },
+                  { param: 'leftTitle', type: 'ReactNode', default: "'源列表'", description: '左侧标题' },
+                  { param: 'rightTitle', type: 'ReactNode', default: "'目标列表'", description: '右侧标题' },
+                  { param: 'leftDescription', type: 'ReactNode', default: '-', description: '左侧描述信息' },
+                  { param: 'rightDescription', type: 'ReactNode', default: '-', description: '右侧描述信息' },
+                  { param: 'onChange', type: '(targetKeys, direction, moveKeys) => void', default: '-', description: '选项转移时的回调' },
+                  { param: 'onSelectChange', type: '(sourceSelectedKeys, targetSelectedKeys) => void', default: '-', description: '选中项改变时的回调' },
+                  { param: 'onSearch', type: '(direction, value) => void', default: '-', description: '搜索框内容变化时的回调' },
+                  { param: 'render', type: '(item) => ReactNode', default: '-', description: '自定义渲染每一项' },
+                  { param: 'listHeight', type: 'number | string', default: '300', description: '列表高度（像素）' },
+                  { param: 'listWidth', type: 'number | string', default: '200', description: '列表宽度（像素）' },
+                  { param: 'header', type: '(props) => ReactNode | null', default: '-', description: '自定义 header，返回 null 则不显示' },
+                  { param: 'search', type: '({ direction, value, onChange, disabled }) => ReactNode', default: '-', description: '自定义搜索区域，传入此函数则替换默认搜索框' },
+                  { param: 'body', type: '(props) => ReactNode', default: '-', description: '自定义 body 渲染' },
+                  { param: 'mode', type: "'transfer' | 'single'", default: "'transfer'", description: '模式，transfer 为双栏穿梭模式，single 为单栏选择模式' },
+                  { param: 'lazyLoad', type: 'boolean', default: 'false', description: '是否开启懒加载，滚动到底部时触发加载' },
+                  { param: 'lazyLoadThreshold', type: 'number', default: '100', description: '懒加载阈值，距离底部多少像素时触发加载' },
+                  { param: 'onLazyLoad', type: '(direction) => void', default: '-', description: '懒加载回调，滚动到底部时触发' },
+                  { param: 'loading', type: 'boolean', default: 'false', description: '是否显示加载状态' },
+                  { param: 'loadingRender', type: '() => ReactNode', default: '-', description: '自定义 loading 渲染' },
+                  { param: 'loadingDelay', type: 'number', default: '-', description: '加载延迟时间（毫秒），设置后loading会在指定时间后自动取消' },
+                  { param: 'fieldNames', type: 'FieldNames', default: '-', description: '自定义字段名称' },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'param', width: '150px' },
+                  { title: '说明', dataIndex: 'description', width: '300px' },
+                  { title: '类型', dataIndex: 'type', width: '200px' },
+                  { title: '默认值', dataIndex: 'default', width: '150px' },
+                ]}
+                pagination={false}
+              />
 
-        <h3>TransferItem</h3>
-        <Table
-          dataSource={[
-            { param: 'key', type: 'string', description: '唯一标识' },
-            { param: 'title', type: 'ReactNode', description: '显示标题' },
-            { param: 'disabled', type: 'boolean', description: '是否禁用' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'param', width: '150px' },
-            { title: '说明', dataIndex: 'description', width: '300px' },
-            { title: '类型', dataIndex: 'type', width: '200px' },
-          ]}
-          pagination={false}
-        />
+              <h3>TransferItem</h3>
+              <Table
+                dataSource={[
+                  { param: 'key', type: 'string', description: '唯一标识' },
+                  { param: 'title', type: 'ReactNode', description: '显示标题' },
+                  { param: 'disabled', type: 'boolean', description: '是否禁用' },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'param', width: '150px' },
+                  { title: '说明', dataIndex: 'description', width: '300px' },
+                  { title: '类型', dataIndex: 'type', width: '200px' },
+                ]}
+                pagination={false}
+              />
 
-        <h3>FieldNames</h3>
-        <Table
-          dataSource={[
-            { param: 'key', type: 'string', default: '-', description: '唯一标识字段名，默认 \'key\'' },
-            { param: 'title', type: 'string', default: '-', description: '显示标题字段名，默认 \'title\'' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'param', width: '150px' },
-            { title: '说明', dataIndex: 'description', width: '300px' },
-            { title: '类型', dataIndex: 'type', width: '200px' },
-            { title: '默认值', dataIndex: 'default', width: '150px' },
-          ]}
-          pagination={false}
-        />
-      </Section>
+              <h3>FieldNames</h3>
+              <Table
+                dataSource={[
+                  { param: 'key', type: 'string', default: "-", description: "唯一标识字段名，默认 'key'" },
+                  { param: 'title', type: 'string', default: "-", description: "显示标题字段名，默认 'title'" },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'param', width: '150px' },
+                  { title: '说明', dataIndex: 'description', width: '300px' },
+                  { title: '类型', dataIndex: 'type', width: '200px' },
+                  { title: '默认值', dataIndex: 'default', width: '150px' },
+                ]}
+                pagination={false}
+              />
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#transfer-intro" title="组件介绍" />
+                <Anchor.Link href="#transfer-single" title="单栏选择" />
+                <Anchor.Link href="#transfer-single-render" title="单栏+render" />
+                <Anchor.Link href="#transfer-basic" title="基础用法" />
+                <Anchor.Link href="#transfer-search" title="搜索框" />
+                <Anchor.Link href="#transfer-title" title="标题描述" />
+                <Anchor.Link href="#transfer-controlled" title="受控模式" />
+                <Anchor.Link href="#transfer-size" title="尺寸设置" />
+                <Anchor.Link href="#transfer-disabled" title="禁用状态" />
+                <Anchor.Link href="#transfer-render" title="自定义渲染" />
+                <Anchor.Link href="#transfer-filter" title="搜索过滤" />
+                <Anchor.Link href="#transfer-fieldnames" title="字段名称" />
+                <Anchor.Link href="#transfer-header" title="Header" />
+                <Anchor.Link href="#transfer-body" title="Body" />
+                <Anchor.Link href="#transfer-lazy" title="懒加载" />
+                <Anchor.Link href="#transfer-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Input, Divider, ColorPicker } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Button, Input, Divider, ColorPicker, Anchor } from '../../components';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { MessageProvider, useMessage } from '../../components/Message';
@@ -17,6 +17,14 @@ interface ThemeExampleProps {
 }
 
 const ThemeExample: React.FC<ThemeExampleProps> = ({ messageApi }) => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   // 主题色数组，用于展示和编辑
   const [colors, setColors] = useState<ColorItem[]>([
     {
@@ -161,11 +169,14 @@ const ThemeExample: React.FC<ThemeExampleProps> = ({ messageApi }) => {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>自定义主题</h2>
-      <p>通过修改 CSS 变量，可以轻松自定义组件库的主题颜色。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="variables-intro">自定义主题</h1>
+          <p>通过修改 CSS 变量，可以轻松自定义组件库的主题颜色。</p>
 
-      {/* 主题色配置区域 */}
-      <div style={{ margin: '20px 0', padding: '20px', background: '#ffffff', borderRadius: '8px', border: '1px solid #e4e7ed' }}>
+          {/* 主题色配置区域 */}
+          <div id="variables-config" style={{ margin: '20px 0', padding: '20px', background: '#ffffff', borderRadius: '8px', border: '1px solid #e4e7ed' }}>
         <h3>主题色配置</h3>
         <p>修改下方颜色值，然后点击"应用主题"按钮查看效果：</p>
 
@@ -220,14 +231,16 @@ const ThemeExample: React.FC<ThemeExampleProps> = ({ messageApi }) => {
             重置默认值
           </Button>
         </div>
-      </div>
+          </div>
 
-      {/* 组件预览区域 */}
-      {renderPreviewComponents()}
+          {/* 组件预览区域 */}
+          <div id="variables-preview">
+            {renderPreviewComponents()}
+          </div>
 
-      {/* 代码示例 */}
-      <div style={{ marginTop: '40px' }}>
-        <h3>实现原理</h3>
+          {/* 代码示例 */}
+          <div id="variables-principle" style={{ marginTop: '40px' }}>
+            <h3>实现原理</h3>
         <p>组件库使用 CSS 变量来定义主题颜色，通过修改这些变量可以轻松切换主题：</p>
         
         <h4>1. CSS 变量定义</h4>
@@ -409,6 +422,27 @@ const changeTheme = (newColor: string) => {
   root.style.setProperty('--idp-primary-hover-color', lightenColor(newColor, 10%));
 };`}
         </SyntaxHighlighter>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#variables-intro" title="组件介绍" />
+                <Anchor.Link href="#variables-config" title="主题色配置" />
+                <Anchor.Link href="#variables-preview" title="组件预览" />
+                <Anchor.Link href="#variables-principle" title="实现原理" />
+              </Anchor>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

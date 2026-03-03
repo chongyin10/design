@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Marquee from '../../components/Marquee';
-import { Table } from '../../components';
+import { Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const MarqueeExample: React.FC = () => {
+    const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // 获取滚动容器
+        const container = document.querySelector('.app-content') as HTMLElement;
+        setScrollContainer(container);
+    }, []);
+
     // API参数列配置
     const apiColumns: Column[] = [
         { dataIndex: 'param', title: '属性名', width: '150px' },
@@ -29,26 +37,29 @@ const MarqueeExample: React.FC = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h2>Marquee 公告组件</h2>
-            <p>这是一个可定制的滚动公告栏组件，支持多种样式和配置选项。</p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+                {/* 左侧主内容区 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <h1 id="marquee-intro">Marquee 公告组件</h1>
+                    <p>这是一个可定制的滚动公告栏组件，支持多种样式和配置选项。</p>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>1. 默认配置</h3>
+                    <div id="marquee-default" style={{ marginBottom: '40px' }}>
+                        <h3>1. 默认配置</h3>
                 <p>默认高度: 40px, 默认速度: 50, 默认渐变背景</p>
                 <Marquee announcement="这是一条默认配置的公告信息，从右向左滚动，播放完毕后会自动重复播放！" />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>2. 自定义高度</h3>
+                    <div id="marquee-height" style={{ marginBottom: '40px' }}>
+                        <h3>2. 自定义高度</h3>
                 <p>高度: 60px</p>
                 <Marquee
                     announcement="这是一条自定义高度为60px的公告信息！"
                     height={60}
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>3. 自定义速度</h3>
+                    <div id="marquee-speed" style={{ marginBottom: '40px' }}>
+                        <h3>3. 自定义速度</h3>
                 <p>慢速: 20</p>
                 <Marquee
                     announcement="这是一条慢速滚动的公告信息，速度为20！"
@@ -60,19 +71,19 @@ const MarqueeExample: React.FC = () => {
                     announcement="这是一条快速滚动的公告信息，速度为100！"
                     speed={100}
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>4. 自定义背景色</h3>
+                    <div id="marquee-bgcolor" style={{ marginBottom: '40px' }}>
+                        <h3>4. 自定义背景色</h3>
                 <p>自定义渐变背景</p>
                 <Marquee
                     announcement={['这是一条自定义渐变背景的公告信息', '这是第二条自定义渐变背景的公告信息']}
                     backgroundColor="linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)"
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>5. 综合自定义</h3>
+                    <div id="marquee-combined" style={{ marginBottom: '40px' }}>
+                        <h3>5. 综合自定义</h3>
                 <p>高度: 50px, 速度: 75, 自定义背景</p>
                 <Marquee
                     announcement="这是一条综合自定义配置的公告信息，高度50px，速度75，自定义渐变背景！"
@@ -80,28 +91,28 @@ const MarqueeExample: React.FC = () => {
                     speed={75}
                     backgroundColor="linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>6. 固定到顶部</h3>
+                    <div id="marquee-fixed" style={{ marginBottom: '40px' }}>
+                        <h3>6. 固定到顶部</h3>
                 <p>fixed=true，公告栏会浮动固定在页面顶部</p>
                 <Marquee
                     announcement="这是一条固定顶部的公告信息，滚动页面时保持可见！"
                     fixed={true}
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>7. 关闭回调</h3>
+                    <div id="marquee-close" style={{ marginBottom: '40px' }}>
+                        <h3>7. 关闭回调</h3>
                 <p>点击关闭按钮触发 onClose 回调</p>
                 <Marquee
                     announcement="这是一条带关闭回调的公告信息，点击右侧X关闭！"
                     onClose={() => alert('公告已关闭')}
                 />
-            </div>
+                    </div>
 
-            <div style={{ marginBottom: '40px' }}>
-                <h3>8. 完整功能示例</h3>
+                    <div id="marquee-full" style={{ marginBottom: '40px' }}>
+                        <h3>8. 完整功能示例</h3>
                 <p>固定顶部 + 自定义高度 + 自定义速度 + 关闭回调</p>
                 <Marquee
                     announcement="这是一条功能完整的公告信息，固定顶部、自定义高度和速度、支持关闭！"
@@ -112,17 +123,17 @@ const MarqueeExample: React.FC = () => {
                     backgroundColor="linear-gradient(to right, #e8eaf6 0%, #f5f5f5 50%, #e8eaf6 100%)"
                     onClose={() => console.log('公告已关闭')}
                 />
-            </div>
+                    </div>
 
-            {/* API 文档 */}
-            <div style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
-                <h3>API 参数</h3>
+                    {/* API 文档 */}
+                    <div id="marquee-api" style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
+                        <h3>API 参数</h3>
                 <Table pagination={false} columns={apiColumns} dataSource={apiDataSource} />
-            </div>
+                    </div>
 
-            {/* 代码示例 */}
-            <div style={{ marginBottom: '40px' }}>
-                <h3>代码示例</h3>
+                    {/* 代码示例 */}
+                    <div id="marquee-code" style={{ marginBottom: '40px' }}>
+                        <h3>代码示例</h3>
                 <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
 {`import { Marquee } from '@zjpcy/simple-design';
 
@@ -190,10 +201,11 @@ const MarqueeExample: React.FC = () => {
 />`}
                 </SyntaxHighlighter>
             </div>
+            </div>
 
-            {/* 在其他项目中引用示例 */}
-            <div>
-                <h3>在其他项目中引用</h3>
+                    {/* 在其他项目中引用示例 */}
+                    <div id="marquee-usage">
+                        <h3>在其他项目中引用</h3>
                 <div style={{ margin: '15px 0' }}>
                     <h4>1. 安装</h4>
                     <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
@@ -211,6 +223,34 @@ import '@zjpcy/simple-design/lib/Marquee/index.css';
 import { Marquee } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`}
                     </SyntaxHighlighter>
+                </div>
+            </div>
+
+                {/* 右侧锚点导航 */}
+                <div style={{ width: '140px', flexShrink: 0 }}>
+                    <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+                        {scrollContainer && (
+                            <Anchor
+                                getContainer={() => scrollContainer}
+                                offsetTop={20}
+                                affix={false}
+                                bounds={30}
+                            >
+                                <Anchor.Link href="#marquee-intro" title="组件介绍" />
+                                <Anchor.Link href="#marquee-default" title="默认配置" />
+                                <Anchor.Link href="#marquee-height" title="自定义高度" />
+                                <Anchor.Link href="#marquee-speed" title="自定义速度" />
+                                <Anchor.Link href="#marquee-bgcolor" title="自定义背景色" />
+                                <Anchor.Link href="#marquee-combined" title="综合自定义" />
+                                <Anchor.Link href="#marquee-fixed" title="固定顶部" />
+                                <Anchor.Link href="#marquee-close" title="关闭回调" />
+                                <Anchor.Link href="#marquee-full" title="完整示例" />
+                                <Anchor.Link href="#marquee-api" title="API 文档" />
+                                <Anchor.Link href="#marquee-code" title="代码示例" />
+                                <Anchor.Link href="#marquee-usage" title="引用说明" />
+                            </Anchor>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

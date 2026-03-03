@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Table, Button, Empty, Icon, Flex } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Table, Button, Empty, Icon, Flex, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -60,6 +60,14 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 );
 
 const TableExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   const basicColumns: Column[] = [
     { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
     { dataIndex: 'name', title: '姓名' },
@@ -175,11 +183,15 @@ const TableExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Table 表格</h1>
-      <p>Table 组件用于展示结构化数据，支持固定列、滚动、分页与自定义渲染。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="table-intro">Table 表格</h1>
+          <p>Table 组件用于展示结构化数据，支持固定列、滚动、分页与自定义渲染。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
+          {/* 基础用法 */}
+          <div id="table-basic">
+            <Section title="基础用法">
         <DemoRow title="基础表格">
           <Table columns={basicColumns} dataSource={basicDataSource} />
         </DemoRow>
@@ -200,18 +212,22 @@ const dataSource = [
 ];
 
 <Table columns={columns} dataSource={dataSource} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 带边框表格 */}
-      <Section title="带边框表格">
+          {/* 带边框表格 */}
+          <div id="table-bordered">
+            <Section title="带边框表格">
         <DemoRow title="边框样式">
           <Table columns={basicColumns} dataSource={basicDataSource} bordered />
         </DemoRow>
         <CopyBlock code={`<Table columns={columns} dataSource={dataSource} bordered />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 固定列 */}
-      <Section title="固定列">
+          {/* 固定列 */}
+          <div id="table-fixed">
+            <Section title="固定列">
         <DemoRow title="固定首尾列">
           <Table
             columns={[
@@ -272,10 +288,12 @@ const columns = [
 ];
 
 <Table columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 纵向滚动 */}
-      <Section title="纵向滚动">
+          {/* 纵向滚动 */}
+          <div id="table-scroll">
+            <Section title="纵向滚动">
         <DemoRow title="固定高度">
           <Table
             columns={basicColumns}
@@ -290,10 +308,12 @@ const columns = [
           />
         </DemoRow>
         <CopyBlock code={`<Table columns={columns} dataSource={dataSource} scroll={{ y: 300 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 限制内容行数 */}
-      <Section title="限制内容行数">
+          {/* 限制内容行数 */}
+          <div id="table-maxlines">
+            <Section title="限制内容行数">
         <DemoRow title="maxLines=2">
           <Table
             columns={[
@@ -318,10 +338,12 @@ const columns = [
   dataSource={dataSource}
   bordered
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* Tooltip 提示 */}
-      <Section title="单元格 Tooltip 提示">
+          {/* Tooltip 提示 */}
+          <div id="table-tooltip">
+            <Section title="单元格 Tooltip 提示">
         <p>设置 <code>tooltip=true</code> 为单元格内容添加鼠标悬停提示，支持美观的气泡提示框，鼠标移入即显示，无延迟。</p>
         <DemoRow title="基础 Tooltip">
           <Table
@@ -375,10 +397,12 @@ const columns = [
   bordered
 />`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：鼠标移入单元格后立即显示美观的气泡提示框</p>
-      </Section>
+            </Section>
+          </div>
 
-      {/* 分页功能 */}
-      <Section title="分页功能">
+          {/* 分页功能 */}
+          <div id="table-pagination">
+            <Section title="分页功能">
         <DemoRow title="基础分页">
           <Table
             columns={basicColumns}
@@ -411,10 +435,12 @@ const columns = [
     }
   }}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 分页增强功能 */}
-      <Section title="分页增强功能">
+          {/* 分页增强功能 */}
+          <div id="table-pagination-advanced">
+            <Section title="分页增强功能">
         <DemoRow title="增强分页">
           <Table
             columns={basicColumns}
@@ -453,10 +479,12 @@ const columns = [
     }
   }}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 表格宽度设置 */}
-      <Section title="表格宽度设置">
+          {/* 表格宽度设置 */}
+          <div id="table-width">
+            <Section title="表格宽度设置">
         <p>当不设置 <code>scroll.x</code> 时，表格宽度默认为 <code>100%</code>，会自动占满父容器宽度。</p>
         
         <h3>1. 不设置 scroll.x（默认 100%）</h3>
@@ -513,10 +541,12 @@ const columns = [
   scroll={{ x: '100%' }}
   bordered
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 响应式行为测试 */}
-      <Section title="响应式行为测试">
+          {/* 响应式行为测试 */}
+          <div id="table-responsive">
+            <Section title="响应式行为测试">
         <p>测试表格在窗口挤压时的行为。调整浏览器窗口大小，观察表格如何自动调整。</p>
         
         <h3>1. 不设置 scroll（响应式表格）</h3>
@@ -598,10 +628,12 @@ const columns = [
   bordered
 />`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：内容超过2行时会显示省略号</p>
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义空状态 */}
-      <Section title="自定义空状态">
+          {/* 自定义空状态 */}
+          <div id="table-empty">
+            <Section title="自定义空状态">
         <DemoRow title="自定义空状态">
           <Table
             columns={basicColumns}
@@ -634,10 +666,12 @@ const columns = [
     </div>
   }
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 加载状态 */}
-      <Section title="加载状态">
+          {/* 加载状态 */}
+          <div id="table-loading">
+            <Section title="加载状态">
         <DemoRow title="基础加载">
           <Table
             columns={basicColumns}
@@ -680,10 +714,12 @@ const columns = [
   loading={true}
   loadingDelay={3000}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 可编辑单元格 */}
-      <Section title="可编辑单元格">
+          {/* 可编辑单元格 */}
+          <div id="table-editable">
+            <Section title="可编辑单元格">
         <p>点击单元格即可编辑内容，编辑完成后点击✓保存，点击✕取消编辑。</p>
         <DemoRow title="可编辑表格">
           <Table columns={editableColumns} dataSource={editableDataSource} />
@@ -715,10 +751,12 @@ const TableExample = () => {
 
   return <Table columns={columns} dataSource={dataSource} />;
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 行拖拽功能 */}
-      <Section title="行拖拽排序">
+          {/* 行拖拽功能 */}
+          <div id="table-draggable">
+            <Section title="行拖拽排序">
         <p>启用 <code>draggable</code> 属性可以让表格行支持拖拽排序。拖拽完成后可通过 <code>onDragEnd</code> 回调获取新的数据顺序。</p>
         <DemoRow title="拖拽排序">
           <DraggableTableDemo />
@@ -763,10 +801,12 @@ const DraggableTableExample = () => {
   );
 };`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：鼠标悬停在行上时会出现拖拽手柄，按住行即可拖拽排序</p>
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
+          {/* API 文档 */}
+          <div id="table-api">
+            <Section title="API">
         <h3>Table Props</h3>
         <Table 
           columns={apiTableColumns} 
@@ -780,10 +820,12 @@ const DraggableTableExample = () => {
           dataSource={columnPropsData} 
           pagination={false}
         />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 安装和使用说明 */}
-      <Section title="安装和使用">
+          {/* 安装和使用说明 */}
+          <div id="table-install">
+            <Section title="安装和使用">
         <h3>1. 安装依赖</h3>
         <CopyBlock code="npm i @zjpcy/simple-design" />
 
@@ -795,7 +837,42 @@ import '@zjpcy/simple-design/lib/Table/Table.css';
 // 方式二：批量引入
 import { Table } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`} />
-      </Section>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#table-intro" title="组件介绍" />
+                <Anchor.Link href="#table-basic" title="基础用法" />
+                <Anchor.Link href="#table-bordered" title="带边框表格" />
+                <Anchor.Link href="#table-fixed" title="固定列" />
+                <Anchor.Link href="#table-scroll" title="纵向滚动" />
+                <Anchor.Link href="#table-maxlines" title="限制内容行数" />
+                <Anchor.Link href="#table-tooltip" title="Tooltip 提示" />
+                <Anchor.Link href="#table-pagination" title="分页功能" />
+                <Anchor.Link href="#table-pagination-advanced" title="分页增强" />
+                <Anchor.Link href="#table-width" title="表格宽度设置" />
+                <Anchor.Link href="#table-responsive" title="响应式测试" />
+                <Anchor.Link href="#table-empty" title="自定义空状态" />
+                <Anchor.Link href="#table-loading" title="加载状态" />
+                <Anchor.Link href="#table-editable" title="可编辑单元格" />
+                <Anchor.Link href="#table-draggable" title="行拖拽排序" />
+                <Anchor.Link href="#table-api" title="API 文档" />
+                <Anchor.Link href="#table-install" title="安装使用" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

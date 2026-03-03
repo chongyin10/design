@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Splitter, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Splitter, Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import type { SplitterPanel } from '../../components/Splitter/types';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -68,6 +68,13 @@ const PanelContent: React.FC<{ title: string; color: string; children?: React.Re
 
 const SplitterExample: React.FC = () => {
   const [sizes, setSizes] = useState<number[]>([]);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // API 表格列配置
   const apiColumns: Column[] = [
@@ -139,11 +146,15 @@ const SplitterExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Splitter 分割面板</h1>
-      <p>用于自由切分指定区域，支持水平和垂直分隔，可拖拽调整各区域大小。支持双面板和多面板模式。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="splitter-intro">Splitter 分割面板</h1>
+          <p>用于自由切分指定区域，支持水平和垂直分隔，可拖拽调整各区域大小。支持双面板和多面板模式。</p>
 
-      {/* 双面板模式（向后兼容） */}
-      <Section title="双面板模式（基础用法）">
+          {/* 双面板模式（向后兼容） */}
+          <div id="splitter-basic">
+            <Section title="双面板模式（基础用法）">
         <p>经典的左右/上下两面板布局，通过 left/right 或 top/bottom 属性配置</p>
         <div style={{ height: 300 }}>
           <Splitter
@@ -174,10 +185,12 @@ const SplitterExample: React.FC = () => {
   left={<div>左侧面板</div>}
   right={<div>右侧面板</div>}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 使用 children 方式 */}
-      <Section title="使用 children（双面板）">
+          {/* 使用 children 方式 */}
+          <div id="splitter-children">
+            <Section title="使用 children（双面板）">
         <p>使用 children 传递两个子元素作为左右面板</p>
         <div style={{ height: 300 }}>
           <Splitter layout="horizontal" defaultSize={200}>
@@ -191,10 +204,12 @@ const SplitterExample: React.FC = () => {
   <div>左侧面板</div>
   <div>右侧面板</div>
 </Splitter>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 多面板模式 - 水平 */}
-      <Section title="多面板模式 - 水平布局">
+          {/* 多面板模式 - 水平 */}
+          <div id="splitter-multi-horizontal">
+            <Section title="多面板模式 - 水平布局">
         <p>支持三个或更多面板，通过 panels 数组配置每个面板</p>
         <div style={{ height: 300 }}>
           <Splitter
@@ -229,10 +244,12 @@ const panels: SplitterPanel[] = [
 ];
 
 <Splitter layout="horizontal" panels={panels} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 多面板模式 - 垂直 */}
-      <Section title="多面板模式 - 垂直布局">
+          {/* 多面板模式 - 垂直 */}
+          <div id="splitter-multi-vertical">
+            <Section title="多面板模式 - 垂直布局">
         <p>垂直方向的多面板布局</p>
         <div style={{ height: 400 }}>
           <Splitter
@@ -249,10 +266,12 @@ const panels: SplitterPanel[] = [
 ];
 
 <Splitter layout="vertical" panels={panels} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 使用 children 的多面板 */}
-      <Section title="多面板 - 使用 children">
+          {/* 使用 children 的多面板 */}
+          <div id="splitter-children-multi">
+            <Section title="多面板 - 使用 children">
         <p>通过 children 传递多个子元素实现多面板，使用数组配置尺寸</p>
         <div style={{ height: 300 }}>
           <Splitter
@@ -276,10 +295,12 @@ const panels: SplitterPanel[] = [
   <div>面板 B</div>
   <div>面板 C</div>
 </Splitter>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用特定分割条 */}
-      <Section title="禁用特定分割条">
+          {/* 禁用特定分割条 */}
+          <div id="splitter-disabled-bar">
+            <Section title="禁用特定分割条">
         <p>通过面板配置 disabled 属性，可以禁用特定相邻分割条的拖拽</p>
         <div style={{ height: 300 }}>
           <Splitter
@@ -310,10 +331,12 @@ const panels: SplitterPanel[] = [
     { content: <div>右侧面板</div> },
   ]}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 垂直分隔示例 */}
-      <Section title="垂直分隔（双面板）">
+          {/* 垂直分隔示例 */}
+          <div id="splitter-vertical">
+            <Section title="垂直分隔（双面板）">
         <p>上下两个面板，可拖拽中间的分割条调整大小</p>
         <div style={{ height: 400 }}>
           <Splitter
@@ -343,10 +366,12 @@ const panels: SplitterPanel[] = [
   top={<div>顶部面板</div>}
   bottom={<div>底部面板</div>}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用拖拽 */}
-      <Section title="禁用拖拽">
+          {/* 禁用拖拽 */}
+          <div id="splitter-disabled">
+            <Section title="禁用拖拽">
         <p>设置 disabled 属性禁用所有拖拽调整</p>
         <div style={{ height: 200 }}>
           <Splitter
@@ -370,10 +395,12 @@ const panels: SplitterPanel[] = [
   left={<div>左侧面板</div>}
   right={<div>右侧面板</div>}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义颜色 */}
-      <Section title="自定义颜色">
+          {/* 自定义颜色 */}
+          <div id="splitter-custom-color">
+            <Section title="自定义颜色">
         <p>自定义拖拽线的颜色</p>
         <div style={{ height: 200 }}>
           <Splitter
@@ -399,10 +426,12 @@ const panels: SplitterPanel[] = [
   left={<div>左侧面板</div>}
   right={<div>右侧面板</div>}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 嵌套使用 */}
-      <Section title="嵌套使用">
+          {/* 嵌套使用 */}
+          <div id="splitter-nested">
+            <Section title="嵌套使用">
         <p>嵌套 Splitter 实现复杂布局</p>
         <div style={{ height: 400 }}>
           <Splitter
@@ -440,35 +469,67 @@ const panels: SplitterPanel[] = [
     />
   }
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Props</h3>
-        <Table
-          columns={apiColumns}
-          dataSource={apiDataSource}
-          pagination={false}
-        />
+          {/* API 文档 */}
+          <div id="splitter-api">
+            <Section title="API">
+              <h3>Props</h3>
+              <Table
+                columns={apiColumns}
+                dataSource={apiDataSource}
+                pagination={false}
+              />
 
-        <h3 style={{ marginTop: '24px' }}>SplitterPanel</h3>
-        <Table
-          columns={[
-            { dataIndex: 'property', title: '属性', width: '140px' },
-            { dataIndex: 'description', title: '说明', width: '300px' },
-            { dataIndex: 'type', title: '类型', width: '350px' },
-            { dataIndex: 'default', title: '默认值', width: '150px' },
-          ]}
-          dataSource={[
-            { property: 'content', description: '面板内容', type: 'React.ReactNode', default: '-' },
-            { property: 'defaultSize', description: '面板默认大小', type: 'number | string', default: "'auto'" },
-            { property: 'minSize', description: '面板最小尺寸', type: 'number', default: '50' },
-            { property: 'maxSize', description: '面板最大尺寸', type: 'number', default: 'Infinity' },
-            { property: 'disabled', description: '是否禁用相邻分割条', type: 'boolean', default: 'false' },
-          ]}
-          pagination={false}
-        />
-      </Section>
+              <h3 style={{ marginTop: '24px' }}>SplitterPanel</h3>
+              <Table
+                columns={[
+                  { dataIndex: 'property', title: '属性', width: '140px' },
+                  { dataIndex: 'description', title: '说明', width: '300px' },
+                  { dataIndex: 'type', title: '类型', width: '350px' },
+                  { dataIndex: 'default', title: '默认值', width: '150px' },
+                ]}
+                dataSource={[
+                  { property: 'content', description: '面板内容', type: 'React.ReactNode', default: '-' },
+                  { property: 'defaultSize', description: '面板默认大小', type: 'number | string', default: "'auto'" },
+                  { property: 'minSize', description: '面板最小尺寸', type: 'number', default: '50' },
+                  { property: 'maxSize', description: '面板最大尺寸', type: 'number', default: 'Infinity' },
+                  { property: 'disabled', description: '是否禁用相邻分割条', type: 'boolean', default: 'false' },
+                ]}
+                pagination={false}
+              />
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#splitter-intro" title="组件介绍" />
+                <Anchor.Link href="#splitter-basic" title="双面板模式" />
+                <Anchor.Link href="#splitter-children" title="使用 children" />
+                <Anchor.Link href="#splitter-multi-horizontal" title="多面板水平" />
+                <Anchor.Link href="#splitter-multi-vertical" title="多面板垂直" />
+                <Anchor.Link href="#splitter-children-multi" title="children 多面板" />
+                <Anchor.Link href="#splitter-disabled-bar" title="禁用分割条" />
+                <Anchor.Link href="#splitter-vertical" title="垂直分隔" />
+                <Anchor.Link href="#splitter-disabled" title="禁用拖拽" />
+                <Anchor.Link href="#splitter-custom-color" title="自定义颜色" />
+                <Anchor.Link href="#splitter-nested" title="嵌套使用" />
+                <Anchor.Link href="#splitter-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

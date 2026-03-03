@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Table, Anchor } from '../../components';
 import Carousel from '../../components/Carousel';
 import { CarouselItem } from '../../components/Carousel/types';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -99,14 +99,25 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 
 const CarouselExample: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Carousel 轮播图</h1>
-      <p>用于展示图片、卡片等内容的轮播组件。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="carousel-intro">Carousel 轮播图</h1>
+          <p>用于展示图片、卡片等内容的轮播组件。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
+          {/* 基础用法 */}
+          <div id="carousel-basic">
+            <Section title="基础用法">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={bannerItems}
@@ -121,10 +132,12 @@ const items = [
 ];
 
 <Carousel items={items} style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 受控模式 */}
-      <Section title="受控模式">
+          {/* 受控模式 */}
+          <div id="carousel-controlled">
+            <Section title="受控模式">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={bannerItems}
@@ -146,10 +159,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
   onChange={setCurrentIndex}
   style={{ height: 400 }}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 淡入淡出效果 */}
-      <Section title="淡入淡出效果">
+          {/* 淡入淡出效果 */}
+          <div id="carousel-fade">
+            <Section title="淡入淡出效果">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={bannerItems}
@@ -160,10 +175,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
         <CopyBlock code={`import { Carousel } from '@zjpcy/simple-design';
 
 <Carousel items={items} effect="fade" style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 垂直方向 */}
-      <Section title="垂直方向">
+          {/* 垂直方向 */}
+          <div id="carousel-vertical">
+            <Section title="垂直方向">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={bannerItems}
@@ -174,10 +191,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
         <CopyBlock code={`import { Carousel } from '@zjpcy/simple-design';
 
 <Carousel items={items} direction="vertical" style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 3D 效果展示 */}
-      <Section title="3D 切换效果">
+          {/* 3D 效果展示 */}
+          <div id="carousel-3d">
+            <Section title="3D 切换效果">
         <DemoRow title="Flip 翻转">
           <div style={{ maxWidth: 800, width: '100%' }}>
             <Carousel items={bannerItems} effect="flip" style={{ height: 300 }} autoplay={false} />
@@ -197,10 +216,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 // 3D 效果：flip | cards | coverflow
 <Carousel items={items} effect="flip" style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 创意效果展示 */}
-      <Section title="创意切换效果">
+          {/* 创意效果展示 */}
+          <div id="carousel-creative">
+            <Section title="创意切换效果">
         <DemoRow title="Creative 创意">
           <div style={{ maxWidth: 800, width: '100%' }}>
             <Carousel items={bannerItems} effect="creative" style={{ height: 300 }} autoplay={false} />
@@ -240,10 +261,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 // 创意效果：creative | parallax | zoom | book | curtain | mosaic | rain
 <Carousel items={items} effect="creative" style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 指示器位置 */}
-      <Section title="指示器位置">
+          {/* 指示器位置 */}
+          <div id="carousel-indicator-position">
+            <Section title="指示器位置">
         <DemoRow title="左侧">
           <div style={{ maxWidth: 800, width: '100%' }}>
             <Carousel
@@ -284,10 +307,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 // 指示器位置：left | right | top | bottom
 <Carousel items={items} indicatorPosition="left" style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 指示器进度动画 */}
-      <Section title="指示器进度动画">
+          {/* 指示器进度动画 */}
+          <div id="carousel-indicator-progress">
+            <Section title="指示器进度动画">
         <DemoRow title="启用进度">
           <div style={{ maxWidth: 800, width: '100%' }}>
             <Carousel
@@ -301,10 +326,12 @@ const [currentIndex, setCurrentIndex] = useState(0);
 
 // 启用指示器进度动画（需要同时启用 autoplay）
 <Carousel items={items} indicatorProgress style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义渲染 */}
-      <Section title="自定义渲染">
+          {/* 自定义渲染 */}
+          <div id="carousel-custom-render">
+            <Section title="自定义渲染">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={[
@@ -374,10 +401,12 @@ const customItems = [
 ];
 
 <Carousel items={customItems} style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 仅图片 */}
-      <Section title="仅图片">
+          {/* 仅图片 */}
+          <div id="carousel-image-only">
+            <Section title="仅图片">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={bannerItems.map(item => ({
@@ -396,10 +425,12 @@ const imageOnlyItems = items.map(item => ({
 }));
 
 <Carousel items={imageOnlyItems} style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 单张图片 */}
-      <Section title="单张图片">
+          {/* 单张图片 */}
+          <div id="carousel-single">
+            <Section title="单张图片">
         <div style={{ maxWidth: 800, margin: '10px auto' }}>
           <Carousel
             items={[bannerItems[0]]}
@@ -410,10 +441,12 @@ const imageOnlyItems = items.map(item => ({
 
 // 单张图片时不显示控制按钮
 <Carousel items={[singleItem]} style={{ height: 400 }} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="Carousel Props">
+          {/* API 文档 */}
+          <div id="carousel-props">
+            <Section title="Carousel Props">
         <Table
           bordered
           dataSource={[
@@ -450,9 +483,11 @@ const imageOnlyItems = items.map(item => ({
           ]}
           pagination={false}
         />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="CarouselItem 数据结构">
+          <div id="carousel-item-type">
+            <Section title="CarouselItem 数据结构">
         <Table
           bordered
           dataSource={[
@@ -471,7 +506,39 @@ const imageOnlyItems = items.map(item => ({
           ]}
           pagination={false}
         />
-      </Section>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#carousel-intro" title="组件介绍" />
+                <Anchor.Link href="#carousel-basic" title="基础用法" />
+                <Anchor.Link href="#carousel-controlled" title="受控模式" />
+                <Anchor.Link href="#carousel-fade" title="淡入淡出" />
+                <Anchor.Link href="#carousel-vertical" title="垂直方向" />
+                <Anchor.Link href="#carousel-3d" title="3D切换效果" />
+                <Anchor.Link href="#carousel-creative" title="创意切换效果" />
+                <Anchor.Link href="#carousel-indicator-position" title="指示器位置" />
+                <Anchor.Link href="#carousel-indicator-progress" title="指示器进度" />
+                <Anchor.Link href="#carousel-custom-render" title="自定义渲染" />
+                <Anchor.Link href="#carousel-image-only" title="仅图片" />
+                <Anchor.Link href="#carousel-single" title="单张图片" />
+                <Anchor.Link href="#carousel-props" title="Carousel Props" />
+                <Anchor.Link href="#carousel-item-type" title="CarouselItem" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Pagination, Table, Flex } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Pagination, Table, Flex, Anchor } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -59,9 +59,16 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 );
 
 const PaginationExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [total] = useState(100);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   const handleChange = (page: number, size: number) => {
     setCurrent(page);
@@ -89,18 +96,22 @@ const PaginationExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Pagination 分页</h1>
-      <p>采用分页的形式分隔长列表，每次只加载一个页面。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="pagination-intro">Pagination 分页</h1>
+          <p>采用分页的形式分隔长列表，每次只加载一个页面。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
-        <Pagination
-          total={total}
-          current={current}
-          pageSize={pageSize}
-          onChange={handleChange}
-        />
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 基础用法 */}
+          <div id="pagination-basic">
+            <Section title="基础用法">
+              <Pagination
+                total={total}
+                current={current}
+                pageSize={pageSize}
+                onChange={handleChange}
+              />
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const [current, setCurrent] = useState(1);
@@ -114,29 +125,31 @@ const Demo = () => {
     />
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 显示总数 */}
-      <Section title="显示总数">
-        <DemoRow title="显示总数">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            showTotal={(total) => <span>共 {total} 条</span>}
-          />
-        </DemoRow>
-        <DemoRow title="显示范围">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            showTotal={(total, range) => <span>{range[0]}-{range[1]} / 共 {total} 条</span>}
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 显示总数 */}
+          <div id="pagination-total">
+            <Section title="显示总数">
+              <DemoRow title="显示总数">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showTotal={(total) => <span>共 {total} 条</span>}
+                />
+              </DemoRow>
+              <DemoRow title="显示范围">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showTotal={(total, range) => <span>{range[0]}-{range[1]} / 共 {total} 条</span>}
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 // 显示总数
 <Pagination
@@ -149,21 +162,23 @@ const Demo = () => {
   total={100}
   showTotal={(total, range) => \`\${range[0]}-\${range[1]} / 共 \${total} 条\`}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 每页条数 */}
-      <Section title="每页条数">
-        <DemoRow title="切换每页条数">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            showSizeChanger
-            pageSizeOptions={[10, 20, 50, 100]}
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 每页条数 */}
+          <div id="pagination-size">
+            <Section title="每页条数">
+              <DemoRow title="切换每页条数">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showSizeChanger
+                  pageSizeOptions={[10, 20, 50, 100]}
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 <Pagination
   total={100}
@@ -171,238 +186,277 @@ const Demo = () => {
   pageSizeOptions={[10, 20, 50, 100]}
   onChange={(page, pageSize) => console.log(page, pageSize)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 快速跳转 */}
-      <Section title="快速跳转">
-        <DemoRow title="跳转到指定页">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            showQuickJumper
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 快速跳转 */}
+          <div id="pagination-jumper">
+            <Section title="快速跳转">
+              <DemoRow title="跳转到指定页">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showQuickJumper
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 <Pagination
   total={100}
   showQuickJumper
   onChange={(page) => console.log('跳转到:', page)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 完整功能 */}
-      <Section title="完整功能">
-        <DemoRow title="所有功能">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            showTotal={showTotal}
-            showSizeChanger
-            showQuickJumper
-            pageSizeOptions={[10, 20, 50, 100]}
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 完整功能 */}
+          <div id="pagination-full">
+            <Section title="完整功能">
+              <DemoRow title="所有功能">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showSizeChanger
+                  showQuickJumper
+                  showTotal={(total, range) => <span>{range[0]}-{range[1]} / 共 {total} 条</span>}
+                  pageSizeOptions={[10, 20, 50, 100]}
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 <Pagination
   total={100}
-  current={1}
-  pageSize={10}
-  showTotal={(total) => \`共 \${total} 条记录\`}
+  current={current}
+  pageSize={pageSize}
+  onChange={handleChange}
   showSizeChanger
   showQuickJumper
+  showTotal={(total, range) => \`\${range[0]}-\${range[1]} / 共 \${total} 条\`}
   pageSizeOptions={[10, 20, 50, 100]}
-  onChange={(page, pageSize) => console.log(page, pageSize)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 简洁模式 */}
-      <Section title="简洁模式">
-        <DemoRow title="简洁分页">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            onChange={handleChange}
-            simple
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 简洁模式 */}
+          <div id="pagination-simple">
+            <Section title="简洁模式">
+              <DemoRow title="简洁分页">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  simple
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 <Pagination
   total={100}
   simple
-  onChange={(page) => console.log(page)}
+  onChange={(page) => console.log('页码:', page)}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
-        <DemoRow title="禁用分页">
-          <Pagination
-            total={total}
-            current={current}
-            pageSize={pageSize}
-            disabled
-          />
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 禁用状态 */}
+          <div id="pagination-disabled">
+            <Section title="禁用状态">
+              <DemoRow title="禁用分页">
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  disabled
+                />
+              </DemoRow>
+              <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
 
 <Pagination
   total={100}
   disabled
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 只有一页时隐藏 */}
-      <Section title="只有一页时隐藏">
-        <DemoRow title="隐藏分页">
-          <Pagination
-            total={10}
-            current={1}
-            pageSize={10}
-            hideOnSinglePage
-          />
-          <span style={{ marginLeft: '16px', color: '#999' }}>（总数小于等于每页条数时隐藏）</span>
-        </DemoRow>
-        <CopyBlock code={`import { Pagination } from '@zjpcy/simple-design';
+          {/* 分页配合表格 */}
+          <div id="pagination-table">
+            <Section title="分页配合表格">
+              <Table
+                columns={columns}
+                dataSource={dataSource.slice((current - 1) * pageSize, current * pageSize)}
+                pagination={false}
+              />
+              <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
+                <Pagination
+                  total={total}
+                  current={current}
+                  pageSize={pageSize}
+                  onChange={handleChange}
+                  showSizeChanger
+                  showQuickJumper
+                  showTotal={showTotal}
+                />
+              </div>
+              <CopyBlock code={`import { Pagination, Table } from '@zjpcy/simple-design';
+import { useState } from 'react';
 
-<Pagination
-  total={10}
-  pageSize={10}
-  hideOnSinglePage
-/>`} />
-      </Section>
+const Demo = () => {
+  const [current, setCurrent] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const total = 100;
+  
+  const dataSource = Array.from({ length: total }, (_, i) => ({
+    key: i,
+    name: \`用户 \${i + 1}\`,
+    age: 20 + (i % 30),
+    address: \`北京市朝阳区 \${i + 1} 号\`,
+  }));
 
-      {/* 在 Table 中使用 */}
-      <Section title="在 Table 中使用">
-        <Table
-          columns={columns}
-          dataSource={dataSource.slice((current - 1) * pageSize, current * pageSize)}
-          pagination={{
-            total,
-            current,
-            pageSize,
-            onChange: handleChange,
-            showTotal,
-            showSizeChanger: true,
-            showQuickJumper: true,
-          }}
-        />
-        <CopyBlock code={`import { Table, Pagination } from '@zjpcy/simple-design';
+  return (
+    <>
+      <Table
+        columns={columns}
+        dataSource={dataSource.slice(
+          (current - 1) * pageSize, 
+          current * pageSize
+        )}
+        pagination={false}
+      />
+      <Pagination
+        total={total}
+        current={current}
+        pageSize={pageSize}
+        onChange={(page, size) => {
+          setCurrent(page);
+          if (size) setPageSize(size);
+        }}
+        showSizeChanger
+        showQuickJumper
+        showTotal={(total) => \`共 \${total} 条\`}
+      />
+    </>
+  );
+};`} />
+            </Section>
+          </div>
 
-const columns = [
-  { title: '姓名', dataIndex: 'name', key: 'name' },
-  { title: '年龄', dataIndex: 'age', key: 'age' },
-  { title: '地址', dataIndex: 'address', key: 'address' },
-];
+          {/* API 文档 */}
+          <div id="pagination-api">
+            <Section title="API">
+              <h3>Props</h3>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
+                <thead>
+                  <tr style={{ backgroundColor: '#f0f0f0' }}>
+                    <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>参数名</th>
+                    <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
+                    <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
+                    <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>current</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>当前页码</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>1</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>total</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>数据总数</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>pageSize</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>每页条数</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>10</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onChange</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>页码改变的回调</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{"(page: number, pageSize?: number) => void"}</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showSizeChanger</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示 pageSize 切换器</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>pageSizeOptions</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>指定每页可以显示多少条</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number[]</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>[10, 20, 50, 100]</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showQuickJumper</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否可以快速跳转至某页</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showTotal</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>用于显示数据总量和当前数据顺序</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>{"(total: number, range: [number, number]) => ReactNode"}</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>simple</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>简洁模式</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>disabled</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否禁用</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+                  </tr>
+                  <tr>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>hideOnSinglePage</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>只有一页时是否隐藏分页器</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
+                    <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
+                  </tr>
+                </tbody>
+              </table>
+            </Section>
+          </div>
+        </div>
 
-const dataSource = [
-  { key: 1, name: '用户 1', age: 25, address: '北京市朝阳区 1 号' },
-  // ...
-];
-
-<Table
-  columns={columns}
-  dataSource={dataSource}
-  pagination={{
-    total: 100,
-    current: 1,
-    pageSize: 10,
-    showTotal: (total) => \`共 \${total} 条记录\`,
-    showSizeChanger: true,
-    showQuickJumper: true,
-  }}
-/>`} />
-      </Section>
-
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Pagination Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px' }}>
-          <thead>
-            <tr style={{ backgroundColor: '#f5f5f5' }}>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>说明</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>类型</th>
-              <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>默认值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>current</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>当前页码</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>1</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>total</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>数据总数</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>0</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>pageSize</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>每页条数</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>10</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>onChange</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>页码改变的回调</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>(page: number, pageSize?: number) =&gt; void</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showSizeChanger</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否显示 pageSize 切换器</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>pageSizeOptions</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>指定每页可以显示多少条</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>number[]</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>[10, 20, 50, 100]</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showQuickJumper</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否可以快速跳转至某页</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>showTotal</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>用于显示数据总量和当前数据顺序</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>(total: number, range: [number, number]) =&gt; ReactNode</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>simple</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>简洁模式</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>disabled</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>是否禁用</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-            <tr>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>hideOnSinglePage</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>只有一页时是否隐藏分页器</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>boolean</td>
-              <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>false</td>
-            </tr>
-          </tbody>
-        </table>
-      </Section>
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#pagination-intro" title="组件介绍" />
+                <Anchor.Link href="#pagination-basic" title="基础用法" />
+                <Anchor.Link href="#pagination-total" title="显示总数" />
+                <Anchor.Link href="#pagination-size" title="每页条数" />
+                <Anchor.Link href="#pagination-jumper" title="快速跳转" />
+                <Anchor.Link href="#pagination-full" title="完整功能" />
+                <Anchor.Link href="#pagination-simple" title="简洁模式" />
+                <Anchor.Link href="#pagination-disabled" title="禁用状态" />
+                <Anchor.Link href="#pagination-table" title="配合表格" />
+                <Anchor.Link href="#pagination-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

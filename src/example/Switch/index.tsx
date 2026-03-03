@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Anchor } from '../../components';
 import Switch from '../../components/Switch';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -64,14 +64,25 @@ const SwitchExample: React.FC = () => {
   const [loadingChecked, setLoadingChecked] = useState(false);
   const [smallChecked, setSmallChecked] = useState(false);
   const [textChecked, setTextChecked] = useState(false);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Switch 开关</h1>
-      <p>开关选择器，用于在两种状态之间进行切换。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="switch-intro">Switch 开关</h1>
+          <p>开关选择器，用于在两种状态之间进行切换。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
+          {/* 基础用法 */}
+          <div id="switch-basic">
+            <Section title="基础用法">
         <DemoRow title="默认开关">
           <Switch 
             checked={basicChecked}
@@ -91,10 +102,12 @@ const Demo = () => {
     />
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 默认值 */}
-      <Section title="默认值">
+          {/* 默认值 */}
+          <div id="switch-default">
+            <Section title="默认值">
         <DemoRow title="默认选中">
           <Switch 
             defaultChecked={true}
@@ -108,10 +121,12 @@ const Demo = () => {
 
 // 默认未选中的开关
 <Switch defaultChecked={false} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
+          {/* 禁用状态 */}
+          <div id="switch-disabled">
+            <Section title="禁用状态">
         <DemoRow title="禁用未选中">
           <Switch disabled={true} />
         </DemoRow>
@@ -125,10 +140,12 @@ const Demo = () => {
 
 // 禁用已选中
 <Switch disabled defaultChecked={true} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 加载中 */}
-      <Section title="加载中">
+          {/* 加载中 */}
+          <div id="switch-loading">
+            <Section title="加载中">
         <DemoRow title="加载中">
           <Switch 
             loading={true}
@@ -148,10 +165,12 @@ const Demo = () => {
 
 // 加载中且已选中
 <Switch loading defaultChecked={true} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 不同尺寸 */}
-      <Section title="不同尺寸">
+          {/* 不同尺寸 */}
+          <div id="switch-size">
+            <Section title="不同尺寸">
         <DemoRow title="Default">
           <Switch 
             size="default"
@@ -173,10 +192,12 @@ const Demo = () => {
 
 // 小尺寸
 <Switch size="small" />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 文字内容 */}
-      <Section title="文字内容">
+          {/* 文字内容 */}
+          <div id="switch-text">
+            <Section title="文字内容">
         <DemoRow title="文字开关">
           <Switch
             checked={textChecked}
@@ -231,10 +252,12 @@ const Demo = () => {
   checkedChildren="已开启"
   unCheckedChildren="已关闭"
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义宽度 */}
-      <Section title="自定义宽度">
+          {/* 自定义宽度 */}
+          <div id="switch-width">
+            <Section title="自定义宽度">
         <DemoRow title="宽度 60px">
           <Switch width={60} defaultChecked={false} />
         </DemoRow>
@@ -260,10 +283,12 @@ const Demo = () => {
 
 // 小尺寸 + 自定义宽度
 <Switch size="small" width={50} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义样式 */}
-      <Section title="自定义样式">
+          {/* 自定义样式 */}
+          <div id="switch-custom">
+            <Section title="自定义样式">
         <DemoRow title="自定义颜色">
           <Switch
             styles={{
@@ -281,10 +306,12 @@ const Demo = () => {
     thumb: { backgroundColor: '#f0f0f0' }
   }}
 />`} />
-      </Section>
-      
-      {/* 标签 */}
-      <Section title="标签">
+            </Section>
+          </div>
+          
+          {/* 标签 */}
+          <div id="switch-label">
+            <Section title="标签">
         <DemoRow title="基本用法">
           <Switch
             label="启用"
@@ -343,10 +370,12 @@ const Demo = () => {
   checked={checked}
   onChange={setChecked}
 />`} />
-      </Section>
-      
-      {/* 事件回调 */}
-      <Section title="事件回调">
+            </Section>
+          </div>
+          
+          {/* 事件回调 */}
+          <div id="switch-event">
+            <Section title="事件回调">
         <DemoRow title="监听变化">
           <Switch 
             checked={loadingChecked}
@@ -369,12 +398,14 @@ const Demo = () => {
     />
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Props</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px' }}>
+          {/* API 文档 */}
+          <div id="switch-api">
+            <Section title="API">
+              <h3>Props</h3>
+              <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '16px' }}>
           <thead>
             <tr style={{ backgroundColor: '#f5f5f5' }}>
               <th style={{ border: '1px solid #d9d9d9', padding: '8px', textAlign: 'left' }}>属性</th>
@@ -468,9 +499,39 @@ const Demo = () => {
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>CSSProperties</td>
               <td style={{ border: '1px solid #d9d9d9', padding: '8px' }}>-</td>
             </tr>
-          </tbody>
-        </table>
-      </Section>
+              </tbody>
+              </table>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#switch-intro" title="组件介绍" />
+                <Anchor.Link href="#switch-basic" title="基础用法" />
+                <Anchor.Link href="#switch-default" title="默认值" />
+                <Anchor.Link href="#switch-disabled" title="禁用状态" />
+                <Anchor.Link href="#switch-loading" title="加载中" />
+                <Anchor.Link href="#switch-size" title="不同尺寸" />
+                <Anchor.Link href="#switch-text" title="文字内容" />
+                <Anchor.Link href="#switch-width" title="自定义宽度" />
+                <Anchor.Link href="#switch-custom" title="自定义样式" />
+                <Anchor.Link href="#switch-label" title="标签" />
+                <Anchor.Link href="#switch-event" title="事件回调" />
+                <Anchor.Link href="#switch-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

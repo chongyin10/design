@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from '../../components/Icon';
 import ColorPicker from '../../components/ColorPicker';
-import { Button, Table, Input, useMessage } from '../../components';
+import { Button, Table, Input, useMessage, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -16,6 +16,13 @@ const IconExample: React.FC = () => {
   const [filteredIcons, setFilteredIcons] = useState<string[]>([]);
   const copyFunction = useOnCopy();
   const message = useMessage();
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // 预设图标列表
   const iconList = [
@@ -145,518 +152,539 @@ const IconExample: React.FC = () => {
 
   return (
     <div className="icon-example-container">
-      <h1 className="icon-example-title">Icon 组件示例</h1>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="icon-intro" className="icon-example-title">Icon 组件示例</h1>
 
-      <h2 className="icon-example-subtitle">0. 颜色选择器</h2>
-      <div className="icon-display-section">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="home" size={24} color={selectedColor} />
-              <div className="icon-label">点击选择颜色</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="home" size={24} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-      </div>
-
-      <div className="copy-section">
-        <div className="copy-label">复制当前值:</div>
-        <div className="copy-content">{ content }</div>
-      </div>
-
-      <h2 className="icon-example-subtitle">1. 预设图标类型</h2>
-      <div className="search-section">
-        <Input
-          type="text"
-          placeholder="输入图标名称搜索..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-        <Button onClick={handleSearch} className="search-button">搜索</Button>
-      </div>
-      <div className="icon-display-section">
-        {filteredIcons.map((type) => (
-          <div key={type}>
-            <ColorPicker
-              color={selectedColor}
-              onChange={handleColorChange}
-              presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-            >
-              <div className="preset-icon-card">
-                <Icon
-                  type={type as any}
-                  size={24}
+          <div id="icon-color">
+            <h2 className="icon-example-subtitle">0. 颜色选择器</h2>
+            <div className="icon-display-section">
+              <div>
+                <ColorPicker
                   color={selectedColor}
-                />
-                <div className="icon-label">{type}</div>
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="home" size={24} color={selectedColor} />
+                    <div className="icon-label">点击选择颜色</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="home" size={24} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
               </div>
-            </ColorPicker>
-            <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-              <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-              <Button size='small' onClick={() => handleCopy(type)}>复制icon值</Button>
-              <Button size='small' onClick={() => handleCopy(`<Icon type="${type}" size={24} color="${selectedColor}" />`)}>复制Icon码</Button>
             </div>
-          </div>
-        ))}
-      </div>
 
-      <h2 className="icon-example-subtitle">2. 不同尺寸</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="home" size="small" color={selectedColor} />
-              <div className="icon-label">small</div>
+            <div className="copy-section">
+              <div className="copy-label">复制当前值:</div>
+              <div className="copy-content">{ content }</div>
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="small" color="${selectedColor}" />`)}>复制Icon码</Button>
           </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="home" size="medium" color={selectedColor} />
-              <div className="icon-label">medium</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="medium" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="home" size="large" color={selectedColor} />
-              <div className="icon-label">large</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="large" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="home" size={32} color={selectedColor} />
-              <div className="icon-label">size=32</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="home" size={32} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="icon-example-subtitle">3. 不同颜色</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="heart" color={selectedColor} />
-              <div className="icon-label">heart</div>
+          <div id="icon-preset">
+            <h2 className="icon-example-subtitle">1. 预设图标类型</h2>
+            <div className="search-section">
+              <Input
+                type="text"
+                placeholder="输入图标名称搜索..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="search-input"
+              />
+              <Button onClick={handleSearch} className="search-button">搜索</Button>
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('heart')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="heart" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="star" color={selectedColor} />
-              <div className="icon-label">star</div>
+            <div className="icon-display-section">
+              {filteredIcons.map((type) => (
+                <div key={type}>
+                  <ColorPicker
+                    color={selectedColor}
+                    onChange={handleColorChange}
+                    presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                  >
+                    <div className="preset-icon-card">
+                      <Icon
+                        type={type as any}
+                        size={24}
+                        color={selectedColor}
+                      />
+                      <div className="icon-label">{type}</div>
+                    </div>
+                  </ColorPicker>
+                  <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                    <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                    <Button size='small' onClick={() => handleCopy(type)}>复制icon值</Button>
+                    <Button size='small' onClick={() => handleCopy(`<Icon type="${type}" size={24} color="${selectedColor}" />`)}>复制Icon码</Button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('star')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="star" color="${selectedColor}" />`)}>复制Icon码</Button>
           </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="success" color={selectedColor} />
-              <div className="icon-label">success</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('success')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="success" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="error" color={selectedColor} />
-              <div className="icon-label">error</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('error')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="error" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="info" color={selectedColor} />
-              <div className="icon-label">info</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('info')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="info" color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="icon-example-subtitle">4. 悬停颜色效果</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="heart" color="lightgray" hoverColor={selectedColor} />
-              <div className="icon-label">heart</div>
+          <div id="icon-size">
+            <h2 className="icon-example-subtitle">2. 不同尺寸</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="home" size="small" color={selectedColor} />
+                    <div className="icon-label">small</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="small" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="home" size="medium" color={selectedColor} />
+                    <div className="icon-label">medium</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="medium" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="home" size="large" color={selectedColor} />
+                    <div className="icon-label">large</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="home" size="large" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="home" size={32} color={selectedColor} />
+                    <div className="icon-label">size=32</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('home')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="home" size={32} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('heart')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="heart" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
           </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="star" color="lightgray" hoverColor={selectedColor} />
-              <div className="icon-label">star</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('star')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="star" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="success" color="lightgray" hoverColor={selectedColor} />
-              <div className="icon-label">success</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('success')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="success" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="icon-example-subtitle">5. 旋转效果</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="arrowLeft" rotate={0} color={selectedColor} />
-              <div className="icon-label">arrowLeft</div>
+          <div id="icon-color-section">
+            <h2 className="icon-example-subtitle">3. 不同颜色</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="heart" color={selectedColor} />
+                    <div className="icon-label">heart</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('heart')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="heart" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="star" color={selectedColor} />
+                    <div className="icon-label">star</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('star')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="star" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="success" color={selectedColor} />
+                    <div className="icon-label">success</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('success')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="success" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="error" color={selectedColor} />
+                    <div className="icon-label">error</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('error')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="error" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="info" color={selectedColor} />
+                    <div className="icon-label">info</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('info')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="info" color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('arrowLeft')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="arrowLeft" rotate={0} color="${selectedColor}" />`)}>复制Icon码</Button>
           </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="arrowRight" rotate={45} color={selectedColor} />
-              <div className="icon-label">arrowRight</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('arrowRight')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="arrowRight" rotate={45} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="arrowUp" rotate={90} color={selectedColor} />
-              <div className="icon-label">arrowUp</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('arrowUp')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="arrowUp" rotate={90} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="arrowDown" rotate={180} color={selectedColor} />
-              <div className="icon-label">arrowDown</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('arrowDown')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="arrowDown" rotate={180} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon type="refresh" spin={true} color={selectedColor} />
-              <div className="icon-label">refresh</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('refresh')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon type="refresh" spin={true} color="${selectedColor}" />`)}>复制Icon码</Button>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="icon-example-subtitle">6. 自定义路径 SVG 图标</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon
-                path="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                viewBox="0 0 24 24"
+          <div id="icon-hover">
+            <h2 className="icon-example-subtitle">4. 悬停颜色效果</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="heart" color="lightgray" hoverColor={selectedColor} />
+                    <div className="icon-label">heart</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('heart')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="heart" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="star" color="lightgray" hoverColor={selectedColor} />
+                    <div className="icon-label">star</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('star')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="star" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="success" color="lightgray" hoverColor={selectedColor} />
+                    <div className="icon-label">success</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('success')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="success" color="lightgray" hoverColor="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="icon-rotate">
+            <h2 className="icon-example-subtitle">5. 旋转效果</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="arrowLeft" rotate={0} color={selectedColor} />
+                    <div className="icon-label">arrowLeft</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('arrowLeft')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="arrowLeft" rotate={0} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="arrowRight" rotate={45} color={selectedColor} />
+                    <div className="icon-label">arrowRight</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('arrowRight')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="arrowRight" rotate={45} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="arrowUp" rotate={90} color={selectedColor} />
+                    <div className="icon-label">arrowUp</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('arrowUp')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="arrowUp" rotate={90} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="arrowDown" rotate={180} color={selectedColor} />
+                    <div className="icon-label">arrowDown</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('arrowDown')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="arrowDown" rotate={180} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon type="refresh" spin={true} color={selectedColor} />
+                    <div className="icon-label">refresh</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('refresh')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon type="refresh" spin={true} color="${selectedColor}" />`)}>复制Icon码</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="icon-custom">
+            <h2 className="icon-example-subtitle">6. 自定义路径 SVG 图标</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon
+                      path="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                      viewBox="0 0 24 24"
+                      color={selectedColor}
+                      size={32}
+                    />
+                    <div className="icon-label">自定义路径1</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('自定义路径')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon path="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" viewBox="0 0 24 24" color="${selectedColor}" size={32} />`)}>复制Icon码</Button>
+                </div>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon
+                      path="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                      viewBox="0 0 24 24"
+                      color={selectedColor}
+                      size={32}
+                    />
+                    <div className="icon-label">自定义路径2</div>
+                  </div>
+                </ColorPicker>
+                <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
+                  <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
+                  <Button size='small' onClick={() => handleCopy('自定义路径')}>复制icon值</Button>
+                  <Button size='small' onClick={() => handleCopy(`<Icon path="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" viewBox="0 0 24 24" color="${selectedColor}" size={32} />`)}>复制Icon码</Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="icon-click">
+            <h2 className="icon-example-subtitle">7. 点击事件</h2>
+            <div className="icon-row-display">
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon
+                      type="heart"
+                      color="lightgray"
+                      hoverColor={selectedColor}
+                      size={24}
+                      onClick={() => message.success('点击了心形图标!')}
+                    />
+                    <div className="icon-label">heart</div>
+                  </div>
+                </ColorPicker>
+              </div>
+              <div>
+                <ColorPicker
+                  color={selectedColor}
+                  onChange={handleColorChange}
+                  presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+                >
+                  <div className="preset-icon-card">
+                    <Icon
+                      type="star"
+                      color="lightgray"
+                      hoverColor={selectedColor}
+                      size={24}
+                      onClick={() => message.success('点击了星形图标!')}
+                    />
+                    <div className="icon-label">star</div>
+                  </div>
+                </ColorPicker>
+              </div>
+            </div>
+          </div>
+
+          <div id="icon-align">
+            <h2 className="icon-example-subtitle">8. 对齐方式</h2>
+            <div className="icon-column-display">
+              <ColorPicker
                 color={selectedColor}
-                size={32}
-              />
-              <div className="icon-label">自定义路径1</div>
-            </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('自定义路径')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon path="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" viewBox="0 0 24 24" color="${selectedColor}" size={32} />`)}>复制Icon码</Button>
-          </div>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon
-                path="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                viewBox="0 0 24 24"
+                onChange={handleColorChange}
+                presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+              >
+                <div className="align-row">
+                  <span>左对齐: </span>
+                  <div>
+                    <Icon type="home" align="left" color={selectedColor} />
+                  </div>
+                  <span>内容</span>
+                </div>
+              </ColorPicker>
+              <ColorPicker
                 color={selectedColor}
-                size={32}
-              />
-              <div className="icon-label">自定义路径2</div>
+                onChange={handleColorChange}
+                presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+              >
+                <div className="align-row-center">
+                  <span>居中对齐: </span>
+                  <div>
+                    <Icon type="home" align="center" color={selectedColor} />
+                  </div>
+                  <span>内容</span>
+                </div>
+              </ColorPicker>
+              <ColorPicker
+                color={selectedColor}
+                onChange={handleColorChange}
+                presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
+              >
+                <div className="align-row-bottom">
+                  <span>右对齐: </span>
+                  <div>
+                    <Icon type="home" align="right" color={selectedColor} />
+                  </div>
+                  <span>内容</span>
+                </div>
+              </ColorPicker>
             </div>
-          </ColorPicker>
-          <div style={{ fontSize: '13px', textAlign: 'center', cursor: 'pointer', color: '#339af0', display: 'flex', justifyContent: 'center', gap: '8px', flexFlow: 'column', marginTop: '5px' }}>
-            <Button size='small' onClick={() => handleCopy(selectedColor)}>复制颜色值</Button>
-            <Button size='small' onClick={() => handleCopy('自定义路径')}>复制icon值</Button>
-            <Button size='small' onClick={() => handleCopy(`<Icon path="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" viewBox="0 0 24 24" color="${selectedColor}" size={32} />`)}>复制Icon码</Button>
           </div>
-        </div>
-      </div>
 
-      <h2 className="icon-example-subtitle">7. 点击事件</h2>
-      <div className="icon-row-display">
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon
-                type="heart"
-                color="lightgray"
-                hoverColor={selectedColor}
-                size={24}
-                onClick={() => message.success('点击了心形图标!')}
-              />
-              <div className="icon-label">heart</div>
-            </div>
-          </ColorPicker>
-        </div>
-        <div>
-          <ColorPicker
-            color={selectedColor}
-            onChange={handleColorChange}
-            presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-          >
-            <div className="preset-icon-card">
-              <Icon
-                type="star"
-                color="lightgray"
-                hoverColor={selectedColor}
-                size={24}
-                onClick={() => message.success('点击了星形图标!')}
-              />
-              <div className="icon-label">star</div>
-            </div>
-          </ColorPicker>
-        </div>
-      </div>
-
-      <h2 className="icon-example-subtitle">8. 对齐方式</h2>
-      <div className="icon-column-display">
-        <ColorPicker
-          color={selectedColor}
-          onChange={handleColorChange}
-          presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-        >
-          <div className="align-row">
-            <span>左对齐: </span>
-            <div>
-              <Icon type="home" align="left" color={selectedColor} />
-            </div>
-            <span>内容</span>
+          {/* API 文档 */}
+          <div id="icon-api" className="api-documentation">
+            <h3 className="api-title">API 参数</h3>
+            <Table pagination={false} columns={apiColumns} dataSource={apiDataSource} />
           </div>
-        </ColorPicker>
-        <ColorPicker
-          color={selectedColor}
-          onChange={handleColorChange}
-          presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-        >
-          <div className="align-row-center">
-            <span>居中对齐: </span>
-            <div>
-              <Icon type="home" align="center" color={selectedColor} />
-            </div>
-            <span>内容</span>
-          </div>
-        </ColorPicker>
-        <ColorPicker
-          color={selectedColor}
-          onChange={handleColorChange}
-          presetColors={['#339af0', '#1976d2', '#e53935', '#ff9800', '#52b788', '#f3722c']}
-        >
-          <div className="align-row-bottom">
-            <span>右对齐: </span>
-            <div>
-              <Icon type="home" align="right" color={selectedColor} />
-            </div>
-            <span>内容</span>
-          </div>
-        </ColorPicker>
-      </div>
 
-      {/* API 文档 */}
-      <div className="api-documentation">
-        <h3 className="api-title">API 参数</h3>
-        <Table pagination={false} columns={apiColumns} dataSource={apiDataSource} />
-      </div>
-
-      {/* 代码示例 */}
-      <div className="code-example-section">
-        <h3 className="code-example-title">代码示例</h3>
-        <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
-          {`import { Icon } from '@zjpcy/simple-design';
+          {/* 代码示例 */}
+          <div id="icon-code" className="code-example-section">
+            <h3 className="code-example-title">代码示例</h3>
+            <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
+              {`import { Icon } from '@zjpcy/simple-design';
 
 // 基本用法
 <Icon type="search" />
@@ -695,29 +723,59 @@ const IconExample: React.FC = () => {
 <Icon type="home" align="right" />
 
 `}
-        </SyntaxHighlighter>
-      </div>
+            </SyntaxHighlighter>
+          </div>
 
-      {/* 在其他项目中引用示例 */}
-      <div className="reference-section">
-        <h3 className="reference-title">在其他项目中引用</h3>
-        <div className="reference-subtitle">
-          <h4>1. 安装</h4>
-          <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
-            {`npm i @zjpcy/simple-design`}
-          </SyntaxHighlighter>
-        </div>
-        <div>
-          <h4>2. 引用组件</h4>
-          <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
-            {`// 方式一：单独引入
+          {/* 在其他项目中引用示例 */}
+          <div id="icon-reference" className="reference-section">
+            <h3 className="reference-title">在其他项目中引用</h3>
+            <div className="reference-subtitle">
+              <h4>1. 安装</h4>
+              <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
+                {`npm i @zjpcy/simple-design`}
+              </SyntaxHighlighter>
+            </div>
+            <div>
+              <h4>2. 引用组件</h4>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
+                {`// 方式一：单独引入
 import Icon from '@zjpcy/simple-design/lib/Icon';
 import '@zjpcy/simple-design/lib/Icon/index.css';
 
 // 方式二：批量引入
 import { Icon } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`}
-          </SyntaxHighlighter>
+              </SyntaxHighlighter>
+            </div>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#icon-intro" title="组件介绍" />
+                <Anchor.Link href="#icon-color" title="颜色选择器" />
+                <Anchor.Link href="#icon-preset" title="预设图标" />
+                <Anchor.Link href="#icon-size" title="不同尺寸" />
+                <Anchor.Link href="#icon-color-section" title="不同颜色" />
+                <Anchor.Link href="#icon-hover" title="悬停效果" />
+                <Anchor.Link href="#icon-rotate" title="旋转效果" />
+                <Anchor.Link href="#icon-custom" title="自定义路径" />
+                <Anchor.Link href="#icon-click" title="点击事件" />
+                <Anchor.Link href="#icon-align" title="对齐方式" />
+                <Anchor.Link href="#icon-api" title="API 参数" />
+                <Anchor.Link href="#icon-code" title="代码示例" />
+                <Anchor.Link href="#icon-reference" title="引用示例" />
+              </Anchor>
+            )}
+          </div>
         </div>
       </div>
     </div>

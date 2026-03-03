@@ -1,11 +1,18 @@
-import React from 'react';
-import { Breadcrumb, Table, Icon } from '../../components';
+import React, { useEffect, useState } from 'react';
+import { Breadcrumb, Table, Icon, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const BreadcrumbExample: React.FC = () => {
-  
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   // API参数列配置
   const apiColumns: Column[] = [
     { dataIndex: 'param', title: '参数名', width: '150px' },
@@ -106,11 +113,14 @@ const BreadcrumbExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Breadcrumb 组件</h2>
-      <p>面包屑导航组件，用于显示当前页面在网站中的位置路径。</p>
-      
-      {/* 基本使用示例 */}
-      <div style={{ marginBottom: '40px' }}>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 id="breadcrumb-intro">Breadcrumb 组件</h2>
+          <p>面包屑导航组件，用于显示当前页面在网站中的位置路径。</p>
+
+          {/* 基本使用示例 */}
+          <div id="breadcrumb-basic" style={{ marginBottom: '40px' }}>
         <h3>基本使用</h3>
         <p>展示不同场景下的面包屑导航。</p>
         
@@ -217,10 +227,10 @@ const BreadcrumbExample: React.FC = () => {
 
 <Breadcrumb items={breadcrumbItems} separator="→" />`}
         </SyntaxHighlighter>
-      </div>
+          </div>
 
-      {/* API 文档 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* API 文档 */}
+          <div id="breadcrumb-api" style={{ marginBottom: '40px' }}>
         <h3>API 文档</h3>
         <p>Breadcrumb 组件的属性配置。</p>
         
@@ -229,10 +239,10 @@ const BreadcrumbExample: React.FC = () => {
         
         <h4>BreadcrumbItem 类型</h4>
         <Table columns={apiColumns} dataSource={itemApiDataSource} />
-      </div>
+          </div>
 
-      {/* 安装和使用说明 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 安装和使用说明 */}
+          <div id="breadcrumb-install" style={{ marginBottom: '40px' }}>
         <h3>安装和使用</h3>
         
         <div style={{ marginBottom: '20px' }}>
@@ -254,10 +264,10 @@ import { Breadcrumb } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`}
           </SyntaxHighlighter>
         </div>
-      </div>
+          </div>
 
-      {/* 样式说明 */}
-      <div>
+          {/* 样式说明 */}
+          <div id="breadcrumb-style">
         <h3>样式说明</h3>
         <p>面包屑组件遵循 A / B / C 的格式，其中：</p>
         <ul>
@@ -266,6 +276,28 @@ import '@zjpcy/simple-design/lib/index.css';`}
           <li>分隔符使用更浅的颜色 (#999)</li>
           <li>可点击的项目在悬停时会变深并有下划线效果</li>
         </ul>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#breadcrumb-intro" title="组件介绍" />
+                <Anchor.Link href="#breadcrumb-basic" title="基本使用" />
+                <Anchor.Link href="#breadcrumb-api" title="API 文档" />
+                <Anchor.Link href="#breadcrumb-install" title="安装和使用" />
+                <Anchor.Link href="#breadcrumb-style" title="样式说明" />
+              </Anchor>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

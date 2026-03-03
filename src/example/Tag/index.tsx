@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex, Tag, Table, Button } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Tag, Table, Button, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -62,6 +62,13 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 const TagExample: React.FC = () => {
   const [visibleTags, setVisibleTags] = useState<string[]>(['标签1', '标签2', '标签3']);
   const [clickCount, setClickCount] = useState(0);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // API 表格列配置
   const apiColumns: Column[] = [
@@ -96,11 +103,15 @@ const TagExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Tag 标签</h1>
-      <p>用于标记和分类的标签组件。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="tag-intro">Tag 标签</h1>
+          <p>用于标记和分类的标签组件。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
+          {/* 基础用法 */}
+          <div id="tag-basic">
+            <Section title="基础用法">
         <DemoRow title="默认标签">
           <Tag>默认标签</Tag>
         </DemoRow>
@@ -119,10 +130,12 @@ const TagExample: React.FC = () => {
 <Tag size="small">小号标签</Tag>
 <Tag size="medium">中号标签</Tag>
 <Tag size="large">大号标签</Tag>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 可关闭标签 */}
-      <Section title="可关闭标签">
+          {/* 可关闭标签 */}
+          <div id="tag-closable">
+            <Section title="可关闭标签">
         <DemoRow title="可关闭">
           <Flex gap="small" wrap="wrap">
             {visibleTags.map(tag => (
@@ -165,10 +178,12 @@ const TagExample = () => {
     </>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 带图标 */}
-      <Section title="带图标">
+          {/* 带图标 */}
+          <div id="tag-icon">
+            <Section title="带图标">
         <DemoRow title="搜索图标">
           <Tag icon="search">搜索</Tag>
         </DemoRow>
@@ -191,10 +206,12 @@ const TagExample = () => {
 <Tag icon="check">成功</Tag>
 <Tag icon="exclamation">警告</Tag>
 <Tag icon="close">关闭</Tag>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义颜色 */}
-      <Section title="自定义颜色">
+          {/* 自定义颜色 */}
+          <div id="tag-color">
+            <Section title="自定义颜色">
         <DemoRow title="背景色">
           <Tag backgroundColor="#e6f7ff" color="#1890ff">蓝色标签</Tag>
         </DemoRow>
@@ -217,10 +234,12 @@ const TagExample = () => {
 <Tag backgroundColor="#fffbe6" color="#faad14">橙色标签</Tag>
 <Tag backgroundColor="#fff2e8" color="#ff4d4f">红色标签</Tag>
 <Tag backgroundColor="#f9f0ff" color="#722ed1">紫色标签</Tag>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 可点击 */}
-      <Section title="可点击">
+          {/* 可点击 */}
+          <div id="tag-clickable">
+            <Section title="可点击">
         <DemoRow title="点击标签">
           <Tag onClick={() => setClickCount(prev => prev + 1)}>点击我</Tag>
         </DemoRow>
@@ -242,10 +261,12 @@ const TagExample = () => {
     </>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 组合示例 */}
-      <Section title="组合示例">
+          {/* 组合示例 */}
+          <div id="tag-combination">
+            <Section title="组合示例">
         <DemoRow title="状态标签">
           <Flex gap="small" wrap="wrap">
             <Tag icon="check" backgroundColor="#f6ffed" color="#52c41a">已完成</Tag>
@@ -281,17 +302,45 @@ const TagExample = () => {
   <Tag closable>Vue</Tag>
   <Tag closable>Node.js</Tag>
 </Flex>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
+          {/* API 文档 */}
+          <div id="tag-api">
+            <Section title="API">
         <h3>Props</h3>
         <Table 
           columns={apiColumns} 
           dataSource={apiDataSource} 
           pagination={false}
         />
-      </Section>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#tag-intro" title="组件介绍" />
+                <Anchor.Link href="#tag-basic" title="基础用法" />
+                <Anchor.Link href="#tag-closable" title="可关闭标签" />
+                <Anchor.Link href="#tag-icon" title="带图标" />
+                <Anchor.Link href="#tag-color" title="自定义颜色" />
+                <Anchor.Link href="#tag-clickable" title="可点击" />
+                <Anchor.Link href="#tag-combination" title="组合示例" />
+                <Anchor.Link href="#tag-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

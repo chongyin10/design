@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
-import { Notification, Table, Button } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Notification, Table, Button, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const NotificationExample: React.FC = () => {
   const [notifications, setNotifications] = useState<any[]>([]);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
   
   // 受控模式状态
   const [controlledOpen, setControlledOpen] = useState(false);
@@ -58,11 +65,14 @@ const NotificationExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Notification 组件</h2>
-      <p>用于显示操作反馈或系统通知的组件，支持多种类型、自定义持续时间和关闭回调。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="notification-intro">Notification 组件</h1>
+          <p>用于显示操作反馈或系统通知的组件，支持多种类型、自定义持续时间和关闭回调。</p>
       
-      {/* 基本使用示例 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 基本使用示例 */}
+          <div id="notification-basic" style={{ marginBottom: '40px' }}>
         <h3>基本使用</h3>
         <p>点击以下按钮查看不同类型的通知效果：</p>
         
@@ -158,9 +168,9 @@ const NotificationExample: React.FC = () => {
         </div>
       </div>
       
-      {/* 颜色示例 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3>颜色示例</h3>
+          {/* 颜色示例 */}
+          <div id="notification-color" style={{ marginBottom: '40px' }}>
+            <h3>颜色示例</h3>
         <p>可以通过 color 属性自定义通知的背景颜色，默认白色背景：</p>
         
         <h4>默认白色背景（无 type 或不设置 type 时）</h4>
@@ -339,9 +349,9 @@ const NotificationExample: React.FC = () => {
         </div>
       </div>
       
-      {/* 受控模式示例 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3>受控模式示例</h3>
+          {/* 受控模式示例 */}
+          <div id="notification-controlled" style={{ marginBottom: '40px' }}>
+            <h3>受控模式示例</h3>
         <p>通过 open 属性控制通知的显示和隐藏，配合 onClose 实现手动控制：</p>
         
         <h4>基本用法</h4>
@@ -799,9 +809,9 @@ const [isOpen, setIsOpen] = useState(false);
         </SyntaxHighlighter>
       </div>
       
-      {/* 批量显示示例 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3>批量显示示例</h3>
+          {/* 批量显示示例 */}
+          <div id="notification-batch" style={{ marginBottom: '40px' }}>
+            <h3>批量显示示例</h3>
         <p>支持同时显示多条通知，它们会依次堆叠显示：</p>
         <Button 
           onClick={() => {
@@ -817,9 +827,9 @@ const [isOpen, setIsOpen] = useState(false);
         </Button>
       </div>
       
-      {/* 在其他项目中引用示例 */}
-      <div>
-        <h3>在其他项目中引用</h3>
+          {/* 在其他项目中引用示例 */}
+          <div id="notification-usage">
+            <h3>在其他项目中引用</h3>
         <div style={{ margin: '15px 0' }}>
           <h4>1. 安装</h4>
           <SyntaxHighlighter language="bash" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' }}>
@@ -850,6 +860,30 @@ const App: React.FC = () => {
   );
 };`}
           </SyntaxHighlighter>
+        </div>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#notification-intro" title="组件介绍" />
+                <Anchor.Link href="#notification-basic" title="基本使用" />
+                <Anchor.Link href="#notification-color" title="颜色示例" />
+                <Anchor.Link href="#notification-position" title="位置示例" />
+                <Anchor.Link href="#notification-controlled" title="受控模式" />
+                <Anchor.Link href="#notification-batch" title="批量显示" />
+                <Anchor.Link href="#notification-usage" title="引用说明" />
+              </Anchor>
+            )}
+          </div>
         </div>
       </div>
     </div>

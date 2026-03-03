@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex, Button, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Button, Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -61,6 +61,13 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 
 const ButtonExample: React.FC = () => {
   const [clickCount, setClickCount] = useState(0);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // API 表格列配置
   const apiColumns: Column[] = [
@@ -86,49 +93,55 @@ const ButtonExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Button 按钮</h1>
-      <p>用于触发一个即时操作。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="button-intro">Button 按钮</h1>
+          <p>用于触发一个即时操作。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
-        <DemoRow title="主要按钮">
-          <Button variant="primary" onClick={() => setClickCount(prev => prev + 1)}>
-            Primary
-          </Button>
-        </DemoRow>
-        <DemoRow title="次要按钮">
-          <Button variant="secondary">Secondary</Button>
-        </DemoRow>
-        <DemoRow title="危险按钮">
-          <Button variant="danger">Danger</Button>
-        </DemoRow>
-        <DemoRow title="成功按钮">
-          <Button variant="success">Success</Button>
-        </DemoRow>
-        <DemoRow title="警告按钮">
-          <Button variant="warning">Warning</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 基础用法 */}
+          <div id="button-basic">
+            <Section title="基础用法">
+              <DemoRow title="主要按钮">
+                <Button variant="primary" onClick={() => setClickCount(prev => prev + 1)}>
+                  Primary
+                </Button>
+              </DemoRow>
+              <DemoRow title="次要按钮">
+                <Button variant="secondary">Secondary</Button>
+              </DemoRow>
+              <DemoRow title="危险按钮">
+                <Button variant="danger">Danger</Button>
+              </DemoRow>
+              <DemoRow title="成功按钮">
+                <Button variant="success">Success</Button>
+              </DemoRow>
+              <DemoRow title="警告按钮">
+                <Button variant="warning">Warning</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="danger">Danger</Button>
 <Button variant="success">Success</Button>
 <Button variant="warning">Warning</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 不同尺寸 */}
-      <Section title="不同尺寸">
-        <DemoRow title="小号">
-          <Button variant="primary" size="small">Small</Button>
-        </DemoRow>
-        <DemoRow title="中号">
-          <Button variant="primary" size="medium">Medium</Button>
-        </DemoRow>
-        <DemoRow title="大号">
-          <Button variant="primary" size="large">Large</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 不同尺寸 */}
+          <div id="button-size">
+            <Section title="不同尺寸">
+              <DemoRow title="小号">
+                <Button variant="primary" size="small">Small</Button>
+              </DemoRow>
+              <DemoRow title="中号">
+                <Button variant="primary" size="medium">Medium</Button>
+              </DemoRow>
+              <DemoRow title="大号">
+                <Button variant="primary" size="large">Large</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 小号
 <Button variant="primary" size="small">Small</Button>
@@ -138,63 +151,69 @@ const ButtonExample: React.FC = () => {
 
 // 大号
 <Button variant="primary" size="large">Large</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
-        <DemoRow title="禁用主要">
-          <Button variant="primary" disabled>Disabled</Button>
-        </DemoRow>
-        <DemoRow title="禁用次要">
-          <Button variant="secondary" disabled>Disabled</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 禁用状态 */}
+          <div id="button-disabled">
+            <Section title="禁用状态">
+              <DemoRow title="禁用主要">
+                <Button variant="primary" disabled>Disabled</Button>
+              </DemoRow>
+              <DemoRow title="禁用次要">
+                <Button variant="secondary" disabled>Disabled</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" disabled>Disabled</Button>
 <Button variant="secondary" disabled>Disabled</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 带图标 */}
-      <Section title="带图标">
-        <DemoRow title="搜索图标">
-          <Button variant="primary" icon="search">Search</Button>
-        </DemoRow>
-        <DemoRow title="用户图标">
-          <Button variant="secondary" icon="user">User</Button>
-        </DemoRow>
-        <DemoRow title="删除图标">
-          <Button variant="danger" icon="delete">Delete</Button>
-        </DemoRow>
-        <DemoRow title="成功图标">
-          <Button variant="success" icon="check">Confirm</Button>
-        </DemoRow>
-        <DemoRow title="警告图标">
-          <Button variant="warning" icon="exclamation">Warning</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 带图标 */}
+          <div id="button-icon">
+            <Section title="带图标">
+              <DemoRow title="搜索图标">
+                <Button variant="primary" icon="search">Search</Button>
+              </DemoRow>
+              <DemoRow title="用户图标">
+                <Button variant="secondary" icon="user">User</Button>
+              </DemoRow>
+              <DemoRow title="删除图标">
+                <Button variant="danger" icon="delete">Delete</Button>
+              </DemoRow>
+              <DemoRow title="成功图标">
+                <Button variant="success" icon="check">Confirm</Button>
+              </DemoRow>
+              <DemoRow title="警告图标">
+                <Button variant="warning" icon="exclamation">Warning</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" icon="search">Search</Button>
 <Button variant="secondary" icon="user">User</Button>
 <Button variant="danger" icon="delete">Delete</Button>
 <Button variant="success" icon="check">Confirm</Button>
 <Button variant="warning" icon="exclamation">Warning</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 链接按钮 */}
-      <Section title="链接按钮">
-        <DemoRow title="基础链接">
-          <Button variant="link" href="https://example.com">Link Button</Button>
-        </DemoRow>
-        <DemoRow title="禁用链接">
-          <Button variant="link" href="https://example.com" disabled>Disabled Link</Button>
-        </DemoRow>
-        <DemoRow title="带图标链接">
-          <Button variant="link" href="/home" icon="home">Home</Button>
-        </DemoRow>
-        <DemoRow title="小号链接">
-          <Button variant="link" href="#" size="small">Small Link</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 链接按钮 */}
+          <div id="button-link">
+            <Section title="链接按钮">
+              <DemoRow title="基础链接">
+                <Button variant="link" href="https://example.com">Link Button</Button>
+              </DemoRow>
+              <DemoRow title="禁用链接">
+                <Button variant="link" href="https://example.com" disabled>Disabled Link</Button>
+              </DemoRow>
+              <DemoRow title="带图标链接">
+                <Button variant="link" href="/home" icon="home">Home</Button>
+              </DemoRow>
+              <DemoRow title="小号链接">
+                <Button variant="link" href="#" size="small">Small Link</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 基础链接
 <Button variant="link" href="https://example.com">Link Button</Button>
@@ -207,31 +226,35 @@ const ButtonExample: React.FC = () => {
 
 // 小号链接
 <Button variant="link" href="#" size="small">Small Link</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 加载状态 */}
-      <Section title="加载状态">
-        <DemoRow title="加载中">
-          <Button variant="primary" loading>Loading</Button>
-        </DemoRow>
-        <DemoRow title="带图标加载">
-          <Button variant="secondary" loading>Loading</Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 加载状态 */}
+          <div id="button-loading">
+            <Section title="加载状态">
+              <DemoRow title="加载中">
+                <Button variant="primary" loading>Loading</Button>
+              </DemoRow>
+              <DemoRow title="带图标加载">
+                <Button variant="secondary" loading>Loading</Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 <Button variant="primary" loading>Loading</Button>
 <Button variant="secondary" loading>Loading</Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 事件回调 */}
-      <Section title="事件回调">
-        <DemoRow title="点击计数">
-          <Button variant="primary" onClick={() => setClickCount(prev => prev + 1)}>
-            Click Me ({clickCount})
-          </Button>
-          <span>已点击 {clickCount} 次</span>
-        </DemoRow>
-        <CopyBlock code={`import { useState } from 'react';
+          {/* 事件回调 */}
+          <div id="button-event">
+            <Section title="事件回调">
+              <DemoRow title="点击计数">
+                <Button variant="primary" onClick={() => setClickCount(prev => prev + 1)}>
+                  Click Me ({clickCount})
+                </Button>
+                <span>已点击 {clickCount} 次</span>
+              </DemoRow>
+              <CopyBlock code={`import { useState } from 'react';
 import { Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
@@ -243,30 +266,32 @@ const Demo = () => {
     </Button>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义样式 */}
-      <Section title="自定义样式">
-        <DemoRow title="圆角按钮">
-          <Button 
-            variant="primary" 
-            style={{ borderRadius: '20px', padding: '8px 24px' }}
-          >
-            Rounded Button
-          </Button>
-        </DemoRow>
-        <DemoRow title="渐变背景">
-          <Button 
-            variant="primary" 
-            style={{ 
-              background: 'linear-gradient(45deg, #1890ff, #69c0ff)',
-              border: 'none'
-            }}
-          >
-            Gradient Button
-          </Button>
-        </DemoRow>
-        <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
+          {/* 自定义样式 */}
+          <div id="button-custom">
+            <Section title="自定义样式">
+              <DemoRow title="圆角按钮">
+                <Button 
+                  variant="primary" 
+                  style={{ borderRadius: '20px', padding: '8px 24px' }}
+                >
+                  Rounded Button
+                </Button>
+              </DemoRow>
+              <DemoRow title="渐变背景">
+                <Button 
+                  variant="primary" 
+                  style={{ 
+                    background: 'linear-gradient(45deg, #1890ff, #69c0ff)',
+                    border: 'none'
+                  }}
+                >
+                  Gradient Button
+                </Button>
+              </DemoRow>
+              <CopyBlock code={`import { Button } from '@zjpcy/simple-design';
 
 // 圆角按钮
 <Button 
@@ -286,17 +311,47 @@ const Demo = () => {
 >
   Gradient Button
 </Button>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Props</h3>
-        <Table 
-          columns={apiColumns} 
-          dataSource={apiDataSource} 
-          pagination={false}
-        />
-      </Section>
+          {/* API 文档 */}
+          <div id="button-api">
+            <Section title="API">
+              <h3>Props</h3>
+              <Table 
+                columns={apiColumns} 
+                dataSource={apiDataSource} 
+                pagination={false}
+              />
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#button-intro" title="组件介绍" />
+                <Anchor.Link href="#button-basic" title="基础用法" />
+                <Anchor.Link href="#button-size" title="不同尺寸" />
+                <Anchor.Link href="#button-disabled" title="禁用状态" />
+                <Anchor.Link href="#button-icon" title="带图标" />
+                <Anchor.Link href="#button-link" title="链接按钮" />
+                <Anchor.Link href="#button-loading" title="加载状态" />
+                <Anchor.Link href="#button-event" title="事件回调" />
+                <Anchor.Link href="#button-custom" title="自定义样式" />
+                <Anchor.Link href="#button-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

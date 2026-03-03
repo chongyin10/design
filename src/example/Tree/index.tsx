@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Flex, Table } from '../../components';
+import React, { useState, useRef, useEffect } from 'react';
+import { Flex, Table, Anchor } from '../../components';
 import Tree from '../../components/Tree';
 import { TreeNode, TreeRef } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -480,24 +480,35 @@ const TreeExample: React.FC = () => {
   const [selectedKeys, setSelectedKeys] = useState<(string | number)[]>([]);
   const [checkedKeys, setCheckedKeys] = useState<(string | number)[]>([]);
 
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // 目录树状态
   const [dirExpandedKeys, setDirExpandedKeys] = useState<(string | number)[]>(['1']);
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Tree 树形控件</h1>
-      <p>多层次的结构列表，用于展示文件夹、组织架构、分类目录等层级数据。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="tree-intro">Tree 树形控件</h1>
+          <p>多层次的结构列表，用于展示文件夹、组织架构、分类目录等层级数据。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
-        <p>最简单的树形结构，支持展开/收起功能。</p>
-        <DemoRow title="默认">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree treeData={basicTreeData} />
-          </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+          {/* 基础用法 */}
+          <div id="tree-basic">
+            <Section title="基础用法">
+              <p>最简单的树形结构，支持展开/收起功能。</p>
+              <DemoRow title="默认">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree treeData={basicTreeData} />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 const treeData = [
   {
@@ -513,52 +524,56 @@ const treeData = [
 
 <Tree treeData={treeData} />
 `} />
-      </Section>
-
-      {/* 可选择 */}
-      <Section title="可选择">
-        <p>通过设置 checkable 属性，可以开启复选框选择功能，支持父子联动。</p>
-        <DemoRow title="复选框">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={basicTreeData}
-              checkable
-              defaultExpandedKeys={['1']}
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* 可选择 */}
+          <div id="tree-checkable">
+            <Section title="可选择">
+              <p>通过设置 checkable 属性，可以开启复选框选择功能，支持父子联动。</p>
+              <DemoRow title="复选框">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={basicTreeData}
+                    checkable
+                    defaultExpandedKeys={['1']}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 <Tree
   treeData={treeData}
   checkable
   defaultExpandedKeys={['1']}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 受控模式 */}
-      <Section title="受控模式">
-        <p>通过 expandedKeys、selectedKeys、checkedKeys 控制树的展开、选中、勾选状态。</p>
-        <DemoRow title="完全受控">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={controlledTreeData}
-              checkable
-              expandedKeys={expandedKeys}
-              selectedKeys={selectedKeys}
-              checkedKeys={checkedKeys}
-              onExpand={setExpandedKeys}
-              onSelect={setSelectedKeys}
-              onCheck={setCheckedKeys}
-            />
-          </div>
-          <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
-            <p>展开: {expandedKeys.join(', ') || '无'}</p>
-            <p>选中: {selectedKeys.join(', ') || '无'}</p>
-            <p>勾选: {checkedKeys.join(', ') || '无'}</p>
-          </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+          {/* 受控模式 */}
+          <div id="tree-controlled">
+            <Section title="受控模式">
+              <p>通过 expandedKeys、selectedKeys、checkedKeys 控制树的展开、选中、勾选状态。</p>
+              <DemoRow title="完全受控">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={controlledTreeData}
+                    checkable
+                    expandedKeys={expandedKeys}
+                    selectedKeys={selectedKeys}
+                    checkedKeys={checkedKeys}
+                    onExpand={setExpandedKeys}
+                    onSelect={setSelectedKeys}
+                    onCheck={setCheckedKeys}
+                  />
+                </div>
+                <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+                  <p>展开: {expandedKeys.join(', ') || '无'}</p>
+                  <p>选中: {selectedKeys.join(', ') || '无'}</p>
+                  <p>勾选: {checkedKeys.join(', ') || '无'}</p>
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 const [expandedKeys, setExpandedKeys] = useState(['0-0']);
 const [selectedKeys, setSelectedKeys] = useState([]);
@@ -574,72 +589,78 @@ const [checkedKeys, setCheckedKeys] = useState([]);
   onSelect={setSelectedKeys}
   onCheck={setCheckedKeys}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 默认展开 */}
-      <Section title="默认展开">
-        <DemoRow title="默认展开指定节点">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={basicTreeData}
-              defaultExpandedKeys={['1', '2']}
-            />
-          </div>
-        </DemoRow>
-        <DemoRow title="默认展开全部">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={countryTreeData}
-              defaultExpandAll
-            />
-          </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+          {/* 默认展开 */}
+          <div id="tree-expand">
+            <Section title="默认展开">
+              <DemoRow title="默认展开指定节点">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={basicTreeData}
+                    defaultExpandedKeys={['1', '2']}
+                  />
+                </div>
+              </DemoRow>
+              <DemoRow title="默认展开全部">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={countryTreeData}
+                    defaultExpandAll
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 // 默认展开指定节点
 <Tree treeData={treeData} defaultExpandedKeys={['1', '2']} />
 
 // 默认展开全部节点
 <Tree treeData={treeData} defaultExpandAll />`} />
-      </Section>
-
-      {/* 连接线 */}
-      <Section title="连接线">
-        <p>通过 showLine 属性显示节点之间的连接线。</p>
-        <DemoRow title="显示连接线">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={basicTreeData}
-              showLine
-              defaultExpandedKeys={['1']}
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* 连接线 */}
+          <div id="tree-line">
+            <Section title="连接线">
+              <p>通过 showLine 属性显示节点之间的连接线。</p>
+              <DemoRow title="显示连接线">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={basicTreeData}
+                    showLine
+                    defaultExpandedKeys={['1']}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 <Tree treeData={treeData} showLine defaultExpandedKeys={['1']} />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 图标 */}
-      <Section title="自定义图标">
-        <DemoRow title="显示图标">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={iconTreeData}
-              defaultExpandedKeys={['1', '1-1']}
-            />
-          </div>
-        </DemoRow>
-        <DemoRow title="隐藏图标">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={basicTreeData}
-              showIcon={false}
-              defaultExpandedKeys={['1']}
-            />
-          </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+          {/* 图标 */}
+          <div id="tree-icon">
+            <Section title="自定义图标">
+              <DemoRow title="显示图标">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={iconTreeData}
+                    defaultExpandedKeys={['1', '1-1']}
+                  />
+                </div>
+              </DemoRow>
+              <DemoRow title="隐藏图标">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={basicTreeData}
+                    showIcon={false}
+                    defaultExpandedKeys={['1']}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 // 带图标的树节点
 const treeData = [
@@ -658,21 +679,23 @@ const treeData = [
 // 隐藏图标
 <Tree treeData={treeData} showIcon={false} />
 `} />
-      </Section>
-
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
-        <p>可以禁用整个节点，禁用后不可选中和展开。</p>
-        <DemoRow title="禁用节点">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={disabledTreeData}
-              checkable
-              defaultExpandedKeys={['1']}
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* 禁用状态 */}
+          <div id="tree-disabled">
+            <Section title="禁用状态">
+              <p>可以禁用整个节点，禁用后不可选中和展开。</p>
+              <DemoRow title="禁用节点">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={disabledTreeData}
+                    checkable
+                    defaultExpandedKeys={['1']}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 const treeData = [
   {
@@ -686,50 +709,54 @@ const treeData = [
 ];
 
 <Tree treeData={treeData} checkable />`} />
-      </Section>
-
-      {/* 目录树 */}
-      <Section title="目录树">
-        <p>通过 directory 属性展示目录样式，文件夹有特殊样式。</p>
-        <DemoRow title="目录模式">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={basicTreeData}
-              showIcon
-              expandedKeys={dirExpandedKeys}
-              onExpand={setDirExpandedKeys}
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* 目录树 */}
+          <div id="tree-directory">
+            <Section title="目录树">
+              <p>通过 directory 属性展示目录样式，文件夹有特殊样式。</p>
+              <DemoRow title="目录模式">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={basicTreeData}
+                    showIcon
+                    expandedKeys={dirExpandedKeys}
+                    onExpand={setDirExpandedKeys}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 <Tree treeData={treeData} showIcon />
 `} />
-      </Section>
-
-      {/* Title 省略模式 */}
-      <Section title="Title 省略模式">
-        <p>Tree 组件默认启用 title 省略模式，当 title 内容超过容器宽度时自动显示省略号。</p>
-        <DemoRow title="省略效果展示">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '200px' }}>
-            <Tree
-              treeData={[
-                {
-                  key: '1',
-                  title: '这是一个非常长的文件夹名称',
-                  children: [
-                    { key: '1-1', title: '子文件夹名称也很长很长' },
-                    { key: '1-2', title: '短名' },
-                  ]
-                },
-                { key: '2', title: '另一个很长的文件名示例' },
-                { key: '3', title: '短名' },
-              ]}
-              defaultExpandAll
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* Title 省略模式 */}
+          <div id="tree-ellipsis">
+            <Section title="Title 省略模式">
+              <p>Tree 组件默认启用 title 省略模式，当 title 内容超过容器宽度时自动显示省略号。</p>
+              <DemoRow title="省略效果展示">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '200px' }}>
+                  <Tree
+                    treeData={[
+                      {
+                        key: '1',
+                        title: '这是一个非常长的文件夹名称',
+                        children: [
+                          { key: '1-1', title: '子文件夹名称也很长很长' },
+                          { key: '1-2', title: '短名' },
+                        ]
+                      },
+                      { key: '2', title: '另一个很长的文件名示例' },
+                      { key: '3', title: '短名' },
+                    ]}
+                    defaultExpandAll
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 // 默认：超出宽度显示省略号
 <Tree
@@ -739,35 +766,37 @@ const treeData = [
   ]}
   defaultExpandAll
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* Title Tooltip */}
-      <Section title="Title Tooltip">
-        <p>通过 tooltip 属性为节点 title 添加提示信息，支持节点级别和全局配置。</p>
-        <DemoRow title="全局启用">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={[
-                { key: '1', title: '鼠标悬停查看提示' },
-                { key: '2', title: '支持全局配置' },
-                { key: '3', title: '也支持节点级别' },
-              ]}
-              tooltip={{ placement: 'top', delay: 100 }}
-            />
-          </div>
-        </DemoRow>
-        <DemoRow title="节点级别配置">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={[
-                { key: '1', title: '默认配置' },
-                { key: '2', title: '自定义提示内容', tooltip: { title: '这是自定义的提示内容', placement: 'bottom' } },
-                { key: '3', title: '仅启用', tooltip: true },
-              ]}
-            />
-          </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+          {/* Title Tooltip */}
+          <div id="tree-tooltip">
+            <Section title="Title Tooltip">
+              <p>通过 tooltip 属性为节点 title 添加提示信息，支持节点级别和全局配置。</p>
+              <DemoRow title="全局启用">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={[
+                      { key: '1', title: '鼠标悬停查看提示' },
+                      { key: '2', title: '支持全局配置' },
+                      { key: '3', title: '也支持节点级别' },
+                    ]}
+                    tooltip={{ placement: 'top', delay: 100 }}
+                  />
+                </div>
+              </DemoRow>
+              <DemoRow title="节点级别配置">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={[
+                      { key: '1', title: '默认配置' },
+                      { key: '2', title: '自定义提示内容', tooltip: { title: '这是自定义的提示内容', placement: 'bottom' } },
+                      { key: '3', title: '仅启用', tooltip: true },
+                    ]}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
 
 // 全局启用
 <Tree
@@ -783,33 +812,35 @@ const treeData: TreeNode[] = [
 ];
 
 <Tree treeData={treeData} />`} />
-      </Section>
-
-      {/* 自定义节点渲染 */}
-      <Section title="自定义节点渲染">
-        <p>通过 renderNode 属性自定义节点的渲染方式。</p>
-        <DemoRow title="自定义渲染">
-          <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
-            <Tree
-              treeData={customRenderTreeData}
-              defaultExpandedKeys={['1', '2']}
-              renderNode={(node) => (
-                <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  {node.icon && <span>{node.icon}</span>}
-                  <span style={{ fontWeight: node.children ? 'bold' : 'normal', color: node.children ? '#1890ff' : '#333' }}>
-                    {node.title}
-                  </span>
-                  {node.children && (
-                    <span style={{ fontSize: '12px', color: '#999', marginLeft: '4px' }}>
-                      ({node.children.length}人)
-                    </span>
-                  )}
-                </span>
-              )}
-            />
+            </Section>
           </div>
-        </DemoRow>
-        <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
+
+          {/* 自定义节点渲染 */}
+          <div id="tree-render">
+            <Section title="自定义节点渲染">
+              <p>通过 renderNode 属性自定义节点的渲染方式。</p>
+              <DemoRow title="自定义渲染">
+                <div style={{ border: '1px solid #d9d9d9', padding: '16px', borderRadius: '4px', maxWidth: '300px' }}>
+                  <Tree
+                    treeData={customRenderTreeData}
+                    defaultExpandedKeys={['1', '2']}
+                    renderNode={(node) => (
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        {node.icon && <span>{node.icon}</span>}
+                        <span style={{ fontWeight: node.children ? 'bold' : 'normal', color: node.children ? '#1890ff' : '#333' }}>
+                          {node.title}
+                        </span>
+                        {node.children && (
+                          <span style={{ fontSize: '12px', color: '#999', marginLeft: '4px' }}>
+                            ({node.children.length}人)
+                          </span>
+                        )}
+                      </span>
+                    )}
+                  />
+                </div>
+              </DemoRow>
+              <CopyBlock code={`import { Tree } from '@zjpcy/simple-design';
 
 <Tree
   treeData={treeData}
@@ -827,15 +858,17 @@ const treeData: TreeNode[] = [
     </span>
   )}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 异步加载 */}
-      <Section title="异步加载">
-        <p>通过 loadData 属性实现异步加载子节点。需要设置 isLeaf: false 来表示节点可以展开。</p>
-        <DemoRow title="点击加载">
-          <AsyncLoadTreeDemo />
-        </DemoRow>
-        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+          {/* 异步加载 */}
+          <div id="tree-async">
+            <Section title="异步加载">
+              <p>通过 loadData 属性实现异步加载子节点。需要设置 isLeaf: false 来表示节点可以展开。</p>
+              <DemoRow title="点击加载">
+                <AsyncLoadTreeDemo />
+              </DemoRow>
+              <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const AsyncLoadDemo = () => {
@@ -878,13 +911,15 @@ const AsyncLoadDemo = () => {
 
   return <Tree treeData={treeData} loadData={handleLoadData} />;
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* Ref 方法 */}
-      <Section title="Ref 方法">
-        <p>通过 ref 可以调用树组件的实例方法，如 scrollTo 滚动到指定节点。</p>
-        <ScrollToDemo />
-        <CopyBlock code={`import { Tree, TreeRef, TreeNode } from '@zjpcy/simple-design';
+          {/* Ref 方法 */}
+          <div id="tree-ref">
+            <Section title="Ref 方法">
+              <p>通过 ref 可以调用树组件的实例方法，如 scrollTo 滚动到指定节点。</p>
+              <ScrollToDemo />
+              <CopyBlock code={`import { Tree, TreeRef, TreeNode } from '@zjpcy/simple-design';
 import { useRef } from 'react';
 
 const Demo = () => {
@@ -915,15 +950,17 @@ const Demo = () => {
     </>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 拖拽示例 */}
-      <Section title="拖拽排序">
-        <p>通过设置 draggable 属性启用拖拽功能，支持拖拽到节点上方、下方或内部。</p>
-        <DemoRow title="可拖拽树">
-          <DraggableTreeDemo />
-        </DemoRow>
-        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+          {/* 拖拽示例 */}
+          <div id="tree-drag">
+            <Section title="拖拽排序">
+              <p>通过设置 draggable 属性启用拖拽功能，支持拖拽到节点上方、下方或内部。</p>
+              <DemoRow title="可拖拽树">
+                <DraggableTreeDemo />
+              </DemoRow>
+              <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -958,15 +995,17 @@ const Demo = () => {
     />
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 动态节点操作 */}
-      <Section title="动态节点操作">
-        <p>通过设置 addable/removable/editable 属性启用节点操作功能，使用回调函数处理增删改操作。</p>
-        <DemoRow title="onAddNode / onRemoveNode / onEditNode">
-          <DynamicNodeDemo />
-        </DemoRow>
-        <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
+          {/* 动态节点操作 */}
+          <div id="tree-dynamic">
+            <Section title="动态节点操作">
+              <p>通过设置 addable/removable/editable 属性启用节点操作功能，使用回调函数处理增删改操作。</p>
+              <DemoRow title="onAddNode / onRemoveNode / onEditNode">
+                <DynamicNodeDemo />
+              </DemoRow>
+              <CopyBlock code={`import { Tree, TreeNode } from '@zjpcy/simple-design';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -993,7 +1032,7 @@ const Demo = () => {
   // 处理删除节点 - 点击 × 按钮时触发
   const handleRemoveNode = (node: TreeNode) => {
     // 返回 true 允许删除，返回 false 阻止删除
-    return window.confirm(\`确定删除 "\${node.title}" 吗？\`);
+    return window.confirm(\\\`确定删除 "\\\${node.title}" 吗？\\\`);
   };
 
   // 处理编辑节点 - 点击编辑按钮时触发
@@ -1017,118 +1056,155 @@ const Demo = () => {
     />
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <h3>Tree Props</h3>
-        <Table
-          bordered
-          dataSource={[
-            { key: '1', prop: 'treeData', description: '树形数据', type: 'TreeNode[]', default: '[]' },
-            { key: '2', prop: 'checkable', description: '是否显示复选框', type: 'boolean', default: 'false' },
-            { key: '3', prop: 'checkedKeys', description: '勾选的节点（受控）', type: '(string | number)[]', default: '-' },
-            { key: '4', prop: 'defaultCheckedKeys', description: '默认勾选的节点', type: '(string | number)[]', default: '[]' },
-            { key: '5', prop: 'selectedKeys', description: '选中的节点（受控）', type: '(string | number)[]', default: '-' },
-            { key: '6', prop: 'defaultSelectedKeys', description: '默认选中的节点', type: '(string | number)[]', default: '[]' },
-            { key: '7', prop: 'expandedKeys', description: '展开的节点（受控）', type: '(string | number)[]', default: '-' },
-            { key: '8', prop: 'defaultExpandedKeys', description: '默认展开的节点', type: '(string | number)[]', default: '[]' },
-            { key: '9', prop: 'defaultExpandAll', description: '默认展开所有节点', type: 'boolean', default: 'false' },
-            { key: '10', prop: 'showLine', description: '是否显示连接线', type: 'boolean', default: 'false' },
-            { key: '11', prop: 'showIcon', description: '是否显示节点图标', type: 'boolean', default: 'true' },
-            { key: '12', prop: 'showIcon', description: '是否展示为目录树', type: 'boolean', default: 'false' },
-            { key: '13', prop: 'blockNode', description: '是否节点占据一行', type: 'boolean', default: 'false' },
-            { key: '14', prop: 'draggable', description: '是否可拖拽', type: 'boolean', default: 'false' },
-            { key: '15', prop: 'loadData', description: '异步加载数据', type: '(node: TreeNode) => Promise<void>', default: '-' },
-            { key: '16', prop: 'onExpand', description: '展开节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
-            { key: '17', prop: 'onSelect', description: '选中节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
-            { key: '18', prop: 'onCheck', description: '勾选节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
-            { key: '19', prop: 'onClick', description: '点击节点时的回调', type: '(node: TreeNode) => void', default: '-' },
-            { key: '20', prop: 'onRightClick', description: '右键点击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
-            { key: '21', prop: 'onDoubleClick', description: '双击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
-            { key: '22', prop: 'renderNode', description: '自定义节点渲染', type: '(node: TreeNode) => React.ReactNode', default: '-' },
-            { key: '23', prop: 'addable', description: '是否支持动态添加节点', type: 'boolean', default: 'false' },
-            { key: '24', prop: 'removable', description: '是否支持删除节点', type: 'boolean', default: 'false' },
-            { key: '25', prop: 'editable', description: '是否支持编辑节点', type: 'boolean', default: 'false' },
-            { key: '26', prop: 'actionDisplayMode', description: '操作按钮显示模式：inline 行内显示 | dropdown 下拉菜单', type: "'inline' | 'dropdown'", default: "'inline'" },
-            { key: '27', prop: 'onAddNode', description: '添加节点回调', type: '(parentNode: TreeNode) => TreeNode | TreeNode[] | void', default: '-' },
-            { key: '28', prop: 'onRemoveNode', description: '删除节点回调，返回 false 可阻止删除', type: '(node: TreeNode) => boolean | void', default: '-' },
-            { key: '29', prop: 'onEditNode', description: '编辑节点回调，返回新标题', type: '(node: TreeNode, newTitle: string) => string | void', default: '-' },
-            { key: '30', prop: 'tooltip', description: '全局 Tooltip 配置，默认关闭', type: 'TreeNodeTooltip | boolean', default: '-' },
-            { key: '31', prop: 'onDrop', description: '拖拽放置回调', type: '(params: { event: MouseEvent; node: TreeNode; dragNode: TreeNode; dragPosition: \'before\' | \'after\' | \'inside\' }) => void', default: '-' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'prop', width: 150 },
-            { title: '说明', dataIndex: 'description' },
-            { title: '类型', dataIndex: 'type', width: 250 },
-            { title: '默认值', dataIndex: 'default', width: 80 },
-          ]}
-          pagination={false}
-        />
+          {/* API 文档 */}
+          <div id="tree-api">
+            <Section title="API">
+              <h3>Tree Props</h3>
+              <Table
+                bordered
+                dataSource={[
+                  { key: '1', prop: 'treeData', description: '树形数据', type: 'TreeNode[]', default: '[]' },
+                  { key: '2', prop: 'checkable', description: '是否显示复选框', type: 'boolean', default: 'false' },
+                  { key: '3', prop: 'checkedKeys', description: '勾选的节点（受控）', type: '(string | number)[]', default: '-' },
+                  { key: '4', prop: 'defaultCheckedKeys', description: '默认勾选的节点', type: '(string | number)[]', default: '[]' },
+                  { key: '5', prop: 'selectedKeys', description: '选中的节点（受控）', type: '(string | number)[]', default: '-' },
+                  { key: '6', prop: 'defaultSelectedKeys', description: '默认选中的节点', type: '(string | number)[]', default: '[]' },
+                  { key: '7', prop: 'expandedKeys', description: '展开的节点（受控）', type: '(string | number)[]', default: '-' },
+                  { key: '8', prop: 'defaultExpandedKeys', description: '默认展开的节点', type: '(string | number)[]', default: '[]' },
+                  { key: '9', prop: 'defaultExpandAll', description: '默认展开所有节点', type: 'boolean', default: 'false' },
+                  { key: '10', prop: 'showLine', description: '是否显示连接线', type: 'boolean', default: 'false' },
+                  { key: '11', prop: 'showIcon', description: '是否显示节点图标', type: 'boolean', default: 'true' },
+                  { key: '12', prop: 'showIcon', description: '是否展示为目录树', type: 'boolean', default: 'false' },
+                  { key: '13', prop: 'blockNode', description: '是否节点占据一行', type: 'boolean', default: 'false' },
+                  { key: '14', prop: 'draggable', description: '是否可拖拽', type: 'boolean', default: 'false' },
+                  { key: '15', prop: 'loadData', description: '异步加载数据', type: '(node: TreeNode) => Promise<void>', default: '-' },
+                  { key: '16', prop: 'onExpand', description: '展开节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
+                  { key: '17', prop: 'onSelect', description: '选中节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
+                  { key: '18', prop: 'onCheck', description: '勾选节点时的回调', type: '(keys: (string | number)[]) => void', default: '-' },
+                  { key: '19', prop: 'onClick', description: '点击节点时的回调', type: '(node: TreeNode) => void', default: '-' },
+                  { key: '20', prop: 'onRightClick', description: '右键点击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
+                  { key: '21', prop: 'onDoubleClick', description: '双击节点时的回调', type: '(e: React.MouseEvent, node: TreeNode) => void', default: '-' },
+                  { key: '22', prop: 'renderNode', description: '自定义节点渲染', type: '(node: TreeNode) => React.ReactNode', default: '-' },
+                  { key: '23', prop: 'addable', description: '是否支持动态添加节点', type: 'boolean', default: 'false' },
+                  { key: '24', prop: 'removable', description: '是否支持删除节点', type: 'boolean', default: 'false' },
+                  { key: '25', prop: 'editable', description: '是否支持编辑节点', type: 'boolean', default: 'false' },
+                  { key: '26', prop: 'actionDisplayMode', description: '操作按钮显示模式：inline 行内显示 | dropdown 下拉菜单', type: "'inline' | 'dropdown'", default: "'inline'" },
+                  { key: '27', prop: 'onAddNode', description: '添加节点回调', type: '(parentNode: TreeNode) => TreeNode | TreeNode[] | void', default: '-' },
+                  { key: '28', prop: 'onRemoveNode', description: '删除节点回调，返回 false 可阻止删除', type: '(node: TreeNode) => boolean | void', default: '-' },
+                  { key: '29', prop: 'onEditNode', description: '编辑节点回调，返回新标题', type: '(node: TreeNode, newTitle: string) => string | void', default: '-' },
+                  { key: '30', prop: 'tooltip', description: '全局 Tooltip 配置，默认关闭', type: 'TreeNodeTooltip | boolean', default: '-' },
+                  { key: '31', prop: 'onDrop', description: '拖拽放置回调', type: "(params: { event: MouseEvent; node: TreeNode; dragNode: TreeNode; dragPosition: 'before' | 'after' | 'inside' }) => void", default: '-' },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'prop', width: 150 },
+                  { title: '说明', dataIndex: 'description' },
+                  { title: '类型', dataIndex: 'type', width: 250 },
+                  { title: '默认值', dataIndex: 'default', width: 80 },
+                ]}
+                pagination={false}
+              />
 
-        <h3 style={{ marginTop: '24px' }}>TreeNode 数据结构</h3>
-        <Table
-          bordered
-          dataSource={[
-            { key: '1', prop: 'key', description: '节点唯一标识（必填）', type: 'string | number', default: '-' },
-            { key: '2', prop: 'title', description: '节点标题', type: 'ReactNode', default: '-' },
-            { key: '3', prop: 'children', description: '子节点数组', type: 'TreeNode[]', default: '-' },
-            { key: '4', prop: 'icon', description: '自定义图标', type: 'ReactNode', default: '-' },
-            { key: '5', prop: 'disabled', description: '是否禁用节点', type: 'boolean', default: 'false' },
-            { key: '6', prop: 'disableCheckbox', description: '是否禁用复选框', type: 'boolean', default: 'false' },
-            { key: '7', prop: 'selectable', description: '是否可选中', type: 'boolean', default: 'true' },
-            { key: '8', prop: 'checkable', description: '是否可勾选', type: 'boolean', default: 'true' },
-            { key: '9', prop: 'isLeaf', description: '是否为叶子节点', type: 'boolean', default: '-' },
-            { key: '10', prop: 'tooltip', description: 'Tooltip 配置，默认不启用', type: 'TreeNodeTooltip | boolean', default: '-' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'prop', width: 150 },
-            { title: '说明', dataIndex: 'description' },
-            { title: '类型', dataIndex: 'type', width: 250 },
-            { title: '默认值', dataIndex: 'default', width: 80 },
-          ]}
-          pagination={false}
-        />
+              <h3 style={{ marginTop: '24px' }}>TreeNode 数据结构</h3>
+              <Table
+                bordered
+                dataSource={[
+                  { key: '1', prop: 'key', description: '节点唯一标识（必填）', type: 'string | number', default: '-' },
+                  { key: '2', prop: 'title', description: '节点标题', type: 'ReactNode', default: '-' },
+                  { key: '3', prop: 'children', description: '子节点数组', type: 'TreeNode[]', default: '-' },
+                  { key: '4', prop: 'icon', description: '自定义图标', type: 'ReactNode', default: '-' },
+                  { key: '5', prop: 'disabled', description: '是否禁用节点', type: 'boolean', default: 'false' },
+                  { key: '6', prop: 'disableCheckbox', description: '是否禁用复选框', type: 'boolean', default: 'false' },
+                  { key: '7', prop: 'selectable', description: '是否可选中', type: 'boolean', default: 'true' },
+                  { key: '8', prop: 'checkable', description: '是否可勾选', type: 'boolean', default: 'true' },
+                  { key: '9', prop: 'isLeaf', description: '是否为叶子节点', type: 'boolean', default: '-' },
+                  { key: '10', prop: 'tooltip', description: 'Tooltip 配置，默认不启用', type: 'TreeNodeTooltip | boolean', default: '-' },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'prop', width: 150 },
+                  { title: '说明', dataIndex: 'description' },
+                  { title: '类型', dataIndex: 'type', width: 250 },
+                  { title: '默认值', dataIndex: 'default', width: 80 },
+                ]}
+                pagination={false}
+              />
 
-        <h3 style={{ marginTop: '24px' }}>TreeNodeTooltip 配置</h3>
-        <p>用于配置节点 title 的 Tooltip 提示。</p>
-        <Table
-          bordered
-          dataSource={[
-            { key: '1', prop: 'title', description: 'Tooltip 内容，不传则使用节点 title', type: 'React.ReactNode', default: '-' },
-            { key: '2', prop: 'placement', description: 'Tooltip 位置', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'" },
-            { key: '3', prop: 'trigger', description: '触发方式', type: "'hover' | 'click'", default: "'hover'" },
-            { key: '4', prop: 'delay', description: '延迟显示时间（毫秒）', type: 'number', default: '100' },
-            { key: '5', prop: 'backgroundColor', description: '自定义背景色', type: 'string', default: '-' },
-            { key: '6', prop: 'style', description: '自定义样式', type: 'React.CSSProperties', default: '-' },
-            { key: '7', prop: 'className', description: '自定义类名', type: 'string', default: '-' },
-          ]}
-          columns={[
-            { title: '属性', dataIndex: 'prop', width: 150 },
-            { title: '说明', dataIndex: 'description' },
-            { title: '类型', dataIndex: 'type', width: 250 },
-            { title: '默认值', dataIndex: 'default', width: 80 },
-          ]}
-          pagination={false}
-        />
+              <h3 style={{ marginTop: '24px' }}>TreeNodeTooltip 配置</h3>
+              <p>用于配置节点 title 的 Tooltip 提示。</p>
+              <Table
+                bordered
+                dataSource={[
+                  { key: '1', prop: 'title', description: 'Tooltip 内容，不传则使用节点 title', type: 'React.ReactNode', default: '-' },
+                  { key: '2', prop: 'placement', description: 'Tooltip 位置', type: "'top' | 'bottom' | 'left' | 'right'", default: "'top'" },
+                  { key: '3', prop: 'trigger', description: '触发方式', type: "'hover' | 'click'", default: "'hover'" },
+                  { key: '4', prop: 'delay', description: '延迟显示时间（毫秒）', type: 'number', default: '100' },
+                  { key: '5', prop: 'backgroundColor', description: '自定义背景色', type: 'string', default: '-' },
+                  { key: '6', prop: 'style', description: '自定义样式', type: 'React.CSSProperties', default: '-' },
+                  { key: '7', prop: 'className', description: '自定义类名', type: 'string', default: '-' },
+                ]}
+                columns={[
+                  { title: '属性', dataIndex: 'prop', width: 150 },
+                  { title: '说明', dataIndex: 'description' },
+                  { title: '类型', dataIndex: 'type', width: 250 },
+                  { title: '默认值', dataIndex: 'default', width: 80 },
+                ]}
+                pagination={false}
+              />
 
-        <h3 style={{ marginTop: '24px' }}>TreeRef 方法</h3>
-        <p>通过 <code>ref</code> 可获取 Tree 实例，调用以下方法：</p>
-        <Table
-          bordered
-          dataSource={[
-            { key: '1', method: 'scrollTo', description: '滚动到指定节点', params: '(key: string | number) => void', returnValue: '-' },
-          ]}
-          columns={[
-            { title: '方法', dataIndex: 'method', width: 120 },
-            { title: '说明', dataIndex: 'description' },
-            { title: '参数', dataIndex: 'params', width: 350 },
-            { title: '返回值', dataIndex: 'returnValue', width: 100 },
-          ]}
-          pagination={false}
-        />
+              <h3 style={{ marginTop: '24px' }}>TreeRef 方法</h3>
+              <p>通过 <code>ref</code> 可获取 Tree 实例，调用以下方法：</p>
+              <Table
+                bordered
+                dataSource={[
+                  { key: '1', method: 'scrollTo', description: '滚动到指定节点', params: '(key: string | number) => void', returnValue: '-' },
+                ]}
+                columns={[
+                  { title: '方法', dataIndex: 'method', width: 120 },
+                  { title: '说明', dataIndex: 'description' },
+                  { title: '参数', dataIndex: 'params', width: 350 },
+                  { title: '返回值', dataIndex: 'returnValue', width: 100 },
+                ]}
+                pagination={false}
+              />
 
-      </Section>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#tree-intro" title="组件介绍" />
+                <Anchor.Link href="#tree-basic" title="基础用法" />
+                <Anchor.Link href="#tree-checkable" title="可选择" />
+                <Anchor.Link href="#tree-controlled" title="受控模式" />
+                <Anchor.Link href="#tree-expand" title="默认展开" />
+                <Anchor.Link href="#tree-line" title="连接线" />
+                <Anchor.Link href="#tree-icon" title="自定义图标" />
+                <Anchor.Link href="#tree-disabled" title="禁用状态" />
+                <Anchor.Link href="#tree-directory" title="目录树" />
+                <Anchor.Link href="#tree-ellipsis" title="省略模式" />
+                <Anchor.Link href="#tree-tooltip" title="Tooltip" />
+                <Anchor.Link href="#tree-render" title="自定义渲染" />
+                <Anchor.Link href="#tree-async" title="异步加载" />
+                <Anchor.Link href="#tree-ref" title="Ref 方法" />
+                <Anchor.Link href="#tree-drag" title="拖拽排序" />
+                <Anchor.Link href="#tree-dynamic" title="动态操作" />
+                <Anchor.Link href="#tree-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

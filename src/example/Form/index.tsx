@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Input, Button, Table, Flex, Modal } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Input, Button, Table, Flex, Modal, Anchor } from '../../components';
 import Form, { useForm } from '../../components/Form';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -66,6 +66,13 @@ const FormExample: React.FC = () => {
   const [modalForm] = useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   const handleHorizontalFinish = (values: any) => {
     console.log('Horizontal form values:', values);
@@ -184,42 +191,46 @@ const FormExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Form 表单</h1>
-      <p>具有数据收集、校验和提交功能的表单组件。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="form-intro">Form 表单</h1>
+          <p>具有数据收集、校验和提交功能的表单组件。</p>
 
-      <Section title="基础用法">
-        <p>最简单的用法，使用 Form.Item 包裹输入控件。</p>
-        <DemoBox>
-          <Form
-            layout="horizontal"
-            labelSpan={6}
-            initialValues={{ username: '', password: '' }}
-            onFinish={handleHorizontalFinish}
-            form={form1}
-          >
-            <Form.Item
-              name="username"
-              label="用户名"
-              rules={[{ required: true, message: '请输入用户名' }]}
-            >
-              <Input placeholder="请输入用户名" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              label="密码"
-              rules={[
-                { required: true, message: '请输入密码' },
-                { min: 6, message: '密码至少6位' }
-              ]}
-            >
-              <Input type="password" placeholder="请输入密码" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">提交</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-basic">
+            <Section title="基础用法">
+              <p>最简单的用法，使用 Form.Item 包裹输入控件。</p>
+              <DemoBox>
+                <Form
+                  layout="horizontal"
+                  labelSpan={6}
+                  initialValues={{ username: '', password: '' }}
+                  onFinish={handleHorizontalFinish}
+                  form={form1}
+                >
+                  <Form.Item
+                    name="username"
+                    label="用户名"
+                    rules={[{ required: true, message: '请输入用户名' }]}
+                  >
+                    <Input placeholder="请输入用户名" />
+                  </Form.Item>
+                  <Form.Item
+                    name="password"
+                    label="密码"
+                    rules={[
+                      { required: true, message: '请输入密码' },
+                      { min: 6, message: '密码至少6位' }
+                    ]}
+                  >
+                    <Input type="password" placeholder="请输入密码" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">提交</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
@@ -260,42 +271,44 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="垂直布局">
-        <p>通过设置 layout="vertical" 实现垂直布局。</p>
-        <DemoBox>
-          <Form
-            layout="vertical"
-            initialValues={{ email: '', phone: '' }}
-            onFinish={handleVerticalFinish}
-          >
-            <Form.Item
-              name="email"
-              label="邮箱"
-              rules={[
-                { required: true, message: '请输入邮箱' },
-                { type: 'email', message: '请输入有效的邮箱地址' }
-              ]}
-            >
-              <Input placeholder="请输入邮箱" />
-            </Form.Item>
-            <Form.Item
-              name="phone"
-              label="手机号"
-              rules={[
-                { required: true, message: '请输入手机号' },
-                { pattern: /^1[3-9]\\d{9}$/, message: '请输入有效的手机号' }
-              ]}
-            >
-              <Input placeholder="请输入手机号" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">提交</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-vertical">
+            <Section title="垂直布局">
+              <p>通过设置 layout="vertical" 实现垂直布局。</p>
+              <DemoBox>
+                <Form
+                  layout="vertical"
+                  initialValues={{ email: '', phone: '' }}
+                  onFinish={handleVerticalFinish}
+                >
+                  <Form.Item
+                    name="email"
+                    label="邮箱"
+                    rules={[
+                      { required: true, message: '请输入邮箱' },
+                      { type: 'email', message: '请输入有效的邮箱地址' }
+                    ]}
+                  >
+                    <Input placeholder="请输入邮箱" />
+                  </Form.Item>
+                  <Form.Item
+                    name="phone"
+                    label="手机号"
+                    rules={[
+                      { required: true, message: '请输入手机号' },
+                      { pattern: /^1[3-9]\\d{9}$/, message: '请输入有效的手机号' }
+                    ]}
+                  >
+                    <Input placeholder="请输入手机号" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">提交</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const onFinish = (values) => {
@@ -334,29 +347,31 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="行内布局">
-        <p>通过设置 layout="inline" 实现行内布局。</p>
-        <DemoBox>
-          <Form
-            layout="inline"
-            initialValues={{ keyword: '' }}
-            onFinish={handleInlineFinish}
-          >
-            <Form.Item
-              name="keyword"
-              label="关键词"
-              rules={[{ required: true, message: '请输入关键词' }]}
-            >
-              <Input placeholder="请输入关键词" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">搜索</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-inline">
+            <Section title="行内布局">
+              <p>通过设置 layout="inline" 实现行内布局。</p>
+              <DemoBox>
+                <Form
+                  layout="inline"
+                  initialValues={{ keyword: '' }}
+                  onFinish={handleInlineFinish}
+                >
+                  <Form.Item
+                    name="keyword"
+                    label="关键词"
+                    rules={[{ required: true, message: '请输入关键词' }]}
+                  >
+                    <Input placeholder="请输入关键词" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">搜索</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   const onFinish = (values) => {
@@ -382,68 +397,70 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="表单验证">
-        <p>支持多种验证规则：必填、类型、正则、自定义验证等。</p>
-        <DemoBox>
-          <Form
-            layout="horizontal"
-            labelSpan={6}
-            initialValues={{
-              username: '',
-              email: '',
-              age: '',
-              website: ''
-            }}
-            onFinish={(values) => console.log('验证通过:', values)}
-          >
-            <Form.Item
-              name="username"
-              label="用户名"
-              rules={[
-                { required: true, message: '请输入用户名' },
-                { min: 3, max: 16, message: '用户名长度为3-16位' }
-              ]}
-            >
-              <Input placeholder="3-16位字符" />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="邮箱"
-              rules={[
-                { required: true, message: '请输入邮箱' },
-                { type: 'email', message: '请输入有效的邮箱地址' }
-              ]}
-            >
-              <Input placeholder="example@email.com" />
-            </Form.Item>
-            <Form.Item
-              name="age"
-              label="年龄"
-              rules={[
-                { required: true, message: '请输入年龄' },
-                { type: 'number', message: '请输入有效的数字' }
-              ]}
-            >
-              <Input placeholder="请输入年龄" />
-            </Form.Item>
-            <Form.Item
-              name="website"
-              label="网站"
-              rules={[
-                { required: true, message: '请输入网站地址' },
-                { type: 'url', message: '请输入有效的URL地址' }
-              ]}
-            >
-              <Input placeholder="https://example.com" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">提交</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-validation">
+            <Section title="表单验证">
+              <p>支持多种验证规则：必填、类型、正则、自定义验证等。</p>
+              <DemoBox>
+                <Form
+                  layout="horizontal"
+                  labelSpan={6}
+                  initialValues={{
+                    username: '',
+                    email: '',
+                    age: '',
+                    website: ''
+                  }}
+                  onFinish={(values) => console.log('验证通过:', values)}
+                >
+                  <Form.Item
+                    name="username"
+                    label="用户名"
+                    rules={[
+                      { required: true, message: '请输入用户名' },
+                      { min: 3, max: 16, message: '用户名长度为3-16位' }
+                    ]}
+                  >
+                    <Input placeholder="3-16位字符" />
+                  </Form.Item>
+                  <Form.Item
+                    name="email"
+                    label="邮箱"
+                    rules={[
+                      { required: true, message: '请输入邮箱' },
+                      { type: 'email', message: '请输入有效的邮箱地址' }
+                    ]}
+                  >
+                    <Input placeholder="example@email.com" />
+                  </Form.Item>
+                  <Form.Item
+                    name="age"
+                    label="年龄"
+                    rules={[
+                      { required: true, message: '请输入年龄' },
+                      { type: 'number', message: '请输入有效的数字' }
+                    ]}
+                  >
+                    <Input placeholder="请输入年龄" />
+                  </Form.Item>
+                  <Form.Item
+                    name="website"
+                    label="网站"
+                    rules={[
+                      { required: true, message: '请输入网站地址' },
+                      { type: 'url', message: '请输入有效的URL地址' }
+                    ]}
+                  >
+                    <Input placeholder="https://example.com" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">提交</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -478,39 +495,41 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="帮助文本">
-        <p>使用 help 和 extra 属性添加帮助文本。</p>
-        <DemoBox>
-          <Form
-            layout="horizontal"
-            labelSpan={6}
-            initialValues={{ username: '', email: '' }}
-            onFinish={(values) => console.log('表单值:', values)}
-          >
-            <Form.Item
-              name="username"
-              label="用户名"
-              help="用户名将用于登录系统"
-              rules={[{ required: true, message: '请输入用户名' }]}
-            >
-              <Input placeholder="请输入用户名" />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="邮箱"
-              extra="我们将向您的邮箱发送验证邮件"
-              rules={[{ required: true, message: '请输入邮箱' }]}
-            >
-              <Input placeholder="请输入邮箱" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">提交</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-help">
+            <Section title="帮助文本">
+              <p>使用 help 和 extra 属性添加帮助文本。</p>
+              <DemoBox>
+                <Form
+                  layout="horizontal"
+                  labelSpan={6}
+                  initialValues={{ username: '', email: '' }}
+                  onFinish={(values) => console.log('表单值:', values)}
+                >
+                  <Form.Item
+                    name="username"
+                    label="用户名"
+                    help="用户名将用于登录系统"
+                    rules={[{ required: true, message: '请输入用户名' }]}
+                  >
+                    <Input placeholder="请输入用户名" />
+                  </Form.Item>
+                  <Form.Item
+                    name="email"
+                    label="邮箱"
+                    extra="我们将向您的邮箱发送验证邮件"
+                    rules={[{ required: true, message: '请输入邮箱' }]}
+                  >
+                    <Input placeholder="请输入邮箱" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">提交</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -534,40 +553,42 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="自定义布局宽度">
-        <p>通过 labelSpan 和 wrapperSpan 自定义表单布局宽度（基于24栅格系统）。</p>
-        <DemoBox>
-          <Form
-            layout="horizontal"
-            labelSpan={4}
-            wrapperSpan={20}
-            initialValues={{ title: '', content: '' }}
-            onFinish={(values) => console.log('表单值:', values)}
-          >
-            <Form.Item
-              name="title"
-              label="标题"
-              rules={[{ required: true, message: '请输入标题' }]}
-            >
-              <Input placeholder="labelSpan=4, wrapperSpan=20" />
-            </Form.Item>
-            <Form.Item
-              name="content"
-              label="内容"
-              labelSpan={6}
-              wrapperSpan={18}
-              rules={[{ required: true, message: '请输入内容' }]}
-            >
-              <Input placeholder="Item级别: labelSpan=6, wrapperSpan=18" />
-            </Form.Item>
-            <Form.Item>
-              <Button variant="primary" type="submit">提交</Button>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-layout">
+            <Section title="自定义布局宽度">
+              <p>通过 labelSpan 和 wrapperSpan 自定义表单布局宽度（基于24栅格系统）。</p>
+              <DemoBox>
+                <Form
+                  layout="horizontal"
+                  labelSpan={4}
+                  wrapperSpan={20}
+                  initialValues={{ title: '', content: '' }}
+                  onFinish={(values) => console.log('表单值:', values)}
+                >
+                  <Form.Item
+                    name="title"
+                    label="标题"
+                    rules={[{ required: true, message: '请输入标题' }]}
+                  >
+                    <Input placeholder="labelSpan=4, wrapperSpan=20" />
+                  </Form.Item>
+                  <Form.Item
+                    name="content"
+                    label="内容"
+                    labelSpan={6}
+                    wrapperSpan={18}
+                    rules={[{ required: true, message: '请输入内容' }]}
+                  >
+                    <Input placeholder="Item级别: labelSpan=6, wrapperSpan=18" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button variant="primary" type="submit">提交</Button>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 
 const Demo = () => {
   return (
@@ -593,57 +614,59 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="FormInstance 方法">
-        <p>通过 useForm 获取表单实例，可以调用各种方法来操作表单。</p>
-        <DemoBox>
-          <Form
-            layout="horizontal"
-            labelSpan={6}
-            initialValues={{ username: '', email: '', age: '' }}
-            onFinish={handleFormInstanceFinish}
-            form={form6}
-          >
-            <Form.Item
-              name="username"
-              label="用户名"
-              rules={[{ required: true, message: '请输入用户名' }]}
-            >
-              <Input placeholder="请输入用户名" />
-            </Form.Item>
-            <Form.Item
-              name="email"
-              label="邮箱"
-              rules={[
-                { required: true, message: '请输入邮箱' },
-                { type: 'email', message: '请输入有效的邮箱地址' }
-              ]}
-            >
-              <Input placeholder="请输入邮箱" />
-            </Form.Item>
-            <Form.Item
-              name="age"
-              label="年龄"
-              rules={[
-                { required: true, message: '请输入年龄' },
-                { type: 'number', message: '请输入有效的数字' }
-              ]}
-            >
-              <Input placeholder="请输入年龄" />
-            </Form.Item>
-            <Form.Item>
-              <Flex gap="small">
-                <Button variant="primary" type="submit">提交</Button>
-                <Button onClick={handleSetValues}>设置值</Button>
-                <Button onClick={handleGetValues}>获取值</Button>
-                <Button onClick={handleReset}>重置</Button>
-                <Button onClick={handleValidate}>验证</Button>
-              </Flex>
-            </Form.Item>
-          </Form>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+          <div id="form-instance">
+            <Section title="FormInstance 方法">
+              <p>通过 useForm 获取表单实例，可以调用各种方法来操作表单。</p>
+              <DemoBox>
+                <Form
+                  layout="horizontal"
+                  labelSpan={6}
+                  initialValues={{ username: '', email: '', age: '' }}
+                  onFinish={handleFormInstanceFinish}
+                  form={form6}
+                >
+                  <Form.Item
+                    name="username"
+                    label="用户名"
+                    rules={[{ required: true, message: '请输入用户名' }]}
+                  >
+                    <Input placeholder="请输入用户名" />
+                  </Form.Item>
+                  <Form.Item
+                    name="email"
+                    label="邮箱"
+                    rules={[
+                      { required: true, message: '请输入邮箱' },
+                      { type: 'email', message: '请输入有效的邮箱地址' }
+                    ]}
+                  >
+                    <Input placeholder="请输入邮箱" />
+                  </Form.Item>
+                  <Form.Item
+                    name="age"
+                    label="年龄"
+                    rules={[
+                      { required: true, message: '请输入年龄' },
+                      { type: 'number', message: '请输入有效的数字' }
+                    ]}
+                  >
+                    <Input placeholder="请输入年龄" />
+                  </Form.Item>
+                  <Form.Item>
+                    <Flex gap="small">
+                      <Button variant="primary" type="submit">提交</Button>
+                      <Button onClick={handleSetValues}>设置值</Button>
+                      <Button onClick={handleGetValues}>获取值</Button>
+                      <Button onClick={handleReset}>重置</Button>
+                      <Button onClick={handleValidate}>验证</Button>
+                    </Flex>
+                  </Form.Item>
+                </Form>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
 import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
@@ -700,92 +723,94 @@ const Demo = () => {
     </Form>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="在 Modal 中使用">
-        <p>Form 组件可以与 Modal 组件结合使用，实现弹窗表单的场景。</p>
-        <DemoBox>
-          <Button variant="primary" onClick={() => setModalVisible(true)}>
-            打开表单弹窗
-          </Button>
+          <div id="form-modal">
+            <Section title="在 Modal 中使用">
+              <p>Form 组件可以与 Modal 组件结合使用，实现弹窗表单的场景。</p>
+              <DemoBox>
+                <Button variant="primary" onClick={() => setModalVisible(true)}>
+                  打开表单弹窗
+                </Button>
 
-          <Modal
-            visible={modalVisible}
-            title="新建用户"
-            width={560}
-            confirmLoading={modalLoading}
-            onCancel={() => {
-              setModalVisible(false);
-              modalForm.resetFields();
-            }}
-            onOk={() => {
-              modalForm.validateFields().then(values => {
-                setModalLoading(true);
-                setTimeout(() => {
-                  setModalLoading(false);
-                  setModalVisible(false);
-                  console.log('表单提交成功:', values);
-                  alert('提交成功！\n' + JSON.stringify(values, null, 2));
-                  modalForm.resetFields();
-                }, 1500);
-              }).catch(error => {
-                console.log('表单验证失败:', error);
-              });
-            }}
-          >
-            <Form
-              form={modalForm}
-              layout="horizontal"
-              labelSpan={5}
-              wrapperSpan={19}
-              initialValues={{
-                username: '',
-                email: '',
-                phone: '',
-                department: ''
-              }}
-            >
-              <Form.Item
-                name="username"
-                label="用户名"
-                rules={[
-                  { required: true, message: '请输入用户名' },
-                  { min: 2, max: 20, message: '用户名长度为2-20位' }
-                ]}
-              >
-                <Input placeholder="请输入用户名" />
-              </Form.Item>
-              <Form.Item
-                name="email"
-                label="邮箱"
-                rules={[
-                  { required: true, message: '请输入邮箱' },
-                  { type: 'email', message: '请输入有效的邮箱地址' }
-                ]}
-              >
-                <Input placeholder="example@email.com" />
-              </Form.Item>
-              <Form.Item
-                name="phone"
-                label="手机号"
-                rules={[
-                  { required: true, message: '请输入手机号' },
-                  { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号' }
-                ]}
-              >
-                <Input placeholder="请输入手机号" />
-              </Form.Item>
-              <Form.Item
-                name="department"
-                label="部门"
-                help="请输入所属部门"
-              >
-                <Input placeholder="请输入部门名称" />
-              </Form.Item>
-            </Form>
-          </Modal>
-        </DemoBox>
-        <CopyBlock code={`import { Form, Input, Button, Modal } from '@zjpcy/simple-design';
+                <Modal
+                  visible={modalVisible}
+                  title="新建用户"
+                  width={560}
+                  confirmLoading={modalLoading}
+                  onCancel={() => {
+                    setModalVisible(false);
+                    modalForm.resetFields();
+                  }}
+                  onOk={() => {
+                    modalForm.validateFields().then(values => {
+                      setModalLoading(true);
+                      setTimeout(() => {
+                        setModalLoading(false);
+                        setModalVisible(false);
+                        console.log('表单提交成功:', values);
+                        alert('提交成功！\\n' + JSON.stringify(values, null, 2));
+                        modalForm.resetFields();
+                      }, 1500);
+                    }).catch(error => {
+                      console.log('表单验证失败:', error);
+                    });
+                  }}
+                >
+                  <Form
+                    form={modalForm}
+                    layout="horizontal"
+                    labelSpan={5}
+                    wrapperSpan={19}
+                    initialValues={{
+                      username: '',
+                      email: '',
+                      phone: '',
+                      department: ''
+                    }}
+                  >
+                    <Form.Item
+                      name="username"
+                      label="用户名"
+                      rules={[
+                        { required: true, message: '请输入用户名' },
+                        { min: 2, max: 20, message: '用户名长度为2-20位' }
+                      ]}
+                    >
+                      <Input placeholder="请输入用户名" />
+                    </Form.Item>
+                    <Form.Item
+                      name="email"
+                      label="邮箱"
+                      rules={[
+                        { required: true, message: '请输入邮箱' },
+                        { type: 'email', message: '请输入有效的邮箱地址' }
+                      ]}
+                    >
+                      <Input placeholder="example@email.com" />
+                    </Form.Item>
+                    <Form.Item
+                      name="phone"
+                      label="手机号"
+                      rules={[
+                        { required: true, message: '请输入手机号' },
+                        { pattern: /^1[3-9]\d{9}$/, message: '请输入有效的手机号' }
+                      ]}
+                    >
+                      <Input placeholder="请输入手机号" />
+                    </Form.Item>
+                    <Form.Item
+                      name="department"
+                      label="部门"
+                      help="请输入所属部门"
+                    >
+                      <Input placeholder="请输入部门名称" />
+                    </Form.Item>
+                  </Form>
+                </Modal>
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button, Modal } from '@zjpcy/simple-design';
 import { useForm } from '@zjpcy/simple-design/components/Form';
 import { useState } from 'react';
 
@@ -868,21 +893,51 @@ const Demo = () => {
     </>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      <Section title="API">
-        <h3>Form Props</h3>
-        <Table columns={formPropsColumns} dataSource={formPropsDataSource} />
+          <div id="form-api">
+            <Section title="API">
+              <h3>Form Props</h3>
+              <Table columns={formPropsColumns} dataSource={formPropsDataSource} />
 
-        <h3>Form.Item Props</h3>
-        <Table columns={formItemPropsColumns} dataSource={formItemPropsDataSource} />
+              <h3>Form.Item Props</h3>
+              <Table columns={formItemPropsColumns} dataSource={formItemPropsDataSource} />
 
-        <h3>Rule</h3>
-        <Table columns={ruleColumns} dataSource={ruleDataSource} />
+              <h3>Rule</h3>
+              <Table columns={ruleColumns} dataSource={ruleDataSource} />
 
-        <h3>FormInstance 方法</h3>
-        <Table columns={formInstanceColumns} dataSource={formInstanceDataSource} />
-      </Section>
+              <h3>FormInstance 方法</h3>
+              <Table columns={formInstanceColumns} dataSource={formInstanceDataSource} />
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#form-intro" title="组件介绍" />
+                <Anchor.Link href="#form-basic" title="基础用法" />
+                <Anchor.Link href="#form-vertical" title="垂直布局" />
+                <Anchor.Link href="#form-inline" title="行内布局" />
+                <Anchor.Link href="#form-validation" title="表单验证" />
+                <Anchor.Link href="#form-help" title="帮助文本" />
+                <Anchor.Link href="#form-layout" title="自定义布局" />
+                <Anchor.Link href="#form-instance" title="FormInstance" />
+                <Anchor.Link href="#form-modal" title="Modal 中使用" />
+                <Anchor.Link href="#form-api" title="API" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

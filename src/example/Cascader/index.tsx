@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Cascader, Flex, Table, CopyToClipboard } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Cascader, Flex, Table, CopyToClipboard, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -31,6 +31,14 @@ const CodeBlock: React.FC<{ code: string; language?: string }> = ({ code, langua
 };
 
 const CascaderExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   // 示例数据
   const options = [
     {
@@ -247,13 +255,16 @@ const CascaderExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Cascader 级联选择框</h1>
-      <p style={{ color: '#666', marginBottom: '30px' }}>
-        一级菜单为上下级结构关系（垂直下拉），二级及以后的多级菜单为左右平铺关系（水平展开）的级联选择器。
-      </p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="cascader-intro">Cascader 级联选择框</h1>
+          <p style={{ color: '#666', marginBottom: '30px' }}>
+            一级菜单为上下级结构关系（垂直下拉），二级及以后的多级菜单为左右平铺关系（水平展开）的级联选择器。
+          </p>
 
-      {/* 基础用法 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 基础用法 */}
+          <div id="cascader-basic" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>基础用法</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -293,10 +304,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 默认值 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 默认值 */}
+          <div id="cascader-default" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>默认值</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -321,10 +332,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 禁用 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 禁用 */}
+          <div id="cascader-disabled" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>禁用</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -408,10 +419,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 多选模式 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 多选模式 */}
+          <div id="cascader-checkbox" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>多选模式</h2>
         <p style={{ color: '#666', marginBottom: '16px' }}>
           通过设置 <code>checkbox</code> 属性为 true，启用多选模式，支持同时选择多个选项
@@ -475,10 +486,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 尺寸 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 尺寸 */}
+          <div id="cascader-size" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>尺寸</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -521,10 +532,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 可清空 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 可清空 */}
+          <div id="cascader-clear" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>可清空</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -566,10 +577,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 展开触发方式 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 展开触发方式 */}
+          <div id="cascader-trigger" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>展开触发方式</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -607,10 +618,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 任意级别可选 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 任意级别可选 */}
+          <div id="cascader-change" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>任意级别可选</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -654,10 +665,10 @@ function App() {
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 自定义字段名 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 自定义字段名 */}
+          <div id="cascader-field" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>自定义字段名</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -817,10 +828,10 @@ const customOptions = [
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 空状态 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 空状态 */}
+          <div id="cascader-empty" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>空状态</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -887,10 +898,10 @@ const customOptions = [
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 尺寸控制 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 尺寸控制 */}
+          <div id="cascader-dimension" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>尺寸控制</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -976,10 +987,10 @@ const customOptions = [
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 弹出位置 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 弹出位置 */}
+          <div id="cascader-placement" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>弹出位置</h2>
         <p style={{ color: '#666', marginBottom: '16px' }}>
           支持 4 个弹出位置：bottomLeft（默认）、bottomRight、topLeft、topRight
@@ -1054,10 +1065,10 @@ const customOptions = [
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 组合使用 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* 组合使用 */}
+          <div id="cascader-combination" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>组合使用</h2>
         <Flex direction="column" gap="middle">
           <div>
@@ -1084,10 +1095,10 @@ const customOptions = [
             />
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* API 文档 */}
-      <div style={{ marginBottom: '60px' }}>
+          {/* API 文档 */}
+          <div id="cascader-api" style={{ marginBottom: '60px' }}>
         <h2 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '20px' }}>API 文档</h2>
         <h3 style={{ fontSize: '18px', fontWeight: '500', marginBottom: '16px' }}>Cascader Props</h3>
         <Table
@@ -1102,6 +1113,38 @@ const customOptions = [
           dataSource={optionDataSource}
           pagination={false}
         />
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#cascader-intro" title="组件介绍" />
+                <Anchor.Link href="#cascader-basic" title="基础用法" />
+                <Anchor.Link href="#cascader-default" title="默认值" />
+                <Anchor.Link href="#cascader-disabled" title="禁用" />
+                <Anchor.Link href="#cascader-checkbox" title="多选模式" />
+                <Anchor.Link href="#cascader-size" title="尺寸" />
+                <Anchor.Link href="#cascader-clear" title="可清空" />
+                <Anchor.Link href="#cascader-trigger" title="展开触发" />
+                <Anchor.Link href="#cascader-change" title="任意级别可选" />
+                <Anchor.Link href="#cascader-field" title="自定义字段名" />
+                <Anchor.Link href="#cascader-empty" title="空状态" />
+                <Anchor.Link href="#cascader-dimension" title="尺寸控制" />
+                <Anchor.Link href="#cascader-placement" title="弹出位置" />
+                <Anchor.Link href="#cascader-combination" title="组合使用" />
+                <Anchor.Link href="#cascader-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex, Button, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Button, Table, Anchor } from '../../components';
 import Checkbox from '../../components/Checkbox';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -60,17 +60,28 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 );
 
 const CheckboxExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
   const [basicChecked, setBasicChecked] = useState(false);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
   const [groupValues, setGroupValues] = useState<string[]>(['apple', 'orange']);
   const [disabledGroupValues, setDisabledGroupValues] = useState<string[]>(['apple']);
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Checkbox 复选框</h1>
-      <p>在一组可选项中进行多项选择。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="checkbox-intro">Checkbox 复选框</h1>
+          <p>在一组可选项中进行多项选择。</p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
+          {/* 基础用法 */}
+          <div id="checkbox-basic">
+            <Section title="基础用法">
         <DemoRow title="单个复选框">
           <Checkbox 
             checked={basicChecked}
@@ -101,10 +112,12 @@ const Demo = () => {
           </Checkbox>
         </DemoRow>
         <CopyBlock code={`<Checkbox defaultChecked={true}>默认选中</Checkbox>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 高级属性 */}
-      <Section title="高级属性">
+          {/* 高级属性 */}
+          <div id="checkbox-advanced">
+            <Section title="高级属性">
         <p>Checkbox 提供了丰富的属性来自定义标签样式和行为。</p>
         
         <DemoRow title="自定义标签样式">
@@ -150,10 +163,12 @@ const Demo = () => {
 >
   自定义样式类
 </Checkbox>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 禁用状态 */}
-      <Section title="禁用状态">
+          {/* 禁用状态 */}
+          <div id="checkbox-disabled">
+            <Section title="禁用状态">
         <DemoRow title="未选中的禁用">
           <Checkbox disabled={true}>禁用选项</Checkbox>
         </DemoRow>
@@ -169,10 +184,12 @@ const Demo = () => {
 
 // 禁用已选中
 <Checkbox disabled defaultChecked={true}>已选中的禁用</Checkbox>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* Checkbox Group */}
-      <Section title="复选框组">
+          {/* Checkbox Group */}
+          <div id="checkbox-group">
+            <Section title="复选框组">
         <p>使用 Checkbox.Group 可以方便地管理一组复选框。</p>
         
         <DemoRow title="基础用法">
@@ -271,10 +288,12 @@ const Demo = () => {
   options={[...]}
   gap={40}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 全选/全不选 */}
-      <Section title="全选/全不选">
+          {/* 全选/全不选 */}
+          <div id="checkbox-select-all">
+            <Section title="全选/全不选">
         <DemoRow title="受控的全选">
           <Checkbox.Group
             options={[
@@ -325,10 +344,12 @@ const Demo = () => {
     </>
   );
 };`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 实际应用场景 */}
-      <Section title="实际应用场景">
+          {/* 实际应用场景 */}
+          <div id="checkbox-scenarios">
+            <Section title="实际应用场景">
         <p>Checkbox 组件在实际项目中的常见使用场景。</p>
 
         <h3>1. 表单选择</h3>
@@ -389,10 +410,12 @@ const Demo = () => {
   options={[...]}
   defaultValue={['email', 'push']}
 />`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
+          {/* API 文档 */}
+          <div id="checkbox-api">
+            <Section title="API">
         <h3>Checkbox Props</h3>
         <Table
           columns={[
@@ -441,7 +464,33 @@ const Demo = () => {
           bordered={true}
           pagination={false}
         />
-      </Section>
+            </Section>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#checkbox-intro" title="组件介绍" />
+                <Anchor.Link href="#checkbox-basic" title="基础用法" />
+                <Anchor.Link href="#checkbox-advanced" title="高级属性" />
+                <Anchor.Link href="#checkbox-disabled" title="禁用状态" />
+                <Anchor.Link href="#checkbox-group" title="复选框组" />
+                <Anchor.Link href="#checkbox-select-all" title="全选/全不选" />
+                <Anchor.Link href="#checkbox-scenarios" title="实际应用场景" />
+                <Anchor.Link href="#checkbox-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Flex, Upload, Button, Space, message, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Flex, Upload, Button, Space, message, Table, Anchor } from '../../components';
 import { UploadFile } from '../../components/Upload';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -108,6 +108,13 @@ const DemoRow: React.FC<{ title: string; children: React.ReactNode }> = ({ title
 
 const UploadExample: React.FC = () => {
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // 获取滚动容器
+        const container = document.querySelector('.app-content') as HTMLElement;
+        setScrollContainer(container);
+    }, []);
 
     const handleChange = (newFileList: UploadFile[]) => {
         setFileList(newFileList);
@@ -136,11 +143,15 @@ const UploadExample: React.FC = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Upload 文件上传</h1>
-            <p>文件选择上传和拖拽上传控件。</p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+                {/* 左侧主内容区 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <h1 id="upload-intro">Upload 文件上传</h1>
+                    <p>文件选择上传和拖拽上传控件。</p>
 
-            {/* 基础用法 */}
-            <Section title="基础用法">
+                    {/* 基础用法 */}
+                    <div id="upload-basic">
+                        <Section title="基础用法">
                 <DemoRow title="点击上传">
                     <Upload
                         action={UPLOAD_URL}
@@ -164,10 +175,12 @@ const UploadExample: React.FC = () => {
 >
     <Button variant="primary">点击上传</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 拖拽上传 */}
-            <Section title="拖拽上传">
+                    {/* 拖拽上传 */}
+                    <div id="upload-drag">
+                        <Section title="拖拽上传">
                 <DemoRow title="拖拽区域">
                     <div style={{ width: '100%' }}>
                         <Upload
@@ -186,10 +199,12 @@ const UploadExample: React.FC = () => {
     action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
     multiple
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 受控模式 */}
-            <Section title="受控模式">
+                    {/* 受控模式 */}
+                    <div id="upload-controlled">
+                        <Section title="受控模式">
                 <DemoRow title="文件列表">
                     <Upload
                         fileList={fileList}
@@ -230,10 +245,12 @@ const Demo = () => {
         </>
     );
 };`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 文件类型限制 */}
-            <Section title="文件类型限制">
+                    {/* 文件类型限制 */}
+                    <div id="upload-filetype">
+                        <Section title="文件类型限制">
                 <DemoRow title="限制图片">
                     <Upload
                         accept="image/*"
@@ -260,10 +277,12 @@ const Demo = () => {
 >
     <Button variant="primary">上传图片</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 多文件上传 */}
-            <Section title="多文件上传">
+                    {/* 多文件上传 */}
+                    <div id="upload-multiple">
+                        <Section title="多文件上传">
                 <DemoRow title="多选">
                     <Upload
                         multiple
@@ -282,10 +301,12 @@ const Demo = () => {
 >
     <Button variant="primary">选择多个文件</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 上传进度 */}
-            <Section title="上传进度">
+                    {/* 上传进度 */}
+                    <div id="upload-progress">
+                        <Section title="上传进度">
                 <p>使用自定义上传方法展示上传进度</p>
                 <DemoRow title="进度条">
                     <Upload
@@ -336,10 +357,12 @@ const Demo = () => {
 >
     <Button variant="primary">上传文件</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 禁用状态 */}
-            <Section title="禁用状态">
+                    {/* 禁用状态 */}
+                    <div id="upload-disabled">
+                        <Section title="禁用状态">
                 <DemoRow title="禁用">
                     <Upload disabled>
                         <Button variant="primary" disabled>点击上传</Button>
@@ -350,10 +373,12 @@ const Demo = () => {
 <Upload disabled>
     <Button variant="primary" disabled>点击上传</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 最大文件数量 */}
-            <Section title="最大文件数量">
+                    {/* 最大文件数量 */}
+                    <div id="upload-maxcount">
+                        <Section title="最大文件数量">
                 <DemoRow title="限制3个">
                     <Upload
                         maxCount={3}
@@ -374,10 +399,12 @@ const Demo = () => {
 >
     <Button variant="primary">最多上传3个文件</Button>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 自定义触发器 */}
-            <Section title="自定义触发器">
+                    {/* 自定义触发器 */}
+                    <div id="upload-custom">
+                        <Section title="自定义触发器">
                 <DemoRow title="自定义样式">
                     <Upload action={UPLOAD_URL} onSuccess={handleSuccess} onError={handleError}>
                         <div style={{
@@ -411,10 +438,12 @@ const Demo = () => {
         <span style={{ fontSize: 24 }}>+</span>
     </div>
 </Upload>`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* API 文档 */}
-            <Section title="API">
+                    {/* API 文档 */}
+                    <div id="upload-api">
+                        <Section title="API">
                 <h3>Upload Props</h3>
                 <Table
                     dataSource={uploadApiData}
@@ -428,7 +457,36 @@ const Demo = () => {
                     columns={columns}
                     pagination={false}
                 />
-            </Section>
+                        </Section>
+                    </div>
+                </div>
+
+                {/* 右侧锚点导航 */}
+                <div style={{ width: '140px', flexShrink: 0 }}>
+                    <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+                        {scrollContainer && (
+                            <Anchor
+                                getContainer={() => scrollContainer}
+                                offsetTop={20}
+                                affix={false}
+                                bounds={30}
+                            >
+                                <Anchor.Link href="#upload-intro" title="组件介绍" />
+                                <Anchor.Link href="#upload-basic" title="基础用法" />
+                                <Anchor.Link href="#upload-drag" title="拖拽上传" />
+                                <Anchor.Link href="#upload-controlled" title="受控模式" />
+                                <Anchor.Link href="#upload-filetype" title="文件类型限制" />
+                                <Anchor.Link href="#upload-multiple" title="多文件上传" />
+                                <Anchor.Link href="#upload-progress" title="上传进度" />
+                                <Anchor.Link href="#upload-disabled" title="禁用状态" />
+                                <Anchor.Link href="#upload-maxcount" title="最大文件数量" />
+                                <Anchor.Link href="#upload-custom" title="自定义触发器" />
+                                <Anchor.Link href="#upload-api" title="API 文档" />
+                            </Anchor>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

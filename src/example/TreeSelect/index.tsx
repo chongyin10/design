@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import TreeSelect from '../../components/TreeSelect';
-import Table from '../../components/Table';
+import React, { useState, useEffect } from 'react';
+import { TreeSelect, Anchor, Table } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -112,6 +111,15 @@ const TreeSelectExample: React.FC = () => {
     // 带最大标签数状态
     const [maxTagValue, setMaxTagValue] = useState<string[]>(['0-0', '0-0-1', '0-0-2', '0-1']);
 
+    // 滚动容器
+    const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // 获取滚动容器
+        const container = document.querySelector('.app-content') as HTMLElement;
+        setScrollContainer(container);
+    }, []);
+
     // API 表格列定义
     const columns = [
         { title: '属性', dataIndex: 'property', width: 120 },
@@ -138,11 +146,15 @@ const TreeSelectExample: React.FC = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>TreeSelect 树型选择器</h1>
-            <p>树形选择控件，支持单选和多选，以及最大标签数量限制。</p>
+            <div style={{ display: 'flex', gap: '24px' }}>
+                {/* 左侧主内容区 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <h1 id="treeselect-intro">TreeSelect 树型选择器</h1>
+                    <p>树形选择控件，支持单选和多选，以及最大标签数量限制。</p>
             
-            {/* 基础单选 */}
-            <Section title="基础单选">
+                    {/* 基础单选 */}
+                    <div id="treeselect-basic">
+                        <Section title="基础单选">
                 <p>最简单的树形选择，支持展开/折叠子节点</p>
                 <TreeSelect
                     treeData={treeData}
@@ -177,8 +189,11 @@ const [value, setValue] = useState<string>();
 />`} />
             </Section>
 
-            {/* 多选 */}
-            <Section title="多选">
+                    </div>
+
+                    {/* 多选 */}
+                    <div id="treeselect-multiple">
+                        <Section title="多选">
                 <p>支持同时选择多个节点</p>
                 <TreeSelect
                     treeData={treeData}
@@ -198,10 +213,12 @@ const [value, setValue] = useState<string>();
   onChange={(value) => setMultipleValue(value as string[])}
   placeholder="请选择多个节点"
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 多选带最大标签数 */}
-            <Section title="多选 - 最大标签数 (maxTagCount=2)">
+                    {/* 多选带最大标签数 */}
+                    <div id="treeselect-maxtag">
+                        <Section title="多选 - 最大标签数 (maxTagCount=2)">
                 <p>当选中项超过指定数量时，剩余项以 +N 形式显示</p>
                 <TreeSelect
                     treeData={treeData}
@@ -223,10 +240,12 @@ const [value, setValue] = useState<string>();
   onChange={(value) => setMaxTagValue(value as string[])}
   placeholder="请选择节点"
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 可搜索 */}
-            <Section title="可搜索">
+                    {/* 可搜索 */}
+                    <div id="treeselect-search">
+                        <Section title="可搜索">
                 <p>支持搜索节点标题来过滤选项</p>
                 <TreeSelect
                     treeData={treeData}
@@ -243,10 +262,12 @@ const [value, setValue] = useState<string>();
   onChange={(value) => setSearchValue(value as string)}
   placeholder="请输入关键词搜索"
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 不同尺寸 */}
-            <Section title="不同尺寸">
+                    {/* 不同尺寸 */}
+                    <div id="treeselect-size">
+                        <Section title="不同尺寸">
                 <p>支持 large、middle、small 三种尺寸</p>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                     <TreeSelect
@@ -271,10 +292,12 @@ const [value, setValue] = useState<string>();
                 <CopyBlock code={`<TreeSelect treeData={treeData} size="large" placeholder="Large" />
 <TreeSelect treeData={treeData} size="middle" placeholder="Middle" />
 <TreeSelect treeData={treeData} size="small" placeholder="Small" />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 禁用状态 */}
-            <Section title="禁用状态">
+                    {/* 禁用状态 */}
+                    <div id="treeselect-disabled">
+                        <Section title="禁用状态">
                 <TreeSelect
                     treeData={treeData}
                     disabled
@@ -286,10 +309,12 @@ const [value, setValue] = useState<string>();
   disabled
   placeholder="禁用状态"
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* 不带清除按钮 */}
-            <Section title="不带清除按钮">
+                    {/* 不带清除按钮 */}
+                    <div id="treeselect-noclear">
+                        <Section title="不带清除按钮">
                 <TreeSelect
                     treeData={treeData}
                     allowClear={false}
@@ -303,10 +328,12 @@ const [value, setValue] = useState<string>();
   defaultValue="0-0"
   placeholder="请选择"
 />`} />
-            </Section>
+                        </Section>
+                    </div>
 
-            {/* API 文档 */}
-            <Section title="API">
+                    {/* API 文档 */}
+                    <div id="treeselect-api">
+                        <Section title="API">
                 <h3>TreeSelect Props</h3>
                 <Table
                     dataSource={apiData}
@@ -331,7 +358,34 @@ const [value, setValue] = useState<string>();
                     bordered
                     pagination={false}
                 />
-            </Section>
+                        </Section>
+                    </div>
+                </div>
+
+                {/* 右侧锚点导航 */}
+                <div style={{ width: '140px', flexShrink: 0 }}>
+                    <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+                        {scrollContainer && (
+                            <Anchor
+                                getContainer={() => scrollContainer}
+                                offsetTop={20}
+                                affix={false}
+                                bounds={30}
+                            >
+                                <Anchor.Link href="#treeselect-intro" title="组件介绍" />
+                                <Anchor.Link href="#treeselect-basic" title="基础单选" />
+                                <Anchor.Link href="#treeselect-multiple" title="多选" />
+                                <Anchor.Link href="#treeselect-maxtag" title="最大标签数" />
+                                <Anchor.Link href="#treeselect-search" title="可搜索" />
+                                <Anchor.Link href="#treeselect-size" title="不同尺寸" />
+                                <Anchor.Link href="#treeselect-disabled" title="禁用状态" />
+                                <Anchor.Link href="#treeselect-noclear" title="不带清除按钮" />
+                                <Anchor.Link href="#treeselect-api" title="API 文档" />
+                            </Anchor>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

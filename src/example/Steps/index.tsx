@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Steps, Flex, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Steps, Flex, Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import type { StepItem, StepStatus } from '../../components/Steps/types';
 import SyntaxHighlighter from 'react-syntax-highlighter';
@@ -7,6 +7,13 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const StepsExample: React.FC = () => {
     const [current, setCurrent] = useState(0);
+    const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // 获取滚动容器
+        const container = document.querySelector('.app-content') as HTMLElement;
+        setScrollContainer(container);
+    }, []);
 
     // 基础步骤数据
     const basicSteps = [
@@ -582,12 +589,15 @@ const CustomNodeStepsExample = () => {
     ];
 
     return (
-        <div className="steps-example">
-            <h2 className="section-title">Steps 步骤条</h2>
-            <p className="section-text">引导用户按照流程完成任务的导航条。</p>
-            
-            <div className="example-section">
-                <h3 className="subsection-title">基础用法</h3>
+        <div className="steps-example" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', gap: '24px' }}>
+                {/* 左侧主内容区 */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <h2 className="section-title" id="steps-intro">Steps 步骤条</h2>
+                    <p className="section-text">引导用户按照流程完成任务的导航条。</p>
+                    
+                    <div className="example-section" id="steps-basic">
+                        <h3 className="subsection-title">基础用法</h3>
                 <p className="section-text">简单的步骤条，支持点击切换步骤。</p>
                 <div className="example-demo">
                     <Steps current={current} items={basicSteps} onChange={setCurrent} />
@@ -595,10 +605,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {basicCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">面板类型</h3>
+                    <div className="example-section" id="steps-panel">
+                        <h3 className="subsection-title">面板类型</h3>
                 <p className="section-text">将步骤条包装在面板容器中，提供更丰富的视觉体验。</p>
                 <div className="example-demo">
                     <Steps current={current} items={panelSteps} onChange={setCurrent} type="panel" />
@@ -606,10 +616,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {panelCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">智能内容显示</h3>
+                    <div className="example-section" id="steps-smart">
+                        <h3 className="subsection-title">智能内容显示</h3>
                 <p className="section-text">支持优先级显示：node &gt; title &gt; description &gt; 默认图标。</p>
                 <div className="example-demo">
                     <Steps current={current} items={smartSteps} onChange={setCurrent} />
@@ -617,10 +627,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {smartCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">垂直方向</h3>
+                    <div className="example-section" id="steps-vertical">
+                        <h3 className="subsection-title">垂直方向</h3>
                 <p className="section-text">垂直方向的步骤条，适合较长的流程。</p>
                 <div className="example-demo">
                     <Flex direction="column" gap="large">
@@ -630,10 +640,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {verticalCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">带节点</h3>
+                    <div className="example-section" id="steps-node">
+                        <h3 className="subsection-title">带节点</h3>
                 <p className="section-text">每个步骤可以自定义节点内容。</p>
                 <div className="example-demo">
                     <Steps current={current} items={nodeSteps} onChange={setCurrent} />
@@ -641,10 +651,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {nodeCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">自定义节点</h3>
+                    <div className="example-section" id="steps-custom-node">
+                        <h3 className="subsection-title">自定义节点</h3>
                 <p className="section-text">完全自定义节点区域，支持复杂的React组件。</p>
                 <div className="example-demo">
                     <Steps current={current} items={customNodeSteps} onChange={setCurrent} />
@@ -652,10 +662,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {customNodeCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">错误状态</h3>
+                    <div className="example-section" id="steps-error">
+                        <h3 className="subsection-title">错误状态</h3>
                 <p className="section-text">标记某个步骤为错误状态。</p>
                 <div className="example-demo">
                     <Steps current={1} items={errorSteps} onChange={setCurrent} />
@@ -663,10 +673,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {errorCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">自定义连接线</h3>
+                    <div className="example-section" id="steps-tail">
+                        <h3 className="subsection-title">自定义连接线</h3>
                 <p className="section-text">支持自定义连接线颜色和连接线标题。</p>
                 <div className="example-demo">
                     <Steps current={current} items={tailSteps} onChange={setCurrent} />
@@ -674,10 +684,10 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {tailCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">虚线连接线</h3>
+                    <div className="example-section" id="steps-dashed">
+                        <h3 className="subsection-title">虚线连接线</h3>
                 <p className="section-text">支持实线和虚线两种连接线类型。</p>
                 <div className="example-demo">
                     <Steps current={current} items={dashedTailSteps} onChange={setCurrent} />
@@ -685,41 +695,72 @@ const CustomNodeStepsExample = () => {
                 <SyntaxHighlighter language="typescript" style={vscDarkPlus}>
                     {dashedTailCode}
                 </SyntaxHighlighter>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">禁用状态</h3>
+                    <div className="example-section" id="steps-disabled">
+                        <h3 className="subsection-title">禁用状态</h3>
                 <p className="section-text">禁用某些步骤的点击功能。</p>
                 <div className="example-demo">
                     <Steps current={current} items={disabledSteps} onChange={setCurrent} />
                 </div>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">小尺寸</h3>
+                    <div className="example-section" id="steps-small">
+                        <h3 className="subsection-title">小尺寸</h3>
                 <p className="section-text">适用于空间有限的场景。</p>
                 <div className="example-demo">
                     <Steps current={current} items={basicSteps} size="small" onChange={setCurrent} />
                 </div>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">API 参考</h3>
+                    <div className="example-section" id="steps-api">
+                        <h3 className="subsection-title">API 参考</h3>
                 <div className="api-table">
                     <Table 
                         columns={stepsApiColumns} 
                         dataSource={stepsApiData}
                     />
                 </div>
-            </div>
+                    </div>
 
-            <div className="example-section">
-                <h3 className="subsection-title">StepItem 配置</h3>
-                <div className="api-table">
-                    <Table 
-                        columns={stepItemApiColumns} 
-                        dataSource={stepItemApiData}
-                    />
+                    <div className="example-section" id="steps-item-api">
+                        <h3 className="subsection-title">StepItem 配置</h3>
+                        <div className="api-table">
+                            <Table
+                                columns={stepItemApiColumns}
+                                dataSource={stepItemApiData}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                {/* 右侧锚点导航 */}
+                <div style={{ width: '140px', flexShrink: 0 }}>
+                    <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+                        {scrollContainer && (
+                            <Anchor
+                                getContainer={() => scrollContainer}
+                                offsetTop={20}
+                                affix={false}
+                                bounds={30}
+                            >
+                                <Anchor.Link href="#steps-intro" title="组件介绍" />
+                                <Anchor.Link href="#steps-basic" title="基础用法" />
+                                <Anchor.Link href="#steps-panel" title="面板类型" />
+                                <Anchor.Link href="#steps-smart" title="智能内容" />
+                                <Anchor.Link href="#steps-vertical" title="垂直方向" />
+                                <Anchor.Link href="#steps-node" title="带节点" />
+                                <Anchor.Link href="#steps-custom-node" title="自定义节点" />
+                                <Anchor.Link href="#steps-error" title="错误状态" />
+                                <Anchor.Link href="#steps-tail" title="自定义连接线" />
+                                <Anchor.Link href="#steps-dashed" title="虚线连接线" />
+                                <Anchor.Link href="#steps-disabled" title="禁用状态" />
+                                <Anchor.Link href="#steps-small" title="小尺寸" />
+                                <Anchor.Link href="#steps-api" title="API 参考" />
+                                <Anchor.Link href="#steps-item-api" title="StepItem 配置" />
+                            </Anchor>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
-import { ColorPicker, Flex } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { ColorPicker, Flex, Anchor } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const ColorPickerExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
   const [basicColor, setBasicColor] = useState('#1890ff');
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
   const [presetColor, setPresetColor] = useState('#52c41a');
   const [alphaColor, setAlphaColor] = useState('#faad14');
   const [disabledColor, setDisabledColor] = useState('#f5222d');
@@ -13,11 +20,14 @@ const ColorPickerExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>ColorPicker 组件</h2>
-      <p>用于选择颜色的组件，支持预设颜色、透明度调整等功能。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 id="colorpicker-intro">ColorPicker 组件</h2>
+          <p>用于选择颜色的组件，支持预设颜色、透明度调整等功能。</p>
 
-      {/* 基本使用示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 基本使用示例 */}
+          <div id="colorpicker-basic" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>基本使用</h3>
         <p>点击颜色块打开颜色选择器，选择颜色后触发 onChange 回调。</p>
 
@@ -44,10 +54,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {basicColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 带透明度示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 带透明度示例 */}
+          <div id="colorpicker-alpha" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>透明度调整</h3>
         <p>通过 alpha 属性启用透明度调整，支持 RGBA 颜色格式。</p>
 
@@ -62,10 +72,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {alphaColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 预设颜色示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 预设颜色示例 */}
+          <div id="colorpicker-preset" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>预设颜色</h3>
         <p>通过 presetColors 属性设置常用的预设颜色，方便快速选择。</p>
 
@@ -85,10 +95,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {presetColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 禁用状态示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 禁用状态示例 */}
+          <div id="colorpicker-disabled" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>禁用状态</h3>
         <p>通过 disabled 属性禁用颜色选择器，禁用后无法打开选择面板。</p>
 
@@ -103,10 +113,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {disabledColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 自定义触发区域示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 自定义触发区域示例 */}
+          <div id="colorpicker-trigger" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>自定义触发区域</h3>
         <p>通过 children 属性自定义触发颜色选择器的元素，支持任意 React 节点。</p>
 
@@ -135,14 +145,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {basicColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-
-
-
-
-      {/* 自定义样式示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 自定义样式示例 */}
+          <div id="colorpicker-style" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>自定义样式</h3>
         <p>通过 style 属性自定义颜色选择器的样式。</p>
 
@@ -160,10 +166,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前颜色: {customStyleColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-      {/* 渐变色支持示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 渐变色支持示例 */}
+          <div id="colorpicker-gradient" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>渐变色支持</h3>
         <p>通过 gradient 属性启用渐变色支持，支持线性渐变颜色选择。</p>
 
@@ -206,14 +212,10 @@ const ColorPickerExample: React.FC = () => {
             <p style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>当前渐变色: {gradientColor}</p>
           </div>
         </Flex>
-      </div>
+          </div>
 
-
-
-
-
-      {/* 代码示例 */}
-      <div style={{ marginBottom: '40px', display: 'block' }}>
+          {/* 代码示例 */}
+          <div id="colorpicker-code" style={{ marginBottom: '40px', display: 'block' }}>
         <h3>代码示例</h3>
         <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0' }}>
           {`import { ColorPicker } from '@zjpcy/simple-design';
@@ -276,10 +278,10 @@ const [color, setColor] = useState('#1890ff');
   <div style={{width: '32px', height: '32px', backgroundColor: color, borderRadius: '4px', border: '1px solid #ddd'}}></div>
 </ColorPicker>`}
         </SyntaxHighlighter>
-      </div>
+          </div>
 
-      {/* API 文档 */}
-      <div style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
+          {/* API 文档 */}
+          <div id="colorpicker-api" style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
         <h3>API 参数</h3>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '14px' }}>
           <thead>
@@ -353,10 +355,10 @@ const [color, setColor] = useState('#1890ff');
             </tr>
           </tbody>
         </table>
-      </div>
+          </div>
 
-      {/* 特性说明 */}
-      <div style={{ marginBottom: '40px', display: 'block', background: '#fafafa', padding: '20px', borderRadius: '8px' }}>
+          {/* 特性说明 */}
+          <div id="colorpicker-features" style={{ marginBottom: '40px', display: 'block', background: '#fafafa', padding: '20px', borderRadius: '8px' }}>
         <h3>特性说明</h3>
         <ul style={{ margin: '10px 0 0 20px', padding: 0 }}>
           <li style={{ marginBottom: '8px' }}>🗜 轻量：仅 2.8KB gzipped（比 react-color 轻 13 倍）</li>
@@ -367,10 +369,10 @@ const [color, setColor] = useState('#1890ff');
           <li style={{ marginBottom: '8px' }}>💬 可访问性：遵循 WAI-ARIA 指南</li>
           <li style={{ marginBottom: '8px' }}>💨 无依赖：不依赖其他库</li>
         </ul>
-      </div>
+          </div>
 
-      {/* 在其他项目中引用示例 */}
-      <div style={{ display: 'block' }}>
+          {/* 在其他项目中引用示例 */}
+          <div id="colorpicker-import" style={{ display: 'block' }}>
         <h3>在其他项目中引用</h3>
         <div style={{ margin: '15px 0' }}>
           <h4>1. 安装</h4>
@@ -389,6 +391,35 @@ import '@zjpcy/simple-design/lib/ColorPicker/ColorPicker.css';
 import { ColorPicker } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`}
           </SyntaxHighlighter>
+        </div>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#colorpicker-intro" title="组件介绍" />
+                <Anchor.Link href="#colorpicker-basic" title="基本使用" />
+                <Anchor.Link href="#colorpicker-alpha" title="透明度调整" />
+                <Anchor.Link href="#colorpicker-preset" title="预设颜色" />
+                <Anchor.Link href="#colorpicker-disabled" title="禁用状态" />
+                <Anchor.Link href="#colorpicker-trigger" title="自定义触发" />
+                <Anchor.Link href="#colorpicker-style" title="自定义样式" />
+                <Anchor.Link href="#colorpicker-gradient" title="渐变色支持" />
+                <Anchor.Link href="#colorpicker-code" title="代码示例" />
+                <Anchor.Link href="#colorpicker-api" title="API 文档" />
+                <Anchor.Link href="#colorpicker-features" title="特性说明" />
+                <Anchor.Link href="#colorpicker-import" title="引用示例" />
+              </Anchor>
+            )}
+          </div>
         </div>
       </div>
     </div>

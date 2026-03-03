@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { Tabs, Table, Button, Flex } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Tabs, Table, Button, Flex, Anchor } from '../../components';
 import type { TabItem } from '../../components/Tabs/types';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const TabsExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   const baseItems: TabItem[] = [
     { key: 'overview', label: '概览', content: <div>这里是概览内容</div> },
     { key: 'detail', label: '详情', content: <div>这里是详情内容</div> },
@@ -125,12 +133,15 @@ const TabsExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>Tabs 组件</h2>
-      <p>用于在同级区域中收纳并展示大块内容，保持界面整洁，卡片式页签支持可关闭。</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 id="tabs-intro">Tabs 组件</h2>
+          <p>用于在同级区域中收纳并展示大块内容，保持界面整洁，卡片式页签支持可关闭。</p>
 
-      {/* 基本使用 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3>基本使用</h3>
+          {/* 基本使用 */}
+          <div style={{ marginBottom: '40px' }} id="tabs-basic">
+            <h3>基本使用</h3>
         <p>最通用的卡片式 Tabs。</p>
 
         <h4>基础 Tabs</h4>
@@ -206,10 +217,10 @@ const TabsExample: React.FC = () => {
             tabsClosable
           />
         </div>
-      </div>
+          </div>
 
-      {/* 布局方向 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 布局方向 */}
+          <div style={{ marginBottom: '40px' }} id="tabs-layout">
         <h3>布局方向</h3>
         <p>通过 tabPlacement 属性可以设置标签页的位置。</p>
 
@@ -278,10 +289,10 @@ const TabsExample: React.FC = () => {
   tabPlacement="end"
 />`}
         </SyntaxHighlighter>
-      </div>
+          </div>
 
-      {/* API 文档 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* API 文档 */}
+          <div style={{ marginBottom: '40px' }} id="tabs-api">
         <h3>API 文档</h3>
         <p>Tabs 的属性配置。</p>
 
@@ -290,10 +301,10 @@ const TabsExample: React.FC = () => {
 
         <h4>TabItem</h4>
         <Table columns={apiColumns} dataSource={itemApiDataSource} />
-      </div>
+          </div>
 
-      {/* 代码示例 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 代码示例 */}
+          <div style={{ marginBottom: '40px' }} id="tabs-examples">
         <h3>代码示例</h3>
         
         <h4>基础使用</h4>
@@ -394,10 +405,10 @@ const DraggableTabsExample = () => {
   }}
 />`}
         </SyntaxHighlighter>
-      </div>
+          </div>
 
-      {/* 安装和使用说明 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 安装和使用说明 */}
+          <div style={{ marginBottom: '40px' }} id="tabs-install">
         <h3>安装和使用</h3>
 
         <div style={{ marginBottom: '20px' }}>
@@ -418,6 +429,29 @@ import '@zjpcy/simple-design/lib/Tabs/Tabs.css';
 import { Tabs } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`}
           </SyntaxHighlighter>
+        </div>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#tabs-intro" title="组件介绍" />
+                <Anchor.Link href="#tabs-basic" title="基本使用" />
+                <Anchor.Link href="#tabs-layout" title="布局方向" />
+                <Anchor.Link href="#tabs-api" title="API 文档" />
+                <Anchor.Link href="#tabs-examples" title="代码示例" />
+                <Anchor.Link href="#tabs-install" title="安装使用" />
+              </Anchor>
+            )}
+          </div>
         </div>
       </div>
     </div>

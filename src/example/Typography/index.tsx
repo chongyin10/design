@@ -1,10 +1,18 @@
-import React from 'react';
-import Typography from '../../components/Typography';
+import React, { useState, useEffect } from 'react';
+import { Typography, Anchor } from '../../components';
 import { useI18n } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 const TypographyExample: React.FC = () => {
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
+
   const { t } = useI18n();
   // 测试文本
   const longText = t('TYPOGRAPHY_LONG_TEXT');
@@ -29,11 +37,14 @@ const TypographyExample: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <h2>{componentTitle}</h2>
-      <p>{componentDescription}</p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="typography-intro">{componentTitle}</h1>
+          <p>{componentDescription}</p>
       
-      {/* 基本使用示例 */}
-      <div style={{ marginBottom: '40px' }}>
+          {/* 基本使用示例 */}
+          <div id="typography-basic" style={{ marginBottom: '40px' }}>
         <h3>{basicUsage}</h3>
         <p>{basicUsageDescription}</p>
         
@@ -104,9 +115,9 @@ const TypographyExample: React.FC = () => {
         </div>
       </div>
       
-      {/* API 文档 */}
-      <div style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
-        <h3>{apiParameters}</h3>
+          {/* API 文档 */}
+          <div id="typography-api" style={{ marginBottom: '40px', padding: '20px', background: '#fafafa', borderRadius: '8px' }}>
+            <h3>{apiParameters}</h3>
         
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
@@ -149,12 +160,12 @@ const TypographyExample: React.FC = () => {
               <td style={{ padding: '8px', border: '1px solid #ddd' }}>自定义类名</td>
             </tr>
           </tbody>
-        </table>
-      </div>
+            </table>
+          </div>
       
-      {/* 代码示例 */}
-      <div style={{ marginBottom: '40px' }}>
-        <h3>{codeExample}</h3>
+          {/* 代码示例 */}
+          <div id="typography-code" style={{ marginBottom: '40px' }}>
+            <h3>{codeExample}</h3>
         <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0' }}>
 {`import Typography from '@zjpcy/simple-design';
 
@@ -178,7 +189,28 @@ const TypographyExample: React.FC = () => {
   这是一段很长的测试文本...
 </Typography>
 `}
-        </SyntaxHighlighter>
+            </SyntaxHighlighter>
+          </div>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#typography-intro" title="组件介绍" />
+                <Anchor.Link href="#typography-basic" title="基本使用" />
+                <Anchor.Link href="#typography-api" title="API 文档" />
+                <Anchor.Link href="#typography-code" title="代码示例" />
+              </Anchor>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

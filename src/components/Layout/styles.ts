@@ -18,6 +18,7 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' 
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  flex: 1;
 
   &.layout-wrapper {
     /* 外部可通过 .layout-wrapper 选择器覆盖样式 */

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Spin, Button, Table } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { Spin, Button, Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -69,6 +69,13 @@ const SpinExample: React.FC = () => {
   const [loading2, setLoading2] = useState(true);
   const [loading3, setLoading3] = useState(true);
   const [tableLoading, setTableLoading] = useState(true);
+  const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    // 获取滚动容器
+    const container = document.querySelector('.app-content') as HTMLElement;
+    setScrollContainer(container);
+  }, []);
 
   // API 表格列配置
   const apiColumns: Column[] = [
@@ -105,63 +112,71 @@ const SpinExample: React.FC = () => {
 
   return (
     <div style={{ padding: '24px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ marginTop: 0, marginBottom: '24px' }}>Spin 加载中</h1>
-      <p style={{ color: '#666', marginBottom: '32px' }}>
-        用于页面和区块的加载中状态，支持多种使用模式。
-      </p>
+      <div style={{ display: 'flex', gap: '24px' }}>
+        {/* 左侧主内容区 */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h1 id="spin-intro" style={{ marginTop: 0, marginBottom: '24px' }}>Spin 加载中</h1>
+          <p style={{ color: '#666', marginBottom: '32px' }}>
+            用于页面和区块的加载中状态，支持多种使用模式。
+          </p>
 
-      {/* 基础用法 */}
-      <Section title="基础用法">
-        <Card>
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-            <div style={{ textAlign: 'center' }}>
-              <Spin size="small" />
-              <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>small</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <Spin />
-              <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>default</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <Spin size="large" />
-              <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>large</div>
-            </div>
-          </div>
-        </Card>
-        <CopyBlock code={`<Spin size="small" />
+          {/* 基础用法 */}
+          <div id="spin-basic">
+            <Section title="基础用法">
+              <Card>
+                <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <Spin size="small" />
+                    <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>small</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <Spin />
+                    <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>default</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <Spin size="large" />
+                    <div style={{ marginTop: '8px', fontSize: '12px', color: '#999' }}>large</div>
+                  </div>
+                </div>
+              </Card>
+              <CopyBlock code={`<Spin size="small" />
 <Spin />
 <Spin size="large" />`} />
-      </Section>
-
-      {/* 带提示文本 */}
-      <Section title="带提示文本">
-        <Card>
-          <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-            <Spin tip="加载中..." />
-            <Spin tip="请稍候" size="large" />
+            </Section>
           </div>
-        </Card>
-        <CopyBlock code={`<Spin tip="加载中..." />
+
+          {/* 带提示文本 */}
+          <div id="spin-tip">
+            <Section title="带提示文本">
+              <Card>
+                <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+                  <Spin tip="加载中..." />
+                  <Spin tip="请稍候" size="large" />
+                </div>
+              </Card>
+              <CopyBlock code={`<Spin tip="加载中..." />
 <Spin tip="请稍候" size="large" />`} />
-      </Section>
-
-      {/* 切换加载状态 */}
-      <Section title="切换加载状态">
-        <Card>
-          <div style={{ marginBottom: '16px' }}>
-            <Button onClick={() => setLoading1(!loading1)}>
-              {loading1 ? '停止加载' : '开始加载'}
-            </Button>
+            </Section>
           </div>
-          <Spin spinning={loading1} tip="加载中...">
-            <Card style={{ background: '#f5f5f5' }}>
-              <h4 style={{ marginTop: 0 }}>内容区域</h4>
-              <p>这是一段示例内容，当 Spin 处于加载状态时会显示遮罩层。</p>
-              <p>点击上方按钮可以切换加载状态。</p>
-            </Card>
-          </Spin>
-        </Card>
-        <CopyBlock code={`const [loading, setLoading] = useState(true);
+
+          {/* 切换加载状态 */}
+          <div id="spin-toggle">
+            <Section title="切换加载状态">
+              <Card>
+                <div style={{ marginBottom: '16px' }}>
+                  <Button onClick={() => setLoading1(!loading1)}>
+                    {loading1 ? '停止加载' : '开始加载'}
+                  </Button>
+                </div>
+                <Spin spinning={loading1} tip="加载中...">
+                  <Card style={{ background: '#f5f5f5' }}>
+                    <h4 style={{ marginTop: 0 }}>内容区域</h4>
+                    <p>这是一段示例内容，当 Spin 处于加载状态时会显示遮罩层。</p>
+                    <p>点击上方按钮可以切换加载状态。</p>
+                  </Card>
+                </Spin>
+              </Card>
+              <CopyBlock code={`const [loading, setLoading] = useState(true);
 
 <Spin spinning={loading} tip="加载中...">
   <Card>
@@ -169,83 +184,89 @@ const SpinExample: React.FC = () => {
     <p>这是一段示例内容...</p>
   </Card>
 </Spin>`} />
-      </Section>
-
-      {/* 延迟显示 */}
-      <Section title="延迟显示">
-        <Card>
-          <div style={{ marginBottom: '16px' }}>
-            <Button onClick={() => setLoading2(!loading2)}>
-              {loading2 ? '停止加载' : '开始加载（延迟300ms）'}
-            </Button>
+            </Section>
           </div>
-          <Spin spinning={loading2} delay={300} tip="加载中（延迟300ms）...">
-            <Card style={{ background: '#f5f5f5' }}>
-              <h4 style={{ marginTop: 0 }}>延迟加载示例</h4>
-              <p>设置 delay 属性后，加载状态会在指定时间后才显示，避免快速切换时的闪烁。</p>
-            </Card>
-          </Spin>
-        </Card>
-        <CopyBlock code={`<Spin spinning={loading} delay={300} tip="加载中...">
+
+          {/* 延迟显示 */}
+          <div id="spin-delay">
+            <Section title="延迟显示">
+              <Card>
+                <div style={{ marginBottom: '16px' }}>
+                  <Button onClick={() => setLoading2(!loading2)}>
+                    {loading2 ? '停止加载' : '开始加载（延迟300ms）'}
+                  </Button>
+                </div>
+                <Spin spinning={loading2} delay={300} tip="加载中（延迟300ms）...">
+                  <Card style={{ background: '#f5f5f5' }}>
+                    <h4 style={{ marginTop: 0 }}>延迟加载示例</h4>
+                    <p>设置 delay 属性后，加载状态会在指定时间后才显示，避免快速切换时的闪烁。</p>
+                  </Card>
+                </Spin>
+              </Card>
+              <CopyBlock code={`<Spin spinning={loading} delay={300} tip="加载中...">
   <Card>
     <p>延迟显示加载效果</p>
   </Card>
 </Spin>`} />
-      </Section>
-
-      {/* 表格加载示例 */}
-      <Section title="表格加载示例">
-        <Card>
-          <div style={{ marginBottom: '16px' }}>
-            <Button onClick={() => setTableLoading(!tableLoading)}>
-              {tableLoading ? '加载完成' : '重新加载'}
-            </Button>
+            </Section>
           </div>
-          <Spin spinning={tableLoading} tip="数据加载中...">
-            <Table
-              columns={tableColumns}
-              dataSource={tableData}
-              pagination={false}
-            />
-          </Spin>
-        </Card>
-        <CopyBlock code={`<Spin spinning={loading} tip="数据加载中...">
+
+          {/* 表格加载示例 */}
+          <div id="spin-table">
+            <Section title="表格加载示例">
+              <Card>
+                <div style={{ marginBottom: '16px' }}>
+                  <Button onClick={() => setTableLoading(!tableLoading)}>
+                    {tableLoading ? '加载完成' : '重新加载'}
+                  </Button>
+                </div>
+                <Spin spinning={tableLoading} tip="数据加载中...">
+                  <Table
+                    columns={tableColumns}
+                    dataSource={tableData}
+                    pagination={false}
+                  />
+                </Spin>
+              </Card>
+              <CopyBlock code={`<Spin spinning={loading} tip="数据加载中...">
   <Table
     columns={columns}
     dataSource={dataSource}
     pagination={false}
   />
 </Spin>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 自定义指示符 */}
-      <Section title="自定义指示符">
-        <Card>
-          <Spin
-            spinning={loading3}
-            indicator={
-              <div style={{
-                width: '40px',
-                height: '40px',
-                border: '4px solid #f0f0f0',
-                borderTop: '4px solid #1890ff',
-                borderRadius: '50%',
-                animation: 'spin 1s linear infinite'
-              }} />
-            }
-            tip="自定义加载样式"
-          >
-            <Card style={{ background: '#f5f5f5' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h4 style={{ margin: 0 }}>自定义加载指示符</h4>
-                <Button size="small" onClick={() => setLoading3(!loading3)}>
-                  {loading3 ? '停止' : '加载'}
-                </Button>
-              </div>
-            </Card>
-          </Spin>
-        </Card>
-        <CopyBlock code={`<Spin
+          {/* 自定义指示符 */}
+          <div id="spin-custom">
+            <Section title="自定义指示符">
+              <Card>
+                <Spin
+                  spinning={loading3}
+                  indicator={
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      border: '4px solid #f0f0f0',
+                      borderTop: '4px solid #1890ff',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite'
+                    }} />
+                  }
+                  tip="自定义加载样式"
+                >
+                  <Card style={{ background: '#f5f5f5' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <h4 style={{ margin: 0 }}>自定义加载指示符</h4>
+                      <Button size="small" onClick={() => setLoading3(!loading3)}>
+                        {loading3 ? '停止' : '加载'}
+                      </Button>
+                    </div>
+                  </Card>
+                </Spin>
+              </Card>
+              <CopyBlock code={`<Spin
   spinning={loading}
   indicator={
     <div style={{
@@ -261,15 +282,17 @@ const SpinExample: React.FC = () => {
 >
   <Card>内容区域</Card>
 </Spin>`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* 全屏加载 */}
-      <Section title="全屏加载">
-        <Card>
-          <p>全屏加载会覆盖整个视口，适用于页面初始加载或全局操作。</p>
-          <FullScreenDemo />
-        </Card>
-        <CopyBlock code={`const [fullscreen, setFullscreen] = useState(false);
+          {/* 全屏加载 */}
+          <div id="spin-fullscreen">
+            <Section title="全屏加载">
+              <Card>
+                <p>全屏加载会覆盖整个视口，适用于页面初始加载或全局操作。</p>
+                <FullScreenDemo />
+              </Card>
+              <CopyBlock code={`const [fullscreen, setFullscreen] = useState(false);
 
 // 开启全屏加载
 setFullscreen(true);
@@ -282,24 +305,53 @@ setFullscreen(true);
     tip="系统加载中..."
   />
 )}`} />
-      </Section>
+            </Section>
+          </div>
 
-      {/* API 文档 */}
-      <Section title="API">
-        <Table
-          columns={apiColumns}
-          dataSource={apiDataSource}
-          bordered
-          pagination={false}
-        />
-      </Section>
+          {/* API 文档 */}
+          <div id="spin-api">
+            <Section title="API">
+              <Table
+                columns={apiColumns}
+                dataSource={apiDataSource}
+                bordered
+                pagination={false}
+              />
+            </Section>
+          </div>
 
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
+          <style>{`
+            @keyframes spin {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
+
+        {/* 右侧锚点导航 */}
+        <div style={{ width: '140px', flexShrink: 0 }}>
+          <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
+            {scrollContainer && (
+              <Anchor
+                getContainer={() => scrollContainer}
+                offsetTop={20}
+                affix={false}
+                bounds={30}
+              >
+                <Anchor.Link href="#spin-intro" title="组件介绍" />
+                <Anchor.Link href="#spin-basic" title="基础用法" />
+                <Anchor.Link href="#spin-tip" title="带提示文本" />
+                <Anchor.Link href="#spin-toggle" title="切换加载状态" />
+                <Anchor.Link href="#spin-delay" title="延迟显示" />
+                <Anchor.Link href="#spin-table" title="表格加载示例" />
+                <Anchor.Link href="#spin-custom" title="自定义指示符" />
+                <Anchor.Link href="#spin-fullscreen" title="全屏加载" />
+                <Anchor.Link href="#spin-api" title="API 文档" />
+              </Anchor>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
