@@ -390,7 +390,7 @@ const App: React.FC = () => {
                             selectedKey={selectedComponent}
                             defaultOpenKeys={openKeys}
                             onChange={(item) => handleMenuClick(item.key)}
-                            mode="inline"
+                            mode="vertical-flat"
                             collapsed={collapsed}
                             className="app-menu"
                         />
