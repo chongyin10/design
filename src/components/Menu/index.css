@@ -374,6 +374,7 @@
   display: block;
   opacity: 1;
   width: 100%;
+  /* margin-left: 8px; */
 }
 
 .idp-menu-submenu.vertical-flat > .idp-menu-submenu-content {
@@ -410,6 +411,17 @@
 .idp-menu-vertical-flat .idp-menu-item.has-children:hover {
   background-color: transparent;
   color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+/* Light 主题 - 扁平模式下祖节点 hover 时不改变背景色和颜色 */
+.idp-menu-vertical-flat .idp-menu-item.light.has-children:hover:not(.disabled) {
+  background-color: transparent;
+  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+}
+
+/* 同时覆盖 Light 主题下箭头颜色 */
+.idp-menu-vertical-flat .idp-menu-item.light.has-children:hover:not(.disabled) .idp-menu-item-arrow {
+  color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
 }
 
 /* 祖节点内容区域可交互（用于显示） */
@@ -491,6 +503,17 @@
 .idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.has-children:hover {
   background-color: transparent;
   color: rgba(255, 255, 255, 0.95);
+}
+
+/* Dark 主题 - 扁平模式下祖节点 hover 时不改变背景色和颜色 */
+.idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.dark.has-children:hover:not(.disabled) {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* 同时覆盖 Dark 主题下箭头颜色 */
+.idp-menu-dark .idp-menu-vertical-flat .idp-menu-item.dark.has-children:hover:not(.disabled) .idp-menu-item-arrow {
+  color: rgba(255, 255, 255, 0.45);
 }
 
 /* Dark 主题下分隔线 */

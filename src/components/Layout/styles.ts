@@ -84,14 +84,20 @@ export const SiderWrapper = styled.aside<{
 }>`
   display: flex;
   flex-direction: column;
-  background: ${({ $theme }) =>
-    $theme === 'dark'
-      ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
-  color: ${({ $theme }) =>
-    $theme === 'dark'
-      ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
+  background: ${({ $theme, style }) =>
+    // 如果用户通过 style 传入 background，则不应用默认背景
+    style?.background !== undefined
+      ? style.background
+      : $theme === 'dark'
+        ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
+        : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%)`};
+  color: ${({ $theme, style }) =>
+    // 如果用户通过 style 传入 color，则不应用默认颜色
+    style?.color !== undefined
+      ? style.color
+      : $theme === 'dark'
+        ? getCSSVar('--layout-sider-color-dark', '#fff')
+        : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
   z-index: ${getCSSVar('--layout-sider-z-index', '10')};
   transition: ${getCSSVar('--layout-sider-transition', 'all 0.2s ease-in-out')};
   flex: ${getCSSVar('--layout-sider-flex', '0 0 200px')};
@@ -151,7 +157,6 @@ export const SiderWrapper = styled.aside<{
   /* Menu 菜单项在 Sider 中的样式 - 覆盖默认样式 */
   .idp-menu-item {
     border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
-    margin: 4px 8px;
     
     /* Light 主题 - 与 Menu.css 保持一致 */
     &.light {

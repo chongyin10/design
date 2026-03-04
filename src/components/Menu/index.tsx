@@ -95,7 +95,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   const getPaddingLeft = () => {
     if (isHorizontal && isRoot) return 16;
     if (isInline) return 12 + level * 24;
-    if (collapsed) return 0;
+    if (collapsed) return 10;
     return 12 + level * 16;
   };
 
