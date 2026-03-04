@@ -67,7 +67,7 @@ const componentCategories: { key: string; label: string; icon?: string; componen
         components: ['button', 'icon', 'typography']
     },
     {
-        key: 'layout',
+        key: 'layout1',
         label: '布局',
         components: ['flex', 'grid', 'space', 'divider', 'layout', 'masonry', 'splitter']
     },

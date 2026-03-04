@@ -26,6 +26,7 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' 
 
   ${({ $hasSider }) => $hasSider && `
     flex-direction: row;
+    align-items: stretch;
   `}
 `;
 
@@ -81,6 +82,7 @@ export const SiderWrapper = styled.aside<{
   $fixed?: boolean;
   $zeroWidthMode?: boolean;
   $theme?: 'light' | 'dark';
+  $inNestedLayout?: boolean;
 }>`
   display: flex;
   flex-direction: column;
@@ -111,9 +113,16 @@ export const SiderWrapper = styled.aside<{
       ? '2px 0 8px rgba(0, 0, 0, 0.3)'
       : getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.08)')};
 
-  /* Sider 高度 = 浏览器高度 - Header 高度 */
-  height: calc(100vh - var(--layout-header-height, 64px));
-  min-height: calc(100vh - var(--layout-header-height, 64px));
+  /* Sider 高度：根据 fixed 模式自适应 */
+  ${({ $fixed }) => $fixed
+    ? `
+      height: calc(100vh - var(--layout-header-height, 64px));
+      min-height: calc(100vh - var(--layout-header-height, 64px));
+    `
+    : `
+      align-self: stretch;
+      min-height: 0;
+    `}
 
   &.layout-sider {
     /* 外部可通过 .layout-sider 选择器覆盖样式 */

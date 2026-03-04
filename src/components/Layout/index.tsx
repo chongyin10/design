@@ -20,6 +20,15 @@ import {
 } from './types';
 import { LayoutProvider, useLayoutContext } from './LayoutContext';
 
+// 用于检测是否在嵌套布局中的 Context
+interface NestedLayoutContextType {
+  isNested: boolean;
+}
+const NestedLayoutContext = React.createContext<NestedLayoutContextType>({ isNested: false });
+
+// Hook 用于检测是否在嵌套布局中
+const useNestedLayout = () => React.useContext(NestedLayoutContext);
+
 /**
  * Layout 页面布局组件
  *
@@ -58,14 +67,16 @@ const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, childre
 
   return (
     <LayoutProvider>
-      <LayoutWrapper
-        className={`layout-wrapper ${className}`}
-        style={style}
-        $hasSider={finalHasSider}
-        $theme={theme}
-      >
-        {children}
-      </LayoutWrapper>
+      <NestedLayoutContext.Provider value={{ isNested: true }}>
+        <LayoutWrapper
+          className={`layout-wrapper ${className}`}
+          style={style}
+          $hasSider={finalHasSider}
+          $theme={theme}
+        >
+          {children}
+        </LayoutWrapper>
+      </NestedLayoutContext.Provider>
     </LayoutProvider>
   );
 };
@@ -139,6 +150,8 @@ export const Sider: React.FC<LayoutSiderProps> = ({
   fixed = false,
   theme = "light"
 }) => {
+  // 检测是否在嵌套布局中
+  const { isNested } = useNestedLayout();
   const { setSiderCollapsed, setZeroWidthMode, setOnExpand } = useLayoutContext();
 
   // 同步状态到 Context
@@ -168,6 +181,7 @@ export const Sider: React.FC<LayoutSiderProps> = ({
       $collapsed={collapsed}
       $fixed={fixed}
       $theme={theme}
+      $inNestedLayout={isNested}
     >
       <SiderContentWrapper>{children}</SiderContentWrapper>
       {collapsible && (

@@ -92,6 +92,8 @@ export interface LayoutSiderProps {
   triggerPlacement?: 'top' | 'bottom';
   /** 是否使用完全收缩模式（收缩时宽度为0，并显示浮动展开按钮） */
   zeroWidthMode?: boolean;
+  /** 是否处于嵌套布局中（用于内部计算，用户无需设置） */
+  inNestedLayout?: boolean;
   /** 侧边栏位置（暂未实现，预留） */
   placement?: 'left' | 'right';
   /** 是否固定 */
