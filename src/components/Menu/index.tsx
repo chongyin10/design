@@ -8,7 +8,12 @@ import './index.css';
  * 当菜单项无 icon 时，显示 label 的第一个字符
  */
 const renderCollapsedLabel = (label: string): React.ReactNode => {
-  return label.charAt(0).toUpperCase();
+  const trimmedLabel = label.trim();
+  if (!trimmedLabel) return '';
+  
+  // 使用 Array.from 正确处理 Unicode 字符（包括中文、emoji等）
+  const chars = Array.from(trimmedLabel);
+  return chars[0]?.toUpperCase() || '';
 };
 
 /**
