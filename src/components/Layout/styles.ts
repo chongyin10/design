@@ -199,7 +199,7 @@ export const SiderWrapper = styled.aside<{
   /* 子菜单样式 */
   .idp-menu-submenu {
     .idp-menu-item {
-      margin: 2px 8px 2px 16px;
+      margin: 0px;
     }
   }
 

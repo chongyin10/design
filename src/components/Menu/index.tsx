@@ -147,23 +147,33 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
         onClick={handleClick}
       >
         <div className="idp-menu-item-content">
-          {item.icon && (
-            <span className={`idp-menu-item-icon ${collapsed && isRoot ? 'collapsed' : ''}`}>
-              {item.icon}
-            </span>
-          )}
-          {(!collapsed || !isRoot) && (
-            <div className="idp-menu-item-text">
-              <span className="idp-menu-item-label">{item.label}</span>
-              {item.description && !hasChildren && (
-                <span className="idp-menu-item-description">{item.description}</span>
+          {/* 折叠状态下：有 icon 显示 icon，无 icon 显示首字母 */}
+          {collapsed ? (
+            <>
+              {item.icon ? (
+                <span className="idp-menu-item-icon collapsed">
+                  {item.icon}
+                </span>
+              ) : (
+                <span className="idp-menu-item-collapsed-label">
+                  {renderCollapsedLabel(item.label)}
+                </span>
               )}
-            </div>
-          )}
-          {collapsed && isRoot && !item.icon && (
-            <span className="idp-menu-item-collapsed-label">
-              {renderCollapsedLabel(item.label)}
-            </span>
+            </>
+          ) : (
+            <>
+              {item.icon && (
+                <span className="idp-menu-item-icon">
+                  {item.icon}
+                </span>
+              )}
+              <div className="idp-menu-item-text">
+                <span className="idp-menu-item-label">{item.label}</span>
+                {item.description && !hasChildren && (
+                  <span className="idp-menu-item-description">{item.description}</span>
+                )}
+              </div>
+            </>
           )}
           {showArrow && (
             <span className={`idp-menu-item-arrow ${shouldOpen ? 'open' : ''} ${mode}`}>

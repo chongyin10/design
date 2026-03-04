@@ -6,11 +6,12 @@
     "declarationMap": false,
     "emitDeclarationOnly": true,
     "outDir": "./dist/types",
-    "rootDir": "./src/components",
+    "rootDir": "./src",
     "types": []
   },
   "include": [
-    "src/components/**/*"
+    "src/components/**/*",
+    "src/i18n/**/*"
   ],
   "exclude": [
     "src/example/**/*",
