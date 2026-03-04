@@ -31,7 +31,7 @@
   display: flex;
   align-items: center;
   height: 40px;
-  padding: 0 12px;
+  padding: 0px;
   cursor: pointer;
   transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
   border-radius: var(--idp-border-radius-sm, 4px);

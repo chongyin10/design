@@ -59,7 +59,7 @@
   --layout-footer-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 
   --layout-sider-width: 200px;
-  --layout-sider-collapsed-width: 64px;
+  --layout-sider-collapsed-width: 60px;
   --layout-sider-z-index: 10;
   --layout-sider-box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
   --layout-sider-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);

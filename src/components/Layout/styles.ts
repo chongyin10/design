@@ -46,7 +46,7 @@ export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string 
     $theme === 'dark'
       ? getCSSVar('--layout-header-color-dark', '#fff')
       : getCSSVar('--layout-header-color-light', 'rgba(0, 0, 0, 0.85)')};
-  height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-header-height', '64px')};
+  height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-header-height', '60px')};
   z-index: ${getCSSVar('--layout-header-z-index', '10')};
   transition: ${getCSSVar('--layout-header-transition', 'all 0.2s ease-in-out')};
   box-sizing: border-box;
@@ -113,16 +113,6 @@ export const SiderWrapper = styled.aside<{
       ? '2px 0 8px rgba(0, 0, 0, 0.3)'
       : getCSSVar('--idp-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.08)')};
 
-  /* Sider 高度：根据 fixed 模式自适应 */
-  ${({ $fixed }) => $fixed
-    ? `
-      height: calc(100vh - var(--layout-header-height, 64px));
-      min-height: calc(100vh - var(--layout-header-height, 64px));
-    `
-    : `
-      align-self: stretch;
-      min-height: 0;
-    `}
 
   &.layout-sider {
     /* 外部可通过 .layout-sider 选择器覆盖样式 */
@@ -137,7 +127,7 @@ export const SiderWrapper = styled.aside<{
 
   ${({ $width, $collapsedWidth, $collapsed }) => {
     const width = typeof $width === 'number' ? `${$width}px` : $width || getCSSVar('--layout-sider-width', '200px');
-    const collapsedWidth = $collapsedWidth !== undefined ? `${$collapsedWidth}px` : getCSSVar('--layout-sider-collapsed-width', '64px');
+    const collapsedWidth = $collapsedWidth !== undefined ? `${$collapsedWidth}px` : getCSSVar('--layout-sider-collapsed-width', '60px');
     return `
       width: ${$collapsed ? collapsedWidth : width};
       min-width: ${$collapsed ? collapsedWidth : width};
@@ -246,7 +236,7 @@ export const SiderWrapper = styled.aside<{
 export const SiderContentWrapper = styled.div<{ $collapsed?: boolean }>`
   flex: 1;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: ${({ $collapsed }) => $collapsed ? 'visible' : 'hidden'};
 
   /* 内容过渡动画 */
   & > * {

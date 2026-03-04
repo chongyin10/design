@@ -140,7 +140,7 @@ export const Sider: React.FC<LayoutSiderProps> = ({
   style = {},
   children,
   width = 200,
-  collapsedWidth = 64,
+  collapsedWidth = 60,
   collapsible = false,
   collapsed = false,
   onCollapse,

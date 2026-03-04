@@ -95,7 +95,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   const getPaddingLeft = () => {
     if (isHorizontal && isRoot) return 16;
     if (isInline) return 12 + level * 24;
-    if (collapsed) return 10;
+    if (collapsed) return 0;
     return 12 + level * 16;
   };
 
@@ -142,7 +142,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
           ${mode}
           ${itemTheme}
         `}
-        style={{ paddingLeft }}
+        style={{ padding: `0px ${paddingLeft}px` }}
         title={collapsed && isRoot ? item.label : undefined}
         onClick={handleClick}
       >
