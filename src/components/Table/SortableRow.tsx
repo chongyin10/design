@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Column } from './index';
@@ -58,7 +59,7 @@ const SortableRow: React.FC<SortableRowProps> = ({
             style={style}
             {...attributes}
             {...listeners}
-            className={`idp-table-sortable-row ${isDragging ? 'is-dragging' : ''}`}
+            className={classNames('idp-table-sortable-row', { 'idp-table-sortable-row-dragging': isDragging })}
             data-dragging={isDragging}
         >
             {allColumns.map((column, colIndex) =>

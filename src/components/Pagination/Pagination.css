@@ -32,11 +32,11 @@
   padding: 10px;
 }
 
-.idp-pagination.align-center {
+.idp-pagination-align-center {
   justify-content: center;
 }
 
-.idp-pagination.align-right {
+.idp-pagination-align-right {
   justify-content: flex-end;
 }
 
@@ -164,16 +164,16 @@
 }
 
 /* 小尺寸样式 */
-.idp-pagination.mini .idp-pagination-item,
-.idp-pagination.mini .idp-pagination-prev,
-.idp-pagination.mini .idp-pagination-next {
+.idp-pagination-mini .idp-pagination-item,
+.idp-pagination-mini .idp-pagination-prev,
+.idp-pagination-mini .idp-pagination-next {
   min-width: var(--pagination-item-size-sm);
   height: var(--pagination-item-size-sm);
   line-height: calc(var(--pagination-item-size-sm) - 2px);
   font-size: 12px;
 }
 
-.idp-pagination.mini .idp-pagination-ellipsis {
+.idp-pagination-mini .idp-pagination-ellipsis {
   min-width: var(--pagination-item-size-sm);
   height: var(--pagination-item-size-sm);
   line-height: calc(var(--pagination-item-size-sm) - 2px);
@@ -222,7 +222,7 @@
   background-color: rgba(24, 144, 255, 0.02);
 }
 
-.idp-page-size-select-trigger.is-open {
+.idp-page-size-select-trigger-open {
   border-color: #1890ff;
   box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.15);
   background-color: rgba(24, 144, 255, 0.04);
@@ -251,7 +251,7 @@
   color: #40a9ff;
 }
 
-.idp-page-size-select-trigger.is-open .idp-page-size-select-arrow {
+.idp-page-size-select-trigger-open .idp-page-size-select-arrow {
   transform: rotate(180deg);
   color: #1890ff;
 }
@@ -285,7 +285,7 @@
 }
 
 /* 打开状态 - 使用更优雅的贝塞尔曲线 */
-.idp-page-size-select-dropdown.is-open {
+.idp-page-size-select-dropdown-open {
   animation: dropdownOpen 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
@@ -356,7 +356,7 @@
 }
 
 /* 选中状态 - 更明显的视觉反馈 */
-.idp-page-size-select-option.is-selected {
+.idp-page-size-select-option-selected {
   background-color: rgba(24, 144, 255, 0.12);
   color: #1890ff;
   font-weight: 500;

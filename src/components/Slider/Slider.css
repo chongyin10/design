@@ -60,23 +60,23 @@
 }
 
 /* 拖动时完全禁用过渡 - 直接响应鼠标移动 */
-.slider-container.dragging .slider-handle {
+.slider-container-dragging .slider-handle {
   transition: none;
 }
 
 /* 禁用状态 */
-.slider-container.disabled .slider-track {
+.slider-container-disabled .slider-track {
   background: var(--idp-slider-disabled-track-bg);
   cursor: not-allowed;
   box-shadow: none;
 }
 
-.slider-container.disabled .slider-track-filled {
+.slider-container-disabled .slider-track-filled {
   background: var(--idp-slider-disabled-filled-bg);
   box-shadow: none;
 }
 
-.slider-container.disabled .slider-handle {
+.slider-container-disabled .slider-handle {
   background: var(--idp-bg-color-white);
   border-color: var(--idp-slider-disabled-handle-border);
   cursor: not-allowed;
@@ -149,8 +149,8 @@
   border-top-color: var(--idp-slider-tooltip-bg);
 }
 
-.slider-container:not(.disabled) .slider-handle:hover .slider-tooltip,
-.slider-container:not(.disabled) .slider-handle:active .slider-tooltip {
+.slider-container:not(.slider-container-disabled) .slider-handle:hover .slider-tooltip,
+.slider-container:not(.slider-container-disabled) .slider-handle:active .slider-tooltip {
   opacity: 1;
   top: -40px;
 }
@@ -162,6 +162,6 @@
 }
 
 /* 禁用状态下的工具提示 */
-.slider-container.disabled .slider-tooltip {
+.slider-container-disabled .slider-tooltip {
   display: none;
 }

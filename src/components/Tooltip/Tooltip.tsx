@@ -217,7 +217,7 @@ const Tooltip: React.FC<TooltipProps> = ({
             {shouldRender && title && (
                 <div
                     ref={tooltipRef}
-                    className={`idp-tooltip idp-tooltip-${placement} ${isAnimating ? 'idp-tooltip-visible' : ''} ${className}`}
+                    className={`idp-tooltip idp-tooltip-${placement} ${isAnimating ? 'is-visible' : ''} ${className}`}
                     style={{
                         position: 'fixed',
                         top: position.top,

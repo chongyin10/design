@@ -261,19 +261,19 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
             <div
                 ref={triggerRef}
                 className={classNames('time-range-picker-trigger', {
-                    focused: isFocused,
-                    disabled,
+                    'is-focused': isFocused,
+                    'is-disabled': disabled,
                     [`size-${size}`]: size,
                 })}
             >
                 {/* 开始时间 */}
                 <div
                     className={classNames('time-range-picker-input', {
-                        active: activePicker === 'start' && isOpen,
+                        'is-active': activePicker === 'start' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('start')}
                 >
-                    <span className={classNames('time-range-picker-value', { placeholder: !startValue })}>
+                    <span className={classNames('time-range-picker-value', { 'is-placeholder': !startValue })}>
                         {startValue || placeholder[0]}
                     </span>
                 </div>
@@ -286,11 +286,11 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
                 {/* 结束时间 */}
                 <div
                     className={classNames('time-range-picker-input', {
-                        active: activePicker === 'end' && isOpen,
+                        'is-active': activePicker === 'end' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('end')}
                 >
-                    <span className={classNames('time-range-picker-value', { placeholder: !endValue })}>
+                    <span className={classNames('time-range-picker-value', { 'is-placeholder': !endValue })}>
                         {endValue || placeholder[1]}
                     </span>
                 </div>

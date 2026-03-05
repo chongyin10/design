@@ -110,7 +110,7 @@
   pointer-events: none;
 }
 
-.dropdown-menu.dropdown-menu--visible {
+.dropdown-menu-visible .dropdown-menu {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
@@ -133,7 +133,7 @@
 }
 
 /* 退出动画 */
-.dropdown-menu.dropdown-menu--closing {
+.dropdown-menu-closing .dropdown-menu {
   opacity: 0;
   transform: translateY(-4px) scale(0.98);
   pointer-events: none !important;
@@ -143,22 +143,22 @@
 }
 
 /* 顶部菜单退出动画 */
-.dropdown-menu--top.dropdown-menu--closing {
+.dropdown-menu-closing .dropdown-menu--top {
   transform: translateX(-50%) translateY(4px) scale(0.98) !important;
 }
 
 /* 底部菜单退出动画 */
-.dropdown-menu--bottom.dropdown-menu--closing {
+.dropdown-menu-closing .dropdown-menu--bottom {
   transform: translateX(-50%) translateY(-4px) scale(0.98) !important;
 }
 
 /* 左侧菜单退出动画 */
-.dropdown-menu--left.dropdown-menu--closing {
+.dropdown-menu-closing .dropdown-menu--left {
   transform: translateX(4px) scale(0.98) !important;
 }
 
 /* 右侧菜单退出动画 */
-.dropdown-menu--right.dropdown-menu--closing {
+.dropdown-menu-closing .dropdown-menu--right {
   transform: translateX(-4px) scale(0.98) !important;
 }
 
@@ -207,7 +207,7 @@
   pointer-events: none !important;
 }
 
-.dropdown-menu--top.dropdown-menu--visible {
+.dropdown-menu-visible .dropdown-menu--top {
   transform: translateX(-50%) translateY(0) scale(1) !important;
   pointer-events: auto !important;
   animation: dropdownBounceInTop 0.35s cubic-bezier(0.23, 1, 0.32, 1);
@@ -222,7 +222,7 @@
   pointer-events: none !important;
 }
 
-.dropdown-menu--bottom.dropdown-menu--visible {
+.dropdown-menu-visible .dropdown-menu--bottom {
   transform: translateX(-50%) scale(1) !important;
   pointer-events: auto !important;
   animation: dropdownBounceIn 0.35s cubic-bezier(0.23, 1, 0.32, 1);
@@ -278,7 +278,7 @@
   pointer-events: none !important;
 }
 
-.dropdown-menu--left.dropdown-menu--visible {
+.dropdown-menu-visible .dropdown-menu--left {
   transform: translateX(0) scale(1) !important;
   pointer-events: auto !important;
   animation: dropdownBounceInLeft 0.35s cubic-bezier(0.23, 1, 0.32, 1);
@@ -334,7 +334,7 @@
   pointer-events: none !important;
 }
 
-.dropdown-menu--right.dropdown-menu--visible {
+.dropdown-menu-visible .dropdown-menu--right {
   transform: translateX(0) scale(1) !important;
   pointer-events: auto !important;
   animation: dropdownBounceInRight 0.35s cubic-bezier(0.23, 1, 0.32, 1);

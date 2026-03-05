@@ -43,19 +43,19 @@
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-picker-trigger.focused {
+.time-picker-trigger.is-focused {
     border-color: var(--timepicker-primary);
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-picker-trigger.disabled {
+.time-picker-trigger.is-disabled {
     background-color: var(--timepicker-bg-disabled);
     border-color: var(--timepicker-border);
     cursor: not-allowed;
     color: var(--timepicker-text-disabled);
 }
 
-.time-picker-trigger.disabled:hover {
+.time-picker-trigger.is-disabled:hover {
     border-color: var(--timepicker-border);
     box-shadow: none;
 }
@@ -88,11 +88,11 @@
     font-size: 14px;
 }
 
-.time-picker-value.placeholder {
+.time-picker-value.is-placeholder {
     color: var(--timepicker-text-disabled);
 }
 
-.time-picker-trigger.disabled .time-picker-value {
+.time-picker-trigger.is-disabled .time-picker-value {
     color: var(--timepicker-text-disabled);
 }
 
@@ -164,7 +164,7 @@
 }
 
 /* 下拉面板打开时的旋转动画 */
-.time-picker-icon.open {
+.time-picker-icon.is-open {
     transform: translate(-50%, -50%) rotate(180deg);
 }
 
@@ -263,13 +263,13 @@
     background-color: var(--timepicker-bg-hover);
 }
 
-.time-picker-option.selected {
+.time-picker-option.is-selected {
     background-color: var(--timepicker-primary-light);
     color: var(--timepicker-primary);
     font-weight: 500;
 }
 
-.time-picker-option.selected::before {
+.time-picker-option.is-selected::before {
     content: '';
     position: absolute;
     left: 0;
@@ -281,13 +281,13 @@
     border-radius: 0 2px 2px 0;
 }
 
-.time-picker-option.disabled {
+.time-picker-option.is-disabled {
     color: var(--timepicker-text-disabled);
     cursor: not-allowed;
     background-color: transparent;
 }
 
-.time-picker-option.disabled:hover {
+.time-picker-option.is-disabled:hover {
     background-color: transparent;
 }
 
@@ -406,18 +406,18 @@
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-range-picker-trigger.focused {
+.time-range-picker-trigger.is-focused {
     border-color: var(--timepicker-primary);
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-range-picker-trigger.disabled {
+.time-range-picker-trigger.is-disabled {
     background-color: var(--timepicker-bg-disabled);
     border-color: var(--timepicker-border);
     cursor: not-allowed;
 }
 
-.time-range-picker-trigger.disabled:hover {
+.time-range-picker-trigger.is-disabled:hover {
     border-color: var(--timepicker-border);
     box-shadow: none;
 }
@@ -455,7 +455,7 @@
     background-color: var(--timepicker-bg-hover);
 }
 
-.time-range-picker-input.active {
+.time-range-picker-input.is-active {
     background-color: var(--timepicker-primary-light);
 }
 
@@ -466,7 +466,7 @@
     white-space: nowrap;
 }
 
-.time-range-picker-value.placeholder {
+.time-range-picker-value.is-placeholder {
     color: var(--timepicker-text-disabled);
 }
 

@@ -36,13 +36,12 @@
     min-height: 1em;
     display: inline-block;
     vertical-align: middle;
-    background-color: var(--idp-border-color-extra-light);
 }
 
 /* ============================================
-   虚线样式 - 水平
+   虚线样式 - 水平（使用组合类名避免多类选择器）
    ============================================ */
-.divider-dashed.divider-horizontal {
+.divider-dashed-horizontal {
     background: repeating-linear-gradient(
         to right,
         var(--idp-border-color-extra-light),
@@ -53,9 +52,9 @@
 }
 
 /* ============================================
-   虚线样式 - 垂直
+   虚线样式 - 垂直（使用组合类名避免多类选择器）
    ============================================ */
-.divider-dashed.divider-vertical {
+.divider-dashed-vertical {
     background: repeating-linear-gradient(
         to bottom,
         var(--idp-border-color-extra-light),
@@ -86,8 +85,8 @@
     background-color: var(--idp-border-color-extra-light);
 }
 
-.divider-with-text.divider-dashed::before,
-.divider-with-text.divider-dashed::after {
+.divider-with-text .divider-dashed-horizontal::before,
+.divider-with-text .divider-dashed-horizontal::after {
     background: repeating-linear-gradient(
         to right,
         var(--idp-border-color-extra-light),
@@ -125,17 +124,17 @@
 }
 
 /* ============================================
-   主题色变体 - 主色调
+   主题色变体 - 主色调（使用组合类名避免多类选择器）
    ============================================ */
 .divider-primary {
     background-color: var(--idp-primary-color);
 }
 
-.divider-primary.divider-vertical {
+.divider-primary-vertical {
     background-color: var(--idp-primary-color);
 }
 
-.divider-primary.divider-dashed.divider-horizontal {
+.divider-primary-dashed-horizontal {
     background: repeating-linear-gradient(
         to right,
         var(--idp-primary-color),
@@ -145,7 +144,7 @@
     );
 }
 
-.divider-primary.divider-dashed.divider-vertical {
+.divider-primary-dashed-vertical {
     background: repeating-linear-gradient(
         to bottom,
         var(--idp-primary-color),
@@ -159,13 +158,14 @@
     color: var(--idp-primary-color);
 }
 
-.divider-primary.divider-with-text::before,
-.divider-primary.divider-with-text::after {
+/* 使用组合类名避免多类选择器 */
+.divider-primary-with-text::before,
+.divider-primary-with-text::after {
     background-color: var(--idp-primary-color);
 }
 
-.divider-primary.divider-with-text.divider-dashed::before,
-.divider-primary.divider-with-text.divider-dashed::after {
+.divider-primary-with-text .divider-dashed-horizontal::before,
+.divider-primary-with-text .divider-dashed-horizontal::after {
     background: repeating-linear-gradient(
         to right,
         var(--idp-primary-color),
@@ -176,21 +176,21 @@
 }
 
 /* ============================================
-   尺寸变体
+   尺寸变体（使用组合类名避免多类选择器）
    ============================================ */
-.divider-thin.divider-horizontal {
+.divider-thin-horizontal {
     height: 0.5px;
 }
 
-.divider-thin.divider-vertical {
+.divider-thin-vertical {
     width: 0.5px;
 }
 
-.divider-thick.divider-horizontal {
+.divider-thick-horizontal {
     height: 2px;
 }
 
-.divider-thick.divider-vertical {
+.divider-thick-vertical {
     width: 2px;
 }
 
@@ -201,7 +201,7 @@
     margin: 8px 0;
 }
 
-.divider-margin-small.divider-vertical {
+.divider-margin-small-vertical {
     margin: 0 8px;
 }
 
@@ -209,7 +209,7 @@
     margin: 16px 0;
 }
 
-.divider-margin-medium.divider-vertical {
+.divider-margin-medium-vertical {
     margin: 0 16px;
 }
 
@@ -217,6 +217,6 @@
     margin: 24px 0;
 }
 
-.divider-margin-large.divider-vertical {
+.divider-margin-large-vertical {
     margin: 0 24px;
 }

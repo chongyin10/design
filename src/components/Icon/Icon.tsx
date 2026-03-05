@@ -128,7 +128,7 @@ const Icon: React.FC<IconProps> = ({
     };
 
     return (
-        <div className={`icon-container align-${align} ${className}`}>
+        <div className={`icon-container icon-align-${align} ${className}`}>
             <svg
                 viewBox={actualViewBox}
                 className={`icon ${spin ? 'icon-spin' : ''}`}

@@ -11,7 +11,7 @@
     font-family: inherit;
 }
 
-.idp-progress--line {
+.idp-progress-line {
     flex-direction: row;
 }
 
@@ -99,31 +99,31 @@
 /* ============================================
    尺寸变体
    ============================================ */
-.idp-progress--small .idp-progress-inner,
-.idp-progress--small .idp-progress-steps,
-.idp-progress--small .idp-progress-segments {
+.idp-progress-small .idp-progress-inner,
+.idp-progress-small .idp-progress-steps,
+.idp-progress-small .idp-progress-segments {
     height: 6px;
     border-radius: var(--idp-border-radius-sm);
 }
 
-.idp-progress--small .idp-progress-bg {
+.idp-progress-small .idp-progress-bg {
     border-radius: var(--idp-border-radius-sm);
 }
 
-.idp-progress--default .idp-progress-inner,
-.idp-progress--default .idp-progress-steps,
-.idp-progress--default .idp-progress-segments {
+.idp-progress-default .idp-progress-inner,
+.idp-progress-default .idp-progress-steps,
+.idp-progress-default .idp-progress-segments {
     height: 10px;
 }
 
-.idp-progress--large .idp-progress-inner,
-.idp-progress--large .idp-progress-steps,
-.idp-progress--large .idp-progress-segments {
+.idp-progress-large .idp-progress-inner,
+.idp-progress-large .idp-progress-steps,
+.idp-progress-large .idp-progress-segments {
     height: 14px;
 }
 
 /* 大尺寸下增大字体 */
-.idp-progress--large .idp-progress-info {
+.idp-progress-large .idp-progress-info {
     font-size: 16px;
     min-width: 48px;
 }
@@ -131,7 +131,7 @@
 /* ============================================
    圆形进度条
    ============================================ */
-.idp-progress--circle {
+.idp-progress-circle {
     position: relative;
     display: inline-flex;
     justify-content: center;
@@ -139,14 +139,18 @@
     width: auto;
 }
 
-.idp-progress--circle .idp-progress-info {
+.idp-progress-circle .idp-progress-info {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
+    min-width: auto;
 }
 
 /* ============================================
@@ -191,12 +195,12 @@
 /* ============================================
    激活状态动画
    ============================================ */
-.idp-progress--active .idp-progress-bg {
+.idp-progress-active .idp-progress-bg {
     position: relative;
     overflow: hidden;
 }
 
-.idp-progress--active .idp-progress-bg::after {
+.idp-progress-active .idp-progress-bg::after {
     content: '';
     position: absolute;
     top: 0;
@@ -224,19 +228,25 @@
 /* ============================================
    仪表盘样式
    ============================================ */
-.idp-progress--dashboard {
+.idp-progress-dashboard {
     position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
 }
 
-.idp-progress--dashboard .idp-progress-info {
+.idp-progress-dashboard .idp-progress-info {
     position: absolute;
     top: 60%;
     left: 50%;
     transform: translate(-50%, -50%);
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: auto;
 }
 
 /* ============================================
@@ -291,19 +301,19 @@
 }
 
 /* 小尺寸多段进度条 */
-.idp-progress--small .idp-progress-segments {
+.idp-progress-small .idp-progress-segments {
     border-radius: var(--idp-border-radius-sm);
 }
 
-.idp-progress--small .idp-progress-segment:first-child {
+.idp-progress-small .idp-progress-segment:first-child {
     border-radius: var(--idp-border-radius-sm) 0 0 var(--idp-border-radius-sm);
 }
 
-.idp-progress--small .idp-progress-segment:last-child {
+.idp-progress-small .idp-progress-segment:last-child {
     border-radius: 0 var(--idp-border-radius-sm) var(--idp-border-radius-sm) 0;
 }
 
-.idp-progress--small .idp-progress-segment:only-child {
+.idp-progress-small .idp-progress-segment:only-child {
     border-radius: var(--idp-border-radius-sm);
 }
 
@@ -360,16 +370,16 @@
 }
 
 /* 小尺寸步骤进度条 */
-.idp-progress--small .idp-progress-steps {
+.idp-progress-small .idp-progress-steps {
     border-radius: var(--idp-border-radius-sm);
 }
 
 /* 大尺寸步骤进度条 */
-.idp-progress--large .idp-progress-steps {
+.idp-progress-large .idp-progress-steps {
     border-radius: var(--idp-border-radius-lg);
 }
 
-.idp-progress--large .idp-progress-step {
+.idp-progress-large .idp-progress-step {
     border-radius: var(--idp-border-radius-md);
 }
 
@@ -383,7 +393,7 @@
         margin-left: 8px;
     }
     
-    .idp-progress--large .idp-progress-info {
+    .idp-progress-large .idp-progress-info {
         font-size: 14px;
     }
 }
@@ -398,7 +408,7 @@
     }
     
     .idp-progress-bg--animated::before,
-    .idp-progress--active .idp-progress-bg::after {
+    .idp-progress-active .idp-progress-bg::after {
         animation: none;
     }
 }

@@ -245,21 +245,21 @@
   border-color: var(--idp-border-color-extra-light);
 }
 
-.idp-tree-checkbox-disabled.idp-tree-checkbox-checked {
+.idp-tree-checkbox-disabled-checked {
   background: var(--idp-bg-color-light);
   border-color: var(--idp-border-color-extra-light);
 }
 
-.idp-tree-checkbox-disabled.idp-tree-checkbox-checked::after {
+.idp-tree-checkbox-disabled-checked::after {
   border-color: var(--idp-text-color-light);
 }
 
-.idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate {
+.idp-tree-checkbox-disabled-indeterminate {
   background: var(--idp-bg-color-light);
   border-color: var(--idp-border-color-extra-light);
 }
 
-.idp-tree-checkbox-disabled.idp-tree-checkbox-indeterminate::after {
+.idp-tree-checkbox-disabled-indeterminate::after {
   background-color: var(--idp-text-color-light);
 }
 
@@ -607,11 +607,11 @@
   background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
 }
 
-.idp-tree-action-menu-item.idp-tree-action-menu-remove {
+.idp-tree-action-menu-remove {
   color: var(--idp-error-color);
 }
 
-.idp-tree-action-menu-item.idp-tree-action-menu-remove:hover {
+.idp-tree-action-menu-remove:hover {
   background: rgba(245, 34, 45, 0.1);
 }
 

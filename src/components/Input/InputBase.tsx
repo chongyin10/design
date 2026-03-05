@@ -143,7 +143,7 @@ const InputBase: React.FC<InputProps> = ({
                     </div>
                 )}
                 <div
-                    className={`input-wrapper ${className} ${disabled ? 'input-disabled' : ''} ${readOnly ? 'input-readonly' : ''}`}
+                    className={`input-wrapper ${className} ${disabled ? 'input-wrapper-disabled' : ''} ${readOnly ? 'input-wrapper-readonly' : ''}`}
                     style={{
                         width,
                         ...style

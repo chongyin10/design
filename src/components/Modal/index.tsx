@@ -38,9 +38,11 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
+    const [showContent, setShowContent] = useState(false);
     const [originOffset, setOriginOffset] = useState({ x: 0, y: 0 });
     const lastClickPointRef = useRef<{ x: number; y: number } | null>(null);
     const animationDuration = 550;
+    const contentDelay = 50; // 延迟显示内容，确保遮罩层模糊效果先渲染
 
     // 当设置了top时，direction参数仍然生效
     // 如果direction='center'且设置了top，动画会从水平中心、垂直top位置开始
@@ -114,9 +116,19 @@ const Modal: React.FC<ModalProps> = ({
             const nextOffset = getClickOriginOffset();
             setOriginOffset(nextOffset);
             setIsClosing(false);
-            setIsVisible(true);
+            // 使用 requestAnimationFrame 确保 DOM 创建和 CSS 类切换不在同一帧
+            // 避免遮罩层闪动
+            requestAnimationFrame(() => {
+                setIsVisible(true);
+            });
+            // 先显示遮罩层（带模糊），延迟后再显示内容，避免闪动
+            const contentTimer = setTimeout(() => {
+                setShowContent(true);
+            }, contentDelay);
+            return () => clearTimeout(contentTimer);
         } else {
             setIsClosing(true);
+            setShowContent(false);
             const timer = setTimeout(() => {
                 setIsVisible(false);
                 setIsClosing(false);
@@ -145,6 +157,7 @@ const Modal: React.FC<ModalProps> = ({
         top: top !== undefined ? `${top}px` : undefined,
         ['--idp-modal-origin-x' as any]: `${originOffset.x}px`,
         ['--idp-modal-origin-y' as any]: `${originOffset.y}px`,
+        visibility: showContent ? 'visible' : 'hidden',
         ...style
     };
 
@@ -236,7 +249,7 @@ const Modal: React.FC<ModalProps> = ({
                 className={classNames(
                     'idp-modal-overlay',
                     {
-                        'idp-modal-overlay--visible': isVisible,
+                        'idp-modal-overlay--visible': isVisible && !isClosing,
                         'idp-modal-overlay--closing': isClosing,
                         'idp-modal-overlay--custom-top': top !== undefined
                     },
@@ -250,27 +263,22 @@ const Modal: React.FC<ModalProps> = ({
                     className={classNames(
                         'idp-modal-container',
                         {
-                            // 显示动画 - center + top
-                            'idp-modal-container--center-top': isVisible && !isClosing && effectiveDirection === 'center' && top !== undefined,
-                            // 显示动画 - center（没有top）
-                            'idp-modal-container--center': isVisible && !isClosing && effectiveDirection === 'center' && top === undefined,
-                            // 显示动画 - 其他方向
-                            'idp-modal-container--top-right': isVisible && !isClosing && effectiveDirection === 'top-right',
-                            'idp-modal-container--bottom-right': isVisible && !isClosing && effectiveDirection === 'bottom-right',
-                            'idp-modal-container--bottom-left': isVisible && !isClosing && effectiveDirection === 'bottom-left',
-                            'idp-modal-container--normal': isVisible && !isClosing && effectiveDirection === 'normal',
+                            // 显示动画 - 延迟显示内容，确保遮罩层模糊效果先渲染
+                            'idp-modal-container--center-top': showContent && !isClosing && effectiveDirection === 'center' && top !== undefined,
+                            'idp-modal-container--center': showContent && !isClosing && effectiveDirection === 'center' && top === undefined,
+                            'idp-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right',
+                            'idp-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right',
+                            'idp-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left',
+                            'idp-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal',
                             
-                            // 关闭状态 - center + top
+                            // 关闭状态
                             'idp-modal-container--closing-center-top': isClosing && effectiveDirection === 'center' && top !== undefined,
-                            // 关闭状态 - center（没有top）
                             'idp-modal-container--closing-center': isClosing && effectiveDirection === 'center' && top === undefined,
-                            // 关闭状态 - 其他方向
                             'idp-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right',
                             'idp-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right',
                             'idp-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left',
                             'idp-modal-container--closing-normal': isClosing && effectiveDirection === 'normal',
                             'idp-modal-container--bordered': bordered,
-                            // 当设置了 height 参数时，添加此类名以取消最小高度限制
                             'idp-modal-container--has-height': height !== undefined
                         }
                     )}

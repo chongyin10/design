@@ -436,7 +436,7 @@ const Select: React.FC<SelectProps> = ({
                 )}
                 <div style={{ flex: 1, position: 'relative' }}>
                     <Selector
-                        className={`select-selector select-${size} ${open ? 'select-open' : ''} ${disabled ? 'select-disabled' : ''}`}
+                        className={`select-selector ${size ? `select-selector-${size}` : ''} ${open ? 'select-selector-open' : ''} ${disabled ? 'select-selector-disabled' : ''}`}
                         $disabled={disabled}
                         $loading={loading}
                         $size={size}
@@ -473,7 +473,7 @@ const Select: React.FC<SelectProps> = ({
                                 </LoadingIcon>
                             )}
                             {showArrowIcon && (
-                                <Arrow className={`select-arrow ${open ? 'select-open' : ''}`} $open={open}>
+                                <Arrow className={`select-arrow ${open ? 'select-arrow-open' : ''}`} $open={open}>
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M7 10l5 5 5-5z"/>
                                     </svg>

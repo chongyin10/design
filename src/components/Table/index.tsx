@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, ReactNode } from 'react';
+import classNames from 'classnames';
 import {
     DndContext,
     closestCenter,
@@ -723,7 +724,7 @@ const Table = ({
     // 渲染带拖拽功能的表格主体
     const renderTableBody = () => {
         const tableContent = (
-            <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
+            <table className={classNames('custom-table', { 'custom-table-bordered-body': bordered, 'custom-table-header-separator': !bordered })}>
                 <colgroup>
                     {allColumns.map((col, index) => (
                         <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
@@ -759,7 +760,7 @@ const Table = ({
     return (
         <div
             ref={tableRef}
-            className={`custom-table-container ${bordered ? 'bordered' : ''} ${className} ${draggable ? 'draggable' : ''}`}
+            className={classNames('custom-table-container', { 'custom-table-bordered': bordered, 'custom-table-draggable': draggable }, className)}
             style={tableStyle}
         >
             {/* 加载遮罩层 */}
@@ -793,7 +794,7 @@ const Table = ({
 
             {/* 表头 */}
             <div className="custom-table-header" ref={headerInnerRef} onScroll={handleHeaderScroll}>
-                <table className={`custom-table ${bordered ? 'bordered' : ''}`}>
+                <table className={classNames('custom-table', { 'custom-table-bordered-body': bordered, 'custom-table-header-separator': !bordered })}>
                     <colgroup>
                         {allColumns.map((col, index) => (
                             <col key={`header-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />

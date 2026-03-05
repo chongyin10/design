@@ -159,10 +159,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
     }
 
     const dropdownMenu = (
-      <div className={classNames(`dropdown-menu dropdown-menu--${placement} dropdown-menu--p-${placement}`, {
-        'dropdown-menu--visible': visible && !closing,
-        'dropdown-menu--closing': closing
+      <div className={classNames('dropdown-menu-wrapper', {
+        'dropdown-menu-visible': visible && !closing,
+        'dropdown-menu-closing': closing
       })}>
+        <div className={classNames(`dropdown-menu dropdown-menu--${placement} dropdown-menu--p-${placement}`)}>
         <ul className="dropdown-list" style={contentStyles}>
           {items.map((item) => (
             <li
@@ -188,6 +189,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             </li>
           ))}
         </ul>
+        </div>
       </div>
     );
 

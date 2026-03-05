@@ -15,13 +15,13 @@
 }
 
 /* 水平布局 */
-.idp-splitter.idp-splitter--horizontal {
+.idp-splitter-horizontal {
   flex-direction: row;
   align-items: stretch;
 }
 
 /* 垂直布局 */
-.idp-splitter.idp-splitter--vertical {
+.idp-splitter-vertical {
   flex-direction: column;
   align-items: stretch;
 }
@@ -37,23 +37,23 @@
 }
 
 /* 水平布局面板 */
-.idp-splitter--horizontal .idp-splitter__panel {
+.idp-splitter-horizontal .idp-splitter__panel {
   height: auto;
   min-height: 100%;
 }
 
 /* 垂直布局面板 */
-.idp-splitter--vertical .idp-splitter__panel {
+.idp-splitter-vertical .idp-splitter__panel {
   width: auto;
   min-width: 100%;
 }
 
 /* 面板阴影效果 - 非最后一个面板添加阴影 */
-.idp-splitter--horizontal .idp-splitter__panel:not(:last-of-type) {
+.idp-splitter-horizontal .idp-splitter__panel:not(:last-of-type) {
   box-shadow: var(--idp-splitter-panel-shadow);
 }
 
-.idp-splitter--vertical .idp-splitter__panel:not(:last-of-type) {
+.idp-splitter-vertical .idp-splitter__panel:not(:last-of-type) {
   box-shadow: var(--idp-splitter-panel-shadow-vertical);
 }
 
@@ -62,7 +62,7 @@
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.12);
 }
 
-.idp-splitter--vertical:hover .idp-splitter__panel:not(:last-of-type) {
+.idp-splitter-vertical:hover .idp-splitter__panel:not(:last-of-type) {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
 }
 
@@ -85,7 +85,7 @@
 }
 
 /* 水平分割条 */
-.idp-splitter--horizontal .idp-splitter__bar {
+.idp-splitter-horizontal .idp-splitter__bar {
   cursor: col-resize;
   width: var(--idp-splitter-bar-size);
   height: 100%;
@@ -94,7 +94,7 @@
 }
 
 /* 垂直分割条 */
-.idp-splitter--vertical .idp-splitter__bar {
+.idp-splitter-vertical .idp-splitter__bar {
   cursor: row-resize;
   width: 100%;
   height: var(--idp-splitter-bar-size);
@@ -103,26 +103,26 @@
 }
 
 /* 分割条悬停状态 - 渐变背景和阴影增强 */
-.idp-splitter__bar:not(.idp-splitter__bar--disabled):hover {
+.idp-splitter__bar:not(.idp-splitter__bar-disabled):hover {
   background: var(--idp-splitter-bar-hover-bg);
   box-shadow: var(--idp-splitter-shadow-md);
 }
 
 /* 分割条拖拽状态 - 发光效果和层级提升 */
-.idp-splitter__bar--dragging {
+.idp-splitter__bar-dragging {
   z-index: 100 !important;
   background: var(--idp-splitter-bar-hover-bg);
   box-shadow: var(--idp-splitter-shadow-active);
 }
 
 /* 分割条禁用状态 */
-.idp-splitter__bar--disabled {
+.idp-splitter__bar-disabled {
   cursor: not-allowed !important;
   background: var(--idp-bg-color-light);
   opacity: var(--idp-opacity-disabled);
 }
 
-.idp-splitter__bar--disabled .idp-splitter__line {
+.idp-splitter__bar-disabled .idp-splitter__line {
   background: var(--idp-splitter-line-disabled-color) !important;
 }
 
@@ -137,7 +137,7 @@
 }
 
 /* 水平分割线 - 垂直方向的小圆点 */
-.idp-splitter--horizontal .idp-splitter__line {
+.idp-splitter-horizontal .idp-splitter__line {
   width: var(--idp-splitter-line-width);
   height: var(--idp-splitter-line-length);
   min-height: var(--idp-splitter-line-min-length);
@@ -145,7 +145,7 @@
 }
 
 /* 垂直分割线 - 水平方向的小圆点 */
-.idp-splitter--vertical .idp-splitter__line {
+.idp-splitter-vertical .idp-splitter__line {
   width: var(--idp-splitter-line-length);
   min-width: var(--idp-splitter-line-min-length);
   height: var(--idp-splitter-line-width);
@@ -153,13 +153,13 @@
 }
 
 /* 分割线悬停状态 - 主色调渐变 */
-.idp-splitter__bar:not(.idp-splitter__bar--disabled):hover .idp-splitter__line {
+.idp-splitter__bar:not(.idp-splitter__bar-disabled):hover .idp-splitter__line {
   background: var(--idp-splitter-line-hover-bg);
   box-shadow: 0 0 6px rgba(24, 144, 255, 0.4);
 }
 
 /* 分割线拖拽激活状态 */
-.idp-splitter__bar--dragging .idp-splitter__line {
+.idp-splitter__bar-dragging .idp-splitter__line {
   background: var(--idp-splitter-line-active-color) !important;
   box-shadow: var(--idp-splitter-shadow-active);
 }
@@ -167,11 +167,11 @@
 /* ============================================
    拖拽时的全局样式
    ============================================ */
-.idp-splitter--dragging {
+.idp-splitter-dragging {
   user-select: none;
 }
 
-.idp-splitter--dragging .idp-splitter__panel {
+.idp-splitter-dragging .idp-splitter__panel {
   pointer-events: none;
 }
 
@@ -187,22 +187,22 @@
 
 /* 触摸设备优化 */
 @media (pointer: coarse) {
-  .idp-splitter--horizontal .idp-splitter__bar {
+  .idp-splitter-horizontal .idp-splitter__bar {
     width: 14px;
   }
 
-  .idp-splitter--vertical .idp-splitter__bar {
+  .idp-splitter-vertical .idp-splitter__bar {
     height: 14px;
   }
 
   /* 触摸设备增大分割线 */
-  .idp-splitter--horizontal .idp-splitter__line {
+  .idp-splitter-horizontal .idp-splitter__line {
     width: 3px;
     height: 40px;
     min-height: 40px;
   }
 
-  .idp-splitter--vertical .idp-splitter__line {
+  .idp-splitter-vertical .idp-splitter__line {
     width: 40px;
     min-width: 40px;
     height: 3px;

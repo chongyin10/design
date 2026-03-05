@@ -609,7 +609,7 @@ const Cascader: React.FC<CascaderProps> = ({
           return (
             <li
               key={`${getOptionValue(option)}-${index}`}
-              className={`cascader-menu-item ${isSelected ? 'cascader-menu-item-selected' : ''} ${isActive ? 'cascader-menu-item-active' : ''} ${isDisabled ? 'cascader-menu-item-disabled' : ''}`}
+              className={`cascader-menu-item ${isSelected ? 'cascader-menu-item-selected' : ''} ${isActive ? 'cascader-menu-item-active' : ''} ${isSelected && isActive ? 'cascader-menu-item-selected-active' : ''} ${isDisabled ? 'cascader-menu-item-disabled' : ''}`}
               onClick={() => !isDisabled && (checkbox ? undefined : handleOptionClick(option, level))}
               onMouseEnter={() => !isDisabled && handleOptionHover(option, level)}
             >

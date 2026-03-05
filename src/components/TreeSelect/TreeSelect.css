@@ -27,28 +27,28 @@
     border-color: var(--idp-primary-hover-color);
 }
 
-.idp-treeselect--open .idp-treeselect-selection {
-    border-color: var(--idp-primary-color);
-    box-shadow: var(--idp-input-box-shadow-focus);
+.idp-treeselect-open .idp-treeselect-selection {
+  border-color: var(--idp-primary-color);
+  box-shadow: var(--idp-input-box-shadow-focus);
 }
 
-.idp-treeselect--disabled .idp-treeselect-selection {
-    background-color: var(--idp-input-disabled-bg);
-    border-color: var(--idp-border-color-extra-light);
-    cursor: not-allowed;
+.idp-treeselect-disabled .idp-treeselect-selection {
+  background-color: var(--idp-input-disabled-bg);
+  border-color: var(--idp-border-color-extra-light);
+  cursor: not-allowed;
 }
 
 /* 尺寸 */
-.idp-treeselect--large .idp-treeselect-selection {
-    min-height: 40px;
-    padding: 6px 32px 6px 15px;
-    font-size: 16px;
+.idp-treeselect-large .idp-treeselect-selection {
+  min-height: 40px;
+  padding: 6px 32px 6px 15px;
+  font-size: 16px;
 }
 
-.idp-treeselect--small .idp-treeselect-selection {
-    min-height: 24px;
-    padding: 2px 24px 2px 7px;
-    font-size: 14px;
+.idp-treeselect-small .idp-treeselect-selection {
+  min-height: 24px;
+  padding: 2px 24px 2px 7px;
+  font-size: 14px;
 }
 
 /* 选中的值渲染区域 */
@@ -85,14 +85,14 @@
     line-height: 1.5;
 }
 
-.idp-treeselect--large .idp-treeselect-selection__tag {
-    font-size: 14px;
-    padding: 4px 10px;
+.idp-treeselect-large .idp-treeselect-selection__tag {
+  font-size: 14px;
+  padding: 4px 10px;
 }
 
-.idp-treeselect--small .idp-treeselect-selection__tag {
-    font-size: 12px;
-    padding: 1px 6px;
+.idp-treeselect-small .idp-treeselect-selection__tag {
+  font-size: 12px;
+  padding: 1px 6px;
 }
 
 .idp-treeselect-selection__tag-content {
@@ -165,12 +165,12 @@
     color: var(--idp-text-color);
 }
 
-.idp-treeselect--large .idp-treeselect-selection__clear {
-    right: 32px;
+.idp-treeselect-large .idp-treeselect-selection__clear {
+  right: 32px;
 }
 
-.idp-treeselect--small .idp-treeselect-selection__clear {
-    right: 24px;
+.idp-treeselect-small .idp-treeselect-selection__clear {
+  right: 24px;
 }
 
 /* 下拉箭头 */
@@ -187,16 +187,16 @@
     pointer-events: none;
 }
 
-.idp-treeselect-selection__arrow--open {
-    transform: translateY(-50%) rotate(180deg);
+.idp-treeselect-selection__arrow-open {
+  transform: translateY(-50%) rotate(180deg);
 }
 
-.idp-treeselect--large .idp-treeselect-selection__arrow {
-    right: 15px;
+.idp-treeselect-large .idp-treeselect-selection__arrow {
+  right: 15px;
 }
 
-.idp-treeselect--small .idp-treeselect-selection__arrow {
-    right: 7px;
+.idp-treeselect-small .idp-treeselect-selection__arrow {
+  right: 7px;
 }
 
 /* 下拉面板 */
@@ -254,21 +254,22 @@
     background-color: var(--idp-bg-color-light);
 }
 
-.idp-treeselect-tree-node--selected {
-    background-color: #e6f7ff;
+.idp-treeselect-tree-node-selected {
+  background-color: var(--idp-primary-light-color, rgba(24, 100, 240, 0.1));
+  color: var(--idp-primary-color);
 }
 
-.idp-treeselect-tree-node--selected:hover {
-    background-color: #bae7ff;
+.idp-treeselect-tree-node-selected:hover {
+  background-color: var(--idp-primary-light-color, rgba(24, 100, 240, 0.1));
 }
 
-.idp-treeselect-tree-node--disabled {
-    color: var(--idp-text-color-tertiary);
-    cursor: not-allowed;
+.idp-treeselect-tree-node-disabled {
+  color: var(--idp-text-color-tertiary);
+  cursor: not-allowed;
 }
 
-.idp-treeselect-tree-node--disabled:hover {
-    background-color: transparent;
+.idp-treeselect-tree-node-disabled:hover {
+  background-color: transparent;
 }
 
 /* 展开/折叠图标 */
@@ -283,13 +284,13 @@
     transition: transform var(--idp-transition-duration);
 }
 
-.idp-treeselect-tree-node__expand-icon--expanded {
-    transform: rotate(90deg);
+.idp-treeselect-tree-node__expand-icon-expanded {
+  transform: rotate(90deg);
 }
 
-.idp-treeselect-tree-node__expand-icon--no-children {
-    visibility: hidden;
-    cursor: default;
+.idp-treeselect-tree-node__expand-icon-no-children {
+  visibility: hidden;
+  cursor: default;
 }
 
 /* 复选框 */
@@ -313,12 +314,12 @@
 }
 
 .idp-treeselect-tree-node:hover .idp-treeselect-tree-node__checkbox-inner {
-    border-color: var(--idp-primary-color);
+  border-color: var(--idp-primary-color);
 }
 
-.idp-treeselect-tree-node__checkbox-inner--checked {
-    background-color: var(--idp-primary-color);
-    border-color: var(--idp-primary-color);
+.idp-treeselect-tree-node__checkbox-inner-checked {
+  background-color: var(--idp-primary-color);
+  border-color: var(--idp-primary-color);
 }
 
 /* 节点标题 */

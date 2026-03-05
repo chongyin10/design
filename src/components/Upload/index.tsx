@@ -104,8 +104,8 @@ const UploadList: React.FC<{
                 <div
                     key={file.uid}
                     className={classNames('idp-upload__list-item', {
-                        'idp-upload__list-item--error': file.status === 'error',
-                        'idp-upload__list-item--success': file.status === 'success'
+                        'idp-upload__list-item-error': file.status === 'error',
+                        'idp-upload__list-item-success': file.status === 'success'
                     })}
                 >
                     <div className="idp-upload__list-item-info">
@@ -131,7 +131,7 @@ const UploadList: React.FC<{
                         </span>
                     )}
                     <div className={classNames('idp-upload__progress-wrapper', {
-                        'idp-upload__progress-wrapper--visible': file.status === 'uploading'
+                        'idp-upload__progress-wrapper-visible': file.status === 'uploading'
                     })}>
                         <Progress
                             percent={file.percent || 0}
@@ -203,8 +203,8 @@ const UploadDrag: React.FC<{
         <div
             ref={dragRef}
             className={classNames('idp-upload__drag', {
-                'idp-upload__drag--over': isDragOver,
-                'idp-upload__drag--disabled': disabled
+                'idp-upload__drag-over': isDragOver,
+                'idp-upload__drag-disabled': disabled
             })}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}

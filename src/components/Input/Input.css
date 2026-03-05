@@ -26,7 +26,7 @@
     font-family: inherit;
     border: 1px solid var(--idp-input-border);
     border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    background: linear-gradient(135deg, var(--idp-bg-color-white) 100%, var(--idp-bg-color) 100%);
     transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
     outline: none;
     box-sizing: border-box;
@@ -272,7 +272,7 @@
 /* ============================================
    禁用和只读状态
    ============================================ */
-.input-wrapper.input-disabled {
+.input-wrapper-disabled {
     background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
     border-color: var(--idp-border-color-extra-light);
     color: var(--idp-text-color-light);
@@ -280,29 +280,29 @@
     box-shadow: none;
 }
 
-.input-wrapper.input-disabled:hover {
+.input-wrapper-disabled:hover {
     box-shadow: none;
     border-color: var(--idp-border-color-extra-light);
 }
 
-.input-wrapper.input-disabled .input-inner {
+.input-wrapper-disabled .input-inner {
     background-color: transparent;
     color: var(--idp-text-color-light);
     cursor: not-allowed;
 }
 
-.input-wrapper.input-readonly {
+.input-wrapper-readonly {
     background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
     border-color: var(--idp-border-color);
     cursor: default;
 }
 
-.input-wrapper.input-readonly:hover {
+.input-wrapper-readonly:hover {
     box-shadow: var(--idp-shadow-extra-light);
     border-color: var(--idp-border-color-extra-light);
 }
 
-.input-wrapper.input-readonly .input-inner {
+.input-wrapper-readonly .input-inner {
     background-color: transparent;
     cursor: default;
 }
@@ -403,13 +403,13 @@
     box-shadow: var(--idp-input-box-shadow-hover);
 }
 
-.textarea-input-wrapper.focused {
+.textarea-input-wrapper-focused {
     border-color: var(--idp-input-border-focus);
     box-shadow: var(--idp-input-box-shadow-focus);
     background: var(--idp-bg-color-white);
 }
 
-.textarea-input-wrapper.disabled {
+.textarea-input-wrapper-disabled {
     background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
     border-color: var(--idp-border-color-extra-light);
     color: var(--idp-text-color-light);
@@ -417,18 +417,18 @@
     box-shadow: none;
 }
 
-.textarea-input-wrapper.disabled:hover {
+.textarea-input-wrapper-disabled:hover {
     box-shadow: none;
     border-color: var(--idp-border-color-extra-light);
 }
 
-.textarea-input-wrapper.readonly {
+.textarea-input-wrapper-readonly {
     background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
     border-color: var(--idp-border-color);
     cursor: default;
 }
 
-.textarea-input-wrapper.readonly:hover {
+.textarea-input-wrapper-readonly:hover {
     box-shadow: var(--idp-shadow-extra-light);
     border-color: var(--idp-border-color-extra-light);
 }

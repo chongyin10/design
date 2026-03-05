@@ -53,7 +53,7 @@
   justify-content: center;
 }
 
-.rate.disabled {
+.rate-disabled {
   cursor: var(--rate-cursor-not-allowed);
   opacity: var(--rate-disabled-opacity);
 }
@@ -73,7 +73,7 @@
   transform: scale(var(--rate-hover-scale));
 }
 
-.rate.disabled .rate-star:hover {
+.rate-disabled .rate-star:hover {
   transform: none;
 }
 
@@ -99,18 +99,18 @@
   will-change: width, opacity;
 }
 
-.rate-star-fill.half {
+.rate-star-fill-half {
   width: var(--rate-half-width);
   opacity: 1;
 }
 
-.rate-star-fill.full {
+.rate-star-fill-full {
   width: var(--rate-full-width);
   opacity: 1;
 }
 
 /* 确保空星状态完全隐藏 */
-.rate-star-fill:not(.half):not(.full) {
+.rate-star-fill-empty {
   width: var(--rate-empty-width);
   opacity: var(--rate-empty-opacity);
 }
@@ -141,9 +141,9 @@
   z-index: var(--rate-z-index); /* 确保在图标上方 */
 }
 
-.rate.disabled .rate-star-left,
-.rate.disabled .rate-star-right,
-.rate.disabled .rate-character-full {
+.rate-disabled .rate-star-left,
+.rate-disabled .rate-star-right,
+.rate-disabled .rate-character-full {
   cursor: var(--rate-cursor-not-allowed);
 }
 
@@ -170,7 +170,7 @@
   transition: color var(--rate-transition-fast) var(--rate-transition-timing);
 }
 
-.rate-chats-mode.disabled .rate-chat-item {
+.rate-chats-mode-disabled .rate-chat-item {
   background-color: transparent !important;
   cursor: var(--rate-cursor-not-allowed);
 }

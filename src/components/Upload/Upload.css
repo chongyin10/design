@@ -32,18 +32,18 @@
     border-color: var(--primary-color, #1890ff);
 }
 
-.idp-upload__drag--over {
-    background-color: var(--primary-light, #e6f7ff);
-    border-color: var(--primary-color, #1890ff);
+.idp-upload__drag-over {
+  background-color: var(--primary-light, #e6f7ff);
+  border-color: var(--primary-color, #1890ff);
 }
 
-.idp-upload__drag--disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+.idp-upload__drag-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
-.idp-upload__drag--disabled:hover {
-    border-color: var(--border-color, #d9d9d9);
+.idp-upload__drag-disabled:hover {
+  border-color: var(--border-color, #d9d9d9);
 }
 
 .idp-upload__drag-icon {
@@ -83,12 +83,12 @@
     background-color: var(--bg-hover, #f0f0f0);
 }
 
-.idp-upload__list-item--error {
-    color: var(--error-color, #ff4d4f);
+.idp-upload__list-item-error {
+  color: var(--error-color, #ff4d4f);
 }
 
-.idp-upload__list-item--success {
-    color: var(--success-color, #52c41a);
+.idp-upload__list-item-success {
+  color: var(--success-color, #52c41a);
 }
 
 .idp-upload__list-item-info {
@@ -142,7 +142,7 @@
     transition: opacity 0.2s ease-in-out;
 }
 
-.idp-upload__progress-wrapper--visible {
-    opacity: 1;
+.idp-upload__progress-wrapper-visible {
+  opacity: 1;
 }
 

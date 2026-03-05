@@ -29,7 +29,7 @@
                 transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.idp-tooltip-visible {
+.idp-tooltip.is-visible {
     opacity: 1;
     transform: scale(1);
 }
@@ -40,7 +40,7 @@
     transform: scale(0.95) translateY(8px);
 }
 
-.idp-tooltip-top.idp-tooltip-visible {
+.idp-tooltip-top.is-visible {
     transform: scale(1) translateY(0);
 }
 
@@ -49,7 +49,7 @@
     transform: scale(0.95) translateY(-8px);
 }
 
-.idp-tooltip-bottom.idp-tooltip-visible {
+.idp-tooltip-bottom.is-visible {
     transform: scale(1) translateY(0);
 }
 
@@ -58,7 +58,7 @@
     transform: scale(0.95) translateX(8px);
 }
 
-.idp-tooltip-left.idp-tooltip-visible {
+.idp-tooltip-left.is-visible {
     transform: scale(1) translateX(0);
 }
 
@@ -67,7 +67,7 @@
     transform: scale(0.95) translateX(-8px);
 }
 
-.idp-tooltip-right.idp-tooltip-visible {
+.idp-tooltip-right.is-visible {
     transform: scale(1) translateX(0);
 }
 

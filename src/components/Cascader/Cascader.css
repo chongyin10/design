@@ -39,12 +39,12 @@
     box-shadow: var(--idp-input-box-shadow-hover);
 }
 
-.cascader.cascader-open .cascader-trigger {
+.cascader-open .cascader-trigger {
     border-color: var(--idp-primary-color);
     box-shadow: var(--idp-input-box-shadow-focus);
 }
 
-.cascader.cascader-disabled .cascader-trigger {
+.cascader-disabled .cascader-trigger {
     color: var(--idp-text-color-light);
     background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
     cursor: not-allowed;
@@ -324,7 +324,7 @@
     color: var(--idp-success-color);
 }
 
-.cascader-menu-item-selected.cascader-menu-item-active {
+.cascader-menu-item-selected-active {
     background: linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.06) 100%);
     color: var(--idp-primary-color);
 }

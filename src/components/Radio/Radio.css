@@ -121,12 +121,12 @@
   color: var(--idp-text-color-light);
 }
 
-.idp-radio--disabled.idp-radio--checked .idp-radio__inner {
+.idp-radio--disabled-checked .idp-radio__inner {
   background-color: #bfbfbf;
   border-color: #bfbfbf;
 }
 
-.idp-radio--disabled.idp-radio--checked .idp-radio__inner::after {
+.idp-radio--disabled-checked .idp-radio__inner::after {
   background-color: #fff;
 }
 
@@ -194,12 +194,12 @@
 }
 
 /* 按钮类型时未选中的 radio 默认背景色 */
-.idp-radio-group--button .idp-radio:not(.idp-radio--checked) {
+.idp-radio-group--button .idp-radio--unchecked {
   background-color: #e8e8e8;
 }
 
 /* 按钮类型时未选中的 radio 悬停背景色 */
-.idp-radio-group--button .idp-radio:not(.idp-radio--disabled):not(.idp-radio--checked):hover {
+.idp-radio-group--button .idp-radio--unchecked:not(.idp-radio--disabled):hover {
   background-color: #f0f0f0;
 }
 
@@ -224,7 +224,7 @@
   cursor: not-allowed;
 }
 
-.idp-radio-group--button .idp-radio--disabled.idp-radio--checked {
+.idp-radio-group--button .idp-radio--disabled-checked {
   color: #999;
 }
 
@@ -258,17 +258,17 @@
 }
 
 /* 大尺寸按钮样式 */
-.idp-radio-group--button.idp-radio-group--large .idp-radio {
+.idp-radio-group--button-large .idp-radio {
   padding: 0 20px;
   height: 32px;
   font-size: 15px;
 }
 
-.idp-radio-group--button.idp-radio-group--large {
+.idp-radio-group--button-large {
   padding: 4px;
 }
 
-.idp-radio-group--button.idp-radio-group--large .idp-radio-group__indicator {
+.idp-radio-group--button-large .idp-radio-group__indicator {
   top: 4px;
 }
 
@@ -295,17 +295,17 @@
 }
 
 /* 中等尺寸按钮样式 */
-.idp-radio-group--button.idp-radio-group--middle .idp-radio {
+.idp-radio-group--button-middle .idp-radio {
   padding: 0 16px;
   height: 28px;
   font-size: 14px;
 }
 
-.idp-radio-group--button.idp-radio-group--middle {
+.idp-radio-group--button-middle {
   padding: 3px;
 }
 
-.idp-radio-group--button.idp-radio-group--middle .idp-radio-group__indicator {
+.idp-radio-group--button-middle .idp-radio-group__indicator {
   top: 3px;
 }
 
@@ -333,22 +333,22 @@
 }
 
 /* 小尺寸按钮样式 */
-.idp-radio-group--button.idp-radio-group--small .idp-radio {
+.idp-radio-group--button-small .idp-radio {
   padding: 0 12px;
   height: 22px;
   font-size: 12px;
 }
 
-.idp-radio-group--button.idp-radio-group--small {
+.idp-radio-group--button-small {
   padding: 2px;
   border-radius: 4px;
 }
 
-.idp-radio-group--button.idp-radio-group--small .idp-radio {
+.idp-radio-group--button-small .idp-radio {
   border-radius: 3px;
 }
 
-.idp-radio-group--button.idp-radio-group--small .idp-radio-group__indicator {
+.idp-radio-group--button-small .idp-radio-group__indicator {
   top: 2px;
   border-radius: 3px;
 }

@@ -18,7 +18,7 @@
 }
 
 /* 带提示文本时的间距 */
-.idp-spin-has-tip {
+.idp-spin-content-tip {
     gap: 12px;
 }
 
@@ -49,28 +49,28 @@
 }
 
 /* 尺寸变体 - small */
-.idp-spin-small .idp-spin-icon {
+.idp-spin-icon-small {
     width: 16px;
     height: 16px;
 }
 
-.idp-spin-small .idp-spin-tip {
+.idp-spin-tip-small {
     font-size: 12px;
 }
 
 /* 尺寸变体 - default */
-.idp-spin-default .idp-spin-icon {
+.idp-spin-icon-default{
     width: 24px;
     height: 24px;
 }
 
 /* 尺寸变体 - large */
-.idp-spin-large .idp-spin-icon {
+.idp-spin-icon-large {
     width: 32px;
     height: 32px;
 }
 
-.idp-spin-large .idp-spin-tip {
+.idp-spin-tip-large {
     font-size: 16px;
 }
 
@@ -97,17 +97,17 @@
 }
 
 /* 遮罩层尺寸 */
-.idp-spin-mask-small .idp-spin-icon {
+.idp-spin-mask .idp-spin-icon-small {
     width: 16px;
     height: 16px;
 }
 
-.idp-spin-mask-default .idp-spin-icon {
+.idp-spin-mask .idp-spin-icon-default {
     width: 24px;
     height: 24px;
 }
 
-.idp-spin-mask-large .idp-spin-icon {
+.idp-spin-mask .idp-spin-icon-large {
     width: 32px;
     height: 32px;
 }

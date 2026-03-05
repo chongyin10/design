@@ -78,24 +78,24 @@
 }
 
 /* 选中状态 - 使用渐变背景 */
-.switch-track.switch-track-checked {
+.switch-track .switch-track-checked {
   background: var(--idp-switch-track-active-gradient);
   box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
 /* 禁用状态 */
-.switch-track.switch-track-disabled {
+.switch-track .switch-track-disabled {
   cursor: not-allowed;
   opacity: var(--idp-switch-disabled-opacity);
   background: var(--idp-switch-disabled-bg);
 }
 
-.switch-track.switch-track-disabled.switch-track-checked {
+.switch-track .switch-track-disabled .switch-track-checked {
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.5) 0%, rgba(64, 169, 255, 0.5) 100%);
 }
 
 /* 加载状态 */
-.switch-track.switch-track-loading {
+.switch-track .switch-track-loading {
   cursor: wait;
 }
 
@@ -104,7 +104,7 @@
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.switch-track.switch-track-checked:not(.switch-track-disabled):hover {
+.switch-track .switch-track-checked:not(.switch-track-disabled):hover {
   box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
@@ -128,7 +128,7 @@
 }
 
 /* 选中状态的滑块 */
-.switch-thumb.switch-thumb-checked {
+.switch-thumb .switch-thumb-checked {
   box-shadow: var(--idp-switch-thumb-shadow-active);
 }
 

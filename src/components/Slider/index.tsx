@@ -245,7 +245,7 @@ export const Slider: React.FC<SliderProps> = ({
 
   return (
     <div
-      className={`slider-container ${disabled ? 'disabled' : ''} ${isDragging ? 'dragging' : ''} ${className}`}
+      className={`slider-container ${disabled ? 'slider-container-disabled' : ''} ${isDragging ? 'slider-container-dragging' : ''} ${className}`}
       style={{
         ['--idp-slider-track-filled-bg' as any]: effectiveTrackColor,
         ['--idp-slider-handle-border' as any]: `2px solid ${effectiveHandleColor}`,

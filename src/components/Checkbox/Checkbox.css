@@ -147,21 +147,22 @@
     box-shadow: none;
 }
 
-.idp-checkbox--disabled.idp-checkbox--checked .idp-checkbox__inner {
+/* 使用组合类避免多类选择器 */
+.idp-checkbox--disabled-checked .idp-checkbox__inner {
     background: var(--idp-input-disabled-bg);
     border-color: var(--idp-input-disabled-border);
 }
 
-.idp-checkbox--disabled.idp-checkbox--checked .idp-checkbox__inner::after {
+.idp-checkbox--disabled-checked .idp-checkbox__inner::after {
     border-color: var(--idp-text-color-light);
 }
 
-.idp-checkbox--disabled.idp-checkbox--indeterminate .idp-checkbox__inner {
+.idp-checkbox--disabled-indeterminate .idp-checkbox__inner {
     background: var(--idp-input-disabled-bg);
     border-color: var(--idp-input-disabled-border);
 }
 
-.idp-checkbox--disabled.idp-checkbox--indeterminate .idp-checkbox__inner::after {
+.idp-checkbox--disabled-indeterminate .idp-checkbox__inner::after {
     background-color: var(--idp-text-color-light);
 }
 

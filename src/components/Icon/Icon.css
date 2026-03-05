@@ -32,99 +32,104 @@
     fill: var(--idp-icon-hover-fill);
 }
 
+/* 单独使用 icon-container 的通用悬停效果（不包含特定类组合） */
+.icon-container:hover .icon {
+    fill: var(--idp-icon-hover-fill);
+}
+
 /* ============================================
    主题色 - 与 Button 组件保持一致
    ============================================ */
 
 /* Primary 主题 */
-.icon-container.icon-primary .icon {
+.icon-theme-primary .icon {
     fill: var(--idp-primary-color);
 }
 
-.icon-container.icon-primary:hover .icon {
+.icon-theme-primary:hover .icon {
     fill: var(--idp-primary-hover-color);
 }
 
 /* Success 主题 */
-.icon-container.icon-success .icon {
+.icon-theme-success .icon {
     fill: var(--idp-success-color);
 }
 
-.icon-container.icon-success:hover .icon {
+.icon-theme-success:hover .icon {
     fill: #73d13d;
 }
 
 /* Warning 主题 */
-.icon-container.icon-warning .icon {
+.icon-theme-warning .icon {
     fill: var(--idp-warning-color);
 }
 
-.icon-container.icon-warning:hover .icon {
+.icon-theme-warning:hover .icon {
     fill: #ffc53d;
 }
 
 /* Danger 主题 */
-.icon-container.icon-danger .icon {
+.icon-theme-danger .icon {
     fill: var(--idp-error-color);
 }
 
-.icon-container.icon-danger:hover .icon {
+.icon-theme-danger:hover .icon {
     fill: #ff7875;
 }
 
 /* Info 主题 */
-.icon-container.icon-info .icon {
+.icon-theme-info .icon {
     fill: var(--idp-info-color);
 }
 
-.icon-container.icon-info:hover .icon {
+.icon-theme-info:hover .icon {
     fill: var(--idp-primary-hover-color);
 }
 
 /* Secondary 主题 */
-.icon-container.icon-secondary .icon {
+.icon-theme-secondary .icon {
     fill: var(--idp-text-color-secondary);
 }
 
-.icon-container.icon-secondary:hover .icon {
+.icon-theme-secondary:hover .icon {
     fill: var(--idp-text-color);
 }
 
 /* ============================================
    尺寸变体
    ============================================ */
-.icon-container.icon-small {
+.icon-size-small {
     font-size: 12px;
 }
 
-.icon-container.icon-small .icon {
+.icon-size-small .icon {
     width: 12px;
     height: 12px;
 }
 
-.icon-container.icon-medium {
+.icon-size-medium {
     font-size: 14px;
 }
 
-.icon-container.icon-medium .icon {
+.icon-size-medium .icon {
     width: 14px;
     height: 14px;
 }
 
-.icon-container.icon-large {
+.icon-size-large {
     font-size: 16px;
 }
 
-.icon-container.icon-large .icon {
+.icon-size-large .icon {
     width: 16px;
     height: 16px;
 }
 
-.icon-container.icon-xlarge {
+.icon-size-xlarge {
     font-size: 20px;
 }
 
-.icon-container.icon-xlarge .icon {
+.icon-size-xlarge .icon {
     width: 20px;
     height: 20px;
 }
@@ -132,7 +137,7 @@
 /* ============================================
    圆形图标按钮样式 - 带背景
    ============================================ */
-.icon-container.icon-circle {
+.icon-circle {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -141,25 +146,25 @@
     box-shadow: var(--idp-shadow-extra-light);
 }
 
-.icon-container.icon-circle:hover {
+.icon-circle:hover {
     background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
     border-color: var(--idp-primary-hover-color);
     box-shadow: var(--idp-shadow-sm);
     transform: translateY(-1px);
 }
 
-.icon-container.icon-circle:active {
+.icon-circle:active {
     transform: translateY(0);
     box-shadow: var(--idp-shadow-extra-light);
 }
 
 /* 圆形图标按钮 - 尺寸 */
-.icon-container.icon-circle.icon-small {
+.icon-circle.icon-size-small {
     width: 24px;
     height: 24px;
 }
 
-.icon-container.icon-circle.icon-large {
+.icon-circle.icon-size-large {
     width: 40px;
     height: 40px;
 }
@@ -167,38 +172,38 @@
 /* ============================================
    禁用状态
    ============================================ */
-.icon-container.icon-disabled,
-.icon-container.icon-disabled .icon {
+.icon-state-disabled,
+.icon-state-disabled .icon {
     cursor: not-allowed;
     opacity: var(--idp-opacity-disabled);
 }
 
-.icon-container.icon-disabled:hover .icon {
+.icon-state-disabled:hover .icon {
     fill: var(--idp-icon-fill);
 }
 
 /* 禁用状态下各主题 */
-.icon-container.icon-disabled.icon-primary:hover .icon {
+.icon-state-disabled.icon-theme-primary:hover .icon {
     fill: var(--idp-primary-color);
 }
 
-.icon-container.icon-disabled.icon-success:hover .icon {
+.icon-state-disabled.icon-theme-success:hover .icon {
     fill: var(--idp-success-color);
 }
 
-.icon-container.icon-disabled.icon-warning:hover .icon {
+.icon-state-disabled.icon-theme-warning:hover .icon {
     fill: var(--idp-warning-color);
 }
 
-.icon-container.icon-disabled.icon-danger:hover .icon {
+.icon-state-disabled.icon-theme-danger:hover .icon {
     fill: var(--idp-error-color);
 }
 
-.icon-container.icon-disabled.icon-info:hover .icon {
+.icon-state-disabled.icon-theme-info:hover .icon {
     fill: var(--idp-info-color);
 }
 
-.icon-container.icon-disabled.icon-secondary:hover .icon {
+.icon-state-disabled.icon-theme-secondary:hover .icon {
     fill: var(--idp-text-color-secondary);
 }
 
@@ -231,15 +236,15 @@
 /* ============================================
    对齐方式
    ============================================ */
-.icon-container.align-left {
+.icon-align-left {
     justify-content: flex-start;
 }
 
-.icon-container.align-center {
+.icon-align-center {
     justify-content: center;
 }
 
-.icon-container.align-right {
+.icon-align-right {
     justify-content: flex-end;
 }
 

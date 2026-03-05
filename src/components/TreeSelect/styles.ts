@@ -397,10 +397,11 @@ export const TreeNode = styled.div<{ $selected: boolean; $disabled: boolean; $le
 
   ${({ $selected }) =>
     $selected && `
-      background-color: #e6f7ff;
+      background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+      color: ${getCSSVar('--idp-primary-color', '#1890ff')};
 
       &:hover {
-        background-color: #bae7ff;
+        background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
       }
     `
   }

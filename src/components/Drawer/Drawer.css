@@ -70,11 +70,14 @@
     transform: translateX(-100%);
 }
 
-.idp-drawer--left.idp-drawer--visible {
+/* 使用后代选择器避免多类选择器 */
+.idp-drawer-wrapper--visible .idp-drawer--left,
+.idp-drawer-overlay--visible .idp-drawer--left {
     transform: translateX(0);
 }
 
-.idp-drawer--left.idp-drawer--closing {
+.idp-drawer-wrapper--closing .idp-drawer--left,
+.idp-drawer-overlay--closing .idp-drawer--left {
     transform: translateX(-100%);
 }
 
@@ -88,11 +91,14 @@
     transform: translateX(100%);
 }
 
-.idp-drawer--right.idp-drawer--visible {
+/* 使用后代选择器避免多类选择器 */
+.idp-drawer-wrapper--visible .idp-drawer--right,
+.idp-drawer-overlay--visible .idp-drawer--right {
     transform: translateX(0);
 }
 
-.idp-drawer--right.idp-drawer--closing {
+.idp-drawer-wrapper--closing .idp-drawer--right,
+.idp-drawer-overlay--closing .idp-drawer--right {
     transform: translateX(100%);
 }
 
@@ -106,11 +112,14 @@
     transform: translateY(-100%);
 }
 
-.idp-drawer--top.idp-drawer--visible {
+/* 使用后代选择器避免多类选择器 */
+.idp-drawer-wrapper--visible .idp-drawer--top,
+.idp-drawer-overlay--visible .idp-drawer--top {
     transform: translateY(0);
 }
 
-.idp-drawer--top.idp-drawer--closing {
+.idp-drawer-wrapper--closing .idp-drawer--top,
+.idp-drawer-overlay--closing .idp-drawer--top {
     transform: translateY(-100%);
 }
 
@@ -124,26 +133,29 @@
     transform: translateY(100%);
 }
 
-.idp-drawer--bottom.idp-drawer--visible {
+/* 使用后代选择器避免多类选择器 */
+.idp-drawer-wrapper--visible .idp-drawer--bottom,
+.idp-drawer-overlay--visible .idp-drawer--bottom {
     transform: translateY(0);
 }
 
-.idp-drawer--bottom.idp-drawer--closing {
+.idp-drawer-wrapper--closing .idp-drawer--bottom,
+.idp-drawer-overlay--closing .idp-drawer--bottom {
     transform: translateY(100%);
 }
 
 /* ============================================
    无遮罩层时的定位
    ============================================ */
-.idp-drawer--no-mask.idp-drawer--left,
-.idp-drawer--no-mask.idp-drawer--right {
+.idp-drawer-wrapper--no-mask .idp-drawer--left,
+.idp-drawer-wrapper--no-mask .idp-drawer--right {
     position: fixed;
     top: 0;
     bottom: 0;
 }
 
-.idp-drawer--no-mask.idp-drawer--top,
-.idp-drawer--no-mask.idp-drawer--bottom {
+.idp-drawer-wrapper--no-mask .idp-drawer--top,
+.idp-drawer-wrapper--no-mask .idp-drawer--bottom {
     position: fixed;
     left: 0;
     right: 0;
@@ -397,12 +409,12 @@
 }
 
 /* 无遮罩层时的拖拽手柄定位 */
-.idp-drawer--no-mask .idp-drawer-resize-handle--left,
-.idp-drawer--no-mask .idp-drawer-resize-handle--right {
+.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--left,
+.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--right {
     position: fixed;
 }
 
-.idp-drawer--no-mask .idp-drawer-resize-handle--top,
-.idp-drawer--no-mask .idp-drawer-resize-handle--bottom {
+.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--top,
+.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--bottom {
     position: fixed;
 }

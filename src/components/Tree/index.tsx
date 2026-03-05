@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useCallback, useMemo, useRef, useEffect, memo, forwardRef, useImperativeHandle } from 'react';
+import classNames from 'classnames';
 import { TreeProps, TreeNode, TreeNodeTooltip } from './types';
 import Tooltip from '../Tooltip';
 import './Tree.css';
@@ -509,12 +510,16 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
   const renderCheckbox = () => {
     if (!checkable) return null;
 
-    const checkboxClasses = [
+    const checkboxClasses = classNames(
       `${prefixCls}-checkbox`,
-      checked && !halfChecked && `${prefixCls}-checkbox-checked`,
-      halfChecked && `${prefixCls}-checkbox-indeterminate`,
-      (isDisabled || node.disableCheckbox) && `${prefixCls}-checkbox-disabled`,
-    ].filter(Boolean).join(' ');
+      {
+        [`${prefixCls}-checkbox-checked`]: checked && !halfChecked,
+        [`${prefixCls}-checkbox-indeterminate`]: halfChecked,
+        [`${prefixCls}-checkbox-disabled`]: isDisabled || node.disableCheckbox,
+        [`${prefixCls}-checkbox-disabled-checked`]: (isDisabled || node.disableCheckbox) && checked && !halfChecked,
+        [`${prefixCls}-checkbox-disabled-indeterminate`]: (isDisabled || node.disableCheckbox) && halfChecked,
+      }
+    );
 
     return <span className={checkboxClasses} onClick={handleCheck} />;
   };
@@ -667,7 +672,7 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
             <div className={`${prefixCls}-action-menu`}>
               {addable && (
                 <div
-                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-add`}
+                  className={classNames(`${prefixCls}-action-menu-item`, `${prefixCls}-action-menu-add`)}
                   onClick={handleAdd}
                 >
                   <span className={`${prefixCls}-action-menu-icon`}>+</span>
@@ -676,7 +681,7 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
               )}
               {editable && (
                 <div
-                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-edit`}
+                  className={classNames(`${prefixCls}-action-menu-item`, `${prefixCls}-action-menu-edit`)}
                   onClick={handleEdit}
                 >
                   <span className={`${prefixCls}-action-menu-icon`}>✎</span>
@@ -685,7 +690,7 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = memo(({
               )}
               {removable && (
                 <div
-                  className={`${prefixCls}-action-menu-item ${prefixCls}-action-menu-remove`}
+                  className={classNames(`${prefixCls}-action-menu-item`, `${prefixCls}-action-menu-remove`)}
                   onClick={handleRemove}
                 >
                   <span className={`${prefixCls}-action-menu-icon`}>×</span>

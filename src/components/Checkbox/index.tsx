@@ -65,12 +65,15 @@ const Checkbox: React.FC<CheckboxProps> & { Group: React.FC<CheckboxGroupProps> 
         }
     };
     
+    const isDisabled = disabled || (isGroupMode && groupContext.disabled);
     const classes = classNames(
         'idp-checkbox',
         {
             'idp-checkbox--checked': isChecked,
-            'idp-checkbox--disabled': disabled || (isGroupMode && groupContext.disabled),
-            'idp-checkbox--indeterminate': indeterminate
+            'idp-checkbox--disabled': isDisabled,
+            'idp-checkbox--indeterminate': indeterminate,
+            'idp-checkbox--disabled-checked': isDisabled && isChecked,
+            'idp-checkbox--disabled-indeterminate': isDisabled && indeterminate
         },
         className
     );

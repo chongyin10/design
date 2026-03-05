@@ -57,7 +57,7 @@ const TimeColumn: React.FC<TimeColumnProps> = ({ options, value, onChange, unit 
                         key={opt}
                         ref={value === opt ? selectedRef : null}
                         className={classNames('time-picker-option', {
-                            selected: value === opt,
+                            'is-selected': value === opt,
                         })}
                         onClick={() => onChange?.(opt)}
                     >

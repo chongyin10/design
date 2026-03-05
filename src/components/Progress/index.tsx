@@ -104,7 +104,7 @@ const Progress: React.FC<ProgressProps> = ({
 
         return (
             <div
-                className={classNames('idp-progress', 'idp-progress--circle', className)}
+                className={classNames('idp-progress', 'idp-progress-circle', className)}
                 style={style}
             >
                 <svg
@@ -145,7 +145,7 @@ const Progress: React.FC<ProgressProps> = ({
                     />
                 </svg>
                 {showInfo && (
-                    <div className="idp-progress-info" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}>
+                    <div className="idp-progress-info">
                         {children || (
                             <>
                                 {renderIcon()}
@@ -285,12 +285,12 @@ const Progress: React.FC<ProgressProps> = ({
         <div
             className={classNames(
                 'idp-progress',
-                `idp-progress--${size}`,
-                `idp-progress--line`,
-                { 'idp-progress--success': status === 'success' },
-                { 'idp-progress--exception': status === 'exception' },
-                { 'idp-progress--steps': steps && steps > 0 },
-                { 'idp-progress--has-segments': segments && segments.length > 0 },
+                `idp-progress-${size}`,
+                `idp-progress-line`,
+                { 'idp-progress-success': status === 'success' },
+                { 'idp-progress-exception': status === 'exception' },
+                { 'idp-progress-steps': steps && steps > 0 },
+                { 'idp-progress-has-segments': segments && segments.length > 0 },
                 className
             )}
             style={style}

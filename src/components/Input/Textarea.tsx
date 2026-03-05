@@ -276,7 +276,7 @@ const Textarea: React.FC<TextareaProps> = ({
                 </div>
             )}
             <div
-                className={`input-wrapper textarea-input-wrapper ${isFocused ? 'focused' : ''} ${disabled ? 'disabled' : ''} ${isResizing ? 'resizing' : ''}`}
+                className={`input-wrapper textarea-input-wrapper ${isFocused ? 'textarea-input-wrapper-focused' : ''} ${disabled ? 'textarea-input-wrapper-disabled' : ''} ${isResizing ? 'textarea-input-wrapper-resizing' : ''}`}
                 style={textareaWrapperStyle}
             >
                 <textarea

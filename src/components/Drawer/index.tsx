@@ -483,6 +483,7 @@ const Drawer: React.FC<DrawerProps> = ({
                         {
                             'idp-drawer-wrapper--visible': isOpening && !isClosing,
                             'idp-drawer-wrapper--closing': isClosing,
+                            'idp-drawer-wrapper--no-mask': !mask,
                         }
                     )}
                     style={{ zIndex }}

@@ -286,8 +286,8 @@ export const Splitter: React.FC<SplitterProps> = ({
 
   const containerClassName = [
     'idp-splitter',
-    `idp-splitter--${layout}`,
-    isDragging ? 'idp-splitter--dragging' : '',
+    `idp-splitter-${layout}`,
+    isDragging ? 'idp-splitter-dragging' : '',
     className,
   ].filter(Boolean).join(' ');
 
@@ -316,9 +316,9 @@ export const Splitter: React.FC<SplitterProps> = ({
               <div
                 className={[
                   'idp-splitter__bar',
-                  activeSplitterIndex === index ? 'idp-splitter__bar--dragging' : '',
+                  activeSplitterIndex === index ? 'idp-splitter__bar-dragging' : '',
                   disabled || getPanelConfig(index).disabled || getPanelConfig(index + 1).disabled
-                    ? 'idp-splitter__bar--disabled'
+                    ? 'idp-splitter__bar-disabled'
                     : '',
                 ].filter(Boolean).join(' ')}
                 style={getSplitterBarStyle(layout, splitterSize, disabled, index)}

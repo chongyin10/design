@@ -102,7 +102,9 @@ const Radio: React.FC<RadioProps> & { Group: React.FC<RadioGroupProps> } = ({
         'idp-radio',
         {
             'idp-radio--checked': isChecked,
+            'idp-radio--unchecked': !isChecked,
             'idp-radio--disabled': disabled || (isGroupMode && groupContext.disabled),
+            'idp-radio--disabled-checked': isChecked && (disabled || (isGroupMode && groupContext.disabled)),
             [`idp-radio--${finalSize}`]: finalSize,
             'idp-radio--button': isButtonType
         },
@@ -237,7 +239,10 @@ Radio.Group = ({
         'idp-radio-group',
         {
             'idp-radio-group--button': type === 'button',
-            [`idp-radio-group--${size}`]: size
+            [`idp-radio-group--${size}`]: size,
+            'idp-radio-group--button-large': type === 'button' && size === 'large',
+            'idp-radio-group--button-middle': type === 'button' && size === 'middle',
+            'idp-radio-group--button-small': type === 'button' && size === 'small'
         },
         className
     );

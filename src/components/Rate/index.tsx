@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect, useLayoutEffect } from 'react';
+import classNames from 'classnames';
 import './Rate.css';
 import { RateProps } from './types';
 import Icon from '../Icon/Icon';
@@ -217,8 +218,12 @@ export const Rate: React.FC<RateProps> = ({
         />
         
         {/* 前景实心图标，通过CSS控制显示区域 */}
-        <span 
-          className={`rate-star-fill ${star.isHalf ? 'half' : ''} ${star.isFull ? 'full' : ''}`}
+        <span
+          className={classNames('rate-star-fill', {
+            'rate-star-fill-half': star.isHalf,
+            'rate-star-fill-full': star.isFull,
+            'rate-star-fill-empty': !star.isHalf && !star.isFull
+          })}
           style={{ color: star.iconColor }}
         >
           <Icon 
@@ -234,7 +239,12 @@ export const Rate: React.FC<RateProps> = ({
 
   return (
     <div
-      className={`rate ${disabled ? 'disabled' : ''} ${isChatsMode ? 'rate-chats-mode' : 'rate-star-mode'} ${className}`}
+      className={classNames('rate', {
+        'rate-disabled': disabled,
+        'rate-chats-mode': isChatsMode,
+        'rate-chats-mode-disabled': isChatsMode && disabled,
+        'rate-star-mode': !isChatsMode
+      }, className)}
       style={{
         '--rate-color': color,
       } as React.CSSProperties}

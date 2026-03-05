@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import classNames from 'classnames';
 import { MenuProps, MenuItem, MenuItemComponentProps } from './types';
 import { useClickOutside } from '../Hooks/useClickOutside';
 import './index.css';
@@ -10,7 +11,7 @@ import './index.css';
 const renderCollapsedLabel = (label: string): React.ReactNode => {
   const trimmedLabel = label.trim();
   if (!trimmedLabel) return '';
-  
+
   // 使用 Array.from 正确处理 Unicode 字符（包括中文、emoji等）
   const chars = Array.from(trimmedLabel);
   return chars[0]?.toUpperCase() || '';
@@ -117,36 +118,71 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
 
   // 根据当前模式决定子菜单如何展开
   const getSubMenuClass = () => {
-    const baseClass = isHorizontal && isRoot ? 'horizontal-popup' : '';
-    const openClass = (isHorizontal && isRoot)
-      ? (isHorizontalSubMenuVisible ? 'open' : '')
-      : (shouldOpen ? 'open' : '');
-    const inlineClass = isInline && shouldOpen ? 'open inline' : '';
+    if (isVerticalFlat) return 'idp-menu-submenu-vertical-flat idp-menu-submenu-vertical-flat-open';
 
-    // 扁平垂直模式下子菜单始终展开
-    if (isVerticalFlat) return 'open vertical-flat';
+    if (isHorizontal && isRoot) {
+      return classNames('idp-menu-submenu-horizontal-popup', {
+        'idp-menu-submenu-horizontal-popup-open': isHorizontalSubMenuVisible
+      });
+    }
 
-    if (isHorizontal && isRoot) return `${openClass} ${baseClass}`.trim();
-    if (isInline) return inlineClass;
-    return shouldOpen ? 'open' : '';
+    if (isInline) {
+      return classNames('idp-menu-submenu-inline', {
+        'idp-menu-submenu-inline-open': shouldOpen
+      });
+    }
+
+    return classNames('idp-menu-submenu-vertical', {
+      'idp-menu-submenu-vertical-open': shouldOpen
+    });
   };
 
   // 根据层级确定主题：根目录使用传入的 theme，子目录根据层级切换
   const itemTheme = theme || 'light';
 
+  // 菜单项 wrapper 类名
+  const itemWrapperClass = classNames('idp-menu-item-wrapper', {
+    'idp-menu-item-wrapper-root': isRoot,
+    'idp-menu-item-wrapper-collapsed': collapsed && isRoot
+  });
+
+  // 菜单项类名
+  const itemClass = classNames('idp-menu-item', {
+    [`idp-menu-item-${itemTheme}`]: true,
+    [`idp-menu-item-${itemTheme}-selected`]: isSelected,
+    [`idp-menu-item-${itemTheme}-selected-vertical`]: isSelected && (mode === 'vertical' || mode === 'inline' || mode === 'vertical-flat'),
+    'idp-menu-item-disabled': item.disabled,
+    'idp-menu-item-has-children': hasChildren,
+    'idp-menu-item-has-children-selected': hasChildren && isSelected,
+    [`idp-menu-item-${itemTheme}-has-children`]: hasChildren,
+    'idp-menu-item-root': isRoot,
+    'idp-menu-item-collapsed': collapsed && isRoot
+  });
+
+  // 图标类名
+  const iconClass = classNames('idp-menu-item-icon', {
+    'idp-menu-item-icon-collapsed': collapsed
+  });
+
+  // 箭头类名
+  const arrowClass = classNames('idp-menu-item-arrow', {
+    'idp-menu-item-arrow-open': shouldOpen,
+    'idp-menu-item-arrow-horizontal': isHorizontal,
+    'idp-menu-item-arrow-horizontal-open': shouldOpen && isHorizontal
+  });
+
+  // 子菜单 wrapper 类名
+  const subMenuWrapperClass = classNames('idp-menu-submenu-wrapper', {
+    [`idp-menu-submenu-wrapper-${mode}`]: true,
+    'idp-menu-submenu-wrapper-horizontal-popup': isHorizontal && isRoot,
+    'idp-menu-submenu-wrapper-vertical-flat': isVerticalFlat,
+    'idp-menu-submenu-wrapper-vertical-flat-container': isVerticalFlat
+  });
+
   return (
-    <div className={`idp-menu-item-wrapper ${isRoot ? 'root' : ''}`}>
+    <div className={itemWrapperClass}>
       <div
-        className={`
-          idp-menu-item
-          ${isSelected ? 'selected' : ''}
-          ${item.disabled ? 'disabled' : ''}
-          ${hasChildren ? 'has-children' : ''}
-          ${isRoot ? 'root' : ''}
-          ${collapsed && isRoot ? 'collapsed' : ''}
-          ${mode}
-          ${itemTheme}
-        `}
+        className={itemClass}
         style={{ padding: `0px ${paddingLeft}px` }}
         title={collapsed && isRoot ? item.label : undefined}
         onClick={handleClick}
@@ -156,7 +192,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
           {collapsed ? (
             <>
               {item.icon ? (
-                <span className="idp-menu-item-icon collapsed">
+                <span className={iconClass}>
                   {item.icon}
                 </span>
               ) : (
@@ -181,7 +217,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
             </>
           )}
           {showArrow && (
-            <span className={`idp-menu-item-arrow ${shouldOpen ? 'open' : ''} ${mode}`}>
+            <span className={arrowClass}>
               <svg viewBox="0 0 1024 1024" width="10" height="10" fill="currentColor">
                 <path d="M840.4 300H183.6c-19.7 0-30.7 25.7-18.5 40.5l328.4 402.4c9.4 11.6 26.7 11.6 36.1 0l328.4-402.4c12.2-14.8 1.2-40.5-18.5-40.5z" />
               </svg>
@@ -193,8 +229,8 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       {/* 子菜单 */}
       {/* 水平弹出式子菜单使用延迟卸载避免抖动，垂直/内联/扁平垂直模式始终渲染以支持动画 */}
       {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
-        <div className={`idp-menu-submenu-wrapper ${mode} ${isHorizontal && isRoot ? 'horizontal-popup-wrapper' : ''} ${isVerticalFlat ? 'vertical-flat' : ''}`}>
-          <div className={`idp-menu-submenu ${getSubMenuClass()} ${mode}`}>
+        <div className={subMenuWrapperClass}>
+          <div className={getSubMenuClass()}>
             <div className="idp-menu-submenu-content">
               {item.children?.map((child: MenuItem) => (
                 <MenuItemComponent
@@ -357,10 +393,22 @@ const Menu: React.FC<MenuProps> = ({
     return null;
   }
 
+  // 菜单根元素类名
+  const menuClass = classNames(
+    'idp-menu',
+    `idp-menu-${theme}`,
+    {
+      [`idp-menu-${mode}`]: true,
+      [`idp-menu-${mode}-collapsed`]: effectiveCollapsed,
+      'idp-menu-dark-vertical-flat': theme === 'dark' && mode === 'vertical-flat'
+    },
+    className
+  );
+
   return (
     <div
       ref={menuRef}
-      className={`idp-menu idp-menu-${theme} idp-menu-${mode} ${effectiveCollapsed ? 'collapsed' : ''} ${className}`}
+      className={menuClass}
       style={style}
       role="menu"
     >

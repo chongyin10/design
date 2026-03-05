@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import './Divider.css';
 
 export interface DividerProps {
@@ -16,12 +17,23 @@ const Divider: React.FC<DividerProps> = ({
     className = '',
     style
 }) => {
+    const isPrimary = color !== '#339af0' && color !== undefined;
+    const classes = classNames(
+        'divider',
+        `divider-${orientation}`,
+        {
+            [`divider-${type}-${orientation}`]: type === 'dashed',
+            'divider-primary': isPrimary,
+            'divider-primary-with-text': isPrimary,
+        },
+        className
+    );
+
     return (
         <div
-            className={`divider divider-${orientation} divider-${type} ${className}`}
+            className={classes}
             style={{
-                backgroundColor: orientation === 'horizontal' ? color : 'transparent',
-                borderColor: orientation === 'vertical' ? color : 'transparent',
+                backgroundColor: color,
                 ...style
             }}
         />

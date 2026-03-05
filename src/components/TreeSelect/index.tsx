@@ -154,18 +154,41 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         }
     }, [open, showSearch]);
     
+    // 获取节点下的所有叶子节点值
+    const getAllLeafValues = useCallback((node: TreeSelectNode): any[] => {
+        const values: any[] = [];
+        const traverse = (n: TreeSelectNode) => {
+            const children = getNodeChildren(n);
+            if (!children || children.length === 0) {
+                // 叶子节点
+                values.push(getNodeValue(n));
+            } else {
+                // 父节点，继续遍历子节点
+                children.forEach(traverse);
+            }
+        };
+        traverse(node);
+        return values;
+    }, [getNodeValue, getNodeChildren]);
+    
     // 处理节点选择
     const handleSelect = useCallback((node: TreeSelectNode) => {
         const nodeValue = getNodeValue(node);
+        const children = getNodeChildren(node);
+        const hasChildren = children && children.length > 0;
         
         if (multiple) {
-            const isSelected = currentValue.includes(nodeValue);
+            // 判断当前节点或其子节点是否已被选中
+            const leafValues = hasChildren ? getAllLeafValues(node) : [nodeValue];
+            const isAnySelected = leafValues.some(v => currentValue.includes(v));
             let newValue: any[];
             
-            if (isSelected) {
-                newValue = currentValue.filter(v => v !== nodeValue);
+            if (isAnySelected) {
+                // 取消选中：移除所有相关叶子节点
+                newValue = currentValue.filter(v => !leafValues.includes(v));
             } else {
-                newValue = [...currentValue, nodeValue];
+                // 选中：添加所有叶子节点（去重）
+                newValue = [...new Set([...currentValue, ...leafValues])];
             }
             
             const newSelectedNodes = newValue.map(v => findNodeByValue(v)).filter(Boolean) as TreeSelectNode[];
@@ -175,6 +198,12 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             }
             onChange?.(newValue, newSelectedNodes);
         } else {
+            // 单选模式：只有叶子节点才可以被选中
+            if (hasChildren) {
+                // 父节点只展开/折叠，不选中
+                return;
+            }
+            
             if (value === undefined) {
                 setInternalValue([nodeValue]);
             }
@@ -185,7 +214,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         if (autoClearSearchValue) {
             setSearchValue('');
         }
-    }, [currentValue, multiple, getNodeValue, findNodeByValue, value, onChange, autoClearSearchValue]);
+    }, [currentValue, multiple, getNodeValue, getNodeChildren, getAllLeafValues, findNodeByValue, value, onChange, autoClearSearchValue]);
     
     // 处理清除
     const handleClear = useCallback((e: React.MouseEvent) => {
@@ -245,13 +274,25 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         });
     }, [getNodeChildren, isNodeMatchSearch]);
     
+    // 检查节点是否被级联选中（所有子节点都被选中）
+    const isNodeCascadeSelected = useCallback((node: TreeSelectNode): boolean => {
+        const leafValues = getAllLeafValues(node);
+        if (leafValues.length === 0) return false;
+        return leafValues.every(v => currentValue.includes(v));
+    }, [getAllLeafValues, currentValue]);
+    
     // 渲染树节点
     const renderTreeNode = useCallback((node: TreeSelectNode, level: number = 0): React.ReactNode => {
         const nodeValue = getNodeValue(node);
         const title = getNodeTitle(node);
         const children = getNodeChildren(node);
         const hasChildren = children && children.length > 0;
-        const isSelected = currentValue.includes(nodeValue);
+        // 选中状态判断：
+        // - 多选模式：父节点判断是否级联选中，叶子节点直接判断
+        // - 单选模式：只有叶子节点可以被选中
+        const isSelected = multiple
+            ? (hasChildren ? isNodeCascadeSelected(node) : currentValue.includes(nodeValue))
+            : (!hasChildren && currentValue.includes(nodeValue));
         const isExpanded = expandedKeys.has(nodeValue);
         const isDisabled = !!node.disabled;
         
@@ -266,9 +307,9 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             <TreeNodeWrapper key={String(nodeValue)} className="treeselect-tree-node-wrapper">
                 <TreeNode
                     className={classNames('treeselect-tree-node', {
-                        'treeselect-tree-node--selected': isSelected,
-                        'treeselect-tree-node--disabled': isDisabled,
-                        'treeselect-tree-node--leaf': !hasChildren
+                        'treeselect-tree-node-selected': isSelected,
+                        'treeselect-tree-node-disabled': isDisabled,
+                        'treeselect-tree-node-leaf': !hasChildren
                     })}
                     $selected={isSelected}
                     $disabled={isDisabled}
@@ -279,8 +320,8 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                     {/* 展开/折叠图标 */}
                     <ExpandIcon
                         className={classNames('treeselect-tree-node__expand-icon', {
-                            'treeselect-tree-node__expand-icon--expanded': isExpanded,
-                            'treeselect-tree-node__expand-icon--no-children': !hasChildren
+                            'treeselect-tree-node__expand-icon-expanded': isExpanded,
+                            'treeselect-tree-node__expand-icon-no-children': !hasChildren
                         })}
                         $expanded={isExpanded}
                         $hasChildren={!!hasChildren}
@@ -296,7 +337,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                         <Checkbox className="treeselect-tree-node__checkbox">
                             <CheckboxInner
                                 className={classNames('treeselect-tree-node__checkbox-inner', {
-                                    'treeselect-tree-node__checkbox-inner--checked': isSelected
+                                    'treeselect-tree-node__checkbox-inner-checked': isSelected
                                 })}
                                 $checked={isSelected}
                             >
@@ -317,7 +358,26 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                 )}
             </TreeNodeWrapper>
         );
-    }, [currentValue, expandedKeys, getNodeValue, getNodeTitle, getNodeChildren, multiple, isNodeMatchSearch, hasChildMatchSearch, handleSelect, toggleExpand, styles?.treeNode]);
+    }, [currentValue, expandedKeys, getNodeValue, getNodeTitle, getNodeChildren, multiple, isNodeMatchSearch, hasChildMatchSearch, isNodeCascadeSelected, handleSelect, toggleExpand, styles?.treeNode]);
+    
+    // 获取叶子节点（没有子节点的节点）
+    const getLeafNodes = useCallback((nodes: TreeSelectNode[]): TreeSelectNode[] => {
+        const result: TreeSelectNode[] = [];
+        const traverse = (node: TreeSelectNode) => {
+            const children = getNodeChildren(node);
+            if (!children || children.length === 0) {
+                // 叶子节点
+                if (currentValue.includes(getNodeValue(node))) {
+                    result.push(node);
+                }
+            } else {
+                // 父节点，继续遍历子节点
+                children.forEach(traverse);
+            }
+        };
+        nodes.forEach(traverse);
+        return result;
+    }, [currentValue, getNodeValue, getNodeChildren]);
     
     // 渲染选中的标签
     const renderTags = useCallback(() => {
@@ -331,16 +391,19 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             );
         }
         
-        if (selectedNodes.length === 0) {
+        // 多选模式下，只显示叶子节点的标签
+        const leafNodes = getLeafNodes(treeData);
+        
+        if (leafNodes.length === 0) {
             return placeholder;
         }
         
-        let displayNodes = selectedNodes;
+        let displayNodes = leafNodes;
         let hiddenCount = 0;
         
-        if (maxTagCount !== undefined && maxTagCount > 0 && selectedNodes.length > maxTagCount) {
-            displayNodes = selectedNodes.slice(0, maxTagCount);
-            hiddenCount = selectedNodes.length - maxTagCount;
+        if (maxTagCount !== undefined && maxTagCount > 0 && leafNodes.length > maxTagCount) {
+            displayNodes = leafNodes.slice(0, maxTagCount);
+            hiddenCount = leafNodes.length - maxTagCount;
         }
         
         return (
@@ -376,7 +439,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                 )}
             </>
         );
-    }, [multiple, selectedNodes, maxTagCount, getNodeValue, getNodeTitle, handleRemoveTag, placeholder, size, styles?.tag]);
+    }, [multiple, selectedNodes, treeData, maxTagCount, getNodeValue, getNodeTitle, handleRemoveTag, getLeafNodes, placeholder, size, styles?.tag]);
     
     const classes = classNames('treeselect-wrapper', className);
     
@@ -390,8 +453,8 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             {/* 选择框 */}
             <Selection
                 className={classNames('treeselect-selection', {
-                    'treeselect-selection--open': open,
-                    'treeselect-selection--disabled': disabled
+                    'treeselect-selection-open': open,
+                    'treeselect-selection-disabled': disabled
                 })}
                 $open={open}
                 $disabled={disabled}
@@ -439,7 +502,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                 {/* 下拉箭头 */}
                 <ArrowIcon
                     className={classNames('treeselect-selection__arrow', {
-                        'treeselect-selection__arrow--open': open
+                        'treeselect-selection__arrow-open': open
                     })}
                     $open={open}
                     $size={size}

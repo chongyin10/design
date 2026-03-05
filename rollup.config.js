@@ -119,7 +119,7 @@ export default {
     postcss({
       plugins: [autoprefixer()],
       extract: true,
-      minimize: true,
+      minimize: false,
       sourceMap: false,
       // 确保CSS导入和变量被正确处理
       inject: false,

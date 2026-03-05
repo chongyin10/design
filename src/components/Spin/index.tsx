@@ -3,10 +3,10 @@ import { SpinProps, SpinSize } from './types';
 import './Spin.css';
 
 // 默认加载图标 - 使用与 Table 组件相同的 SVG 加载动画
-const DefaultLoadingIcon: React.FC<{ size: number }> = ({ size }) => (
+const DefaultLoadingIcon: React.FC<{ size: number; sizeType: string }> = ({ size, sizeType }) => (
     <svg
         viewBox="0 0 24 24"
-        className="idp-spin-icon"
+        className={`idp-spin-icon idp-spin-icon-${sizeType}`}
         style={{ width: size, height: size }}
     >
         <circle
@@ -73,14 +73,14 @@ const Spin: React.FC<SpinProps> = ({
         if (indicator) {
             return indicator;
         }
-        return <DefaultLoadingIcon size={actualSize} />;
-    }, [indicator, actualSize]);
+        return <DefaultLoadingIcon size={actualSize} sizeType={size} />;
+    }, [indicator, actualSize, size]);
 
     // 渲染加载内容
     const renderSpinContent = () => (
-        <div className={`idp-spin-content ${tip ? 'idp-spin-has-tip' : ''}`}>
+        <div className={`idp-spin-content ${tip ? 'idp-spin-content-tip' : ''}`}>
             {renderIndicator}
-            {tip && <div className="idp-spin-tip">{tip}</div>}
+            {tip && <div className={`idp-spin-tip idp-spin-tip-${size}`}>{tip}</div>}
         </div>
     );
 
@@ -103,7 +103,7 @@ const Spin: React.FC<SpinProps> = ({
             >
                 {children}
                 {internalSpinning && showSpinner && (
-                    <div className={`idp-spin-mask idp-spin-mask-${size}`}>
+                    <div className="idp-spin-mask">
                         {renderSpinContent()}
                     </div>
                 )}
@@ -115,7 +115,7 @@ const Spin: React.FC<SpinProps> = ({
     if (!internalSpinning || !showSpinner) return null;
 
     return (
-        <div className={`idp-spin idp-spin-${size} ${className}`} style={style}>
+        <div className={`idp-spin ${className}`} style={style}>
             {renderSpinContent()}
         </div>
     );

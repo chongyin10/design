@@ -11,14 +11,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: var(--idp-z-index-modal);
-    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .idp-modal-overlay--visible {
@@ -27,29 +26,13 @@
         rgba(0, 0, 0, 0.45) 0%,
         rgba(0, 0, 0, 0.55) 100%
     );
-    opacity: 1;
     pointer-events: auto;
-}
-
-.idp-modal-overlay::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.idp-modal-overlay--visible::before {
-    opacity: 1;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .idp-modal-overlay--closing {
-    opacity: 0;
+    background-color: rgba(0, 0, 0, 0);
     pointer-events: none;
 }
 

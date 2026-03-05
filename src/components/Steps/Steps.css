@@ -51,7 +51,7 @@
 }
 
 /* 面板类型容器 */
-.idp-steps.panel {
+.idp-steps .idp-steps-panel {
   background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
   border-radius: var(--idp-steps-border-radius);
   padding: 24px;
@@ -60,31 +60,31 @@
 }
 
 /* 方向布局 */
-.idp-steps.horizontal {
+.idp-steps .idp-steps-direction-horizontal {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 }
 
-.idp-steps.vertical {
+.idp-steps .idp-steps-direction-vertical {
   flex-direction: column;
 }
 
 /* ============================================
    Size Variants - 尺寸变体
    ============================================ */
-.idp-steps.small .idp-step-node {
+.idp-steps .idp-steps-size-small .idp-step-node {
   width: var(--idp-steps-node-small);
   height: var(--idp-steps-node-small);
   font-size: 12px;
   min-width: var(--idp-steps-node-small);
 }
 
-.idp-steps.small .idp-step-title {
+.idp-steps .idp-steps-size-small .idp-step-title {
   font-size: 12px;
 }
 
-.idp-steps.small .idp-step-description {
+.idp-steps .idp-steps-size-small .idp-step-description {
   font-size: 11px;
 }
 
@@ -100,7 +100,7 @@
 }
 
 /* 面板类型步骤项 */
-.idp-steps.panel .idp-step {
+.idp-steps .idp-steps-panel .idp-step {
   background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
   border-radius: var(--idp-border-radius-md, 6px);
   padding: 16px;
@@ -110,38 +110,38 @@
   box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.idp-steps.panel .idp-step:hover {
+.idp-steps .idp-steps-panel .idp-step:hover {
   box-shadow: var(--idp-steps-shadow-md);
   transform: translateY(-2px);
   border-color: var(--idp-steps-primary-color);
 }
 
-.idp-steps.panel .idp-step.process {
+.idp-steps .idp-steps-panel .idp-step .idp-step-process {
   border-color: var(--idp-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.02) 100%);
   box-shadow: var(--idp-steps-shadow-primary);
 }
 
-.idp-steps.panel .idp-step.finish {
+.idp-steps .idp-steps-panel .idp-step .idp-step-finish {
   border-color: var(--idp-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.02) 100%);
   box-shadow: var(--idp-steps-shadow-success);
 }
 
-.idp-steps.panel .idp-step.error {
+.idp-steps .idp-steps-panel .idp-step .idp-step-error {
   border-color: var(--idp-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, rgba(245, 34, 45, 0.02) 100%);
   box-shadow: var(--idp-steps-shadow-error);
 }
 
 /* 禁用状态 */
-.idp-step.disabled {
+.idp-step .idp-step-disabled {
   cursor: not-allowed;
   opacity: var(--idp-opacity-disabled, 0.65);
 }
 
 /* 水平方向 */
-.idp-step.horizontal {
+.idp-step .idp-step-direction-horizontal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,7 +152,7 @@
 }
 
 /* 垂直方向 */
-.idp-step.vertical {
+.idp-step .idp-step-direction-vertical {
   display: flex;
   align-items: flex-start;
   padding: 8px 0;
@@ -169,13 +169,13 @@
   justify-content: center;
 }
 
-.idp-step.horizontal .idp-step-head {
+.idp-step .idp-step-direction-horizontal .idp-step-head {
   margin-bottom: 8px;
   position: relative;
   width: 100%;
 }
 
-.idp-step.vertical .idp-step-head {
+.idp-step .idp-step-direction-vertical .idp-step-head {
   margin-right: 16px;
 }
 
@@ -207,13 +207,13 @@
 }
 
 /* 等待状态 */
-.idp-step-node.wait {
+.idp-step-node .idp-step-node-wait {
   border-color: var(--idp-steps-wait-color);
   color: var(--idp-steps-wait-color);
 }
 
 /* 进行中状态 */
-.idp-step-node.process {
+.idp-step-node .idp-step-node-process {
   border-color: var(--idp-steps-primary-color);
   background: linear-gradient(135deg, var(--idp-steps-primary-color) 0%, var(--idp-steps-primary-hover) 100%);
   color: var(--idp-steps-bg);
@@ -222,7 +222,7 @@
 }
 
 /* 完成状态 */
-.idp-step-node.finish {
+.idp-step-node .idp-step-node-finish {
   border-color: var(--idp-steps-success-color);
   background: linear-gradient(135deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
   color: var(--idp-steps-bg);
@@ -231,7 +231,7 @@
 }
 
 /* 错误状态 */
-.idp-step-node.error {
+.idp-step-node .idp-step-node-error {
   border-color: var(--idp-steps-error-color);
   background: linear-gradient(135deg, var(--idp-steps-error-color) 0%, var(--idp-steps-error-hover) 100%);
   color: var(--idp-steps-bg);
@@ -297,32 +297,32 @@
   justify-content: center;
 }
 
-.idp-step.finish .idp-step-arrow {
+.idp-step .idp-step-finish .idp-step-arrow {
   color: var(--idp-steps-success-color);
 }
 
-.idp-step.process .idp-step-arrow {
+.idp-step .idp-step-process .idp-step-arrow {
   color: var(--idp-steps-primary-color);
   transform: translateY(-50%) scale(1.2);
 }
 
-.idp-step.error .idp-step-arrow {
+.idp-step .idp-step-error .idp-step-arrow {
   color: var(--idp-steps-error-color);
 }
 
-.idp-step.finish .idp-step-tail-title {
+.idp-step .idp-step-finish .idp-step-tail-title {
   color: var(--idp-steps-success-color);
   border-color: var(--idp-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
-.idp-step.process .idp-step-tail-title {
+.idp-step .idp-step-process .idp-step-tail-title {
   color: var(--idp-steps-primary-color);
   border-color: var(--idp-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
-.idp-step.error .idp-step-tail-title {
+.idp-step .idp-step-error .idp-step-tail-title {
   color: var(--idp-steps-error-color);
   border-color: var(--idp-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
@@ -331,7 +331,7 @@
 /* ============================================
    Horizontal Direction - 水平方向样式
    ============================================ */
-.idp-step.horizontal .idp-step-tail {
+.idp-step .idp-step-direction-horizontal .idp-step-tail {
   top: 50%;
   left: 50%;
   width: 110%;
@@ -344,7 +344,7 @@
 /* ============================================
    Vertical Direction - 垂直方向样式
    ============================================ */
-.idp-step.vertical .idp-step-tail {
+.idp-step .idp-step-direction-vertical .idp-step-tail {
   top: 100%;
   left: 50%;
   width: 2px;
@@ -355,7 +355,7 @@
   justify-content: center;
 }
 
-.idp-step.vertical .idp-step-tail-dashed {
+.idp-step .idp-step-direction-vertical .idp-step-tail-dashed {
   background: repeating-linear-gradient(
     180deg,
     var(--idp-steps-border-color),
@@ -365,7 +365,7 @@
   );
 }
 
-.idp-step.vertical .idp-step-tail-title {
+.idp-step .idp-step-direction-vertical .idp-step-tail-title {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -382,19 +382,19 @@
   box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.idp-step.vertical.finish .idp-step-tail-title {
+.idp-step .idp-step-direction-vertical.idp-step-finish .idp-step-tail-title {
   color: var(--idp-steps-success-color);
   border-color: var(--idp-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
-.idp-step.vertical.process .idp-step-tail-title {
+.idp-step .idp-step-direction-vertical.idp-step-process .idp-step-tail-title {
   color: var(--idp-steps-primary-color);
   border-color: var(--idp-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
 }
 
-.idp-step.vertical.error .idp-step-tail-title {
+.idp-step .idp-step-direction-vertical.idp-step-error .idp-step-tail-title {
   color: var(--idp-steps-error-color);
   border-color: var(--idp-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
@@ -403,19 +403,19 @@
 /* ============================================
    Tail Color States - 连接线状态颜色
    ============================================ */
-.idp-step.finish .idp-step-tail {
+.idp-step .idp-step-finish .idp-step-tail {
   background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 1.2s ease-in-out forwards;
 }
 
-.idp-step.process .idp-step-tail {
+.idp-step .idp-step-process .idp-step-tail {
   background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-primary-color) 50%, var(--idp-steps-primary-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.8s ease-in-out forwards;
 }
 
-.idp-step.error .idp-step-tail {
+.idp-step .idp-step-error .idp-step-tail {
   background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-error-color) 50%, var(--idp-steps-error-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.6s ease-in-out forwards;
@@ -428,19 +428,19 @@
   flex: 1;
 }
 
-.idp-step.horizontal .idp-step-content {
+.idp-step .idp-step-direction-horizontal .idp-step-content {
   max-width: 120px;
   word-wrap: break-word;
 }
 
-.idp-step.vertical .idp-step-content {
+.idp-step .idp-step-direction-vertical .idp-step-content {
   padding-top: 4px;
   max-width: 180px;
   min-width: 100px;
   word-wrap: break-word;
 }
 
-.idp-steps.panel .idp-step-content {
+.idp-steps .idp-steps-panel .idp-step-content {
   margin-top: 12px;
   padding: 0;
   max-width: 150px;
@@ -458,30 +458,30 @@
   transition: color var(--idp-transition-duration, 0.2s) ease;
 }
 
-.idp-steps.panel .idp-step-title {
+.idp-steps .idp-steps-panel .idp-step-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
 /* 标题状态颜色 */
-.idp-step.wait .idp-step-title {
+.idp-step .idp-step-wait .idp-step-title {
   color: var(--idp-steps-wait-color);
 }
 
-.idp-step.process .idp-step-title {
+.idp-step .idp-step-process .idp-step-title {
   color: var(--idp-steps-primary-color);
 }
 
-.idp-step.finish .idp-step-title {
+.idp-step .idp-step-finish .idp-step-title {
   color: var(--idp-steps-success-color);
 }
 
-.idp-step.error .idp-step-title {
+.idp-step .idp-step-error .idp-step-title {
   color: var(--idp-steps-error-color);
 }
 
-.idp-step.disabled .idp-step-title {
+.idp-step .idp-step-disabled .idp-step-title {
   color: var(--idp-steps-disabled-color);
 }
 
@@ -494,32 +494,32 @@
   line-height: 1.4;
 }
 
-.idp-steps.panel .idp-step-description {
+.idp-steps .idp-steps-panel .idp-step-description {
   font-size: 14px;
   line-height: 1.5;
 }
 
 /* 描述状态颜色 */
-.idp-step.wait .idp-step-description {
+.idp-step .idp-step-wait .idp-step-description {
   color: var(--idp-steps-wait-color);
 }
 
-.idp-step.process .idp-step-description {
+.idp-step .idp-step-process .idp-step-description {
   color: var(--idp-steps-primary-color);
   opacity: 0.85;
 }
 
-.idp-step.finish .idp-step-description {
+.idp-step .idp-step-finish .idp-step-description {
   color: var(--idp-steps-success-color);
   opacity: 0.85;
 }
 
-.idp-step.error .idp-step-description {
+.idp-step .idp-step-error .idp-step-description {
   color: var(--idp-steps-error-color);
   opacity: 0.85;
 }
 
-.idp-step.disabled .idp-step-description {
+.idp-step .idp-step-disabled .idp-step-description {
   color: var(--idp-steps-disabled-color);
 }
 
@@ -539,36 +539,36 @@
    Responsive Design - 响应式设计
    ============================================ */
 @media (max-width: 768px) {
-  .idp-steps.horizontal {
+  .idp-steps .idp-steps-direction-horizontal {
     flex-direction: column;
   }
   
-  .idp-step.horizontal {
+  .idp-step .idp-step-direction-horizontal {
     align-items: flex-start;
     text-align: left;
     padding: 8px 0;
   }
   
-  .idp-step.horizontal .idp-step-head {
+  .idp-step .idp-step-direction-horizontal .idp-step-head {
     flex-direction: row;
     margin-bottom: 0;
     margin-right: 12px;
   }
   
-  .idp-step.horizontal .idp-step-tail {
+  .idp-step .idp-step-direction-horizontal .idp-step-tail {
     display: none;
   }
   
-  .idp-step.vertical .idp-step-head {
+  .idp-step .idp-step-direction-vertical .idp-step-head {
     margin-right: 12px;
   }
   
   /* 面板类型在移动端调整 */
-  .idp-steps.panel {
+  .idp-steps .idp-steps-panel {
     padding: 16px;
   }
   
-  .idp-steps.panel .idp-step {
+  .idp-steps .idp-steps-panel .idp-step {
     margin: 8px 0;
     padding: 12px;
   }

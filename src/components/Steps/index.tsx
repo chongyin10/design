@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
+import classNames from 'classnames';
 import { StepsProps, StepItem, StepStatus, StepContextType } from './types';
 import './Steps.css';
 
@@ -90,7 +91,9 @@ const Step: React.FC<{ item: StepItem; index: number; isLast: boolean }> = ({ it
 
     return (
         <div
-            className={`idp-step ${direction} ${stepStatus} ${item.disabled ? 'disabled' : ''}`}
+            className={classNames('idp-step', `idp-step-direction-${direction}`, `idp-step-${stepStatus}`, {
+                'idp-step-disabled': item.disabled
+            })}
             onClick={handleClick}
             ref={refItem}
         >

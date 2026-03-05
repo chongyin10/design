@@ -453,7 +453,7 @@
 }
 
 /* 当增加按钮接近右端时，固定在可视区域 */
-.idp-tabs--card .idp-tabs-tab--add.sticky {
+.idp-tabs--card .idp-tabs-tab--add .idp-tabs-tab-add-sticky {
   position: sticky;
   right: 0;
 }

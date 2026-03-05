@@ -269,15 +269,15 @@ const TimePicker: React.FC<TimePickerProps> & {
         <div
             ref={triggerRef}
             className={classNames('time-picker-trigger', {
-                focused: isFocused,
-                disabled,
+                'is-focused': isFocused,
+                'is-disabled': disabled,
                 [`size-${size}`]: size,
             })}
             onClick={handleTriggerClick}
         >
             <span
                 className={classNames('time-picker-value', {
-                    placeholder: !value,
+                    'is-placeholder': !value,
                 })}
             >
                 {value || placeholder}
@@ -296,9 +296,9 @@ const TimePicker: React.FC<TimePickerProps> & {
                 <Icon
                     type="clock"
                     size="small"
-                    className={classNames('time-picker-icon', { 
-                        open: isOpen,
-                        'has-clear': allowClear && value && !disabled && !readOnly 
+                    className={classNames('time-picker-icon', {
+                        'is-open': isOpen,
+                        'has-clear': allowClear && value && !disabled && !readOnly
                     })}
                 />
             </span>

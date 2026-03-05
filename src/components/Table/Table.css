@@ -22,7 +22,7 @@
   box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
 }
 
-.custom-table-container.bordered {
+.custom-table-bordered {
   border-radius: var(--idp-border-radius-lg, 8px);
   box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
   overflow: hidden;
@@ -44,9 +44,12 @@
   contain: layout style paint;
   /* 禁用滚动锚定防止闪动 */
   overflow-anchor: none;
+  /* Firefox 隐藏滚动条 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-/* 隐藏表头滚动条 */
+/* 隐藏表头滚动条 - Webkit */
 .custom-table-header::-webkit-scrollbar {
   display: none;
 }
@@ -92,6 +95,13 @@
   contain: layout style paint;
   /* 禁用滚动锚定防止闪动 */
   overflow-anchor: none;
+  /* 修复固定列时可能出现的额外滚动条问题 */
+  position: relative;
+}
+
+/* 确保表体内容不会撑出额外空间 */
+.custom-table-body > table {
+  position: relative;
 }
 
 /* 确保表格不会撑破容器 */
@@ -100,6 +110,8 @@
   width: 100%;
   table-layout: fixed;
   min-width: 0;
+  /* 修复固定列时表格宽度导致的滚动问题 */
+  max-width: none;
 }
 
 .custom-table {
@@ -110,25 +122,25 @@
 }
 
 /* Bordered 模式样式 */
-.custom-table.bordered th,
-.custom-table.bordered td {
+.custom-table-bordered-body th,
+.custom-table-bordered-body td {
   border: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
-.custom-table.bordered th {
+.custom-table-bordered-body th {
   background-color: var(--idp-table-header-bg, #fafafa) !important;
   font-weight: 600;
 }
 
-.custom-table.bordered tbody tr {
+.custom-table-bordered-body tbody tr {
   transition: background-color var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
 }
 
-.custom-table.bordered tbody tr:hover td {
+.custom-table-bordered-body tbody tr:hover td {
   background-color: var(--idp-table-row-hover-bg, #fafafa);
 }
 
-.custom-table.bordered tbody tr:last-child td {
+.custom-table-bordered-body tbody tr:last-child td {
   border-bottom: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
@@ -153,11 +165,11 @@
 }
 
 /* 表头分隔线样式（非 bordered 模式） */
-.custom-table:not(.bordered) thead th {
+.custom-table-header-separator thead th {
   position: relative;
 }
 
-.custom-table:not(.bordered) thead th:not(:last-child)::after {
+.custom-table-header-separator thead th:not(:last-child)::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -168,7 +180,7 @@
   transform: translateY(-50%);
 }
 
-.custom-table:not(.bordered) thead th[style*="position: sticky"][style*="right"]::before {
+.custom-table-header-separator thead th[style*="position: sticky"][style*="right"]::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -179,7 +191,7 @@
   transform: translateY(-50%);
 }
 
-.custom-table:not(.bordered) thead th:not(:last-child):has(+ th[style*="position: sticky"][style*="right"])::after {
+.custom-table-header-separator thead th:not(:last-child):has(+ th[style*="position: sticky"][style*="right"])::after {
   display: none;
 }
 
@@ -230,11 +242,15 @@
   transition: none !important;
   /* 禁用滚动锚定 */
   overflow-anchor: none;
+  /* 防止固定列导致额外的滚动空间 */
+  position: sticky !important;
 }
 
 .custom-table th[style*="right: 0"],
 .custom-table td[style*="right: 0"] {
   box-shadow: -1px 0 0 0 var(--idp-table-border-light, #f0f0f0);
+  /* 确保右侧固定列不会超出表格边界 */
+  right: 0 !important;
 }
 
 /* 修复右侧固定列样式 */
@@ -249,6 +265,8 @@
   contain: layout style paint;
   /* 移除transition避免快速滚动时的闪动 */
   transition: none !important;
+  /* 防止右侧固定列造成水平滚动 */
+  right: 0 !important;
 }
 
 /* 修复表头固定列样式 */
@@ -542,7 +560,7 @@
 }
 
 /* 拖拽时的行样式 */
-.idp-table-sortable-row.is-dragging {
+.idp-table-sortable-row-dragging {
   background-color: var(--idp-table-bg, #fff) !important;
   box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
   z-index: 100;
@@ -550,17 +568,17 @@
 }
 
 /* 拖拽时 td 样式与默认 tbody td 保持一致 */
-.idp-table-sortable-row.is-dragging td {
+.idp-table-sortable-row-dragging td {
   background-color: var(--idp-table-bg, #fff) !important;
   border-bottom: 1px solid var(--idp-table-border-light, #f0f0f0);
 }
 
 /* 拖拽时保持固定列阴影效果 */
-.idp-table-sortable-row.is-dragging td.idp-table-fixed-left-shadow {
+.idp-table-sortable-row-dragging td.idp-table-fixed-left-shadow {
   box-shadow: inset -3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
 }
 
-.idp-table-sortable-row.is-dragging td.idp-table-fixed-right-shadow {
+.idp-table-sortable-row-dragging td.idp-table-fixed-right-shadow {
   box-shadow: inset 3px 0px 12px -10px rgba(24, 144, 255, 0.24) !important;
 }
 
@@ -574,7 +592,7 @@
 }
 
 /* 拖拽容器样式 */
-.custom-table-container.draggable .custom-table tbody tr {
+.custom-table-draggable .custom-table tbody tr {
   position: relative;
 }
 
@@ -588,7 +606,7 @@
 }
 
 /* 拖拽遮罩层样式 */
-.custom-table-container.draggable {
+.custom-table-draggable {
   user-select: none;
 }
 
@@ -603,7 +621,7 @@
 }
 
 /* 禁用文本选择以避免拖拽时的文本选中 */
-.custom-table-container.draggable .custom-table {
+.custom-table-draggable .custom-table {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -611,9 +629,9 @@
 }
 
 /* 允许单元格内的输入框和按钮正常选择 */
-.custom-table-container.draggable .custom-table input,
-.custom-table-container.draggable .custom-table button,
-.custom-table-container.draggable .custom-table textarea {
+.custom-table-draggable .custom-table input,
+.custom-table-draggable .custom-table button,
+.custom-table-draggable .custom-table textarea {
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
@@ -640,6 +658,6 @@
 }
 
 /* 拖拽时的边框高亮 */
-.idp-table-sortable-row.is-dragging {
+.idp-table-sortable-row.idp-table-sortable-row-dragging {
   box-shadow: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
 }

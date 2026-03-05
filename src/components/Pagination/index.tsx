@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import classNames from 'classnames';
 import Icon from '../Icon';
 import './Pagination.css';
 import type { PaginationProps } from './types';
@@ -93,7 +94,7 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
   return (
     <div className="idp-page-size-select" ref={selectRef}>
       <div
-        className={`idp-page-size-select-trigger ${isOpen ? 'is-open' : ''}`}
+        className={classNames('idp-page-size-select-trigger', { 'idp-page-size-select-trigger-open': isOpen })}
         onClick={handleToggle}
       >
         <span className="idp-page-size-select-value">{value} 条/页</span>
@@ -108,13 +109,13 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
         </svg>
       </div>
       {isOpen && (
-        <div className={`idp-page-size-select-dropdown is-open`} ref={dropdownRef} style={dropdownStyle}>
+        <div className="idp-page-size-select-dropdown idp-page-size-select-dropdown-open" ref={dropdownRef} style={dropdownStyle}>
           {options.map((option) => {
             const numValue = typeof option === 'number' ? option : parseInt(option, 10);
             return (
               <div
                 key={option}
-                className={`idp-page-size-select-option ${value === numValue ? 'is-selected' : ''}`}
+                className={classNames('idp-page-size-select-option', { 'idp-page-size-select-option-selected': value === numValue })}
                 onClick={() => handleSelect(numValue)}
               >
                 {option} 条/页
@@ -293,9 +294,9 @@ const Pagination: React.FC<PaginationProps> = ({
   const startItem = (current - 1) * pageSize + 1;
   const endItem = Math.min(current * pageSize, total);
 
-  const alignClass = align === 'center' ? 'align-center' : align === 'flex-end' ? 'align-right' : '';
+  const alignClass = align === 'center' ? 'idp-pagination-align-center' : align === 'flex-end' ? 'idp-pagination-align-right' : '';
   return (
-    <div className={`idp-pagination ${size === 'small' ? 'mini' : ''} ${alignClass} ${className}`} style={style}>
+    <div className={classNames('idp-pagination', { 'idp-pagination-mini': size === 'small' }, alignClass, className)} style={style}>
       {showTotal && (
         <div className="idp-pagination-total-text">
           {showTotal(total, [startItem, endItem])}
