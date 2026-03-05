@@ -1,6 +1,6 @@
 {
   "name": "@zjpcy/simple-design",
-  "version": "1.3.10",
+  "version": "1.4.1",
   "description": "IDP Studio Design System - React Component Library",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
@@ -23,9 +23,9 @@
     "react",
     "components",
     "ui",
-    "idp-studio"
+    "zjpcy-studio"
   ],
-  "author": "IDP Studio Team",
+  "author": "ZJPCY Studio Team",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=16.8.0",

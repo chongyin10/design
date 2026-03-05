@@ -188,7 +188,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                 newValue = currentValue.filter(v => !leafValues.includes(v));
             } else {
                 // 选中：添加所有叶子节点（去重）
-                newValue = [...new Set([...currentValue, ...leafValues])];
+                newValue = Array.from(new Set([...currentValue, ...leafValues]));
             }
             
             const newSelectedNodes = newValue.map(v => findNodeByValue(v)).filter(Boolean) as TreeSelectNode[];
