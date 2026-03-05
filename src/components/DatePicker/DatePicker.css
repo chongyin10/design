@@ -90,7 +90,7 @@
 .idp-datepicker-trigger--middle {
     min-height: var(--idp-button-height-medium);
     height: auto;
-    padding: 2px 12px;
+    padding: 6px 12px;
     font-size: 14px;
     border-radius: var(--idp-border-radius-lg);
 }
@@ -715,7 +715,7 @@
 .idp-datepicker-range-picker-trigger--middle {
     min-height: var(--idp-button-height-medium);
     height: auto;
-    padding: 2px 12px;
+    padding: 6px 12px;
     font-size: 14px;
     border-radius: var(--idp-border-radius-lg);
 }

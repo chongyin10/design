@@ -32,6 +32,7 @@
     box-sizing: border-box;
     box-shadow: var(--idp-shadow-extra-light);
     overflow: hidden;
+    height: 36px;
 }
 
 .input-wrapper:hover {
@@ -45,7 +46,7 @@
 .input-inner {
     flex: 1;
     min-width: 0;
-    padding: 10px 12px;
+    padding: 6px 12px;
     font-size: 14px;
     font-family: inherit;
     border: none;
@@ -320,7 +321,7 @@
    兼容旧的input样式
    ============================================ */
 .input {
-    padding: 10px 14px;
+    padding: 6px 12px;
     font-size: 14px;
     font-family: inherit;
     border: 1px solid var(--idp-border-color-extra-light);

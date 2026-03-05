@@ -27,7 +27,7 @@ export const Selection = styled.div<{ $open: boolean; $disabled: boolean; $size:
   display: flex;
   align-items: center;
   min-height: 32px;
-  padding: 4px 28px 4px 11px;
+  padding: 6px 28px 6px 12px;
   background-color: ${getCSSVar('--idp-bg-color-white', '#fff')};
   border: 1px solid ${getCSSVar('--idp-border-color-extra-light', '#d9d9d9')};
   border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};

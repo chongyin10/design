@@ -23,7 +23,7 @@
     display: flex;
     align-items: center;
     min-height: 32px;
-    padding: 4px 11px;
+    padding: 6px 12px;
     background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
     border: 1px solid var(--idp-border-color-extra-light);
     border-radius: var(--idp-border-radius-md);

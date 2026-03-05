@@ -23,7 +23,7 @@ export const DatePickerTrigger = styled.div.withConfig({
         switch (props.size) {
             case 'small': return '24px';
             case 'large': return '40px';
-            default: return '32px';
+            default: return '34px';
         }
     }};
     height: auto;
