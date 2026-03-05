@@ -7,28 +7,28 @@
 /* ============================================
    基础 Radio 样式
    ============================================ */
-.idp-radio {
+.zjpcy-radio {
   position: relative;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
   user-select: none;
   font-size: 14px;
-  color: var(--idp-text-color);
+  color: var(--zjpcy-text-color);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   gap: 8px;
 }
 
-.idp-radio:hover {
-  color: var(--idp-text-color);
+.zjpcy-radio:hover {
+  color: var(--zjpcy-text-color);
 }
 
 /* ============================================
    Radio 前置标签样式
    ============================================ */
-.idp-radio-label {
+.zjpcy-radio-label {
   font-size: 14px;
-  color: var(--idp-text-color-secondary);
+  color: var(--zjpcy-text-color-secondary);
   white-space: nowrap;
   flex-shrink: 0;
   font-weight: 400;
@@ -38,7 +38,7 @@
 /* ============================================
    Radio 内部圆圈样式
    ============================================ */
-.idp-radio__inner {
+.zjpcy-radio__inner {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -53,20 +53,20 @@
 }
 
 /* 悬停状态 - 更柔和的交互 */
-.idp-radio:not(.idp-radio--disabled):hover .idp-radio__inner {
-  border-color: var(--idp-primary-color);
+.zjpcy-radio:not(.zjpcy-radio--disabled):hover .zjpcy-radio__inner {
+  border-color: var(--zjpcy-primary-color);
 }
 
 /* ============================================
    选中状态
    ============================================ */
-.idp-radio--checked .idp-radio__inner {
-  background-color: var(--idp-primary-color);
-  border-color: var(--idp-primary-color);
+.zjpcy-radio--checked .zjpcy-radio__inner {
+  background-color: var(--zjpcy-primary-color);
+  border-color: var(--zjpcy-primary-color);
 }
 
 /* 选中状态的内部圆点 */
-.idp-radio--checked .idp-radio__inner::after {
+.zjpcy-radio--checked .zjpcy-radio__inner::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -98,8 +98,8 @@
 /* ============================================
    Radio 标签文本
    ============================================ */
-.idp-radio__label {
-  color: var(--idp-text-color);
+.zjpcy-radio__label {
+  color: var(--zjpcy-text-color);
   font-size: 14px;
   transition: color 0.25s ease;
 }
@@ -107,33 +107,33 @@
 /* ============================================
    禁用状态
    ============================================ */
-.idp-radio--disabled {
+.zjpcy-radio--disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
 
-.idp-radio--disabled .idp-radio__inner {
+.zjpcy-radio--disabled .zjpcy-radio__inner {
   background-color: #f5f5f5;
   border-color: #d9d9d9;
 }
 
-.idp-radio--disabled .idp-radio__label {
-  color: var(--idp-text-color-light);
+.zjpcy-radio--disabled .zjpcy-radio__label {
+  color: var(--zjpcy-text-color-light);
 }
 
-.idp-radio--disabled-checked .idp-radio__inner {
+.zjpcy-radio--disabled-checked .zjpcy-radio__inner {
   background-color: #bfbfbf;
   border-color: #bfbfbf;
 }
 
-.idp-radio--disabled-checked .idp-radio__inner::after {
+.zjpcy-radio--disabled-checked .zjpcy-radio__inner::after {
   background-color: #fff;
 }
 
 /* ============================================
    Radio 输入框隐藏
    ============================================ */
-.idp-radio__input {
+.zjpcy-radio__input {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -143,7 +143,7 @@
 /* ============================================
    Radio Group 样式
    ============================================ */
-.idp-radio-group {
+.zjpcy-radio-group {
   display: inline-flex;
   gap: 24px;
 }
@@ -151,7 +151,7 @@
 /* ============================================
    按钮样式的 Radio Group
    ============================================ */
-.idp-radio-group--button {
+.zjpcy-radio-group--button {
   display: inline-flex;
   gap: 0;
   background-color: #f5f5f5;
@@ -161,7 +161,7 @@
 }
 
 /* 滑动指示器 */
-.idp-radio-group__indicator {
+.zjpcy-radio-group__indicator {
   position: absolute;
   top: 4px;
   left: 0;
@@ -175,7 +175,7 @@
   z-index: 0;
 }
 
-.idp-radio-group--button .idp-radio {
+.zjpcy-radio-group--button .zjpcy-radio {
   border: none;
   border-radius: 4px;
   padding: 0 16px;
@@ -188,48 +188,48 @@
   background-color: transparent;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 14px;
-  color: var(--idp-text-color-secondary);
+  color: var(--zjpcy-text-color-secondary);
   position: relative;
   z-index: 1;
 }
 
 /* 按钮类型时未选中的 radio 默认背景色 */
-.idp-radio-group--button .idp-radio--unchecked {
+.zjpcy-radio-group--button .zjpcy-radio--unchecked {
   background-color: #e8e8e8;
 }
 
 /* 按钮类型时未选中的 radio 悬停背景色 */
-.idp-radio-group--button .idp-radio--unchecked:not(.idp-radio--disabled):hover {
+.zjpcy-radio-group--button .zjpcy-radio--unchecked:not(.zjpcy-radio--disabled):hover {
   background-color: #f0f0f0;
 }
 
 /* 按钮样式悬停效果 */
-.idp-radio-group--button .idp-radio:not(.idp-radio--disabled):hover {
-  color: var(--idp-text-color);
+.zjpcy-radio-group--button .zjpcy-radio:not(.zjpcy-radio--disabled):hover {
+  color: var(--zjpcy-text-color);
 }
 
 /* 按钮样式选中状态 - 文字颜色变化 */
-.idp-radio-group--button .idp-radio--checked {
-  color: var(--idp-primary-color);
+.zjpcy-radio-group--button .zjpcy-radio--checked {
+  color: var(--zjpcy-primary-color);
   font-weight: 500;
 }
 
-.idp-radio-group--button .idp-radio--checked:hover {
-  color: var(--idp-primary-color);
+.zjpcy-radio-group--button .zjpcy-radio--checked:hover {
+  color: var(--zjpcy-primary-color);
 }
 
 /* 按钮样式禁用状态 */
-.idp-radio-group--button .idp-radio--disabled {
-  color: var(--idp-text-color-light);
+.zjpcy-radio-group--button .zjpcy-radio--disabled {
+  color: var(--zjpcy-text-color-light);
   cursor: not-allowed;
 }
 
-.idp-radio-group--button .idp-radio--disabled-checked {
+.zjpcy-radio-group--button .zjpcy-radio--disabled-checked {
   color: #999;
 }
 
 /* 按钮样式标签 */
-.idp-radio-group--button .idp-radio__label {
+.zjpcy-radio-group--button .zjpcy-radio__label {
   margin: 0;
   color: inherit;
   font-weight: inherit;
@@ -238,117 +238,117 @@
 /* ============================================
    尺寸样式 - 大尺寸
    ============================================ */
-.idp-radio-group--large .idp-radio {
+.zjpcy-radio-group--large .zjpcy-radio {
   height: 32px;
   font-size: 15px;
 }
 
-.idp-radio-group--large .idp-radio__inner {
+.zjpcy-radio-group--large .zjpcy-radio__inner {
   width: 24px;
   height: 24px;
 }
 
-.idp-radio-group--large .idp-radio--checked .idp-radio__inner::after {
+.zjpcy-radio-group--large .zjpcy-radio--checked .zjpcy-radio__inner::after {
   width: 10px;
   height: 10px;
 }
 
-.idp-radio-group--large .idp-radio__label {
+.zjpcy-radio-group--large .zjpcy-radio__label {
   font-size: 15px;
 }
 
 /* 大尺寸按钮样式 */
-.idp-radio-group--button-large .idp-radio {
+.zjpcy-radio-group--button-large .zjpcy-radio {
   padding: 0 20px;
   height: 32px;
   font-size: 15px;
 }
 
-.idp-radio-group--button-large {
+.zjpcy-radio-group--button-large {
   padding: 4px;
 }
 
-.idp-radio-group--button-large .idp-radio-group__indicator {
+.zjpcy-radio-group--button-large .zjpcy-radio-group__indicator {
   top: 4px;
 }
 
 /* ============================================
    尺寸样式 - 中等尺寸（默认）
    ============================================ */
-.idp-radio-group--middle .idp-radio {
+.zjpcy-radio-group--middle .zjpcy-radio {
   height: 28px;
   font-size: 14px;
 }
 
-.idp-radio-group--middle .idp-radio__inner {
+.zjpcy-radio-group--middle .zjpcy-radio__inner {
   width: 16px;
   height: 16px;
 }
 
-.idp-radio-group--middle .idp-radio--checked .idp-radio__inner::after {
+.zjpcy-radio-group--middle .zjpcy-radio--checked .zjpcy-radio__inner::after {
   width: 6px;
   height: 6px;
 }
 
-.idp-radio-group--middle .idp-radio__label {
+.zjpcy-radio-group--middle .zjpcy-radio__label {
   font-size: 14px;
 }
 
 /* 中等尺寸按钮样式 */
-.idp-radio-group--button-middle .idp-radio {
+.zjpcy-radio-group--button-middle .zjpcy-radio {
   padding: 0 16px;
   height: 28px;
   font-size: 14px;
 }
 
-.idp-radio-group--button-middle {
+.zjpcy-radio-group--button-middle {
   padding: 3px;
 }
 
-.idp-radio-group--button-middle .idp-radio-group__indicator {
+.zjpcy-radio-group--button-middle .zjpcy-radio-group__indicator {
   top: 3px;
 }
 
 /* ============================================
    尺寸样式 - 小尺寸
    ============================================ */
-.idp-radio-group--small .idp-radio {
+.zjpcy-radio-group--small .zjpcy-radio {
   height: 24px;
   font-size: 13px;
 }
 
-.idp-radio-group--small .idp-radio__inner {
+.zjpcy-radio-group--small .zjpcy-radio__inner {
   width: 14px;
   height: 14px;
   border-width: 1.5px;
 }
 
-.idp-radio-group--small .idp-radio--checked .idp-radio__inner::after {
+.zjpcy-radio-group--small .zjpcy-radio--checked .zjpcy-radio__inner::after {
   width: 5px;
   height: 5px;
 }
 
-.idp-radio-group--small .idp-radio__label {
+.zjpcy-radio-group--small .zjpcy-radio__label {
   font-size: 13px;
 }
 
 /* 小尺寸按钮样式 */
-.idp-radio-group--button-small .idp-radio {
+.zjpcy-radio-group--button-small .zjpcy-radio {
   padding: 0 12px;
   height: 22px;
   font-size: 12px;
 }
 
-.idp-radio-group--button-small {
+.zjpcy-radio-group--button-small {
   padding: 2px;
   border-radius: 4px;
 }
 
-.idp-radio-group--button-small .idp-radio {
+.zjpcy-radio-group--button-small .zjpcy-radio {
   border-radius: 3px;
 }
 
-.idp-radio-group--button-small .idp-radio-group__indicator {
+.zjpcy-radio-group--button-small .zjpcy-radio-group__indicator {
   top: 2px;
   border-radius: 3px;
 }
@@ -356,7 +356,7 @@
 /* ============================================
    垂直排列的 Group
    ============================================ */
-.idp-radio-group--vertical {
+.zjpcy-radio-group--vertical {
   flex-direction: column;
   gap: 12px;
 }
@@ -364,7 +364,7 @@
 /* ============================================
    水平排列的 Group（默认）
    ============================================ */
-.idp-radio-group--horizontal {
+.zjpcy-radio-group--horizontal {
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;

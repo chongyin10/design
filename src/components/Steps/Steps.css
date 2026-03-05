@@ -7,141 +7,141 @@
    ============================================ */
 :root {
   /* 状态颜色 - 使用全局变量 */
-  --idp-steps-primary-color: var(--idp-primary-color, #1890ff);
-  --idp-steps-primary-hover: var(--idp-primary-hover-color, #40a9ff);
-  --idp-steps-success-color: var(--idp-success-color, #52c41a);
-  --idp-steps-success-hover: #73d13d;
-  --idp-steps-error-color: var(--idp-error-color, #f5222d);
-  --idp-steps-error-hover: #ff7875;
-  --idp-steps-wait-color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
-  --idp-steps-text-color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
-  --idp-steps-text-secondary: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
-  --idp-steps-disabled-color: var(--idp-text-color-light, #bfbfbf);
+  --zjpcy-steps-primary-color: var(--zjpcy-primary-color, #1890ff);
+  --zjpcy-steps-primary-hover: var(--zjpcy-primary-hover-color, #40a9ff);
+  --zjpcy-steps-success-color: var(--zjpcy-success-color, #52c41a);
+  --zjpcy-steps-success-hover: #73d13d;
+  --zjpcy-steps-error-color: var(--zjpcy-error-color, #f5222d);
+  --zjpcy-steps-error-hover: #ff7875;
+  --zjpcy-steps-wait-color: var(--zjpcy-text-color-tertiary, rgba(0, 0, 0, 0.45));
+  --zjpcy-steps-text-color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
+  --zjpcy-steps-text-secondary: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65));
+  --zjpcy-steps-disabled-color: var(--zjpcy-text-color-light, #bfbfbf);
   
   /* 背景与边框 */
-  --idp-steps-bg: var(--idp-bg-color-white, #ffffff);
-  --idp-steps-bg-light: var(--idp-bg-color-light, #f5f5f5);
-  --idp-steps-border-color: var(--idp-border-color-extra-light, #d9d9d9);
-  --idp-steps-border-light: var(--idp-border-color-light, #f0f0f0);
+  --zjpcy-steps-bg: var(--zjpcy-bg-color-white, #ffffff);
+  --zjpcy-steps-bg-light: var(--zjpcy-bg-color-light, #f5f5f5);
+  --zjpcy-steps-border-color: var(--zjpcy-border-color-extra-light, #d9d9d9);
+  --zjpcy-steps-border-light: var(--zjpcy-border-color-light, #f0f0f0);
   
   /* 阴影效果 */
-  --idp-steps-shadow-sm: var(--idp-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
-  --idp-steps-shadow-md: var(--idp-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
-  --idp-steps-shadow-primary: 0 4px 12px rgba(24, 144, 255, 0.35);
-  --idp-steps-shadow-success: 0 4px 12px rgba(82, 196, 26, 0.35);
-  --idp-steps-shadow-error: 0 4px 12px rgba(245, 34, 45, 0.35);
+  --zjpcy-steps-shadow-sm: var(--zjpcy-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  --zjpcy-steps-shadow-md: var(--zjpcy-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
+  --zjpcy-steps-shadow-primary: 0 4px 12px rgba(24, 144, 255, 0.35);
+  --zjpcy-steps-shadow-success: 0 4px 12px rgba(82, 196, 26, 0.35);
+  --zjpcy-steps-shadow-error: 0 4px 12px rgba(245, 34, 45, 0.35);
   
   /* 尺寸 */
-  --idp-steps-node-size: 32px;
-  --idp-steps-node-small: 24px;
-  --idp-steps-border-radius: var(--idp-border-radius-lg, 8px);
-  --idp-steps-border-radius-sm: var(--idp-border-radius-sm, 4px);
+  --zjpcy-steps-node-size: 32px;
+  --zjpcy-steps-node-small: 24px;
+  --zjpcy-steps-border-radius: var(--zjpcy-border-radius-lg, 8px);
+  --zjpcy-steps-border-radius-sm: var(--zjpcy-border-radius-sm, 4px);
   
   /* 过渡动画 */
-  --idp-steps-transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  --zjpcy-steps-transition: all var(--zjpcy-transition-duration, 0.2s) var(--zjpcy-transition-timing-function, ease-in-out);
 }
 
 /* ============================================
    Steps Container - 步骤条容器
    ============================================ */
-.idp-steps {
+.zjpcy-steps {
   display: flex;
   width: 100%;
   font-family: inherit;
 }
 
 /* 面板类型容器 */
-.idp-steps .idp-steps-panel {
-  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
-  border-radius: var(--idp-steps-border-radius);
+.zjpcy-steps .zjpcy-steps-panel {
+  background: linear-gradient(135deg, var(--zjpcy-steps-bg) 0%, var(--zjpcy-steps-bg-light) 100%);
+  border-radius: var(--zjpcy-steps-border-radius);
   padding: 24px;
-  box-shadow: var(--idp-steps-shadow-sm);
-  border: 1px solid var(--idp-steps-border-light);
+  box-shadow: var(--zjpcy-steps-shadow-sm);
+  border: 1px solid var(--zjpcy-steps-border-light);
 }
 
 /* 方向布局 */
-.idp-steps .idp-steps-direction-horizontal {
+.zjpcy-steps .zjpcy-steps-direction-horizontal {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 }
 
-.idp-steps .idp-steps-direction-vertical {
+.zjpcy-steps .zjpcy-steps-direction-vertical {
   flex-direction: column;
 }
 
 /* ============================================
    Size Variants - 尺寸变体
    ============================================ */
-.idp-steps .idp-steps-size-small .idp-step-node {
-  width: var(--idp-steps-node-small);
-  height: var(--idp-steps-node-small);
+.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-node {
+  width: var(--zjpcy-steps-node-small);
+  height: var(--zjpcy-steps-node-small);
   font-size: 12px;
-  min-width: var(--idp-steps-node-small);
+  min-width: var(--zjpcy-steps-node-small);
 }
 
-.idp-steps .idp-steps-size-small .idp-step-title {
+.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-title {
   font-size: 12px;
 }
 
-.idp-steps .idp-steps-size-small .idp-step-description {
+.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-description {
   font-size: 11px;
 }
 
 /* ============================================
    Step Item - 单个步骤
    ============================================ */
-.idp-step {
+.zjpcy-step {
   position: relative;
   flex: 1;
   text-align: center;
   cursor: pointer;
-  transition: var(--idp-steps-transition);
+  transition: var(--zjpcy-steps-transition);
 }
 
 /* 面板类型步骤项 */
-.idp-steps .idp-steps-panel .idp-step {
-  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
-  border-radius: var(--idp-border-radius-md, 6px);
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step {
+  background: linear-gradient(135deg, var(--zjpcy-steps-bg) 0%, var(--zjpcy-steps-bg-light) 100%);
+  border-radius: var(--zjpcy-border-radius-md, 6px);
   padding: 16px;
   margin: 0 8px;
-  border: 1px solid var(--idp-steps-border-light);
-  transition: var(--idp-steps-transition);
-  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+  border: 1px solid var(--zjpcy-steps-border-light);
+  transition: var(--zjpcy-steps-transition);
+  box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.idp-steps .idp-steps-panel .idp-step:hover {
-  box-shadow: var(--idp-steps-shadow-md);
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step:hover {
+  box-shadow: var(--zjpcy-steps-shadow-md);
   transform: translateY(-2px);
-  border-color: var(--idp-steps-primary-color);
+  border-color: var(--zjpcy-steps-primary-color);
 }
 
-.idp-steps .idp-steps-panel .idp-step .idp-step-process {
-  border-color: var(--idp-steps-primary-color);
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-process {
+  border-color: var(--zjpcy-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.02) 100%);
-  box-shadow: var(--idp-steps-shadow-primary);
+  box-shadow: var(--zjpcy-steps-shadow-primary);
 }
 
-.idp-steps .idp-steps-panel .idp-step .idp-step-finish {
-  border-color: var(--idp-steps-success-color);
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-finish {
+  border-color: var(--zjpcy-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.02) 100%);
-  box-shadow: var(--idp-steps-shadow-success);
+  box-shadow: var(--zjpcy-steps-shadow-success);
 }
 
-.idp-steps .idp-steps-panel .idp-step .idp-step-error {
-  border-color: var(--idp-steps-error-color);
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-error {
+  border-color: var(--zjpcy-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, rgba(245, 34, 45, 0.02) 100%);
-  box-shadow: var(--idp-steps-shadow-error);
+  box-shadow: var(--zjpcy-steps-shadow-error);
 }
 
 /* 禁用状态 */
-.idp-step .idp-step-disabled {
+.zjpcy-step .zjpcy-step-disabled {
   cursor: not-allowed;
-  opacity: var(--idp-opacity-disabled, 0.65);
+  opacity: var(--zjpcy-opacity-disabled, 0.65);
 }
 
 /* 水平方向 */
-.idp-step .idp-step-direction-horizontal {
+.zjpcy-step .zjpcy-step-direction-horizontal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,7 +152,7 @@
 }
 
 /* 垂直方向 */
-.idp-step .idp-step-direction-vertical {
+.zjpcy-step .zjpcy-step-direction-vertical {
   display: flex;
   align-items: flex-start;
   padding: 8px 0;
@@ -162,189 +162,189 @@
 /* ============================================
    Step Head - 步骤头部
    ============================================ */
-.idp-step-head {
+.zjpcy-step-head {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.idp-step .idp-step-direction-horizontal .idp-step-head {
+.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-head {
   margin-bottom: 8px;
   position: relative;
   width: 100%;
 }
 
-.idp-step .idp-step-direction-vertical .idp-step-head {
+.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-head {
   margin-right: 16px;
 }
 
 /* ============================================
    Step Node - 步骤节点（图标/数字）
    ============================================ */
-.idp-step-node {
+.zjpcy-step-node {
   display: flex;
   align-items: center;
   justify-content: center;
   width: auto;
   padding: 6px;
-  height: var(--idp-steps-node-size);
-  min-width: var(--idp-steps-node-size);
-  border-radius: var(--idp-steps-border-radius-sm);
+  height: var(--zjpcy-steps-node-size);
+  min-width: var(--zjpcy-steps-node-size);
+  border-radius: var(--zjpcy-steps-border-radius-sm);
   font-size: 14px;
   font-weight: 600;
-  border: 2px solid var(--idp-steps-wait-color);
-  background: linear-gradient(135deg, var(--idp-steps-bg) 0%, var(--idp-steps-bg-light) 100%);
-  color: var(--idp-steps-wait-color);
-  transition: var(--idp-steps-transition);
+  border: 2px solid var(--zjpcy-steps-wait-color);
+  background: linear-gradient(135deg, var(--zjpcy-steps-bg) 0%, var(--zjpcy-steps-bg-light) 100%);
+  color: var(--zjpcy-steps-wait-color);
+  transition: var(--zjpcy-steps-transition);
   z-index: 1;
-  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+  box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.idp-step-node:hover {
-  box-shadow: var(--idp-steps-shadow-sm);
+.zjpcy-step-node:hover {
+  box-shadow: var(--zjpcy-steps-shadow-sm);
   transform: translateY(-2px);
 }
 
 /* 等待状态 */
-.idp-step-node .idp-step-node-wait {
-  border-color: var(--idp-steps-wait-color);
-  color: var(--idp-steps-wait-color);
+.zjpcy-step-node .zjpcy-step-node-wait {
+  border-color: var(--zjpcy-steps-wait-color);
+  color: var(--zjpcy-steps-wait-color);
 }
 
 /* 进行中状态 */
-.idp-step-node .idp-step-node-process {
-  border-color: var(--idp-steps-primary-color);
-  background: linear-gradient(135deg, var(--idp-steps-primary-color) 0%, var(--idp-steps-primary-hover) 100%);
-  color: var(--idp-steps-bg);
+.zjpcy-step-node .zjpcy-step-node-process {
+  border-color: var(--zjpcy-steps-primary-color);
+  background: linear-gradient(135deg, var(--zjpcy-steps-primary-color) 0%, var(--zjpcy-steps-primary-hover) 100%);
+  color: var(--zjpcy-steps-bg);
   transform: scale(1.1);
-  box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.15), var(--idp-steps-shadow-primary);
+  box-shadow: 0 0 0 4px rgba(24, 144, 255, 0.15), var(--zjpcy-steps-shadow-primary);
 }
 
 /* 完成状态 */
-.idp-step-node .idp-step-node-finish {
-  border-color: var(--idp-steps-success-color);
-  background: linear-gradient(135deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
-  color: var(--idp-steps-bg);
+.zjpcy-step-node .zjpcy-step-node-finish {
+  border-color: var(--zjpcy-steps-success-color);
+  background: linear-gradient(135deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-success-hover) 100%);
+  color: var(--zjpcy-steps-bg);
   transform: scale(1.05);
-  box-shadow: var(--idp-steps-shadow-success);
+  box-shadow: var(--zjpcy-steps-shadow-success);
 }
 
 /* 错误状态 */
-.idp-step-node .idp-step-node-error {
-  border-color: var(--idp-steps-error-color);
-  background: linear-gradient(135deg, var(--idp-steps-error-color) 0%, var(--idp-steps-error-hover) 100%);
-  color: var(--idp-steps-bg);
+.zjpcy-step-node .zjpcy-step-node-error {
+  border-color: var(--zjpcy-steps-error-color);
+  background: linear-gradient(135deg, var(--zjpcy-steps-error-color) 0%, var(--zjpcy-steps-error-hover) 100%);
+  color: var(--zjpcy-steps-bg);
   transform: scale(1.05);
-  box-shadow: var(--idp-steps-shadow-error);
+  box-shadow: var(--zjpcy-steps-shadow-error);
 }
 
 /* ============================================
    Step Tail - 连接线
    ============================================ */
-.idp-step-tail {
+.zjpcy-step-tail {
   position: absolute;
-  background-color: var(--idp-steps-border-color);
-  transition: var(--idp-steps-transition);
+  background-color: var(--zjpcy-steps-border-color);
+  transition: var(--zjpcy-steps-transition);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 /* 虚线样式 */
-.idp-step-tail-dashed {
+.zjpcy-step-tail-dashed {
   background: repeating-linear-gradient(
     90deg,
-    var(--idp-steps-border-color),
-    var(--idp-steps-border-color) 4px,
+    var(--zjpcy-steps-border-color),
+    var(--zjpcy-steps-border-color) 4px,
     transparent 4px,
     transparent 8px
   );
 }
 
 /* Tail 标题 */
-.idp-step-tail-title {
+.zjpcy-step-tail-title {
   position: absolute;
   top: -20px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 12px;
-  color: var(--idp-steps-wait-color);
+  color: var(--zjpcy-steps-wait-color);
   white-space: nowrap;
-  background: var(--idp-steps-bg);
+  background: var(--zjpcy-steps-bg);
   padding: 2px 6px;
-  border-radius: var(--idp-steps-border-radius-sm);
-  border: 1px solid var(--idp-steps-wait-color);
+  border-radius: var(--zjpcy-steps-border-radius-sm);
+  border: 1px solid var(--zjpcy-steps-wait-color);
   z-index: 2;
-  transition: var(--idp-steps-transition);
-  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+  transition: var(--zjpcy-steps-transition);
+  box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
 /* ============================================
    Panel Type Arrow - 面板类型箭头图标
    ============================================ */
-.idp-step-arrow {
+.zjpcy-step-arrow {
   position: absolute;
   top: 50%;
   left: calc(100% + 17px);
   transform: translateY(-50%);
   width: 16px;
   height: 16px;
-  color: var(--idp-steps-border-color);
-  transition: var(--idp-steps-transition);
+  color: var(--zjpcy-steps-border-color);
+  transition: var(--zjpcy-steps-transition);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.idp-step .idp-step-finish .idp-step-arrow {
-  color: var(--idp-steps-success-color);
+.zjpcy-step .zjpcy-step-finish .zjpcy-step-arrow {
+  color: var(--zjpcy-steps-success-color);
 }
 
-.idp-step .idp-step-process .idp-step-arrow {
-  color: var(--idp-steps-primary-color);
+.zjpcy-step .zjpcy-step-process .zjpcy-step-arrow {
+  color: var(--zjpcy-steps-primary-color);
   transform: translateY(-50%) scale(1.2);
 }
 
-.idp-step .idp-step-error .idp-step-arrow {
-  color: var(--idp-steps-error-color);
+.zjpcy-step .zjpcy-step-error .zjpcy-step-arrow {
+  color: var(--zjpcy-steps-error-color);
 }
 
-.idp-step .idp-step-finish .idp-step-tail-title {
-  color: var(--idp-steps-success-color);
-  border-color: var(--idp-steps-success-color);
-  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-finish .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-success-color);
+  border-color: var(--zjpcy-steps-success-color);
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.idp-step .idp-step-process .idp-step-tail-title {
-  color: var(--idp-steps-primary-color);
-  border-color: var(--idp-steps-primary-color);
-  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-process .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-primary-color);
+  border-color: var(--zjpcy-steps-primary-color);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.idp-step .idp-step-error .idp-step-tail-title {
-  color: var(--idp-steps-error-color);
-  border-color: var(--idp-steps-error-color);
-  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-error .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-error-color);
+  border-color: var(--zjpcy-steps-error-color);
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
 /* ============================================
    Horizontal Direction - 水平方向样式
    ============================================ */
-.idp-step .idp-step-direction-horizontal .idp-step-tail {
+.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-tail {
   top: 50%;
   left: 50%;
   width: 110%;
   height: 2px;
   transform: translateY(-50%);
-  background-color: var(--idp-steps-border-color);
+  background-color: var(--zjpcy-steps-border-color);
   z-index: 0;
 }
 
 /* ============================================
    Vertical Direction - 垂直方向样式
    ============================================ */
-.idp-step .idp-step-direction-vertical .idp-step-tail {
+.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail {
   top: 100%;
   left: 50%;
   width: 2px;
@@ -355,68 +355,68 @@
   justify-content: center;
 }
 
-.idp-step .idp-step-direction-vertical .idp-step-tail-dashed {
+.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail-dashed {
   background: repeating-linear-gradient(
     180deg,
-    var(--idp-steps-border-color),
-    var(--idp-steps-border-color) 4px,
+    var(--zjpcy-steps-border-color),
+    var(--zjpcy-steps-border-color) 4px,
     transparent 4px,
     transparent 8px
   );
 }
 
-.idp-step .idp-step-direction-vertical .idp-step-tail-title {
+.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail-title {
   position: absolute;
   left: 10px;
   top: 50%;
   transform: translateY(-50%) rotate(-90deg);
   font-size: 12px;
-  color: var(--idp-steps-wait-color);
+  color: var(--zjpcy-steps-wait-color);
   white-space: nowrap;
-  background: var(--idp-steps-bg);
+  background: var(--zjpcy-steps-bg);
   padding: 2px 6px;
-  border-radius: var(--idp-steps-border-radius-sm);
-  border: 1px solid var(--idp-steps-wait-color);
+  border-radius: var(--zjpcy-steps-border-radius-sm);
+  border: 1px solid var(--zjpcy-steps-wait-color);
   z-index: 2;
   transform-origin: left center;
-  box-shadow: var(--idp-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+  box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.idp-step .idp-step-direction-vertical.idp-step-finish .idp-step-tail-title {
-  color: var(--idp-steps-success-color);
-  border-color: var(--idp-steps-success-color);
-  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-finish .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-success-color);
+  border-color: var(--zjpcy-steps-success-color);
+  background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.idp-step .idp-step-direction-vertical.idp-step-process .idp-step-tail-title {
-  color: var(--idp-steps-primary-color);
-  border-color: var(--idp-steps-primary-color);
-  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-process .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-primary-color);
+  border-color: var(--zjpcy-steps-primary-color);
+  background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.idp-step .idp-step-direction-vertical.idp-step-error .idp-step-tail-title {
-  color: var(--idp-steps-error-color);
-  border-color: var(--idp-steps-error-color);
-  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--idp-steps-bg) 100%);
+.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-error .zjpcy-step-tail-title {
+  color: var(--zjpcy-steps-error-color);
+  border-color: var(--zjpcy-steps-error-color);
+  background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
 /* ============================================
    Tail Color States - 连接线状态颜色
    ============================================ */
-.idp-step .idp-step-finish .idp-step-tail {
-  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-success-hover) 100%);
+.zjpcy-step .zjpcy-step-finish .zjpcy-step-tail {
+  background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-success-hover) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 1.2s ease-in-out forwards;
 }
 
-.idp-step .idp-step-process .idp-step-tail {
-  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-primary-color) 50%, var(--idp-steps-primary-color) 100%);
+.zjpcy-step .zjpcy-step-process .zjpcy-step-tail {
+  background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-primary-color) 50%, var(--zjpcy-steps-primary-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.8s ease-in-out forwards;
 }
 
-.idp-step .idp-step-error .idp-step-tail {
-  background: linear-gradient(90deg, var(--idp-steps-success-color) 0%, var(--idp-steps-error-color) 50%, var(--idp-steps-error-color) 100%);
+.zjpcy-step .zjpcy-step-error .zjpcy-step-tail {
+  background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-error-color) 50%, var(--zjpcy-steps-error-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.6s ease-in-out forwards;
 }
@@ -424,23 +424,23 @@
 /* ============================================
    Step Content - 步骤内容
    ============================================ */
-.idp-step-content {
+.zjpcy-step-content {
   flex: 1;
 }
 
-.idp-step .idp-step-direction-horizontal .idp-step-content {
+.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-content {
   max-width: 120px;
   word-wrap: break-word;
 }
 
-.idp-step .idp-step-direction-vertical .idp-step-content {
+.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-content {
   padding-top: 4px;
   max-width: 180px;
   min-width: 100px;
   word-wrap: break-word;
 }
 
-.idp-steps .idp-steps-panel .idp-step-content {
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-content {
   margin-top: 12px;
   padding: 0;
   max-width: 150px;
@@ -450,77 +450,77 @@
 /* ============================================
    Step Title - 步骤标题
    ============================================ */
-.idp-step-title {
+.zjpcy-step-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--idp-steps-text-color);
+  color: var(--zjpcy-steps-text-color);
   margin-bottom: 4px;
-  transition: color var(--idp-transition-duration, 0.2s) ease;
+  transition: color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-steps .idp-steps-panel .idp-step-title {
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
 /* 标题状态颜色 */
-.idp-step .idp-step-wait .idp-step-title {
-  color: var(--idp-steps-wait-color);
+.zjpcy-step .zjpcy-step-wait .zjpcy-step-title {
+  color: var(--zjpcy-steps-wait-color);
 }
 
-.idp-step .idp-step-process .idp-step-title {
-  color: var(--idp-steps-primary-color);
+.zjpcy-step .zjpcy-step-process .zjpcy-step-title {
+  color: var(--zjpcy-steps-primary-color);
 }
 
-.idp-step .idp-step-finish .idp-step-title {
-  color: var(--idp-steps-success-color);
+.zjpcy-step .zjpcy-step-finish .zjpcy-step-title {
+  color: var(--zjpcy-steps-success-color);
 }
 
-.idp-step .idp-step-error .idp-step-title {
-  color: var(--idp-steps-error-color);
+.zjpcy-step .zjpcy-step-error .zjpcy-step-title {
+  color: var(--zjpcy-steps-error-color);
 }
 
-.idp-step .idp-step-disabled .idp-step-title {
-  color: var(--idp-steps-disabled-color);
+.zjpcy-step .zjpcy-step-disabled .zjpcy-step-title {
+  color: var(--zjpcy-steps-disabled-color);
 }
 
 /* ============================================
    Step Description - 步骤描述
    ============================================ */
-.idp-step-description {
+.zjpcy-step-description {
   font-size: 12px;
-  color: var(--idp-steps-text-secondary);
+  color: var(--zjpcy-steps-text-secondary);
   line-height: 1.4;
 }
 
-.idp-steps .idp-steps-panel .idp-step-description {
+.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-description {
   font-size: 14px;
   line-height: 1.5;
 }
 
 /* 描述状态颜色 */
-.idp-step .idp-step-wait .idp-step-description {
-  color: var(--idp-steps-wait-color);
+.zjpcy-step .zjpcy-step-wait .zjpcy-step-description {
+  color: var(--zjpcy-steps-wait-color);
 }
 
-.idp-step .idp-step-process .idp-step-description {
-  color: var(--idp-steps-primary-color);
+.zjpcy-step .zjpcy-step-process .zjpcy-step-description {
+  color: var(--zjpcy-steps-primary-color);
   opacity: 0.85;
 }
 
-.idp-step .idp-step-finish .idp-step-description {
-  color: var(--idp-steps-success-color);
+.zjpcy-step .zjpcy-step-finish .zjpcy-step-description {
+  color: var(--zjpcy-steps-success-color);
   opacity: 0.85;
 }
 
-.idp-step .idp-step-error .idp-step-description {
-  color: var(--idp-steps-error-color);
+.zjpcy-step .zjpcy-step-error .zjpcy-step-description {
+  color: var(--zjpcy-steps-error-color);
   opacity: 0.85;
 }
 
-.idp-step .idp-step-disabled .idp-step-description {
-  color: var(--idp-steps-disabled-color);
+.zjpcy-step .zjpcy-step-disabled .zjpcy-step-description {
+  color: var(--zjpcy-steps-disabled-color);
 }
 
 /* ============================================
@@ -539,41 +539,41 @@
    Responsive Design - 响应式设计
    ============================================ */
 @media (max-width: 768px) {
-  .idp-steps .idp-steps-direction-horizontal {
+  .zjpcy-steps .zjpcy-steps-direction-horizontal {
     flex-direction: column;
   }
   
-  .idp-step .idp-step-direction-horizontal {
+  .zjpcy-step .zjpcy-step-direction-horizontal {
     align-items: flex-start;
     text-align: left;
     padding: 8px 0;
   }
   
-  .idp-step .idp-step-direction-horizontal .idp-step-head {
+  .zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-head {
     flex-direction: row;
     margin-bottom: 0;
     margin-right: 12px;
   }
   
-  .idp-step .idp-step-direction-horizontal .idp-step-tail {
+  .zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-tail {
     display: none;
   }
   
-  .idp-step .idp-step-direction-vertical .idp-step-head {
+  .zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-head {
     margin-right: 12px;
   }
   
   /* 面板类型在移动端调整 */
-  .idp-steps .idp-steps-panel {
+  .zjpcy-steps .zjpcy-steps-panel {
     padding: 16px;
   }
   
-  .idp-steps .idp-steps-panel .idp-step {
+  .zjpcy-steps .zjpcy-steps-panel .zjpcy-step {
     margin: 8px 0;
     padding: 12px;
   }
   
-  .idp-step-arrow {
+  .zjpcy-step-arrow {
     display: none;
   }
 }

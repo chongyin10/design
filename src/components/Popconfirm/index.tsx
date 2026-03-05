@@ -32,18 +32,18 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
   const popoverRef = useRef<HTMLDivElement>(null);
 
   const placementMap: Record<PopconfirmPlacement, string> = {
-    top: 'idp-popconfirm-top',
-    bottom: 'idp-popconfirm-bottom',
-    left: 'idp-popconfirm-left',
-    right: 'idp-popconfirm-right',
-    topLeft: 'idp-popconfirm-topLeft',
-    topRight: 'idp-popconfirm-topRight',
-    bottomLeft: 'idp-popconfirm-bottomLeft',
-    bottomRight: 'idp-popconfirm-bottomRight',
-    leftTop: 'idp-popconfirm-leftTop',
-    leftBottom: 'idp-popconfirm-leftBottom',
-    rightTop: 'idp-popconfirm-rightTop',
-    rightBottom: 'idp-popconfirm-rightBottom'
+    top: 'zjpcy-popconfirm-top',
+    bottom: 'zjpcy-popconfirm-bottom',
+    left: 'zjpcy-popconfirm-left',
+    right: 'zjpcy-popconfirm-right',
+    topLeft: 'zjpcy-popconfirm-topLeft',
+    topRight: 'zjpcy-popconfirm-topRight',
+    bottomLeft: 'zjpcy-popconfirm-bottomLeft',
+    bottomRight: 'zjpcy-popconfirm-bottomRight',
+    leftTop: 'zjpcy-popconfirm-leftTop',
+    leftBottom: 'zjpcy-popconfirm-leftBottom',
+    rightTop: 'zjpcy-popconfirm-rightTop',
+    rightBottom: 'zjpcy-popconfirm-rightBottom'
   };
 
   const calculatePosition = () => {
@@ -216,22 +216,22 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       <div
         ref={popoverRef}
         className={classNames(
-          'idp-popconfirm',
-          'idp-popconfirm-visible',
+          'zjpcy-popconfirm',
+          'zjpcy-popconfirm-visible',
           placementMap[placement],
-          `idp-popconfirm--${type}`,
+          `zjpcy-popconfirm--${type}`,
           className
         )}
         style={{ position: 'fixed', top: `${position.top}px`, left: `${position.left}px`, ...style }}
       >
-        <div className="idp-popconfirm-arrow"></div>
-        <div className="idp-popconfirm-inner">
-          <div className="idp-popconfirm-header">
-            <span style={{ display: icon ? 'inline-block' : 'none'}} className="idp-popconfirm-icon">{icon || getDefaultIcon()}</span>
-            <span className="idp-popconfirm-title">{title}</span>
+        <div className="zjpcy-popconfirm-arrow"></div>
+        <div className="zjpcy-popconfirm-inner">
+          <div className="zjpcy-popconfirm-header">
+            <span style={{ display: icon ? 'inline-block' : 'none'}} className="zjpcy-popconfirm-icon">{icon || getDefaultIcon()}</span>
+            <span className="zjpcy-popconfirm-title">{title}</span>
           </div>
-          {description && <div className="idp-popconfirm-description">{description}</div>}
-          <div className="idp-popconfirm-actions">
+          {description && <div className="zjpcy-popconfirm-description">{description}</div>}
+          <div className="zjpcy-popconfirm-actions">
             {showCancel && (
               <Button
                 variant={cancelButtonProps.variant || 'secondary'}

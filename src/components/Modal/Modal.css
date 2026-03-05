@@ -5,7 +5,7 @@
    ============================================ */
 
 /* 遮罩层 */
-.idp-modal-overlay {
+.zjpcy-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,12 +15,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--idp-z-index-modal);
+    z-index: var(--zjpcy-z-index-modal);
     pointer-events: none;
     transition: background-color 0.3s ease;
 }
 
-.idp-modal-overlay--visible {
+.zjpcy-modal-overlay--visible {
     background: linear-gradient(
         180deg,
         rgba(0, 0, 0, 0.45) 0%,
@@ -31,19 +31,19 @@
     -webkit-backdrop-filter: blur(8px);
 }
 
-.idp-modal-overlay--closing {
+.zjpcy-modal-overlay--closing {
     background-color: rgba(0, 0, 0, 0);
     pointer-events: none;
 }
 
 /* 模态框容器 */
-.idp-modal-container {
+.zjpcy-modal-container {
     background: linear-gradient(
         180deg,
-        var(--idp-bg-color-white) 0%,
-        var(--idp-bg-color) 100%
+        var(--zjpcy-bg-color-white) 0%,
+        var(--zjpcy-bg-color) 100%
     );
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
     box-shadow:
         0 24px 48px rgba(0, 0, 0, 0.18),
         0 8px 16px rgba(0, 0, 0, 0.12),
@@ -60,7 +60,7 @@
     -webkit-backface-visibility: hidden;
 }
 
-.idp-modal-container::before {
+.zjpcy-modal-container::before {
     content: '';
     position: absolute;
     top: 0;
@@ -71,8 +71,8 @@
     opacity: 0.9;
 }
 
-.idp-modal-container--bordered {
-    border: 1px solid var(--idp-border-color);
+.zjpcy-modal-container--bordered {
+    border: 1px solid var(--zjpcy-border-color);
     box-shadow: 
         0 32px 64px rgba(15, 23, 42, 0.2),
         0 12px 24px rgba(15, 23, 42, 0.12),
@@ -80,7 +80,7 @@
 }
 
 /* 当设置了top属性时，移除flex居中，使用绝对定位 */
-.idp-modal-overlay--custom-top {
+.zjpcy-modal-overlay--custom-top {
     align-items: flex-start;
     justify-content: center;
 }
@@ -90,12 +90,12 @@
    ============================================ */
 
 /* 中心动画 */
-.idp-modal-container--center {
+.zjpcy-modal-container--center {
     animation: centerAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 /* 中心动画（设置了top） - 从指定top位置的垂直中心开始 */
-.idp-modal-container--center-top {
+.zjpcy-modal-container--center-top {
     animation: centerTopAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -112,7 +112,7 @@
 
 @keyframes centerTopAnimateIn {
     from {
-        transform: translate(var(--idp-modal-origin-x, 0), var(--idp-modal-origin-y, 0)) scale(0.95);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.95);
         opacity: 0;
     }
     to {
@@ -122,13 +122,13 @@
 }
 
 /* 正常动画（从点击位置缓慢过渡） */
-.idp-modal-container--normal {
+.zjpcy-modal-container--normal {
     animation: normalAnimateIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 @keyframes normalAnimateIn {
     from {
-        transform: translate(var(--idp-modal-origin-x, 0), var(--idp-modal-origin-y, 0)) scale(0.9);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.9);
         opacity: 0;
     }
     to {
@@ -138,7 +138,7 @@
 }
 
 /* 右上角动画 */
-.idp-modal-container--top-right {
+.zjpcy-modal-container--top-right {
     animation: topRightAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -154,7 +154,7 @@
 }
 
 /* 右下角动画 */
-.idp-modal-container--bottom-right {
+.zjpcy-modal-container--bottom-right {
     animation: bottomRightAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -170,7 +170,7 @@
 }
 
 /* 左下角动画 */
-.idp-modal-container--bottom-left {
+.zjpcy-modal-container--bottom-left {
     animation: bottomLeftAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -190,12 +190,12 @@
    ============================================ */
 
 /* 中心消失 */
-.idp-modal-container--closing-center {
+.zjpcy-modal-container--closing-center {
     animation: centerAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 /* 中心消失（设置了top） */
-.idp-modal-container--closing-center-top {
+.zjpcy-modal-container--closing-center-top {
     animation: centerTopAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -216,13 +216,13 @@
         opacity: 1;
     }
     to {
-        transform: translate(var(--idp-modal-origin-x, 0), var(--idp-modal-origin-y, 0)) scale(0.85);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.85);
         opacity: 0;
     }
 }
 
 /* 正常消失（回到点击位置缓慢消失） */
-.idp-modal-container--closing-normal {
+.zjpcy-modal-container--closing-normal {
     animation: normalAnimateOut 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -232,13 +232,13 @@
         opacity: 1;
     }
     to {
-        transform: translate(var(--idp-modal-origin-x, 0), var(--idp-modal-origin-y, 0)) scale(0.9);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.9);
         opacity: 0;
     }
 }
 
 /* 右上角消失 */
-.idp-modal-container--closing-top-right {
+.zjpcy-modal-container--closing-top-right {
     animation: topRightAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -258,7 +258,7 @@
 }
 
 /* 右下角消失 */
-.idp-modal-container--closing-bottom-right {
+.zjpcy-modal-container--closing-bottom-right {
     animation: bottomRightAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -278,7 +278,7 @@
 }
 
 /* 左下角消失 */
-.idp-modal-container--closing-bottom-left {
+.zjpcy-modal-container--closing-bottom-left {
     animation: bottomLeftAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
@@ -300,106 +300,106 @@
 /* ============================================
    头部样式
    ============================================ */
-.idp-modal-header {
+.zjpcy-modal-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    border-bottom: 1px solid var(--idp-border-color-light);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
     background: linear-gradient(
         180deg,
-        var(--idp-bg-color-white) 0%,
-        var(--idp-bg-color) 100%
+        var(--zjpcy-bg-color-white) 0%,
+        var(--zjpcy-bg-color) 100%
     );
     flex-shrink: 0;
 }
 
-.idp-modal-header__left {
+.zjpcy-modal-header__left {
     display: flex;
     align-items: center;
 }
 
-.idp-modal-header__right {
+.zjpcy-modal-header__right {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.idp-modal-header__title {
+.zjpcy-modal-header__title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     letter-spacing: 0.3px;
 }
 
 /* 关闭按钮 */
-.idp-modal-close-btn {
+.zjpcy-modal-close-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
-    border-radius: var(--idp-border-radius-md);
+    border-radius: var(--zjpcy-border-radius-md);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) ease;
-    color: var(--idp-text-color-tertiary);
+    transition: all var(--zjpcy-transition-duration) ease;
+    color: var(--zjpcy-text-color-tertiary);
     background: transparent;
 }
 
-.idp-modal-close-btn:hover {
+.zjpcy-modal-close-btn:hover {
     background: rgba(0, 0, 0, 0.06);
-    color: var(--idp-error-color);
+    color: var(--zjpcy-error-color);
     transform: rotate(90deg);
 }
 
 /* ============================================
    内容区域样式
    ============================================ */
-.idp-modal-content {
+.zjpcy-modal-content {
     padding: 24px;
     overflow-y: auto;
     flex: 1;
     min-height: 0;
-    background: var(--idp-bg-color-white);
-    color: var(--idp-text-color);
+    background: var(--zjpcy-bg-color-white);
+    color: var(--zjpcy-text-color);
     line-height: 1.6;
 }
 
 /* 当没有设置 height 参数时，内容区域有最小高度 300px */
-.idp-modal-container:not([style*="height"]) .idp-modal-content {
+.zjpcy-modal-container:not([style*="height"]) .zjpcy-modal-content {
     min-height: 300px;
 }
 
 /* 当设置了 height 参数时，取消最小高度限制，以设置的 height 为准 */
-.idp-modal-container--has-height .idp-modal-content {
+.zjpcy-modal-container--has-height .zjpcy-modal-content {
     min-height: 0;
 }
 
 /* ============================================
    底部样式
    ============================================ */
-.idp-modal-footer {
+.zjpcy-modal-footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 16px 24px;
     background: linear-gradient(
         180deg,
-        var(--idp-bg-color) 0%,
-        var(--idp-bg-color-light) 100%
+        var(--zjpcy-bg-color) 0%,
+        var(--zjpcy-bg-color-light) 100%
     );
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     flex-shrink: 0;
 }
 
-.idp-modal-footer__actions {
+.zjpcy-modal-footer__actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
     width: 100%;
 }
 
-.idp-modal-footer__custom {
+.zjpcy-modal-footer__custom {
     justify-content: center;
     align-items: center;
     flex-flow: nowrap;
@@ -408,30 +408,30 @@
 /* ============================================
    滚动条样式美化
    ============================================ */
-.idp-modal-content::-webkit-scrollbar {
+.zjpcy-modal-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-.idp-modal-content::-webkit-scrollbar-track {
-    background: var(--idp-bg-color);
+.zjpcy-modal-content::-webkit-scrollbar-track {
+    background: var(--zjpcy-bg-color);
     border-radius: 4px;
 }
 
-.idp-modal-content::-webkit-scrollbar-thumb {
-    background: var(--idp-border-color-extra-light);
+.zjpcy-modal-content::-webkit-scrollbar-thumb {
+    background: var(--zjpcy-border-color-extra-light);
     border-radius: 4px;
-    border: 2px solid var(--idp-bg-color);
+    border: 2px solid var(--zjpcy-bg-color);
 }
 
-.idp-modal-content::-webkit-scrollbar-thumb:hover {
-    background: var(--idp-text-color-light);
+.zjpcy-modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--zjpcy-text-color-light);
 }
 
 /* ============================================
    加载状态 - 与 Table 组件同步
    ============================================ */
-.idp-modal-loading {
+.zjpcy-modal-loading {
     position: absolute;
     top: 0;
     left: 0;
@@ -444,46 +444,46 @@
     z-index: 10;
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
-.idp-modal-loading-content {
+.zjpcy-modal-loading-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
 }
 
-.idp-modal-loading-spinner {
+.zjpcy-modal-loading-spinner {
     width: 32px;
     height: 32px;
 }
 
-.idp-modal-loading-icon {
+.zjpcy-modal-loading-icon {
     width: 100%;
     height: 100%;
-    animation: idp-modal-loading-rotate 1s linear infinite;
+    animation: zjpcy-modal-loading-rotate 1s linear infinite;
 }
 
-.idp-modal-loading-track {
-    stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
+.zjpcy-modal-loading-track {
+    stroke: var(--zjpcy-border-color-light, rgba(0, 0, 0, 0.1));
 }
 
-.idp-modal-loading-indicator {
-    stroke: var(--idp-primary-color, #1890ff);
+.zjpcy-modal-loading-indicator {
+    stroke: var(--zjpcy-primary-color, #1890ff);
     stroke-dasharray: 60;
     stroke-dashoffset: 40;
     stroke-linecap: round;
     transform-origin: center;
 }
 
-.idp-modal-loading-text {
+.zjpcy-modal-loading-text {
     font-size: 14px;
-    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65));
     text-align: center;
 }
 
-@keyframes idp-modal-loading-rotate {
+@keyframes zjpcy-modal-loading-rotate {
     from {
         transform: rotate(0deg);
     }

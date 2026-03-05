@@ -92,14 +92,14 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
   };
 
   return (
-    <div className="idp-page-size-select" ref={selectRef}>
+    <div className="zjpcy-page-size-select" ref={selectRef}>
       <div
-        className={classNames('idp-page-size-select-trigger', { 'idp-page-size-select-trigger-open': isOpen })}
+        className={classNames('zjpcy-page-size-select-trigger', { 'zjpcy-page-size-select-trigger-open': isOpen })}
         onClick={handleToggle}
       >
-        <span className="idp-page-size-select-value">{value} 条/页</span>
+        <span className="zjpcy-page-size-select-value">{value} 条/页</span>
         <svg
-          className="idp-page-size-select-arrow"
+          className="zjpcy-page-size-select-arrow"
           width="12"
           height="12"
           viewBox="0 0 12 12"
@@ -109,13 +109,13 @@ const PageSizeSelect: React.FC<PageSizeSelectProps> = ({ value, options, onChang
         </svg>
       </div>
       {isOpen && (
-        <div className="idp-page-size-select-dropdown idp-page-size-select-dropdown-open" ref={dropdownRef} style={dropdownStyle}>
+        <div className="zjpcy-page-size-select-dropdown zjpcy-page-size-select-dropdown-open" ref={dropdownRef} style={dropdownStyle}>
           {options.map((option) => {
             const numValue = typeof option === 'number' ? option : parseInt(option, 10);
             return (
               <div
                 key={option}
-                className={classNames('idp-page-size-select-option', { 'idp-page-size-select-option-selected': value === numValue })}
+                className={classNames('zjpcy-page-size-select-option', { 'zjpcy-page-size-select-option-selected': value === numValue })}
                 onClick={() => handleSelect(numValue)}
               >
                 {option} 条/页
@@ -294,18 +294,18 @@ const Pagination: React.FC<PaginationProps> = ({
   const startItem = (current - 1) * pageSize + 1;
   const endItem = Math.min(current * pageSize, total);
 
-  const alignClass = align === 'center' ? 'idp-pagination-align-center' : align === 'flex-end' ? 'idp-pagination-align-right' : '';
+  const alignClass = align === 'center' ? 'zjpcy-pagination-align-center' : align === 'flex-end' ? 'zjpcy-pagination-align-right' : '';
   return (
-    <div className={classNames('idp-pagination', { 'idp-pagination-mini': size === 'small' }, alignClass, className)} style={style}>
+    <div className={classNames('zjpcy-pagination', { 'zjpcy-pagination-mini': size === 'small' }, alignClass, className)} style={style}>
       {showTotal && (
-        <div className="idp-pagination-total-text">
+        <div className="zjpcy-pagination-total-text">
           {showTotal(total, [startItem, endItem])}
         </div>
       )}
 
-      <ul className="idp-pagination-list">
+      <ul className="zjpcy-pagination-list">
         <li
-          className={`idp-pagination-prev ${current <= 1 ? 'idp-pagination-prev-disabled' : ''}`}
+          className={`zjpcy-pagination-prev ${current <= 1 ? 'zjpcy-pagination-prev-disabled' : ''}`}
           onClick={() => handlePrev()}
         >
           <Icon type="arrowLeft" />
@@ -316,11 +316,11 @@ const Pagination: React.FC<PaginationProps> = ({
             key={index}
             className={
               typeof page === 'number'
-                ? `idp-pagination-item ${page === current
-                  ? 'idp-pagination-item-active'
+                ? `zjpcy-pagination-item ${page === current
+                  ? 'zjpcy-pagination-item-active'
                   : ''
                 }`
-                : 'idp-pagination-ellipsis'
+                : 'zjpcy-pagination-ellipsis'
             }
             onClick={() => typeof page === 'number' && handlePageChange(page)}
           >
@@ -329,14 +329,14 @@ const Pagination: React.FC<PaginationProps> = ({
         ))}
 
         <li
-          className={`idp-pagination-next ${current >= totalPages ? 'idp-pagination-next-disabled' : ''}`}
+          className={`zjpcy-pagination-next ${current >= totalPages ? 'zjpcy-pagination-next-disabled' : ''}`}
           onClick={() => handleNext()}>
           <Icon type="arrowRight" />
         </li>
       </ul>
 
       {(showSizeChanger || showQuickJumper) && (
-        <div className="idp-pagination-options">
+        <div className="zjpcy-pagination-options">
           {showSizeChanger && (
             <PageSizeSelect
               value={pageSize}
@@ -346,7 +346,7 @@ const Pagination: React.FC<PaginationProps> = ({
           )}
 
           {showQuickJumper && (
-            <div className="idp-pagination-options-quick-jumper">
+            <div className="zjpcy-pagination-options-quick-jumper">
               <div style={{ minWidth: '30px' }}>跳至</div>
               <input
                 type="text"

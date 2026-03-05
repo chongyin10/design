@@ -99,20 +99,20 @@ const UploadList: React.FC<{
     };
 
     return (
-        <div className="idp-upload__list">
+        <div className="zjpcy-upload__list">
             {fileList.map((file) => (
                 <div
                     key={file.uid}
-                    className={classNames('idp-upload__list-item', {
-                        'idp-upload__list-item-error': file.status === 'error',
-                        'idp-upload__list-item-success': file.status === 'success'
+                    className={classNames('zjpcy-upload__list-item', {
+                        'zjpcy-upload__list-item-error': file.status === 'error',
+                        'zjpcy-upload__list-item-success': file.status === 'success'
                     })}
                 >
-                    <div className="idp-upload__list-item-info">
-                        <span className="idp-upload__list-item-icon">
+                    <div className="zjpcy-upload__list-item-info">
+                        <span className="zjpcy-upload__list-item-icon">
                             {getStatusIcon(file.status)}
                         </span>
-                        <span className="idp-upload__list-item-name" title={file.name}>
+                        <span className="zjpcy-upload__list-item-name" title={file.name}>
                             {file.name}
                             <span style={{ color: 'var(--text-secondary, #999)', marginLeft: 8, fontSize: 12 }}>
                                 ({formatSize(file.size)})
@@ -120,9 +120,9 @@ const UploadList: React.FC<{
                         </span>
                     </div>
                     {showRemoveIcon && (
-                        <span className="idp-upload__list-item-actions">
+                        <span className="zjpcy-upload__list-item-actions">
                             <button
-                                className="idp-upload__list-item-action"
+                                className="zjpcy-upload__list-item-action"
                                 onClick={() => onRemove(file)}
                                 title="删除"
                             >
@@ -130,8 +130,8 @@ const UploadList: React.FC<{
                             </button>
                         </span>
                     )}
-                    <div className={classNames('idp-upload__progress-wrapper', {
-                        'idp-upload__progress-wrapper-visible': file.status === 'uploading'
+                    <div className={classNames('zjpcy-upload__progress-wrapper', {
+                        'zjpcy-upload__progress-wrapper-visible': file.status === 'uploading'
                     })}>
                         <Progress
                             percent={file.percent || 0}
@@ -202,9 +202,9 @@ const UploadDrag: React.FC<{
     return (
         <div
             ref={dragRef}
-            className={classNames('idp-upload__drag', {
-                'idp-upload__drag-over': isDragOver,
-                'idp-upload__drag-disabled': disabled
+            className={classNames('zjpcy-upload__drag', {
+                'zjpcy-upload__drag-over': isDragOver,
+                'zjpcy-upload__drag-disabled': disabled
             })}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -213,13 +213,13 @@ const UploadDrag: React.FC<{
         >
             {children || (
                 <>
-                    <div className="idp-upload__drag-icon">
+                    <div className="zjpcy-upload__drag-icon">
                         <Icon type="upload" style={{ fontSize: 48 }} />
                     </div>
-                    <div className="idp-upload__drag-text">
+                    <div className="zjpcy-upload__drag-text">
                         点击或拖拽文件到此区域上传
                     </div>
-                    <div className="idp-upload__drag-hint">
+                    <div className="zjpcy-upload__drag-hint">
                         支持单次或批量上传
                     </div>
                 </>
@@ -413,15 +413,15 @@ const Upload: React.FC<UploadProps> = ({
 
     return (
         <div
-            className={classNames('idp-upload', className, {
-                'idp-upload--disabled': disabled
+            className={classNames('zjpcy-upload', className, {
+                'zjpcy-upload--disabled': disabled
             })}
             style={style}
         >
             <input
                 ref={inputRef}
                 type="file"
-                className="idp-upload__input"
+                className="zjpcy-upload__input"
                 accept={accept}
                 multiple={multiple}
                 onChange={handleInputChange}
@@ -437,9 +437,9 @@ const Upload: React.FC<UploadProps> = ({
                     {children}
                 </UploadDrag>
             ) : (
-                <div className="idp-upload__trigger" onClick={handleClick}>
+                <div className="zjpcy-upload__trigger" onClick={handleClick}>
                     {children || (
-                        <button className="idp-btn idp-btn--primary" disabled={disabled}>
+                        <button className="zjpcy-btn zjpcy-btn--primary" disabled={disabled}>
                             <Icon type="upload" style={{ marginRight: 4 }} />
                             点击上传
                         </button>

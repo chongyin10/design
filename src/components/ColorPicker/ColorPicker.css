@@ -1,59 +1,59 @@
 /* ColorPicker 组件样式 */
 
 /* 主容器样式 */
-.idp-color-picker {
+.zjpcy-color-picker {
   display: inline-block;
   position: relative;
   vertical-align: middle;
 }
 
 /* 变体样式 */
-.idp-color-picker--primary {
+.zjpcy-color-picker--primary {
   /* 主色变体样式 */
 }
 
-.idp-color-picker--secondary {
+.zjpcy-color-picker--secondary {
   /* 次色变体样式 */
 }
 
-.idp-color-picker--danger {
+.zjpcy-color-picker--danger {
   /* 危险色变体样式 */
 }
 
-.idp-color-picker--success {
+.zjpcy-color-picker--success {
   /* 成功色变体样式 */
 }
 
-.idp-color-picker--warning {
+.zjpcy-color-picker--warning {
   /* 警告色变体样式 */
 }
 
 /* 尺寸样式 */
-.idp-color-picker--large {
+.zjpcy-color-picker--large {
   /* 大尺寸样式 */
 }
 
-.idp-color-picker--small {
+.zjpcy-color-picker--small {
   /* 小尺寸样式 */
 }
 
-.idp-color-picker--middle {
+.zjpcy-color-picker--middle {
   /* 中尺寸样式 */
 }
 
 /* 禁用状态 */
-.idp-color-picker--disabled {
+.zjpcy-color-picker--disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
 /* 打开状态 */
-.idp-color-picker--open {
+.zjpcy-color-picker--open {
   /* 打开状态样式 */
 }
 
 /* 触发器样式 */
-.idp-color-picker-trigger {
+.zjpcy-color-picker-trigger {
   width: 32px;
   height: 32px;
   border-radius: 4px;
@@ -71,24 +71,24 @@
   box-sizing: border-box;
 }
 
-.idp-color-picker-trigger:hover {
+.zjpcy-color-picker-trigger:hover {
   border-color: #40a9ff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.idp-color-picker-trigger:focus {
+.zjpcy-color-picker-trigger:focus {
   border-color: #40a9ff;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
-.idp-color-picker-trigger:disabled {
+.zjpcy-color-picker-trigger:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 /* 颜色文本样式 */
-.idp-color-picker-text {
+.zjpcy-color-picker-text {
   margin-left: 8px;
   font-size: 12px;
   color: #666;
@@ -99,7 +99,7 @@
 }
 
 /* 弹出层样式 */
-.idp-color-picker-popup {
+.zjpcy-color-picker-popup {
   position: absolute;
   z-index: 1050;
   top: 100%;
@@ -108,7 +108,7 @@
 }
 
 /* 弹出层内容 */
-.idp-color-picker-content {
+.zjpcy-color-picker-content {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
@@ -119,20 +119,20 @@
 }
 
 /* 颜色值输入组样式 */
-.idp-color-picker-input-group {
+.zjpcy-color-picker-input-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-top: 4px;
 }
 
-.idp-color-picker-input-label {
+.zjpcy-color-picker-input-label {
   font-size: 12px;
   color: #666;
   font-weight: 500;
 }
 
-.idp-color-picker-input {
+.zjpcy-color-picker-input {
   width: 100%;
   height: 32px;
   padding: 0 8px;
@@ -147,17 +147,17 @@
   outline: none;
 }
 
-.idp-color-picker-input:focus {
+.zjpcy-color-picker-input:focus {
   border-color: #40a9ff;
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
-.idp-color-picker-input:hover {
+.zjpcy-color-picker-input:hover {
   border-color: #40a9ff;
 }
 
 /* 预设颜色样式 */
-.idp-color-picker-presets-label {
+.zjpcy-color-picker-presets-label {
   font-size: 12px;
   color: #666;
   font-weight: 500;
@@ -165,14 +165,14 @@
   display: block;
 }
 
-.idp-color-picker-presets {
+.zjpcy-color-picker-presets {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 4px;
 }
 
-.idp-color-picker-preset {
+.zjpcy-color-picker-preset {
   width: 24px;
   height: 24px;
   border-radius: 4px;
@@ -182,61 +182,61 @@
   box-sizing: border-box;
 }
 
-.idp-color-picker-preset:hover {
+.zjpcy-color-picker-preset:hover {
   transform: scale(1.1);
   border-color: #40a9ff;
 }
 
 /* 遮罩层样式 */
-.idp-color-picker-overlay {
+.zjpcy-color-picker-overlay {
  
 }
 
 /* 触发器容器样式 */
-.idp-color-picker-trigger-container {
+.zjpcy-color-picker-trigger-container {
   cursor: pointer;
 }
 
 /* 默认触发器样式 */
-.idp-color-picker-default-trigger {
+.zjpcy-color-picker-default-trigger {
   cursor: pointer;
   width: 32px;
   height: 32px;
 }
 
 /* 操作按钮容器样式 */
-.idp-color-picker-actions {
+.zjpcy-color-picker-actions {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 8px;
 }
 
-.idp-color-picker-preview-label {
+.zjpcy-color-picker-preview-label {
   font-size: 14px;
   color: #666;
   font-weight: 500;
 }
 
 /* 颜色预览样式 */
-.idp-color-picker-preview {
+.zjpcy-color-picker-preview {
   border-radius: 4px;
   border: 1px solid #d9d9d9;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
-.idp-color-picker-solid-preview {
+.zjpcy-color-picker-solid-preview {
   flex: 1;
   height: 24px;
 }
 
-.idp-color-picker-gradient-preview {
+.zjpcy-color-picker-gradient-preview {
   flex: 1;
   height: 24px;
 }
 
 /* 按钮组样式 */
-.idp-color-picker-button-group {
+.zjpcy-color-picker-button-group {
   display: flex;
   gap: 8px;
   margin-left: auto;
@@ -288,7 +288,7 @@
 
 /* 渐变色相关样式 */
 /* 模式切换按钮容器 */
-.idp-color-picker-mode-toggle {
+.zjpcy-color-picker-mode-toggle {
   display: flex;
   justify-content: center;
   margin-bottom: 12px;
@@ -296,20 +296,20 @@
 }
 
 /* 渐变色选择器容器 */
-.idp-color-picker-gradient {
+.zjpcy-color-picker-gradient {
   display: flex;
   gap: 16px;
 }
 
 /* 渐变色项 */
-.idp-color-picker-gradient-item {
+.zjpcy-color-picker-gradient-item {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
 /* 渐变色标签 */
-.idp-color-picker-gradient-label {
+.zjpcy-color-picker-gradient-label {
   font-size: 12px;
   color: #666;
   font-weight: 500;
@@ -317,7 +317,7 @@
 }
 
 /* 渐变色方向调整 */
-.idp-color-picker-gradient-direction {
+.zjpcy-color-picker-gradient-direction {
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -325,14 +325,14 @@
 }
 
 /* 渐变色方向标签 */
-.idp-color-picker-gradient-direction-label {
+.zjpcy-color-picker-gradient-direction-label {
   font-size: 12px;
   color: #666;
   font-weight: 500;
 }
 
 /* 渐变色方向滑块 */
-.idp-color-picker-gradient-range {
+.zjpcy-color-picker-gradient-range {
   width: 100%;
   height: 4px;
   border-radius: 2px;
@@ -343,7 +343,7 @@
 }
 
 /* WebKit滑块样式 */
-.idp-color-picker-gradient-range::-webkit-slider-thumb {
+.zjpcy-color-picker-gradient-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
@@ -357,7 +357,7 @@
 }
 
 /* Firefox滑块样式 */
-.idp-color-picker-gradient-range::-moz-range-thumb {
+.zjpcy-color-picker-gradient-range::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
@@ -369,18 +369,18 @@
 }
 
 /* 滑块悬停样式 */
-.idp-color-picker-gradient-range::-webkit-slider-thumb:hover {
+.zjpcy-color-picker-gradient-range::-webkit-slider-thumb:hover {
   background: #40a9ff;
   transform: scale(1.1);
 }
 
-.idp-color-picker-gradient-range::-moz-range-thumb:hover {
+.zjpcy-color-picker-gradient-range::-moz-range-thumb:hover {
   background: #40a9ff;
   transform: scale(1.1);
 }
 
 /* 颜色类型显示 */
-.idp-color-picker-type {
+.zjpcy-color-picker-type {
   font-size: 12px;
   color: #666;
   font-weight: 500;

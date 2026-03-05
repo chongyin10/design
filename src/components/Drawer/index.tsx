@@ -190,13 +190,13 @@ const Drawer: React.FC<DrawerProps> = ({
     const getResizeHandleClassName = (): string => {
         switch (placement) {
             case 'left':
-                return 'idp-drawer-resize-handle--right';
+                return 'zjpcy-drawer-resize-handle--right';
             case 'right':
-                return 'idp-drawer-resize-handle--left';
+                return 'zjpcy-drawer-resize-handle--left';
             case 'top':
-                return 'idp-drawer-resize-handle--bottom';
+                return 'zjpcy-drawer-resize-handle--bottom';
             case 'bottom':
-                return 'idp-drawer-resize-handle--top';
+                return 'zjpcy-drawer-resize-handle--top';
             default:
                 return '';
         }
@@ -316,8 +316,8 @@ const Drawer: React.FC<DrawerProps> = ({
 
         if (loadingIcon) {
             return (
-                <div className="idp-drawer-loading">
-                    <div className="idp-drawer-loading-content">
+                <div className="zjpcy-drawer-loading">
+                    <div className="zjpcy-drawer-loading-content">
                         {loadingIcon}
                     </div>
                 </div>
@@ -325,12 +325,12 @@ const Drawer: React.FC<DrawerProps> = ({
         }
 
         return (
-            <div className="idp-drawer-loading">
-                <div className="idp-drawer-loading-content">
-                    <div className="idp-drawer-loading-spinner">
-                        <svg viewBox="0 0 24 24" className="idp-drawer-loading-icon">
+            <div className="zjpcy-drawer-loading">
+                <div className="zjpcy-drawer-loading-content">
+                    <div className="zjpcy-drawer-loading-spinner">
+                        <svg viewBox="0 0 24 24" className="zjpcy-drawer-loading-icon">
                             <circle
-                                className="idp-drawer-loading-track"
+                                className="zjpcy-drawer-loading-track"
                                 cx="12"
                                 cy="12"
                                 r="10"
@@ -338,7 +338,7 @@ const Drawer: React.FC<DrawerProps> = ({
                                 strokeWidth="2"
                             />
                             <circle
-                                className="idp-drawer-loading-indicator"
+                                className="zjpcy-drawer-loading-indicator"
                                 cx="12"
                                 cy="12"
                                 r="10"
@@ -361,7 +361,7 @@ const Drawer: React.FC<DrawerProps> = ({
         if (header) {
             return (
                 <div
-                    className={classNames('idp-drawer-header', headerClassName)}
+                    className={classNames('zjpcy-drawer-header', headerClassName)}
                     style={headerStyle}
                 >
                     {header}
@@ -374,13 +374,13 @@ const Drawer: React.FC<DrawerProps> = ({
 
         return (
             <div
-                className={classNames('idp-drawer-header', headerClassName)}
+                className={classNames('zjpcy-drawer-header', headerClassName)}
                 style={headerStyle}
             >
-                <div className="idp-drawer-header__title">{title}</div>
+                <div className="zjpcy-drawer-header__title">{title}</div>
                 {closable && (
                     <button
-                        className="idp-drawer-header__close"
+                        className="zjpcy-drawer-header__close"
                         onClick={handleCloseClick}
                         type="button"
                         aria-label="Close"
@@ -399,7 +399,7 @@ const Drawer: React.FC<DrawerProps> = ({
         return (
             <div
                 className={classNames(
-                    'idp-drawer-resize-handle',
+                    'zjpcy-drawer-resize-handle',
                     getResizeHandleClassName()
                 )}
                 style={{
@@ -418,11 +418,11 @@ const Drawer: React.FC<DrawerProps> = ({
         const content = (
             <div
                 className={classNames(
-                    'idp-drawer-overlay',
+                    'zjpcy-drawer-overlay',
                     {
-                        'idp-drawer-overlay--visible': isOpening && !isClosing,
-                        'idp-drawer-overlay--closing': isClosing,
-                        'idp-drawer-overlay--resizing': isResizing,
+                        'zjpcy-drawer-overlay--visible': isOpening && !isClosing,
+                        'zjpcy-drawer-overlay--closing': isClosing,
+                        'zjpcy-drawer-overlay--resizing': isResizing,
                     },
                     maskClassName
                 )}
@@ -435,13 +435,13 @@ const Drawer: React.FC<DrawerProps> = ({
                 <div
                     ref={drawerRef}
                     className={classNames(
-                        'idp-drawer',
-                        `idp-drawer--${placement}`,
+                        'zjpcy-drawer',
+                        `zjpcy-drawer--${placement}`,
                         {
-                            'idp-drawer--visible': isOpening && !isClosing,
-                            'idp-drawer--closing': isClosing,
-                            'idp-drawer--no-mask': !mask,
-                            'idp-drawer--resizing': isResizing,
+                            'zjpcy-drawer--visible': isOpening && !isClosing,
+                            'zjpcy-drawer--closing': isClosing,
+                            'zjpcy-drawer--no-mask': !mask,
+                            'zjpcy-drawer--resizing': isResizing,
                         },
                         className
                     )}
@@ -451,14 +451,14 @@ const Drawer: React.FC<DrawerProps> = ({
                     {renderLoading()}
                     {renderHeader()}
                     <div
-                        className={classNames('idp-drawer-content', contentClassName)}
+                        className={classNames('zjpcy-drawer-content', contentClassName)}
                         style={contentStyle}
                     >
                         {!(destroyOnClose && isClosing) ? children : null}
                     </div>
                     {footer !== false && (
                         <div
-                            className={classNames('idp-drawer-footer', footerClassName)}
+                            className={classNames('zjpcy-drawer-footer', footerClassName)}
                             style={footerStyle}
                         >
                             {footer || (
@@ -479,11 +479,11 @@ const Drawer: React.FC<DrawerProps> = ({
             return (
                 <div
                     className={classNames(
-                        'idp-drawer-wrapper',
+                        'zjpcy-drawer-wrapper',
                         {
-                            'idp-drawer-wrapper--visible': isOpening && !isClosing,
-                            'idp-drawer-wrapper--closing': isClosing,
-                            'idp-drawer-wrapper--no-mask': !mask,
+                            'zjpcy-drawer-wrapper--visible': isOpening && !isClosing,
+                            'zjpcy-drawer-wrapper--closing': isClosing,
+                            'zjpcy-drawer-wrapper--no-mask': !mask,
                         }
                     )}
                     style={{ zIndex }}
@@ -491,13 +491,13 @@ const Drawer: React.FC<DrawerProps> = ({
                     <div
                         ref={drawerRef}
                         className={classNames(
-                            'idp-drawer',
-                            `idp-drawer--${placement}`,
+                            'zjpcy-drawer',
+                            `zjpcy-drawer--${placement}`,
                             {
-                                'idp-drawer--visible': isOpening && !isClosing,
-                                'idp-drawer--closing': isClosing,
-                                'idp-drawer--no-mask': !mask,
-                                'idp-drawer--resizing': isResizing,
+                                'zjpcy-drawer--visible': isOpening && !isClosing,
+                                'zjpcy-drawer--closing': isClosing,
+                                'zjpcy-drawer--no-mask': !mask,
+                                'zjpcy-drawer--resizing': isResizing,
                             },
                             className
                         )}
@@ -506,14 +506,14 @@ const Drawer: React.FC<DrawerProps> = ({
                         {renderLoading()}
                         {renderHeader()}
                         <div
-                            className={classNames('idp-drawer-content', contentClassName)}
+                            className={classNames('zjpcy-drawer-content', contentClassName)}
                             style={contentStyle}
                         >
                             {!(destroyOnClose && isClosing) ? children : null}
                         </div>
                         {footer !== false && (
                             <div
-                                className={classNames('idp-drawer-footer', footerClassName)}
+                                className={classNames('zjpcy-drawer-footer', footerClassName)}
                                 style={footerStyle}
                             >
                                 {footer || (

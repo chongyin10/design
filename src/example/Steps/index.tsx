@@ -242,7 +242,7 @@ const StepsExample: React.FC = () => {
     ];
 
     const basicCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const BasicStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -264,7 +264,7 @@ const BasicStepsExample = () => {
 };`;
 
     const panelCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const PanelStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -287,7 +287,7 @@ const PanelStepsExample = () => {
 };`;
 
     const smartCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const SmartStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -343,7 +343,7 @@ const SmartStepsExample = () => {
 };`;
 
     const verticalCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const VerticalStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -366,7 +366,7 @@ const VerticalStepsExample = () => {
 };`;
 
     const nodeCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const NodeStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -388,7 +388,7 @@ const NodeStepsExample = () => {
 };`;
 
     const errorCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const ErrorStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -410,7 +410,7 @@ const ErrorStepsExample = () => {
 };`;
 
     const tailCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const TailStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -452,7 +452,7 @@ const TailStepsExample = () => {
 };`;
 
     const dashedTailCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const DashedTailStepsExample = () => {
     const [current, setCurrent] = useState(0);
@@ -498,7 +498,7 @@ const DashedTailStepsExample = () => {
 };`;
 
     const customNodeCode = `import React, { useState } from 'react';
-import { Steps } from 'idp-design';
+import { Steps } from 'zjpcy-design';
 
 const CustomNodeStepsExample = () => {
     const [current, setCurrent] = useState(0);

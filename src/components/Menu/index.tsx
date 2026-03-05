@@ -118,22 +118,22 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
 
   // 根据当前模式决定子菜单如何展开
   const getSubMenuClass = () => {
-    if (isVerticalFlat) return 'idp-menu-submenu-vertical-flat idp-menu-submenu-vertical-flat-open';
+    if (isVerticalFlat) return 'zjpcy-menu-submenu-vertical-flat zjpcy-menu-submenu-vertical-flat-open';
 
     if (isHorizontal && isRoot) {
-      return classNames('idp-menu-submenu-horizontal-popup', {
-        'idp-menu-submenu-horizontal-popup-open': isHorizontalSubMenuVisible
+      return classNames('zjpcy-menu-submenu-horizontal-popup', {
+        'zjpcy-menu-submenu-horizontal-popup-open': isHorizontalSubMenuVisible
       });
     }
 
     if (isInline) {
-      return classNames('idp-menu-submenu-inline', {
-        'idp-menu-submenu-inline-open': shouldOpen
+      return classNames('zjpcy-menu-submenu-inline', {
+        'zjpcy-menu-submenu-inline-open': shouldOpen
       });
     }
 
-    return classNames('idp-menu-submenu-vertical', {
-      'idp-menu-submenu-vertical-open': shouldOpen
+    return classNames('zjpcy-menu-submenu-vertical', {
+      'zjpcy-menu-submenu-vertical-open': shouldOpen
     });
   };
 
@@ -141,42 +141,42 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
   const itemTheme = theme || 'light';
 
   // 菜单项 wrapper 类名
-  const itemWrapperClass = classNames('idp-menu-item-wrapper', {
-    'idp-menu-item-wrapper-root': isRoot,
-    'idp-menu-item-wrapper-collapsed': collapsed && isRoot
+  const itemWrapperClass = classNames('zjpcy-menu-item-wrapper', {
+    'zjpcy-menu-item-wrapper-root': isRoot,
+    'zjpcy-menu-item-wrapper-collapsed': collapsed && isRoot
   });
 
   // 菜单项类名
-  const itemClass = classNames('idp-menu-item', {
-    [`idp-menu-item-${itemTheme}`]: true,
-    [`idp-menu-item-${itemTheme}-selected`]: isSelected,
-    [`idp-menu-item-${itemTheme}-selected-vertical`]: isSelected && (mode === 'vertical' || mode === 'inline' || mode === 'vertical-flat'),
-    'idp-menu-item-disabled': item.disabled,
-    'idp-menu-item-has-children': hasChildren,
-    'idp-menu-item-has-children-selected': hasChildren && isSelected,
-    [`idp-menu-item-${itemTheme}-has-children`]: hasChildren,
-    'idp-menu-item-root': isRoot,
-    'idp-menu-item-collapsed': collapsed && isRoot
+  const itemClass = classNames('zjpcy-menu-item', {
+    [`zjpcy-menu-item-${itemTheme}`]: true,
+    [`zjpcy-menu-item-${itemTheme}-selected`]: isSelected,
+    [`zjpcy-menu-item-${itemTheme}-selected-vertical`]: isSelected && (mode === 'vertical' || mode === 'inline' || mode === 'vertical-flat'),
+    'zjpcy-menu-item-disabled': item.disabled,
+    'zjpcy-menu-item-has-children': hasChildren,
+    'zjpcy-menu-item-has-children-selected': hasChildren && isSelected,
+    [`zjpcy-menu-item-${itemTheme}-has-children`]: hasChildren,
+    'zjpcy-menu-item-root': isRoot,
+    'zjpcy-menu-item-collapsed': collapsed && isRoot
   });
 
   // 图标类名
-  const iconClass = classNames('idp-menu-item-icon', {
-    'idp-menu-item-icon-collapsed': collapsed
+  const iconClass = classNames('zjpcy-menu-item-icon', {
+    'zjpcy-menu-item-icon-collapsed': collapsed
   });
 
   // 箭头类名
-  const arrowClass = classNames('idp-menu-item-arrow', {
-    'idp-menu-item-arrow-open': shouldOpen,
-    'idp-menu-item-arrow-horizontal': isHorizontal,
-    'idp-menu-item-arrow-horizontal-open': shouldOpen && isHorizontal
+  const arrowClass = classNames('zjpcy-menu-item-arrow', {
+    'zjpcy-menu-item-arrow-open': shouldOpen,
+    'zjpcy-menu-item-arrow-horizontal': isHorizontal,
+    'zjpcy-menu-item-arrow-horizontal-open': shouldOpen && isHorizontal
   });
 
   // 子菜单 wrapper 类名
-  const subMenuWrapperClass = classNames('idp-menu-submenu-wrapper', {
-    [`idp-menu-submenu-wrapper-${mode}`]: true,
-    'idp-menu-submenu-wrapper-horizontal-popup': isHorizontal && isRoot,
-    'idp-menu-submenu-wrapper-vertical-flat': isVerticalFlat,
-    'idp-menu-submenu-wrapper-vertical-flat-container': isVerticalFlat
+  const subMenuWrapperClass = classNames('zjpcy-menu-submenu-wrapper', {
+    [`zjpcy-menu-submenu-wrapper-${mode}`]: true,
+    'zjpcy-menu-submenu-wrapper-horizontal-popup': isHorizontal && isRoot,
+    'zjpcy-menu-submenu-wrapper-vertical-flat': isVerticalFlat,
+    'zjpcy-menu-submenu-wrapper-vertical-flat-container': isVerticalFlat
   });
 
   return (
@@ -187,7 +187,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
         title={collapsed && isRoot ? item.label : undefined}
         onClick={handleClick}
       >
-        <div className="idp-menu-item-content">
+        <div className="zjpcy-menu-item-content">
           {/* 折叠状态下：有 icon 显示 icon，无 icon 显示首字母 */}
           {collapsed ? (
             <>
@@ -196,7 +196,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
                   {item.icon}
                 </span>
               ) : (
-                <span className="idp-menu-item-collapsed-label">
+                <span className="zjpcy-menu-item-collapsed-label">
                   {renderCollapsedLabel(item.label)}
                 </span>
               )}
@@ -204,14 +204,14 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
           ) : (
             <>
               {item.icon && (
-                <span className="idp-menu-item-icon">
+                <span className="zjpcy-menu-item-icon">
                   {item.icon}
                 </span>
               )}
-              <div className="idp-menu-item-text">
-                <span className="idp-menu-item-label">{item.label}</span>
+              <div className="zjpcy-menu-item-text">
+                <span className="zjpcy-menu-item-label">{item.label}</span>
                 {item.description && !hasChildren && (
-                  <span className="idp-menu-item-description">{item.description}</span>
+                  <span className="zjpcy-menu-item-description">{item.description}</span>
                 )}
               </div>
             </>
@@ -231,7 +231,7 @@ const MenuItemComponent: React.FC<MenuItemComponentProps> = React.memo(({
       {(hasChildren && (isHorizontal && isRoot ? shouldRenderHorizontalSubMenu : true)) && (
         <div className={subMenuWrapperClass}>
           <div className={getSubMenuClass()}>
-            <div className="idp-menu-submenu-content">
+            <div className="zjpcy-menu-submenu-content">
               {item.children?.map((child: MenuItem) => (
                 <MenuItemComponent
                   key={child.key}
@@ -395,12 +395,12 @@ const Menu: React.FC<MenuProps> = ({
 
   // 菜单根元素类名
   const menuClass = classNames(
-    'idp-menu',
-    `idp-menu-${theme}`,
+    'zjpcy-menu',
+    `zjpcy-menu-${theme}`,
     {
-      [`idp-menu-${mode}`]: true,
-      [`idp-menu-${mode}-collapsed`]: effectiveCollapsed,
-      'idp-menu-dark-vertical-flat': theme === 'dark' && mode === 'vertical-flat'
+      [`zjpcy-menu-${mode}`]: true,
+      [`zjpcy-menu-${mode}-collapsed`]: effectiveCollapsed,
+      'zjpcy-menu-dark-vertical-flat': theme === 'dark' && mode === 'vertical-flat'
     },
     className
   );

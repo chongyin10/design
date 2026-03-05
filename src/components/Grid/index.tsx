@@ -22,7 +22,7 @@ export const Col = React.forwardRef<HTMLDivElement, ColProps>(
         return (
             <ColWrapper
                 ref={ref}
-                className={classNames('idp-grid-col', className)}
+                className={classNames('zjpcy-grid-col', className)}
                 style={style}
                 span={span}
                 offset={offset}
@@ -52,7 +52,7 @@ const RowComponent = React.forwardRef<HTMLDivElement, RowProps>(
             <RowContext.Provider value={{ gap: finalGap }}>
                 <RowWrapper
                     ref={ref}
-                    className={classNames('idp-grid-row', className)}
+                    className={classNames('zjpcy-grid-row', className)}
                     style={style}
                     span={span}
                     rowGap={rowGap}
@@ -77,7 +77,7 @@ const GridComponent = React.forwardRef<HTMLDivElement, GridProps>(
             <GridContext.Provider value={{ gap }}>
                 <GridWrapper
                     ref={ref}
-                    className={classNames('idp-grid', className)}
+                    className={classNames('zjpcy-grid', className)}
                     style={style}
                     width={width}
                     height={height}

@@ -26,10 +26,10 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
 
     // 构建类名
     const classes = classNames(
-        'idp-color-picker',
+        'zjpcy-color-picker',
         {
-            'idp-color-picker--disabled': disabled,
-            'idp-color-picker--open': isOpen
+            'zjpcy-color-picker--disabled': disabled,
+            'zjpcy-color-picker--open': isOpen
         },
         className
     );
@@ -117,23 +117,23 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
     return (
         <div className={classes} style={style}>
             {children ? (
-                <div ref={triggerRef} className="idp-color-picker-trigger-container" onClick={togglePicker}>
+                <div ref={triggerRef} className="zjpcy-color-picker-trigger-container" onClick={togglePicker}>
                     {children}
                 </div>
             ) : (
-                <div ref={triggerRef} className="idp-color-picker-default-trigger" style={{ background: color }} onClick={togglePicker} />
+                <div ref={triggerRef} className="zjpcy-color-picker-default-trigger" style={{ background: color }} onClick={togglePicker} />
             )}
             {isOpen && (
-                <div className="idp-color-picker-popup">
-                    <div className="idp-color-picker-content" ref={contentRef}>
+                <div className="zjpcy-color-picker-popup">
+                    <div className="zjpcy-color-picker-content" ref={contentRef}>
 
 
                         {/* 颜色选择器 */}
                         {gradient ? (
                             <>
-                                <div className="idp-color-picker-gradient">
-                                    <div className="idp-color-picker-gradient-item">
-                                        <div className="idp-color-picker-gradient-label">起始颜色</div>
+                                <div className="zjpcy-color-picker-gradient">
+                                    <div className="zjpcy-color-picker-gradient-item">
+                                        <div className="zjpcy-color-picker-gradient-label">起始颜色</div>
                                         <SketchPicker
                                             color={gradientColors[0]}
                                             onChange={(colorObject) => {
@@ -142,8 +142,8 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                                             disableAlpha={!alpha}
                                         />
                                     </div>
-                                    <div className="idp-color-picker-gradient-item">
-                                        <div className="idp-color-picker-gradient-label">结束颜色</div>
+                                    <div className="zjpcy-color-picker-gradient-item">
+                                        <div className="zjpcy-color-picker-gradient-label">结束颜色</div>
                                         <SketchPicker
                                             color={gradientColors[1]}
                                             onChange={(colorObject) => {
@@ -155,8 +155,8 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                                 </div>
 
                                 {/* 渐变方向调整 */}
-                                <div className="idp-color-picker-gradient-direction">
-                                    <div className="idp-color-picker-gradient-direction-label">渐变方向: {gradientDirection}°</div>
+                                <div className="zjpcy-color-picker-gradient-direction">
+                                    <div className="zjpcy-color-picker-gradient-direction-label">渐变方向: {gradientDirection}°</div>
                                     <input
                                         type="range"
                                         min="0"
@@ -166,7 +166,7 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                                             setGradientDirection(parseInt(e.target.value));
                                             updateGradient();
                                         }}
-                                        className="idp-color-picker-gradient-range"
+                                        className="zjpcy-color-picker-gradient-range"
                                     />
                                 </div>
                             </>
@@ -184,12 +184,12 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                         {/* 预设颜色 */}
                         {presetColors.length > 0 && (
                             <div>
-                                <div className="idp-color-picker-presets-label">预设颜色</div>
-                                <div className="idp-color-picker-presets">
+                                <div className="zjpcy-color-picker-presets-label">预设颜色</div>
+                                <div className="zjpcy-color-picker-presets">
                                     {presetColors.map((preset, index) => (
                                         <div
                                             key={index}
-                                            className="idp-color-picker-preset"
+                                            className="zjpcy-color-picker-preset"
                                             style={{ backgroundColor: preset }}
                                             onClick={() => handleColorChange({ hex: preset })}
                                             title={preset}
@@ -200,14 +200,14 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                         )}
 
                         {/* 操作按钮 */}
-                        <div className="idp-color-picker-actions">
+                        <div className="zjpcy-color-picker-actions">
                             {/* 颜色预览 */}
-                            <div className="idp-color-picker-preview-label">参考值：</div>
+                            <div className="zjpcy-color-picker-preview-label">参考值：</div>
                             <div
-                                className={`idp-color-picker-preview ${gradient ? 'idp-color-picker-gradient-preview' : 'idp-color-picker-solid-preview'}`}
+                                className={`zjpcy-color-picker-preview ${gradient ? 'zjpcy-color-picker-gradient-preview' : 'zjpcy-color-picker-solid-preview'}`}
                                 style={{ background: tempColor }}
                             />
-                            <div className="idp-color-picker-button-group">
+                            <div className="zjpcy-color-picker-button-group">
                                 <Button
                                     size="small"
                                     onClick={cancelColor}
@@ -227,7 +227,7 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
 
                     {/* 点击外部关闭 */}
                     <div
-                        className="idp-color-picker-overlay"
+                        className="zjpcy-color-picker-overlay"
                         onClick={() => setIsOpen(false)}
                     />
                 </div>

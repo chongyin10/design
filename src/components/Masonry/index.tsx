@@ -108,7 +108,7 @@ const Masonry: React.FC<MasonryProps> = ({
     return (
         <div
             ref={containerRef}
-            className={`idp-masonry ${className || ''} ${getClassName('container', 0)}`}
+            className={`zjpcy-masonry ${className || ''} ${getClassName('container', 0)}`}
             style={{
                 display: 'flex',
                 gap: `${currentGutter}px`,
@@ -119,7 +119,7 @@ const Masonry: React.FC<MasonryProps> = ({
             {columnAssignments.map((columnItems, columnIndex) => (
                 <div
                     key={`column-${columnIndex}`}
-                    className={`idp-masonry-column ${getClassName('column', columnIndex)}`}
+                    className={`zjpcy-masonry-column ${getClassName('column', columnIndex)}`}
                     style={{
                         flex: 1,
                         display: 'flex',
@@ -131,7 +131,7 @@ const Masonry: React.FC<MasonryProps> = ({
                     {columnItems.map((item, itemIndex) => (
                         <div
                             key={item.key}
-                            className={`idp-masonry-item ${getClassName('item', itemIndex)}`}
+                            className={`zjpcy-masonry-item ${getClassName('item', itemIndex)}`}
                             style={{
                                 ...getStyle('item', itemIndex)
                             }}

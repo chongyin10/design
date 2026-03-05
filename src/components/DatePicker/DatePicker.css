@@ -32,14 +32,14 @@
 /* ============================================
    下拉面板动画
    ============================================ */
-.idp-datepicker-dropdown {
-    animation: datePickerSlideIn 0.2s var(--idp-transition-timing-function);
+.zjpcy-datepicker-dropdown {
+    animation: datePickerSlideIn 0.2s var(--zjpcy-transition-timing-function);
 }
 
 /* ============================================
    日期选择器基础样式
    ============================================ */
-.idp-datepicker {
+.zjpcy-datepicker {
     display: inline-block;
     position: relative;
     font-size: 14px;
@@ -49,68 +49,68 @@
 /* ============================================
    触发器样式
    ============================================ */
-.idp-datepicker-trigger {
+.zjpcy-datepicker-trigger {
     display: flex;
     align-items: center;
     width: 100%;
     padding: 0 12px;
-    border: 1px solid var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-lg);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     box-sizing: border-box;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-trigger:focus-within,
-.idp-datepicker-trigger:hover:not(.idp-datepicker-trigger--disabled) {
-    border-color: var(--idp-primary-color);
-    box-shadow: var(--idp-input-box-shadow-focus);
+.zjpcy-datepicker-trigger:focus-within,
+.zjpcy-datepicker-trigger:hover:not(.zjpcy-datepicker-trigger--disabled) {
+    border-color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
 }
 
-.idp-datepicker-trigger--disabled {
-    background: var(--idp-input-disabled-bg);
+.zjpcy-datepicker-trigger--disabled {
+    background: var(--zjpcy-input-disabled-bg);
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
-    border-color: var(--idp-input-disabled-border);
+    opacity: var(--zjpcy-opacity-disabled);
+    border-color: var(--zjpcy-input-disabled-border);
 }
 
 /* ============================================
    尺寸变体
    ============================================ */
-.idp-datepicker-trigger--small {
-    min-height: var(--idp-button-height-small);
+.zjpcy-datepicker-trigger--small {
+    min-height: var(--zjpcy-button-height-small);
     height: auto;
     padding: 1px 12px;
     font-size: 12px;
-    border-radius: var(--idp-border-radius-md);
+    border-radius: var(--zjpcy-border-radius-md);
 }
 
-.idp-datepicker-trigger--middle {
-    min-height: var(--idp-button-height-medium);
+.zjpcy-datepicker-trigger--middle {
+    min-height: var(--zjpcy-button-height-medium);
     height: auto;
     padding: 6px 12px;
     font-size: 14px;
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
-.idp-datepicker-trigger--large {
-    min-height: var(--idp-button-height-large);
+.zjpcy-datepicker-trigger--large {
+    min-height: var(--zjpcy-button-height-large);
     height: auto;
     padding: 3px 12px;
     font-size: 16px;
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
 /* ============================================
    多选模式样式
    ============================================ */
-.idp-datepicker-trigger--multiple {
+.zjpcy-datepicker-trigger--multiple {
     height: auto;
 }
 
-.idp-datepicker-value--tags {
+.zjpcy-datepicker-value--tags {
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
@@ -123,68 +123,68 @@
 /* ============================================
    日期选择器中的 tag 样式
    ============================================ */
-.idp-datepicker-tag {
+.zjpcy-datepicker-tag {
     margin: 0;
 }
 
-.idp-datepicker-tag .idp-tag__content {
+.zjpcy-datepicker-tag .zjpcy-tag__content {
     font-size: 12px;
 }
 
-.idp-datepicker-tag .idp-tag__close {
+.zjpcy-datepicker-tag .zjpcy-tag__close {
     font-size: 10px;
 }
 
 /* ============================================
    值显示区域
    ============================================ */
-.idp-datepicker-value {
+.zjpcy-datepicker-value {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 }
 
-.idp-datepicker-value--placeholder {
-    color: var(--idp-input-placeholder-color);
+.zjpcy-datepicker-value--placeholder {
+    color: var(--zjpcy-input-placeholder-color);
 }
 
-.idp-datepicker-value--disabled {
-    color: var(--idp-input-disabled-text);
+.zjpcy-datepicker-value--disabled {
+    color: var(--zjpcy-input-disabled-text);
 }
 
 /* ============================================
    后缀图标区域
    ============================================ */
-.idp-datepicker-suffix {
+.zjpcy-datepicker-suffix {
     display: flex;
     align-items: center;
     margin-left: 8px;
-    color: var(--idp-input-suffix-color);
-    transition: all var(--idp-transition-duration) ease;
+    color: var(--zjpcy-input-suffix-color);
+    transition: all var(--zjpcy-transition-duration) ease;
     position: relative;
     width: 16px;
     height: 16px;
 }
 
 /* 清除按钮和日历图标在同一位置互斥显示 */
-.idp-datepicker-clear,
-.idp-datepicker-icon {
+.zjpcy-datepicker-clear,
+.zjpcy-datepicker-icon {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
-.idp-datepicker-clear {
+.zjpcy-datepicker-clear {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 18px;
     height: 18px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
@@ -195,19 +195,19 @@
 }
 
 /* 悬停触发器时显示清除按钮 */
-.idp-datepicker-trigger:hover .idp-datepicker-clear {
+.zjpcy-datepicker-trigger:hover .zjpcy-datepicker-clear {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -50%) scale(1) rotate(0deg);
 }
 
-.idp-datepicker-clear:hover {
+.zjpcy-datepicker-clear:hover {
     background: rgba(0, 0, 0, 0.12);
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
     transform: translate(-50%, -50%) scale(1.1) !important;
 }
 
-.idp-datepicker-icon {
+.zjpcy-datepicker-icon {
     font-size: 14px;
     opacity: 1;
     visibility: visible;
@@ -215,7 +215,7 @@
 }
 
 /* 当有清除按钮且悬停时，隐藏日历图标 */
-.idp-datepicker-trigger:hover .idp-datepicker-icon.has-clear {
+.zjpcy-datepicker-trigger:hover .zjpcy-datepicker-icon.has-clear {
     opacity: 0;
     visibility: hidden;
 }
@@ -223,10 +223,10 @@
 /* ============================================
    日历面板
    ============================================ */
-.idp-datepicker-panel {
-    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-white) 100%);
-    border-radius: var(--idp-border-radius-lg);
-    box-shadow: var(--idp-shadow-lg);
+.zjpcy-datepicker-panel {
+    background: linear-gradient(180deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-white) 100%);
+    border-radius: var(--zjpcy-border-radius-lg);
+    box-shadow: var(--zjpcy-shadow-lg);
     min-width: 280px;
     overflow: hidden;
 }
@@ -234,35 +234,35 @@
 /* ============================================
    日历头部
    ============================================ */
-.idp-datepicker-header {
+.zjpcy-datepicker-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--idp-border-color-light);
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
 }
 
-.idp-datepicker-header-left,
-.idp-datepicker-header-right {
+.zjpcy-datepicker-header-left,
+.zjpcy-datepicker-header-right {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
-.idp-datepicker-header-center {
+.zjpcy-datepicker-header-center {
     display: flex;
     align-items: center;
     gap: 4px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 }
 
 /* ============================================
    头部按钮
    ============================================ */
-.idp-datepicker-header-btn {
+.zjpcy-datepicker-header-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -271,34 +271,34 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    color: var(--idp-text-color-secondary);
-    transition: all var(--idp-transition-duration) ease;
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color-secondary);
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
-.idp-datepicker-header-btn:hover:not(:disabled) {
-    background: var(--idp-bg-color-white);
-    color: var(--idp-primary-color);
-    box-shadow: var(--idp-shadow-extra-light);
+.zjpcy-datepicker-header-btn:hover:not(:disabled) {
+    background: var(--zjpcy-bg-color-white);
+    color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-header-btn:disabled {
+.zjpcy-datepicker-header-btn:disabled {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
 /* ============================================
    年份/月份选择器
    ============================================ */
-.idp-datepicker-select {
+.zjpcy-datepicker-select {
     border: none;
     background: transparent;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     cursor: pointer;
     padding: 4px 8px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -306,40 +306,40 @@
     background-repeat: no-repeat;
     background-position: right 4px center;
     padding-right: 20px;
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
-.idp-datepicker-select:hover {
-    background-color: var(--idp-bg-color-white);
+.zjpcy-datepicker-select:hover {
+    background-color: var(--zjpcy-bg-color-white);
 }
 
-.idp-datepicker-select:focus {
+.zjpcy-datepicker-select:focus {
     outline: none;
-    background-color: var(--idp-bg-color-white);
-    box-shadow: var(--idp-shadow-extra-light);
+    background-color: var(--zjpcy-bg-color-white);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
 /* ============================================
    日历主体
    ============================================ */
-.idp-datepicker-body {
+.zjpcy-datepicker-body {
     padding: 12px 16px;
 }
 
 /* ============================================
    星期标题
    ============================================ */
-.idp-datepicker-week-header {
+.zjpcy-datepicker-week-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 0;
     margin-bottom: 8px;
 }
 
-.idp-datepicker-week-day {
+.zjpcy-datepicker-week-day {
     text-align: center;
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     padding: 8px 0;
     font-weight: 500;
 }
@@ -347,7 +347,7 @@
 /* ============================================
    日期网格
    ============================================ */
-.idp-datepicker-date-grid {
+.zjpcy-datepicker-date-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
@@ -356,57 +356,57 @@
 /* ============================================
    日期单元格
    ============================================ */
-.idp-datepicker-date-cell {
+.zjpcy-datepicker-date-cell {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 32px;
     font-size: 13px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    transition: all var(--idp-transition-duration) ease;
-    color: var(--idp-text-color);
+    border-radius: var(--zjpcy-border-radius-sm);
+    transition: all var(--zjpcy-transition-duration) ease;
+    color: var(--zjpcy-text-color);
     animation: datePickerCellScale 0.15s ease-out;
 }
 
-.idp-datepicker-date-cell:hover:not(.idp-datepicker-date-cell--disabled):not(.idp-datepicker-date-cell--selected) {
-    background: var(--idp-bg-color-light);
-    box-shadow: var(--idp-shadow-extra-light);
+.zjpcy-datepicker-date-cell:hover:not(.zjpcy-datepicker-date-cell--disabled):not(.zjpcy-datepicker-date-cell--selected) {
+    background: var(--zjpcy-bg-color-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-date-cell--selected {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-date-cell--selected {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     font-weight: 500;
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-date-cell--today:not(.idp-datepicker-date-cell--selected) {
-    color: var(--idp-primary-color);
-    border: 1.5px solid var(--idp-primary-color);
+.zjpcy-datepicker-date-cell--today:not(.zjpcy-datepicker-date-cell--selected) {
+    color: var(--zjpcy-primary-color);
+    border: 1.5px solid var(--zjpcy-primary-color);
     font-weight: 500;
 }
 
-.idp-datepicker-date-cell--disabled {
+.zjpcy-datepicker-date-cell--disabled {
     cursor: not-allowed;
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     background: transparent;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
-.idp-datepicker-date-cell--other-month {
-    color: var(--idp-text-color-light);
+.zjpcy-datepicker-date-cell--other-month {
+    color: var(--zjpcy-text-color-light);
 }
 
 /* ============================================
    日期选择器内容区域 - 支持左右布局
    ============================================ */
-.idp-datepicker-content {
+.zjpcy-datepicker-content {
     display: flex;
     flex-direction: column;
 }
 
-.idp-datepicker-content-with-time {
+.zjpcy-datepicker-content-with-time {
     flex-direction: row;
     min-width: 480px;
 }
@@ -414,17 +414,17 @@
 /* ============================================
    日历区域
    ============================================ */
-.idp-datepicker-calendar-section {
+.zjpcy-datepicker-calendar-section {
     flex: 1;
 }
 
 /* ============================================
    时间选择区域
    ============================================ */
-.idp-datepicker-time-section {
+.zjpcy-datepicker-time-section {
     width: 200px;
-    border-left: 1px solid var(--idp-border-color-light);
-    background: var(--idp-bg-color-white);
+    border-left: 1px solid var(--zjpcy-border-color-light);
+    background: var(--zjpcy-bg-color-white);
     display: flex;
     flex-direction: column;
 }
@@ -432,20 +432,20 @@
 /* ============================================
    时间选择头部
    ============================================ */
-.idp-datepicker-time-header {
+.zjpcy-datepicker-time-header {
     padding: 12px 16px;
-    border-bottom: 1px solid var(--idp-border-color-light);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     text-align: center;
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
 }
 
 /* ============================================
    时间选择面板样式调整
    ============================================ */
-.idp-datepicker-time-section .time-picker-panel-container {
+.zjpcy-datepicker-time-section .time-picker-panel-container {
     box-shadow: none;
     border: none;
     border-radius: 0;
@@ -454,64 +454,64 @@
     flex-direction: column;
 }
 
-.idp-datepicker-time-section .time-picker-panel {
+.zjpcy-datepicker-time-section .time-picker-panel {
     padding: 8px 0;
     height: auto;
     flex: 1;
 }
 
-.idp-datepicker-time-section .time-picker-column {
+.zjpcy-datepicker-time-section .time-picker-column {
     height: auto;
 }
 
-.idp-datepicker-time-section .time-picker-column-list {
+.zjpcy-datepicker-time-section .time-picker-column-list {
     height: 220px;
 }
 
 /* ============================================
    时间选择面板容器 - 上下布局时与底部连通
    ============================================ */
-.idp-datepicker-time-panel-wrapper {
-    border-top: 1px solid var(--idp-border-color-light);
-    background: var(--idp-bg-color-white);
+.zjpcy-datepicker-time-panel-wrapper {
+    border-top: 1px solid var(--zjpcy-border-color-light);
+    background: var(--zjpcy-bg-color-white);
 }
 
-.idp-datepicker-time-panel-wrapper .time-picker-panel-container {
+.zjpcy-datepicker-time-panel-wrapper .time-picker-panel-container {
     box-shadow: none;
     border: none;
     border-radius: 0;
 }
 
-.idp-datepicker-time-panel-wrapper .time-picker-panel {
+.zjpcy-datepicker-time-panel-wrapper .time-picker-panel {
     padding: 8px 16px;
     height: 180px;
 }
 
-.idp-datepicker-time-panel-wrapper .time-picker-column {
+.zjpcy-datepicker-time-panel-wrapper .time-picker-column {
     height: 180px;
 }
 
-.idp-datepicker-time-panel-wrapper .time-picker-column-list {
+.zjpcy-datepicker-time-panel-wrapper .time-picker-column-list {
     height: 144px;
 }
 
 /* ============================================
    日历底部
    ============================================ */
-.idp-datepicker-footer {
+.zjpcy-datepicker-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px;
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     gap: 8px;
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
 }
 
 /* ============================================
    日历底部按钮组
    ============================================ */
-.idp-datepicker-footer-actions {
+.zjpcy-datepicker-footer-actions {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -521,63 +521,63 @@
 /* ============================================
    日历底部占位元素
    ============================================ */
-.idp-datepicker-footer-spacer {
+.zjpcy-datepicker-footer-spacer {
     flex: 1;
 }
 
 /* ============================================
    底部按钮
    ============================================ */
-.idp-datepicker-btn {
+.zjpcy-datepicker-btn {
     padding: 5px 14px;
     font-size: 13px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) ease;
-    border: 1px solid var(--idp-border-color-extra-light);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-light) 100%);
-    color: var(--idp-text-color);
+    transition: all var(--zjpcy-transition-duration) ease;
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-light) 100%);
+    color: var(--zjpcy-text-color);
     font-weight: 500;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-btn:hover:not(:disabled) {
-    border-color: var(--idp-primary-color);
-    color: var(--idp-primary-color);
-    box-shadow: var(--idp-shadow-sm);
+.zjpcy-datepicker-btn:hover:not(:disabled) {
+    border-color: var(--zjpcy-primary-color);
+    color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-shadow-sm);
 }
 
-.idp-datepicker-btn--primary {
-    border-color: var(--idp-primary-color);
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-btn--primary {
+    border-color: var(--zjpcy-primary-color);
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-btn--primary:hover:not(:disabled) {
-    background: linear-gradient(135deg, var(--idp-primary-hover-color) 0%, #69c0ff 100%);
-    border-color: var(--idp-primary-hover-color);
+.zjpcy-datepicker-btn--primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--zjpcy-primary-hover-color) 0%, #69c0ff 100%);
+    border-color: var(--zjpcy-primary-hover-color);
     box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45);
 }
 
-.idp-datepicker-btn:disabled {
+.zjpcy-datepicker-btn:disabled {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
 /* ============================================
    标签样式
    ============================================ */
-.idp-datepicker-label {
+.zjpcy-datepicker-label {
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     white-space: nowrap;
     user-select: none;
     font-weight: 500;
     letter-spacing: 0.2px;
 }
 
-.idp-datepicker-with-label {
+.zjpcy-datepicker-with-label {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -586,9 +586,9 @@
 /* ============================================
    年份选择器面板
    ============================================ */
-.idp-datepicker-year-panel {
-    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-white) 100%);
-    border-radius: var(--idp-border-radius-lg);
+.zjpcy-datepicker-year-panel {
+    background: linear-gradient(180deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-white) 100%);
+    border-radius: var(--zjpcy-border-radius-lg);
     min-width: 280px;
     overflow: hidden;
 }
@@ -596,7 +596,7 @@
 /* ============================================
    年份网格
    ============================================ */
-.idp-datepicker-year-grid {
+.zjpcy-datepicker-year-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
@@ -606,34 +606,34 @@
 /* ============================================
    年份单元格
    ============================================ */
-.idp-datepicker-year-cell {
+.zjpcy-datepicker-year-cell {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 40px;
     font-size: 14px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    color: var(--idp-text-color);
-    transition: all var(--idp-transition-duration) ease;
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color);
+    transition: all var(--zjpcy-transition-duration) ease;
     background: transparent;
 }
 
-.idp-datepicker-year-cell:hover:not(.idp-datepicker-year-cell--selected) {
-    background: var(--idp-bg-color-light);
-    box-shadow: var(--idp-shadow-extra-light);
+.zjpcy-datepicker-year-cell:hover:not(.zjpcy-datepicker-year-cell--selected) {
+    background: var(--zjpcy-bg-color-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-year-cell--selected {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-year-cell--selected {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     font-weight: 500;
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-year-cell--current {
-    color: var(--idp-primary-color);
-    border: 1.5px solid var(--idp-primary-color);
+.zjpcy-datepicker-year-cell--current {
+    color: var(--zjpcy-primary-color);
+    border: 1.5px solid var(--zjpcy-primary-color);
     font-weight: 500;
 }
 
@@ -642,7 +642,7 @@
    ============================================ */
 
 /* 范围选择器容器 */
-.idp-datepicker-range-picker {
+.zjpcy-datepicker-range-picker {
     display: inline-block;
     position: relative;
     font-size: 14px;
@@ -650,16 +650,16 @@
 }
 
 /* 带标签的范围选择器 */
-.idp-datepicker-range-picker-with-label {
+.zjpcy-datepicker-range-picker-with-label {
     display: inline-flex;
     align-items: center;
     gap: 8px;
 }
 
 /* 范围选择器标签 */
-.idp-datepicker-range-picker-label {
+.zjpcy-datepicker-range-picker-label {
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     white-space: nowrap;
     user-select: none;
     font-weight: 500;
@@ -669,86 +669,86 @@
 /* ============================================
    范围选择器触发器
    ============================================ */
-.idp-datepicker-range-picker-trigger {
+.zjpcy-datepicker-range-picker-trigger {
     display: flex;
     align-items: center;
     width: 100%;
     min-width: 240px;
     padding: 0 12px;
-    border: 1px solid var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-lg);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     box-sizing: border-box;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-range-picker-trigger:hover:not(.idp-datepicker-range-picker-trigger--disabled) {
-    border-color: var(--idp-primary-color);
-    box-shadow: var(--idp-input-box-shadow-hover);
+.zjpcy-datepicker-range-picker-trigger:hover:not(.zjpcy-datepicker-range-picker-trigger--disabled) {
+    border-color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-input-box-shadow-hover);
 }
 
-.idp-datepicker-range-picker-trigger--focused {
-    border-color: var(--idp-primary-color);
-    box-shadow: var(--idp-input-box-shadow-focus);
+.zjpcy-datepicker-range-picker-trigger--focused {
+    border-color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
 }
 
-.idp-datepicker-range-picker-trigger--disabled {
-    background: var(--idp-input-disabled-bg);
+.zjpcy-datepicker-range-picker-trigger--disabled {
+    background: var(--zjpcy-input-disabled-bg);
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
-    border-color: var(--idp-input-disabled-border);
+    opacity: var(--zjpcy-opacity-disabled);
+    border-color: var(--zjpcy-input-disabled-border);
 }
 
 /* ============================================
    范围选择器尺寸变体
    ============================================ */
-.idp-datepicker-range-picker-trigger--small {
-    min-height: var(--idp-button-height-small);
+.zjpcy-datepicker-range-picker-trigger--small {
+    min-height: var(--zjpcy-button-height-small);
     height: auto;
     padding: 1px 12px;
     font-size: 12px;
-    border-radius: var(--idp-border-radius-md);
+    border-radius: var(--zjpcy-border-radius-md);
 }
 
-.idp-datepicker-range-picker-trigger--middle {
-    min-height: var(--idp-button-height-medium);
+.zjpcy-datepicker-range-picker-trigger--middle {
+    min-height: var(--zjpcy-button-height-medium);
     height: auto;
     padding: 6px 12px;
     font-size: 14px;
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
-.idp-datepicker-range-picker-trigger--large {
-    min-height: var(--idp-button-height-large);
+.zjpcy-datepicker-range-picker-trigger--large {
+    min-height: var(--zjpcy-button-height-large);
     height: auto;
     padding: 3px 12px;
     font-size: 16px;
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
 /* ============================================
    范围选择器输入框
    ============================================ */
-.idp-datepicker-range-picker-input {
+.zjpcy-datepicker-range-picker-input {
     flex: 0 0 90px;
     padding: 4px 8px;
     text-align: center;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    transition: all var(--idp-transition-duration) ease;
+    border-radius: var(--zjpcy-border-radius-sm);
+    transition: all var(--zjpcy-transition-duration) ease;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 }
 
-.idp-datepicker-range-picker-input:hover {
-    background: var(--idp-bg-color-light);
+.zjpcy-datepicker-range-picker-input:hover {
+    background: var(--zjpcy-bg-color-light);
 }
 
-.idp-datepicker-range-picker-input--active {
+.zjpcy-datepicker-range-picker-input--active {
     background: rgba(24, 144, 255, 0.1);
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.15);
 }
@@ -756,36 +756,36 @@
 /* ============================================
    范围选择器值显示
    ============================================ */
-.idp-datepicker-range-picker-value {
-    color: var(--idp-text-color);
+.zjpcy-datepicker-range-picker-value {
+    color: var(--zjpcy-text-color);
     font-size: 14px;
 }
 
-.idp-datepicker-range-picker-value--placeholder {
-    color: var(--idp-input-placeholder-color);
+.zjpcy-datepicker-range-picker-value--placeholder {
+    color: var(--zjpcy-input-placeholder-color);
 }
 
 /* ============================================
    范围选择器分隔符
    ============================================ */
-.idp-datepicker-range-picker-separator {
+.zjpcy-datepicker-range-picker-separator {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 8px;
-    color: var(--idp-input-suffix-color);
+    color: var(--zjpcy-input-suffix-color);
     font-size: 14px;
 }
 
 /* ============================================
    范围选择器后缀区域
    ============================================ */
-.idp-datepicker-range-picker-suffix {
+.zjpcy-datepicker-range-picker-suffix {
     display: flex;
     align-items: center;
     margin-left: 8px;
-    color: var(--idp-input-suffix-color);
-    transition: all var(--idp-transition-duration) ease;
+    color: var(--zjpcy-input-suffix-color);
+    transition: all var(--zjpcy-transition-duration) ease;
     position: relative;
     width: 16px;
     height: 16px;
@@ -794,13 +794,13 @@
 /* ============================================
    清除按钮
    ============================================ */
-.idp-datepicker-range-picker-clear {
+.zjpcy-datepicker-range-picker-clear {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 18px;
     height: 18px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
@@ -808,29 +808,29 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.8) rotate(-45deg);
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
     opacity: 0;
     visibility: hidden;
     z-index: 2;
 }
 
 /* 悬停触发器时显示清除按钮 */
-.idp-datepicker-range-picker-trigger:hover .idp-datepicker-range-picker-clear {
+.zjpcy-datepicker-range-picker-trigger:hover .zjpcy-datepicker-range-picker-clear {
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -50%) scale(1) rotate(0deg);
 }
 
-.idp-datepicker-range-picker-clear:hover {
+.zjpcy-datepicker-range-picker-clear:hover {
     background: rgba(0, 0, 0, 0.12);
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
     transform: translate(-50%, -50%) scale(1.1) !important;
 }
 
 /* ============================================
    日历图标
    ============================================ */
-.idp-datepicker-range-picker-icon {
+.zjpcy-datepicker-range-picker-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -839,7 +839,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
     opacity: 1;
     visibility: visible;
     z-index: 1;
@@ -848,7 +848,7 @@
 }
 
 /* 当有清除按钮且悬停时，隐藏日历图标 */
-.idp-datepicker-range-picker-trigger:hover .idp-datepicker-range-picker-icon--has-clear {
+.zjpcy-datepicker-range-picker-trigger:hover .zjpcy-datepicker-range-picker-icon--has-clear {
     opacity: 0;
     visibility: hidden;
 }
@@ -856,18 +856,18 @@
 /* ============================================
    范围选择器下拉面板
    ============================================ */
-.idp-datepicker-range-dropdown {
-    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-white) 100%);
-    border-radius: var(--idp-border-radius-lg);
-    box-shadow: var(--idp-shadow-lg);
+.zjpcy-datepicker-range-dropdown {
+    background: linear-gradient(180deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-white) 100%);
+    border-radius: var(--zjpcy-border-radius-lg);
+    box-shadow: var(--zjpcy-shadow-lg);
     overflow: hidden;
-    animation: datePickerSlideIn 0.2s var(--idp-transition-timing-function);
+    animation: datePickerSlideIn 0.2s var(--zjpcy-transition-timing-function);
 }
 
 /* ============================================
    双面板容器
    ============================================ */
-.idp-datepicker-range-panels {
+.zjpcy-datepicker-range-panels {
     display: flex;
     gap: 16px;
     padding: 16px;
@@ -876,7 +876,7 @@
 /* ============================================
    日历面板
    ============================================ */
-.idp-datepicker-range-calendar {
+.zjpcy-datepicker-range-calendar {
     flex: 1;
     min-width: 252px;
 }
@@ -884,41 +884,41 @@
 /* ============================================
    日历头部
    ============================================ */
-.idp-datepicker-range-calendar-header {
+.zjpcy-datepicker-range-calendar-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 8px 0;
     margin-bottom: 8px;
-    border-bottom: 1px solid var(--idp-border-color-light);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
 }
 
 /* 日历头部左侧 */
-.idp-datepicker-range-header-left {
+.zjpcy-datepicker-range-header-left {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
 /* 日历头部中间 */
-.idp-datepicker-range-header-center {
+.zjpcy-datepicker-range-header-center {
     display: flex;
     align-items: center;
     gap: 4px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 }
 
 /* 日历头部标签 */
-.idp-datepicker-range-header-label {
+.zjpcy-datepicker-range-header-label {
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     margin-left: 8px;
 }
 
 /* 日历头部右侧 */
-.idp-datepicker-range-header-right {
+.zjpcy-datepicker-range-header-right {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -927,7 +927,7 @@
 /* ============================================
    日历头部按钮
    ============================================ */
-.idp-datepicker-range-header-btn {
+.zjpcy-datepicker-range-header-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -936,33 +936,33 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    color: var(--idp-text-color-secondary);
-    transition: all var(--idp-transition-duration) ease;
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color-secondary);
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
-.idp-datepicker-range-header-btn:hover:not(:disabled) {
-    background: var(--idp-bg-color-white);
-    color: var(--idp-primary-color);
-    box-shadow: var(--idp-shadow-extra-light);
+.zjpcy-datepicker-range-header-btn:hover:not(:disabled) {
+    background: var(--zjpcy-bg-color-white);
+    color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-range-header-btn:disabled {
+.zjpcy-datepicker-range-header-btn:disabled {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
 /* ============================================
    日历内容区域
    ============================================ */
-.idp-datepicker-range-calendar-body {
+.zjpcy-datepicker-range-calendar-body {
     padding: 8px 0;
 }
 
 /* ============================================
    星期标题行
    ============================================ */
-.idp-datepicker-range-week-header {
+.zjpcy-datepicker-range-week-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 0;
@@ -970,10 +970,10 @@
 }
 
 /* 星期标题 */
-.idp-datepicker-range-week-day {
+.zjpcy-datepicker-range-week-day {
     text-align: center;
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     padding: 4px 0;
     font-weight: 500;
 }
@@ -981,7 +981,7 @@
 /* ============================================
    日期网格
    ============================================ */
-.idp-datepicker-range-date-grid {
+.zjpcy-datepicker-range-date-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
@@ -990,103 +990,103 @@
 /* ============================================
    日期单元格
    ============================================ */
-.idp-datepicker-range-date-cell {
+.zjpcy-datepicker-range-date-cell {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 28px;
     font-size: 13px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    transition: all var(--idp-transition-duration) ease;
-    color: var(--idp-text-color);
+    border-radius: var(--zjpcy-border-radius-sm);
+    transition: all var(--zjpcy-transition-duration) ease;
+    color: var(--zjpcy-text-color);
     animation: datePickerCellScale 0.15s ease-out;
 }
 
-.idp-datepicker-range-date-cell:hover:not(.idp-datepicker-range-date-cell--disabled):not(.idp-datepicker-range-date-cell--selected):not(.idp-datepicker-range-date-cell--in-range) {
-    background: var(--idp-bg-color-light);
-    box-shadow: var(--idp-shadow-extra-light);
+.zjpcy-datepicker-range-date-cell:hover:not(.zjpcy-datepicker-range-date-cell--disabled):not(.zjpcy-datepicker-range-date-cell--selected):not(.zjpcy-datepicker-range-date-cell--in-range) {
+    background: var(--zjpcy-bg-color-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-range-date-cell--selected {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-range-date-cell--selected {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     font-weight: 500;
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-range-date-cell--today:not(.idp-datepicker-range-date-cell--selected):not(.idp-datepicker-range-date-cell--in-range) {
-    color: var(--idp-primary-color);
-    border: 1.5px solid var(--idp-primary-color);
+.zjpcy-datepicker-range-date-cell--today:not(.zjpcy-datepicker-range-date-cell--selected):not(.zjpcy-datepicker-range-date-cell--in-range) {
+    color: var(--zjpcy-primary-color);
+    border: 1.5px solid var(--zjpcy-primary-color);
     font-weight: 500;
 }
 
-.idp-datepicker-range-date-cell--disabled {
+.zjpcy-datepicker-range-date-cell--disabled {
     cursor: not-allowed;
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     background: transparent;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
-.idp-datepicker-range-date-cell--other-month {
-    color: var(--idp-text-color-light);
+.zjpcy-datepicker-range-date-cell--other-month {
+    color: var(--zjpcy-text-color-light);
 }
 
 /* ============================================
    范围内日期
    ============================================ */
-.idp-datepicker-range-date-cell--in-range {
+.zjpcy-datepicker-range-date-cell--in-range {
     background: rgba(24, 144, 255, 0.1);
     border-radius: 0;
 }
 
-.idp-datepicker-range-date-cell--in-range:hover {
+.zjpcy-datepicker-range-date-cell--in-range:hover {
     background: rgba(24, 144, 255, 0.2);
 }
 
 /* ============================================
    范围起点和终点
    ============================================ */
-.idp-datepicker-range-date-cell--range-start {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-range-date-cell--range-start {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     font-weight: 500;
-    border-radius: var(--idp-border-radius-sm) 0 0 var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm) 0 0 var(--zjpcy-border-radius-sm);
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-range-date-cell--range-end {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-range-date-cell--range-end {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     font-weight: 500;
-    border-radius: 0 var(--idp-border-radius-sm) var(--idp-border-radius-sm) 0;
+    border-radius: 0 var(--zjpcy-border-radius-sm) var(--zjpcy-border-radius-sm) 0;
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
 /* ============================================
    日历底部
    ============================================ */
-.idp-datepicker-range-footer {
+.zjpcy-datepicker-range-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px;
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     gap: 8px;
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
 }
 
 /* ============================================
    日历底部占位
    ============================================ */
-.idp-datepicker-range-footer-spacer {
+.zjpcy-datepicker-range-footer-spacer {
     flex: 1;
 }
 
 /* ============================================
    日历底部按钮组
    ============================================ */
-.idp-datepicker-range-footer-actions {
+.zjpcy-datepicker-range-footer-actions {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -1095,39 +1095,39 @@
 /* ============================================
    底部按钮
    ============================================ */
-.idp-datepicker-range-btn {
+.zjpcy-datepicker-range-btn {
     padding: 5px 14px;
     font-size: 13px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) ease;
-    border: 1px solid var(--idp-border-color-extra-light);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-light) 100%);
-    color: var(--idp-text-color);
+    transition: all var(--zjpcy-transition-duration) ease;
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-light) 100%);
+    color: var(--zjpcy-text-color);
     font-weight: 500;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
-.idp-datepicker-range-btn:hover:not(:disabled) {
-    border-color: var(--idp-primary-color);
-    color: var(--idp-primary-color);
-    box-shadow: var(--idp-shadow-sm);
+.zjpcy-datepicker-range-btn:hover:not(:disabled) {
+    border-color: var(--zjpcy-primary-color);
+    color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-shadow-sm);
 }
 
-.idp-datepicker-range-btn--primary {
-    border-color: var(--idp-primary-color);
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
+.zjpcy-datepicker-range-btn--primary {
+    border-color: var(--zjpcy-primary-color);
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
     color: #fff;
     box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35);
 }
 
-.idp-datepicker-range-btn--primary:hover:not(:disabled) {
-    background: linear-gradient(135deg, var(--idp-primary-hover-color) 0%, #69c0ff 100%);
-    border-color: var(--idp-primary-hover-color);
+.zjpcy-datepicker-range-btn--primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, var(--zjpcy-primary-hover-color) 0%, #69c0ff 100%);
+    border-color: var(--zjpcy-primary-hover-color);
     box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45);
 }
 
-.idp-datepicker-range-btn:disabled {
+.zjpcy-datepicker-range-btn:disabled {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }

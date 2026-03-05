@@ -21,7 +21,7 @@
 }
 
 /* 分页组件整体容器 */
-.idp-pagination {
+.zjpcy-pagination {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -32,22 +32,22 @@
   padding: 10px;
 }
 
-.idp-pagination-align-center {
+.zjpcy-pagination-align-center {
   justify-content: center;
 }
 
-.idp-pagination-align-right {
+.zjpcy-pagination-align-right {
   justify-content: flex-end;
 }
 
 /* 分页信息文本 */
-.idp-pagination-total-text {
+.zjpcy-pagination-total-text {
   margin-right: var(--pagination-margin);
   user-select: none;
 }
 
 /* 分页按钮组 */
-.idp-pagination-list {
+.zjpcy-pagination-list {
   display: flex;
   align-items: center;
   list-style: none;
@@ -57,7 +57,7 @@
 }
 
 /* 分页按钮项 */
-.idp-pagination-item {
+.zjpcy-pagination-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -74,43 +74,43 @@
   box-sizing: border-box;
 }
 
-.idp-pagination-item:hover {
+.zjpcy-pagination-item:hover {
   color: var(--pagination-hover-color);
   border-color: var(--pagination-hover-color);
   background-color: var(--pagination-hover-bg);
 }
 
 /* 激活状态 */
-.idp-pagination-item-active {
+.zjpcy-pagination-item-active {
   color: var(--pagination-active-color);
   border-color: var(--pagination-active-bg);
   background-color: var(--pagination-active-bg);
   cursor: default;
 }
 
-.idp-pagination-item-active:hover {
+.zjpcy-pagination-item-active:hover {
   color: var(--pagination-active-color);
   border-color: var(--pagination-active-bg);
   background-color: var(--pagination-active-bg);
 }
 
 /* 禁用状态 */
-.idp-pagination-item-disabled {
+.zjpcy-pagination-item-disabled {
   color: var(--pagination-disabled-color);
   border-color: var(--pagination-border-color);
   background-color: var(--pagination-disabled-bg);
   cursor: not-allowed;
 }
 
-.idp-pagination-item-disabled:hover {
+.zjpcy-pagination-item-disabled:hover {
   color: var(--pagination-disabled-color);
   border-color: var(--pagination-border-color);
   background-color: var(--pagination-disabled-bg);
 }
 
 /* 上一页/下一页按钮 */
-.idp-pagination-prev,
-.idp-pagination-next {
+.zjpcy-pagination-prev,
+.zjpcy-pagination-next {
   position: relative;
   display: flex;
   align-items: center;
@@ -127,30 +127,30 @@
   box-sizing: border-box;
 }
 
-.idp-pagination-prev:hover,
-.idp-pagination-next:hover {
+.zjpcy-pagination-prev:hover,
+.zjpcy-pagination-next:hover {
   color: var(--pagination-hover-color);
   border-color: var(--pagination-hover-color);
   background-color: var(--pagination-hover-bg);
 }
 
-.idp-pagination-prev-disabled,
-.idp-pagination-next-disabled {
+.zjpcy-pagination-prev-disabled,
+.zjpcy-pagination-next-disabled {
   color: var(--pagination-disabled-color);
   border-color: var(--pagination-border-color);
   background-color: var(--pagination-disabled-bg);
   cursor: not-allowed;
 }
 
-.idp-pagination-prev-disabled:hover,
-.idp-pagination-next-disabled:hover {
+.zjpcy-pagination-prev-disabled:hover,
+.zjpcy-pagination-next-disabled:hover {
   color: var(--pagination-disabled-color);
   border-color: var(--pagination-border-color);
   background-color: var(--pagination-disabled-bg);
 }
 
 /* 省略号 */
-.idp-pagination-ellipsis {
+.zjpcy-pagination-ellipsis {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,16 +164,16 @@
 }
 
 /* 小尺寸样式 */
-.idp-pagination-mini .idp-pagination-item,
-.idp-pagination-mini .idp-pagination-prev,
-.idp-pagination-mini .idp-pagination-next {
+.zjpcy-pagination-mini .zjpcy-pagination-item,
+.zjpcy-pagination-mini .zjpcy-pagination-prev,
+.zjpcy-pagination-mini .zjpcy-pagination-next {
   min-width: var(--pagination-item-size-sm);
   height: var(--pagination-item-size-sm);
   line-height: calc(var(--pagination-item-size-sm) - 2px);
   font-size: 12px;
 }
 
-.idp-pagination-mini .idp-pagination-ellipsis {
+.zjpcy-pagination-mini .zjpcy-pagination-ellipsis {
   min-width: var(--pagination-item-size-sm);
   height: var(--pagination-item-size-sm);
   line-height: calc(var(--pagination-item-size-sm) - 2px);
@@ -181,20 +181,20 @@
 }
 
 /* 快速跳转 */
-.idp-pagination-options {
+.zjpcy-pagination-options {
   display: flex;
   align-items: center;
   margin-left: var(--pagination-margin);
 }
 
 /* 自定义页码选择器 */
-.idp-page-size-select {
+.zjpcy-page-size-select {
   position: relative;
   display: inline-block;
   margin-right: 8px;
 }
 
-.idp-page-size-select-trigger {
+.zjpcy-page-size-select-trigger {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -216,30 +216,30 @@
   user-select: none;
 }
 
-.idp-page-size-select-trigger:hover {
+.zjpcy-page-size-select-trigger:hover {
   border-color: #40a9ff;
   box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.12);
   background-color: rgba(24, 144, 255, 0.02);
 }
 
-.idp-page-size-select-trigger-open {
+.zjpcy-page-size-select-trigger-open {
   border-color: #1890ff;
   box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.15);
   background-color: rgba(24, 144, 255, 0.04);
 }
 
-.idp-page-size-select-trigger:active {
+.zjpcy-page-size-select-trigger:active {
   transform: scale(0.985);
 }
 
-.idp-page-size-select-value {
+.zjpcy-page-size-select-value {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.idp-page-size-select-arrow {
+.zjpcy-page-size-select-arrow {
   margin-left: 8px;
   color: #8c8c8c;
   transition:
@@ -247,17 +247,17 @@
     color 0.2s ease;
 }
 
-.idp-page-size-select-trigger:hover .idp-page-size-select-arrow {
+.zjpcy-page-size-select-trigger:hover .zjpcy-page-size-select-arrow {
   color: #40a9ff;
 }
 
-.idp-page-size-select-trigger-open .idp-page-size-select-arrow {
+.zjpcy-page-size-select-trigger-open .zjpcy-page-size-select-arrow {
   transform: rotate(180deg);
   color: #1890ff;
 }
 
 /* 下拉菜单 - 优雅大气动画 */
-.idp-page-size-select-dropdown {
+.zjpcy-page-size-select-dropdown {
   position: fixed;
   top: auto;
   left: auto;
@@ -285,7 +285,7 @@
 }
 
 /* 打开状态 - 使用更优雅的贝塞尔曲线 */
-.idp-page-size-select-dropdown-open {
+.zjpcy-page-size-select-dropdown-open {
   animation: dropdownOpen 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
@@ -323,7 +323,7 @@
 }
 
 /* 下拉选项 - 优雅的悬停效果 */
-.idp-page-size-select-option {
+.zjpcy-page-size-select-option {
   padding: 9px 12px;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.85);
@@ -340,23 +340,23 @@
   margin: 2px 0;
 }
 
-.idp-page-size-select-option:first-child {
+.zjpcy-page-size-select-option:first-child {
   margin-top: 0;
 }
 
-.idp-page-size-select-option:last-child {
+.zjpcy-page-size-select-option:last-child {
   margin-bottom: 0;
 }
 
 /* 悬停效果 - 带微位移 */
-.idp-page-size-select-option:hover {
+.zjpcy-page-size-select-option:hover {
   background-color: rgba(24, 144, 255, 0.08);
   color: #1890ff;
   padding-left: 16px;
 }
 
 /* 选中状态 - 更明显的视觉反馈 */
-.idp-page-size-select-option-selected {
+.zjpcy-page-size-select-option-selected {
   background-color: rgba(24, 144, 255, 0.12);
   color: #1890ff;
   font-weight: 500;
@@ -376,22 +376,22 @@
 }
 
 /* 选项点击反馈 */
-.idp-page-size-select-option:active {
+.zjpcy-page-size-select-option:active {
   transform: scale(0.98);
   background-color: rgba(24, 144, 255, 0.15);
 }
 
 /* 兼容旧样式的保留 */
-.idp-pagination-options-size-changer {
+.zjpcy-pagination-options-size-changer {
   display: none;
 }
 
-.idp-pagination-options-quick-jumper {
+.zjpcy-pagination-options-quick-jumper {
   display: flex;
   align-items: center;
 }
 
-.idp-pagination-options-quick-jumper input {
+.zjpcy-pagination-options-quick-jumper input {
   width: var(--pagination-input-width);
   height: 32px;
   margin: 0 8px;
@@ -403,18 +403,18 @@
   box-sizing: border-box;
 }
 
-.idp-pagination-options-quick-jumper input:focus {
+.zjpcy-pagination-options-quick-jumper input:focus {
   border-color: var(--pagination-hover-color);
   box-shadow: 0 0 0 2px rgba(26, 41, 128, 0.2);
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .idp-pagination {
+  .zjpcy-pagination {
     justify-content: center;
   }
   
-  .idp-pagination-options {
+  .zjpcy-pagination-options {
     display: none;
   }
 }

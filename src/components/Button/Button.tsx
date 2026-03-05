@@ -32,11 +32,11 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     ...rest
 }, ref) => {
     const classes = classNames(
-        'idp-btn',
-        `idp-btn--${variant}`,
-        `idp-btn--${size}`,
+        'zjpcy-btn',
+        `zjpcy-btn--${variant}`,
+        `zjpcy-btn--${size}`,
         {
-            'idp-btn--disabled': disabled || loading
+            'zjpcy-btn--disabled': disabled || loading
         },
         className
     );

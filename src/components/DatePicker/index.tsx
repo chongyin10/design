@@ -160,7 +160,7 @@ const YearPickerComponent: React.FC<YearPickerProps> = ({
             <CalendarHeader>
                 <HeaderLeft>
                     <HeaderButton onClick={onPrevPage} title="上一页">
-                        <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                        <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                     </HeaderButton>
                 </HeaderLeft>
                 <HeaderCenter>
@@ -170,7 +170,7 @@ const YearPickerComponent: React.FC<YearPickerProps> = ({
                 </HeaderCenter>
                 <HeaderRight>
                     <HeaderButton onClick={onNextPage} title="下一页">
-                        <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                        <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                     </HeaderButton>
                 </HeaderRight>
             </CalendarHeader>
@@ -210,7 +210,7 @@ const MonthPickerComponent: React.FC<MonthPickerProps> = ({
             <CalendarHeader>
                 <HeaderLeft>
                     <HeaderButton onClick={onBack} title="返回">
-                        <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                        <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                     </HeaderButton>
                 </HeaderLeft>
                 <HeaderCenter>
@@ -253,7 +253,7 @@ const CalendarHeaderComponent: React.FC<CalendarHeaderProps> = ({
         <CalendarHeader>
             <HeaderLeft>
                 <HeaderButton onClick={onPrevMonth} title="上个月">
-                    <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                    <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                 </HeaderButton>
             </HeaderLeft>
             <HeaderCenter>
@@ -272,7 +272,7 @@ const CalendarHeaderComponent: React.FC<CalendarHeaderProps> = ({
             </HeaderCenter>
             <HeaderRight>
                 <HeaderButton onClick={onNextMonth} title="下个月">
-                    <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                    <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                 </HeaderButton>
             </HeaderRight>
         </CalendarHeader>
@@ -494,8 +494,8 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
 
     return (
         <CalendarPanel>
-            <div className={classNames('idp-datepicker-content', { 'idp-datepicker-content-with-time': showTime && hasSelectedDate })}>
-                <div className="idp-datepicker-calendar-section">
+            <div className={classNames('zjpcy-datepicker-content', { 'zjpcy-datepicker-content-with-time': showTime && hasSelectedDate })}>
+                <div className="zjpcy-datepicker-calendar-section">
                     <CalendarHeaderComponent
                         currentMonth={currentMonth}
                         onPrevMonth={() => {
@@ -544,8 +544,8 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
                     </CalendarBody>
                 </div>
                 {showTime && hasSelectedDate && (
-                    <div className="idp-datepicker-time-section">
-                        <div className="idp-datepicker-time-header">
+                    <div className="zjpcy-datepicker-time-section">
+                        <div className="zjpcy-datepicker-time-header">
                             {String(timeValue.hour).padStart(2, '0')}:
                             {String(timeValue.minute).padStart(2, '0')}:
                             {String(timeValue.second).padStart(2, '0')}
@@ -899,7 +899,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 <CalendarHeader>
                     <HeaderLeft>
                         <HeaderButton onClick={() => setCurrentYear(y => y - 1)} title="上一年">
-                            <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderLeft>
                     <HeaderCenter>
@@ -907,7 +907,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                     </HeaderCenter>
                     <HeaderRight>
                         <HeaderButton onClick={() => setCurrentYear(y => y + 1)} title="下一年">
-                            <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderRight>
                 </CalendarHeader>
@@ -996,7 +996,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 <CalendarHeader>
                     <HeaderLeft>
                         <HeaderButton onClick={() => setCurrentYear(y => y - 1)} title="上一年">
-                            <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderLeft>
                     <HeaderCenter>
@@ -1004,7 +1004,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                     </HeaderCenter>
                     <HeaderRight>
                         <HeaderButton onClick={() => setCurrentYear(y => y + 1)} title="下一年">
-                            <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderRight>
                 </CalendarHeader>
@@ -1093,7 +1093,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 <CalendarHeader>
                     <HeaderLeft>
                         <HeaderButton onClick={() => setStartYear(y => y - 12)} title="上一页">
-                            <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderLeft>
                     <HeaderCenter>
@@ -1101,7 +1101,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                     </HeaderCenter>
                     <HeaderRight>
                         <HeaderButton onClick={() => setStartYear(y => y + 12)} title="下一页">
-                            <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                            <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                         </HeaderButton>
                     </HeaderRight>
                 </CalendarHeader>
@@ -1164,10 +1164,10 @@ const DatePicker: React.FC<DatePickerProps> & {
                 focused={isFocused}
                 disabled={disabled}
                 size={size}
-                className={classNames('idp-datepicker-trigger', `idp-datepicker-trigger--${size}`, {
-                    'idp-datepicker-trigger--disabled': disabled,
-                    'idp-datepicker-trigger--focused': isFocused,
-                    'idp-datepicker-trigger--multiple': multiple,
+                className={classNames('zjpcy-datepicker-trigger', `zjpcy-datepicker-trigger--${size}`, {
+                    'zjpcy-datepicker-trigger--disabled': disabled,
+                    'zjpcy-datepicker-trigger--focused': isFocused,
+                    'zjpcy-datepicker-trigger--multiple': multiple,
                 }, className)}
                 style={style}
                 onClick={handleTriggerClick}
@@ -1176,8 +1176,8 @@ const DatePicker: React.FC<DatePickerProps> & {
                     <DatePickerValue
                         isPlaceholder={false}
                         disabled={disabled}
-                        className={classNames('idp-datepicker-value', 'idp-datepicker-value--tags', {
-                            'idp-datepicker-value--disabled': disabled,
+                        className={classNames('zjpcy-datepicker-value', 'zjpcy-datepicker-value--tags', {
+                            'zjpcy-datepicker-value--disabled': disabled,
                         })}
                     >
                         {(() => {
@@ -1198,7 +1198,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                                             size="small"
                                             closable={!disabled}
                                             onClose={handleRemoveTag(val)}
-                                            className="idp-datepicker-tag"
+                                            className="zjpcy-datepicker-tag"
                                         >
                                             {val}
                                         </Tag>
@@ -1207,7 +1207,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                                         <Tag
                                             key="more"
                                             size="small"
-                                            className="idp-datepicker-tag idp-datepicker-tag--more"
+                                            className="zjpcy-datepicker-tag zjpcy-datepicker-tag--more"
                                         >
                                             ...+{remainingCount}
                                         </Tag>
@@ -1220,25 +1220,25 @@ const DatePicker: React.FC<DatePickerProps> & {
                     <DatePickerValue
                         isPlaceholder={!value}
                         disabled={disabled}
-                        className={classNames('idp-datepicker-value', {
-                            'idp-datepicker-value--placeholder': !value,
-                            'idp-datepicker-value--disabled': disabled,
+                        className={classNames('zjpcy-datepicker-value', {
+                            'zjpcy-datepicker-value--placeholder': !value,
+                            'zjpcy-datepicker-value--disabled': disabled,
                         })}
                     >
                         {displayValue || placeholder}
                     </DatePickerValue>
                 )}
-                <DatePickerSuffix className="idp-datepicker-suffix">
+                <DatePickerSuffix className="zjpcy-datepicker-suffix">
                     {allowClear && value && !disabled && (
                         <DatePickerClear
-                            className="idp-datepicker-clear"
+                            className="zjpcy-datepicker-clear"
                             onClick={handleClear}
                         >
                             <Icon type="close" style={{ fontSize: 10 }} />
                         </DatePickerClear>
                     )}
                     <DatePickerIcon
-                        className={classNames('idp-datepicker-icon', {
+                        className={classNames('zjpcy-datepicker-icon', {
                             'has-clear': allowClear && value && !disabled,
                         })}
                     >
@@ -1293,7 +1293,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 top={dropdownPosition.top}
                 left={dropdownPosition.left}
                 minWidth={dropdownPosition.width || ((showTime && hasSelectedDate) ? 480 : 280)}
-                className="idp-datepicker-dropdown"
+                className="zjpcy-datepicker-dropdown"
                 style={{
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
@@ -1312,10 +1312,10 @@ const DatePicker: React.FC<DatePickerProps> & {
     // 如果有标签，包装在标签容器中
     if (label) {
         return (
-            <LabelContainer gap={labelGap} className="idp-datepicker-with-label">
+            <LabelContainer gap={labelGap} className="zjpcy-datepicker-with-label">
                 {typeof label === 'string' ? (
                     <Label
-                        className={classNames('idp-datepicker-label', labelClassName)}
+                        className={classNames('zjpcy-datepicker-label', labelClassName)}
                         style={labelStyle}
                     >
                         {label}
@@ -1326,7 +1326,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                 <DatePickerContainer
                     width={containerWidth}
                     minWidth={multiple ? width : undefined}
-                    className="idp-datepicker"
+                    className="zjpcy-datepicker"
                 >
                     {renderTrigger()}
                     {renderDropdown()}
@@ -1339,7 +1339,7 @@ const DatePicker: React.FC<DatePickerProps> & {
         <DatePickerContainer
             width={containerWidth}
             minWidth={multiple ? width : undefined}
-            className="idp-datepicker"
+            className="zjpcy-datepicker"
         >
             {renderTrigger()}
             {renderDropdown()}

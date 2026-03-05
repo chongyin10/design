@@ -1,4 +1,4 @@
-.idp-tag {
+.zjpcy-tag {
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
@@ -13,74 +13,74 @@
 }
 
 /* 尺寸样式 */
-.idp-tag--small {
+.zjpcy-tag--small {
     height: 20px;
     padding: 0 6px;
     font-size: 12px;
 }
 
-.idp-tag--small .idp-tag__icon {
+.zjpcy-tag--small .zjpcy-tag__icon {
     margin-right: 2px;
     font-size: 10px;
 }
 
-.idp-tag--small .idp-tag__close {
+.zjpcy-tag--small .zjpcy-tag__close {
     margin-left: 2px;
     font-size: 10px;
 }
 
-.idp-tag--medium {
+.zjpcy-tag--medium {
     height: 24px;
     padding: 0 8px;
     font-size: 13px;
 }
 
-.idp-tag--medium .idp-tag__icon {
+.zjpcy-tag--medium .zjpcy-tag__icon {
     margin-right: 4px;
     font-size: 12px;
 }
 
-.idp-tag--medium .idp-tag__close {
+.zjpcy-tag--medium .zjpcy-tag__close {
     margin-left: 4px;
     font-size: 12px;
 }
 
-.idp-tag--large {
+.zjpcy-tag--large {
     height: 28px;
     padding: 0 12px;
     font-size: 14px;
 }
 
-.idp-tag--large .idp-tag__icon {
+.zjpcy-tag--large .zjpcy-tag__icon {
     margin-right: 6px;
     font-size: 14px;
 }
 
-.idp-tag--large .idp-tag__close {
+.zjpcy-tag--large .zjpcy-tag__close {
     margin-left: 6px;
     font-size: 14px;
 }
 
 /* 内容样式 */
-.idp-tag__content {
+.zjpcy-tag__content {
     display: inline-flex;
     align-items: center;
 }
 
 /* 图标样式 */
-.idp-tag__icon {
+.zjpcy-tag__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.idp-tag__icon svg {
+.zjpcy-tag__icon svg {
     width: 1em;
     height: 1em;
 }
 
 /* 关闭按钮样式 */
-.idp-tag__close {
+.zjpcy-tag__close {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -91,25 +91,25 @@
     margin-left: 4px;
 }
 
-.idp-tag__close:hover {
+.zjpcy-tag__close:hover {
     opacity: 1;
 }
 
-.idp-tag__close svg {
+.zjpcy-tag__close svg {
     width: 1em;
     height: 1em;
 }
 
 /* 可点击样式 */
-.idp-tag--clickable {
+.zjpcy-tag--clickable {
     cursor: pointer;
 }
 
-.idp-tag--clickable:hover {
+.zjpcy-tag--clickable:hover {
     opacity: 0.85;
 }
 
 /* 可关闭标签的额外样式 */
-.idp-tag--closable {
+.zjpcy-tag--closable {
     padding-right: 4px;
 }

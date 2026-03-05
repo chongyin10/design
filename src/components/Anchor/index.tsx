@@ -233,12 +233,12 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
     return links.map((link) => (
       <li
         key={link.href}
-        className={`idp-anchor-link ${activeLink === link.href ? 'idp-anchor-link-active' : ''}`}
+        className={`zjpcy-anchor-link ${activeLink === link.href ? 'zjpcy-anchor-link-active' : ''}`}
       >
         <a
           href={link.href}
           onClick={(e) => handleClick(e, link.href)}
-          className="idp-anchor-link-a"
+          className="zjpcy-anchor-link-a"
         >
           {link.title}
         </a>
@@ -246,11 +246,11 @@ const Anchor: React.FC<AnchorProps> & { Link: React.FC<AnchorLinkProps> } = ({
     ));
   };
 
-  const containerClasses = `idp-anchor ${className || ''} ${affix ? 'idp-anchor-affix' : ''}`;
+  const containerClasses = `zjpcy-anchor ${className || ''} ${affix ? 'zjpcy-anchor-affix' : ''}`;
 
   return (
     <div ref={containerRef} className={containerClasses} style={style}>
-      <ul className="idp-anchor-list">
+      <ul className="zjpcy-anchor-list">
         {renderLinks()}
       </ul>
     </div>

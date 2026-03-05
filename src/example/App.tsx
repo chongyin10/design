@@ -500,7 +500,7 @@ const InstallContent: React.FC = () => (
                 </div>
                 <pre><code>{`import React from 'react';
 import { Button, Input } from '@zjpcy/simple-design';
-import 'idp-design/dist/index.css';
+import 'zjpcy-design/dist/index.css';
 
 const App = () => (
   <>

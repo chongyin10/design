@@ -27,11 +27,11 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((
     }
 
     const classes = classNames(
-        'idp-tag',
-        `idp-tag--${size}`,
+        'zjpcy-tag',
+        `zjpcy-tag--${size}`,
         {
-            'idp-tag--clickable': onClick,
-            'idp-tag--closable': closable
+            'zjpcy-tag--clickable': onClick,
+            'zjpcy-tag--closable': closable
         },
         className
     );
@@ -53,13 +53,13 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((
 
         if (typeof icon === 'string') {
             return (
-                <span className="idp-tag__icon">
+                <span className="zjpcy-tag__icon">
                     <Icon type={icon} />
                 </span>
             );
         }
 
-        return <span className="idp-tag__icon">{icon}</span>;
+        return <span className="zjpcy-tag__icon">{icon}</span>;
     };
 
     return (
@@ -71,10 +71,10 @@ const Tag = React.forwardRef<HTMLSpanElement, TagProps>((
             {...rest}
         >
             {renderIcon()}
-            <span className="idp-tag__content">{children}</span>
+            <span className="zjpcy-tag__content">{children}</span>
             {closable && (
                 <span
-                    className="idp-tag__close"
+                    className="zjpcy-tag__close"
                     onClick={handleClose}
                     role="button"
                     tabIndex={0}

@@ -7,7 +7,7 @@
 /* ============================================
    遮罩层
    ============================================ */
-.idp-drawer-overlay {
+.zjpcy-drawer-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -18,14 +18,14 @@
     pointer-events: none;
 }
 
-.idp-drawer-overlay--visible {
-    background-color: var(--idp-modal-mask-bg);
+.zjpcy-drawer-overlay--visible {
+    background-color: var(--zjpcy-modal-mask-bg);
     pointer-events: auto;
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 }
 
-.idp-drawer-overlay--closing {
+.zjpcy-drawer-overlay--closing {
     background-color: rgba(0, 0, 0, 0);
     pointer-events: auto;
 }
@@ -33,7 +33,7 @@
 /* ============================================
    无遮罩层时的包装器
    ============================================ */
-.idp-drawer-wrapper {
+.zjpcy-drawer-wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -42,17 +42,17 @@
     pointer-events: none;
 }
 
-.idp-drawer-wrapper--visible {
+.zjpcy-drawer-wrapper--visible {
     pointer-events: auto;
 }
 
 /* ============================================
    Drawer 主体
    ============================================ */
-.idp-drawer {
+.zjpcy-drawer {
     position: absolute;
-    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-white) 100%);
-    box-shadow: var(--idp-shadow-lg);
+    background: linear-gradient(180deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-white) 100%);
+    box-shadow: var(--zjpcy-shadow-lg);
     display: flex;
     flex-direction: column;
     transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
@@ -63,7 +63,7 @@
 /* ============================================
    左侧抽屉
    ============================================ */
-.idp-drawer--left {
+.zjpcy-drawer--left {
     left: 0;
     top: 0;
     bottom: 0;
@@ -71,20 +71,20 @@
 }
 
 /* 使用后代选择器避免多类选择器 */
-.idp-drawer-wrapper--visible .idp-drawer--left,
-.idp-drawer-overlay--visible .idp-drawer--left {
+.zjpcy-drawer-wrapper--visible .zjpcy-drawer--left,
+.zjpcy-drawer-overlay--visible .zjpcy-drawer--left {
     transform: translateX(0);
 }
 
-.idp-drawer-wrapper--closing .idp-drawer--left,
-.idp-drawer-overlay--closing .idp-drawer--left {
+.zjpcy-drawer-wrapper--closing .zjpcy-drawer--left,
+.zjpcy-drawer-overlay--closing .zjpcy-drawer--left {
     transform: translateX(-100%);
 }
 
 /* ============================================
    右侧抽屉
    ============================================ */
-.idp-drawer--right {
+.zjpcy-drawer--right {
     right: 0;
     top: 0;
     bottom: 0;
@@ -92,20 +92,20 @@
 }
 
 /* 使用后代选择器避免多类选择器 */
-.idp-drawer-wrapper--visible .idp-drawer--right,
-.idp-drawer-overlay--visible .idp-drawer--right {
+.zjpcy-drawer-wrapper--visible .zjpcy-drawer--right,
+.zjpcy-drawer-overlay--visible .zjpcy-drawer--right {
     transform: translateX(0);
 }
 
-.idp-drawer-wrapper--closing .idp-drawer--right,
-.idp-drawer-overlay--closing .idp-drawer--right {
+.zjpcy-drawer-wrapper--closing .zjpcy-drawer--right,
+.zjpcy-drawer-overlay--closing .zjpcy-drawer--right {
     transform: translateX(100%);
 }
 
 /* ============================================
    顶部抽屉
    ============================================ */
-.idp-drawer--top {
+.zjpcy-drawer--top {
     top: 0;
     left: 0;
     right: 0;
@@ -113,20 +113,20 @@
 }
 
 /* 使用后代选择器避免多类选择器 */
-.idp-drawer-wrapper--visible .idp-drawer--top,
-.idp-drawer-overlay--visible .idp-drawer--top {
+.zjpcy-drawer-wrapper--visible .zjpcy-drawer--top,
+.zjpcy-drawer-overlay--visible .zjpcy-drawer--top {
     transform: translateY(0);
 }
 
-.idp-drawer-wrapper--closing .idp-drawer--top,
-.idp-drawer-overlay--closing .idp-drawer--top {
+.zjpcy-drawer-wrapper--closing .zjpcy-drawer--top,
+.zjpcy-drawer-overlay--closing .zjpcy-drawer--top {
     transform: translateY(-100%);
 }
 
 /* ============================================
    底部抽屉
    ============================================ */
-.idp-drawer--bottom {
+.zjpcy-drawer--bottom {
     bottom: 0;
     left: 0;
     right: 0;
@@ -134,28 +134,28 @@
 }
 
 /* 使用后代选择器避免多类选择器 */
-.idp-drawer-wrapper--visible .idp-drawer--bottom,
-.idp-drawer-overlay--visible .idp-drawer--bottom {
+.zjpcy-drawer-wrapper--visible .zjpcy-drawer--bottom,
+.zjpcy-drawer-overlay--visible .zjpcy-drawer--bottom {
     transform: translateY(0);
 }
 
-.idp-drawer-wrapper--closing .idp-drawer--bottom,
-.idp-drawer-overlay--closing .idp-drawer--bottom {
+.zjpcy-drawer-wrapper--closing .zjpcy-drawer--bottom,
+.zjpcy-drawer-overlay--closing .zjpcy-drawer--bottom {
     transform: translateY(100%);
 }
 
 /* ============================================
    无遮罩层时的定位
    ============================================ */
-.idp-drawer-wrapper--no-mask .idp-drawer--left,
-.idp-drawer-wrapper--no-mask .idp-drawer--right {
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer--left,
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer--right {
     position: fixed;
     top: 0;
     bottom: 0;
 }
 
-.idp-drawer-wrapper--no-mask .idp-drawer--top,
-.idp-drawer-wrapper--no-mask .idp-drawer--bottom {
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer--top,
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer--bottom {
     position: fixed;
     left: 0;
     right: 0;
@@ -164,20 +164,20 @@
 /* ============================================
    头部样式
    ============================================ */
-.idp-drawer-header {
+.zjpcy-drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 8px 20px;
-    border-bottom: 1px solid var(--idp-border-color-light);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
     flex-shrink: 0;
-    background: linear-gradient(180deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
+    background: linear-gradient(180deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
 }
 
-.idp-drawer-header__title {
+.zjpcy-drawer-header__title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     line-height: 1.5;
     flex: 1;
     overflow: hidden;
@@ -186,7 +186,7 @@
     letter-spacing: 0.3px;
 }
 
-.idp-drawer-header__close {
+.zjpcy-drawer-header__close {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -198,14 +198,14 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-md);
-    transition: all var(--idp-transition-duration) ease;
-    color: var(--idp-text-color-tertiary);
+    border-radius: var(--zjpcy-border-radius-md);
+    transition: all var(--zjpcy-transition-duration) ease;
+    color: var(--zjpcy-text-color-tertiary);
 }
 
-.idp-drawer-header__close:hover {
+.zjpcy-drawer-header__close:hover {
     background: rgba(0, 0, 0, 0.06);
-    color: var(--idp-error-color);
+    color: var(--zjpcy-error-color);
     transform: rotate(90deg);
 }
 
@@ -213,7 +213,7 @@
 /* ============================================
    内容区域
    ============================================ */
-.idp-drawer-content {
+.zjpcy-drawer-content {
     flex: 1;
     overflow: auto;
     padding: 24px;
@@ -221,33 +221,33 @@
     min-width: 0;
     min-height: 0;
     width: 100%;
-    background: var(--idp-bg-color-white);
+    background: var(--zjpcy-bg-color-white);
 }
 
 /* 确保内容区域内的所有元素使用 border-box */
-.idp-drawer-content *,
-.idp-drawer-content *::before,
-.idp-drawer-content *::after {
+.zjpcy-drawer-content *,
+.zjpcy-drawer-content *::before,
+.zjpcy-drawer-content *::after {
     box-sizing: border-box;
 }
 
 /* ============================================
    页脚
    ============================================ */
-.idp-drawer-footer {
+.zjpcy-drawer-footer {
     padding: 16px 24px;
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    background: linear-gradient(180deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
+    background: linear-gradient(180deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
 }
 
 /* ============================================
    加载状态
    ============================================ */
-.idp-drawer-loading {
+.zjpcy-drawer-loading {
     position: absolute;
     top: 0;
     left: 0;
@@ -262,43 +262,43 @@
     -webkit-backdrop-filter: blur(4px);
 }
 
-.idp-drawer-loading-content {
+.zjpcy-drawer-loading-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
 }
 
-.idp-drawer-loading-spinner {
+.zjpcy-drawer-loading-spinner {
     width: 32px;
     height: 32px;
 }
 
-.idp-drawer-loading-icon {
+.zjpcy-drawer-loading-icon {
     width: 100%;
     height: 100%;
-    animation: idp-drawer-loading-rotate 1s linear infinite;
+    animation: zjpcy-drawer-loading-rotate 1s linear infinite;
 }
 
-.idp-drawer-loading-track {
-    stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
+.zjpcy-drawer-loading-track {
+    stroke: var(--zjpcy-border-color-light, rgba(0, 0, 0, 0.1));
 }
 
-.idp-drawer-loading-indicator {
-    stroke: var(--idp-primary-color, #1890ff);
+.zjpcy-drawer-loading-indicator {
+    stroke: var(--zjpcy-primary-color, #1890ff);
     stroke-dasharray: 60;
     stroke-dashoffset: 40;
     stroke-linecap: round;
     transform-origin: center;
 }
 
-.idp-drawer-loading-text {
+.zjpcy-drawer-loading-text {
     font-size: 14px;
-    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65));
     text-align: center;
 }
 
-@keyframes idp-drawer-loading-rotate {
+@keyframes zjpcy-drawer-loading-rotate {
     from {
         transform: rotate(0deg);
     }
@@ -310,39 +310,39 @@
 /* ============================================
    滚动条样式
    ============================================ */
-.idp-drawer-content::-webkit-scrollbar {
+.zjpcy-drawer-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
 
-.idp-drawer-content::-webkit-scrollbar-track {
-    background: var(--idp-bg-color);
-    border-radius: var(--idp-border-radius-sm);
+.zjpcy-drawer-content::-webkit-scrollbar-track {
+    background: var(--zjpcy-bg-color);
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
-.idp-drawer-content::-webkit-scrollbar-thumb {
-    background: var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-sm);
-    border: 2px solid var(--idp-bg-color);
-    transition: background var(--idp-transition-duration) ease;
+.zjpcy-drawer-content::-webkit-scrollbar-thumb {
+    background: var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-sm);
+    border: 2px solid var(--zjpcy-bg-color);
+    transition: background var(--zjpcy-transition-duration) ease;
 }
 
-.idp-drawer-content::-webkit-scrollbar-thumb:hover {
-    background: var(--idp-text-color-light);
+.zjpcy-drawer-content::-webkit-scrollbar-thumb:hover {
+    background: var(--zjpcy-text-color-light);
 }
 
 /* ============================================
    拖拽手柄
    ============================================ */
-.idp-drawer-resize-handle {
+.zjpcy-drawer-resize-handle {
     position: absolute;
     background: transparent;
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
     z-index: 1;
 }
 
 /* 左侧抽屉 - 手柄在右边 */
-.idp-drawer-resize-handle--right {
+.zjpcy-drawer-resize-handle--right {
     right: 0;
     top: 0;
     bottom: 0;
@@ -351,7 +351,7 @@
 }
 
 /* 右侧抽屉 - 手柄在左边 */
-.idp-drawer-resize-handle--left {
+.zjpcy-drawer-resize-handle--left {
     left: 0;
     top: 0;
     bottom: 0;
@@ -360,7 +360,7 @@
 }
 
 /* 顶部抽屉 - 手柄在底部 */
-.idp-drawer-resize-handle--bottom {
+.zjpcy-drawer-resize-handle--bottom {
     left: 0;
     right: 0;
     bottom: 0;
@@ -369,7 +369,7 @@
 }
 
 /* 底部抽屉 - 手柄在顶部 */
-.idp-drawer-resize-handle--top {
+.zjpcy-drawer-resize-handle--top {
     left: 0;
     right: 0;
     top: 0;
@@ -378,30 +378,30 @@
 }
 
 /* 拖拽手柄悬停效果 */
-.idp-drawer-resize-handle:hover {
+.zjpcy-drawer-resize-handle:hover {
     background: rgba(24, 144, 255, 0.1);
 }
 
-.idp-drawer-resize-handle:active {
+.zjpcy-drawer-resize-handle:active {
     background: rgba(24, 144, 255, 0.2);
 }
 
 /* ============================================
    拖拽中状态
    ============================================ */
-.idp-drawer-overlay--resizing {
+.zjpcy-drawer-overlay--resizing {
     cursor: inherit;
 }
 
-.idp-drawer--resizing {
+.zjpcy-drawer--resizing {
     transition: none !important;
     will-change: width, height;
     user-select: none;
 }
 
 /* 拖拽时禁用全局文本选择 */
-.idp-drawer--resizing,
-.idp-drawer--resizing * {
+.zjpcy-drawer--resizing,
+.zjpcy-drawer--resizing * {
     user-select: none !important;
     -webkit-user-select: none !important;
     -moz-user-select: none !important;
@@ -409,12 +409,12 @@
 }
 
 /* 无遮罩层时的拖拽手柄定位 */
-.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--left,
-.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--right {
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer-resize-handle--left,
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer-resize-handle--right {
     position: fixed;
 }
 
-.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--top,
-.idp-drawer-wrapper--no-mask .idp-drawer-resize-handle--bottom {
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer-resize-handle--top,
+.zjpcy-drawer-wrapper--no-mask .zjpcy-drawer-resize-handle--bottom {
     position: fixed;
 }

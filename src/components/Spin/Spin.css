@@ -3,14 +3,14 @@
    ============================================ */
 
 /* 基础 Spin 容器 */
-.idp-spin {
+.zjpcy-spin {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
 /* Spin 内容区域 */
-.idp-spin-content {
+.zjpcy-spin-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,23 +18,23 @@
 }
 
 /* 带提示文本时的间距 */
-.idp-spin-content-tip {
+.zjpcy-spin-content-tip {
     gap: 12px;
 }
 
 /* 加载图标 */
-.idp-spin-icon {
-    animation: idp-spin-rotate 1s linear infinite;
+.zjpcy-spin-icon {
+    animation: zjpcy-spin-rotate 1s linear infinite;
 }
 
 /* 加载轨道 - 背景圆环 */
-.idp-spin-track {
-    stroke: var(--idp-border-color-light, rgba(0, 0, 0, 0.1));
+.zjpcy-spin-track {
+    stroke: var(--zjpcy-border-color-light, rgba(0, 0, 0, 0.1));
 }
 
 /* 加载指示器 - 旋转部分 */
-.idp-spin-indicator {
-    stroke: var(--idp-primary-color, #1890ff);
+.zjpcy-spin-indicator {
+    stroke: var(--zjpcy-primary-color, #1890ff);
     stroke-dasharray: 60;
     stroke-dashoffset: 40;
     stroke-linecap: round;
@@ -42,47 +42,47 @@
 }
 
 /* 提示文本 */
-.idp-spin-tip {
+.zjpcy-spin-tip {
     font-size: 14px;
-    color: var(--idp-text-color-secondary, rgba(0, 0, 0, 0.65));
+    color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65));
     text-align: center;
 }
 
 /* 尺寸变体 - small */
-.idp-spin-icon-small {
+.zjpcy-spin-icon-small {
     width: 16px;
     height: 16px;
 }
 
-.idp-spin-tip-small {
+.zjpcy-spin-tip-small {
     font-size: 12px;
 }
 
 /* 尺寸变体 - default */
-.idp-spin-icon-default{
+.zjpcy-spin-icon-default{
     width: 24px;
     height: 24px;
 }
 
 /* 尺寸变体 - large */
-.idp-spin-icon-large {
+.zjpcy-spin-icon-large {
     width: 32px;
     height: 32px;
 }
 
-.idp-spin-tip-large {
+.zjpcy-spin-tip-large {
     font-size: 16px;
 }
 
 /* ============================================
    嵌套模式 - 作为包裹组件
    ============================================ */
-.idp-spin-nested-wrapper {
+.zjpcy-spin-nested-wrapper {
     position: relative;
 }
 
 /* 遮罩层 */
-.idp-spin-mask {
+.zjpcy-spin-mask {
     position: absolute;
     top: 0;
     left: 0;
@@ -93,21 +93,21 @@
     align-items: center;
     justify-content: center;
     z-index: 100;
-    border-radius: var(--idp-border-radius-lg, 8px);
+    border-radius: var(--zjpcy-border-radius-lg, 8px);
 }
 
 /* 遮罩层尺寸 */
-.idp-spin-mask .idp-spin-icon-small {
+.zjpcy-spin-mask .zjpcy-spin-icon-small {
     width: 16px;
     height: 16px;
 }
 
-.idp-spin-mask .idp-spin-icon-default {
+.zjpcy-spin-mask .zjpcy-spin-icon-default {
     width: 24px;
     height: 24px;
 }
 
-.idp-spin-mask .idp-spin-icon-large {
+.zjpcy-spin-mask .zjpcy-spin-icon-large {
     width: 32px;
     height: 32px;
 }
@@ -115,7 +115,7 @@
 /* ============================================
    全屏模式
    ============================================ */
-.idp-spin-fullscreen {
+.zjpcy-spin-fullscreen {
     position: fixed;
     top: 0;
     left: 0;
@@ -128,12 +128,12 @@
     z-index: 9999;
 }
 
-.idp-spin-fullscreen .idp-spin-icon {
+.zjpcy-spin-fullscreen .zjpcy-spin-icon {
     width: 48px;
     height: 48px;
 }
 
-.idp-spin-fullscreen .idp-spin-tip {
+.zjpcy-spin-fullscreen .zjpcy-spin-tip {
     font-size: 16px;
     margin-top: 16px;
 }
@@ -141,7 +141,7 @@
 /* ============================================
    旋转动画
    ============================================ */
-@keyframes idp-spin-rotate {
+@keyframes zjpcy-spin-rotate {
     from {
         transform: rotate(0deg);
     }

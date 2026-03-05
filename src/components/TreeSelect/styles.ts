@@ -11,7 +11,7 @@ export const Wrapper = styled.div<{ $styles?: TreeSelectStyles['wrapper']; $widt
   width: ${props => props.$width || '100%'};
   min-width: 180px;
   font-size: 14px;
-  color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
   box-sizing: border-box;
 
   &.treeselect-wrapper {
@@ -28,11 +28,11 @@ export const Selection = styled.div<{ $open: boolean; $disabled: boolean; $size:
   align-items: center;
   min-height: 32px;
   padding: 6px 28px 6px 12px;
-  background-color: ${getCSSVar('--idp-bg-color-white', '#fff')};
-  border: 1px solid ${getCSSVar('--idp-border-color-extra-light', '#d9d9d9')};
-  border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
+  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
+  border: 1px solid ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
+  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
   cursor: pointer;
-  transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ${getCSSVar('--idp-transition-timing-function', 'ease-in-out')};
+  transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ${getCSSVar('--zjpcy-transition-timing-function', 'ease-in-out')};
   box-sizing: border-box;
 
   &.treeselect-selection {
@@ -40,20 +40,20 @@ export const Selection = styled.div<{ $open: boolean; $disabled: boolean; $size:
   }
 
   &:hover {
-    border-color: ${getCSSVar('--idp-primary-hover-color', '#40a9ff')};
+    border-color: ${getCSSVar('--zjpcy-primary-hover-color', '#40a9ff')};
   }
 
   ${({ $open }) =>
     $open && `
-      border-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
-      box-shadow: ${getCSSVar('--idp-input-box-shadow-focus', '0 0 0 2px rgba(51, 154, 240, 0.2)')};
+      border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
+      box-shadow: ${getCSSVar('--zjpcy-input-box-shadow-focus', '0 0 0 2px rgba(51, 154, 240, 0.2)')};
     `
   }
 
   ${({ $disabled }) =>
     $disabled && `
-      background-color: ${getCSSVar('--idp-input-disabled-bg', '#f5f5f5')};
-      border-color: ${getCSSVar('--idp-border-color-extra-light', '#d9d9d9')};
+      background-color: ${getCSSVar('--zjpcy-input-disabled-bg', '#f5f5f5')};
+      border-color: ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
       cursor: not-allowed;
     `
   }
@@ -94,7 +94,7 @@ export const Rendered = styled.div<{ $isPlaceholder: boolean }>`
 
   ${({ $isPlaceholder }) =>
     $isPlaceholder && `
-      color: ${getCSSVar('--idp-input-placeholder-color', '#bfbfbf')};
+      color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
     `
   }
 `;
@@ -116,9 +116,9 @@ export const Tag = styled.span<{ $size: 'large' | 'middle' | 'small'; $styles?: 
   align-items: center;
   max-width: 100%;
   padding: 2px 8px;
-  background-color: ${getCSSVar('--idp-bg-color-light', '#f5f5f5')};
-  border: 1px solid ${getCSSVar('--idp-border-color-light', '#f0f0f0')};
-  border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
+  background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
+  border: 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
+  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
   font-size: 12px;
   line-height: 1.5;
 
@@ -129,7 +129,7 @@ export const Tag = styled.span<{ $size: 'large' | 'middle' | 'small'; $styles?: 
   &.treeselect-selection__tag--more {
     background-color: transparent;
     border-color: transparent;
-    color: ${getCSSVar('--idp-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
+    color: ${getCSSVar('--zjpcy-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
   }
 
   ${({ $size }) => {
@@ -169,16 +169,16 @@ export const TagClose = styled.span`
   justify-content: center;
   margin-left: 4px;
   padding: 2px;
-  color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
   cursor: pointer;
-  transition: color ${getCSSVar('--idp-transition-duration', '0.2s')};
+  transition: color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
 
   &.treeselect-selection__tag-close {
     /* 外部可通过 .treeselect-selection__tag-close 选择器覆盖样式 */
   }
 
   &:hover {
-    color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
   }
 `;
 
@@ -200,10 +200,10 @@ export const SearchInput = styled.input`
   outline: none;
   background: transparent;
   font-size: 14px;
-  color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
 
   &::placeholder {
-    color: ${getCSSVar('--idp-input-placeholder-color', '#bfbfbf')};
+    color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
   }
 
   &.treeselect-selection__search-input,
@@ -223,9 +223,9 @@ export const ClearIcon = styled.span<{ $size: 'large' | 'middle' | 'small' }>`
   justify-content: center;
   width: 18px;
   height: 18px;
-  color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
   cursor: pointer;
-  transition: color ${getCSSVar('--idp-transition-duration', '0.2s')};
+  transition: color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
   z-index: 1;
 
   &.treeselect-selection__clear {
@@ -233,7 +233,7 @@ export const ClearIcon = styled.span<{ $size: 'large' | 'middle' | 'small' }>`
   }
 
   &:hover {
-    color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
   }
 
   ${({ $size }) => {
@@ -256,8 +256,8 @@ export const ArrowIcon = styled.span<{ $open: boolean; $size: 'large' | 'middle'
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-  transition: transform ${getCSSVar('--idp-transition-duration', '0.2s')};
+  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+  transition: transform ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
   pointer-events: none;
 
   &.treeselect-selection__arrow {
@@ -288,9 +288,9 @@ export const Dropdown = styled.div<{ $width?: number | string; $height?: number 
   left: 0;
   z-index: 1050;
   margin-top: 4px;
-  background-color: ${getCSSVar('--idp-bg-color-white', '#fff')};
-  border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
-  box-shadow: ${getCSSVar('--idp-shadow-lg', '0 8px 24px rgba(0, 0, 0, 0.15)')};
+  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
+  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
+  box-shadow: ${getCSSVar('--zjpcy-shadow-lg', '0 8px 24px rgba(0, 0, 0, 0.15)')};
   overflow: hidden;
   width: ${props => props.$width || '100%'};
   max-height: ${props => props.$height || '300px'};
@@ -305,7 +305,7 @@ export const Dropdown = styled.div<{ $width?: number | string; $height?: number 
 // 下拉搜索框容器组件
 export const DropdownSearchWrapper = styled.div`
   padding: 8px 12px;
-  border-bottom: 1px solid ${getCSSVar('--idp-border-color-light', '#f0f0f0')};
+  border-bottom: 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
 
   &.treeselect-dropdown__search {
     /* 外部可通过 .treeselect-dropdown__search 选择器覆盖样式 */
@@ -316,15 +316,15 @@ export const DropdownSearchWrapper = styled.div`
 export const DropdownSearchInput = styled.input`
   width: 100%;
   padding: 4px 8px;
-  background-color: ${getCSSVar('--idp-bg-color-light', '#f5f5f5')};
+  background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
   border: none;
-  border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
+  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
   outline: none;
   font-size: 14px;
-  color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
 
   &::placeholder {
-    color: ${getCSSVar('--idp-input-placeholder-color', '#bfbfbf')};
+    color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
   }
 `;
 
@@ -384,7 +384,7 @@ export const TreeNode = styled.div<{ $selected: boolean; $disabled: boolean; $le
   padding: 8px 12px;
   padding-left: ${props => `${props.$level * 20 + 12}px`};
   cursor: pointer;
-  transition: background-color ${getCSSVar('--idp-transition-duration', '0.2s')};
+  transition: background-color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
   user-select: none;
 
   &.treeselect-tree-node {
@@ -392,23 +392,23 @@ export const TreeNode = styled.div<{ $selected: boolean; $disabled: boolean; $le
   }
 
   &:hover {
-    background-color: ${getCSSVar('--idp-bg-color-light', '#f5f5f5')};
+    background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
   }
 
   ${({ $selected }) =>
     $selected && `
-      background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
-      color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+      background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+      color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
 
       &:hover {
-        background-color: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+        background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
       }
     `
   }
 
   ${({ $disabled }) =>
     $disabled && `
-      color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+      color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
       cursor: not-allowed;
 
       &:hover {
@@ -429,7 +429,7 @@ export const ExpandIcon = styled.span<{ $expanded: boolean; $hasChildren: boolea
   height: 16px;
   margin-right: 4px;
   cursor: pointer;
-  transition: transform ${getCSSVar('--idp-transition-duration', '0.2s')};
+  transition: transform ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
 
   &.treeselect-tree-node__expand-icon {
     /* 外部可通过 .treeselect-tree-node__expand-icon 选择器覆盖样式 */
@@ -468,23 +468,23 @@ export const CheckboxInner = styled.span<{ $checked: boolean }>`
   justify-content: center;
   width: 16px;
   height: 16px;
-  border: 1px solid ${getCSSVar('--idp-border-color-extra-light', '#d9d9d9')};
+  border: 1px solid ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
   border-radius: 2px;
-  background-color: ${getCSSVar('--idp-bg-color-white', '#fff')};
-  transition: all ${getCSSVar('--idp-transition-duration', '0.2s')};
+  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
+  transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
 
   &.treeselect-tree-node__checkbox-inner {
     /* 外部可通过 .treeselect-tree-node__checkbox-inner 选择器覆盖样式 */
   }
 
   .treeselect-tree-node:hover & {
-    border-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+    border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
   }
 
   ${({ $checked }) =>
     $checked && `
-      background-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
-      border-color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+      background-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
+      border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
     `
   }
 `;

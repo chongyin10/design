@@ -11,10 +11,10 @@
     padding: 0;
     margin: 0;
     width: auto;
-    background-color: var(--idp-border-color-extra-light);
+    background-color: var(--zjpcy-border-color-extra-light);
     border: none;
     position: relative;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 /* ============================================
@@ -44,8 +44,8 @@
 .divider-dashed-horizontal {
     background: repeating-linear-gradient(
         to right,
-        var(--idp-border-color-extra-light),
-        var(--idp-border-color-extra-light) 6px,
+        var(--zjpcy-border-color-extra-light),
+        var(--zjpcy-border-color-extra-light) 6px,
         transparent 6px,
         transparent 12px
     );
@@ -57,8 +57,8 @@
 .divider-dashed-vertical {
     background: repeating-linear-gradient(
         to bottom,
-        var(--idp-border-color-extra-light),
-        var(--idp-border-color-extra-light) 6px,
+        var(--zjpcy-border-color-extra-light),
+        var(--zjpcy-border-color-extra-light) 6px,
         transparent 6px,
         transparent 12px
     );
@@ -82,15 +82,15 @@
     content: '';
     flex: 1;
     height: 1px;
-    background-color: var(--idp-border-color-extra-light);
+    background-color: var(--zjpcy-border-color-extra-light);
 }
 
 .divider-with-text .divider-dashed-horizontal::before,
 .divider-with-text .divider-dashed-horizontal::after {
     background: repeating-linear-gradient(
         to right,
-        var(--idp-border-color-extra-light),
-        var(--idp-border-color-extra-light) 6px,
+        var(--zjpcy-border-color-extra-light),
+        var(--zjpcy-border-color-extra-light) 6px,
         transparent 6px,
         transparent 12px
     );
@@ -100,7 +100,7 @@
     padding: 0 16px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
     line-height: 1.5;
 }
 
@@ -127,18 +127,18 @@
    主题色变体 - 主色调（使用组合类名避免多类选择器）
    ============================================ */
 .divider-primary {
-    background-color: var(--idp-primary-color);
+    background-color: var(--zjpcy-primary-color);
 }
 
 .divider-primary-vertical {
-    background-color: var(--idp-primary-color);
+    background-color: var(--zjpcy-primary-color);
 }
 
 .divider-primary-dashed-horizontal {
     background: repeating-linear-gradient(
         to right,
-        var(--idp-primary-color),
-        var(--idp-primary-color) 6px,
+        var(--zjpcy-primary-color),
+        var(--zjpcy-primary-color) 6px,
         transparent 6px,
         transparent 12px
     );
@@ -147,29 +147,29 @@
 .divider-primary-dashed-vertical {
     background: repeating-linear-gradient(
         to bottom,
-        var(--idp-primary-color),
-        var(--idp-primary-color) 6px,
+        var(--zjpcy-primary-color),
+        var(--zjpcy-primary-color) 6px,
         transparent 6px,
         transparent 12px
     );
 }
 
 .divider-primary .divider-text {
-    color: var(--idp-primary-color);
+    color: var(--zjpcy-primary-color);
 }
 
 /* 使用组合类名避免多类选择器 */
 .divider-primary-with-text::before,
 .divider-primary-with-text::after {
-    background-color: var(--idp-primary-color);
+    background-color: var(--zjpcy-primary-color);
 }
 
 .divider-primary-with-text .divider-dashed-horizontal::before,
 .divider-primary-with-text .divider-dashed-horizontal::after {
     background: repeating-linear-gradient(
         to right,
-        var(--idp-primary-color),
-        var(--idp-primary-color) 6px,
+        var(--zjpcy-primary-color),
+        var(--zjpcy-primary-color) 6px,
         transparent 6px,
         transparent 12px
     );

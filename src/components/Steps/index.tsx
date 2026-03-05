@@ -10,7 +10,7 @@ const StepNode: React.FC<{ index: number; status: StepStatus; item: StepItem }> 
     // 优先级：node > title > description > 默认图标
     if (item.node) {
         return (
-            <span className={`idp-step-node idp-step-node-${status}`}>
+            <span className={`zjpcy-step-node zjpcy-step-node-${status}`}>
                 {item.node}
             </span>
         );
@@ -18,7 +18,7 @@ const StepNode: React.FC<{ index: number; status: StepStatus; item: StepItem }> 
 
     if (item.title) {
         return (
-            <span className={`idp-step-node idp-step-node-${status}`}>
+            <span className={`zjpcy-step-node zjpcy-step-node-${status}`}>
                 {item.title}
             </span>
         );
@@ -26,21 +26,21 @@ const StepNode: React.FC<{ index: number; status: StepStatus; item: StepItem }> 
 
     if (item.description) {
         return (
-            <span className={`idp-step-node idp-step-node-${status}`}>
+            <span className={`zjpcy-step-node zjpcy-step-node-${status}`}>
                 {item.description}
             </span>
         );
     }
 
     if (status === 'finish') {
-        return <span className="idp-step-node idp-step-node-finish">✓</span>;
+        return <span className="zjpcy-step-node zjpcy-step-node-finish">✓</span>;
     }
 
     if (status === 'error') {
-        return <span className="idp-step-node idp-step-node-error">✕</span>;
+        return <span className="zjpcy-step-node zjpcy-step-node-error">✕</span>;
     }
 
-    return <span className={`idp-step-node idp-step-node-${status}`}>{index + 1}</span>;
+    return <span className={`zjpcy-step-node zjpcy-step-node-${status}`}>{index + 1}</span>;
 };
 
 const Step: React.FC<{ item: StepItem; index: number; isLast: boolean }> = ({ item, index, isLast }) => {
@@ -73,7 +73,7 @@ const Step: React.FC<{ item: StepItem; index: number; isLast: boolean }> = ({ it
     const renderHeight = useMemo(() => {
         if (context.type !== 'panel' || height === 0) return null;
         const y = (height / 4) - 16/2;
-        return <div style={{ transform: `translateY(${y}px)` }} className="idp-step-arrow">
+        return <div style={{ transform: `translateY(${y}px)` }} className="zjpcy-step-arrow">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M5.5 3L10.5 8L5.5 13" stroke="currentColor" strokeWidth="2" fill="none" />
             </svg>
@@ -91,21 +91,21 @@ const Step: React.FC<{ item: StepItem; index: number; isLast: boolean }> = ({ it
 
     return (
         <div
-            className={classNames('idp-step', `idp-step-direction-${direction}`, `idp-step-${stepStatus}`, {
-                'idp-step-disabled': item.disabled
+            className={classNames('zjpcy-step', `zjpcy-step-direction-${direction}`, `zjpcy-step-${stepStatus}`, {
+                'zjpcy-step-disabled': item.disabled
             })}
             onClick={handleClick}
             ref={refItem}
         >
-            <div className="idp-step-head">
+            <div className="zjpcy-step-head">
                 <StepNode index={index} status={stepStatus} item={item} />
                 {!isLast && (
                     <>
                         {/* 默认类型显示连接线 */}
                         {context.type === 'default' && (
-                            <div className={`idp-step-tail idp-step-tail-${tailType}`} style={tailStyle}>
+                            <div className={`zjpcy-step-tail zjpcy-step-tail-${tailType}`} style={tailStyle}>
                                 {item.tailTitle && (
-                                    <div className="idp-step-tail-title">
+                                    <div className="zjpcy-step-tail-title">
                                         {item.tailTitle}
                                     </div>
                                 )}
@@ -116,9 +116,9 @@ const Step: React.FC<{ item: StepItem; index: number; isLast: boolean }> = ({ it
                     </>
                 )}
             </div>
-            <div className="idp-step-content">
-                {item.title && <div className="idp-step-title">{item.title}</div>}
-                {item.description && <div className="idp-step-description">{item.description}</div>}
+            <div className="zjpcy-step-content">
+                {item.title && <div className="zjpcy-step-title">{item.title}</div>}
+                {item.description && <div className="zjpcy-step-description">{item.description}</div>}
             </div>
         </div>
     );
@@ -147,7 +147,7 @@ const Steps: React.FC<StepsProps> = ({
     return (
         <StepContext.Provider value={contextValue}>
             <div
-                className={`idp-steps ${direction} ${size} ${type} ${className}`}
+                className={`zjpcy-steps ${direction} ${size} ${type} ${className}`}
                 style={style}
             >
                 {items.map((item, index) => (

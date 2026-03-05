@@ -7,7 +7,7 @@
    ============================================ */
 .input-label {
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     white-space: nowrap;
     flex-shrink: 0;
     font-weight: 500;
@@ -24,20 +24,20 @@
     align-items: center;
     font-size: 14px;
     font-family: inherit;
-    border: 1px solid var(--idp-input-border);
-    border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 100%, var(--idp-bg-color) 100%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border: 1px solid var(--zjpcy-input-border);
+    border-radius: var(--zjpcy-border-radius-lg);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 100%, var(--zjpcy-bg-color) 100%);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     outline: none;
     box-sizing: border-box;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
     overflow: hidden;
     height: 36px;
 }
 
 .input-wrapper:hover {
-    border-color: var(--idp-input-border-hover);
-    box-shadow: var(--idp-input-box-shadow-hover);
+    border-color: var(--zjpcy-input-border-hover);
+    box-shadow: var(--zjpcy-input-box-shadow-hover);
 }
 
 /* ============================================
@@ -53,31 +53,31 @@
     background-color: transparent;
     outline: none;
     box-sizing: border-box;
-    color: var(--idp-text-color);
-    transition: color var(--idp-transition-duration) ease;
+    color: var(--zjpcy-text-color);
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .input-inner::placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     opacity: 1;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .input-inner::-webkit-input-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
 }
 
 .input-inner::-moz-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     opacity: 1;
 }
 
 .input-inner:-ms-input-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
 }
 
 .input-wrapper:hover .input-inner::placeholder {
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
 }
 
 /* ============================================
@@ -87,13 +87,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     margin: 0 0 0 12px;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .input-wrapper:hover .input-prefix {
-    color: var(--idp-primary-hover-color);
+    color: var(--zjpcy-primary-hover-color);
 }
 
 .input-prefix .icon-container {
@@ -117,12 +117,12 @@
     flex-shrink: 0;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transform: scale(0.8) rotate(-45deg);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 .input-suffix-clear.visible {
@@ -133,7 +133,7 @@
 
 .input-suffix-clear:hover {
     background: rgba(0, 0, 0, 0.12);
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
     transform: scale(1.1);
 }
 
@@ -149,13 +149,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
 .input-suffix-content:hover {
-    color: var(--idp-primary-hover-color);
+    color: var(--zjpcy-primary-hover-color);
     transform: scale(1.05);
 }
 
@@ -168,14 +168,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     margin: 0 12px;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .input-suffix:hover {
-    color: var(--idp-primary-hover-color);
+    color: var(--zjpcy-primary-hover-color);
 }
 
 .input-suffix .icon-container {
@@ -205,22 +205,22 @@
    ============================================ */
 .input-extra {
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     line-height: 1.5;
     padding: 6px 4px 0;
     text-align: left;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .input-wrapper:hover ~ .input-extra {
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
 }
 
 /* ============================================
    错误状态样式
    ============================================ */
 .input-error {
-    border-color: var(--idp-error-color) !important;
+    border-color: var(--zjpcy-error-color) !important;
     box-shadow: 0 2px 4px rgba(245, 34, 45, 0.1) !important;
 }
 
@@ -233,7 +233,7 @@
 /* 错误消息动画 - 从上而下淡入 */
 .input-error-message {
     font-size: 12px;
-    color: var(--idp-error-color);
+    color: var(--zjpcy-error-color);
     line-height: 1.5;
     padding: 6px 4px 0;
     text-align: left;
@@ -241,11 +241,11 @@
     visibility: hidden;
     transform: translateY(-10px);
     transform-origin: top center;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     transition:
-        opacity var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
-        visibility var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
-        transform var(--idp-transition-duration) cubic-bezier(0.16, 1, 0.3, 1);
+        opacity var(--zjpcy-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
+        visibility var(--zjpcy-transition-duration) cubic-bezier(0.16, 1, 0.3, 1),
+        transform var(--zjpcy-transition-duration) cubic-bezier(0.16, 1, 0.3, 1);
     max-height: 50px;
     overflow: hidden;
     white-space: normal;
@@ -274,33 +274,33 @@
    禁用和只读状态
    ============================================ */
 .input-wrapper-disabled {
-    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
-    border-color: var(--idp-border-color-extra-light);
-    color: var(--idp-text-color-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%);
+    border-color: var(--zjpcy-border-color-extra-light);
+    color: var(--zjpcy-text-color-light);
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .input-wrapper-disabled:hover {
     box-shadow: none;
-    border-color: var(--idp-border-color-extra-light);
+    border-color: var(--zjpcy-border-color-extra-light);
 }
 
 .input-wrapper-disabled .input-inner {
     background-color: transparent;
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     cursor: not-allowed;
 }
 
 .input-wrapper-readonly {
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
-    border-color: var(--idp-border-color);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
+    border-color: var(--zjpcy-border-color);
     cursor: default;
 }
 
 .input-wrapper-readonly:hover {
-    box-shadow: var(--idp-shadow-extra-light);
-    border-color: var(--idp-border-color-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
+    border-color: var(--zjpcy-border-color-extra-light);
 }
 
 .input-wrapper-readonly .input-inner {
@@ -312,9 +312,9 @@
    聚焦状态
    ============================================ */
 .input-wrapper:focus-within {
-    border-color: var(--idp-input-border-focus);
-    box-shadow: var(--idp-input-box-shadow-focus);
-    background: var(--idp-bg-color-white);
+    border-color: var(--zjpcy-input-border-focus);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
+    background: var(--zjpcy-bg-color-white);
 }
 
 /* ============================================
@@ -324,25 +324,25 @@
     padding: 6px 12px;
     font-size: 14px;
     font-family: inherit;
-    border: 1px solid var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-lg);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     outline: none;
     box-sizing: border-box;
     display: inline-block;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
 .input:hover {
-    border-color: var(--idp-primary-hover-color);
-    box-shadow: var(--idp-input-box-shadow-hover);
+    border-color: var(--zjpcy-primary-hover-color);
+    box-shadow: var(--zjpcy-input-box-shadow-hover);
 }
 
 .input:focus {
-    border-color: var(--idp-primary-color);
-    box-shadow: var(--idp-input-box-shadow-focus);
-    background: var(--idp-bg-color-white);
+    border-color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
+    background: var(--zjpcy-bg-color-white);
 }
 
 /* ============================================
@@ -366,12 +366,12 @@
 
 .search-input-suffix svg {
     pointer-events: all;
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
 .search-input-suffix svg:hover {
     transform: scale(1.1);
-    color: var(--idp-primary-color);
+    color: var(--zjpcy-primary-color);
 }
 
 /* ============================================
@@ -389,49 +389,49 @@
     position: relative;
     display: flex;
     align-items: flex-start;
-    border: 1px solid var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-lg);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-lg);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     outline: none;
     box-sizing: border-box;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
     overflow: hidden;
 }
 
 .textarea-input-wrapper:hover {
-    border-color: var(--idp-input-border-hover);
-    box-shadow: var(--idp-input-box-shadow-hover);
+    border-color: var(--zjpcy-input-border-hover);
+    box-shadow: var(--zjpcy-input-box-shadow-hover);
 }
 
 .textarea-input-wrapper-focused {
-    border-color: var(--idp-input-border-focus);
-    box-shadow: var(--idp-input-box-shadow-focus);
-    background: var(--idp-bg-color-white);
+    border-color: var(--zjpcy-input-border-focus);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
+    background: var(--zjpcy-bg-color-white);
 }
 
 .textarea-input-wrapper-disabled {
-    background: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%);
-    border-color: var(--idp-border-color-extra-light);
-    color: var(--idp-text-color-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%);
+    border-color: var(--zjpcy-border-color-extra-light);
+    color: var(--zjpcy-text-color-light);
     cursor: not-allowed;
     box-shadow: none;
 }
 
 .textarea-input-wrapper-disabled:hover {
     box-shadow: none;
-    border-color: var(--idp-border-color-extra-light);
+    border-color: var(--zjpcy-border-color-extra-light);
 }
 
 .textarea-input-wrapper-readonly {
-    background: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-bg-color-light) 100%);
-    border-color: var(--idp-border-color);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-bg-color-light) 100%);
+    border-color: var(--zjpcy-border-color);
     cursor: default;
 }
 
 .textarea-input-wrapper-readonly:hover {
-    box-shadow: var(--idp-shadow-extra-light);
-    border-color: var(--idp-border-color-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
+    border-color: var(--zjpcy-border-color-extra-light);
 }
 
 .textarea-base {
@@ -445,35 +445,35 @@
     resize: none;
     line-height: 1.6;
     padding: 12px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     min-height: 80px;
 }
 
 .textarea-base::placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     opacity: 1;
 }
 
 .textarea-base::-webkit-input-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
 }
 
 .textarea-base::-moz-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     opacity: 1;
 }
 
 .textarea-base:-ms-input-placeholder {
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
 }
 
 .textarea-input-wrapper:hover .textarea-base::placeholder {
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
 }
 
 .textarea-base:disabled {
     background-color: transparent;
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     cursor: not-allowed;
 }
 
@@ -497,34 +497,34 @@
     height: 20px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     opacity: 0.8;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 .textarea-clear:hover {
     opacity: 1;
     background: rgba(0, 0, 0, 0.12);
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
     transform: scale(1.1) rotate(90deg);
 }
 
 .textarea-count {
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     font-weight: 500;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
 .textarea-wrapper:focus-within .textarea-count {
-    color: var(--idp-primary-color);
+    color: var(--zjpcy-primary-color);
 }
 
 /* Textarea 拖拽手柄 */
 .textarea-resize-handle {
     opacity: 0;
-    transition: all var(--idp-transition-duration) ease;
+    transition: all var(--zjpcy-transition-duration) ease;
 }
 
 .textarea-input-wrapper:hover .textarea-resize-handle {
@@ -548,7 +548,7 @@
    ============================================ */
 .input-wrapper:focus-visible,
 .textarea-input-wrapper:focus-visible {
-    outline: 2px solid var(--idp-primary-color);
+    outline: 2px solid var(--zjpcy-primary-color);
     outline-offset: 2px;
 }
 
@@ -557,7 +557,7 @@
    ============================================ */
 @keyframes input-glow {
     0%, 100% {
-        box-shadow: var(--idp-input-box-shadow-focus);
+        box-shadow: var(--zjpcy-input-box-shadow-focus);
     }
     50% {
         box-shadow: 0 4px 16px rgba(24, 144, 255, 0.3), 0 0 0 4px rgba(24, 144, 255, 0.15);

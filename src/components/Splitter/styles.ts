@@ -19,8 +19,8 @@ export const getContainerStyle = (
     width: '100%',
     height: '100%',
     overflow: 'hidden',
-    background: 'var(--idp-splitter-panel-bg)',
-    borderRadius: 'var(--idp-splitter-panel-radius)',
+    background: 'var(--zjpcy-splitter-panel-bg)',
+    borderRadius: 'var(--zjpcy-splitter-panel-radius)',
     ...customStyle,
   };
 };
@@ -43,7 +43,7 @@ export const getPanelStyle = (
     overflow: 'auto',
     flexShrink: 0,
     alignSelf: 'stretch',
-    background: 'var(--idp-splitter-panel-bg)',
+    background: 'var(--zjpcy-splitter-panel-bg)',
   };
 
   if (layout === 'horizontal') {
@@ -59,8 +59,8 @@ export const getPanelStyle = (
   // 非最后一个面板添加阴影效果，营造层次感
   if (index < totalPanels - 1) {
     baseStyle.boxShadow = layout === 'horizontal'
-      ? 'var(--idp-splitter-panel-shadow)'
-      : 'var(--idp-splitter-panel-shadow-vertical)';
+      ? 'var(--zjpcy-splitter-panel-shadow)'
+      : 'var(--zjpcy-splitter-panel-shadow-vertical)';
     baseStyle.zIndex = totalPanels - index; // 前面的面板层级更高
   }
 
@@ -84,7 +84,7 @@ export const getSplitterBarStyle = (
   const baseStyle: CSSProperties = {
     position: 'relative',
     flexShrink: 0,
-    background: disabled ? 'var(--idp-bg-color-light)' : 'var(--idp-splitter-bar-bg)',
+    background: disabled ? 'var(--zjpcy-bg-color-light)' : 'var(--zjpcy-splitter-bar-bg)',
     cursor: disabled ? 'not-allowed' : layout === 'horizontal' ? 'col-resize' : 'row-resize',
     userSelect: 'none',
     touchAction: 'none',
@@ -92,8 +92,8 @@ export const getSplitterBarStyle = (
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: 'var(--idp-splitter-shadow-sm)',
-    transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+    boxShadow: 'var(--zjpcy-splitter-shadow-sm)',
+    transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
   };
 
   // 如果指定了自定义大小，使用它；否则依赖 CSS 变量
@@ -109,7 +109,7 @@ export const getSplitterBarStyle = (
 
   // 禁用状态降低透明度
   if (disabled) {
-    baseStyle.opacity = 'var(--idp-opacity-disabled)';
+    baseStyle.opacity = 'var(--zjpcy-opacity-disabled)';
   }
 
   return baseStyle;
@@ -133,38 +133,38 @@ export const getSplitterLineStyle = (
 ): CSSProperties => {
   // 基础样式
   const baseStyle: CSSProperties = {
-    borderRadius: 'var(--idp-border-radius-sm)',
-    transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+    borderRadius: 'var(--zjpcy-border-radius-sm)',
+    transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
   };
 
   // 水平布局：垂直分割线
   if (layout === 'horizontal') {
-    baseStyle.width = lineColor ? '2px' : 'var(--idp-splitter-line-width)';
-    baseStyle.height = lineColor ? '32px' : 'var(--idp-splitter-line-length)';
-    baseStyle.minHeight = 'var(--idp-splitter-line-min-length)';
+    baseStyle.width = lineColor ? '2px' : 'var(--zjpcy-splitter-line-width)';
+    baseStyle.height = lineColor ? '32px' : 'var(--zjpcy-splitter-line-length)';
+    baseStyle.minHeight = 'var(--zjpcy-splitter-line-min-length)';
   } else {
     // 垂直布局：水平分割线
-    baseStyle.width = lineColor ? '32px' : 'var(--idp-splitter-line-length)';
-    baseStyle.minWidth = 'var(--idp-splitter-line-min-length)';
-    baseStyle.height = lineColor ? '2px' : 'var(--idp-splitter-line-width)';
+    baseStyle.width = lineColor ? '32px' : 'var(--zjpcy-splitter-line-length)';
+    baseStyle.minWidth = 'var(--zjpcy-splitter-line-min-length)';
+    baseStyle.height = lineColor ? '2px' : 'var(--zjpcy-splitter-line-width)';
   }
 
   // 颜色处理
   if (isActive && isDragging && lineHoverColor) {
     // 拖拽时使用自定义悬停色
     baseStyle.backgroundColor = lineHoverColor;
-    baseStyle.boxShadow = 'var(--idp-splitter-shadow-active)';
+    baseStyle.boxShadow = 'var(--zjpcy-splitter-shadow-active)';
   } else if (isDragging && lineHoverColor) {
     baseStyle.backgroundColor = lineHoverColor;
-    baseStyle.boxShadow = 'var(--idp-splitter-shadow-md)';
+    baseStyle.boxShadow = 'var(--zjpcy-splitter-shadow-md)';
   } else if (lineColor) {
     // 使用自定义颜色
     baseStyle.backgroundColor = lineColor;
   } else {
     // 使用 CSS 变量渐变
     baseStyle.background = layout === 'horizontal'
-      ? 'var(--idp-splitter-line-bg)'
-      : 'var(--idp-splitter-line-bg)';
+      ? 'var(--zjpcy-splitter-line-bg)'
+      : 'var(--zjpcy-splitter-line-bg)';
   }
 
   return baseStyle;

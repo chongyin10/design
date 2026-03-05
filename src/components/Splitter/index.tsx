@@ -90,7 +90,7 @@ export const Splitter: React.FC<SplitterProps> = ({
   const getSplitterSizeValue = useCallback((): number => {
     if (splitterSize !== undefined) return splitterSize;
     const rootStyle = getComputedStyle(document.documentElement);
-    const cssSize = rootStyle.getPropertyValue('--idp-splitter-bar-size').trim();
+    const cssSize = rootStyle.getPropertyValue('--zjpcy-splitter-bar-size').trim();
     return parseInt(cssSize, 10) || 10;
   }, [splitterSize]);
 
@@ -285,9 +285,9 @@ export const Splitter: React.FC<SplitterProps> = ({
   }
 
   const containerClassName = [
-    'idp-splitter',
-    `idp-splitter-${layout}`,
-    isDragging ? 'idp-splitter-dragging' : '',
+    'zjpcy-splitter',
+    `zjpcy-splitter-${layout}`,
+    isDragging ? 'zjpcy-splitter-dragging' : '',
     className,
   ].filter(Boolean).join(' ');
 
@@ -305,7 +305,7 @@ export const Splitter: React.FC<SplitterProps> = ({
           <React.Fragment key={index}>
             {/* 面板 */}
             <div
-              className="idp-splitter__panel"
+              className="zjpcy-splitter__panel"
               style={getPanelStyle(size, layout, index, panelCount)}
             >
               {panel}
@@ -315,10 +315,10 @@ export const Splitter: React.FC<SplitterProps> = ({
             {!isLast && (
               <div
                 className={[
-                  'idp-splitter__bar',
-                  activeSplitterIndex === index ? 'idp-splitter__bar-dragging' : '',
+                  'zjpcy-splitter__bar',
+                  activeSplitterIndex === index ? 'zjpcy-splitter__bar-dragging' : '',
                   disabled || getPanelConfig(index).disabled || getPanelConfig(index + 1).disabled
-                    ? 'idp-splitter__bar-disabled'
+                    ? 'zjpcy-splitter__bar-disabled'
                     : '',
                 ].filter(Boolean).join(' ')}
                 style={getSplitterBarStyle(layout, splitterSize, disabled, index)}
@@ -326,7 +326,7 @@ export const Splitter: React.FC<SplitterProps> = ({
                 onTouchStart={handleDragStart(index)}
               >
                 <div
-                  className="idp-splitter__line"
+                  className="zjpcy-splitter__line"
                   style={getSplitterLineStyle(
                     layout,
                     lineColor,

@@ -1,225 +1,225 @@
 /* 主题颜色变量定义 */
 :root {
   /* 主色调 - 主要用于强调和突出显示 */
-  --idp-primary-color: #1890ff; /* 主色调基础色 - 用于按钮、链接等主要交互元素 */
-  --idp-primary-hover-color: #40a9ff; /* 主色调悬停色 - 用于鼠标悬停状态 */
-  --idp-primary-light-color: rgba(24, 100, 240, 0.1); /* 主色调浅色 - 用于多选选中背景等 */
+  --zjpcy-primary-color: #1890ff; /* 主色调基础色 - 用于按钮、链接等主要交互元素 */
+  --zjpcy-primary-hover-color: #40a9ff; /* 主色调悬停色 - 用于鼠标悬停状态 */
+  --zjpcy-primary-light-color: rgba(24, 100, 240, 0.1); /* 主色调浅色 - 用于多选选中背景等 */
   
   /* 辅助色 - 用于不同状态和场景 */
-  --idp-success-color: #52c41a; /* 成功色 - 用于成功状态、确认操作等 */
-  --idp-warning-color: #faad14; /* 警告色 - 用于警告提示、需要注意的操作等 */
-  --idp-error-color: #f5222d; /* 错误色 - 用于错误提示、危险操作等 */
-  --idp-info-color: #1890ff; /* 信息色 - 用于普通信息提示 */
-  --idp-secondary-color: #fff; /* 次要色 - 用于次要按钮、辅助文本等 */
-  --idp-secondary-border-color: #d9d9d9; /* 次要边框色 - 用于次要按钮、辅助文本等 */
-  --idp-primary-secondary-border-color: #1890ff; /* 主要次要边框色 - 用于主要次要按钮、辅助文本等 */
+  --zjpcy-success-color: #52c41a; /* 成功色 - 用于成功状态、确认操作等 */
+  --zjpcy-warning-color: #faad14; /* 警告色 - 用于警告提示、需要注意的操作等 */
+  --zjpcy-error-color: #f5222d; /* 错误色 - 用于错误提示、危险操作等 */
+  --zjpcy-info-color: #1890ff; /* 信息色 - 用于普通信息提示 */
+  --zjpcy-secondary-color: #fff; /* 次要色 - 用于次要按钮、辅助文本等 */
+  --zjpcy-secondary-border-color: #d9d9d9; /* 次要边框色 - 用于次要按钮、辅助文本等 */
+  --zjpcy-primary-secondary-border-color: #1890ff; /* 主要次要边框色 - 用于主要次要按钮、辅助文本等 */
 
   /* 中性色 - 用于文本、边框、背景等基础元素 */
-  --idp-text-color: rgba(0, 0, 0, 0.85); /* 主要文本色 - 用于正文、标题等 */
-  --idp-text-color-secondary: rgba(0, 0, 0, 0.65); /* 次要文本色 - 用于副标题、辅助说明等 */
-  --idp-text-color-tertiary: rgba(0, 0, 0, 0.45); /*  tertiary文本色 - 用于次要信息、提示文字等 */
-  --idp-text-color-light: #bfbfbf; /* 浅色文本 - 用于禁用状态、占位符等 */
-  --idp-border-color: #e8e8e8; /* 基础边框色 - 用于容器、分割线等 */
-  --idp-border-color-light: #f0f0f0; /* 浅色边框 - 用于次要分割、卡片边框等 */
-  --idp-border-color-extra-light: #d9d9d9; /* 超浅色边框 - 用于输入框、表格边框等 */
-  --idp-bg-color: #fafafa; /* 基础背景色 - 用于页面背景、容器背景等 */
-  --idp-bg-color-light: #f5f5f5; /* 浅色背景 - 用于卡片、组件背景等 */
-  --idp-bg-color-white: #fff; /* 白色背景 - 用于主要内容区域、弹窗等 */
+  --zjpcy-text-color: rgba(0, 0, 0, 0.85); /* 主要文本色 - 用于正文、标题等 */
+  --zjpcy-text-color-secondary: rgba(0, 0, 0, 0.65); /* 次要文本色 - 用于副标题、辅助说明等 */
+  --zjpcy-text-color-tertiary: rgba(0, 0, 0, 0.45); /*  tertiary文本色 - 用于次要信息、提示文字等 */
+  --zjpcy-text-color-light: #bfbfbf; /* 浅色文本 - 用于禁用状态、占位符等 */
+  --zjpcy-border-color: #e8e8e8; /* 基础边框色 - 用于容器、分割线等 */
+  --zjpcy-border-color-light: #f0f0f0; /* 浅色边框 - 用于次要分割、卡片边框等 */
+  --zjpcy-border-color-extra-light: #d9d9d9; /* 超浅色边框 - 用于输入框、表格边框等 */
+  --zjpcy-bg-color: #fafafa; /* 基础背景色 - 用于页面背景、容器背景等 */
+  --zjpcy-bg-color-light: #f5f5f5; /* 浅色背景 - 用于卡片、组件背景等 */
+  --zjpcy-bg-color-white: #fff; /* 白色背景 - 用于主要内容区域、弹窗等 */
   
   /* 阴影效果 - 用于组件的悬浮和层次感 */
-  --idp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15); /* 小阴影 - 用于轻微悬浮效果 */
-  --idp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15); /* 中阴影 - 用于卡片、弹窗等 */
-  --idp-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15); /* 大阴影 - 用于模态框、下拉菜单等 */
-  --idp-shadow-extra-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* 超浅阴影 - 用于轻微凸起效果 */
+  --zjpcy-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15); /* 小阴影 - 用于轻微悬浮效果 */
+  --zjpcy-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15); /* 中阴影 - 用于卡片、弹窗等 */
+  --zjpcy-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15); /* 大阴影 - 用于模态框、下拉菜单等 */
+  --zjpcy-shadow-extra-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* 超浅阴影 - 用于轻微凸起效果 */
   
   /* 圆角 - 用于组件的边角处理 */
-  --idp-border-radius-sm: 4px; /* 小圆角 - 用于按钮、输入框等小组件 */
-  --idp-border-radius-md: 6px; /* 中圆角 - 用于卡片、弹窗等中等组件 */
-  --idp-border-radius-lg: 8px; /* 大圆角 - 用于模态框、特殊容器等 */
+  --zjpcy-border-radius-sm: 4px; /* 小圆角 - 用于按钮、输入框等小组件 */
+  --zjpcy-border-radius-md: 6px; /* 中圆角 - 用于卡片、弹窗等中等组件 */
+  --zjpcy-border-radius-lg: 8px; /* 大圆角 - 用于模态框、特殊容器等 */
   
   /* 动画 - 用于过渡和动效 */
-  --idp-transition-duration: 0.2s; /* 过渡动画持续时间 - 控制动画快慢 */
-  --idp-transition-timing-function: ease-in-out; /* 过渡动画缓动函数 - 控制动画节奏 */
+  --zjpcy-transition-duration: 0.2s; /* 过渡动画持续时间 - 控制动画快慢 */
+  --zjpcy-transition-timing-function: ease-in-out; /* 过渡动画缓动函数 - 控制动画节奏 */
   
   /* 透明度 - 用于元素的显示状态 */
-  --idp-opacity-disabled: 0.65; /* 禁用状态透明度 - 用于禁用的按钮、输入框等 */
+  --zjpcy-opacity-disabled: 0.65; /* 禁用状态透明度 - 用于禁用的按钮、输入框等 */
   
   /* z-index - 用于控制元素的堆叠顺序 */
-  --idp-z-index-modal: 1000; /* 模态框层级 - 确保模态框在最上层 */
-  --idp-z-index-message: 1050; /* 消息提示层级 - 确保消息提示在模态框之上 */
-  --idp-z-index-marquee-fixed: 99999; /* 跑马灯固定层级 - 确保跑马灯始终在最顶层 */
+  --zjpcy-z-index-modal: 1000; /* 模态框层级 - 确保模态框在最上层 */
+  --zjpcy-z-index-message: 1050; /* 消息提示层级 - 确保消息提示在模态框之上 */
+  --zjpcy-z-index-marquee-fixed: 99999; /* 跑马灯固定层级 - 确保跑马灯始终在最顶层 */
   
   /* Button 组件 - 按钮相关样式变量 */
-  --idp-button-primary-bg: var(--idp-primary-color); /* 主要按钮背景色 */
-  --idp-button-primary-border: var(--idp-primary-color); /* 主要按钮边框色 */
-  --idp-button-primary-hover-bg: var(--idp-primary-hover-color); /* 主要按钮悬停背景色 */
-  --idp-button-primary-hover-border: var(--idp-primary-hover-color); /* 主要按钮悬停边框色 */
-  --idp-button-primary-active-shadow: 0 4px 8px rgba(24, 144, 255, 0.4); /* 主要按钮激活阴影 */
+  --zjpcy-button-primary-bg: var(--zjpcy-primary-color); /* 主要按钮背景色 */
+  --zjpcy-button-primary-border: var(--zjpcy-primary-color); /* 主要按钮边框色 */
+  --zjpcy-button-primary-hover-bg: var(--zjpcy-primary-hover-color); /* 主要按钮悬停背景色 */
+  --zjpcy-button-primary-hover-border: var(--zjpcy-primary-hover-color); /* 主要按钮悬停边框色 */
+  --zjpcy-button-primary-active-shadow: 0 4px 8px rgba(24, 144, 255, 0.4); /* 主要按钮激活阴影 */
   
-  --idp-button-secondary-bg: var(--idp-secondary-color); /* 次要按钮背景色 */
-  --idp-button-secondary-border: var(--idp-secondary-border-color); /* 次要按钮边框色 */
-  --idp-button-secondary-hover-bg: var(--idp-secondary-color); /* 次要按钮悬停背景色 */
-  --idp-button-secondary-hover-border: var(--idp-primary-secondary-border-color); /* 次要按钮悬停边框色 */
-  --idp-button-secondary-active-shadow: 0 4px 8px rgba(108, 117, 125, 0.4); /* 次要按钮激活阴影 */
+  --zjpcy-button-secondary-bg: var(--zjpcy-secondary-color); /* 次要按钮背景色 */
+  --zjpcy-button-secondary-border: var(--zjpcy-secondary-border-color); /* 次要按钮边框色 */
+  --zjpcy-button-secondary-hover-bg: var(--zjpcy-secondary-color); /* 次要按钮悬停背景色 */
+  --zjpcy-button-secondary-hover-border: var(--zjpcy-primary-secondary-border-color); /* 次要按钮悬停边框色 */
+  --zjpcy-button-secondary-active-shadow: 0 4px 8px rgba(108, 117, 125, 0.4); /* 次要按钮激活阴影 */
   
-  --idp-button-danger-bg: var(--idp-error-color); /* 危险按钮背景色 */
-  --idp-button-danger-border: var(--idp-error-color); /* 危险按钮边框色 */
-  --idp-button-danger-hover-bg: #e74c3c; /* 危险按钮悬停背景色 */
-  --idp-button-danger-hover-border: #e74c3c; /* 危险按钮悬停边框色 */
-  --idp-button-danger-active-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); /* 危险按钮激活阴影 */
+  --zjpcy-button-danger-bg: var(--zjpcy-error-color); /* 危险按钮背景色 */
+  --zjpcy-button-danger-border: var(--zjpcy-error-color); /* 危险按钮边框色 */
+  --zjpcy-button-danger-hover-bg: #e74c3c; /* 危险按钮悬停背景色 */
+  --zjpcy-button-danger-hover-border: #e74c3c; /* 危险按钮悬停边框色 */
+  --zjpcy-button-danger-active-shadow: 0 4px 8px rgba(220, 53, 69, 0.4); /* 危险按钮激活阴影 */
   
-  --idp-button-success-bg: var(--idp-success-color); /* 成功按钮背景色 */
-  --idp-button-success-border: var(--idp-success-color); /* 成功按钮边框色 */
-  --idp-button-success-hover-bg: #67c23a; /* 成功按钮悬停背景色 */
-  --idp-button-success-hover-border: #67c23a; /* 成功按钮悬停边框色 */
-  --idp-button-success-active-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); /* 成功按钮激活阴影 */
+  --zjpcy-button-success-bg: var(--zjpcy-success-color); /* 成功按钮背景色 */
+  --zjpcy-button-success-border: var(--zjpcy-success-color); /* 成功按钮边框色 */
+  --zjpcy-button-success-hover-bg: #67c23a; /* 成功按钮悬停背景色 */
+  --zjpcy-button-success-hover-border: #67c23a; /* 成功按钮悬停边框色 */
+  --zjpcy-button-success-active-shadow: 0 4px 8px rgba(40, 167, 69, 0.4); /* 成功按钮激活阴影 */
   
-  --idp-button-warning-bg: var(--idp-warning-color); /* 警告按钮背景色 */
-  --idp-button-warning-border: var(--idp-warning-color); /* 警告按钮边框色 */
-  --idp-button-warning-hover-bg: #ffc107; /* 警告按钮悬停背景色 */
-  --idp-button-warning-hover-border: #ffc107; /* 警告按钮悬停边框色 */
-  --idp-button-warning-active-shadow: 0 4px 8px rgba(255, 193, 7, 0.4); /* 警告按钮激活阴影 */
+  --zjpcy-button-warning-bg: var(--zjpcy-warning-color); /* 警告按钮背景色 */
+  --zjpcy-button-warning-border: var(--zjpcy-warning-color); /* 警告按钮边框色 */
+  --zjpcy-button-warning-hover-bg: #ffc107; /* 警告按钮悬停背景色 */
+  --zjpcy-button-warning-hover-border: #ffc107; /* 警告按钮悬停边框色 */
+  --zjpcy-button-warning-active-shadow: 0 4px 8px rgba(255, 193, 7, 0.4); /* 警告按钮激活阴影 */
   
-  --idp-button-text-white: #fff; /* 按钮白色文本色 */
-  --idp-button-text-dark: #212529; /* 按钮深色文本色 - 用于浅色背景按钮 */
-  --idp-button-height-small: 24px; /* 小尺寸按钮高度 */
-  --idp-button-height-medium: 32px; /* 中尺寸按钮高度 */
-  --idp-button-height-large: 40px; /* 大尺寸按钮高度 */
+  --zjpcy-button-text-white: #fff; /* 按钮白色文本色 */
+  --zjpcy-button-text-dark: #212529; /* 按钮深色文本色 - 用于浅色背景按钮 */
+  --zjpcy-button-height-small: 24px; /* 小尺寸按钮高度 */
+  --zjpcy-button-height-medium: 32px; /* 中尺寸按钮高度 */
+  --zjpcy-button-height-large: 40px; /* 大尺寸按钮高度 */
   
   /* Icon 组件 - 图标相关样式变量 */
-  --idp-icon-fill: #339af0; /* 图标填充色 - 用于默认状态图标 */
-  --idp-icon-hover-fill: #1890ff; /* 图标悬停填充色 - 用于鼠标悬停状态图标 */
+  --zjpcy-icon-fill: #339af0; /* 图标填充色 - 用于默认状态图标 */
+  --zjpcy-icon-hover-fill: #1890ff; /* 图标悬停填充色 - 用于鼠标悬停状态图标 */
   
   /* Input 组件 - 输入框相关样式变量 */
-  --idp-input-bg: var(--idp-bg-color-white); /* 输入框背景色 */
-  --idp-input-border: var(--idp-border-color-extra-light); /* 输入框边框色 */
-  --idp-input-border-hover: var(--idp-primary-color); /* 输入框悬停边框色 */
-  --idp-input-border-focus: var(--idp-primary-color); /* 输入框聚焦边框色 */
-  --idp-input-box-shadow-hover: 0 0 0 2px rgba(51, 154, 240, 0.2); /* 输入框悬停阴影 */
-  --idp-input-box-shadow-focus: 0 0 0 2px rgba(51, 154, 240, 0.2); /* 输入框聚焦阴影 */
-  --idp-input-text-color: var(--idp-text-color); /* 输入框文本色 */
-  --idp-input-placeholder-color: var(--idp-text-color-light); /* 输入框占位符色 */
-  --idp-input-suffix-color: #909399; /* 输入框后缀图标色 */
-  --idp-input-clear-color: var(--idp-primary-color); /* 输入框清除按钮色 */
-  --idp-input-error-border: var(--idp-error-color); /* 输入框错误边框色 */
-  --idp-input-error-box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2); /* 输入框错误阴影 */
-  --idp-input-error-text: var(--idp-error-color); /* 输入框错误文本色 */
-  --idp-input-disabled-bg: var(--idp-bg-color-light); /* 输入框禁用背景色 */
-  --idp-input-disabled-border: var(--idp-border-color-extra-light); /* 输入框禁用边框色 */
-  --idp-input-disabled-text: var(--idp-text-color-light); /* 输入框禁用文本色 */
+  --zjpcy-input-bg: var(--zjpcy-bg-color-white); /* 输入框背景色 */
+  --zjpcy-input-border: var(--zjpcy-border-color-extra-light); /* 输入框边框色 */
+  --zjpcy-input-border-hover: var(--zjpcy-primary-color); /* 输入框悬停边框色 */
+  --zjpcy-input-border-focus: var(--zjpcy-primary-color); /* 输入框聚焦边框色 */
+  --zjpcy-input-box-shadow-hover: 0 0 0 2px rgba(51, 154, 240, 0.2); /* 输入框悬停阴影 */
+  --zjpcy-input-box-shadow-focus: 0 0 0 2px rgba(51, 154, 240, 0.2); /* 输入框聚焦阴影 */
+  --zjpcy-input-text-color: var(--zjpcy-text-color); /* 输入框文本色 */
+  --zjpcy-input-placeholder-color: var(--zjpcy-text-color-light); /* 输入框占位符色 */
+  --zjpcy-input-suffix-color: #909399; /* 输入框后缀图标色 */
+  --zjpcy-input-clear-color: var(--zjpcy-primary-color); /* 输入框清除按钮色 */
+  --zjpcy-input-error-border: var(--zjpcy-error-color); /* 输入框错误边框色 */
+  --zjpcy-input-error-box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2); /* 输入框错误阴影 */
+  --zjpcy-input-error-text: var(--zjpcy-error-color); /* 输入框错误文本色 */
+  --zjpcy-input-disabled-bg: var(--zjpcy-bg-color-light); /* 输入框禁用背景色 */
+  --zjpcy-input-disabled-border: var(--zjpcy-border-color-extra-light); /* 输入框禁用边框色 */
+  --zjpcy-input-disabled-text: var(--zjpcy-text-color-light); /* 输入框禁用文本色 */
   
   /* Divider 组件 - 分割线相关样式变量 */
-  --idp-divider-color: #339af0; /* 分割线颜色 */
+  --zjpcy-divider-color: #339af0; /* 分割线颜色 */
   
   /* Marquee 组件 - 跑马灯相关样式变量 */
-  --idp-marquee-bg: var(--idp-bg-color-white); /* 跑马灯背景色 */
-  --idp-marquee-text-color: #333; /* 跑马灯文本色 */
-  --idp-marquee-shadow: var(--idp-shadow-extra-light); /* 跑马灯阴影 */
+  --zjpcy-marquee-bg: var(--zjpcy-bg-color-white); /* 跑马灯背景色 */
+  --zjpcy-marquee-text-color: #333; /* 跑马灯文本色 */
+  --zjpcy-marquee-shadow: var(--zjpcy-shadow-extra-light); /* 跑马灯阴影 */
   
   /* Message 组件 - 消息提示相关样式变量 */
-  --idp-message-bg: var(--idp-bg-color-white); /* 消息提示背景色 */
-  --idp-message-border-radius: var(--idp-border-radius-sm); /* 消息提示圆角 */
-  --idp-message-shadow: var(--idp-shadow-md); /* 消息提示阴影 */
-  --idp-message-text-color: #333; /* 消息提示文本色 */
-  --idp-message-success-border: #b7eb8f; /* 成功消息边框色 */
-  --idp-message-success-text: var(--idp-success-color); /* 成功消息文本色 */
-  --idp-message-warning-border: #ffe58f; /* 警告消息边框色 */
-  --idp-message-warning-text: var(--idp-warning-color); /* 警告消息文本色 */
-  --idp-message-error-border: #ffccc7; /* 错误消息边框色 */
-  --idp-message-error-text: var(--idp-error-color); /* 错误消息文本色 */
+  --zjpcy-message-bg: var(--zjpcy-bg-color-white); /* 消息提示背景色 */
+  --zjpcy-message-border-radius: var(--zjpcy-border-radius-sm); /* 消息提示圆角 */
+  --zjpcy-message-shadow: var(--zjpcy-shadow-md); /* 消息提示阴影 */
+  --zjpcy-message-text-color: #333; /* 消息提示文本色 */
+  --zjpcy-message-success-border: #b7eb8f; /* 成功消息边框色 */
+  --zjpcy-message-success-text: var(--zjpcy-success-color); /* 成功消息文本色 */
+  --zjpcy-message-warning-border: #ffe58f; /* 警告消息边框色 */
+  --zjpcy-message-warning-text: var(--zjpcy-warning-color); /* 警告消息文本色 */
+  --zjpcy-message-error-border: #ffccc7; /* 错误消息边框色 */
+  --zjpcy-message-error-text: var(--zjpcy-error-color); /* 错误消息文本色 */
   
   /* Table 组件 - 表格相关样式变量 */
-  --idp-table-bg: var(--idp-bg-color-white); /* 表格背景色 */
-  --idp-table-text-color: rgba(0, 0, 0, 0.88); /* 表格文本色 */
-  --idp-table-border: var(--idp-border-color-extra-light); /* 表格边框色 */
-  --idp-table-border-light: var(--idp-border-color-light); /* 表格浅色边框 */
-  --idp-table-header-bg: var(--idp-bg-color); /* 表格表头背景色 */
-  --idp-table-header-border: var(--idp-border-color-light); /* 表格表头边框色 */
-  --idp-table-body-border: var(--idp-border-color-light); /* 表格表体边框色 */
-  --idp-table-row-hover-bg: var(--idp-bg-color); /* 表格行悬停背景色 */
-  --idp-table-empty-text-color: rgba(0, 0, 0, 0.25); /* 表格空数据文本色 */
-  --idp-table-pagination-border: var(--idp-border-color-light); /* 表格分页器边框色 */
-  --idp-table-pagination-text: var(--idp-text-color-secondary); /* 表格分页器文本色 */
-  --idp-table-pagination-btn-bg: var(--idp-bg-color-white); /* 表格分页器按钮背景色 */
-  --idp-table-pagination-btn-border: var(--idp-border-color-extra-light); /* 表格分页器按钮边框色 */
-  --idp-table-pagination-btn-hover-text: #1a2980; /* 表格分页器按钮悬停文本色 */
-  --idp-table-pagination-btn-hover-border: #1a2980; /* 表格分页器按钮悬停边框色 */
-  --idp-table-pagination-page-active-bg: #1a2980; /* 表格分页器激活页背景色 */
-  --idp-table-pagination-page-active-border: #1a2980; /* 表格分页器激活页边框色 */
-  --idp-table-pagination-page-active-text: var(--idp-bg-color-white); /* 表格分页器激活页文本色 */
+  --zjpcy-table-bg: var(--zjpcy-bg-color-white); /* 表格背景色 */
+  --zjpcy-table-text-color: rgba(0, 0, 0, 0.88); /* 表格文本色 */
+  --zjpcy-table-border: var(--zjpcy-border-color-extra-light); /* 表格边框色 */
+  --zjpcy-table-border-light: var(--zjpcy-border-color-light); /* 表格浅色边框 */
+  --zjpcy-table-header-bg: var(--zjpcy-bg-color); /* 表格表头背景色 */
+  --zjpcy-table-header-border: var(--zjpcy-border-color-light); /* 表格表头边框色 */
+  --zjpcy-table-body-border: var(--zjpcy-border-color-light); /* 表格表体边框色 */
+  --zjpcy-table-row-hover-bg: var(--zjpcy-bg-color); /* 表格行悬停背景色 */
+  --zjpcy-table-empty-text-color: rgba(0, 0, 0, 0.25); /* 表格空数据文本色 */
+  --zjpcy-table-pagination-border: var(--zjpcy-border-color-light); /* 表格分页器边框色 */
+  --zjpcy-table-pagination-text: var(--zjpcy-text-color-secondary); /* 表格分页器文本色 */
+  --zjpcy-table-pagination-btn-bg: var(--zjpcy-bg-color-white); /* 表格分页器按钮背景色 */
+  --zjpcy-table-pagination-btn-border: var(--zjpcy-border-color-extra-light); /* 表格分页器按钮边框色 */
+  --zjpcy-table-pagination-btn-hover-text: #1a2980; /* 表格分页器按钮悬停文本色 */
+  --zjpcy-table-pagination-btn-hover-border: #1a2980; /* 表格分页器按钮悬停边框色 */
+  --zjpcy-table-pagination-page-active-bg: #1a2980; /* 表格分页器激活页背景色 */
+  --zjpcy-table-pagination-page-active-border: #1a2980; /* 表格分页器激活页边框色 */
+  --zjpcy-table-pagination-page-active-text: var(--zjpcy-bg-color-white); /* 表格分页器激活页文本色 */
   
   /* Modal 相关 - 模态框样式变量 */
-  --idp-modal-mask-bg: rgba(0, 0, 0, 0.5); /* 模态框遮罩背景色 */
-  --idp-modal-container-bg: var(--idp-bg-color-white); /* 模态框容器背景色 */
-  --idp-modal-header-bg: var(--idp-bg-color); /* 模态框头部背景色 */
-  --idp-modal-footer-bg: var(--idp-bg-color); /* 模态框底部背景色 */
+  --zjpcy-modal-mask-bg: rgba(0, 0, 0, 0.5); /* 模态框遮罩背景色 */
+  --zjpcy-modal-container-bg: var(--zjpcy-bg-color-white); /* 模态框容器背景色 */
+  --zjpcy-modal-header-bg: var(--zjpcy-bg-color); /* 模态框头部背景色 */
+  --zjpcy-modal-footer-bg: var(--zjpcy-bg-color); /* 模态框底部背景色 */
   
   /* Progress 组件 - 进度条相关样式变量 */
-  --idp-progress-default-bg: var(--idp-primary-color); /* 进度条默认背景色 */
-  --idp-progress-default-bg-gradient: var(--idp-primary-hover-color); /* 进度条默认渐变色 */
-  --idp-progress-success-bg: var(--idp-success-color); /* 进度条成功背景色 */
-  --idp-progress-success-bg-gradient: #73d13d; /* 进度条成功渐变色 */
-  --idp-progress-exception-bg: var(--idp-error-color); /* 进度条异常背景色 */
-  --idp-progress-exception-bg-gradient: #ff7875; /* 进度条异常渐变色 */
-  --idp-progress-trail-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%); /* 进度条轨道背景 */
-  --idp-progress-text-color: var(--idp-text-color); /* 进度条文字颜色 */
-  --idp-progress-shadow: 0 2px 8px rgba(24, 144, 255, 0.25); /* 进度条默认阴影 */
-  --idp-progress-shadow-success: 0 2px 8px rgba(82, 196, 26, 0.35); /* 进度条成功阴影 */
-  --idp-progress-shadow-exception: 0 2px 8px rgba(245, 34, 45, 0.35); /* 进度条异常阴影 */
+  --zjpcy-progress-default-bg: var(--zjpcy-primary-color); /* 进度条默认背景色 */
+  --zjpcy-progress-default-bg-gradient: var(--zjpcy-primary-hover-color); /* 进度条默认渐变色 */
+  --zjpcy-progress-success-bg: var(--zjpcy-success-color); /* 进度条成功背景色 */
+  --zjpcy-progress-success-bg-gradient: #73d13d; /* 进度条成功渐变色 */
+  --zjpcy-progress-exception-bg: var(--zjpcy-error-color); /* 进度条异常背景色 */
+  --zjpcy-progress-exception-bg-gradient: #ff7875; /* 进度条异常渐变色 */
+  --zjpcy-progress-trail-bg: linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%); /* 进度条轨道背景 */
+  --zjpcy-progress-text-color: var(--zjpcy-text-color); /* 进度条文字颜色 */
+  --zjpcy-progress-shadow: 0 2px 8px rgba(24, 144, 255, 0.25); /* 进度条默认阴影 */
+  --zjpcy-progress-shadow-success: 0 2px 8px rgba(82, 196, 26, 0.35); /* 进度条成功阴影 */
+  --zjpcy-progress-shadow-exception: 0 2px 8px rgba(245, 34, 45, 0.35); /* 进度条异常阴影 */
   
   /* Slider 组件 - 滑块相关样式变量 */
-  --idp-slider-track-height: 6px; /* 滑块轨道高度 */
-  --idp-slider-track-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-border-color) 100%); /* 滑块轨道背景 */
-  --idp-slider-track-filled-bg: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%); /* 滑块已填充轨道背景 */
-  --idp-slider-track-border-radius: var(--idp-border-radius-sm); /* 滑块轨道圆角 */
+  --zjpcy-slider-track-height: 6px; /* 滑块轨道高度 */
+  --zjpcy-slider-track-bg: linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-border-color) 100%); /* 滑块轨道背景 */
+  --zjpcy-slider-track-filled-bg: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%); /* 滑块已填充轨道背景 */
+  --zjpcy-slider-track-border-radius: var(--zjpcy-border-radius-sm); /* 滑块轨道圆角 */
   
-  --idp-slider-handle-size: 18px; /* 滑块手柄大小 */
-  --idp-slider-handle-bg: var(--idp-bg-color-white); /* 滑块手柄背景 */
-  --idp-slider-handle-border: 2px solid var(--idp-primary-color); /* 滑块手柄边框 */
-  --idp-slider-handle-shadow: var(--idp-shadow-sm); /* 滑块手柄阴影 */
-  --idp-slider-handle-shadow-hover: var(--idp-shadow-md); /* 滑块手柄悬停阴影 */
-  --idp-slider-handle-shadow-active: 0 2px 8px rgba(24, 144, 255, 0.4); /* 滑块手柄激活阴影 */
+  --zjpcy-slider-handle-size: 18px; /* 滑块手柄大小 */
+  --zjpcy-slider-handle-bg: var(--zjpcy-bg-color-white); /* 滑块手柄背景 */
+  --zjpcy-slider-handle-border: 2px solid var(--zjpcy-primary-color); /* 滑块手柄边框 */
+  --zjpcy-slider-handle-shadow: var(--zjpcy-shadow-sm); /* 滑块手柄阴影 */
+  --zjpcy-slider-handle-shadow-hover: var(--zjpcy-shadow-md); /* 滑块手柄悬停阴影 */
+  --zjpcy-slider-handle-shadow-active: 0 2px 8px rgba(24, 144, 255, 0.4); /* 滑块手柄激活阴影 */
   
-  --idp-slider-disabled-track-bg: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-border-color-light) 100%); /* 滑块禁用轨道背景 */
-  --idp-slider-disabled-filled-bg: linear-gradient(135deg, var(--idp-text-color-light) 0%, #d9d9d9 100%); /* 滑块禁用已填充背景 */
-  --idp-slider-disabled-handle-border: var(--idp-text-color-light); /* 滑块禁用手柄边框 */
+  --zjpcy-slider-disabled-track-bg: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-border-color-light) 100%); /* 滑块禁用轨道背景 */
+  --zjpcy-slider-disabled-filled-bg: linear-gradient(135deg, var(--zjpcy-text-color-light) 0%, #d9d9d9 100%); /* 滑块禁用已填充背景 */
+  --zjpcy-slider-disabled-handle-border: var(--zjpcy-text-color-light); /* 滑块禁用手柄边框 */
   
-  --idp-slider-mark-color: var(--idp-text-color-tertiary); /* 滑块标记文字颜色 */
-  --idp-slider-mark-line-bg: var(--idp-border-color); /* 滑块标记线颜色 */
-  --idp-slider-value-color: var(--idp-text-color); /* 滑块值显示颜色 */
+  --zjpcy-slider-mark-color: var(--zjpcy-text-color-tertiary); /* 滑块标记文字颜色 */
+  --zjpcy-slider-mark-line-bg: var(--zjpcy-border-color); /* 滑块标记线颜色 */
+  --zjpcy-slider-value-color: var(--zjpcy-text-color); /* 滑块值显示颜色 */
   
-  --idp-slider-tooltip-bg: rgba(0, 0, 0, 0.75); /* 滑块工具提示背景 */
-  --idp-slider-tooltip-color: var(--idp-bg-color-white); /* 滑块工具提示文字颜色 */
-  --idp-slider-tooltip-shadow: var(--idp-shadow-md); /* 滑块工具提示阴影 */
+  --zjpcy-slider-tooltip-bg: rgba(0, 0, 0, 0.75); /* 滑块工具提示背景 */
+  --zjpcy-slider-tooltip-color: var(--zjpcy-bg-color-white); /* 滑块工具提示文字颜色 */
+  --zjpcy-slider-tooltip-shadow: var(--zjpcy-shadow-md); /* 滑块工具提示阴影 */
   
   /* Splitter 组件 - 分割面板相关样式变量（现代化设计） */
-  --idp-splitter-bar-size: 6px; /* 分割条大小 - 细线设计更精致 */
-  --idp-splitter-bar-bg: linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%); /* 分割条渐变背景 */
-  --idp-splitter-bar-hover-bg: linear-gradient(135deg, var(--idp-bg-color) 0%, var(--idp-border-color-light) 100%); /* 分割条悬停渐变背景 */
-  --idp-splitter-bar-radius: var(--idp-border-radius-md); /* 分割条圆角 */
+  --zjpcy-splitter-bar-size: 6px; /* 分割条大小 - 细线设计更精致 */
+  --zjpcy-splitter-bar-bg: linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%); /* 分割条渐变背景 */
+  --zjpcy-splitter-bar-hover-bg: linear-gradient(135deg, var(--zjpcy-bg-color) 0%, var(--zjpcy-border-color-light) 100%); /* 分割条悬停渐变背景 */
+  --zjpcy-splitter-bar-radius: var(--zjpcy-border-radius-md); /* 分割条圆角 */
   
   /* 分割线样式 */
-  --idp-splitter-line-color: var(--idp-border-color-extra-light); /* 分割线默认颜色 */
-  --idp-splitter-line-hover-color: var(--idp-primary-color); /* 分割线悬停颜色 */
-  --idp-splitter-line-active-color: var(--idp-primary-hover-color); /* 分割线激活颜色 */
-  --idp-splitter-line-disabled-color: var(--idp-text-color-light); /* 分割线禁用颜色 */
-  --idp-splitter-line-width: 2px; /* 分割线宽度 */
-  --idp-splitter-line-length: 32px; /* 分割线长度 */
-  --idp-splitter-line-min-length: 24px; /* 分割线最小长度 */
-  --idp-splitter-line-bg: linear-gradient(180deg, var(--idp-border-color-light) 0%, var(--idp-border-color) 50%, var(--idp-border-color-light) 100%); /* 分割线渐变背景 */
-  --idp-splitter-line-hover-bg: linear-gradient(180deg, var(--idp-primary-light-color) 0%, var(--idp-primary-color) 50%, var(--idp-primary-light-color) 100%); /* 分割线悬停渐变背景 */
+  --zjpcy-splitter-line-color: var(--zjpcy-border-color-extra-light); /* 分割线默认颜色 */
+  --zjpcy-splitter-line-hover-color: var(--zjpcy-primary-color); /* 分割线悬停颜色 */
+  --zjpcy-splitter-line-active-color: var(--zjpcy-primary-hover-color); /* 分割线激活颜色 */
+  --zjpcy-splitter-line-disabled-color: var(--zjpcy-text-color-light); /* 分割线禁用颜色 */
+  --zjpcy-splitter-line-width: 2px; /* 分割线宽度 */
+  --zjpcy-splitter-line-length: 32px; /* 分割线长度 */
+  --zjpcy-splitter-line-min-length: 24px; /* 分割线最小长度 */
+  --zjpcy-splitter-line-bg: linear-gradient(180deg, var(--zjpcy-border-color-light) 0%, var(--zjpcy-border-color) 50%, var(--zjpcy-border-color-light) 100%); /* 分割线渐变背景 */
+  --zjpcy-splitter-line-hover-bg: linear-gradient(180deg, var(--zjpcy-primary-light-color) 0%, var(--zjpcy-primary-color) 50%, var(--zjpcy-primary-light-color) 100%); /* 分割线悬停渐变背景 */
   
   /* 分割条阴影效果 */
-  --idp-splitter-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08); /* 分割条轻微阴影 */
-  --idp-splitter-shadow-md: 0 2px 8px rgba(24, 144, 255, 0.25); /* 分割条悬停阴影 */
-  --idp-splitter-shadow-active: 0 0 12px rgba(24, 144, 255, 0.4); /* 分割条激活发光效果 */
+  --zjpcy-splitter-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08); /* 分割条轻微阴影 */
+  --zjpcy-splitter-shadow-md: 0 2px 8px rgba(24, 144, 255, 0.25); /* 分割条悬停阴影 */
+  --zjpcy-splitter-shadow-active: 0 0 12px rgba(24, 144, 255, 0.4); /* 分割条激活发光效果 */
   
   /* 面板样式 */
-  --idp-splitter-panel-bg: var(--idp-bg-color-white); /* 面板背景色 */
-  --idp-splitter-panel-border: var(--idp-border-color-light); /* 面板边框色 */
-  --idp-splitter-panel-radius: var(--idp-border-radius-md); /* 面板圆角 */
+  --zjpcy-splitter-panel-bg: var(--zjpcy-bg-color-white); /* 面板背景色 */
+  --zjpcy-splitter-panel-border: var(--zjpcy-border-color-light); /* 面板边框色 */
+  --zjpcy-splitter-panel-radius: var(--zjpcy-border-radius-md); /* 面板圆角 */
   
   /* 面板阴影效果 - 用于增强层次感 */
-  --idp-splitter-panel-shadow: 2px 0 8px rgba(0, 0, 0, 0.08); /* 水平布局时左侧面板右侧阴影 */
-  --idp-splitter-panel-shadow-vertical: 0 2px 8px rgba(0, 0, 0, 0.08); /* 垂直布局时上面板底部阴影 */
+  --zjpcy-splitter-panel-shadow: 2px 0 8px rgba(0, 0, 0, 0.08); /* 水平布局时左侧面板右侧阴影 */
+  --zjpcy-splitter-panel-shadow-vertical: 0 2px 8px rgba(0, 0, 0, 0.08); /* 垂直布局时上面板底部阴影 */
 }

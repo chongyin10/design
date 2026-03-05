@@ -67,17 +67,17 @@ const SortableTab: React.FC<SortableTabProps> = ({
           tabRefs.current.delete(item.key);
         }
       }}
-      className={classNames('idp-tabs-tab', {
-        'idp-tabs-tab--active': isActive,
-        'idp-tabs-tab--disabled': item.disabled,
-        'idp-tabs-tab--dragging': isDragging
+      className={classNames('zjpcy-tabs-tab', {
+        'zjpcy-tabs-tab--active': isActive,
+        'zjpcy-tabs-tab--disabled': item.disabled,
+        'zjpcy-tabs-tab--dragging': isDragging
       })}
       role="tab"
       aria-selected={isActive}
       style={style}
     >
       <div
-        className="idp-tabs-tab__drag-handle"
+        className="zjpcy-tabs-tab__drag-handle"
         {...attributes}
         {...listeners}
         onClick={onClick}
@@ -88,11 +88,11 @@ const SortableTab: React.FC<SortableTabProps> = ({
           gap: '6px'
         }}
       >
-        {item.icon && <span className="idp-tabs-tab__icon">{item.icon}</span>}
-        <span className="idp-tabs-tab__label">{item.label}</span>
+        {item.icon && <span className="zjpcy-tabs-tab__icon">{item.icon}</span>}
+        <span className="zjpcy-tabs-tab__label">{item.label}</span>
       </div>
       {isClosable && !item.disabled && (
-        <span className="idp-tabs-tab__close" onClick={(event) => onClose(event)}>
+        <span className="zjpcy-tabs-tab__close" onClick={(event) => onClose(event)}>
           <Icon type="close" size={12} />
         </span>
       )}
@@ -176,7 +176,7 @@ const Tabs: React.FC<TabsProps> = ({
     const container = tabsNavRef.current;
 
     if (activeTab && container) {
-      const indicator = container.querySelector('.idp-tabs-indicator') as HTMLElement;
+      const indicator = container.querySelector('.zjpcy-tabs-indicator') as HTMLElement;
       const isFirstUpdate = isFirstUpdateRef.current;
 
       // 首次更新时禁用transition，避免闪烁
@@ -525,18 +525,18 @@ const Tabs: React.FC<TabsProps> = ({
               tabRefs.current.delete(item.key);
             }
           }}
-          className={classNames('idp-tabs-tab', {
-            'idp-tabs-tab--active': isActive,
-            'idp-tabs-tab--disabled': item.disabled
+          className={classNames('zjpcy-tabs-tab', {
+            'zjpcy-tabs-tab--active': isActive,
+            'zjpcy-tabs-tab--disabled': item.disabled
           })}
           role="tab"
           aria-selected={isActive}
           onClick={() => handleTabClick(item)}
         >
-          {item.icon && <span className="idp-tabs-tab__icon">{item.icon}</span>}
-          <span className="idp-tabs-tab__label">{item.label}</span>
+          {item.icon && <span className="zjpcy-tabs-tab__icon">{item.icon}</span>}
+          <span className="zjpcy-tabs-tab__label">{item.label}</span>
           {isClosable && !item.disabled && (
-            <span className="idp-tabs-tab__close" onClick={(event) => handleClose(event, item)}>
+            <span className="zjpcy-tabs-tab__close" onClick={(event) => handleClose(event, item)}>
               <Icon type="close" size={12} />
             </span>
           )}
@@ -546,18 +546,18 @@ const Tabs: React.FC<TabsProps> = ({
 
     const navContent = (
       <div 
-        className="idp-tabs-nav-wrapper"
+        className="zjpcy-tabs-nav-wrapper"
         onMouseEnter={() => setIsNavHovered(true)}
         onMouseLeave={() => setIsNavHovered(false)}
       >
         {isHorizontal && showScrollButtons && !isCardType && (
           <button
             className={classNames(
-              'idp-tabs-nav__button',
-              'idp-tabs-nav__button--left',
+              'zjpcy-tabs-nav__button',
+              'zjpcy-tabs-nav__button--left',
               {
-                'idp-tabs-nav__button--disabled': !canScrollLeft,
-                'idp-tabs-nav__button--visible': isNavHovered
+                'zjpcy-tabs-nav__button--disabled': !canScrollLeft,
+                'zjpcy-tabs-nav__button--visible': isNavHovered
               }
             )}
             onClick={() => scrollTabs('left')}
@@ -568,7 +568,7 @@ const Tabs: React.FC<TabsProps> = ({
           </button>
         )}
 
-        <div className="idp-tabs-nav" ref={tabsNavRef}>
+        <div className="zjpcy-tabs-nav" ref={tabsNavRef}>
           {effectiveItems.map(item => {
             const isActive = item.key === currentActiveKey;
             const isClosable = tabsClosable || item.closable;
@@ -578,7 +578,7 @@ const Tabs: React.FC<TabsProps> = ({
           {type === 'card' && onAdd && (
             <div
               ref={addTabRef}
-              className={classNames('idp-tabs-tab idp-tabs-tab--add', {
+              className={classNames('zjpcy-tabs-tab zjpcy-tabs-tab--add', {
                 'sticky': isAddButtonSticky === true
               })}
               role="tab"
@@ -587,17 +587,17 @@ const Tabs: React.FC<TabsProps> = ({
               <Icon type="plus" size={16} />
             </div>
           )}
-          <div className="idp-tabs-indicator" style={indicatorStyle} />
+          <div className="zjpcy-tabs-indicator" style={indicatorStyle} />
         </div>
 
         {isHorizontal && showScrollButtons && !isCardType && (
           <button
             className={classNames(
-              'idp-tabs-nav__button',
-              'idp-tabs-nav__button--right',
+              'zjpcy-tabs-nav__button',
+              'zjpcy-tabs-nav__button--right',
               {
-                'idp-tabs-nav__button--disabled': !canScrollRight,
-                'idp-tabs-nav__button--visible': isNavHovered
+                'zjpcy-tabs-nav__button--disabled': !canScrollRight,
+                'zjpcy-tabs-nav__button--visible': isNavHovered
               }
             )}
             onClick={() => scrollTabs('right')}
@@ -641,8 +641,8 @@ const Tabs: React.FC<TabsProps> = ({
     // 优先级：外部 className > 内部 className
     // 优先级：外部 style > 内部 style
     const finalClassName = classNames(
-      'idp-tabs-content',
-      `idp-tabs-content--${tabPlacement}`,
+      'zjpcy-tabs-content',
+      `zjpcy-tabs-content--${tabPlacement}`,
       contentClassName // 外部传入的 className 优先级最高
     );
 
@@ -661,9 +661,9 @@ const Tabs: React.FC<TabsProps> = ({
   return (
     <div
       className={classNames(
-        'idp-tabs',
-        `idp-tabs--${tabPlacement}`,
-        `idp-tabs--${type}`,
+        'zjpcy-tabs',
+        `zjpcy-tabs--${tabPlacement}`,
+        `zjpcy-tabs--${type}`,
         className
       )}
       style={style}

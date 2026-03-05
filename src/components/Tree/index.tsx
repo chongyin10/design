@@ -917,7 +917,7 @@ export const Tree = forwardRef<TreeRef, TreeProps>(({
   onAddNode: onAddNodeProp,
   onRemoveNode: onRemoveNodeProp,
   onEditNode: onEditNodeProp,
-  prefixCls = 'idp-tree',
+  prefixCls = 'zjpcy-tree',
   className = '',
   style = {},
   disabled = false,

@@ -410,19 +410,19 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 
         return (
-            <div className="idp-datepicker-range-calendar-header">
-                <div className="idp-datepicker-range-header-left">
-                    <button className="idp-datepicker-range-header-btn" onClick={onPrevMonth} title="上个月">
-                        <Icon type="arrowLeft" size={14} color="var(--idp-text-color-secondary)" />
+            <div className="zjpcy-datepicker-range-calendar-header">
+                <div className="zjpcy-datepicker-range-header-left">
+                    <button className="zjpcy-datepicker-range-header-btn" onClick={onPrevMonth} title="上个月">
+                        <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
                     </button>
                 </div>
-                <div className="idp-datepicker-range-header-center">
+                <div className="zjpcy-datepicker-range-header-center">
                     <span>{year}年 {monthNames[month]}</span>
-                    <span className="idp-datepicker-range-header-label">{label}</span>
+                    <span className="zjpcy-datepicker-range-header-label">{label}</span>
                 </div>
-                <div className="idp-datepicker-range-header-right">
-                    <button className="idp-datepicker-range-header-btn" onClick={onNextMonth} title="下个月">
-                        <Icon type="arrowRight" size={14} color="var(--idp-text-color-secondary)" />
+                <div className="zjpcy-datepicker-range-header-right">
+                    <button className="zjpcy-datepicker-range-header-btn" onClick={onNextMonth} title="下个月">
+                        <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
                     </button>
                 </div>
             </div>
@@ -440,20 +440,20 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         const weekDays = ['日', '一', '二', '三', '四', '五', '六'];
 
         return (
-            <div className="idp-datepicker-range-calendar">
+            <div className="zjpcy-datepicker-range-calendar">
                 <CalendarHeaderComponent
                     viewDate={viewDate}
                     onPrevMonth={onPrevMonth}
                     onNextMonth={onNextMonth}
                     label={label}
                 />
-                <div className="idp-datepicker-range-calendar-body">
-                    <div className="idp-datepicker-range-week-header">
+                <div className="zjpcy-datepicker-range-calendar-body">
+                    <div className="zjpcy-datepicker-range-week-header">
                         {weekDays.map(day => (
-                            <div key={day} className="idp-datepicker-range-week-day">{day}</div>
+                            <div key={day} className="zjpcy-datepicker-range-week-day">{day}</div>
                         ))}
                     </div>
-                    <div className="idp-datepicker-range-date-grid">
+                    <div className="zjpcy-datepicker-range-date-grid">
                         {days.map((item, index) => {
                             const { date, isCurrentMonth } = item;
                             const selected = isSameDate(date, activePicker === 'start' ? startDate : endDate);
@@ -466,14 +466,14 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                             return (
                                 <div
                                     key={index}
-                                    className={classNames('idp-datepicker-range-date-cell', {
-                                        'idp-datepicker-range-date-cell--selected': selected,
-                                        'idp-datepicker-range-date-cell--today': today && !selected,
-                                        'idp-datepicker-range-date-cell--disabled': disabled,
-                                        'idp-datepicker-range-date-cell--other-month': !isCurrentMonth,
-                                        'idp-datepicker-range-date-cell--in-range': inRange && !rangeStart && !rangeEnd,
-                                        'idp-datepicker-range-date-cell--range-start': rangeStart,
-                                        'idp-datepicker-range-date-cell--range-end': rangeEnd,
+                                    className={classNames('zjpcy-datepicker-range-date-cell', {
+                                        'zjpcy-datepicker-range-date-cell--selected': selected,
+                                        'zjpcy-datepicker-range-date-cell--today': today && !selected,
+                                        'zjpcy-datepicker-range-date-cell--disabled': disabled,
+                                        'zjpcy-datepicker-range-date-cell--other-month': !isCurrentMonth,
+                                        'zjpcy-datepicker-range-date-cell--in-range': inRange && !rangeStart && !rangeEnd,
+                                        'zjpcy-datepicker-range-date-cell--range-start': rangeStart,
+                                        'zjpcy-datepicker-range-date-cell--range-end': rangeEnd,
                                     })}
                                     onClick={() => handleDateClick(date)}
                                 >
@@ -494,7 +494,7 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         const dropdown = (
             <div
                 ref={dropdownRef}
-                className="idp-datepicker-range-dropdown"
+                className="zjpcy-datepicker-range-dropdown"
                 style={{
                     position: 'fixed',
                     top: dropdownPosition.top,
@@ -505,7 +505,7 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                     transition: 'opacity 0.15s ease',
                 }}
             >
-                <div className="idp-datepicker-range-panels">
+                <div className="zjpcy-datepicker-range-panels">
                     <CalendarPanel
                         viewDate={startViewDate}
                         onPrevMonth={() => {
@@ -536,10 +536,10 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                     />
                 </div>
                 {showOk && (
-                    <div className="idp-datepicker-range-footer">
-                        <div className="idp-datepicker-range-footer-spacer" />
-                        <div className="idp-datepicker-range-footer-actions">
-                            <button className="idp-datepicker-range-btn idp-datepicker-range-btn--primary" onClick={handleOk}>
+                    <div className="zjpcy-datepicker-range-footer">
+                        <div className="zjpcy-datepicker-range-footer-spacer" />
+                        <div className="zjpcy-datepicker-range-footer-actions">
+                            <button className="zjpcy-datepicker-range-btn zjpcy-datepicker-range-btn--primary" onClick={handleOk}>
                                 确定
                             </button>
                         </div>
@@ -565,69 +565,69 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
 
     // 尺寸类名
     const sizeClassName = {
-        'idp-datepicker-range-picker-trigger--small': size === 'small',
-        'idp-datepicker-range-picker-trigger--middle': size === 'middle',
-        'idp-datepicker-range-picker-trigger--large': size === 'large',
+        'zjpcy-datepicker-range-picker-trigger--small': size === 'small',
+        'zjpcy-datepicker-range-picker-trigger--middle': size === 'middle',
+        'zjpcy-datepicker-range-picker-trigger--large': size === 'large',
     };
 
     return (
         <div
-            className={classNames('idp-datepicker-range-picker', className, {
-                'idp-datepicker-range-picker-with-label': label,
+            className={classNames('zjpcy-datepicker-range-picker', className, {
+                'zjpcy-datepicker-range-picker-with-label': label,
             })}
             style={containerStyle}
         >
             {label && (
-                <span className={classNames('idp-datepicker-range-picker-label', labelClassName)} style={labelStyleComputed}>
+                <span className={classNames('zjpcy-datepicker-range-picker-label', labelClassName)} style={labelStyleComputed}>
                     {label}
                 </span>
             )}
             <div
                 ref={triggerRef}
-                className={classNames('idp-datepicker-range-picker-trigger', sizeClassName, {
-                    'idp-datepicker-range-picker-trigger--focused': isFocused,
-                    'idp-datepicker-range-picker-trigger--disabled': disabled,
+                className={classNames('zjpcy-datepicker-range-picker-trigger', sizeClassName, {
+                    'zjpcy-datepicker-range-picker-trigger--focused': isFocused,
+                    'zjpcy-datepicker-range-picker-trigger--disabled': disabled,
                 })}
             >
                 {/* 开始日期 */}
                 <div
-                    className={classNames('idp-datepicker-range-picker-input', {
-                        'idp-datepicker-range-picker-input--active': activePicker === 'start' && isOpen,
+                    className={classNames('zjpcy-datepicker-range-picker-input', {
+                        'zjpcy-datepicker-range-picker-input--active': activePicker === 'start' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('start')}
                 >
-                    <span className={classNames('idp-datepicker-range-picker-value', {
-                        'idp-datepicker-range-picker-value--placeholder': !startValue
+                    <span className={classNames('zjpcy-datepicker-range-picker-value', {
+                        'zjpcy-datepicker-range-picker-value--placeholder': !startValue
                     })}>
                         {startValue || placeholder[0]}
                     </span>
                 </div>
 
                 {/* 分隔符 */}
-                <span className="idp-datepicker-range-picker-separator">
+                <span className="zjpcy-datepicker-range-picker-separator">
                     {separator || <Icon type="arrow-right" size="small" />}
                 </span>
 
                 {/* 结束日期 */}
                 <div
-                    className={classNames('idp-datepicker-range-picker-input', {
-                        'idp-datepicker-range-picker-input--active': activePicker === 'end' && isOpen,
+                    className={classNames('zjpcy-datepicker-range-picker-input', {
+                        'zjpcy-datepicker-range-picker-input--active': activePicker === 'end' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('end')}
                 >
-                    <span className={classNames('idp-datepicker-range-picker-value', {
-                        'idp-datepicker-range-picker-value--placeholder': !endValue
+                    <span className={classNames('zjpcy-datepicker-range-picker-value', {
+                        'zjpcy-datepicker-range-picker-value--placeholder': !endValue
                     })}>
                         {endValue || placeholder[1]}
                     </span>
                 </div>
 
                 {/* 后缀图标区域 */}
-                <span className="idp-datepicker-range-picker-suffix">
+                <span className="zjpcy-datepicker-range-picker-suffix">
                     {/* 清除按钮 */}
                     {allowClear && hasValue && !disabled && !readOnly && (
                         <span
-                            className="idp-datepicker-range-picker-clear"
+                            className="zjpcy-datepicker-range-picker-clear"
                             onClick={handleClear}
                         >
                             <Icon type="close" size="small" />
@@ -637,8 +637,8 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                     <Icon
                         type="calendar"
                         size="small"
-                        className={classNames('idp-datepicker-range-picker-icon', {
-                            'idp-datepicker-range-picker-icon--has-clear': allowClear && hasValue && !disabled && !readOnly
+                        className={classNames('zjpcy-datepicker-range-picker-icon', {
+                            'zjpcy-datepicker-range-picker-icon--has-clear': allowClear && hasValue && !disabled && !readOnly
                         })}
                     />
                 </span>

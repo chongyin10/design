@@ -13,16 +13,16 @@ const Empty: React.FC<EmptyProps> = ({
   className
 }) => {
   return (
-    <div className={`idp-empty idp-empty--${size} ${className || ''}`} style={style}>
-      <div className="idp-empty__icon-wrapper">
-        {icon && <div className="idp-empty__icon">{icon}</div>}
-        {image && <img src={image} alt="empty" className="idp-empty__image" />}
+    <div className={`zjpcy-empty zjpcy-empty--${size} ${className || ''}`} style={style}>
+      <div className="zjpcy-empty__icon-wrapper">
+        {icon && <div className="zjpcy-empty__icon">{icon}</div>}
+        {image && <img src={image} alt="empty" className="zjpcy-empty__image" />}
         {!icon && !image && (
           <Icon type="file-text" size={size === 'large' ? 64 : size === 'small' ? 32 : 48} color="#d9d9d9" />
         )}
       </div>
-      <div className="idp-empty__description">{description}</div>
-      {children && <div className="idp-empty__actions">{children}</div>}
+      <div className="zjpcy-empty__description">{description}</div>
+      {children && <div className="zjpcy-empty__actions">{children}</div>}
     </div>
   );
 };

@@ -67,23 +67,23 @@ const Checkbox: React.FC<CheckboxProps> & { Group: React.FC<CheckboxGroupProps> 
     
     const isDisabled = disabled || (isGroupMode && groupContext.disabled);
     const classes = classNames(
-        'idp-checkbox',
+        'zjpcy-checkbox',
         {
-            'idp-checkbox--checked': isChecked,
-            'idp-checkbox--disabled': isDisabled,
-            'idp-checkbox--indeterminate': indeterminate,
-            'idp-checkbox--disabled-checked': isDisabled && isChecked,
-            'idp-checkbox--disabled-indeterminate': isDisabled && indeterminate
+            'zjpcy-checkbox--checked': isChecked,
+            'zjpcy-checkbox--disabled': isDisabled,
+            'zjpcy-checkbox--indeterminate': indeterminate,
+            'zjpcy-checkbox--disabled-checked': isDisabled && isChecked,
+            'zjpcy-checkbox--disabled-indeterminate': isDisabled && indeterminate
         },
         className
     );
     
     return (
         <label className={classes} style={style}>
-            <div className="idp-checkbox-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="zjpcy-checkbox-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
                 {label && (
                     <div
-                        className={`idp-checkbox-label ${labelClassName}`}
+                        className={`zjpcy-checkbox-label ${labelClassName}`}
                         style={{
                             marginRight: typeof labelGap === 'number' ? `${labelGap}px` : labelGap,
                             ...labelStyle
@@ -95,7 +95,7 @@ const Checkbox: React.FC<CheckboxProps> & { Group: React.FC<CheckboxGroupProps> 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                     <input
                         type="checkbox"
-                        className="idp-checkbox__input"
+                        className="zjpcy-checkbox__input"
                         checked={isChecked}
                         onChange={handleChange}
                         disabled={disabled || (isGroupMode && groupContext.disabled)}
@@ -106,8 +106,8 @@ const Checkbox: React.FC<CheckboxProps> & { Group: React.FC<CheckboxGroupProps> 
                             }
                         }}
                     />
-                    <span className="idp-checkbox__inner"></span>
-                    {children && <span className="idp-checkbox__label">{children}</span>}
+                    <span className="zjpcy-checkbox__inner"></span>
+                    {children && <span className="zjpcy-checkbox__label">{children}</span>}
                 </div>
             </div>
         </label>
@@ -140,9 +140,9 @@ Checkbox.Group = ({
     };
     
     const classes = classNames(
-        'idp-checkbox-group',
+        'zjpcy-checkbox-group',
         {
-            'idp-checkbox-group--horizontal': layout === 'horizontal',
+            'zjpcy-checkbox-group--horizontal': layout === 'horizontal',
         },
         className
     );

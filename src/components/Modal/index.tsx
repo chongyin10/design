@@ -155,8 +155,8 @@ const Modal: React.FC<ModalProps> = ({
         width: typeof width === 'number' ? `${width}px` : width,
         // height: height ? (typeof height === 'number' ? `${height}px` : height) : undefined,
         top: top !== undefined ? `${top}px` : undefined,
-        ['--idp-modal-origin-x' as any]: `${originOffset.x}px`,
-        ['--idp-modal-origin-y' as any]: `${originOffset.y}px`,
+        ['--zjpcy-modal-origin-x' as any]: `${originOffset.x}px`,
+        ['--zjpcy-modal-origin-y' as any]: `${originOffset.y}px`,
         visibility: showContent ? 'visible' : 'hidden',
         ...style
     };
@@ -198,8 +198,8 @@ const Modal: React.FC<ModalProps> = ({
 
         if (loadingIcon) {
             return (
-                <div className="idp-modal-loading">
-                    <div className="idp-modal-loading-content">
+                <div className="zjpcy-modal-loading">
+                    <div className="zjpcy-modal-loading-content">
                         {loadingIcon}
                     </div>
                 </div>
@@ -207,12 +207,12 @@ const Modal: React.FC<ModalProps> = ({
         }
 
         return (
-            <div className="idp-modal-loading">
-                <div className="idp-modal-loading-content">
-                    <div className="idp-modal-loading-spinner">
-                        <svg viewBox="0 0 24 24" className="idp-modal-loading-icon">
+            <div className="zjpcy-modal-loading">
+                <div className="zjpcy-modal-loading-content">
+                    <div className="zjpcy-modal-loading-spinner">
+                        <svg viewBox="0 0 24 24" className="zjpcy-modal-loading-icon">
                             <circle
-                                className="idp-modal-loading-track"
+                                className="zjpcy-modal-loading-track"
                                 cx="12"
                                 cy="12"
                                 r="10"
@@ -220,7 +220,7 @@ const Modal: React.FC<ModalProps> = ({
                                 strokeWidth="2"
                             />
                             <circle
-                                className="idp-modal-loading-indicator"
+                                className="zjpcy-modal-loading-indicator"
                                 cx="12"
                                 cy="12"
                                 r="10"
@@ -247,11 +247,11 @@ const Modal: React.FC<ModalProps> = ({
         return (
             <div
                 className={classNames(
-                    'idp-modal-overlay',
+                    'zjpcy-modal-overlay',
                     {
-                        'idp-modal-overlay--visible': isVisible && !isClosing,
-                        'idp-modal-overlay--closing': isClosing,
-                        'idp-modal-overlay--custom-top': top !== undefined
+                        'zjpcy-modal-overlay--visible': isVisible && !isClosing,
+                        'zjpcy-modal-overlay--closing': isClosing,
+                        'zjpcy-modal-overlay--custom-top': top !== undefined
                     },
                     className,
                     maskClassName
@@ -261,25 +261,25 @@ const Modal: React.FC<ModalProps> = ({
             >
                 <div
                     className={classNames(
-                        'idp-modal-container',
+                        'zjpcy-modal-container',
                         {
                             // 显示动画 - 延迟显示内容，确保遮罩层模糊效果先渲染
-                            'idp-modal-container--center-top': showContent && !isClosing && effectiveDirection === 'center' && top !== undefined,
-                            'idp-modal-container--center': showContent && !isClosing && effectiveDirection === 'center' && top === undefined,
-                            'idp-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right',
-                            'idp-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right',
-                            'idp-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left',
-                            'idp-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal',
+                            'zjpcy-modal-container--center-top': showContent && !isClosing && effectiveDirection === 'center' && top !== undefined,
+                            'zjpcy-modal-container--center': showContent && !isClosing && effectiveDirection === 'center' && top === undefined,
+                            'zjpcy-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right',
+                            'zjpcy-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right',
+                            'zjpcy-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left',
+                            'zjpcy-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal',
                             
                             // 关闭状态
-                            'idp-modal-container--closing-center-top': isClosing && effectiveDirection === 'center' && top !== undefined,
-                            'idp-modal-container--closing-center': isClosing && effectiveDirection === 'center' && top === undefined,
-                            'idp-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right',
-                            'idp-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right',
-                            'idp-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left',
-                            'idp-modal-container--closing-normal': isClosing && effectiveDirection === 'normal',
-                            'idp-modal-container--bordered': bordered,
-                            'idp-modal-container--has-height': height !== undefined
+                            'zjpcy-modal-container--closing-center-top': isClosing && effectiveDirection === 'center' && top !== undefined,
+                            'zjpcy-modal-container--closing-center': isClosing && effectiveDirection === 'center' && top === undefined,
+                            'zjpcy-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right',
+                            'zjpcy-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right',
+                            'zjpcy-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left',
+                            'zjpcy-modal-container--closing-normal': isClosing && effectiveDirection === 'normal',
+                            'zjpcy-modal-container--bordered': bordered,
+                            'zjpcy-modal-container--has-height': height !== undefined
                         }
                     )}
                     style={containerStyle}
@@ -287,14 +287,14 @@ const Modal: React.FC<ModalProps> = ({
                 >
                     {renderLoading()}
                     <div
-                        className="idp-modal-header"
+                        className="zjpcy-modal-header"
                         style={headerStyle}
                     >
-                        <div className="idp-modal-header__left">
-                            <span className="idp-modal-header__title">{title}</span>
+                        <div className="zjpcy-modal-header__left">
+                            <span className="zjpcy-modal-header__title">{title}</span>
                         </div>
-                        <div className="idp-modal-header__right">
-                            <div className="idp-modal-close-btn" onClick={handleCancel}>
+                        <div className="zjpcy-modal-header__right">
+                            <div className="zjpcy-modal-close-btn" onClick={handleCancel}>
                                 <Icon
                                     type="close"
                                     size={20}
@@ -308,7 +308,7 @@ const Modal: React.FC<ModalProps> = ({
                     {isVisible && (
                         <div
                             className={classNames(
-                                'idp-modal-content',
+                                'zjpcy-modal-content',
                                 contentClassName
                             )}
                             style={contentStyle}
@@ -319,7 +319,7 @@ const Modal: React.FC<ModalProps> = ({
                     )}
 
                     <Flex
-                        className="idp-modal-footer"
+                        className="zjpcy-modal-footer"
                         align="center"
                         justify="flex-end"
                         style={Object.assign({}, footerStyle, { padding: '0px 10px' })}
@@ -327,7 +327,7 @@ const Modal: React.FC<ModalProps> = ({
                     >
                         {footer === null ? (
                             <Flex
-                                className="idp-modal-footer__actions"
+                                className="zjpcy-modal-footer__actions"
                                 justify="flex-end"
                                 gap={12}
                             >

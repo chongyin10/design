@@ -523,27 +523,27 @@ const Table = ({
                 <td
                     key={column.key || column.dataIndex || column._index}
                     style={style}
-                    className={`${shouldShowLeftShadow ? 'idp-table-fixed-left-shadow' : ''}${shouldShowRightShadow ? ' idp-table-fixed-right-shadow' : ''}`}
+                    className={`${shouldShowLeftShadow ? 'zjpcy-table-fixed-left-shadow' : ''}${shouldShowRightShadow ? ' zjpcy-table-fixed-right-shadow' : ''}`}
                 >
-                    <div className="idp-table-edit-cell" onClick={(e) => e.stopPropagation()}>
+                    <div className="zjpcy-table-edit-cell" onClick={(e) => e.stopPropagation()}>
                         <input
                             type="text"
-                            className="idp-table-edit-input"
+                            className="zjpcy-table-edit-input"
                             value={editingValue}
                             onChange={(e) => setEditingValue(e.target.value)}
                             autoFocus
                             onClick={(e) => e.stopPropagation()}
                         />
-                        <div className="idp-table-edit-actions">
+                        <div className="zjpcy-table-edit-actions">
                             <span
-                                className="idp-table-edit-icon idp-edit-submit"
+                                className="zjpcy-table-edit-icon zjpcy-edit-submit"
                                 onClick={() => handleSave(record, column)}
                                 title="保存"
                             >
                                 <Icon type="check" size={24} color="#339af0" />
                             </span>
                             <span
-                                className="idp-table-edit-icon idp-edit-cancel"
+                                className="zjpcy-table-edit-icon zjpcy-edit-cancel"
                                 onClick={handleCancel}
                                 title="取消"
                             >
@@ -557,7 +557,7 @@ const Table = ({
 
         // 非编辑模式
         const cellContent = shouldApplyMaxLines ? (
-            <div className="idp-table-cell-ellipsis" style={{ WebkitLineClamp: column.maxLines }}>
+            <div className="zjpcy-table-cell-ellipsis" style={{ WebkitLineClamp: column.maxLines }}>
                 {safeContent}
             </div>
         ) : safeContent;
@@ -574,11 +574,11 @@ const Table = ({
                 key={column.key || column.dataIndex || column._index}
                 style={style}
                 onClick={column.editable ? () => handleEdit(rowIndex, String(colKey), content) : undefined}
-                className={`${shouldShowLeftShadow ? 'idp-table-fixed-left-shadow' : ''}${shouldShowRightShadow ? ' idp-table-fixed-right-shadow' : ''}${shouldApplyMaxLines ? ' idp-table-cell-has-ellipsis' : ''}${column.editable ? ' idp-table-editable-cell' : ''}`}
+                className={`${shouldShowLeftShadow ? 'zjpcy-table-fixed-left-shadow' : ''}${shouldShowRightShadow ? ' zjpcy-table-fixed-right-shadow' : ''}${shouldApplyMaxLines ? ' zjpcy-table-cell-has-ellipsis' : ''}${column.editable ? ' zjpcy-table-editable-cell' : ''}`}
             >
                 {finalContent}
                 {column.editable && (
-                    <span className="idp-table-edit-icon-wrapper">
+                    <span className="zjpcy-table-edit-icon-wrapper">
                         <Icon type="edit" size={16} color="#339af0" />
                     </span>
                 )}

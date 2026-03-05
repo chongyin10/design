@@ -5,36 +5,36 @@
 /* ============================================
    菜单根容器
    ============================================ */
-.idp-menu {
+.zjpcy-menu {
   margin: 0;
   padding: 0;
   list-style: none;
   font-size: 14px;
   line-height: 1.5;
-  background: var(--idp-bg-color-white, #fff);
-  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
+  background: var(--zjpcy-bg-color-white, #fff);
+  transition: all var(--zjpcy-transition-duration, 0.2s) var(--zjpcy-transition-timing-function, ease-in-out);
 }
 
 /* ============================================
    通用菜单项样式
    ============================================ */
-.idp-menu-item-wrapper {
+.zjpcy-menu-item-wrapper {
   position: relative;
 }
 
 /* 折叠状态下菜单项宽度 - 使用组合类名 */
-.idp-menu-item-wrapper-collapsed {
+.zjpcy-menu-item-wrapper-collapsed {
   width: 60px;
 }
 
-.idp-menu-item {
+.zjpcy-menu-item {
   display: flex;
   align-items: center;
   height: 40px;
   padding: 0px;
   cursor: pointer;
-  transition: all var(--idp-transition-duration, 0.2s) var(--idp-transition-timing-function, ease-in-out);
-  border-radius: var(--idp-border-radius-sm, 4px);
+  transition: all var(--zjpcy-transition-duration, 0.2s) var(--zjpcy-transition-timing-function, ease-in-out);
+  border-radius: var(--zjpcy-border-radius-sm, 4px);
   margin: 4px 0;
   user-select: none;
   position: relative;
@@ -42,14 +42,14 @@
 }
 
 /* 水波纹效果 */
-.idp-menu-item::after {
+.zjpcy-menu-item::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   width: 0;
   height: 0;
-  background: radial-gradient(circle, var(--idp-primary-light-color, rgba(24, 144, 255, 0.1)) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.1)) 0%, transparent 70%);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
@@ -57,7 +57,7 @@
   pointer-events: none;
 }
 
-.idp-menu-item:active::after {
+.zjpcy-menu-item:active::after {
   width: 200%;
   height: 200%;
   opacity: 1;
@@ -67,82 +67,82 @@
 /* ============================================
    Light 主题样式 - 使用组合类名
    ============================================ */
-.idp-menu-item-light {
-  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+.zjpcy-menu-item-light {
+  color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
 }
 
-.idp-menu-item-light:hover:not(.idp-menu-item-disabled) {
-  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.06));
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-light:hover:not(.zjpcy-menu-item-disabled) {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.06));
+  color: var(--zjpcy-primary-color, #1890ff);
 }
 
-.idp-menu-item-light-selected {
-  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.12));
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-light-selected {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.12));
+  color: var(--zjpcy-primary-color, #1890ff);
   font-weight: 600;
 }
 
 /* 垂直/内联模式下的选中样式 - 带左侧阴影 */
-.idp-menu-item-light-selected-vertical {
-  box-shadow: inset 3px 0 0 var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-light-selected-vertical {
+  box-shadow: inset 3px 0 0 var(--zjpcy-primary-color, #1890ff);
 }
 
-.idp-menu-item-light-selected:hover {
-  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.18));
+.zjpcy-menu-item-light-selected:hover {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.18));
 }
 
-.idp-menu-item-light-selected-vertical:hover {
-  background-color: var(--idp-primary-light-color, rgba(24, 144, 255, 0.18));
+.zjpcy-menu-item-light-selected-vertical:hover {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.18));
 }
 
-.idp-menu-item-light .idp-menu-item-arrow {
-  color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+.zjpcy-menu-item-light .zjpcy-menu-item-arrow {
+  color: var(--zjpcy-text-color-tertiary, rgba(0, 0, 0, 0.45));
 }
 
-.idp-menu-item-light:hover:not(.idp-menu-item-disabled) .idp-menu-item-arrow {
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-light:hover:not(.zjpcy-menu-item-disabled) .zjpcy-menu-item-arrow {
+  color: var(--zjpcy-primary-color, #1890ff);
 }
 
 /* ============================================
    Dark 主题样式 - 使用组合类名
    ============================================ */
-.idp-menu-dark {
+.zjpcy-menu-dark {
   background: transparent;
 }
 
-.idp-menu-item-dark {
+.zjpcy-menu-item-dark {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.idp-menu-item-dark:hover:not(.idp-menu-item-disabled) {
+.zjpcy-menu-item-dark:hover:not(.zjpcy-menu-item-disabled) {
   background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 
-.idp-menu-item-dark-selected {
+.zjpcy-menu-item-dark-selected {
   background-color: rgba(24, 144, 255, 0.25);
   color: #fff;
   font-weight: 600;
 }
 
 /* 垂直/内联模式下的选中样式 - 带左侧阴影 */
-.idp-menu-item-dark-selected-vertical {
-  box-shadow: inset 3px 0 0 var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-dark-selected-vertical {
+  box-shadow: inset 3px 0 0 var(--zjpcy-primary-color, #1890ff);
 }
 
-.idp-menu-item-dark-selected:hover {
+.zjpcy-menu-item-dark-selected:hover {
   background-color: rgba(24, 144, 255, 0.35);
 }
 
-.idp-menu-item-dark-selected-vertical:hover {
+.zjpcy-menu-item-dark-selected-vertical:hover {
   background-color: rgba(24, 144, 255, 0.35);
 }
 
-.idp-menu-item-dark .idp-menu-item-arrow {
+.zjpcy-menu-item-dark .zjpcy-menu-item-arrow {
   color: rgba(255, 255, 255, 0.45);
 }
 
-.idp-menu-item-dark:hover:not(.idp-menu-item-disabled) .idp-menu-item-arrow {
+.zjpcy-menu-item-dark:hover:not(.zjpcy-menu-item-disabled) .zjpcy-menu-item-arrow {
   color: #fff;
 }
 
@@ -150,33 +150,33 @@
    Dark 主题子菜单样式 - 使用组合类名
    ============================================ */
 /* 水平模式弹出菜单 - Dark 主题 */
-.idp-menu-submenu-horizontal-popup-dark,
-.idp-menu-submenu-horizontal-popup-dark .idp-menu-submenu-horizontal-popup-dark {
+.zjpcy-menu-submenu-horizontal-popup-dark,
+.zjpcy-menu-submenu-horizontal-popup-dark .zjpcy-menu-submenu-horizontal-popup-dark {
   background: linear-gradient(135deg, #001529 0%, #002140 100%);
   border: 1px solid #303030;
 }
 
 /* 垂直模式子菜单 - Dark 主题 */
-.idp-menu-submenu-vertical-dark {
+.zjpcy-menu-submenu-vertical-dark {
   background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* 内联模式子菜单 - Dark 主题 */
-.idp-menu-submenu-inline-dark {
+.zjpcy-menu-submenu-inline-dark {
   background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Dark 主题下子菜单中的菜单项 */
-.idp-menu-submenu-dark .idp-menu-item-dark {
+.zjpcy-menu-submenu-dark .zjpcy-menu-item-dark {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.idp-menu-submenu-dark .idp-menu-item-dark:hover:not(.idp-menu-item-disabled) {
+.zjpcy-menu-submenu-dark .zjpcy-menu-item-dark:hover:not(.zjpcy-menu-item-disabled) {
   background-color: rgba(255, 255, 255, 0.08);
   color: #fff;
 }
 
-.idp-menu-submenu-dark .idp-menu-item-dark-selected {
+.zjpcy-menu-submenu-dark .zjpcy-menu-item-dark-selected {
   background-color: rgba(24, 144, 255, 0.25);
   color: #fff;
 }
@@ -184,17 +184,17 @@
 /* ============================================
    禁用状态 - 使用单一类名
    ============================================ */
-.idp-menu-item-disabled {
+.zjpcy-menu-item-disabled {
   cursor: not-allowed;
-  color: var(--idp-text-color-light, #bfbfbf);
+  color: var(--zjpcy-text-color-light, #bfbfbf);
   background-color: transparent;
-  opacity: var(--idp-opacity-disabled, 0.65);
+  opacity: var(--zjpcy-opacity-disabled, 0.65);
 }
 
 /* ============================================
    菜单项内容区域
    ============================================ */
-.idp-menu-item-content {
+.zjpcy-menu-item-content {
   display: flex;
   align-items: center;
   flex: 1;
@@ -205,24 +205,24 @@
 /* ============================================
    菜单项图标 - 使用组合类名
    ============================================ */
-.idp-menu-item-icon {
+.zjpcy-menu-item-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 8px;
   flex-shrink: 0;
   color: inherit;
-  transition: all var(--idp-transition-duration, 0.2s) ease;
+  transition: all var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-menu-item-icon-collapsed {
+.zjpcy-menu-item-icon-collapsed {
   margin-right: 0;
 }
 
 /* ============================================
    菜单项标签
    ============================================ */
-.idp-menu-item-label {
+.zjpcy-menu-item-label {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -234,7 +234,7 @@
 /* ============================================
    菜单项文本容器（包含 label 和 description）
    ============================================ */
-.idp-menu-item-text {
+.zjpcy-menu-item-text {
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -243,14 +243,14 @@
   gap: 10px;
 }
 
-.idp-menu-item-text .idp-menu-item-label {
+.zjpcy-menu-item-text .zjpcy-menu-item-label {
   flex: none;
   line-height: 1.4;
 }
 
-.idp-menu-item-description {
+.zjpcy-menu-item-description {
   font-size: 12px;
-  color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+  color: var(--zjpcy-text-color-tertiary, rgba(0, 0, 0, 0.45));
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -258,15 +258,15 @@
   margin-top: 2px;
 }
 
-.idp-menu-item:hover .idp-menu-item-description {
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item:hover .zjpcy-menu-item-description {
+  color: var(--zjpcy-primary-color, #1890ff);
   opacity: 0.8;
 }
 
 /* ============================================
    折叠状态下的缩略标签 - 使用组合类名
    ============================================ */
-.idp-menu-item-collapsed-label {
+.zjpcy-menu-item-collapsed-label {
   width: 24px;
   height: 24px;
   display: flex;
@@ -274,8 +274,8 @@
   justify-content: center;
   font-size: 14px;
   font-weight: 700;
-  background: linear-gradient(135deg, var(--idp-primary-color, #1890ff) 0%, var(--idp-primary-hover-color, #40a9ff) 100%);
-  color: var(--idp-bg-color-white, #fff);
+  background: linear-gradient(135deg, var(--zjpcy-primary-color, #1890ff) 0%, var(--zjpcy-primary-hover-color, #40a9ff) 100%);
+  color: var(--zjpcy-bg-color-white, #fff);
   border-radius: 6px;
   margin: 0 auto;
   box-shadow: 0 2px 6px rgba(24, 144, 255, 0.25);
@@ -285,34 +285,34 @@
 }
 
 /* 折叠状态下悬停效果 */
-.idp-menu-item:hover .idp-menu-item-collapsed-label {
+.zjpcy-menu-item:hover .zjpcy-menu-item-collapsed-label {
   transform: scale(1.05);
   box-shadow: 0 3px 8px rgba(24, 144, 255, 0.35);
 }
 
 /* Dark 主题下折叠标签 */
-.idp-menu-item-dark .idp-menu-item-collapsed-label {
+.zjpcy-menu-item-dark .zjpcy-menu-item-collapsed-label {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.75) 100%);
-  color: var(--idp-primary-color, #1890ff);
+  color: var(--zjpcy-primary-color, #1890ff);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
-.idp-menu-item-dark:hover .idp-menu-item-collapsed-label {
+.zjpcy-menu-item-dark:hover .zjpcy-menu-item-collapsed-label {
   background: linear-gradient(135deg, #fff 0%, rgba(255, 255, 255, 0.9) 100%);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* 选中状态下的折叠标签 */
-.idp-menu-item-selected .idp-menu-item-collapsed-label {
+.zjpcy-menu-item-selected .zjpcy-menu-item-collapsed-label {
   box-shadow: 0 2px 6px rgba(24, 144, 255, 0.4);
 }
 
-.idp-menu-item-selected:hover .idp-menu-item-collapsed-label {
+.zjpcy-menu-item-selected:hover .zjpcy-menu-item-collapsed-label {
   box-shadow: 0 3px 8px rgba(24, 144, 255, 0.5);
 }
 
 /* Dark 主题选中状态下的折叠标签 */
-.idp-menu-item-dark-selected .idp-menu-item-collapsed-label {
+.zjpcy-menu-item-dark-selected .zjpcy-menu-item-collapsed-label {
   background: linear-gradient(135deg, #fff 0%, #fff 100%);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
@@ -320,57 +320,57 @@
 /* ============================================
    菜单项箭头 - 使用组合类名
    ============================================ */
-.idp-menu-item-arrow {
+.zjpcy-menu-item-arrow {
   display: flex;
   align-items: center;
   margin-left: 8px;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color var(--idp-transition-duration, 0.2s) ease;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color var(--zjpcy-transition-duration, 0.2s) ease;
   flex-shrink: 0;
 }
 
-.idp-menu-item-arrow-open {
+.zjpcy-menu-item-arrow-open {
   transform: rotate(180deg);
 }
 
-.idp-menu-item-arrow-horizontal {
+.zjpcy-menu-item-arrow-horizontal {
   transform: rotate(-90deg);
 }
 
-.idp-menu-item-arrow-horizontal-open {
+.zjpcy-menu-item-arrow-horizontal-open {
   transform: rotate(0deg);
 }
 
 /* ============================================
    滚动条样式 - Dark 主题
    ============================================ */
-.idp-menu-dark::-webkit-scrollbar {
+.zjpcy-menu-dark::-webkit-scrollbar {
   width: 4px;
   height: 6px;
 }
 
-.idp-menu-dark::-webkit-scrollbar-track {
+.zjpcy-menu-dark::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.idp-menu-dark::-webkit-scrollbar-thumb {
-  background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent);
-  border-radius: var(--idp-border-radius-sm, 4px);
-  transition: background-color var(--idp-transition-duration, 0.2s) ease;
+.zjpcy-menu-dark::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 50%, transparent);
+  border-radius: var(--zjpcy-border-radius-sm, 4px);
+  transition: background-color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-menu-dark::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 70%, transparent);
+.zjpcy-menu-dark::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 70%, transparent);
 }
 
-.idp-menu-dark {
+.zjpcy-menu-dark {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--idp-primary-color, #1890ff) 50%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 50%, transparent) transparent;
 }
 
 /* ============================================
    扁平垂直模式 (Vertical Flat)
    ============================================ */
-.idp-menu-vertical-flat {
+.zjpcy-menu-vertical-flat {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -378,13 +378,13 @@
 }
 
 /* 扁平模式下子菜单容器始终可见 - 使用组合类名 */
-.idp-menu-submenu-wrapper-vertical-flat {
+.zjpcy-menu-submenu-wrapper-vertical-flat {
   position: relative;
   width: 100%;
 }
 
 /* 扁平模式子菜单 - 无展开/关闭动画，直接显示 */
-.idp-menu-submenu-vertical-flat {
+.zjpcy-menu-submenu-vertical-flat {
   overflow: visible;
   background-color: transparent;
   display: block;
@@ -392,22 +392,22 @@
   width: 100%;
 }
 
-.idp-menu-submenu-vertical-flat > .idp-menu-submenu-content {
+.zjpcy-menu-submenu-vertical-flat > .zjpcy-menu-submenu-content {
   overflow: visible;
   width: 100%;
 }
 
 /* 扁平模式子菜单项样式 */
-.idp-menu-submenu-vertical-flat .idp-menu-item {
+.zjpcy-menu-submenu-vertical-flat .zjpcy-menu-item {
   margin: 2px 0;
   height: 36px;
   opacity: 1;
   transform: none;
-  transition: background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
+  transition: background-color var(--zjpcy-transition-duration, 0.2s) ease, color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
 /* 扁平模式下禁用箭头 */
-.idp-menu-vertical-flat .idp-menu-item-arrow {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-arrow {
   display: none;
 }
 
@@ -415,37 +415,37 @@
    扁平模式下祖节点（有子菜单的父级）样式 - 使用组合类名
    ============================================ */
 /* 祖节点不可选中 - 移除选中效果 */
-.idp-menu-vertical-flat .idp-menu-item-has-children {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-has-children {
   cursor: default;
   pointer-events: none;
   font-weight: 600;
-  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
   border-bottom: 1px solid #e5e5e5ab;
 }
 
-.idp-menu-vertical-flat .idp-menu-item-has-children:hover {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-has-children:hover {
   background-color: transparent;
-  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
 }
 
 /* Light 主题 - 扁平模式下祖节点 hover 时不改变背景色和颜色 */
-.idp-menu-vertical-flat .idp-menu-item-light-has-children:hover:not(.idp-menu-item-disabled) {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-light-has-children:hover:not(.zjpcy-menu-item-disabled) {
   background-color: transparent;
-  color: var(--idp-text-color, rgba(0, 0, 0, 0.85));
+  color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
 }
 
 /* 同时覆盖 Light 主题下箭头颜色 */
-.idp-menu-vertical-flat .idp-menu-item-light-has-children:hover:not(.idp-menu-item-disabled) .idp-menu-item-arrow {
-  color: var(--idp-text-color-tertiary, rgba(0, 0, 0, 0.45));
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-light-has-children:hover:not(.zjpcy-menu-item-disabled) .zjpcy-menu-item-arrow {
+  color: var(--zjpcy-text-color-tertiary, rgba(0, 0, 0, 0.45));
 }
 
 /* 祖节点内容区域可交互（用于显示） */
-.idp-menu-vertical-flat .idp-menu-item-has-children > .idp-menu-item-content {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-has-children > .zjpcy-menu-item-content {
   pointer-events: auto;
 }
 
 /* 祖节点下方添加分隔线 */
-.idp-menu-vertical-flat .idp-menu-item-has-children::after {
+.zjpcy-menu-vertical-flat .zjpcy-menu-item-has-children::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -455,44 +455,44 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--idp-border-color-light, #f0f0f0) 20%,
-    var(--idp-border-color-light, #f0f0f0) 80%,
+    var(--zjpcy-border-color-light, #f0f0f0) 20%,
+    var(--zjpcy-border-color-light, #f0f0f0) 80%,
     transparent 100%
   );
 }
 
 /* 扁平模式下子菜单容器 - 添加层级背景和间距 - 使用组合类名 */
-.idp-menu-submenu-wrapper-vertical-flat-container {
+.zjpcy-menu-submenu-wrapper-vertical-flat-container {
   position: relative;
   width: 100%;
   margin-bottom: 8px;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
+  border-bottom: 1px solid var(--zjpcy-border-color-light, #f0f0f0);
 }
 
 /* 最后一个子菜单容器不需要下边框 */
-.idp-menu-submenu-wrapper-vertical-flat-container:last-child {
+.zjpcy-menu-submenu-wrapper-vertical-flat-container:last-child {
   border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 0;
 }
 
 /* 扁平模式下子菜单项缩进 */
-.idp-menu-submenu-vertical-flat .idp-menu-item {
+.zjpcy-menu-submenu-vertical-flat .zjpcy-menu-item {
   padding-left: 24px;
 }
 
 /* 扁平模式下多级嵌套缩进 */
-.idp-menu-submenu-vertical-flat .idp-menu-submenu-vertical-flat .idp-menu-item {
+.zjpcy-menu-submenu-vertical-flat .zjpcy-menu-submenu-vertical-flat .zjpcy-menu-item {
   padding-left: 40px;
 }
 
-.idp-menu-submenu-vertical-flat .idp-menu-submenu-vertical-flat .idp-menu-submenu-vertical-flat .idp-menu-item {
+.zjpcy-menu-submenu-vertical-flat .zjpcy-menu-submenu-vertical-flat .zjpcy-menu-submenu-vertical-flat .zjpcy-menu-item {
   padding-left: 56px;
 }
 
 /* 扁平模式下嵌套子菜单也需要占满宽度 */
-.idp-menu-submenu-vertical-flat .idp-menu-submenu-wrapper-vertical-flat {
+.zjpcy-menu-submenu-vertical-flat .zjpcy-menu-submenu-wrapper-vertical-flat {
   width: 100%;
   margin-bottom: 0;
   padding-bottom: 0;
@@ -502,37 +502,37 @@
 /* ============================================
    Dark 主题下扁平模式样式 - 使用组合类名
    ============================================ */
-.idp-menu-dark-vertical-flat {
+.zjpcy-menu-dark-vertical-flat {
   background: transparent;
 }
 
-.idp-menu-dark .idp-menu-submenu-vertical-flat {
+.zjpcy-menu-dark .zjpcy-menu-submenu-vertical-flat {
   background-color: transparent;
 }
 
 /* Dark 主题下祖节点样式 */
-.idp-menu-dark-vertical-flat .idp-menu-item-has-children {
+.zjpcy-menu-dark-vertical-flat .zjpcy-menu-item-has-children {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.idp-menu-dark-vertical-flat .idp-menu-item-has-children:hover {
+.zjpcy-menu-dark-vertical-flat .zjpcy-menu-item-has-children:hover {
   background-color: transparent;
   color: rgba(255, 255, 255, 0.95);
 }
 
 /* Dark 主题 - 扁平模式下祖节点 hover 时不改变背景色和颜色 */
-.idp-menu-dark-vertical-flat .idp-menu-item-dark-has-children:hover:not(.idp-menu-item-disabled) {
+.zjpcy-menu-dark-vertical-flat .zjpcy-menu-item-dark-has-children:hover:not(.zjpcy-menu-item-disabled) {
   background-color: transparent;
   color: rgba(255, 255, 255, 0.95);
 }
 
 /* 同时覆盖 Dark 主题下箭头颜色 */
-.idp-menu-dark-vertical-flat .idp-menu-item-dark-has-children:hover:not(.idp-menu-item-disabled) .idp-menu-item-arrow {
+.zjpcy-menu-dark-vertical-flat .zjpcy-menu-item-dark-has-children:hover:not(.zjpcy-menu-item-disabled) .zjpcy-menu-item-arrow {
   color: rgba(255, 255, 255, 0.45);
 }
 
 /* Dark 主题下分隔线 */
-.idp-menu-dark-vertical-flat .idp-menu-item-has-children::after {
+.zjpcy-menu-dark-vertical-flat .zjpcy-menu-item-has-children::after {
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -542,62 +542,62 @@
   );
 }
 
-.idp-menu-dark .idp-menu-submenu-wrapper-vertical-flat {
+.zjpcy-menu-dark .zjpcy-menu-submenu-wrapper-vertical-flat {
   border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================
    垂直模式 (Vertical) - 使用组合类名
    ============================================ */
-.idp-menu-vertical {
+.zjpcy-menu-vertical {
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 200px;
 }
 
-.idp-menu-vertical-collapsed,
-.idp-menu-vertical-flat-collapsed {
+.zjpcy-menu-vertical-collapsed,
+.zjpcy-menu-vertical-flat-collapsed {
   min-width: 56px;
   width: 56px;
 }
 
-.idp-menu-vertical .idp-menu-item-root {
+.zjpcy-menu-vertical .zjpcy-menu-item-root {
   justify-content: center;
 }
 
-.idp-menu-vertical-collapsed .idp-menu-item-root,
-.idp-menu-vertical-flat-collapsed .idp-menu-item-root {
+.zjpcy-menu-vertical-collapsed .zjpcy-menu-item-root,
+.zjpcy-menu-vertical-flat-collapsed .zjpcy-menu-item-root {
   padding: 0;
   justify-content: center;
 }
 
-.idp-menu-vertical-collapsed .idp-menu-item-content,
-.idp-menu-vertical-flat-collapsed .idp-menu-item-content {
+.zjpcy-menu-vertical-collapsed .zjpcy-menu-item-content,
+.zjpcy-menu-vertical-flat-collapsed .zjpcy-menu-item-content {
   justify-content: center;
 }
 
-.idp-menu-vertical-collapsed .idp-menu-item-label,
-.idp-menu-vertical-collapsed .idp-menu-item-arrow,
-.idp-menu-vertical-flat-collapsed .idp-menu-item-label,
-.idp-menu-vertical-flat-collapsed .idp-menu-item-arrow {
+.zjpcy-menu-vertical-collapsed .zjpcy-menu-item-label,
+.zjpcy-menu-vertical-collapsed .zjpcy-menu-item-arrow,
+.zjpcy-menu-vertical-flat-collapsed .zjpcy-menu-item-label,
+.zjpcy-menu-vertical-flat-collapsed .zjpcy-menu-item-arrow {
   display: none;
 }
 
 /* 子菜单 wrapper 通用样式 */
-.idp-menu-submenu-wrapper {
+.zjpcy-menu-submenu-wrapper {
   position: relative;
 }
 
-.idp-menu-submenu-wrapper-horizontal {
+.zjpcy-menu-submenu-wrapper-horizontal {
   position: static;
 }
 
 /* 垂直模式子菜单 - 使用组合类名 */
-.idp-menu-submenu-vertical {
+.zjpcy-menu-submenu-vertical {
   overflow: hidden;
   background-color: #f5f5f559;
-  border-radius: var(--idp-border-radius-sm, 4px);
+  border-radius: var(--zjpcy-border-radius-sm, 4px);
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -605,74 +605,74 @@
   will-change: grid-template-rows, opacity;
 }
 
-.idp-menu-submenu-vertical-open {
+.zjpcy-menu-submenu-vertical-open {
   grid-template-rows: 1fr;
   opacity: 1;
 }
 
-.idp-menu-submenu-vertical > .idp-menu-submenu-content {
+.zjpcy-menu-submenu-vertical > .zjpcy-menu-submenu-content {
   overflow: hidden;
 }
 
-.idp-menu-submenu-vertical .idp-menu-item {
+.zjpcy-menu-submenu-vertical .zjpcy-menu-item {
   margin: 2px 0;
   height: 36px;
   opacity: 0;
   transform: translateX(-8px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--zjpcy-transition-duration, 0.2s) ease, color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-menu-submenu-vertical-open .idp-menu-item {
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item {
   opacity: 1;
   transform: translateX(0);
 }
 
 /* 子菜单项依次动画 */
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
-.idp-menu-submenu-vertical-open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
+.zjpcy-menu-submenu-vertical-open .zjpcy-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
 /* ============================================
    水平模式 (Horizontal) - 使用组合类名
    ============================================ */
-.idp-menu-horizontal {
+.zjpcy-menu-horizontal {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid var(--idp-border-color-light, #f0f0f0);
+  border-bottom: 1px solid var(--zjpcy-border-color-light, #f0f0f0);
   width: 100%;
 }
 
-.idp-menu-horizontal .idp-menu-item-wrapper-root {
+.zjpcy-menu-horizontal .zjpcy-menu-item-wrapper-root {
   position: relative;
   display: inline-block;
 }
 
-.idp-menu-horizontal .idp-menu-item-root {
+.zjpcy-menu-horizontal .zjpcy-menu-item-root {
   height: 48px;
   margin: 0 4px;
   border-bottom: 2px solid transparent;
   border-radius: 4px;
 }
 
-.idp-menu-horizontal .idp-menu-item-root:hover:not(.idp-menu-item-disabled) {
+.zjpcy-menu-horizontal .zjpcy-menu-item-root:hover:not(.zjpcy-menu-item-disabled) {
   background-color: transparent;
-  border-bottom-color: var(--idp-primary-color, #1890ff);
+  border-bottom-color: var(--zjpcy-primary-color, #1890ff);
 }
 
-.idp-menu-horizontal .idp-menu-item-root-selected {
+.zjpcy-menu-horizontal .zjpcy-menu-item-root-selected {
   background-color: transparent;
-  border-bottom-color: var(--idp-primary-color, #1890ff);
+  border-bottom-color: var(--zjpcy-primary-color, #1890ff);
   box-shadow: none;
 }
 
 /* 水平模式子菜单 wrapper - 用于定位 - 使用组合类名 */
-.idp-menu-submenu-wrapper-horizontal-popup {
+.zjpcy-menu-submenu-wrapper-horizontal-popup {
   position: absolute;
   top: 100%;
   left: 50%;
@@ -684,14 +684,14 @@
 }
 
 /* 水平模式子菜单弹出 - 使用组合类名 */
-.idp-menu-submenu-horizontal-popup {
+.zjpcy-menu-submenu-horizontal-popup {
   position: relative;
   min-width: 160px;
-  background: var(--idp-bg-color-white, #fff);
-  box-shadow: var(--idp-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
-  border-radius: var(--idp-border-radius-md, 6px);
+  background: var(--zjpcy-bg-color-white, #fff);
+  box-shadow: var(--zjpcy-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
+  border-radius: var(--zjpcy-border-radius-md, 6px);
   padding: 4px 0;
-  z-index: var(--idp-z-index-modal, 1000);
+  z-index: var(--zjpcy-z-index-modal, 1000);
   margin-top: 4px;
   opacity: 0;
   transform: translateY(-4px);
@@ -700,51 +700,51 @@
   will-change: opacity, transform;
 }
 
-.idp-menu-submenu-horizontal-popup-open {
+.zjpcy-menu-submenu-horizontal-popup-open {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
 }
 
 /* 展开时 wrapper 也需要可交互 */
-.idp-menu-submenu-wrapper-horizontal-popup .idp-menu-submenu-horizontal-popup-open {
+.zjpcy-menu-submenu-wrapper-horizontal-popup .zjpcy-menu-submenu-horizontal-popup-open {
   pointer-events: auto;
 }
 
-.idp-menu-submenu-horizontal-popup .idp-menu-item {
+.zjpcy-menu-submenu-horizontal-popup .zjpcy-menu-item {
   margin: 0;
   border-radius: 0;
   opacity: 0;
   transform: translateX(-4px);
-  transition: opacity 0.15s ease-out, transform 0.15s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
+  transition: opacity 0.15s ease-out, transform 0.15s ease-out, background-color var(--zjpcy-transition-duration, 0.2s) ease, color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item {
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item {
   opacity: 1;
   transform: translateX(0);
 }
 
 /* 子菜单项依次动画 */
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
-.idp-menu-submenu-horizontal-popup-open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
+.zjpcy-menu-submenu-horizontal-popup-open .zjpcy-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
 /* 水平模式嵌套子菜单 */
-.idp-menu-submenu-horizontal-popup .idp-menu-submenu {
+.zjpcy-menu-submenu-horizontal-popup .zjpcy-menu-submenu {
   position: absolute;
   left: 100%;
   top: 0;
   min-width: 160px;
-  background: var(--idp-bg-color-white, #fff);
-  box-shadow: var(--idp-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
-  border-radius: var(--idp-border-radius-md, 6px);
+  background: var(--zjpcy-bg-color-white, #fff);
+  box-shadow: var(--zjpcy-shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.15));
+  border-radius: var(--zjpcy-border-radius-md, 6px);
   padding: 4px 0;
-  z-index: var(--idp-z-index-modal, 1000);
+  z-index: var(--zjpcy-z-index-modal, 1000);
   margin-left: 4px;
   opacity: 0;
   transform: translateX(-4px);
@@ -754,12 +754,12 @@
 }
 
 /* Dark 主题嵌套子菜单 */
-.idp-menu-submenu-horizontal-popup-dark .idp-menu-submenu {
+.zjpcy-menu-submenu-horizontal-popup-dark .zjpcy-menu-submenu {
   background: linear-gradient(135deg, #001529 0%, #002140 100%);
   border: 1px solid #303030;
 }
 
-.idp-menu-submenu-horizontal-popup .idp-menu-submenu-open {
+.zjpcy-menu-submenu-horizontal-popup .zjpcy-menu-submenu-open {
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
@@ -768,20 +768,20 @@
 /* ============================================
    内联模式 (Inline) - 使用组合类名
    ============================================ */
-.idp-menu-inline {
+.zjpcy-menu-inline {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.idp-menu-inline .idp-menu-item {
+.zjpcy-menu-inline .zjpcy-menu-item {
   border-radius: 0;
   margin: 0;
 }
 
-.idp-menu-submenu-inline {
+.zjpcy-menu-submenu-inline {
   overflow: hidden;
-  background-color: var(--idp-bg-color-light, rgba(0, 0, 0, 0.02));
+  background-color: var(--zjpcy-bg-color-light, rgba(0, 0, 0, 0.02));
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -789,62 +789,62 @@
   will-change: grid-template-rows, opacity;
 }
 
-.idp-menu-submenu-inline-open {
+.zjpcy-menu-submenu-inline-open {
   grid-template-rows: 1fr;
   opacity: 1;
 }
 
-.idp-menu-submenu-inline > .idp-menu-submenu-content {
+.zjpcy-menu-submenu-inline > .zjpcy-menu-submenu-content {
   overflow: hidden;
 }
 
-.idp-menu-submenu-inline .idp-menu-item {
+.zjpcy-menu-submenu-inline .zjpcy-menu-item {
   height: 36px;
   margin: 0;
   opacity: 0;
   transform: translateX(-8px);
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--idp-transition-duration, 0.2s) ease, color var(--idp-transition-duration, 0.2s) ease;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color var(--zjpcy-transition-duration, 0.2s) ease, color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.idp-menu-submenu-inline-open .idp-menu-item {
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item {
   opacity: 1;
   transform: translateX(0);
 }
 
 /* 子菜单项依次动画 */
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
-.idp-menu-submenu-inline-open .idp-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(1) { transition-delay: 0.01s, 0.01s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(2) { transition-delay: 0.02s, 0.02s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(3) { transition-delay: 0.03s, 0.03s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(4) { transition-delay: 0.04s, 0.04s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(5) { transition-delay: 0.05s, 0.05s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(6) { transition-delay: 0.06s, 0.06s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(7) { transition-delay: 0.07s, 0.07s, 0s, 0s; }
+.zjpcy-menu-submenu-inline-open .zjpcy-menu-item:nth-child(8) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
 
 /* ============================================
    嵌套层级样式 - 使用组合类名
    ============================================ */
-.idp-menu-submenu-level-0,
-.idp-menu-submenu-level-1,
-.idp-menu-submenu-level-2 {
+.zjpcy-menu-submenu-level-0,
+.zjpcy-menu-submenu-level-1,
+.zjpcy-menu-submenu-level-2 {
   margin-left: 0;
 }
 
 /* ============================================
    选中状态下的父级高亮 - 使用组合类名
    ============================================ */
-.idp-menu-item-has-children-selected {
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-has-children-selected {
+  color: var(--zjpcy-primary-color, #1890ff);
 }
 
-.idp-menu-item-has-children-selected .idp-menu-item-arrow {
-  color: var(--idp-primary-color, #1890ff);
+.zjpcy-menu-item-has-children-selected .zjpcy-menu-item-arrow {
+  color: var(--zjpcy-primary-color, #1890ff);
 }
 
 /* ============================================
    菜单整体淡入动画
    ============================================ */
-@keyframes idp-menu-fade-in {
+@keyframes zjpcy-menu-fade-in {
   from {
     opacity: 0;
     transform: translateY(-4px);
@@ -855,10 +855,10 @@
   }
 }
 
-.idp-menu {
-  animation: idp-menu-fade-in 0.3s ease;
+.zjpcy-menu {
+  animation: zjpcy-menu-fade-in 0.3s ease;
 }
 
-.idp-menu-item-wrapper-vertical-flat {
+.zjpcy-menu-item-wrapper-vertical-flat {
   border-bottom: 1px solid #E5E5E5;
 }

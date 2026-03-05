@@ -4,15 +4,15 @@
    IDP Popconfirm Component - Modern Design System
    ============================================ */
 
-.idp-popconfirm {
+.zjpcy-popconfirm {
     position: fixed;
     background: linear-gradient(
         180deg,
-        var(--idp-bg-color-white) 0%,
-        var(--idp-bg-color) 100%
+        var(--zjpcy-bg-color-white) 0%,
+        var(--zjpcy-bg-color) 100%
     );
     border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
     box-shadow:
         0 8px 24px rgba(0, 0, 0, 0.12),
         0 4px 12px rgba(0, 0, 0, 0.08),
@@ -20,13 +20,13 @@
     padding: 8px;
     min-width: 150px;
     max-width: 350px;
-    z-index: var(--idp-z-index-modal);
+    z-index: var(--zjpcy-z-index-modal);
     opacity: 0;
     transform: scale(0.95) translateY(-4px);
     transform-origin: center bottom;
     transition:
-        opacity var(--idp-transition-duration) var(--idp-transition-timing-function),
-        transform var(--idp-transition-duration) var(--idp-transition-timing-function);
+        opacity var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function),
+        transform var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     will-change: transform, opacity;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -34,40 +34,40 @@
 }
 
 /* 显示状态 */
-.idp-popconfirm-visible {
+.zjpcy-popconfirm-visible {
     opacity: 1;
     transform: scale(1) translateY(0);
 }
 
 
-.idp-popconfirm-inner {
+.zjpcy-popconfirm-inner {
     position: relative;
     z-index: 1;
 }
 
-.idp-popconfirm-header {
+.zjpcy-popconfirm-header {
     display: flex;
     align-items: flex-start;
 }
 
-.idp-popconfirm-icon {
+.zjpcy-popconfirm-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 20px;
     height: 20px;
     flex-shrink: 0;
-    color: var(--idp-warning-color);
+    color: var(--zjpcy-warning-color);
     font-size: 18px;
     margin-top: 1px;
 }
 
-.idp-popconfirm-icon .icon {
+.zjpcy-popconfirm-icon .icon {
     fill: currentColor;
 }
 
-.idp-popconfirm-title {
-    color: var(--idp-text-color);
+.zjpcy-popconfirm-title {
+    color: var(--zjpcy-text-color);
     font-size: 14px;
     font-weight: 500;
     line-height: 1.5;
@@ -75,8 +75,8 @@
     letter-spacing: 0.2px;
 }
 
-.idp-popconfirm-description {
-    color: var(--idp-text-color-secondary);
+.zjpcy-popconfirm-description {
+    color: var(--zjpcy-text-color-secondary);
     font-size: 13px;
     line-height: 1.5;
     margin-top: 4px;
@@ -84,7 +84,7 @@
     letter-spacing: 0.1px;
 }
 
-.idp-popconfirm-actions {
+.zjpcy-popconfirm-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
@@ -94,14 +94,14 @@
 /* ============================================
    箭头样式
    ============================================ */
-.idp-popconfirm-arrow {
+.zjpcy-popconfirm-arrow {
     position: absolute;
     width: 10px;
     height: 10px;
     background: linear-gradient(
         135deg,
-        var(--idp-bg-color-white) 0%,
-        var(--idp-bg-color-light) 100%
+        var(--zjpcy-bg-color-white) 0%,
+        var(--zjpcy-bg-color-light) 100%
     );
     border: 1px solid rgba(255, 255, 255, 0.6);
     transform: rotate(180deg);
@@ -110,105 +110,105 @@
 }
 
 /* Top placement - 箭头向上指 */
-.idp-popconfirm-top .idp-popconfirm-arrow,
-.idp-popconfirm-topLeft .idp-popconfirm-arrow,
-.idp-popconfirm-topRight .idp-popconfirm-arrow {
+.zjpcy-popconfirm-top .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-topLeft .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-topRight .zjpcy-popconfirm-arrow {
     clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
 }
 
 /* Bottom placement - 箭头向下指 */
-.idp-popconfirm-bottom .idp-popconfirm-arrow,
-.idp-popconfirm-bottomLeft .idp-popconfirm-arrow,
-.idp-popconfirm-bottomRight .idp-popconfirm-arrow {
+.zjpcy-popconfirm-bottom .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-bottomLeft .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-bottomRight .zjpcy-popconfirm-arrow {
     clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
 }
 
 /* Left placement - 箭头向左指 */
-.idp-popconfirm-left .idp-popconfirm-arrow,
-.idp-popconfirm-leftTop .idp-popconfirm-arrow,
-.idp-popconfirm-leftBottom .idp-popconfirm-arrow {
+.zjpcy-popconfirm-left .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-leftTop .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-leftBottom .zjpcy-popconfirm-arrow {
     clip-path: polygon(100% 0%, 0% 50%, 100% 100%);
 }
 
 /* Right placement - 箭头向右指 */
-.idp-popconfirm-right .idp-popconfirm-arrow,
-.idp-popconfirm-rightTop .idp-popconfirm-arrow,
-.idp-popconfirm-rightBottom .idp-popconfirm-arrow {
+.zjpcy-popconfirm-right .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-rightTop .zjpcy-popconfirm-arrow,
+.zjpcy-popconfirm-rightBottom .zjpcy-popconfirm-arrow {
     clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
 }
 
 /* Top placement */
-.idp-popconfirm-top .idp-popconfirm-arrow {
+.zjpcy-popconfirm-top .zjpcy-popconfirm-arrow {
     bottom: -5px;
     left: 50%;
     margin-left: -5px;
 }
 
 /* Bottom placement */
-.idp-popconfirm-bottom .idp-popconfirm-arrow {
+.zjpcy-popconfirm-bottom .zjpcy-popconfirm-arrow {
     top: -5px;
     left: 50%;
     margin-left: -5px;
 }
 
 /* Left placement */
-.idp-popconfirm-left .idp-popconfirm-arrow {
+.zjpcy-popconfirm-left .zjpcy-popconfirm-arrow {
     right: -5px;
     top: 50%;
     margin-top: -5px;
 }
 
 /* Right placement */
-.idp-popconfirm-right .idp-popconfirm-arrow {
+.zjpcy-popconfirm-right .zjpcy-popconfirm-arrow {
     left: -5px;
     top: 50%;
     margin-top: -5px;
 }
 
 /* TopLeft placement */
-.idp-popconfirm-topLeft .idp-popconfirm-arrow {
+.zjpcy-popconfirm-topLeft .zjpcy-popconfirm-arrow {
     bottom: -5px;
     left: 20px;
 }
 
 /* TopRight placement */
-.idp-popconfirm-topRight .idp-popconfirm-arrow {
+.zjpcy-popconfirm-topRight .zjpcy-popconfirm-arrow {
     bottom: -5px;
     right: 20px;
 }
 
 /* BottomLeft placement */
-.idp-popconfirm-bottomLeft .idp-popconfirm-arrow {
+.zjpcy-popconfirm-bottomLeft .zjpcy-popconfirm-arrow {
     top: -5px;
     left: 20px;
 }
 
 /* BottomRight placement */
-.idp-popconfirm-bottomRight .idp-popconfirm-arrow {
+.zjpcy-popconfirm-bottomRight .zjpcy-popconfirm-arrow {
     top: -5px;
     right: 20px;
 }
 
 /* LeftTop placement */
-.idp-popconfirm-leftTop .idp-popconfirm-arrow {
+.zjpcy-popconfirm-leftTop .zjpcy-popconfirm-arrow {
     right: -5px;
     top: 20px;
 }
 
 /* LeftBottom placement */
-.idp-popconfirm-leftBottom .idp-popconfirm-arrow {
+.zjpcy-popconfirm-leftBottom .zjpcy-popconfirm-arrow {
     right: -5px;
     bottom: 20px;
 }
 
 /* RightTop placement */
-.idp-popconfirm-rightTop .idp-popconfirm-arrow {
+.zjpcy-popconfirm-rightTop .zjpcy-popconfirm-arrow {
     left: -5px;
     top: 20px;
 }
 
 /* RightBottom placement */
-.idp-popconfirm-rightBottom .idp-popconfirm-arrow {
+.zjpcy-popconfirm-rightBottom .zjpcy-popconfirm-arrow {
     left: -5px;
     bottom: 20px;
 }
@@ -218,51 +218,51 @@
    ============================================ */
 
 /* 信息类型 */
-.idp-popconfirm--info::before {
+.zjpcy-popconfirm--info::before {
     background: linear-gradient(
         90deg,
-        var(--idp-info-color) 0%,
+        var(--zjpcy-info-color) 0%,
         #69c0ff 100%
     );
 }
 
-.idp-popconfirm--info .idp-popconfirm-icon {
-    color: var(--idp-info-color);
+.zjpcy-popconfirm--info .zjpcy-popconfirm-icon {
+    color: var(--zjpcy-info-color);
 }
 
 /* 成功类型 */
-.idp-popconfirm--success::before {
+.zjpcy-popconfirm--success::before {
     background: linear-gradient(
         90deg,
-        var(--idp-success-color) 0%,
+        var(--zjpcy-success-color) 0%,
         #95de64 100%
     );
 }
 
-.idp-popconfirm--success .idp-popconfirm-icon {
-    color: var(--idp-success-color);
+.zjpcy-popconfirm--success .zjpcy-popconfirm-icon {
+    color: var(--zjpcy-success-color);
 }
 
 /* 错误/危险类型 */
-.idp-popconfirm--error::before,
-.idp-popconfirm--danger::before {
+.zjpcy-popconfirm--error::before,
+.zjpcy-popconfirm--danger::before {
     background: linear-gradient(
         90deg,
-        var(--idp-error-color) 0%,
+        var(--zjpcy-error-color) 0%,
         #ff7875 100%
     );
 }
 
-.idp-popconfirm--error .idp-popconfirm-icon,
-.idp-popconfirm--danger .idp-popconfirm-icon {
-    color: var(--idp-error-color);
+.zjpcy-popconfirm--error .zjpcy-popconfirm-icon,
+.zjpcy-popconfirm--danger .zjpcy-popconfirm-icon {
+    color: var(--zjpcy-error-color);
 }
 
 /* ============================================
    深色模式支持
    ============================================ */
 @media (prefers-color-scheme: dark) {
-    .idp-popconfirm {
+    .zjpcy-popconfirm {
         background: linear-gradient(
             180deg,
             #2d2d2d 0%,
@@ -275,7 +275,7 @@
             0 2px 4px rgba(0, 0, 0, 0.15);
     }
 
-    .idp-popconfirm-arrow {
+    .zjpcy-popconfirm-arrow {
         background: linear-gradient(
             135deg,
             #2d2d2d 0%,
@@ -284,15 +284,15 @@
         border-color: rgba(255, 255, 255, 0.08);
     }
 
-    .idp-popconfirm-title {
+    .zjpcy-popconfirm-title {
         color: rgba(255, 255, 255, 0.9);
     }
 
-    .idp-popconfirm-description {
+    .zjpcy-popconfirm-description {
         color: rgba(255, 255, 255, 0.6);
     }
 
-    .idp-popconfirm-actions {
+    .zjpcy-popconfirm-actions {
         border-top-color: rgba(255, 255, 255, 0.1);
     }
 }

@@ -1,26 +1,26 @@
-.idp-tabs {
+.zjpcy-tabs {
   width: 100%;
   color: rgba(0, 0, 0, 0.88);
 }
 
-.idp-tabs--top,
-.idp-tabs--bottom {
+.zjpcy-tabs--top,
+.zjpcy-tabs--bottom {
   display: flex;
   flex-direction: column;
 }
 
-.idp-tabs--start,
-.idp-tabs--end {
+.zjpcy-tabs--start,
+.zjpcy-tabs--end {
   display: flex;
   align-items: flex-start;
   gap: 0;
 }
 
-.idp-tabs--end {
+.zjpcy-tabs--end {
   flex-direction: row-reverse;
 }
 
-.idp-tabs-nav-wrapper {
+.zjpcy-tabs-nav-wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -29,14 +29,14 @@
 }
 
 /* 垂直布局时的 nav-wrapper 样式 */
-.idp-tabs--start .idp-tabs-nav-wrapper,
-.idp-tabs--end .idp-tabs-nav-wrapper {
+.zjpcy-tabs--start .zjpcy-tabs-nav-wrapper,
+.zjpcy-tabs--end .zjpcy-tabs-nav-wrapper {
   flex: 0 0 auto;
   width: auto;
   min-width: unset;
 }
 
-.idp-tabs-nav {
+.zjpcy-tabs-nav {
   position: relative;
   display: flex;
   align-items: center;
@@ -48,8 +48,8 @@
   min-width: 0;
 }
 
-.idp-tabs--start .idp-tabs-nav,
-.idp-tabs--end .idp-tabs-nav {
+.zjpcy-tabs--start .zjpcy-tabs-nav,
+.zjpcy-tabs--end .zjpcy-tabs-nav {
   flex-direction: column;
   align-items: stretch;
   flex-wrap: nowrap;
@@ -61,8 +61,8 @@
   max-width: none;
 }
 
-.idp-tabs--top .idp-tabs-nav,
-.idp-tabs--bottom .idp-tabs-nav {
+.zjpcy-tabs--top .zjpcy-tabs-nav,
+.zjpcy-tabs--bottom .zjpcy-tabs-nav {
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
@@ -74,12 +74,12 @@
   transition: scroll-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.idp-tabs--top .idp-tabs-nav::-webkit-scrollbar,
-.idp-tabs--bottom .idp-tabs-nav::-webkit-scrollbar {
+.zjpcy-tabs--top .zjpcy-tabs-nav::-webkit-scrollbar,
+.zjpcy-tabs--bottom .zjpcy-tabs-nav::-webkit-scrollbar {
   display: none;
 }
 
-.idp-tabs-nav__button {
+.zjpcy-tabs-nav__button {
   position: absolute;
   display: flex;
   align-items: center;
@@ -100,13 +100,13 @@
               0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.idp-tabs-nav__button--visible {
+.zjpcy-tabs-nav__button--visible {
   opacity: 1;
   transform: translateY(-50%) scale(1);
   pointer-events: auto;
 }
 
-.idp-tabs-nav__button:hover:not(:disabled) {
+.zjpcy-tabs-nav__button:hover:not(:disabled) {
   background: linear-gradient(135deg, #f0f5ff 0%, #e6f7ff 100%);
   border-color: #91d5ff;
   box-shadow: 0 4px 12px rgba(22, 119, 255, 0.15),
@@ -114,13 +114,13 @@
   transform: translateY(-50%) scale(1.08);
 }
 
-.idp-tabs-nav__button:active:not(:disabled) {
+.zjpcy-tabs-nav__button:active:not(:disabled) {
   transform: translateY(-50%) scale(0.95);
   box-shadow: 0 2px 6px rgba(22, 119, 255, 0.2),
               0 1px 2px rgba(22, 119, 255, 0.15);
 }
 
-.idp-tabs-nav__button:disabled {
+.zjpcy-tabs-nav__button:disabled {
   opacity: 0.3;
   cursor: not-allowed;
   background: #f5f5f5;
@@ -128,29 +128,29 @@
   box-shadow: none;
 }
 
-.idp-tabs-nav__button--left {
+.zjpcy-tabs-nav__button--left {
   left: 4px;
 }
 
-.idp-tabs-nav__button--right {
+.zjpcy-tabs-nav__button--right {
   right: 4px;
 }
 
 /* 图标颜色 */
-.idp-tabs-nav__button .icon {
+.zjpcy-tabs-nav__button .icon {
   color: #595959;
   transition: color 0.3s ease;
 }
 
-.idp-tabs-nav__button:hover:not(:disabled) .icon {
+.zjpcy-tabs-nav__button:hover:not(:disabled) .icon {
   color: #1677ff;
 }
 
-.idp-tabs-nav__button:disabled .icon {
+.zjpcy-tabs-nav__button:disabled .icon {
   color: #bfbfbf;
 }
 
-.idp-tabs-tab {
+.zjpcy-tabs-tab {
   position: relative;
   display: flex;
   align-items: center;
@@ -160,8 +160,8 @@
   padding: 4px 16px;
 }
 
-.idp-tabs--start .idp-tabs-nav,
-.idp-tabs--end .idp-tabs-nav {
+.zjpcy-tabs--start .zjpcy-tabs-nav,
+.zjpcy-tabs--end .zjpcy-tabs-nav {
   flex-direction: column;
   align-items: stretch;
   flex-wrap: nowrap;
@@ -169,7 +169,7 @@
   width: auto;
 }
 
-.idp-tabs-tab {
+.zjpcy-tabs-tab {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -185,24 +185,24 @@
   white-space: nowrap;
 }
 
-.idp-tabs--start .idp-tabs-tab,
-.idp-tabs--end .idp-tabs-tab {
+.zjpcy-tabs--start .zjpcy-tabs-tab,
+.zjpcy-tabs--end .zjpcy-tabs-tab {
   justify-content: flex-start;
   display: flex;
   width: 100%;
   box-sizing: border-box;
 }
 
-.idp-tabs-tab:hover {
+.zjpcy-tabs-tab:hover {
   color: #1677ff;
 }
 
-.idp-tabs-tab--active {
+.zjpcy-tabs-tab--active {
   color: #1677ff;
   background: #fff;
 }
 
-.idp-tabs-indicator {
+.zjpcy-tabs-indicator {
   position: absolute;
   bottom: -1px;
   height: 2px;
@@ -211,8 +211,8 @@
   pointer-events: none;
 }
 
-.idp-tabs--start .idp-tabs-indicator,
-.idp-tabs--end .idp-tabs-indicator {
+.zjpcy-tabs--start .zjpcy-tabs-indicator,
+.zjpcy-tabs--end .zjpcy-tabs-indicator {
   bottom: auto;
   right: -1px;
   width: 2px;
@@ -221,12 +221,12 @@
   border-radius: 2px;
 }
 
-.idp-tabs--end .idp-tabs-indicator {
+.zjpcy-tabs--end .zjpcy-tabs-indicator {
   right: auto;
   left: -1px;
 }
 
-.idp-tabs-tab--disabled {
+.zjpcy-tabs-tab--disabled {
   color: rgba(0, 0, 0, 0.25);
   cursor: not-allowed;
   background: #fafafa;
@@ -234,13 +234,13 @@
   box-shadow: none;
 }
 
-.idp-tabs-tab--disabled:hover {
+.zjpcy-tabs-tab--disabled:hover {
   color: rgba(0, 0, 0, 0.25);
   border-color: #f0f0f0;
   box-shadow: none;
 }
 
-.idp-tabs-tab__close {
+.zjpcy-tabs-tab__close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -251,23 +251,23 @@
   transition: all 0.2s ease;
 }
 
-.idp-tabs-tab__close:hover {
+.zjpcy-tabs-tab__close:hover {
   color: #1677ff;
   background: rgba(26, 41, 128, 0.08);
 }
 
-.idp-tabs-tab__icon {
+.zjpcy-tabs-tab__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-.idp-tabs-tab__icon+.idp-tabs-tab__label {
+.zjpcy-tabs-tab__icon+.zjpcy-tabs-tab__label {
   margin-left: 6px;
 }
 
 /* 拖拽手柄 */
-.idp-tabs-tab__drag-handle {
+.zjpcy-tabs-tab__drag-handle {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -275,20 +275,20 @@
 }
 
 /* 拖拽中的样式 */
-.idp-tabs-tab--dragging {
+.zjpcy-tabs-tab--dragging {
   opacity: 0.5;
   cursor: grabbing !important;
 }
 
 /* 拖拽占位符 */
-.idp-tabs-tab__placeholder {
+.zjpcy-tabs-tab__placeholder {
   background-color: rgba(22, 119, 255, 0.1);
   border: 2px dashed #1677ff;
   border-radius: 8px;
   height: 100%;
 }
 
-.idp-tabs-content {
+.zjpcy-tabs-content {
   min-height: 120px;
   margin-top: 0;
   padding: 16px;
@@ -299,24 +299,24 @@
     -8px 0 12px -10px rgba(0, 0, 0, 0.06);
 }
 
-.idp-tabs-content--top {
+.zjpcy-tabs-content--top {
   border-top: 1px solid #f0f0f0;
 }
 
-.idp-tabs-content--bottom {
+.zjpcy-tabs-content--bottom {
   border-bottom: 1px solid #f0f0f0; 
 }
 
-.idp-tabs-content--start {
+.zjpcy-tabs-content--start {
   border-left: 1px solid #f0f0f0;
 }
 
-.idp-tabs-content--end {
+.zjpcy-tabs-content--end {
   border-right: 1px solid #f0f0f0;
 }
 
-.idp-tabs--start .idp-tabs-content,
-.idp-tabs--end .idp-tabs-content {
+.zjpcy-tabs--start .zjpcy-tabs-content,
+.zjpcy-tabs--end .zjpcy-tabs-content {
   flex: 1;
   border-radius: 0px 8px 8px 0px;
   margin-top: 0;
@@ -326,12 +326,12 @@
   overflow: auto;
 }
 
-.idp-tabs--end .idp-tabs-content {
+.zjpcy-tabs--end .zjpcy-tabs-content {
   border-radius: 8px 0px 0px 8px;
 }
 
 /* 卡片式页签样式 */
-.idp-tabs--card .idp-tabs-nav {
+.zjpcy-tabs--card .zjpcy-tabs-nav {
   gap: 2px;
   padding: 0;
   background: transparent;
@@ -345,11 +345,11 @@
   min-width: 0;
 }
 
-.idp-tabs--card .idp-tabs-nav::-webkit-scrollbar {
+.zjpcy-tabs--card .zjpcy-tabs-nav::-webkit-scrollbar {
   display: none;
 }
 
-.idp-tabs--card .idp-tabs-tab {
+.zjpcy-tabs--card .zjpcy-tabs-tab {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -367,14 +367,14 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.idp-tabs--card .idp-tabs-tab:hover:not(.idp-tabs-tab--disabled) {
+.zjpcy-tabs--card .zjpcy-tabs-tab:hover:not(.zjpcy-tabs-tab--disabled) {
   color: #1677ff;
   background: #f0f5ff;
   border-color: #91d5ff;
   box-shadow: 0 2px 4px rgba(22, 119, 255, 0.1);
 }
 
-.idp-tabs--card .idp-tabs-tab--active {
+.zjpcy-tabs--card .zjpcy-tabs-tab--active {
   background: #1677ff;
   color: #fff;
   border-color: #1677ff;
@@ -387,39 +387,39 @@
   z-index: 2;
 }
 
-.idp-tabs--card .idp-tabs-tab--active:hover {
+.zjpcy-tabs--card .zjpcy-tabs-tab--active:hover {
   background: #4096ff;
   border-color: #4096ff;
 }
 
-.idp-tabs--card .idp-tabs-tab--disabled {
+.zjpcy-tabs--card .zjpcy-tabs-tab--disabled {
   background: #fafafa;
   color: rgba(0, 0, 0, 0.25);
   border-color: #e8e8e8;
   cursor: not-allowed;
 }
 
-.idp-tabs--card .idp-tabs-tab--disabled:hover {
+.zjpcy-tabs--card .zjpcy-tabs-tab--disabled:hover {
   background: #fafafa;
   color: rgba(0, 0, 0, 0.25);
   border-color: #e8e8e8;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.idp-tabs--card .idp-tabs-tab__close {
+.zjpcy-tabs--card .zjpcy-tabs-tab__close {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.idp-tabs--card .idp-tabs-tab--active .idp-tabs-tab__close:hover {
+.zjpcy-tabs--card .zjpcy-tabs-tab--active .zjpcy-tabs-tab__close:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.2);
 }
 
-.idp-tabs--card .idp-tabs-indicator {
+.zjpcy-tabs--card .zjpcy-tabs-indicator {
   display: none;
 }
 
-.idp-tabs--card .idp-tabs-content {
+.zjpcy-tabs--card .zjpcy-tabs-content {
   border-top: 1px solid #f0f0f0;
   border-radius: 0 0 8px 8px;
   background: #fff;
@@ -430,7 +430,7 @@
 }
 
 /* 卡片式页签的增加按钮 */
-.idp-tabs--card .idp-tabs-tab--add {
+.zjpcy-tabs--card .zjpcy-tabs-tab--add {
   background: #fafafa;
   border: 1px dashed #bfbfbf;
   color: #8c8cff;
@@ -440,20 +440,20 @@
   z-index: 5;
 }
 
-.idp-tabs--card .idp-tabs-tab--add:hover {
+.zjpcy-tabs--card .zjpcy-tabs-tab--add:hover {
   background: #e6f7ff;
   border-color: #91d5ff;
   color: #1677ff;
   box-shadow: 0 2px 6px rgba(22, 119, 255, 0.1);
 }
 
-.idp-tabs--card .idp-tabs-tab--add:active {
+.zjpcy-tabs--card .zjpcy-tabs-tab--add:active {
   transform: scale(0.95);
   box-shadow: 0 1px 3px rgba(22, 119, 255, 0.15);
 }
 
 /* 当增加按钮接近右端时，固定在可视区域 */
-.idp-tabs--card .idp-tabs-tab--add .idp-tabs-tab-add-sticky {
+.zjpcy-tabs--card .zjpcy-tabs-tab--add .zjpcy-tabs-tab-add-sticky {
   position: sticky;
   right: 0;
 }

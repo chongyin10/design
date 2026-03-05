@@ -11,9 +11,9 @@
     justify-content: center;
     line-height: 1;
     background-color: transparent;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     position: relative;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 /* ============================================
@@ -22,19 +22,19 @@
 .icon {
     display: inline-block;
     vertical-align: middle;
-    fill: var(--idp-icon-fill);
-    transition: fill var(--idp-transition-duration) ease, transform var(--idp-transition-duration) ease;
+    fill: var(--zjpcy-icon-fill);
+    transition: fill var(--zjpcy-transition-duration) ease, transform var(--zjpcy-transition-duration) ease;
     cursor: pointer;
 }
 
 /* 图标悬停效果 */
 .icon-container:hover .icon {
-    fill: var(--idp-icon-hover-fill);
+    fill: var(--zjpcy-icon-hover-fill);
 }
 
 /* 单独使用 icon-container 的通用悬停效果（不包含特定类组合） */
 .icon-container:hover .icon {
-    fill: var(--idp-icon-hover-fill);
+    fill: var(--zjpcy-icon-hover-fill);
 }
 
 /* ============================================
@@ -43,16 +43,16 @@
 
 /* Primary 主题 */
 .icon-theme-primary .icon {
-    fill: var(--idp-primary-color);
+    fill: var(--zjpcy-primary-color);
 }
 
 .icon-theme-primary:hover .icon {
-    fill: var(--idp-primary-hover-color);
+    fill: var(--zjpcy-primary-hover-color);
 }
 
 /* Success 主题 */
 .icon-theme-success .icon {
-    fill: var(--idp-success-color);
+    fill: var(--zjpcy-success-color);
 }
 
 .icon-theme-success:hover .icon {
@@ -61,7 +61,7 @@
 
 /* Warning 主题 */
 .icon-theme-warning .icon {
-    fill: var(--idp-warning-color);
+    fill: var(--zjpcy-warning-color);
 }
 
 .icon-theme-warning:hover .icon {
@@ -70,7 +70,7 @@
 
 /* Danger 主题 */
 .icon-theme-danger .icon {
-    fill: var(--idp-error-color);
+    fill: var(--zjpcy-error-color);
 }
 
 .icon-theme-danger:hover .icon {
@@ -79,20 +79,20 @@
 
 /* Info 主题 */
 .icon-theme-info .icon {
-    fill: var(--idp-info-color);
+    fill: var(--zjpcy-info-color);
 }
 
 .icon-theme-info:hover .icon {
-    fill: var(--idp-primary-hover-color);
+    fill: var(--zjpcy-primary-hover-color);
 }
 
 /* Secondary 主题 */
 .icon-theme-secondary .icon {
-    fill: var(--idp-text-color-secondary);
+    fill: var(--zjpcy-text-color-secondary);
 }
 
 .icon-theme-secondary:hover .icon {
-    fill: var(--idp-text-color);
+    fill: var(--zjpcy-text-color);
 }
 
 /* ============================================
@@ -141,21 +141,21 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color-light) 100%);
-    border: 1px solid var(--idp-border-color-extra-light);
-    box-shadow: var(--idp-shadow-extra-light);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color-light) 100%);
+    border: 1px solid var(--zjpcy-border-color-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
 .icon-circle:hover {
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
-    border-color: var(--idp-primary-hover-color);
-    box-shadow: var(--idp-shadow-sm);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
+    border-color: var(--zjpcy-primary-hover-color);
+    box-shadow: var(--zjpcy-shadow-sm);
     transform: translateY(-1px);
 }
 
 .icon-circle:active {
     transform: translateY(0);
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
 /* 圆形图标按钮 - 尺寸 */
@@ -175,36 +175,36 @@
 .icon-state-disabled,
 .icon-state-disabled .icon {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
 .icon-state-disabled:hover .icon {
-    fill: var(--idp-icon-fill);
+    fill: var(--zjpcy-icon-fill);
 }
 
 /* 禁用状态下各主题 */
 .icon-state-disabled.icon-theme-primary:hover .icon {
-    fill: var(--idp-primary-color);
+    fill: var(--zjpcy-primary-color);
 }
 
 .icon-state-disabled.icon-theme-success:hover .icon {
-    fill: var(--idp-success-color);
+    fill: var(--zjpcy-success-color);
 }
 
 .icon-state-disabled.icon-theme-warning:hover .icon {
-    fill: var(--idp-warning-color);
+    fill: var(--zjpcy-warning-color);
 }
 
 .icon-state-disabled.icon-theme-danger:hover .icon {
-    fill: var(--idp-error-color);
+    fill: var(--zjpcy-error-color);
 }
 
 .icon-state-disabled.icon-theme-info:hover .icon {
-    fill: var(--idp-info-color);
+    fill: var(--zjpcy-info-color);
 }
 
 .icon-state-disabled.icon-theme-secondary:hover .icon {
-    fill: var(--idp-text-color-secondary);
+    fill: var(--zjpcy-text-color-secondary);
 }
 
 /* ============================================

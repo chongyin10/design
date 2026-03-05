@@ -6,11 +6,11 @@ import './Spin.css';
 const DefaultLoadingIcon: React.FC<{ size: number; sizeType: string }> = ({ size, sizeType }) => (
     <svg
         viewBox="0 0 24 24"
-        className={`idp-spin-icon idp-spin-icon-${sizeType}`}
+        className={`zjpcy-spin-icon zjpcy-spin-icon-${sizeType}`}
         style={{ width: size, height: size }}
     >
         <circle
-            className="idp-spin-track"
+            className="zjpcy-spin-track"
             cx="12"
             cy="12"
             r="10"
@@ -18,7 +18,7 @@ const DefaultLoadingIcon: React.FC<{ size: number; sizeType: string }> = ({ size
             strokeWidth="2"
         />
         <circle
-            className="idp-spin-indicator"
+            className="zjpcy-spin-indicator"
             cx="12"
             cy="12"
             r="10"
@@ -78,9 +78,9 @@ const Spin: React.FC<SpinProps> = ({
 
     // 渲染加载内容
     const renderSpinContent = () => (
-        <div className={`idp-spin-content ${tip ? 'idp-spin-content-tip' : ''}`}>
+        <div className={`zjpcy-spin-content ${tip ? 'zjpcy-spin-content-tip' : ''}`}>
             {renderIndicator}
-            {tip && <div className={`idp-spin-tip idp-spin-tip-${size}`}>{tip}</div>}
+            {tip && <div className={`zjpcy-spin-tip zjpcy-spin-tip-${size}`}>{tip}</div>}
         </div>
     );
 
@@ -88,7 +88,7 @@ const Spin: React.FC<SpinProps> = ({
     if (fullscreen) {
         if (!internalSpinning || !showSpinner) return null;
         return (
-            <div className={`idp-spin-fullscreen ${className}`} style={style}>
+            <div className={`zjpcy-spin-fullscreen ${className}`} style={style}>
                 {renderSpinContent()}
             </div>
         );
@@ -98,12 +98,12 @@ const Spin: React.FC<SpinProps> = ({
     if (children) {
         return (
             <div
-                className={`idp-spin-nested-wrapper ${className}`}
+                className={`zjpcy-spin-nested-wrapper ${className}`}
                 style={style}
             >
                 {children}
                 {internalSpinning && showSpinner && (
-                    <div className="idp-spin-mask">
+                    <div className="zjpcy-spin-mask">
                         {renderSpinContent()}
                     </div>
                 )}
@@ -115,7 +115,7 @@ const Spin: React.FC<SpinProps> = ({
     if (!internalSpinning || !showSpinner) return null;
 
     return (
-        <div className={`idp-spin ${className}`} style={style}>
+        <div className={`zjpcy-spin ${className}`} style={style}>
             {renderSpinContent()}
         </div>
     );

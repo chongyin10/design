@@ -217,7 +217,7 @@ const Tooltip: React.FC<TooltipProps> = ({
             {shouldRender && title && (
                 <div
                     ref={tooltipRef}
-                    className={`idp-tooltip idp-tooltip-${placement} ${isAnimating ? 'is-visible' : ''} ${className}`}
+                    className={`zjpcy-tooltip zjpcy-tooltip-${placement} ${isAnimating ? 'is-visible' : ''} ${className}`}
                     style={{
                         position: 'fixed',
                         top: position.top,
@@ -236,9 +236,9 @@ const Tooltip: React.FC<TooltipProps> = ({
                     } : undefined}
                     onMouseLeave={trigger === 'hover' && !isControlled ? hide : undefined}
                 >
-                    <div className="idp-tooltip-content">{title}</div>
+                    <div className="zjpcy-tooltip-content">{title}</div>
                     <div
-                        className="idp-tooltip-arrow"
+                        className="zjpcy-tooltip-arrow"
                         style={{ backgroundColor: backgroundColor }}
                     />
                 </div>

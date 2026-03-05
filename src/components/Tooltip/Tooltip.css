@@ -8,7 +8,7 @@
     --tooltip-arrow-size: 6px;
 }
 
-.idp-tooltip {
+.zjpcy-tooltip {
     position: fixed;
     background-color: var(--tooltip-bg-color);
     color: var(--tooltip-text-color);
@@ -29,54 +29,54 @@
                 transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.idp-tooltip.is-visible {
+.zjpcy-tooltip.is-visible {
     opacity: 1;
     transform: scale(1);
 }
 
 /* 不同方向的动画偏移 */
-.idp-tooltip-top {
+.zjpcy-tooltip-top {
     transform-origin: center bottom;
     transform: scale(0.95) translateY(8px);
 }
 
-.idp-tooltip-top.is-visible {
+.zjpcy-tooltip-top.is-visible {
     transform: scale(1) translateY(0);
 }
 
-.idp-tooltip-bottom {
+.zjpcy-tooltip-bottom {
     transform-origin: center top;
     transform: scale(0.95) translateY(-8px);
 }
 
-.idp-tooltip-bottom.is-visible {
+.zjpcy-tooltip-bottom.is-visible {
     transform: scale(1) translateY(0);
 }
 
-.idp-tooltip-left {
+.zjpcy-tooltip-left {
     transform-origin: right center;
     transform: scale(0.95) translateX(8px);
 }
 
-.idp-tooltip-left.is-visible {
+.zjpcy-tooltip-left.is-visible {
     transform: scale(1) translateX(0);
 }
 
-.idp-tooltip-right {
+.zjpcy-tooltip-right {
     transform-origin: left center;
     transform: scale(0.95) translateX(-8px);
 }
 
-.idp-tooltip-right.is-visible {
+.zjpcy-tooltip-right.is-visible {
     transform: scale(1) translateX(0);
 }
 
-.idp-tooltip-content {
+.zjpcy-tooltip-content {
     position: relative;
     z-index: 1;
 }
 
-.idp-tooltip-arrow {
+.zjpcy-tooltip-arrow {
     position: absolute;
     width: var(--tooltip-arrow-size);
     height: var(--tooltip-arrow-size);
@@ -85,28 +85,28 @@
 }
 
 /* Top placement */
-.idp-tooltip-top .idp-tooltip-arrow {
+.zjpcy-tooltip-top .zjpcy-tooltip-arrow {
     bottom: calc(var(--tooltip-arrow-size) * -0.5);
     left: 50%;
     margin-left: calc(var(--tooltip-arrow-size) * -0.5);
 }
 
 /* Bottom placement */
-.idp-tooltip-bottom .idp-tooltip-arrow {
+.zjpcy-tooltip-bottom .zjpcy-tooltip-arrow {
     top: calc(var(--tooltip-arrow-size) * -0.5);
     left: 50%;
     margin-left: calc(var(--tooltip-arrow-size) * -0.5);
 }
 
 /* Left placement */
-.idp-tooltip-left .idp-tooltip-arrow {
+.zjpcy-tooltip-left .zjpcy-tooltip-arrow {
     right: calc(var(--tooltip-arrow-size) * -0.5);
     top: 50%;
     margin-top: calc(var(--tooltip-arrow-size) * -0.5);
 }
 
 /* Right placement */
-.idp-tooltip-right .idp-tooltip-arrow {
+.zjpcy-tooltip-right .zjpcy-tooltip-arrow {
     left: calc(var(--tooltip-arrow-size) * -0.5);
     top: 50%;
     margin-top: calc(var(--tooltip-arrow-size) * -0.5);

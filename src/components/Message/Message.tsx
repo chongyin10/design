@@ -44,23 +44,23 @@ const Message: React.FC<MessageProps> = ({
   const getIconColor = () => {
     switch (type) {
       case 'success':
-        return 'var(--idp-success-color)';
+        return 'var(--zjpcy-success-color)';
       case 'warning':
-        return 'var(--idp-warning-color)';
+        return 'var(--zjpcy-warning-color)';
       case 'error':
-        return 'var(--idp-error-color)';
+        return 'var(--zjpcy-error-color)';
       case 'info':
-        return 'var(--idp-primary-color)';
+        return 'var(--zjpcy-primary-color)';
       default:
-        return 'var(--idp-primary-color)';
+        return 'var(--zjpcy-primary-color)';
     }
   };
 
   return (
-    <div className={`idp-message idp-message--${type} ${className} ${visible ? 'idp-message--show' : ''}`} style={style}>
-      <div className="idp-message-content">
+    <div className={`zjpcy-message zjpcy-message--${type} ${className} ${visible ? 'zjpcy-message--show' : ''}`} style={style}>
+      <div className="zjpcy-message-content">
         <Icon type={getIconType()} size={20} color={getIconColor()} />
-        <span className="idp-message-text">{content}</span>
+        <span className="zjpcy-message-text">{content}</span>
       </div>
     </div>
   );

@@ -230,8 +230,8 @@ export const Slider: React.FC<SliderProps> = ({
   }, [markEntries, currentValue]);
   
   // 获取 style 中的 CSS 变量值（如果存在）
-  const styleTrackColor = style && (style as any)['--idp-slider-track-filled-bg'];
-  const styleHandleColor = style && (style as any)['--idp-slider-handle-border'];
+  const styleTrackColor = style && (style as any)['--zjpcy-slider-track-filled-bg'];
+  const styleHandleColor = style && (style as any)['--zjpcy-slider-handle-border'];
   
   // 判断是否可以使用 gradient
   const canUseGradient = gradient &&
@@ -247,8 +247,8 @@ export const Slider: React.FC<SliderProps> = ({
     <div
       className={`slider-container ${disabled ? 'slider-container-disabled' : ''} ${isDragging ? 'slider-container-dragging' : ''} ${className}`}
       style={{
-        ['--idp-slider-track-filled-bg' as any]: effectiveTrackColor,
-        ['--idp-slider-handle-border' as any]: `2px solid ${effectiveHandleColor}`,
+        ['--zjpcy-slider-track-filled-bg' as any]: effectiveTrackColor,
+        ['--zjpcy-slider-handle-border' as any]: `2px solid ${effectiveHandleColor}`,
         ...style
       }}
     >

@@ -9,13 +9,13 @@ import { CSSProperties } from 'react';
 export const treeContainerStyle: CSSProperties = {
   boxSizing: 'border-box',
   margin: 0,
-  padding: 'var(--idp-spacing-sm)',
+  padding: 'var(--zjpcy-spacing-sm)',
   fontSize: 14,
   lineHeight: 1.5715,
   listStyle: 'none',
-  color: 'var(--idp-text-color)',
-  background: 'var(--idp-bg-color-white)',
-  borderRadius: 'var(--idp-border-radius-lg)',
+  color: 'var(--zjpcy-text-color)',
+  background: 'var(--zjpcy-bg-color-white)',
+  borderRadius: 'var(--zjpcy-border-radius-lg)',
 };
 
 // ===== Node Styles =====
@@ -37,12 +37,12 @@ export const treeTreenodeStyle: CSSProperties = {
   whiteSpace: 'nowrap',
   fontSize: 14,
   lineHeight: 1.5715,
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
 };
 
 export const treeNodeDisabledStyle: CSSProperties = {
   cursor: 'not-allowed',
-  opacity: 'var(--idp-opacity-disabled)',
+  opacity: 'var(--zjpcy-opacity-disabled)',
 };
 
 // ===== Content Styles =====
@@ -50,24 +50,24 @@ export const treeNodeDisabledStyle: CSSProperties = {
 export const treeNodeContentStyle: CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
-  padding: '4px var(--idp-spacing-sm)',
-  borderRadius: 'var(--idp-border-radius-md)',
+  padding: '4px var(--zjpcy-spacing-sm)',
+  borderRadius: 'var(--zjpcy-border-radius-md)',
   cursor: 'pointer',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
   userSelect: 'none',
   position: 'relative',
   overflow: 'hidden',
 };
 
 export const treeNodeContentHoverStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%)',
+  background: 'linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%)',
 };
 
 export const treeNodeSelectedStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.08) 100%)',
-  color: 'var(--idp-primary-color)',
+  background: 'linear-gradient(135deg, var(--zjpcy-primary-light-color) 0%, rgba(24, 144, 255, 0.08) 100%)',
+  color: 'var(--zjpcy-primary-color)',
   fontWeight: 500,
-  boxShadow: 'var(--idp-shadow-extra-light)',
+  boxShadow: 'var(--zjpcy-shadow-extra-light)',
 };
 
 export const treeNodeSelectedHoverStyle: CSSProperties = {
@@ -99,14 +99,14 @@ export const treeSwitcherStyle: CSSProperties = {
   background: 'transparent',
   cursor: 'pointer',
   outline: 'none',
-  borderRadius: 'var(--idp-border-radius-sm)',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
-  color: 'var(--idp-text-color-tertiary)',
+  borderRadius: 'var(--zjpcy-border-radius-sm)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
+  color: 'var(--zjpcy-text-color-tertiary)',
 };
 
 export const treeSwitcherHoverStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color) 100%)',
-  color: 'var(--idp-text-color)',
+  background: 'linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color) 100%)',
+  color: 'var(--zjpcy-text-color)',
 };
 
 export const treeSwitcherCloseStyle: CSSProperties = {
@@ -129,33 +129,33 @@ export const treeCheckboxStyle: CSSProperties = {
   margin: '0 8px 0 0',
   padding: 0,
   verticalAlign: 'middle',
-  border: '2px solid var(--idp-border-color-extra-light)',
-  borderRadius: 'var(--idp-border-radius-sm)',
-  background: 'var(--idp-bg-color-white)',
+  border: '2px solid var(--zjpcy-border-color-extra-light)',
+  borderRadius: 'var(--zjpcy-border-radius-sm)',
+  background: 'var(--zjpcy-bg-color-white)',
   cursor: 'pointer',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
   boxSizing: 'border-box',
 };
 
 export const treeCheckboxHoverStyle: CSSProperties = {
-  borderColor: 'var(--idp-primary-color)',
-  boxShadow: 'var(--idp-input-box-shadow-hover)',
+  borderColor: 'var(--zjpcy-primary-color)',
+  boxShadow: 'var(--zjpcy-input-box-shadow-hover)',
 };
 
 export const treeCheckboxCheckedStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%)',
-  borderColor: 'var(--idp-primary-color)',
+  background: 'linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%)',
+  borderColor: 'var(--zjpcy-primary-color)',
 };
 
 export const treeCheckboxIndeterminateStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%)',
-  borderColor: 'var(--idp-primary-color)',
+  background: 'linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%)',
+  borderColor: 'var(--zjpcy-primary-color)',
 };
 
 export const treeCheckboxDisabledStyle: CSSProperties = {
   cursor: 'not-allowed',
-  opacity: 'var(--idp-opacity-disabled)',
-  background: 'var(--idp-bg-color-light)',
+  opacity: 'var(--zjpcy-opacity-disabled)',
+  background: 'var(--zjpcy-bg-color-light)',
 };
 
 // ===== Icon Styles =====
@@ -169,12 +169,12 @@ export const treeIconStyle: CSSProperties = {
   margin: '0 6px 0 0',
   fontSize: 16,
   verticalAlign: 'middle',
-  color: 'var(--idp-text-color-tertiary)',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  color: 'var(--zjpcy-text-color-tertiary)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
 };
 
 export const treeIconSelectedStyle: CSSProperties = {
-  color: 'var(--idp-primary-color)',
+  color: 'var(--zjpcy-primary-color)',
 };
 
 // ===== Title Styles =====
@@ -185,7 +185,7 @@ export const treeTitleStyle: CSSProperties = {
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   whiteSpace: 'nowrap',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
 };
 
 // ===== Child Tree Styles =====
@@ -211,45 +211,45 @@ export const treeLoadingStyle: CSSProperties = {
   justifyContent: 'center',
   width: 24,
   height: 24,
-  color: 'var(--idp-primary-color)',
+  color: 'var(--zjpcy-primary-color)',
 };
 
 export const treeLoadingIconStyle: CSSProperties = {
-  animation: 'idp-tree-spin 1s linear infinite',
+  animation: 'zjpcy-tree-spin 1s linear infinite',
 };
 
 // ===== Search Styles =====
 
 export const treeSearchStyle: CSSProperties = {
-  padding: 'var(--idp-spacing-sm) var(--idp-spacing-md)',
-  marginBottom: 'var(--idp-spacing-sm)',
-  background: 'linear-gradient(135deg, var(--idp-bg-color-light) 0%, var(--idp-bg-color-white) 100%)',
-  borderRadius: 'var(--idp-border-radius-lg)',
-  border: '1px solid var(--idp-border-color-extra-light)',
-  boxShadow: 'var(--idp-shadow-extra-light)',
+  padding: 'var(--zjpcy-spacing-sm) var(--zjpcy-spacing-md)',
+  marginBottom: 'var(--zjpcy-spacing-sm)',
+  background: 'linear-gradient(135deg, var(--zjpcy-bg-color-light) 0%, var(--zjpcy-bg-color-white) 100%)',
+  borderRadius: 'var(--zjpcy-border-radius-lg)',
+  border: '1px solid var(--zjpcy-border-color-extra-light)',
+  boxShadow: 'var(--zjpcy-shadow-extra-light)',
 };
 
 export const treeSearchInputStyle: CSSProperties = {
   boxSizing: 'border-box',
   width: '100%',
-  padding: 'var(--idp-spacing-sm) var(--idp-spacing-md)',
-  border: '1px solid var(--idp-input-border)',
-  borderRadius: 'var(--idp-border-radius-lg)',
+  padding: 'var(--zjpcy-spacing-sm) var(--zjpcy-spacing-md)',
+  border: '1px solid var(--zjpcy-input-border)',
+  borderRadius: 'var(--zjpcy-border-radius-lg)',
   fontSize: 14,
   outline: 'none',
-  transition: 'all var(--idp-transition-duration) var(--idp-transition-timing-function)',
-  background: 'var(--idp-bg-color-white)',
-  boxShadow: 'var(--idp-shadow-extra-light)',
+  transition: 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)',
+  background: 'var(--zjpcy-bg-color-white)',
+  boxShadow: 'var(--zjpcy-shadow-extra-light)',
 };
 
 export const treeSearchInputFocusStyle: CSSProperties = {
-  borderColor: 'var(--idp-input-border-focus)',
-  boxShadow: 'var(--idp-input-box-shadow-focus)',
+  borderColor: 'var(--zjpcy-input-border-focus)',
+  boxShadow: 'var(--zjpcy-input-box-shadow-focus)',
 };
 
 export const treeSearchInputHoverStyle: CSSProperties = {
-  borderColor: 'var(--idp-input-border-hover)',
-  boxShadow: 'var(--idp-input-box-shadow-hover)',
+  borderColor: 'var(--zjpcy-input-border-hover)',
+  boxShadow: 'var(--zjpcy-input-box-shadow-hover)',
 };
 
 // ===== Highlight Styles =====
@@ -257,10 +257,10 @@ export const treeSearchInputHoverStyle: CSSProperties = {
 export const treeHighlightStyle: CSSProperties = {
   background: 'linear-gradient(120deg, #ffe58f 0%, #ffd666 100%)',
   padding: '1px 4px',
-  borderRadius: 'var(--idp-border-radius-sm)',
+  borderRadius: 'var(--zjpcy-border-radius-sm)',
   fontWeight: 500,
   color: '#874d00',
-  boxShadow: 'var(--idp-shadow-extra-light)',
+  boxShadow: 'var(--zjpcy-shadow-extra-light)',
 };
 
 // ===== Empty State Styles =====
@@ -268,7 +268,7 @@ export const treeHighlightStyle: CSSProperties = {
 export const treeEmptyStyle: CSSProperties = {
   padding: 24,
   textAlign: 'center',
-  color: 'var(--idp-text-color-tertiary)',
+  color: 'var(--zjpcy-text-color-tertiary)',
   fontSize: 14,
 };
 
@@ -289,8 +289,8 @@ export const treeDraggingStyle: CSSProperties = {
 };
 
 export const treeDragOverStyle: CSSProperties = {
-  background: 'linear-gradient(135deg, var(--idp-primary-light-color) 0%, rgba(24, 144, 255, 0.12) 100%)',
-  boxShadow: 'inset 0 0 0 2px var(--idp-primary-color)',
+  background: 'linear-gradient(135deg, var(--zjpcy-primary-light-color) 0%, rgba(24, 144, 255, 0.12) 100%)',
+  boxShadow: 'inset 0 0 0 2px var(--zjpcy-primary-color)',
 };
 
 export const treeDropTargetStyle: CSSProperties = {
@@ -305,7 +305,7 @@ export const treeLineStyle: CSSProperties = {
   left: 10,
   bottom: 14,
   width: 1,
-  background: 'linear-gradient(to bottom, var(--idp-border-color), transparent)',
+  background: 'linear-gradient(to bottom, var(--zjpcy-border-color), transparent)',
 };
 
 export const treeLinePointStyle: CSSProperties = {
@@ -314,7 +314,7 @@ export const treeLinePointStyle: CSSProperties = {
   top: '50%',
   width: 8,
   height: 1,
-  backgroundColor: 'var(--idp-border-color)',
+  backgroundColor: 'var(--zjpcy-border-color)',
   transform: 'translateY(-50%)',
 };
 

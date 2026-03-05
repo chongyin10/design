@@ -99,24 +99,24 @@ const Radio: React.FC<RadioProps> & { Group: React.FC<RadioGroupProps> } = ({
     };
 
     const classes = classNames(
-        'idp-radio',
+        'zjpcy-radio',
         {
-            'idp-radio--checked': isChecked,
-            'idp-radio--unchecked': !isChecked,
-            'idp-radio--disabled': disabled || (isGroupMode && groupContext.disabled),
-            'idp-radio--disabled-checked': isChecked && (disabled || (isGroupMode && groupContext.disabled)),
-            [`idp-radio--${finalSize}`]: finalSize,
-            'idp-radio--button': isButtonType
+            'zjpcy-radio--checked': isChecked,
+            'zjpcy-radio--unchecked': !isChecked,
+            'zjpcy-radio--disabled': disabled || (isGroupMode && groupContext.disabled),
+            'zjpcy-radio--disabled-checked': isChecked && (disabled || (isGroupMode && groupContext.disabled)),
+            [`zjpcy-radio--${finalSize}`]: finalSize,
+            'zjpcy-radio--button': isButtonType
         },
         className
     );
 
     return (
         <label ref={radioRef} className={classes} style={style}>
-            <div className="idp-radio-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
+            <div className="zjpcy-radio-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
                 {label && (
                     <div
-                        className={`idp-radio-label ${labelClassName}`}
+                        className={`zjpcy-radio-label ${labelClassName}`}
                         style={{
                             marginRight: typeof labelGap === 'number' ? `${labelGap}px` : labelGap,
                             ...labelStyle
@@ -128,15 +128,15 @@ const Radio: React.FC<RadioProps> & { Group: React.FC<RadioGroupProps> } = ({
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     <input
                         type="radio"
-                        className="idp-radio__input"
+                        className="zjpcy-radio__input"
                         checked={isChecked}
                         onChange={handleChange}
                         disabled={disabled || (isGroupMode && groupContext.disabled)}
                         value={value}
                     />
                     {/* 按钮类型时隐藏span元素 */}
-                    {!isButtonType && <span className="idp-radio__inner"></span>}
-                    {children && <span className="idp-radio__label">{children}</span>}
+                    {!isButtonType && <span className="zjpcy-radio__inner"></span>}
+                    {children && <span className="zjpcy-radio__label">{children}</span>}
                 </div>
             </div>
         </label>
@@ -236,13 +236,13 @@ Radio.Group = ({
     };
 
     const classes = classNames(
-        'idp-radio-group',
+        'zjpcy-radio-group',
         {
-            'idp-radio-group--button': type === 'button',
-            [`idp-radio-group--${size}`]: size,
-            'idp-radio-group--button-large': type === 'button' && size === 'large',
-            'idp-radio-group--button-middle': type === 'button' && size === 'middle',
-            'idp-radio-group--button-small': type === 'button' && size === 'small'
+            'zjpcy-radio-group--button': type === 'button',
+            [`zjpcy-radio-group--${size}`]: size,
+            'zjpcy-radio-group--button-large': type === 'button' && size === 'large',
+            'zjpcy-radio-group--button-middle': type === 'button' && size === 'middle',
+            'zjpcy-radio-group--button-small': type === 'button' && size === 'small'
         },
         className
     );
@@ -262,7 +262,7 @@ Radio.Group = ({
             <div ref={groupRef} className={classes} style={style}>
                 {type === 'button' && (
                     <div
-                        className="idp-radio-group__indicator"
+                        className="zjpcy-radio-group__indicator"
                         style={{
                             width: indicatorStyle.width,
                             height: indicatorStyle.height,

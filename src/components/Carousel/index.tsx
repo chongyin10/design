@@ -351,26 +351,26 @@ const Carousel: React.FC<CarouselProps> = ({
 
   // 容器类名
   const containerClasses = classNames(
-    'idp-carousel',
-    `idp-carousel--${effect}`,
-    `idp-carousel--${direction}`,
+    'zjpcy-carousel',
+    `zjpcy-carousel--${effect}`,
+    `zjpcy-carousel--${direction}`,
     {
-      'idp-carousel--hover': isHovering,
-      'idp-carousel--raining': isRaining,
+      'zjpcy-carousel--hover': isHovering,
+      'zjpcy-carousel--raining': isRaining,
     },
     className
   );
 
   // 内容容器类名
   const contentClasses = classNames(
-    'idp-carousel__content',
+    'zjpcy-carousel__content',
     contentClassName
   );
 
   // 指示器容器类名
   const indicatorsClasses = classNames(
-    'idp-carousel__indicators',
-    `idp-carousel__indicators--${indicatorPosition}`
+    'zjpcy-carousel__indicators',
+    `zjpcy-carousel__indicators--${indicatorPosition}`
   );
 
   // 如果没有项目，返回空
@@ -413,11 +413,11 @@ const Carousel: React.FC<CarouselProps> = ({
         {items.map((item, index) => {
           const isActive = index === currentIndex;
           const diff = index - currentIndex;
-          const itemClasses = classNames('idp-carousel__item', {
-            'idp-carousel__item--active': isActive,
-            'idp-carousel__item--prev': diff === -1,
-            'idp-carousel__item--next': diff === 1,
-            'idp-carousel__item--exit': effect === 'book' && diff === -1,
+          const itemClasses = classNames('zjpcy-carousel__item', {
+            'zjpcy-carousel__item--active': isActive,
+            'zjpcy-carousel__item--prev': diff === -1,
+            'zjpcy-carousel__item--next': diff === 1,
+            'zjpcy-carousel__item--exit': effect === 'book' && diff === -1,
           });
 
           return (
@@ -444,23 +444,23 @@ const Carousel: React.FC<CarouselProps> = ({
                 item.render()
               ) : (
                 <div
-                  className="idp-carousel__item-inner"
+                  className="zjpcy-carousel__item-inner"
                   onClick={() => handleItemClick(item, index)}
                   style={{ cursor: item.link || onItemClick ? 'pointer' : 'default' }}
                 >
                   <img
                     src={item.image}
                     alt={typeof item.title === 'string' ? item.title : ''}
-                    className="idp-carousel__image"
+                    className="zjpcy-carousel__image"
                     draggable={false}
                   />
                   {(item.title || item.description) && (
-                    <div className={classNames('idp-carousel__info', `idp-carousel__info--${item.infoPosition || 'bottom'}`)}>
+                    <div className={classNames('zjpcy-carousel__info', `zjpcy-carousel__info--${item.infoPosition || 'bottom'}`)}>
                       {item.title && (
-                        <div className="idp-carousel__title">{item.title}</div>
+                        <div className="zjpcy-carousel__title">{item.title}</div>
                       )}
                       {item.description && (
-                        <div className="idp-carousel__description">
+                        <div className="zjpcy-carousel__description">
                           {item.description}
                         </div>
                       )}
@@ -477,7 +477,7 @@ const Carousel: React.FC<CarouselProps> = ({
       {showArrows && totalItems > 1 && (
         <>
           <button
-            className={classNames('idp-carousel__arrow', 'idp-carousel__arrow--prev')}
+            className={classNames('zjpcy-carousel__arrow', 'zjpcy-carousel__arrow--prev')}
             onClick={goPrev}
             aria-label="Previous slide"
             type="button"
@@ -487,7 +487,7 @@ const Carousel: React.FC<CarouselProps> = ({
               : (prevIcon ?? <Icon type="chevron-left" size={20} />)}
           </button>
           <button
-            className={classNames('idp-carousel__arrow', 'idp-carousel__arrow--next')}
+            className={classNames('zjpcy-carousel__arrow', 'zjpcy-carousel__arrow--next')}
             onClick={goNext}
             aria-label="Next slide"
             type="button"
@@ -509,9 +509,9 @@ const Carousel: React.FC<CarouselProps> = ({
             return (
               <button
                 key={`${item.key}-${showProgress ? 'progress' : 'static'}`}
-                className={classNames('idp-carousel__indicator', {
-                  'idp-carousel__indicator--active': isActive,
-                  'idp-carousel__indicator--progress': showProgress,
+                className={classNames('zjpcy-carousel__indicator', {
+                  'zjpcy-carousel__indicator--active': isActive,
+                  'zjpcy-carousel__indicator--progress': showProgress,
                 })}
                 onClick={() => goTo(index)}
                 role="tab"
@@ -527,7 +527,7 @@ const Carousel: React.FC<CarouselProps> = ({
                 {showProgress && (
                   <span
                     key={`progress-${currentIndex}`}
-                    className="idp-carousel__indicator-progress-bar"
+                    className="zjpcy-carousel__indicator-progress-bar"
                   />
                 )}
               </button>
@@ -537,23 +537,23 @@ const Carousel: React.FC<CarouselProps> = ({
       )}
 
       {/* 页码显示 */}
-      <div className="idp-carousel__pagination">
-        <span className="idp-carousel__pagination-current">{currentIndex + 1}</span>
-        <span className="idp-carousel__pagination-separator">/</span>
-        <span className="idp-carousel__pagination-total">{totalItems}</span>
+      <div className="zjpcy-carousel__pagination">
+        <span className="zjpcy-carousel__pagination-current">{currentIndex + 1}</span>
+        <span className="zjpcy-carousel__pagination-separator">/</span>
+        <span className="zjpcy-carousel__pagination-total">{totalItems}</span>
       </div>
 
       {/* 雨滴效果 - 雨雾遮罩 */}
       {effect === 'rain' && (
-        <div className="idp-carousel__rain-overlay" />
+        <div className="zjpcy-carousel__rain-overlay" />
       )}
 
       {/* 雨滴效果 - 雨滴 */}
       {effect === 'rain' && rainDrops.map((drop) => (
         <span
           key={drop.id}
-          className={classNames('idp-carousel__rain-drop', {
-            'idp-carousel__rain-drop--large': drop.isLarge,
+          className={classNames('zjpcy-carousel__rain-drop', {
+            'zjpcy-carousel__rain-drop--large': drop.isLarge,
           })}
           style={{
             left: `${drop.left}%`,
@@ -567,7 +567,7 @@ const Carousel: React.FC<CarouselProps> = ({
       {effect === 'rain' && ripples.map((ripple) => (
         <span
           key={ripple.id}
-          className="idp-carousel__ripple"
+          className="zjpcy-carousel__ripple"
           style={{
             left: ripple.x - 20,
             top: ripple.y - 20,

@@ -59,7 +59,7 @@ const SortableRow: React.FC<SortableRowProps> = ({
             style={style}
             {...attributes}
             {...listeners}
-            className={classNames('idp-table-sortable-row', { 'idp-table-sortable-row-dragging': isDragging })}
+            className={classNames('zjpcy-table-sortable-row', { 'zjpcy-table-sortable-row-dragging': isDragging })}
             data-dragging={isDragging}
         >
             {allColumns.map((column, colIndex) =>

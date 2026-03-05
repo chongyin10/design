@@ -3,7 +3,7 @@
    ============================================ */
 
 /* 进度条容器 */
-.idp-progress {
+.zjpcy-progress {
     display: flex;
     align-items: center;
     width: 100%;
@@ -11,17 +11,17 @@
     font-family: inherit;
 }
 
-.idp-progress-line {
+.zjpcy-progress-line {
     flex-direction: row;
 }
 
 /* 进度条包装器 */
-.idp-progress-wrapper {
+.zjpcy-progress-wrapper {
     flex: 1;
     min-width: 0;
 }
 
-.idp-progress-outer {
+.zjpcy-progress-outer {
     display: flex;
     align-items: center;
     width: 100%;
@@ -29,47 +29,47 @@
 }
 
 /* 进度条内层容器 */
-.idp-progress-inner {
+.zjpcy-progress-inner {
     position: relative;
     display: inline-block;
     width: 100%;
     overflow: hidden;
     vertical-align: middle;
-    background: var(--idp-progress-trail-bg);
-    border-radius: var(--idp-border-radius-lg);
+    background: var(--zjpcy-progress-trail-bg);
+    border-radius: var(--zjpcy-border-radius-lg);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 /* 进度条背景（填充部分） */
-.idp-progress-bg {
+.zjpcy-progress-bg {
     position: relative;
-    background: linear-gradient(135deg, var(--idp-progress-default-bg) 0%, var(--idp-progress-default-bg-gradient) 100%);
-    border-radius: var(--idp-border-radius-lg);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    background: linear-gradient(135deg, var(--zjpcy-progress-default-bg) 0%, var(--zjpcy-progress-default-bg-gradient) 100%);
+    border-radius: var(--zjpcy-border-radius-lg);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     height: 100%;
-    box-shadow: var(--idp-progress-shadow);
+    box-shadow: var(--zjpcy-progress-shadow);
 }
 
 /* 成功状态 */
-.idp-progress-bg--success {
-    background: linear-gradient(135deg, var(--idp-progress-success-bg) 0%, var(--idp-progress-success-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow-success);
+.zjpcy-progress-bg--success {
+    background: linear-gradient(135deg, var(--zjpcy-progress-success-bg) 0%, var(--zjpcy-progress-success-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow-success);
 }
 
 /* 异常状态 */
-.idp-progress-bg--exception {
-    background: linear-gradient(135deg, var(--idp-progress-exception-bg) 0%, var(--idp-progress-exception-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow-exception);
+.zjpcy-progress-bg--exception {
+    background: linear-gradient(135deg, var(--zjpcy-progress-exception-bg) 0%, var(--zjpcy-progress-exception-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow-exception);
 }
 
 /* 进度条信息（百分比文字） */
-.idp-progress-info {
+.zjpcy-progress-info {
     display: inline-flex;
     align-items: center;
     justify-content: flex-end;
     min-width: 40px;
     margin-left: 12px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
@@ -77,7 +77,7 @@
 }
 
 /* 图标样式 */
-.idp-progress-icon {
+.zjpcy-progress-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -86,44 +86,44 @@
 }
 
 /* 前缀/后缀文字 */
-.idp-progress-prefix {
+.zjpcy-progress-prefix {
     margin-right: 4px;
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
 }
 
-.idp-progress-suffix {
+.zjpcy-progress-suffix {
     margin-left: 4px;
-    color: var(--idp-text-color-secondary);
+    color: var(--zjpcy-text-color-secondary);
 }
 
 /* ============================================
    尺寸变体
    ============================================ */
-.idp-progress-small .idp-progress-inner,
-.idp-progress-small .idp-progress-steps,
-.idp-progress-small .idp-progress-segments {
+.zjpcy-progress-small .zjpcy-progress-inner,
+.zjpcy-progress-small .zjpcy-progress-steps,
+.zjpcy-progress-small .zjpcy-progress-segments {
     height: 6px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
-.idp-progress-small .idp-progress-bg {
-    border-radius: var(--idp-border-radius-sm);
+.zjpcy-progress-small .zjpcy-progress-bg {
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
-.idp-progress-default .idp-progress-inner,
-.idp-progress-default .idp-progress-steps,
-.idp-progress-default .idp-progress-segments {
+.zjpcy-progress-default .zjpcy-progress-inner,
+.zjpcy-progress-default .zjpcy-progress-steps,
+.zjpcy-progress-default .zjpcy-progress-segments {
     height: 10px;
 }
 
-.idp-progress-large .idp-progress-inner,
-.idp-progress-large .idp-progress-steps,
-.idp-progress-large .idp-progress-segments {
+.zjpcy-progress-large .zjpcy-progress-inner,
+.zjpcy-progress-large .zjpcy-progress-steps,
+.zjpcy-progress-large .zjpcy-progress-segments {
     height: 14px;
 }
 
 /* 大尺寸下增大字体 */
-.idp-progress-large .idp-progress-info {
+.zjpcy-progress-large .zjpcy-progress-info {
     font-size: 16px;
     min-width: 48px;
 }
@@ -131,7 +131,7 @@
 /* ============================================
    圆形进度条
    ============================================ */
-.idp-progress-circle {
+.zjpcy-progress-circle {
     position: relative;
     display: inline-flex;
     justify-content: center;
@@ -139,7 +139,7 @@
     width: auto;
 }
 
-.idp-progress-circle .idp-progress-info {
+.zjpcy-progress-circle .zjpcy-progress-info {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -156,12 +156,12 @@
 /* ============================================
    渐变波浪动画
    ============================================ */
-.idp-progress-bg--animated {
+.zjpcy-progress-bg--animated {
     position: relative;
     overflow: hidden;
 }
 
-.idp-progress-bg--animated::before {
+.zjpcy-progress-bg--animated::before {
     content: '';
     position: absolute;
     top: 0;
@@ -179,11 +179,11 @@
         transparent 75%,
         transparent 100%
     );
-    animation: idp-progress-wave-flow 4s linear infinite;
+    animation: zjpcy-progress-wave-flow 4s linear infinite;
     pointer-events: none;
 }
 
-@keyframes idp-progress-wave-flow {
+@keyframes zjpcy-progress-wave-flow {
     0% {
         transform: translateX(-66.666%);
     }
@@ -195,12 +195,12 @@
 /* ============================================
    激活状态动画
    ============================================ */
-.idp-progress-active .idp-progress-bg {
+.zjpcy-progress-active .zjpcy-progress-bg {
     position: relative;
     overflow: hidden;
 }
 
-.idp-progress-active .idp-progress-bg::after {
+.zjpcy-progress-active .zjpcy-progress-bg::after {
     content: '';
     position: absolute;
     top: 0;
@@ -213,10 +213,10 @@
         rgba(255, 255, 255, 0.4) 50%,
         transparent 100%
     );
-    animation: idp-progress-shine 2s ease-in-out infinite;
+    animation: zjpcy-progress-shine 2s ease-in-out infinite;
 }
 
-@keyframes idp-progress-shine {
+@keyframes zjpcy-progress-shine {
     0% {
         left: -100%;
     }
@@ -228,14 +228,14 @@
 /* ============================================
    仪表盘样式
    ============================================ */
-.idp-progress-dashboard {
+.zjpcy-progress-dashboard {
     position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
 }
 
-.idp-progress-dashboard .idp-progress-info {
+.zjpcy-progress-dashboard .zjpcy-progress-info {
     position: absolute;
     top: 60%;
     left: 50%;
@@ -252,148 +252,148 @@
 /* ============================================
    多段进度条样式
    ============================================ */
-.idp-progress-segments {
+.zjpcy-progress-segments {
     display: flex;
     width: 100%;
     height: 100%;
-    border-radius: var(--idp-border-radius-lg);
+    border-radius: var(--zjpcy-border-radius-lg);
     overflow: hidden;
-    background: var(--idp-progress-trail-bg);
+    background: var(--zjpcy-progress-trail-bg);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.idp-progress-segment {
+.zjpcy-progress-segment {
     height: 100%;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 /* 已完成段落 */
-.idp-progress-segment--completed {
+.zjpcy-progress-segment--completed {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 当前进行中的段落 */
-.idp-progress-segment--current {
+.zjpcy-progress-segment--current {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
 }
 
 /* 待处理段落（超出 percent 的部分）- 显示轨道背景色 */
-.idp-progress-segment--pending {
+.zjpcy-progress-segment--pending {
     background: transparent;
 }
 
 /* 剩余段落（segments 总和不足 100 时） */
-.idp-progress-segment--remaining {
+.zjpcy-progress-segment--remaining {
     background: gainsboro;
 }
 
-.idp-progress-segment:first-child {
-    border-radius: var(--idp-border-radius-lg) 0 0 var(--idp-border-radius-lg);
+.zjpcy-progress-segment:first-child {
+    border-radius: var(--zjpcy-border-radius-lg) 0 0 var(--zjpcy-border-radius-lg);
 }
 
-.idp-progress-segment:last-child {
-    border-radius: 0 var(--idp-border-radius-lg) var(--idp-border-radius-lg) 0;
+.zjpcy-progress-segment:last-child {
+    border-radius: 0 var(--zjpcy-border-radius-lg) var(--zjpcy-border-radius-lg) 0;
 }
 
-.idp-progress-segment:only-child {
-    border-radius: var(--idp-border-radius-lg);
+.zjpcy-progress-segment:only-child {
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
 /* 小尺寸多段进度条 */
-.idp-progress-small .idp-progress-segments {
-    border-radius: var(--idp-border-radius-sm);
+.zjpcy-progress-small .zjpcy-progress-segments {
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
-.idp-progress-small .idp-progress-segment:first-child {
-    border-radius: var(--idp-border-radius-sm) 0 0 var(--idp-border-radius-sm);
+.zjpcy-progress-small .zjpcy-progress-segment:first-child {
+    border-radius: var(--zjpcy-border-radius-sm) 0 0 var(--zjpcy-border-radius-sm);
 }
 
-.idp-progress-small .idp-progress-segment:last-child {
-    border-radius: 0 var(--idp-border-radius-sm) var(--idp-border-radius-sm) 0;
+.zjpcy-progress-small .zjpcy-progress-segment:last-child {
+    border-radius: 0 var(--zjpcy-border-radius-sm) var(--zjpcy-border-radius-sm) 0;
 }
 
-.idp-progress-small .idp-progress-segment:only-child {
-    border-radius: var(--idp-border-radius-sm);
+.zjpcy-progress-small .zjpcy-progress-segment:only-child {
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
 /* ============================================
    步骤进度条样式
    ============================================ */
-.idp-progress-steps {
+.zjpcy-progress-steps {
     display: flex;
     align-items: center;
     gap: 4px;
     width: 100%;
     padding: 2px;
-    background: var(--idp-progress-trail-bg);
-    border-radius: var(--idp-border-radius-lg);
+    background: var(--zjpcy-progress-trail-bg);
+    border-radius: var(--zjpcy-border-radius-lg);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
-.idp-progress-step {
+.zjpcy-progress-step {
     flex: 1;
     height: 100%;
     background: transparent;
-    border-radius: var(--idp-border-radius-sm);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border-radius: var(--zjpcy-border-radius-sm);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 }
 
 /* 已完成步骤 */
-.idp-progress-step--completed {
-    background: linear-gradient(135deg, var(--idp-progress-default-bg) 0%, var(--idp-progress-default-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow);
+.zjpcy-progress-step--completed {
+    background: linear-gradient(135deg, var(--zjpcy-progress-default-bg) 0%, var(--zjpcy-progress-default-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow);
 }
 
 /* 当前进行中步骤 */
-.idp-progress-step--current {
-    background: linear-gradient(135deg, var(--idp-progress-default-bg) 0%, var(--idp-progress-default-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow);
+.zjpcy-progress-step--current {
+    background: linear-gradient(135deg, var(--zjpcy-progress-default-bg) 0%, var(--zjpcy-progress-default-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow);
     opacity: 0.85;
 }
 
 /* 待处理步骤 - 显示透明，露出轨道背景 */
-.idp-progress-step--pending {
+.zjpcy-progress-step--pending {
     background: gainsboro;
 }
 
 /* 成功状态（100%时所有步骤） */
-.idp-progress-step--success {
-    background: linear-gradient(135deg, var(--idp-progress-success-bg) 0%, var(--idp-progress-success-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow-success);
+.zjpcy-progress-step--success {
+    background: linear-gradient(135deg, var(--zjpcy-progress-success-bg) 0%, var(--zjpcy-progress-success-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow-success);
 }
 
 /* 兼容旧版 active 类名 */
-.idp-progress-step--active {
-    background: linear-gradient(135deg, var(--idp-progress-default-bg) 0%, var(--idp-progress-default-bg-gradient) 100%);
-    box-shadow: var(--idp-progress-shadow);
+.zjpcy-progress-step--active {
+    background: linear-gradient(135deg, var(--zjpcy-progress-default-bg) 0%, var(--zjpcy-progress-default-bg-gradient) 100%);
+    box-shadow: var(--zjpcy-progress-shadow);
 }
 
 /* 小尺寸步骤进度条 */
-.idp-progress-small .idp-progress-steps {
-    border-radius: var(--idp-border-radius-sm);
+.zjpcy-progress-small .zjpcy-progress-steps {
+    border-radius: var(--zjpcy-border-radius-sm);
 }
 
 /* 大尺寸步骤进度条 */
-.idp-progress-large .idp-progress-steps {
-    border-radius: var(--idp-border-radius-lg);
+.zjpcy-progress-large .zjpcy-progress-steps {
+    border-radius: var(--zjpcy-border-radius-lg);
 }
 
-.idp-progress-large .idp-progress-step {
-    border-radius: var(--idp-border-radius-md);
+.zjpcy-progress-large .zjpcy-progress-step {
+    border-radius: var(--zjpcy-border-radius-md);
 }
 
 /* ============================================
    响应式适配
    ============================================ */
 @media (max-width: 576px) {
-    .idp-progress-info {
+    .zjpcy-progress-info {
         font-size: 12px;
         min-width: 32px;
         margin-left: 8px;
     }
     
-    .idp-progress-large .idp-progress-info {
+    .zjpcy-progress-large .zjpcy-progress-info {
         font-size: 14px;
     }
 }
@@ -402,13 +402,13 @@
    无障碍支持 - 减少动画
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
-    .idp-progress-bg,
-    .idp-progress-step {
+    .zjpcy-progress-bg,
+    .zjpcy-progress-step {
         transition: none;
     }
     
-    .idp-progress-bg--animated::before,
-    .idp-progress-active .idp-progress-bg::after {
+    .zjpcy-progress-bg--animated::before,
+    .zjpcy-progress-active .zjpcy-progress-bg::after {
         animation: none;
     }
 }

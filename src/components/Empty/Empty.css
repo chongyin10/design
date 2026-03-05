@@ -1,4 +1,4 @@
-.idp-empty {
+.zjpcy-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,55 +7,55 @@
   text-align: center;
 }
 
-.idp-empty__icon-wrapper {
+.zjpcy-empty__icon-wrapper {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.idp-empty__icon {
+.zjpcy-empty__icon {
   font-size: 48px;
   color: #d9d9d9;
 }
 
-.idp-empty__image {
+.zjpcy-empty__image {
   max-width: 100%;
   height: auto;
 }
 
-.idp-empty__description {
+.zjpcy-empty__description {
   color: #8c8c8c;
   font-size: 14px;
   line-height: 1.5;
 }
 
-.idp-empty__actions {
+.zjpcy-empty__actions {
   margin-top: 24px;
 }
 
 /* 大尺寸 */
-.idp-empty--large {
+.zjpcy-empty--large {
   padding: 64px 32px;
 }
 
-.idp-empty--large .idp-empty__icon-wrapper {
+.zjpcy-empty--large .zjpcy-empty__icon-wrapper {
   margin-bottom: 24px;
 }
 
-.idp-empty--large .idp-empty__description {
+.zjpcy-empty--large .zjpcy-empty__description {
   font-size: 16px;
 }
 
 /* 小尺寸 */
-.idp-empty--small {
+.zjpcy-empty--small {
   padding: 32px 16px;
 }
 
-.idp-empty--small .idp-empty__icon-wrapper {
+.zjpcy-empty--small .zjpcy-empty__icon-wrapper {
   margin-bottom: 12px;
 }
 
-.idp-empty--small .idp-empty__description {
+.zjpcy-empty--small .zjpcy-empty__description {
   font-size: 12px;
 }

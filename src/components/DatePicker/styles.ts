@@ -34,20 +34,20 @@ export const DatePickerTrigger = styled.div.withConfig({
             default: return '2px 12px';
         }
     }};
-    border: 1px solid ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : props.focused ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
-    border-radius: var(--idp-border-radius-sm);
-    background-color: ${props => props.disabled ? 'var(--idp-bg-color-light)' : 'var(--idp-bg-color-white)'};
+    border: 1px solid ${props => props.disabled ? 'var(--zjpcy-border-color-extra-light)' : props.focused ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-border-color-extra-light)'};
+    border-radius: var(--zjpcy-border-radius-sm);
+    background-color: ${props => props.disabled ? 'var(--zjpcy-bg-color-light)' : 'var(--zjpcy-bg-color-white)'};
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     box-sizing: border-box;
 
     &:hover {
-        border-color: ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : 'var(--idp-primary-color)'};
+        border-color: ${props => props.disabled ? 'var(--zjpcy-border-color-extra-light)' : 'var(--zjpcy-primary-color)'};
     }
 
     &:focus-within {
-        border-color: var(--idp-primary-color);
-        box-shadow: var(--idp-input-box-shadow-focus);
+        border-color: var(--zjpcy-primary-color);
+        box-shadow: var(--zjpcy-input-box-shadow-focus);
     }
 `;
 
@@ -56,14 +56,14 @@ export const DatePickerValue = styled.span.withConfig({
     shouldForwardProp: (prop) => !['isPlaceholder'].includes(prop)
 })<{ isPlaceholder?: boolean; disabled?: boolean }>`
     flex: 1;
-    color: ${props => props.disabled ? 'var(--idp-text-color-tertiary)' : props.isPlaceholder ? 'var(--idp-text-color-light)' : 'var(--idp-text-color)'};
+    color: ${props => props.disabled ? 'var(--zjpcy-text-color-tertiary)' : props.isPlaceholder ? 'var(--zjpcy-text-color-light)' : 'var(--zjpcy-text-color)'};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 14px;
 
     /* 多选模式下的 tags 布局 */
-    &.idp-datepicker-value--tags {
+    &.zjpcy-datepicker-value--tags {
         display: flex;
         flex-wrap: wrap;
         gap: 4px;
@@ -79,8 +79,8 @@ export const DatePickerSuffix = styled.span`
     display: flex;
     align-items: center;
     margin-left: 8px;
-    color: var(--idp-text-color-light);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    color: var(--zjpcy-text-color-light);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     position: relative;
     width: 16px;
     height: 16px;
@@ -93,7 +93,7 @@ export const DatePickerClear = styled.span`
     justify-content: center;
     width: 16px;
     height: 16px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     border-radius: 50%;
     background-color: transparent;
@@ -101,14 +101,14 @@ export const DatePickerClear = styled.span`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     opacity: 0;
     visibility: hidden;
     z-index: 2;
 
     &:hover {
-        color: var(--idp-text-color);
-        background-color: var(--idp-bg-color-light);
+        color: var(--zjpcy-text-color);
+        background-color: var(--zjpcy-bg-color-light);
     }
 
     & > * {
@@ -128,7 +128,7 @@ export const DatePickerIcon = styled.span`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     opacity: 1;
     visibility: visible;
     z-index: 1;
@@ -144,17 +144,17 @@ export const DatePickerDropdown = styled.div.withConfig({
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     z-index: 999;
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
-    box-shadow: var(--idp-shadow-lg);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
+    box-shadow: var(--zjpcy-shadow-lg);
     overflow: hidden;
     min-width: ${props => props.minWidth ? `${props.minWidth}px` : '280px'};
 `;
 
 /** 日历面板 */
 export const CalendarPanel = styled.div`
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
 `;
 
 /** 日历头部 */
@@ -163,7 +163,7 @@ export const CalendarHeader = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--idp-border-color-light);
+    border-bottom: 1px solid var(--zjpcy-border-color-light);
 `;
 
 /** 头部左侧区域 */
@@ -180,7 +180,7 @@ export const HeaderCenter = styled.div`
     gap: 4px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 `;
 
 /** 头部右侧区域 */
@@ -200,13 +200,13 @@ export const HeaderButton = styled.button`
     border: none;
     background-color: transparent;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    color: var(--idp-text-color-secondary);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color-secondary);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not(:disabled) {
-        background-color: var(--idp-bg-color-light);
-        color: var(--idp-primary-color);
+        background-color: var(--zjpcy-bg-color-light);
+        color: var(--zjpcy-primary-color);
     }
 
     &:disabled {
@@ -221,18 +221,18 @@ export const HeaderSelect = styled.select`
     background-color: transparent;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     cursor: pointer;
     padding: 2px 4px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
 
     &:hover {
-        background-color: var(--idp-bg-color-light);
+        background-color: var(--zjpcy-bg-color-light);
     }
 
     &:focus {
         outline: none;
-        background-color: var(--idp-bg-color-light);
+        background-color: var(--zjpcy-bg-color-light);
     }
 `;
 
@@ -253,7 +253,7 @@ export const WeekHeader = styled.div`
 export const WeekDay = styled.div`
     text-align: center;
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     padding: 8px 0;
     font-weight: 500;
 `;
@@ -281,33 +281,33 @@ export const DateCell = styled.div.withConfig({
     height: 32px;
     font-size: 13px;
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     color: ${props => {
-        if (props.disabled) return 'var(--idp-text-color-light)';
+        if (props.disabled) return 'var(--zjpcy-text-color-light)';
         if (props.isSelected) return '#fff';
-        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
-        if (props.isToday) return 'var(--idp-primary-color)';
-        if (!props.isCurrentMonth) return 'var(--idp-text-color-light)';
-        return 'var(--idp-text-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-color)';
+        if (props.isToday) return 'var(--zjpcy-primary-color)';
+        if (!props.isCurrentMonth) return 'var(--zjpcy-text-color-light)';
+        return 'var(--zjpcy-text-color)';
     }};
     background-color: ${props => {
-        if (props.isSelected) return 'var(--idp-primary-color)';
-        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        if (props.isSelected) return 'var(--zjpcy-primary-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
     font-weight: ${props => (props.isToday || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not([disabled]) {
         background-color: ${props => {
-            if (props.isSelected) return 'var(--idp-primary-hover-color)';
-            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
-            return 'var(--idp-bg-color-light)';
+            if (props.isSelected) return 'var(--zjpcy-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--zjpcy-bg-color-light)';
         }};
     }
 
     ${props => props.isToday && !props.isSelected && `
-        border: 1px solid var(--idp-primary-color);
+        border: 1px solid var(--zjpcy-primary-color);
     `}
 `;
 
@@ -317,7 +317,7 @@ export const CalendarFooter = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 8px;
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     gap: 8px;
 `;
 
@@ -339,18 +339,18 @@ export const FooterButton = styled.button.withConfig({
 })<{ variant?: 'primary' | 'default' }>`
     padding: 4px 12px;
     font-size: 13px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
-    border: 1px solid ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
-    background-color: ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-bg-color-white)'};
-    color: ${props => props.variant === 'primary' ? '#fff' : 'var(--idp-text-color)'};
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
+    border: 1px solid ${props => props.variant === 'primary' ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-border-color-extra-light)'};
+    background-color: ${props => props.variant === 'primary' ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-bg-color-white)'};
+    color: ${props => props.variant === 'primary' ? '#fff' : 'var(--zjpcy-text-color)'};
 
     &:hover:not(:disabled) {
-        border-color: var(--idp-primary-color);
+        border-color: var(--zjpcy-primary-color);
         ${props => props.variant === 'primary'
-            ? 'background-color: var(--idp-primary-hover-color);'
-            : 'color: var(--idp-primary-color);'
+            ? 'background-color: var(--zjpcy-primary-hover-color);'
+            : 'color: var(--zjpcy-primary-color);'
         }
     }
 
@@ -372,15 +372,15 @@ export const LabelContainer = styled.div.withConfig({
 /** 标签文本 */
 export const Label = styled.label`
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     white-space: nowrap;
     user-select: none;
 `;
 
 /** 年份选择器面板 */
 export const YearPickerPanel = styled.div`
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
     min-width: 280px;
 `;
 
@@ -394,8 +394,8 @@ export const YearGrid = styled.div`
 
 /** 月份选择器面板 */
 export const MonthPickerPanel = styled.div`
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
     min-width: 280px;
 `;
 
@@ -417,31 +417,31 @@ export const MonthCell = styled.div.withConfig({
     height: 40px;
     font-size: 14px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     color: ${props => {
         if (props.isSelected) return '#fff';
-        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
-        if (props.isCurrentMonth) return 'var(--idp-primary-color)';
-        return 'var(--idp-text-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-color)';
+        if (props.isCurrentMonth) return 'var(--zjpcy-primary-color)';
+        return 'var(--zjpcy-text-color)';
     }};
     background-color: ${props => {
-        if (props.isSelected) return 'var(--idp-primary-color)';
-        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        if (props.isSelected) return 'var(--zjpcy-primary-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
     font-weight: ${props => (props.isCurrentMonth || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not([disabled]) {
         background-color: ${props => {
-            if (props.isSelected) return 'var(--idp-primary-hover-color)';
-            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
-            return 'var(--idp-bg-color-light)';
+            if (props.isSelected) return 'var(--zjpcy-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--zjpcy-bg-color-light)';
         }};
     }
 
     ${props => props.isCurrentMonth && !props.isSelected && !props.isInSelectedSet && `
-        border: 1px solid var(--idp-primary-color);
+        border: 1px solid var(--zjpcy-primary-color);
     `}
 `;
 
@@ -455,38 +455,38 @@ export const YearCell = styled.div.withConfig({
     height: 40px;
     font-size: 14px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     color: ${props => {
         if (props.isSelected) return '#fff';
-        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
-        if (props.isCurrentYear) return 'var(--idp-primary-color)';
-        return 'var(--idp-text-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-color)';
+        if (props.isCurrentYear) return 'var(--zjpcy-primary-color)';
+        return 'var(--zjpcy-text-color)';
     }};
     background-color: ${props => {
-        if (props.isSelected) return 'var(--idp-primary-color)';
-        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        if (props.isSelected) return 'var(--zjpcy-primary-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
     font-weight: ${props => (props.isCurrentYear || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not([disabled]) {
         background-color: ${props => {
-            if (props.isSelected) return 'var(--idp-primary-hover-color)';
-            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
-            return 'var(--idp-bg-color-light)';
+            if (props.isSelected) return 'var(--zjpcy-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--zjpcy-bg-color-light)';
         }};
     }
 
     ${props => props.isCurrentYear && !props.isSelected && !props.isInSelectedSet && `
-        border: 1px solid var(--idp-primary-color);
+        border: 1px solid var(--zjpcy-primary-color);
     `}
 `;
 
 /** 季度选择器面板 */
 export const QuarterPickerPanel = styled.div`
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
     min-width: 280px;
 `;
 
@@ -508,31 +508,31 @@ export const QuarterCell = styled.div.withConfig({
     height: 48px;
     font-size: 14px;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     color: ${props => {
         if (props.isSelected) return '#fff';
-        if (props.isInSelectedSet) return 'var(--idp-primary-color)';
-        if (props.isCurrentQuarter) return 'var(--idp-primary-color)';
-        return 'var(--idp-text-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-color)';
+        if (props.isCurrentQuarter) return 'var(--zjpcy-primary-color)';
+        return 'var(--zjpcy-text-color)';
     }};
     background-color: ${props => {
-        if (props.isSelected) return 'var(--idp-primary-color)';
-        if (props.isInSelectedSet) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        if (props.isSelected) return 'var(--zjpcy-primary-color)';
+        if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
     font-weight: ${props => (props.isCurrentQuarter || props.isSelected || props.isInSelectedSet) ? '500' : 'normal'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not([disabled]) {
         background-color: ${props => {
-            if (props.isSelected) return 'var(--idp-primary-hover-color)';
-            if (props.isInSelectedSet) return 'var(--idp-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
-            return 'var(--idp-bg-color-light)';
+            if (props.isSelected) return 'var(--zjpcy-primary-hover-color)';
+            if (props.isInSelectedSet) return 'var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2))';
+            return 'var(--zjpcy-bg-color-light)';
         }};
     }
 
     ${props => props.isCurrentQuarter && !props.isSelected && !props.isInSelectedSet && `
-        border: 1px solid var(--idp-primary-color);
+        border: 1px solid var(--zjpcy-primary-color);
     `}
 `;
 
@@ -569,20 +569,20 @@ export const DateRangePickerTrigger = styled.div.withConfig({
             default: return '2px 12px';
         }
     }};
-    border: 1px solid ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : props.focused ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
-    border-radius: var(--idp-border-radius-sm);
-    background-color: ${props => props.disabled ? 'var(--idp-bg-color-light)' : 'var(--idp-bg-color-white)'};
+    border: 1px solid ${props => props.disabled ? 'var(--zjpcy-border-color-extra-light)' : props.focused ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-border-color-extra-light)'};
+    border-radius: var(--zjpcy-border-radius-sm);
+    background-color: ${props => props.disabled ? 'var(--zjpcy-bg-color-light)' : 'var(--zjpcy-bg-color-white)'};
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     box-sizing: border-box;
 
     &:hover {
-        border-color: ${props => props.disabled ? 'var(--idp-border-color-extra-light)' : 'var(--idp-primary-color)'};
+        border-color: ${props => props.disabled ? 'var(--zjpcy-border-color-extra-light)' : 'var(--zjpcy-primary-color)'};
     }
 
     &:focus-within {
-        border-color: var(--idp-primary-color);
-        box-shadow: var(--idp-input-box-shadow-focus);
+        border-color: var(--zjpcy-primary-color);
+        box-shadow: var(--zjpcy-input-box-shadow-focus);
     }
 `;
 
@@ -594,15 +594,15 @@ export const DateRangePickerInput = styled.div.withConfig({
     padding: 4px 8px;
     text-align: center;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border-radius: var(--zjpcy-border-radius-sm);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     ${props => props.active && `
-        background-color: var(--idp-primary-light-color, rgba(24, 100, 240, 0.1));
+        background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
     `}
 
     &:hover {
-        background-color: var(--idp-bg-color-light);
+        background-color: var(--zjpcy-bg-color-light);
     }
 `;
 
@@ -610,7 +610,7 @@ export const DateRangePickerInput = styled.div.withConfig({
 export const DateRangePickerValue = styled.span.withConfig({
     shouldForwardProp: (prop) => !['isPlaceholder'].includes(prop)
 })<{ isPlaceholder?: boolean }>`
-    color: ${props => props.isPlaceholder ? 'var(--idp-text-color-light)' : 'var(--idp-text-color)'};
+    color: ${props => props.isPlaceholder ? 'var(--zjpcy-text-color-light)' : 'var(--zjpcy-text-color)'};
     font-size: 14px;
 `;
 
@@ -620,7 +620,7 @@ export const DateRangePickerSeparator = styled.span`
     align-items: center;
     justify-content: center;
     padding: 0 8px;
-    color: var(--idp-text-color-light);
+    color: var(--zjpcy-text-color-light);
     font-size: 14px;
 `;
 
@@ -629,8 +629,8 @@ export const DateRangePickerSuffix = styled.span`
     display: flex;
     align-items: center;
     margin-left: 8px;
-    color: var(--idp-text-color-light);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    color: var(--zjpcy-text-color-light);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     position: relative;
     width: 16px;
     height: 16px;
@@ -643,7 +643,7 @@ export const DateRangePickerClear = styled.span`
     justify-content: center;
     width: 16px;
     height: 16px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     cursor: pointer;
     border-radius: 50%;
     background-color: transparent;
@@ -651,14 +651,14 @@ export const DateRangePickerClear = styled.span`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     opacity: 0;
     visibility: hidden;
     z-index: 2;
 
     &:hover {
-        color: var(--idp-text-color);
-        background-color: var(--idp-bg-color-light);
+        color: var(--zjpcy-text-color);
+        background-color: var(--zjpcy-bg-color-light);
     }
 
     & > * {
@@ -678,7 +678,7 @@ export const DateRangePickerIcon = styled.span`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     opacity: 1;
     visibility: visible;
     z-index: 1;
@@ -694,9 +694,9 @@ export const DateRangePickerDropdown = styled.div.withConfig({
     top: ${props => props.top}px;
     left: ${props => props.left}px;
     z-index: 999;
-    background-color: var(--idp-bg-color-white);
-    border-radius: var(--idp-border-radius-md);
-    box-shadow: var(--idp-shadow-lg);
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
+    box-shadow: var(--zjpcy-shadow-lg);
     overflow: hidden;
     min-width: 560px;
 `;
@@ -737,7 +737,7 @@ export const DateRangePickerHeaderCenter = styled.div`
     gap: 4px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
 `;
 
 /** 范围选择器日历头部右侧 */
@@ -757,13 +757,13 @@ export const DateRangePickerHeaderButton = styled.button`
     border: none;
     background-color: transparent;
     cursor: pointer;
-    border-radius: var(--idp-border-radius-sm);
-    color: var(--idp-text-color-secondary);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color-secondary);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not(:disabled) {
-        background-color: var(--idp-bg-color-light);
-        color: var(--idp-primary-color);
+        background-color: var(--zjpcy-bg-color-light);
+        color: var(--zjpcy-primary-color);
     }
 
     &:disabled {
@@ -775,7 +775,7 @@ export const DateRangePickerHeaderButton = styled.button`
 /** 范围选择器日历头部标签 */
 export const DateRangePickerHeaderLabel = styled.span`
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     margin-left: 8px;
 `;
 
@@ -796,7 +796,7 @@ export const DateRangePickerWeekHeader = styled.div`
 export const DateRangePickerWeekDay = styled.div`
     text-align: center;
     font-size: 12px;
-    color: var(--idp-text-color-tertiary);
+    color: var(--zjpcy-text-color-tertiary);
     padding: 4px 0;
     font-weight: 500;
 `;
@@ -830,31 +830,31 @@ export const DateRangePickerDateCell = styled.div.withConfig({
         if (props.isRangeStart) return '4px 0 0 4px';
         if (props.isRangeEnd) return '0 4px 4px 0';
         if (props.isInRange) return '0';
-        return 'var(--idp-border-radius-sm)';
+        return 'var(--zjpcy-border-radius-sm)';
     }};
     color: ${props => {
-        if (props.disabled) return 'var(--idp-text-color-light)';
+        if (props.disabled) return 'var(--zjpcy-text-color-light)';
         if (props.isSelected) return '#fff';
-        if (!props.isCurrentMonth) return 'var(--idp-text-color-light)';
-        return 'var(--idp-text-color)';
+        if (!props.isCurrentMonth) return 'var(--zjpcy-text-color-light)';
+        return 'var(--zjpcy-text-color)';
     }};
     background-color: ${props => {
-        if (props.isSelected) return 'var(--idp-primary-color)';
-        if (props.isInRange) return 'var(--idp-primary-light-color, rgba(24, 100, 240, 0.1))';
+        if (props.isSelected) return 'var(--zjpcy-primary-color)';
+        if (props.isInRange) return 'var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1))';
         return 'transparent';
     }};
     font-weight: ${props => (props.isToday || props.isSelected) ? '500' : 'normal'};
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
 
     &:hover:not([disabled]) {
         background-color: ${props => {
-            if (props.isSelected) return 'var(--idp-primary-hover-color)';
-            return 'var(--idp-bg-color-light)';
+            if (props.isSelected) return 'var(--zjpcy-primary-hover-color)';
+            return 'var(--zjpcy-bg-color-light)';
         }};
     }
 
     ${props => props.isToday && !props.isSelected && !props.isInRange && `
-        border: 1px solid var(--idp-primary-color);
+        border: 1px solid var(--zjpcy-primary-color);
     `}
 `;
 
@@ -864,7 +864,7 @@ export const DateRangePickerFooter = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px;
-    border-top: 1px solid var(--idp-border-color-light);
+    border-top: 1px solid var(--zjpcy-border-color-light);
     gap: 8px;
 `;
 
@@ -886,18 +886,18 @@ export const DateRangePickerFooterButton = styled.button.withConfig({
 })<{ variant?: 'primary' | 'default' }>`
     padding: 4px 12px;
     font-size: 13px;
-    border-radius: var(--idp-border-radius-sm);
+    border-radius: var(--zjpcy-border-radius-sm);
     cursor: pointer;
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
-    border: 1px solid ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-border-color-extra-light)'};
-    background-color: ${props => props.variant === 'primary' ? 'var(--idp-primary-color)' : 'var(--idp-bg-color-white)'};
-    color: ${props => props.variant === 'primary' ? '#fff' : 'var(--idp-text-color)'};
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
+    border: 1px solid ${props => props.variant === 'primary' ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-border-color-extra-light)'};
+    background-color: ${props => props.variant === 'primary' ? 'var(--zjpcy-primary-color)' : 'var(--zjpcy-bg-color-white)'};
+    color: ${props => props.variant === 'primary' ? '#fff' : 'var(--zjpcy-text-color)'};
 
     &:hover:not(:disabled) {
-        border-color: var(--idp-primary-color);
+        border-color: var(--zjpcy-primary-color);
         ${props => props.variant === 'primary'
-            ? 'background-color: var(--idp-primary-hover-color);'
-            : 'color: var(--idp-primary-color);'
+            ? 'background-color: var(--zjpcy-primary-hover-color);'
+            : 'color: var(--zjpcy-primary-color);'
         }
     }
 
@@ -919,7 +919,7 @@ export const DateRangePickerLabelContainer = styled.div.withConfig({
 /** 范围选择器标签 */
 export const DateRangePickerLabel = styled.label`
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     white-space: nowrap;
     user-select: none;
 `;

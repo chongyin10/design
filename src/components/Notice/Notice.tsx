@@ -40,11 +40,11 @@ const Notice: React.FC<NoticeProps> = ({
         if (Array.isArray(text)) {
             // 当text为数组时，渲染数组中的所有元素
             return (
-                <div className="idp-notice-content">
+                <div className="zjpcy-notice-content">
                     {text.map((item, index) => (
                         <span key={index} style={{ marginRight: '15px', display: 'inline-block' }}>
-                            {icon ? <span className="idp-notice-icon">{icon}</span> : null}
-                            <span className="idp-notice-text">{item}</span>
+                            {icon ? <span className="zjpcy-notice-icon">{icon}</span> : null}
+                            <span className="zjpcy-notice-text">{item}</span>
                         </span>
                     ))}
                 </div>
@@ -52,10 +52,10 @@ const Notice: React.FC<NoticeProps> = ({
         } else {
             // 当text为字符串或其他类型时，直接渲染
             return (
-                <div className="idp-notice-content">
+                <div className="zjpcy-notice-content">
                     <span>
-                        {icon ? <span className="idp-notice-icon">{icon}</span> : null}
-                        <span className="idp-notice-text">{text}</span>
+                        {icon ? <span className="zjpcy-notice-icon">{icon}</span> : null}
+                        <span className="zjpcy-notice-text">{text}</span>
                     </span>
                 </div>
             );
@@ -68,7 +68,7 @@ const Notice: React.FC<NoticeProps> = ({
 
     return (
         <div
-            className={`idp-notice idp-notice--${type} ${floatingTop ? 'idp-notice-floating' : ''} ${className}`}
+            className={`zjpcy-notice zjpcy-notice--${type} ${floatingTop ? 'zjpcy-notice-floating' : ''} ${className}`}
             style={{
                 height: `${height}px`,
                 ...styles
@@ -80,11 +80,11 @@ const Notice: React.FC<NoticeProps> = ({
             </Marquee>
             {showCloseButton && (
                 <div
-                    className="idp-notice-close"
+                    className="zjpcy-notice-close"
                     style={{ height: `${height}px`, ...closeStyle }}
                     onClick={handleClose}
                 >
-                    <span className="idp-notice-close-icon">×</span>
+                    <span className="zjpcy-notice-close-icon">×</span>
                 </div>
             )}
         </div>

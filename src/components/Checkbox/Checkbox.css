@@ -7,25 +7,25 @@
 /* ============================================
    基础复选框样式
    ============================================ */
-.idp-checkbox {
+.zjpcy-checkbox {
     display: inline-flex;
     align-items: center;
     cursor: pointer;
     user-select: none;
     font-size: 14px;
-    color: var(--idp-text-color);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    color: var(--zjpcy-text-color);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     gap: 8px;
 }
 
-.idp-checkbox:hover {
-    color: var(--idp-text-color);
+.zjpcy-checkbox:hover {
+    color: var(--zjpcy-text-color);
 }
 
 /* ============================================
    隐藏的原生输入框
    ============================================ */
-.idp-checkbox__input {
+.zjpcy-checkbox__input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -36,38 +36,38 @@
 /* ============================================
    复选框内部样式
    ============================================ */
-.idp-checkbox__inner {
+.zjpcy-checkbox__inner {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 18px;
     height: 18px;
-    border: 1.5px solid var(--idp-border-color-extra-light);
-    border-radius: var(--idp-border-radius-sm);
-    background: linear-gradient(135deg, var(--idp-bg-color-white) 0%, var(--idp-bg-color) 100%);
-    transition: all var(--idp-transition-duration) var(--idp-transition-timing-function);
+    border: 1.5px solid var(--zjpcy-border-color-extra-light);
+    border-radius: var(--zjpcy-border-radius-sm);
+    background: linear-gradient(135deg, var(--zjpcy-bg-color-white) 0%, var(--zjpcy-bg-color) 100%);
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
     flex-shrink: 0;
-    box-shadow: var(--idp-shadow-extra-light);
+    box-shadow: var(--zjpcy-shadow-extra-light);
 }
 
 /* 悬停状态 */
-.idp-checkbox:hover .idp-checkbox__inner {
-    border-color: var(--idp-primary-hover-color);
-    box-shadow: var(--idp-input-box-shadow-hover);
+.zjpcy-checkbox:hover .zjpcy-checkbox__inner {
+    border-color: var(--zjpcy-primary-hover-color);
+    box-shadow: var(--zjpcy-input-box-shadow-hover);
 }
 
 /* ============================================
    选中状态
    ============================================ */
-.idp-checkbox--checked .idp-checkbox__inner {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
-    border-color: var(--idp-primary-color);
+.zjpcy-checkbox--checked .zjpcy-checkbox__inner {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
+    border-color: var(--zjpcy-primary-color);
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
 /* 选中状态的勾选图标 */
-.idp-checkbox--checked .idp-checkbox__inner::after {
+.zjpcy-checkbox--checked .zjpcy-checkbox__inner::after {
     content: '';
     position: absolute;
     width: 5px;
@@ -96,13 +96,13 @@
 /* ============================================
    半选状态
    ============================================ */
-.idp-checkbox--indeterminate .idp-checkbox__inner {
-    background: linear-gradient(135deg, var(--idp-primary-color) 0%, var(--idp-primary-hover-color) 100%);
-    border-color: var(--idp-primary-color);
+.zjpcy-checkbox--indeterminate .zjpcy-checkbox__inner {
+    background: linear-gradient(135deg, var(--zjpcy-primary-color) 0%, var(--zjpcy-primary-hover-color) 100%);
+    border-color: var(--zjpcy-primary-color);
     box-shadow: 0 2px 6px rgba(24, 144, 255, 0.35);
 }
 
-.idp-checkbox--indeterminate .idp-checkbox__inner::after {
+.zjpcy-checkbox--indeterminate .zjpcy-checkbox__inner::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -131,76 +131,76 @@
 /* ============================================
    禁用状态
    ============================================ */
-.idp-checkbox--disabled {
+.zjpcy-checkbox--disabled {
     cursor: not-allowed;
-    opacity: var(--idp-opacity-disabled);
+    opacity: var(--zjpcy-opacity-disabled);
 }
 
-.idp-checkbox--disabled:hover .idp-checkbox__inner {
-    border-color: var(--idp-border-color-extra-light);
+.zjpcy-checkbox--disabled:hover .zjpcy-checkbox__inner {
+    border-color: var(--zjpcy-border-color-extra-light);
     box-shadow: none;
 }
 
-.idp-checkbox--disabled .idp-checkbox__inner {
-    background: var(--idp-input-disabled-bg);
-    border-color: var(--idp-input-disabled-border);
+.zjpcy-checkbox--disabled .zjpcy-checkbox__inner {
+    background: var(--zjpcy-input-disabled-bg);
+    border-color: var(--zjpcy-input-disabled-border);
     box-shadow: none;
 }
 
 /* 使用组合类避免多类选择器 */
-.idp-checkbox--disabled-checked .idp-checkbox__inner {
-    background: var(--idp-input-disabled-bg);
-    border-color: var(--idp-input-disabled-border);
+.zjpcy-checkbox--disabled-checked .zjpcy-checkbox__inner {
+    background: var(--zjpcy-input-disabled-bg);
+    border-color: var(--zjpcy-input-disabled-border);
 }
 
-.idp-checkbox--disabled-checked .idp-checkbox__inner::after {
-    border-color: var(--idp-text-color-light);
+.zjpcy-checkbox--disabled-checked .zjpcy-checkbox__inner::after {
+    border-color: var(--zjpcy-text-color-light);
 }
 
-.idp-checkbox--disabled-indeterminate .idp-checkbox__inner {
-    background: var(--idp-input-disabled-bg);
-    border-color: var(--idp-input-disabled-border);
+.zjpcy-checkbox--disabled-indeterminate .zjpcy-checkbox__inner {
+    background: var(--zjpcy-input-disabled-bg);
+    border-color: var(--zjpcy-input-disabled-border);
 }
 
-.idp-checkbox--disabled-indeterminate .idp-checkbox__inner::after {
-    background-color: var(--idp-text-color-light);
+.zjpcy-checkbox--disabled-indeterminate .zjpcy-checkbox__inner::after {
+    background-color: var(--zjpcy-text-color-light);
 }
 
-.idp-checkbox--disabled .idp-checkbox__label {
-    color: var(--idp-input-disabled-text);
+.zjpcy-checkbox--disabled .zjpcy-checkbox__label {
+    color: var(--zjpcy-input-disabled-text);
 }
 
 /* ============================================
    标签样式
    ============================================ */
-.idp-checkbox__label {
+.zjpcy-checkbox__label {
     font-size: 14px;
-    color: var(--idp-text-color);
+    color: var(--zjpcy-text-color);
     line-height: 1.5;
     font-weight: 400;
-    transition: color var(--idp-transition-duration) ease;
+    transition: color var(--zjpcy-transition-duration) ease;
 }
 
-.idp-checkbox:hover .idp-checkbox__label {
-    color: var(--idp-text-color);
+.zjpcy-checkbox:hover .zjpcy-checkbox__label {
+    color: var(--zjpcy-text-color);
 }
 
 /* ============================================
    复选框组样式
    ============================================ */
-.idp-checkbox-group {
+.zjpcy-checkbox-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.idp-checkbox-group--horizontal {
+.zjpcy-checkbox-group--horizontal {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 16px;
 }
 
 /* 组内的复选框间距调整 */
-.idp-checkbox-group .idp-checkbox {
+.zjpcy-checkbox-group .zjpcy-checkbox {
     margin: 0;
 }

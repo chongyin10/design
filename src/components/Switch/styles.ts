@@ -27,11 +27,11 @@ export const Track = styled.div<{
 }>
 `
   position: relative;
-  background: ${getCSSVar('--idp-switch-track-bg-gradient', 'linear-gradient(135deg, #e8e8e8 0%, #d9d9d9 100%)')};
-  border-radius: ${getCSSVar('--idp-switch-track-radius', '12px')};
-  transition: ${getCSSVar('--idp-switch-transition', 'all 0.2s ease-in-out')};
+  background: ${getCSSVar('--zjpcy-switch-track-bg-gradient', 'linear-gradient(135deg, #e8e8e8 0%, #d9d9d9 100%)')};
+  border-radius: ${getCSSVar('--zjpcy-switch-track-radius', '12px')};
+  transition: ${getCSSVar('--zjpcy-switch-transition', 'all 0.2s ease-in-out')};
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ $disabled }) => ($disabled ? 'var(--idp-switch-disabled-opacity, 0.65)' : 1)};
+  opacity: ${({ $disabled }) => ($disabled ? 'var(--zjpcy-switch-disabled-opacity, 0.65)' : 1)};
   box-sizing: border-box;
   overflow: hidden;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -41,14 +41,14 @@ export const Track = styled.div<{
   }
 
   &.switch-track-checked {
-    background: ${getCSSVar('--idp-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
+    background: ${getCSSVar('--zjpcy-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
     box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   &.switch-track-disabled {
     cursor: not-allowed;
-    opacity: var(--idp-switch-disabled-opacity, 0.65);
-    background: ${getCSSVar('--idp-switch-disabled-bg', '#f5f5f5')};
+    opacity: var(--zjpcy-switch-disabled-opacity, 0.65);
+    background: ${getCSSVar('--zjpcy-switch-disabled-bg', '#f5f5f5')};
   }
 
   &.switch-track-loading {
@@ -69,26 +69,26 @@ export const Track = styled.div<{
       return `
         width: ${$width}px;
         min-width: ${$width}px;
-        height: ${$size === 'small' ? getCSSVar('--idp-switch-small-height', '16px') : getCSSVar('--idp-switch-default-height', '22px')};
+        height: ${$size === 'small' ? getCSSVar('--zjpcy-switch-small-height', '16px') : getCSSVar('--zjpcy-switch-default-height', '22px')};
       `;
     }
     if ($size === 'small') {
       return `
-        width: ${$hasChildren ? 'auto' : getCSSVar('--idp-switch-small-width', '28px')};
-        min-width: ${getCSSVar('--idp-switch-small-width', '28px')};
-        height: ${getCSSVar('--idp-switch-small-height', '16px')};
+        width: ${$hasChildren ? 'auto' : getCSSVar('--zjpcy-switch-small-width', '28px')};
+        min-width: ${getCSSVar('--zjpcy-switch-small-width', '28px')};
+        height: ${getCSSVar('--zjpcy-switch-small-height', '16px')};
       `;
     }
     return `
-      width: ${$hasChildren ? 'auto' : getCSSVar('--idp-switch-default-width', '44px')};
-      min-width: ${getCSSVar('--idp-switch-default-width', '44px')};
-      height: ${getCSSVar('--idp-switch-default-height', '22px')};
+      width: ${$hasChildren ? 'auto' : getCSSVar('--zjpcy-switch-default-width', '44px')};
+      min-width: ${getCSSVar('--zjpcy-switch-default-width', '44px')};
+      height: ${getCSSVar('--zjpcy-switch-default-height', '22px')};
     `;
   }}
 
   ${({ $checked }) =>
     $checked && `
-      background: ${getCSSVar('--idp-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
+      background: ${getCSSVar('--zjpcy-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
       box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
     `
   }
@@ -115,9 +115,9 @@ export const Thumb = styled.div<{
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(135deg, ${getCSSVar('--idp-switch-thumb-bg', '#fff')} 0%, ${getCSSVar('--idp-bg-color-light', '#f5f5f5')} 100%);
-  border-radius: ${getCSSVar('--idp-switch-thumb-radius', '50%')};
-  box-shadow: ${getCSSVar('--idp-switch-thumb-shadow', '0 2px 8px rgba(0, 0, 0, 0.15)')};
+  background: linear-gradient(135deg, ${getCSSVar('--zjpcy-switch-thumb-bg', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')} 100%);
+  border-radius: ${getCSSVar('--zjpcy-switch-thumb-radius', '50%')};
+  box-shadow: ${getCSSVar('--zjpcy-switch-thumb-shadow', '0 2px 8px rgba(0, 0, 0, 0.15)')};
   transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
   z-index: 2;
 
@@ -126,7 +126,7 @@ export const Thumb = styled.div<{
   }
 
   &.switch-thumb-checked {
-    box-shadow: ${getCSSVar('--idp-switch-thumb-shadow-active', '0 2px 8px rgba(24, 144, 255, 0.4)')};
+    box-shadow: ${getCSSVar('--zjpcy-switch-thumb-shadow-active', '0 2px 8px rgba(24, 144, 255, 0.4)')};
   }
 
   ${({ $size, $checked, $width }) => {
@@ -165,7 +165,7 @@ export const Thumb = styled.div<{
 
   ${({ $loading }) =>
     $loading && `
-      animation: idp-switch-thumb-spin 1s linear infinite;
+      animation: zjpcy-switch-thumb-spin 1s linear infinite;
     `
   }
 
@@ -183,8 +183,8 @@ export const LoadingIcon = styled.div<{
   position: absolute;
   top: 50%;
   margin-top: -6px; /* 12px 高度的一半，实现垂直居中 */
-  width: ${getCSSVar('--idp-switch-loading-size', '12px')};
-  height: ${getCSSVar('--idp-switch-loading-size', '12px')};
+  width: ${getCSSVar('--zjpcy-switch-loading-size', '12px')};
+  height: ${getCSSVar('--zjpcy-switch-loading-size', '12px')};
   z-index: 3;
   display: flex;
   align-items: center;
@@ -198,10 +198,10 @@ export const LoadingIcon = styled.div<{
   & > svg {
     width: 100%;
     height: 100%;
-    animation: idp-switch-spin 1s linear infinite;
+    animation: zjpcy-switch-spin 1s linear infinite;
     transform-origin: center center;
     display: block;
-    fill: ${getCSSVar('--idp-switch-loading-color', '#1890ff')};
+    fill: ${getCSSVar('--zjpcy-switch-loading-color', '#1890ff')};
   }
 
   ${({ $size, $checked, $width }) => {
@@ -282,7 +282,7 @@ export const UnCheckedInner = styled.span<{
   align-items: center;
   justify-content: flex-end;
   font-size: ${({ $size }) => $size === 'small' ? '9px' : '10px'};
-  color: ${getCSSVar('--idp-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
+  color: ${getCSSVar('--zjpcy-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
   white-space: nowrap;
   user-select: none;
   z-index: 1;
@@ -299,15 +299,15 @@ export const UnCheckedInner = styled.span<{
 
 // 注入全局样式的函数
 export const injectGlobalStyles = () => {
-  if (typeof document !== 'undefined' && !document.getElementById('idp-switch-styles')) {
+  if (typeof document !== 'undefined' && !document.getElementById('zjpcy-switch-styles')) {
     const style = document.createElement('style');
-    style.id = 'idp-switch-styles';
+    style.id = 'zjpcy-switch-styles';
     style.textContent = `
-      @keyframes idp-switch-spin {
+      @keyframes zjpcy-switch-spin {
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
       }
-      @keyframes idp-switch-thumb-spin {
+      @keyframes zjpcy-switch-thumb-spin {
         from { transform: translateY(-50%) rotate(0deg); }
         to { transform: translateY(-50%) rotate(360deg); }
       }

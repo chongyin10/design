@@ -104,7 +104,7 @@ const Progress: React.FC<ProgressProps> = ({
 
         return (
             <div
-                className={classNames('idp-progress', 'idp-progress-circle', className)}
+                className={classNames('zjpcy-progress', 'zjpcy-progress-circle', className)}
                 style={style}
             >
                 <svg
@@ -145,7 +145,7 @@ const Progress: React.FC<ProgressProps> = ({
                     />
                 </svg>
                 {showInfo && (
-                    <div className="idp-progress-info">
+                    <div className="zjpcy-progress-info">
                         {children || (
                             <>
                                 {renderIcon()}
@@ -180,21 +180,21 @@ const Progress: React.FC<ProgressProps> = ({
             return (
                 <div
                     key={index}
-                    className={classNames('idp-progress-step', {
-                        'idp-progress-step--completed': isCompleted,
-                        'idp-progress-step--current': isCurrent,
-                        'idp-progress-step--pending': isPending,
-                        'idp-progress-step--success': isSuccess
+                    className={classNames('zjpcy-progress-step', {
+                        'zjpcy-progress-step--completed': isCompleted,
+                        'zjpcy-progress-step--current': isCurrent,
+                        'zjpcy-progress-step--pending': isPending,
+                        'zjpcy-progress-step--success': isSuccess
                     })}
                     style={{
-                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                        transition: transition ? 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)' : 'none'
                     }}
                 />
             );
         });
         
         return (
-            <div className="idp-progress-steps">
+            <div className="zjpcy-progress-steps">
                 {stepList}
             </div>
         );
@@ -243,15 +243,15 @@ const Progress: React.FC<ProgressProps> = ({
             return (
                 <div
                     key={index}
-                    className={classNames('idp-progress-segment', {
-                        'idp-progress-segment--completed': isCompleted,
-                        'idp-progress-segment--current': isCurrent,
-                        'idp-progress-segment--pending': isPending
+                    className={classNames('zjpcy-progress-segment', {
+                        'zjpcy-progress-segment--completed': isCompleted,
+                        'zjpcy-progress-segment--current': isCurrent,
+                        'zjpcy-progress-segment--pending': isPending
                     })}
                     style={{
                         width: `${segmentPercent}%`,
                         ...(isPending ? {} : getSegmentStyle(segment)),
-                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                        transition: transition ? 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)' : 'none'
                     }}
                 />
             );
@@ -263,18 +263,18 @@ const Progress: React.FC<ProgressProps> = ({
             segmentList.push(
                 <div
                     key="remaining"
-                    className="idp-progress-segment idp-progress-segment--remaining"
+                    className="zjpcy-progress-segment zjpcy-progress-segment--remaining"
                     style={{
                         width: `${remainingPercent}%`,
                         backgroundColor: 'gainsboro',
-                        transition: transition ? 'all var(--idp-transition-duration) var(--idp-transition-timing-function)' : 'none'
+                        transition: transition ? 'all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function)' : 'none'
                     }}
                 />
             );
         }
         
         return (
-            <div className="idp-progress-segments">
+            <div className="zjpcy-progress-segments">
                 {segmentList}
             </div>
         );
@@ -284,30 +284,30 @@ const Progress: React.FC<ProgressProps> = ({
     return (
         <div
             className={classNames(
-                'idp-progress',
-                `idp-progress-${size}`,
-                `idp-progress-line`,
-                { 'idp-progress-success': status === 'success' },
-                { 'idp-progress-exception': status === 'exception' },
-                { 'idp-progress-steps': steps && steps > 0 },
-                { 'idp-progress-has-segments': segments && segments.length > 0 },
+                'zjpcy-progress',
+                `zjpcy-progress-${size}`,
+                `zjpcy-progress-line`,
+                { 'zjpcy-progress-success': status === 'success' },
+                { 'zjpcy-progress-exception': status === 'exception' },
+                { 'zjpcy-progress-steps': steps && steps > 0 },
+                { 'zjpcy-progress-has-segments': segments && segments.length > 0 },
                 className
             )}
             style={style}
         >
-            <div className="idp-progress-wrapper">
-                <div className="idp-progress-outer">
+            <div className="zjpcy-progress-wrapper">
+                <div className="zjpcy-progress-outer">
                     {steps && steps > 0 ? (
                         renderSteps()
                     ) : segments && segments.length > 0 ? (
                         renderSegments()
                     ) : (
-                        <div className="idp-progress-inner" style={{ background: trailColor }}>
+                        <div className="zjpcy-progress-inner" style={{ background: trailColor }}>
                             <div
-                                className={classNames('idp-progress-bg', {
-                                    'idp-progress-bg--success': status === 'success',
-                                    'idp-progress-bg--exception': status === 'exception',
-                                    'idp-progress-bg--animated': isAnimated()
+                                className={classNames('zjpcy-progress-bg', {
+                                    'zjpcy-progress-bg--success': status === 'success',
+                                    'zjpcy-progress-bg--exception': status === 'exception',
+                                    'zjpcy-progress-bg--animated': isAnimated()
                                 })}
                                 style={{
                                     width: `${Math.min(100, Math.max(0, percent))}%`,
@@ -321,11 +321,11 @@ const Progress: React.FC<ProgressProps> = ({
                 </div>
             </div>
             {showInfo && (
-                <div className="idp-progress-info">
-                    {renderIcon() && <span className="idp-progress-icon">{renderIcon()}</span>}
-                    {prefix && <span className="idp-progress-prefix">{prefix}</span>}
+                <div className="zjpcy-progress-info">
+                    {renderIcon() && <span className="zjpcy-progress-icon">{renderIcon()}</span>}
+                    {prefix && <span className="zjpcy-progress-prefix">{prefix}</span>}
                     <span>{formatPercent()}</span>
-                    {suffix && <span className="idp-progress-suffix">{suffix}</span>}
+                    {suffix && <span className="zjpcy-progress-suffix">{suffix}</span>}
                 </div>
             )}
         </div>

@@ -174,7 +174,7 @@
     visibility: hidden;
 }
 
-/* 下拉面板 - 高度与 DatePicker 的 idp-datepicker-dropdown 保持一致 */
+/* 下拉面板 - 高度与 DatePicker 的 zjpcy-datepicker-dropdown 保持一致 */
 .time-picker-dropdown {
     position: absolute;
     top: 100%;
@@ -193,7 +193,7 @@
     flex-direction: column;
 }
 
-/* 面板高度与 DatePicker 的 idp-datepicker-dropdown 保持一致 - 自然撑开 */
+/* 面板高度与 DatePicker 的 zjpcy-datepicker-dropdown 保持一致 - 自然撑开 */
 .time-picker-panel {
     display: flex;
     width: 200px;

@@ -18,12 +18,12 @@ const Typography: React.FC<TypographyProps> = ({
   // 根据行数生成相应的CSS类
   const getLineClampClass = (rows: number | undefined) => {
     if (!rows) return '';
-    return `idp-typography--line-clamp-${rows}`;
+    return `zjpcy-typography--line-clamp-${rows}`;
   };
 
   // 构建类名数组，过滤掉空字符串
   const classNames = [
-    'idp-typography',
+    'zjpcy-typography',
     getLineClampClass(rows),
     className
   ].filter(Boolean);

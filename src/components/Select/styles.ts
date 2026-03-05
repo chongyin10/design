@@ -26,7 +26,7 @@ export const LabelWrapper = styled.div`
 // 标签样式
 export const Label = styled.div`
     font-size: 14px;
-    color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
     white-space: nowrap;
     flex-shrink: 0;
     font-weight: 500;
@@ -45,20 +45,20 @@ export const Selector = styled.div<{
     display: flex;
     align-items: center;
     width: 100%;
-    border: 1px solid ${({ $open }) => $open ? getCSSVar('--idp-primary-color', '#1890ff') : getCSSVar('--idp-input-border', '#d9d9d9')};
-    border-radius: ${getCSSVar('--idp-border-radius-lg', '8px')};
-    background: linear-gradient(135deg, ${getCSSVar('--idp-bg-color-white', '#fff')} 0%, ${getCSSVar('--idp-bg-color', '#fafafa')} 100%);
-    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ${getCSSVar('--idp-transition-timing-function', 'ease-in-out')};
+    border: 1px solid ${({ $open }) => $open ? getCSSVar('--zjpcy-primary-color', '#1890ff') : getCSSVar('--zjpcy-input-border', '#d9d9d9')};
+    border-radius: ${getCSSVar('--zjpcy-border-radius-lg', '8px')};
+    background: linear-gradient(135deg, ${getCSSVar('--zjpcy-bg-color-white', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%);
+    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ${getCSSVar('--zjpcy-transition-timing-function', 'ease-in-out')};
     outline: none;
     box-sizing: border-box;
-    box-shadow: ${({ $open }) => $open ? getCSSVar('--idp-input-box-shadow-focus', '0 0 0 2px rgba(51, 154, 240, 0.2)') : getCSSVar('--idp-shadow-extra-light', '0 2px 8px rgba(0, 0, 0, 0.08)')};  
+    box-shadow: ${({ $open }) => $open ? getCSSVar('--zjpcy-input-box-shadow-focus', '0 0 0 2px rgba(51, 154, 240, 0.2)') : getCSSVar('--zjpcy-shadow-extra-light', '0 2px 8px rgba(0, 0, 0, 0.08)')};  
     overflow: hidden;
     cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-    opacity: ${({ $disabled }) => ($disabled ? getCSSVar('--idp-opacity-disabled', '0.65') : 1)};
+    opacity: ${({ $disabled }) => ($disabled ? getCSSVar('--zjpcy-opacity-disabled', '0.65') : 1)};
 
     &:hover {
-        border-color: ${({ $disabled }) => $disabled ? getCSSVar('--idp-input-border', '#d9d9d9') : getCSSVar('--idp-primary-color', '#1890ff')};
-        box-shadow: ${({ $disabled }) => $disabled ? 'none' : getCSSVar('--idp-input-box-shadow-hover', '0 0 0 2px rgba(51, 154, 240, 0.2)')};
+        border-color: ${({ $disabled }) => $disabled ? getCSSVar('--zjpcy-input-border', '#d9d9d9') : getCSSVar('--zjpcy-primary-color', '#1890ff')};
+        box-shadow: ${({ $disabled }) => $disabled ? 'none' : getCSSVar('--zjpcy-input-box-shadow-hover', '0 0 0 2px rgba(51, 154, 240, 0.2)')};
     }
 
     &.select-selector {
@@ -104,13 +104,13 @@ export const SelectorContent = styled.div`
 
 // 占位符
 export const Placeholder = styled.span`
-    color: ${getCSSVar('--idp-text-color-light', '#bfbfbf')};
+    color: ${getCSSVar('--zjpcy-text-color-light', '#bfbfbf')};
     user-select: none;
 `;
 
 // 单选显示文本
 export const SingleValue = styled.span`
-    color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -132,17 +132,17 @@ export const Tag = styled.span<{
     display: inline-flex;
     align-items: center;
     padding: 2px 8px;
-    background: ${getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
-    border: 1px solid ${getCSSVar('--idp-primary-color', '#1890ff')};
-    border-radius: ${getCSSVar('--idp-border-radius-sm', '4px')};
-    color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+    background: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
+    border: 1px solid ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
+    border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
+    color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
     font-size: 13px;
     line-height: 1.4;
-    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
+    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
 
     &:hover {
-        background: ${getCSSVar('--idp-primary-color', '#1890ff')};
-        color: ${getCSSVar('--idp-bg-color-white', '#fff')};
+        background: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
+        color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
     }
 
     ${({ $disabled }) => $disabled && `
@@ -184,10 +184,10 @@ export const SearchInput = styled.input`
     background: transparent;
     padding: 0;
     font-size: inherit;
-    color: ${getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)')};
+    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
 
     &::placeholder {
-        color: ${getCSSVar('--idp-text-color-light', '#bfbfbf')};
+        color: ${getCSSVar('--zjpcy-text-color-light', '#bfbfbf')};
     }
 `;
 
@@ -209,13 +209,13 @@ export const ClearButton = styled.div`
     height: 16px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.06);
-    color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+    color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
     cursor: pointer;
-    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
+    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
 
     &:hover {
         background: rgba(0, 0, 0, 0.12);
-        color: ${getCSSVar('--idp-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
+        color: ${getCSSVar('--zjpcy-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
     }
 
     svg {
@@ -229,8 +229,8 @@ export const Arrow = styled.div<{ $open: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-    transition: transform ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
+    color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+    transition: transform ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
     transform: ${({ $open }) => $open ? 'rotate(180deg)' : 'rotate(0deg)'};
 
     svg {
@@ -244,7 +244,7 @@ export const LoadingIcon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+    color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
     animation: select-spin 1s linear infinite;
 
     svg {
@@ -267,15 +267,15 @@ export const Dropdown = styled.div<{
     top: calc(100% + 4px);
     left: 0;
     right: 0;
-    z-index: ${getCSSVar('--idp-z-index-modal', '1000')};
-    background: ${getCSSVar('--idp-bg-color-white', '#fff')};
-    border: 1px solid ${getCSSVar('--idp-border-color-light', '#f0f0f0')};
-    border-radius: ${getCSSVar('--idp-border-radius-md', '6px')};
-    box-shadow: ${getCSSVar('--idp-shadow-lg', '0 8px 24px rgba(0, 0, 0, 0.15)')};
+    z-index: ${getCSSVar('--zjpcy-z-index-modal', '1000')};
+    background: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
+    border: 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
+    border-radius: ${getCSSVar('--zjpcy-border-radius-md', '6px')};
+    box-shadow: ${getCSSVar('--zjpcy-shadow-lg', '0 8px 24px rgba(0, 0, 0, 0.15)')};
     opacity: ${({ $open }) => $open ? 1 : 0};
     visibility: ${({ $open }) => $open ? 'visible' : 'hidden'};
     transform: ${({ $open }) => $open ? 'translateY(0)' : 'translateY(-8px)'};
-    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ${getCSSVar('--idp-transition-timing-function', 'ease-in-out')};
+    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ${getCSSVar('--zjpcy-transition-timing-function', 'ease-in-out')};
     overflow: hidden;
 
     &.select-dropdown {
@@ -301,12 +301,12 @@ export const OptionList = styled.div<{ $maxHeight?: number }>`
     }
 
     &::-webkit-scrollbar-thumb {
-        background: ${getCSSVar('--idp-border-color', '#e8e8e8')};
+        background: ${getCSSVar('--zjpcy-border-color', '#e8e8e8')};
         border-radius: 3px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background: ${getCSSVar('--idp-text-color-light', '#bfbfbf')};
+        background: ${getCSSVar('--zjpcy-text-color-light', '#bfbfbf')};
     }
 `;
 
@@ -321,20 +321,20 @@ export const Option = styled.div<{
     align-items: center;
     padding: 10px 12px;
     cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
-    transition: all ${getCSSVar('--idp-transition-duration', '0.2s')} ease;
-    background: ${({ $selected }) => $selected ? getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)') : 'transparent'};
+    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
+    background: ${({ $selected }) => $selected ? getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)') : 'transparent'};
     color: ${({ $disabled, $selected }) => {
-        if ($disabled) return getCSSVar('--idp-text-color-light', '#bfbfbf');
-        if ($selected) return getCSSVar('--idp-primary-color', '#1890ff');
-        return getCSSVar('--idp-text-color', 'rgba(0, 0, 0, 0.85)');
+        if ($disabled) return getCSSVar('--zjpcy-text-color-light', '#bfbfbf');
+        if ($selected) return getCSSVar('--zjpcy-primary-color', '#1890ff');
+        return getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)');
     }};
     opacity: ${({ $disabled }) => $disabled ? 0.6 : 1};
 
     &:hover {
         background: ${({ $disabled, $selected }) => {
             if ($disabled) return 'transparent';
-            if ($selected) return getCSSVar('--idp-primary-light-color', 'rgba(24, 100, 240, 0.1)');
-            return getCSSVar('--idp-bg-color', '#fafafa');
+            if ($selected) return getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)');
+            return getCSSVar('--zjpcy-bg-color', '#fafafa');
         }};
     }
 
@@ -347,7 +347,7 @@ export const Option = styled.div<{
     }
 
     &.select-option-active {
-        background: ${getCSSVar('--idp-bg-color', '#fafafa')};
+        background: ${getCSSVar('--zjpcy-bg-color', '#fafafa')};
     }
 
     ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
@@ -359,7 +359,7 @@ export const CheckIcon = styled.div`
     align-items: center;
     justify-content: center;
     margin-right: 8px;
-    color: ${getCSSVar('--idp-primary-color', '#1890ff')};
+    color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
 
     svg {
         width: 14px;
@@ -373,7 +373,7 @@ export const Empty = styled.div`
     align-items: center;
     justify-content: center;
     padding: 24px 16px;
-    color: ${getCSSVar('--idp-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
+    color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
     font-size: 14px;
 `;
 
