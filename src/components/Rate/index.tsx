@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useMemo, useCallback, useEffect, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 import './Rate.css';

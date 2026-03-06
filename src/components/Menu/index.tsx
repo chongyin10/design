@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { MenuProps, MenuItem, MenuItemComponentProps } from './types';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { StepsProps, StepItem, StepStatus, StepContextType } from './types';

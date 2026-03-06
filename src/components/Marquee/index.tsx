@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import './index.css';

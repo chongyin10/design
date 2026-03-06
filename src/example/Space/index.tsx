@@ -29,7 +29,8 @@ const SpaceExample: React.FC = () => {
     { param: 'wrap', type: "'nowrap' | 'wrap' | 'wrap-reverse'", default: 'nowrap', description: '包裹方式' },
     { param: 'className', type: 'string', default: '-', description: '类名' },
     { param: 'style', type: 'React.CSSProperties', default: '-', description: '样式' },
-    { param: 'inline', type: 'boolean', default: 'false', description: '是否为内联元素' }
+    { param: 'inline', type: 'boolean', default: 'false', description: '是否为内联元素' },
+    { param: 'as', type: "'div' | 'span'", default: 'div', description: '渲染的元素类型，在 p 标签内使用时建议设置为 span' }
   ];
 
   return (
@@ -142,7 +143,7 @@ const SpaceExample: React.FC = () => {
             <div style={{ marginBottom: '20px', padding: '10px', border: '1px solid #eee', borderRadius: '8px' }}>
               <p>
                 这是一段文本，
-                <Space gap={8} inline>
+                <Space gap={8} inline as="span">
                   <Button variant="primary" size="small">按钮1</Button>
                   <Button variant="secondary" size="small">按钮2</Button>
                 </Space>
@@ -152,7 +153,7 @@ const SpaceExample: React.FC = () => {
             <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ borderRadius: '6px', margin: '0' }}>
 {`<p>
   这是一段文本，
-  <Space gap={8} inline>
+  <Space gap={8} inline as="span">
     <Button variant="primary" size="small">按钮1</Button>
     <Button variant="secondary" size="small">按钮2</Button>
   </Space>
@@ -235,7 +236,7 @@ const SpaceExample: React.FC = () => {
 // 内联模式
 <p>
   这是一段文本，
-  <Space gap={8} inline>
+  <Space gap={8} inline as="span">
     <Button variant="primary" size="small">按钮1</Button>
     <Button variant="secondary" size="small">按钮2</Button>
   </Space>

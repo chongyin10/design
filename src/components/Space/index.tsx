@@ -2,14 +2,15 @@ import React from 'react';
 import { SpaceProps } from './types';
 import './Space.css';
 
-const Space: React.FC<SpaceProps> = ({ 
-  children, 
-  gap = 12, 
-  align = 'center', 
-  wrap = 'nowrap', 
+const Space: React.FC<SpaceProps> = ({
+  children,
+  gap = 12,
+  align = 'center',
+  wrap = 'nowrap',
   className,
   style = {},
-  inline = false
+  inline = false,
+  as: Component = 'div'
 }) => {
   // 过滤掉null和undefined的子元素
   const validChildren = React.Children.toArray(children).filter(child => 
@@ -38,7 +39,7 @@ const Space: React.FC<SpaceProps> = ({
   if (validChildren.length === 0) return null;
 
   return (
-    <div
+    <Component
       className={`space ${inline ? 'space-inline' : ''} ${className || ''}`}
       style={{
         display: inline ? 'inline-flex' : 'flex',
@@ -49,11 +50,11 @@ const Space: React.FC<SpaceProps> = ({
       }}
     >
       {validChildren.map((child, index) => (
-        <div key={index} className="space-item">
+        <span key={index} className="space-item">
           {child}
-        </div>
+        </span>
       ))}
-    </div>
+    </Component>
   );
 };
 

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';

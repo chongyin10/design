@@ -28,5 +28,9 @@ export interface SpaceProps {
     /**
      * 是否为内联元素
      */
+    /**
+     * 渲染的元素类型，默认为 'div'，在 p 标签内使用时建议设置为 'span'
+     */
+    as?: 'div' | 'span';
     inline?: boolean;
 }

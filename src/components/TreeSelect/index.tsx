@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import Icon from '../Icon';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, ReactNode, useState, useCallback } from 'react';
 import { createRoot } from 'react-dom/client';
 import MessageComponent from './Message';

@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import './Slider.css';
 import { SliderProps } from './types';

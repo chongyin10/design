@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useContext, createContext, useCallback, useRef, useEffect } from 'react';
 import { FormProps, FormItemProps, FormContextType, FormInstance, Rule } from './types';
 import { FormWrapper, FormItemWrapper, FormLabel, FormControl, FormError, FormHelp } from './styles';

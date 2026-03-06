@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { SwitchProps } from './types';
 import { Wrapper, Track, Thumb, LoadingIcon, CheckedInner, UnCheckedInner, injectGlobalStyles } from './styles';

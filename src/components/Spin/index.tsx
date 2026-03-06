@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { SpinProps, SpinSize } from './types';
 import './Spin.css';

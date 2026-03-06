@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo } from 'react';
 // Import only what's needed for basic functionality
 import { PresetIcon } from './path';

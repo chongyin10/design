@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { CheckboxProps, CheckboxGroupProps } from './types';

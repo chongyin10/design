@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useCallback } from 'react';
 import classNames from 'classnames';
 import { UploadProps, UploadFile, UploadRequestOptions, ShowUploadListType } from './types';

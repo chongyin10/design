@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { MasonryProps, ResponsiveConfig } from './types';
 import './Masonry.css';
