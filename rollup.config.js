@@ -6,6 +6,7 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
 import json from '@rollup/plugin-json';
+import preserveDirectives from 'rollup-preserve-directives';
 import fs from 'fs';
 import path from 'path';
 import { promises as fsPromises } from 'fs';
@@ -116,6 +117,7 @@ export default {
         isolatedModules: true,
       },
     }),
+    preserveDirectives(),
     postcss({
       plugins: [autoprefixer()],
       extract: true,
@@ -133,6 +135,10 @@ export default {
       mangle: {
         keep_classnames: false,
         keep_fnames: false,
+      },
+      compress: {
+        // Preserve directives like "use client" and "use server"
+        directives: false,
       },
     }),
     copyAssetsPlugin(),
