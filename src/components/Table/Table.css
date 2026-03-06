@@ -661,3 +661,86 @@
 .zjpcy-table-sortable-row.zjpcy-table-sortable-row-dragging {
   box-shadow: var(--zjpcy-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
 }
+
+/* ============================================
+   行选择功能样式
+   ============================================ */
+
+/* 行选择列单元格样式 */
+.custom-table th:first-child[data-selection-col],
+.custom-table td:first-child[data-selection-col] {
+  width: var(--zjpcy-table-selection-col-width, 50px);
+  min-width: var(--zjpcy-table-selection-col-width, 50px);
+  max-width: var(--zjpcy-table-selection-col-width, 50px);
+  text-align: center;
+  padding: 12px 8px;
+}
+
+/* 选择列内的 Checkbox/Radio 垂直居中 */
+.custom-table td .zjpcy-checkbox,
+.custom-table td .zjpcy-radio,
+.custom-table th .zjpcy-checkbox,
+.custom-table th .zjpcy-radio {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* 选中行的背景色 */
+.custom-table tbody tr.zjpcy-table-row-selected {
+  background-color: var(--zjpcy-table-row-selected-bg, #e6f7ff) !important;
+}
+
+.custom-table tbody tr.zjpcy-table-row-selected td {
+  background-color: var(--zjpcy-table-row-selected-bg, #e6f7ff) !important;
+}
+
+/* 选中行悬停效果 */
+.custom-table tbody tr.zjpcy-table-row-selected:hover {
+  background-color: var(--zjpcy-table-row-selected-hover-bg, #d9f7ff) !important;
+}
+
+.custom-table tbody tr.zjpcy-table-row-selected:hover td {
+  background-color: var(--zjpcy-table-row-selected-hover-bg, #d9f7ff) !important;
+}
+
+/* 禁用行样式 */
+.custom-table tbody tr.zjpcy-table-row-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 选择列表头固定样式 */
+.custom-table th[data-selection-col] {
+  background-color: var(--zjpcy-table-header-bg, #fafafa) !important;
+  z-index: 11 !important;
+}
+
+/* 拖拽行中的选择列样式 */
+.zjpcy-table-sortable-row td:first-child .zjpcy-checkbox,
+.zjpcy-table-sortable-row td:first-child .zjpcy-radio {
+  pointer-events: auto;
+}
+
+/* ============================================
+   Tooltip 单元格包装器样式
+   ============================================ */
+
+/* Tooltip 单元格包装器 */
+.zjpcy-table-cell-tooltip-wrapper {
+  display: inline;
+  max-width: 100%;
+}
+
+/* 当单元格有省略号时，Tooltip 包装器需要 block 显示 */
+.zjpcy-table-cell-has-ellipsis .zjpcy-table-cell-tooltip-wrapper {
+  display: block;
+  width: 100%;
+}
+
+/* 确保 Tooltip 触发区域覆盖整个单元格内容 */
+.zjpcy-table-cell-tooltip-wrapper .zjpcy-table-cell-ellipsis {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

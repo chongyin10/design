@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import './Tooltip.css';
 
 export interface TooltipProps {
@@ -46,8 +47,6 @@ const Tooltip: React.FC<TooltipProps> = ({
 
         const containerRect = containerRef.current.getBoundingClientRect();
         const tooltipRect = tooltipRef.current.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
 
         let top = 0;
         let left = 0;
@@ -71,7 +70,8 @@ const Tooltip: React.FC<TooltipProps> = ({
                 break;
         }
 
-        setPosition({ top: top + scrollTop, left: left + scrollLeft });
+        // position: fixed 定位不需要加滚动偏移，getBoundingClientRect 已经是相对于视口的位置
+        setPosition({ top, left });
     }, [placement]);
 
     // 显示 tooltip
@@ -203,6 +203,37 @@ const Tooltip: React.FC<TooltipProps> = ({
         };
     }, []);
 
+    // Tooltip 内容
+    const tooltipContent = shouldRender && title && (
+        <div
+            ref={tooltipRef}
+            className={`zjpcy-tooltip zjpcy-tooltip-${placement} ${isAnimating ? 'is-visible' : ''} ${className}`}
+            style={{
+                position: 'fixed',
+                top: position.top,
+                left: position.left,
+                zIndex: 1000,
+                backgroundColor: backgroundColor,
+                ...style
+            }}
+            onMouseEnter={trigger === 'hover' && !isControlled ? () => {
+                if (hideTimeoutRef.current) {
+                    clearTimeout(hideTimeoutRef.current);
+                    hideTimeoutRef.current = null;
+                }
+                setInternalVisible(true);
+                setIsAnimating(true);
+            } : undefined}
+            onMouseLeave={trigger === 'hover' && !isControlled ? hide : undefined}
+        >
+            <div className="zjpcy-tooltip-content">{title}</div>
+            <div
+                className="zjpcy-tooltip-arrow"
+                style={{ backgroundColor: backgroundColor }}
+            />
+        </div>
+    );
+
     return (
         <>
             <span
@@ -214,35 +245,8 @@ const Tooltip: React.FC<TooltipProps> = ({
             >
                 {children}
             </span>
-            {shouldRender && title && (
-                <div
-                    ref={tooltipRef}
-                    className={`zjpcy-tooltip zjpcy-tooltip-${placement} ${isAnimating ? 'is-visible' : ''} ${className}`}
-                    style={{
-                        position: 'fixed',
-                        top: position.top,
-                        left: position.left,
-                        zIndex: 1000,
-                        backgroundColor: backgroundColor,
-                        ...style
-                    }}
-                    onMouseEnter={trigger === 'hover' && !isControlled ? () => {
-                        if (hideTimeoutRef.current) {
-                            clearTimeout(hideTimeoutRef.current);
-                            hideTimeoutRef.current = null;
-                        }
-                        setInternalVisible(true);
-                        setIsAnimating(true);
-                    } : undefined}
-                    onMouseLeave={trigger === 'hover' && !isControlled ? hide : undefined}
-                >
-                    <div className="zjpcy-tooltip-content">{title}</div>
-                    <div
-                        className="zjpcy-tooltip-arrow"
-                        style={{ backgroundColor: backgroundColor }}
-                    />
-                </div>
-            )}
+            {/* 使用 Portal 将 Tooltip 渲染到 body，避免被父元素的 transform 等属性影响定位 */}
+            {tooltipContent && createPortal(tooltipContent, document.body)}
         </>
     );
 };

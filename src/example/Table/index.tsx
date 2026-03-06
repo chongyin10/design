@@ -104,6 +104,18 @@ const TableExample: React.FC = () => {
     { property: 'loadingDelay', description: '加载延迟时间（毫秒），设置后loading会在指定时间后自动取消', type: 'number', default: '-' },
     { property: 'draggable', description: '是否开启行拖拽排序功能', type: 'boolean', default: 'false' },
     { property: 'onDragEnd', description: '拖拽排序完成时的回调函数，返回新的数据顺序', type: '(newData: any[]) => void', default: '-' },
+    { property: 'rowSelection', description: '行选择配置，支持多选/单选', type: 'RowSelection', default: '-' },
+  ];
+
+  // RowSelection Props 数据
+  const rowSelectionPropsData = [
+    { property: 'type', description: '行选择类型', type: "false | 'checkbox' | 'radio'", default: 'false' },
+    { property: 'selectedRowKeys', description: '已选中的行键值（受控）', type: '(string | number)[]', default: '-' },
+    { property: 'defaultSelectedRowKeys', description: '默认选中的行键值（非受控）', type: '(string | number)[]', default: '[]' },
+    { property: 'onChange', description: '选中变化时的回调', type: '(selectedRowKeys, selectedRows) => void', default: '-' },
+    { property: 'getCheckboxProps', description: '获取行禁用状态的函数', type: '(record, index) => { disabled?: boolean }', default: '-' },
+    { property: 'columnWidth', description: '行选择列宽度', type: 'number | string', default: "'50px'" },
+    { property: 'columnTitle', description: '行选择列标题', type: 'ReactNode', default: '-' },
   ];
 
   // Column Props 数据
@@ -181,6 +193,149 @@ const TableExample: React.FC = () => {
     );
   };
 
+  // 多选表格示例组件
+  const CheckboxSelectionDemo: React.FC = () => {
+    const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+    const [selectedRows, setSelectedRows] = useState<any[]>([]);
+
+    const selectionData = [
+      { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+      { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+      { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' },
+      { id: 4, name: '赵六', age: 32, gender: '女', email: 'zhaoliu@example.com' },
+    ];
+
+    const selectionColumns: Column[] = [
+      { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+      { dataIndex: 'name', title: '姓名' },
+      { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+      { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+      { dataIndex: 'email', title: '邮箱' }
+    ];
+
+    const handleRowSelectionChange = (keys: (string | number)[], rows: any[]) => {
+      setSelectedRowKeys(keys);
+      setSelectedRows(rows);
+    };
+
+    return (
+      <div>
+        <Table
+          columns={selectionColumns}
+          dataSource={selectionData}
+          rowKey="id"
+          rowSelection={{
+            type: 'checkbox',
+            selectedRowKeys,
+            onChange: handleRowSelectionChange,
+          }}
+        />
+        <div style={{ marginTop: 16, padding: 12, background: '#f5f5f5', borderRadius: 6 }}>
+          <div>已选中 {selectedRowKeys.length} 项: {selectedRowKeys.join(', ') || '无'}</div>
+          <div style={{ marginTop: 8, fontSize: 13, color: '#666' }}>
+            选中行数据: {selectedRows.map(r => r.name).join(', ') || '无'}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // 单选表格示例组件
+  const RadioSelectionDemo: React.FC = () => {
+    const [selectedRowKey, setSelectedRowKey] = useState<string | number | null>(null);
+    const [selectedRow, setSelectedRow] = useState<any>(null);
+
+    const selectionData = [
+      { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+      { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+      { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' },
+    ];
+
+    const selectionColumns: Column[] = [
+      { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+      { dataIndex: 'name', title: '姓名' },
+      { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+      { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+      { dataIndex: 'email', title: '邮箱' }
+    ];
+
+    const handleRowSelectionChange = (keys: (string | number)[], rows: any[]) => {
+      setSelectedRowKey(keys[0] || null);
+      setSelectedRow(rows[0] || null);
+    };
+
+    return (
+      <div>
+        <Table
+          columns={selectionColumns}
+          dataSource={selectionData}
+          rowKey="id"
+          rowSelection={{
+            type: 'radio',
+            selectedRowKeys: selectedRowKey ? [selectedRowKey] : [],
+            onChange: handleRowSelectionChange,
+          }}
+        />
+        <div style={{ marginTop: 16, padding: 12, background: '#f5f5f5', borderRadius: 6 }}>
+          <div>当前选中: {selectedRowKey || '无'}</div>
+          <div style={{ marginTop: 8, fontSize: 13, color: '#666' }}>
+            选中行: {selectedRow ? `${selectedRow.name} (${selectedRow.email})` : '无'}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // 带禁用项的行选择示例
+  const SelectionWithDisabledDemo: React.FC = () => {
+    const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+
+    const selectionData = [
+      { id: 1, name: '张三', age: 25, department: '研发部', status: 'active' },
+      { id: 2, name: '李四', age: 30, department: '市场部', status: 'inactive' },
+      { id: 3, name: '王五', age: 28, department: '财务部', status: 'active' },
+      { id: 4, name: '赵六', age: 32, department: '人事部', status: 'inactive' },
+    ];
+
+    const selectionColumns: Column[] = [
+      { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+      { dataIndex: 'name', title: '姓名' },
+      { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+      { dataIndex: 'department', title: '部门', width: '120px' },
+      {
+        dataIndex: 'status',
+        title: '状态',
+        width: '100px',
+        render: (value: string) => (
+          <span style={{ color: value === 'active' ? '#52c41a' : '#bfbfbf' }}>
+            {value === 'active' ? '在职' : '离职'}
+          </span>
+        )
+      },
+    ];
+
+    return (
+      <div>
+        <Table
+          columns={selectionColumns}
+          dataSource={selectionData}
+          rowKey="id"
+          rowSelection={{
+            type: 'checkbox',
+            selectedRowKeys,
+            onChange: (keys) => setSelectedRowKeys(keys),
+            getCheckboxProps: (record: any) => ({
+              disabled: record.status === 'inactive',
+            }),
+          }}
+        />
+        <p style={{ marginTop: 12, color: '#666', fontSize: 14 }}>
+          💡 提示：离职状态（李四、赵六）的行无法被选中
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <div style={{ display: 'flex', gap: '24px' }}>
@@ -195,9 +350,19 @@ const TableExample: React.FC = () => {
         <DemoRow title="基础表格">
           <Table columns={basicColumns} dataSource={basicDataSource} />
         </DemoRow>
-        <CopyBlock code={`import { Table } from '@zjpcy/simple-design';
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
 
-const columns = [
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
   { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
   { dataIndex: 'name', title: '姓名' },
   { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
@@ -205,13 +370,17 @@ const columns = [
   { dataIndex: 'email', title: '邮箱' }
 ];
 
-const dataSource = [
+const dataSource: User[] = [
   { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
   { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
   { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
 ];
 
-<Table columns={columns} dataSource={dataSource} />`} />
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -221,7 +390,37 @@ const dataSource = [
         <DemoRow title="边框样式">
           <Table columns={basicColumns} dataSource={basicDataSource} bordered />
         </DemoRow>
-        <CopyBlock code={`<Table columns={columns} dataSource={dataSource} bordered />`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -261,9 +460,23 @@ const dataSource = [
             scroll={{ x: '100%' }}
           />
         </DemoRow>
-        <CopyBlock code={`import { Table, Button, Flex } from '@zjpcy/simple-design';
+        <CopyBlock code={`import React from 'react';
+import { Table, Button, Flex } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
 
-const columns = [
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+}
+
+const columns: Column[] = [
   { dataIndex: 'id', title: 'ID', width: '60px', align: 'center', fixed: 'start' },
   { dataIndex: 'name', title: '姓名', width: '120px' },
   { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
@@ -287,7 +500,17 @@ const columns = [
   }
 ];
 
-<Table columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />`} />
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com', phone: '13800138000', address: '北京市朝阳区', city: '北京', country: '中国' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com', phone: '13900139000', address: '上海市浦东新区', city: '上海', country: '中国' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com', phone: '13700137000', address: '广州市天河区', city: '广州', country: '中国' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -307,7 +530,39 @@ const columns = [
             scroll={{ y: 300 }}
           />
         </DemoRow>
-        <CopyBlock code={`<Table columns={columns} dataSource={dataSource} scroll={{ y: 300 }} />`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = Array.from({ length: 12 }, (_, i) => ({
+  id: i + 1,
+  name: ['张三', '李四', '王五', '赵六', '孙七', '周八', '吴九', '郑十', '钱十一', '孙十二', '周十三', '吴十四'][i],
+  age: 20 + Math.floor(Math.random() * 20),
+  gender: Math.random() > 0.5 ? '男' : '女',
+  email: 'user' + (i + 1) + '@example.com'
+}));
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} scroll={{ y: 300 }} />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -329,15 +584,33 @@ const columns = [
             bordered
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={[
-    { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
-    { dataIndex: 'title', title: '标题', width: '120px' },
-    { dataIndex: 'content', title: '内容（限制2行）', maxLines: 2 }
-  ]}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Item {
+  id: number;
+  title: string;
+  content: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
+  { dataIndex: 'title', title: '标题', width: '120px' },
+  { dataIndex: 'content', title: '内容（限制2行）', maxLines: 2 }
+];
+
+const dataSource: Item[] = [
+  { id: 1, title: '项目简介', content: '这是一个非常长的项目简介，包含了项目的详细背景、目标、范围和预期成果。项目将在未来六个月内完成。' },
+  { id: 2, title: '技术方案', content: '采用前后端分离架构，前端使用React + TypeScript，后端使用Node.js + MySQL。整个系统将部署在云服务器上。' },
+  { id: 3, title: '团队介绍', content: '我们的团队由资深工程师、产品经理、UI设计师和测试工程师组成。团队成员平均工作经验超过5年。' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -361,16 +634,35 @@ const columns = [
             bordered
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={[
-    { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
-    { dataIndex: 'name', title: '姓名', width: '100px' },
-    { dataIndex: 'email', title: '邮箱', tooltip: true },
-    { dataIndex: 'address', title: '地址', tooltip: true }
-  ]}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Contact {
+  id: number;
+  name: string;
+  email: string;
+  address: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
+  { dataIndex: 'name', title: '姓名', width: '100px' },
+  { dataIndex: 'email', title: '邮箱', tooltip: true },
+  { dataIndex: 'address', title: '地址', tooltip: true }
+];
+
+const dataSource: Contact[] = [
+  { id: 1, name: '张三', email: 'zhangsan@example.com', address: '北京市朝阳区建国路88号SOHO现代城A座1201室' },
+  { id: 2, name: '李四', email: 'lisi@example.com', address: '上海市浦东新区陆家嘴环路1000号恒生银行大厦28层' },
+  { id: 3, name: '王五', email: 'wangwu@example.com', address: '广州市天河区珠江新城华夏路30号富力盈通大厦15层' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
 
         <DemoRow title="Tooltip + maxLines 组合使用">
           <Table
@@ -387,15 +679,33 @@ const columns = [
             bordered
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={[
-    { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
-    { dataIndex: 'title', title: '标题', width: '120px' },
-    { dataIndex: 'content', title: '内容（限制1行 + Tooltip）', maxLines: 1, tooltip: true }
-  ]}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Document {
+  id: number;
+  title: string;
+  content: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '80px', align: 'center' },
+  { dataIndex: 'title', title: '标题', width: '120px' },
+  { dataIndex: 'content', title: '内容（限制1行 + Tooltip）', maxLines: 1, tooltip: true }
+];
+
+const dataSource: Document[] = [
+  { id: 1, title: '项目简介', content: '这是一个非常长的项目简介，包含了项目的详细背景、目标、范围和预期成果。项目将在未来六个月内完成，涉及多个团队和部门的协作。' },
+  { id: 2, title: '技术方案', content: '采用前后端分离架构，前端使用React + TypeScript，后端使用Node.js + MySQL。整个系统将部署在云服务器上，并使用Docker容器化。' },
+  { id: 3, title: '团队介绍', content: '我们的团队由资深工程师、产品经理、UI设计师和测试工程师组成。团队成员平均工作经验超过5年，具备丰富的项目经验。' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：鼠标移入单元格后立即显示美观的气泡提示框</p>
             </Section>
           </div>
@@ -423,18 +733,52 @@ const columns = [
             }}
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={columns}
-  dataSource={dataSource}
-  pagination={{
-    total: 100,
-    pageSize: 10,
-    current: 1,
-    onChange: (page, pageSize) => {
-      console.log('当前页码:', page, '每页条数:', pageSize);
-    }
-  }}
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = Array.from({ length: 100 }, (_, i) => ({
+  id: i + 1,
+  name: '用户' + (i + 1),
+  age: 20 + Math.floor(Math.random() * 20),
+  gender: Math.random() > 0.5 ? '男' : '女',
+  email: 'user' + (i + 1) + '@example.com'
+}));
+
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      pagination={{
+        total: 100,
+        pageSize: 10,
+        current: 1,
+        onChange: (page: number, pageSize: number) => {
+          console.log('当前页码:', page, '每页条数:', pageSize);
+        }
+      }}
+    />
+  );
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -464,21 +808,55 @@ const columns = [
             }}
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={columns}
-  dataSource={dataSource}
-  pagination={{
-    total: 200,
-    pageSize: 15,
-    current: 1,
-    showSizeChanger: true,
-    showQuickJumper: true,
-    showTotal: (total, range) => '显示 ' + range[0] + '-' + range[1] + ' 条，共 ' + total + ' 条',
-    onChange: (page, pageSize) => {
-      console.log('当前页码:', page, '每页条数:', pageSize);
-    }
-  }}
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = Array.from({ length: 200 }, (_, i) => ({
+  id: i + 1,
+  name: '用户' + (i + 1),
+  age: 20 + Math.floor(Math.random() * 20),
+  gender: Math.random() > 0.5 ? '男' : '女',
+  email: 'user' + (i + 1) + '@example.com'
+}));
+
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      pagination={{
+        total: 200,
+        pageSize: 15,
+        current: 1,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: (total: number, range: [number, number]) => \`显示 \${range[0]}-\${range[1]} 条，共 \${total} 条\`,
+        onChange: (page: number, pageSize: number) => {
+          console.log('当前页码:', page, '每页条数:', pageSize);
+        }
+      }}
+    />
+  );
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -497,12 +875,38 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 不设置 scroll.x，宽度默认为 100%
-<Table
-  columns={columns}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+// 不设置 scroll.x，宽度默认为 100%
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
 
         <h3>2. 设置 scroll.x = 600（固定宽度）</h3>
         <DemoRow title="固定宽度 600px">
@@ -515,13 +919,38 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 设置固定宽度 600px
-<Table
-  columns={columns}
-  dataSource={dataSource}
-  scroll={{ x: 600 }}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+// 设置固定宽度 600px
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} scroll={{ x: 600 }} bordered />;
+};
+
+export default App;`} />
 
         <h3>3. 设置 scroll.x = '100%'（显式设置）</h3>
         <DemoRow title="显式 100%">
@@ -534,13 +963,38 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 显式设置宽度为 100%
-<Table
-  columns={columns}
-  dataSource={dataSource}
-  scroll={{ x: '100%' }}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+// 显式设置宽度为 100%
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} scroll={{ x: '100%' }} bordered />;
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -559,12 +1013,38 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 响应式表格，会随着容器大小自动调整
-<Table
-  columns={columns}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+// 响应式表格，会随着容器大小自动调整
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：拖动右侧边框调整容器宽度，观察表格如何自动缩小</p>
 
         <h3>2. 长文本内容测试</h3>
@@ -586,17 +1066,36 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 长文本内容测试，观察文本如何换行或隐藏
-<Table
-  columns={[
-    { dataIndex: 'id', title: 'ID', width: '60px' },
-    { dataIndex: 'name', title: '姓名', width: '100px' },
-    { dataIndex: 'description', title: '描述' },
-    { dataIndex: 'action', title: '操作', width: '80px' }
-  ]}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Item {
+  id: number;
+  name: string;
+  description: string;
+  action: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名', width: '100px' },
+  { dataIndex: 'description', title: '描述' },
+  { dataIndex: 'action', title: '操作', width: '80px' }
+];
+
+const dataSource: Item[] = [
+  { id: 1, name: '张三', description: '这是一个非常长的描述文本，用于测试在窗口挤压时表格单元格如何自动调整并处理长文本内容。', action: '编辑' },
+  { id: 2, name: '李四', description: '另一个长文本测试案例，包含更多的文字内容以确保测试效果更加明显和可靠。', action: '编辑' },
+  { id: 3, name: '王五', description: '短描述', action: '编辑' }
+];
+
+// 长文本内容测试，观察文本如何换行或隐藏
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：长文本会自动换行，防止表格撑破容器</p>
 
         <h3>3. 设置 maxLines 限制行数</h3>
@@ -617,16 +1116,34 @@ const columns = [
             />
           </div>
         </DemoRow>
-        <CopyBlock code={`// 使用 maxLines 限制单元格显示的最大行数
-<Table
-  columns={[
-    { dataIndex: 'id', title: 'ID', width: '60px' },
-    { dataIndex: 'title', title: '标题', width: '120px' },
-    { dataIndex: 'content', title: '内容（限制2行）', maxLines: 2 }
-  ]}
-  dataSource={dataSource}
-  bordered
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Document {
+  id: number;
+  title: string;
+  content: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'title', title: '标题', width: '120px' },
+  { dataIndex: 'content', title: '内容（限制2行）', maxLines: 2 }
+];
+
+const dataSource: Document[] = [
+  { id: 1, title: '项目简介', content: '这是一个非常长的项目简介，包含了项目的详细背景、目标、范围和预期成果。项目将在未来六个月内完成，涉及多个团队和部门的协作。' },
+  { id: 2, title: '技术方案', content: '采用前后端分离架构，前端使用React + TypeScript，后端使用Node.js + MySQL。整个系统将部署在云服务器上，并使用Docker容器化。' },
+  { id: 3, title: '团队介绍', content: '我们的团队由资深工程师、产品经理、UI设计师和测试工程师组成。团队成员平均工作经验超过5年，具备丰富的项目经验。' }
+];
+
+// 使用 maxLines 限制单元格显示的最大行数
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：内容超过2行时会显示省略号</p>
             </Section>
           </div>
@@ -650,22 +1167,46 @@ const columns = [
             }
           />
         </DemoRow>
-        <CopyBlock code={`import { Table, Empty, Icon, Button } from '@zjpcy/simple-design';
+        <CopyBlock code={`import React from 'react';
+import { Table, Empty, Icon, Button } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
 
-<Table
-  columns={columns}
-  dataSource={[]}
-  empty={
-    <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-      <Empty
-        icon={<Icon type="search" size={48} color="#d9d9d9" />}
-        description="没有找到相关数据"
-      >
-        <Button variant="primary">重新加载</Button>
-      </Empty>
-    </div>
-  }
-/>`} />
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={[]}
+      empty={
+        <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+          <Empty
+            icon={<Icon type="search" size={48} color="#d9d9d9" />}
+            description="没有找到相关数据"
+          >
+            <Button variant="primary">重新加载</Button>
+          </Empty>
+        </div>
+      }
+    />
+  );
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -679,11 +1220,37 @@ const columns = [
             loading={true}
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={columns}
-  dataSource={dataSource}
-  loading={true}
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+const App: React.FC = () => {
+  return <Table columns={columns} dataSource={dataSource} loading={true} />;
+};
+
+export default App;`} />
 
         <DemoRow title="自定义加载文案">
           <Table
@@ -693,12 +1260,44 @@ const columns = [
             loadingText="数据加载中，请稍候..."
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={columns}
-  dataSource={dataSource}
-  loading={true}
-  loadingText="数据加载中，请稍候..."
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={true}
+      loadingText="数据加载中，请稍候..."
+    />
+  );
+};
+
+export default App;`} />
 
         <DemoRow title="延迟加载（3秒后自动取消）">
           <Table
@@ -708,12 +1307,44 @@ const columns = [
             loadingDelay={3000}
           />
         </DemoRow>
-        <CopyBlock code={`<Table
-  columns={columns}
-  dataSource={dataSource}
-  loading={true}
-  loadingDelay={3000}
-/>`} />
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  email: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource: User[] = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      loading={true}
+      loadingDelay={3000}
+    />
+  );
+};
+
+export default App;`} />
             </Section>
           </div>
 
@@ -724,24 +1355,32 @@ const columns = [
         <DemoRow title="可编辑表格">
           <Table columns={editableColumns} dataSource={editableDataSource} />
         </DemoRow>
-        <CopyBlock code={`import { useState } from 'react';
+        <CopyBlock code={`import React, { useState } from 'react';
 import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
 
-const TableExample = () => {
-  const [dataSource, setDataSource] = useState([
+interface Employee {
+  id: number;
+  name: string;
+  age: number;
+  department: string;
+}
+
+const EditableTableExample: React.FC = () => {
+  const [dataSource, setDataSource] = useState<Employee[]>([
     { id: 1, name: '张三', age: 25, department: '研发部' },
     { id: 2, name: '李四', age: 30, department: '市场部' },
     { id: 3, name: '王五', age: 28, department: '财务部' }
   ]);
 
-  const columns = [
+  const columns: Column[] = [
     { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
-    { dataIndex: 'name', title: '姓名', width: '120px', editable: true, onSave: (record, value) => handleSave(record, value, 'name') },
+    { dataIndex: 'name', title: '姓名', width: '120px', editable: true, onSave: (record: Employee, value: string) => handleSave(record, value, 'name') },
     { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
-    { dataIndex: 'department', title: '部门', width: '120px', editable: true, onSave: (record, value) => handleSave(record, value, 'department') }
+    { dataIndex: 'department', title: '部门', width: '120px', editable: true, onSave: (record: Employee, value: string) => handleSave(record, value, 'department') }
   ];
 
-  const handleSave = (record: any, value: string, dataIndex: string) => {
+  const handleSave = (record: Employee, value: string, dataIndex: keyof Employee) => {
     setDataSource((prevData) =>
       prevData.map((item) =>
         item.id === record.id ? { ...item, [dataIndex]: value } : item
@@ -750,7 +1389,9 @@ const TableExample = () => {
   };
 
   return <Table columns={columns} dataSource={dataSource} />;
-};`} />
+};
+
+export default EditableTableExample;`} />
             </Section>
           </div>
 
@@ -761,11 +1402,20 @@ const TableExample = () => {
         <DemoRow title="拖拽排序">
           <DraggableTableDemo />
         </DemoRow>
-        <CopyBlock code={`import { useState } from 'react';
+        <CopyBlock code={`import React, { useState } from 'react';
 import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
 
-const DraggableTableExample = () => {
-  const [dataSource, setDataSource] = useState([
+interface Employee {
+  id: string;
+  name: string;
+  age: number;
+  department: string;
+  priority: number;
+}
+
+const DraggableTableExample: React.FC = () => {
+  const [dataSource, setDataSource] = useState<Employee[]>([
     { id: '1', name: '张三', age: 25, department: '研发部', priority: 1 },
     { id: '2', name: '李四', age: 30, department: '市场部', priority: 2 },
     { id: '3', name: '王五', age: 28, department: '财务部', priority: 3 },
@@ -773,14 +1423,14 @@ const DraggableTableExample = () => {
     { id: '5', name: '孙七', age: 26, department: '技术部', priority: 5 }
   ]);
 
-  const columns = [
+  const columns: Column[] = [
     { dataIndex: 'priority', title: '序号', width: '80px', align: 'center' },
     { dataIndex: 'name', title: '姓名', width: '120px' },
     { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
     { dataIndex: 'department', title: '部门', width: '120px' }
   ];
 
-  const handleDragEnd = (newData: any[]) => {
+  const handleDragEnd = (newData: Employee[]) => {
     // 更新序号
     const updatedData = newData.map((item, index) => ({
       ...item,
@@ -799,8 +1449,154 @@ const DraggableTableExample = () => {
       rowKey="id"
     />
   );
-};`} />
+};
+
+export default DraggableTableExample;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：鼠标悬停在行上时会出现拖拽手柄，按住行即可拖拽排序</p>
+            </Section>
+          </div>
+
+          {/* 行选择功能 */}
+          <div id="table-row-selection">
+            <Section title="行选择功能">
+        <p>通过 <code>rowSelection</code> 属性可以启用行选择功能，支持多选（checkbox）和单选（radio）两种模式。</p>
+        
+        <h4 style={{ marginTop: 24, marginBottom: 16 }}>多选模式（Checkbox）</h4>
+        <p>多选模式支持通过表头复选框全选当前页的所有行。</p>
+        <DemoRow title="多选表格">
+          <CheckboxSelectionDemo />
+        </DemoRow>
+        <CopyBlock code={`import React, { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+const CheckboxSelectionExample: React.FC = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
+
+  const dataSource = [
+    { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+    { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+    { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' },
+  ];
+
+  const columns: Column[] = [
+    { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+    { dataIndex: 'name', title: '姓名' },
+    { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+    { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+    { dataIndex: 'email', title: '邮箱' }
+  ];
+
+  const handleRowSelectionChange = (keys: (string | number)[], rows: any[]) => {
+    setSelectedRowKeys(keys);
+    setSelectedRows(rows);
+  };
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      rowKey="id"
+      rowSelection={{
+        type: 'checkbox',
+        selectedRowKeys,
+        onChange: handleRowSelectionChange,
+      }}
+    />
+  );
+};
+
+export default CheckboxSelectionExample;`} />
+
+        <h4 style={{ marginTop: 32, marginBottom: 16 }}>单选模式（Radio）</h4>
+        <p>单选模式只允许选中一行，表头不会显示全选复选框。</p>
+        <DemoRow title="单选表格">
+          <RadioSelectionDemo />
+        </DemoRow>
+        <CopyBlock code={`import React, { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+const RadioSelectionExample: React.FC = () => {
+  const [selectedRowKey, setSelectedRowKey] = useState<string | number | null>(null);
+
+  const dataSource = [
+    { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+    { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+    { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' },
+  ];
+
+  const columns: Column[] = [
+    { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+    { dataIndex: 'name', title: '姓名' },
+    { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+    { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+    { dataIndex: 'email', title: '邮箱' }
+  ];
+
+  const handleRowSelectionChange = (keys: (string | number)[]) => {
+    setSelectedRowKey(keys[0] || null);
+  };
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      rowKey="id"
+      rowSelection={{
+        type: 'radio',
+        selectedRowKeys: selectedRowKey ? [selectedRowKey] : [],
+        onChange: handleRowSelectionChange,
+      }}
+    />
+  );
+};
+
+export default RadioSelectionExample;`} />
+
+        <h4 style={{ marginTop: 32, marginBottom: 16 }}>禁用行选择</h4>
+        <p>通过 <code>getCheckboxProps</code> 可以设置某些行不可选择。</p>
+        <DemoRow title="带禁用项的选择">
+          <SelectionWithDisabledDemo />
+        </DemoRow>
+        <CopyBlock code={`import React, { useState } from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+const SelectionWithDisabledExample: React.FC = () => {
+  const [selectedRowKeys, setSelectedRowKeys] = useState<(string | number)[]>([]);
+
+  const dataSource = [
+    { id: 1, name: '张三', status: 'active' },
+    { id: 2, name: '李四', status: 'inactive' },
+    { id: 3, name: '王五', status: 'active' },
+  ];
+
+  const columns: Column[] = [
+    { dataIndex: 'id', title: 'ID' },
+    { dataIndex: 'name', title: '姓名' },
+    { dataIndex: 'status', title: '状态' },
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      rowKey="id"
+      rowSelection={{
+        type: 'checkbox',
+        selectedRowKeys,
+        onChange: (keys) => setSelectedRowKeys(keys),
+        getCheckboxProps: (record) => ({
+          disabled: record.status === 'inactive',
+        }),
+      }}
+    />
+  );
+};
+
+export default SelectionWithDisabledExample;`} />
             </Section>
           </div>
 
@@ -808,16 +1604,23 @@ const DraggableTableExample = () => {
           <div id="table-api">
             <Section title="API">
         <h3>Table Props</h3>
-        <Table 
-          columns={apiTableColumns} 
-          dataSource={tablePropsData} 
+        <Table
+          columns={apiTableColumns}
+          dataSource={tablePropsData}
           pagination={false}
         />
 
         <h3>Column Props</h3>
-        <Table 
-          columns={apiTableColumns} 
-          dataSource={columnPropsData} 
+        <Table
+          columns={apiTableColumns}
+          dataSource={columnPropsData}
+          pagination={false}
+        />
+
+        <h3 style={{ marginTop: 32 }}>RowSelection Props</h3>
+        <Table
+          columns={apiTableColumns}
+          dataSource={rowSelectionPropsData}
           pagination={false}
         />
             </Section>
@@ -866,6 +1669,7 @@ import '@zjpcy/simple-design/lib/index.css';`} />
                 <Anchor.Link href="#table-loading" title="加载状态" />
                 <Anchor.Link href="#table-editable" title="可编辑单元格" />
                 <Anchor.Link href="#table-draggable" title="行拖拽排序" />
+                <Anchor.Link href="#table-row-selection" title="行选择功能" />
                 <Anchor.Link href="#table-api" title="API 文档" />
                 <Anchor.Link href="#table-install" title="安装使用" />
               </Anchor>

@@ -19,6 +19,8 @@ import Empty from '../Empty';
 import Pagination from '../Pagination';
 import Tooltip from '../Tooltip';
 import Icon from '../Icon';
+import Checkbox from '../Checkbox';
+import Radio from '../Radio';
 import SortableRow from './SortableRow';
 import './Table.css';
 
@@ -49,6 +51,23 @@ export interface PaginationProps {
     [key: string]: any;
 }
 
+export interface RowSelection {
+    /** 行选择类型，默认不显示选择列 */
+    type?: false | 'checkbox' | 'radio';
+    /** 已选中的行键值（受控） */
+    selectedRowKeys?: (string | number)[];
+    /** 默认选中的行键值（非受控） */
+    defaultSelectedRowKeys?: (string | number)[];
+    /** 选中变化时的回调 */
+    onChange?: (selectedRowKeys: (string | number)[], selectedRows: any[]) => void;
+    /** 获取行禁用状态的函数 */
+    getCheckboxProps?: (record: any, index: number) => { disabled?: boolean };
+    /** 行选择列宽度 */
+    columnWidth?: number | string;
+    /** 行选择列标题 */
+    columnTitle?: ReactNode;
+}
+
 interface TableProps {
     dataSource?: any[];
     columns?: Column[];
@@ -72,6 +91,8 @@ interface TableProps {
     draggable?: boolean;
     /** 拖拽结束时的回调函数，返回新的数据顺序 */
     onDragEnd?: (newData: any[]) => void;
+    /** 行选择配置 */
+    rowSelection?: RowSelection;
 }
 
 const Table = ({
@@ -88,6 +109,7 @@ const Table = ({
     loadingDelay,
     draggable = false,
     onDragEnd,
+    rowSelection,
 }: TableProps) => {
     const [fixedLeftColumns, setFixedLeftColumns] = useState<Column[]>([]);
     const [fixedRightColumns, setFixedRightColumns] = useState<Column[]>([]);
@@ -110,6 +132,18 @@ const Table = ({
     // 编辑状态
     const [editingCell, setEditingCell] = useState<{ rowIndex: number; colKey: string } | null>(null);
     const [editingValue, setEditingValue] = useState('');
+
+    // 行选择状态
+    const rowSelectionType = rowSelection?.type;
+    const isRowSelectionEnabled = rowSelectionType === 'checkbox' || rowSelectionType === 'radio';
+    const [internalSelectedRowKeys, setInternalSelectedRowKeys] = useState<(string | number)[]>(
+        rowSelection?.defaultSelectedRowKeys || []
+    );
+
+    // 受控与非受控的选择状态
+    const selectedRowKeys = rowSelection?.selectedRowKeys !== undefined
+        ? rowSelection.selectedRowKeys
+        : internalSelectedRowKeys;
 
     // 同步外部数据源的变化
     useEffect(() => {
@@ -348,8 +382,146 @@ const Table = ({
         return record[rowKey] || index;
     };
 
+    // 获取当前页所有可选行的键值
+    const getPageSelectableKeys = () => {
+        const paginationData = getPaginationData();
+        const displayData = paginationData ? paginationData.data : internalDataSource;
+        return displayData
+            .map((record, index) => {
+                const key = getRowKey(record, index);
+                const checkboxProps = rowSelection?.getCheckboxProps?.(record, index);
+                return { key, disabled: checkboxProps?.disabled };
+            })
+            .filter(item => !item.disabled)
+            .map(item => item.key);
+    };
+
+    // 检查当前页是否全部选中
+    const isPageAllSelected = () => {
+        const selectableKeys = getPageSelectableKeys();
+        if (selectableKeys.length === 0) return false;
+        return selectableKeys.every(key => selectedRowKeys.includes(key));
+    };
+
+    // 检查当前页是否有部分选中
+    const isPageIndeterminate = () => {
+        const selectableKeys = getPageSelectableKeys();
+        if (selectableKeys.length === 0) return false;
+        const selectedCount = selectableKeys.filter(key => selectedRowKeys.includes(key)).length;
+        return selectedCount > 0 && selectedCount < selectableKeys.length;
+    };
+
+    // 处理行选择
+    const handleRowSelect = (record: any, index: number, checked: boolean) => {
+        const key = getRowKey(record, index);
+        let newSelectedKeys: (string | number)[];
+        let newSelectedRows: any[];
+
+        if (rowSelectionType === 'radio') {
+            // 单选模式
+            newSelectedKeys = checked ? [key] : [];
+        } else {
+            // 多选模式
+            if (checked) {
+                newSelectedKeys = [...selectedRowKeys, key];
+            } else {
+                newSelectedKeys = selectedRowKeys.filter(k => k !== key);
+            }
+        }
+
+        // 获取选中的行数据
+        newSelectedRows = internalDataSource.filter(item => {
+            const itemKey = typeof rowKey === 'function'
+                ? rowKey(item, internalDataSource.indexOf(item))
+                : item[rowKey];
+            return newSelectedKeys.includes(itemKey);
+        });
+
+        // 更新内部状态
+        setInternalSelectedRowKeys(newSelectedKeys);
+
+        // 触发回调
+        rowSelection?.onChange?.(newSelectedKeys, newSelectedRows);
+    };
+
+    // 处理全选/取消全选
+    const handleSelectAll = (checked: boolean) => {
+        const paginationData = getPaginationData();
+        const displayData = paginationData ? paginationData.data : internalDataSource;
+
+        if (checked) {
+            // 选中当前页所有可选行
+            const newKeys = displayData
+                .map((record, index) => {
+                    const key = getRowKey(record, index);
+                    const checkboxProps = rowSelection?.getCheckboxProps?.(record, index);
+                    return { key, disabled: checkboxProps?.disabled };
+                })
+                .filter(item => !item.disabled)
+                .map(item => item.key);
+
+            // 合并已选中的其他页数据
+            const otherKeys = selectedRowKeys.filter(key =>
+                !displayData.some((record, index) => getRowKey(record, index) === key)
+            );
+
+            const newSelectedKeys = [...otherKeys, ...newKeys];
+            const newSelectedRows = internalDataSource.filter(item => {
+                const itemKey = typeof rowKey === 'function'
+                    ? rowKey(item, internalDataSource.indexOf(item))
+                    : item[rowKey];
+                return newSelectedKeys.includes(itemKey);
+            });
+
+            setInternalSelectedRowKeys(newSelectedKeys);
+            rowSelection?.onChange?.(newSelectedKeys, newSelectedRows);
+        } else {
+            // 取消选中当前页所有行
+            const pageKeys = displayData.map((record, index) => getRowKey(record, index));
+            const newSelectedKeys = selectedRowKeys.filter(key => !pageKeys.includes(key));
+            const newSelectedRows = internalDataSource.filter(item => {
+                const itemKey = typeof rowKey === 'function'
+                    ? rowKey(item, internalDataSource.indexOf(item))
+                    : item[rowKey];
+                return newSelectedKeys.includes(itemKey);
+            });
+
+            setInternalSelectedRowKeys(newSelectedKeys);
+            rowSelection?.onChange?.(newSelectedKeys, newSelectedRows);
+        }
+    };
+
+    // 渲染选择列表头
+    const renderSelectionHeader = () => {
+        const style: React.CSSProperties = {
+            width: rowSelection?.columnWidth || '50px',
+            textAlign: 'center',
+            backgroundColor: '#fafafa !important',
+            top: 0,
+        };
+
+        return (
+            <th key="zjpcy-table-selection-header" style={style}>
+                {rowSelectionType === 'checkbox' ? (
+                    <Checkbox
+                        checked={isPageAllSelected()}
+                        indeterminate={isPageIndeterminate()}
+                        onChange={(checked) => handleSelectAll(checked)}
+                    />
+                ) : (
+                    rowSelection?.columnTitle || ''
+                )}
+            </th>
+        );
+    };
+
     // 渲染表头单元格
-    const renderHeaderCell = (column: Column, index: number, colGroup: Column[]) => {
+    const renderHeaderCell = (column: Column, index: number, colGroup: Column[], isSelectionColumn = false) => {
+        // 处理行选择列
+        if (isSelectionColumn) {
+            return renderSelectionHeader();
+        }
+
         const style: React.CSSProperties = {
             width: column.width || 'auto',
             textAlign: column.align || 'left',
@@ -359,8 +531,11 @@ const Table = ({
 
         if (column.fixed === 'start' || column.fixed === true) {
             style.position = 'sticky';
-            // 计算左侧固定列的累积宽度
+            // 计算左侧固定列的累积宽度（考虑行选择列）
             let leftOffset = 0;
+            if (isRowSelectionEnabled) {
+                leftOffset += getColumnWidth(rowSelection?.columnWidth || '50px');
+            }
             for (let i = 0; i < index; i++) {
                 leftOffset += columnWidths[i] || 0;
             }
@@ -406,6 +581,14 @@ const Table = ({
             if (node.title !== undefined) {
                 return String(node.title);
             }
+            // 如果对象有 value 属性
+            if (node.value !== undefined) {
+                return String(node.value);
+            }
+            // 如果对象有 text 属性
+            if (node.text !== undefined) {
+                return String(node.text);
+            }
             // 尝试转换为 JSON 字符串
             try {
                 return JSON.stringify(node);
@@ -413,8 +596,25 @@ const Table = ({
                 return '';
             }
         }
-        if (typeof node === 'object' && node.props && node.props.children) {
-            return extractTextFromReactNode(node.props.children);
+        // 处理 React 元素
+        if (React.isValidElement(node)) {
+            const props = node.props as any;
+            if (props.children) {
+                return extractTextFromReactNode(props.children);
+            }
+            // 如果没有 children，尝试其他常见属性
+            if (props.title !== undefined) {
+                return String(props.title);
+            }
+            if (props.label !== undefined) {
+                return String(props.label);
+            }
+            if (props.value !== undefined) {
+                return String(props.value);
+            }
+            if (props.alt !== undefined) {
+                return String(props.alt);
+            }
         }
         return '';
     };
@@ -440,8 +640,45 @@ const Table = ({
         setEditingValue('');
     };
 
+    // 渲染选择列单元格
+    const renderSelectionCell = (record: any, rowIndex: number) => {
+        const key = getRowKey(record, rowIndex);
+        const isSelected = selectedRowKeys.includes(key);
+        const checkboxProps = rowSelection?.getCheckboxProps?.(record, rowIndex);
+        const isDisabled = checkboxProps?.disabled || false;
+
+        const style: React.CSSProperties = {
+            width: rowSelection?.columnWidth || '50px',
+            textAlign: 'center',
+            backgroundColor: 'white',
+        };
+
+        return (
+            <td key={`zjpcy-table-selection-${key}`} style={style}>
+                {rowSelectionType === 'checkbox' ? (
+                    <Checkbox
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={(checked) => handleRowSelect(record, rowIndex, checked)}
+                    />
+                ) : (
+                    <Radio
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={() => handleRowSelect(record, rowIndex, !isSelected)}
+                    />
+                )}
+            </td>
+        );
+    };
+
     // 渲染表格单元格
-    const renderTableCell = (column: Column, record: any, rowIndex: number, colIndex: number, colGroup: Column[]) => {
+    const renderTableCell = (column: Column, record: any, rowIndex: number, colIndex: number, colGroup: Column[], isSelectionColumn = false) => {
+        // 处理行选择列
+        if (isSelectionColumn) {
+            return renderSelectionCell(record, rowIndex);
+        }
+
         const style: React.CSSProperties = {
             width: column.width || 'auto',
             textAlign: column.align || 'left',
@@ -450,8 +687,11 @@ const Table = ({
 
         if (column.fixed === 'start' || column.fixed === true) {
             style.position = 'sticky';
-            // 计算左侧固定列的累积宽度
+            // 计算左侧固定列的累积宽度（考虑行选择列）
             let leftOffset = 0;
+            if (isRowSelectionEnabled) {
+                leftOffset += getColumnWidth(rowSelection?.columnWidth || '50px');
+            }
             for (let i = 0; i < colIndex; i++) {
                 leftOffset += columnWidths[i] || 0;
             }
@@ -563,9 +803,11 @@ const Table = ({
         ) : safeContent;
 
         // 如果有 tooltip，用 Tooltip 包裹
+        // 注意：Tooltip 的 children 必须是 ReactElement，所以需要包裹在 span 中
+        // delay={0} 表示鼠标移入立即显示，无延迟
         const finalContent = tooltipTitle ? (
-            <Tooltip title={tooltipTitle} placement="top">
-                {cellContent as React.ReactElement}
+            <Tooltip title={tooltipTitle} placement="top" delay={0}>
+                <span className="zjpcy-table-cell-tooltip-wrapper">{cellContent}</span>
             </Tooltip>
         ) : cellContent;
 
@@ -708,12 +950,17 @@ const Table = ({
                     handleCancel={handleCancel}
                     setEditingValue={setEditingValue}
                     renderTableCell={renderTableCell}
+                    isRowSelectionEnabled={isRowSelectionEnabled}
+                    rowSelection={rowSelection}
+                    selectedRowKeys={selectedRowKeys}
+                    handleRowSelect={handleRowSelect}
                 />
             ));
         }
 
         return displayData.map((record, rowIndex) => (
             <tr key={getRowKey(record, rowIndex)}>
+                {isRowSelectionEnabled && renderSelectionCell(record, rowIndex)}
                 {allColumns.map((column, colIndex) =>
                     renderTableCell(column, record, rowIndex, colIndex, allColumns)
                 )}
@@ -726,6 +973,9 @@ const Table = ({
         const tableContent = (
             <table className={classNames('custom-table', { 'custom-table-bordered-body': bordered, 'custom-table-header-separator': !bordered })}>
                 <colgroup>
+                    {isRowSelectionEnabled && (
+                        <col key="body-selection-col" style={{ width: rowSelection?.columnWidth || '50px' }} />
+                    )}
                     {allColumns.map((col, index) => (
                         <col key={`body-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
                     ))}
@@ -796,12 +1046,16 @@ const Table = ({
             <div className="custom-table-header" ref={headerInnerRef} onScroll={handleHeaderScroll}>
                 <table className={classNames('custom-table', { 'custom-table-bordered-body': bordered, 'custom-table-header-separator': !bordered })}>
                     <colgroup>
+                        {isRowSelectionEnabled && (
+                            <col key="header-selection-col" style={{ width: rowSelection?.columnWidth || '50px' }} />
+                        )}
                         {allColumns.map((col, index) => (
                             <col key={`header-col-${col.dataIndex || col.key || index}`} style={{ width: col.width || 'auto' }} />
                         ))}
                     </colgroup>
                     <thead>
                         <tr>
+                            {isRowSelectionEnabled && renderSelectionHeader()}
                             {allColumns.map((col, index) => renderHeaderCell(col, index, allColumns))}
                         </tr>
                     </thead>

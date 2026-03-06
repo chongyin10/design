@@ -2,7 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Column } from './index';
+import { Column, RowSelection } from './index';
+import Checkbox from '../Checkbox';
+import Radio from '../Radio';
 
 interface SortableRowProps {
     id: string;
@@ -25,9 +27,14 @@ interface SortableRowProps {
         record: any,
         rowIndex: number,
         colIndex: number,
-        colGroup: Column[]
+        colGroup: Column[],
+        isSelectionColumn?: boolean
     ) => React.ReactNode;
     children?: React.ReactNode;
+    isRowSelectionEnabled?: boolean;
+    rowSelection?: RowSelection;
+    selectedRowKeys?: (string | number)[];
+    handleRowSelect?: (record: any, index: number, checked: boolean) => void;
 }
 
 const SortableRow: React.FC<SortableRowProps> = ({
@@ -36,6 +43,10 @@ const SortableRow: React.FC<SortableRowProps> = ({
     rowIndex,
     allColumns,
     renderTableCell,
+    isRowSelectionEnabled,
+    rowSelection,
+    selectedRowKeys = [],
+    handleRowSelect,
 }) => {
     const {
         attributes,
@@ -53,6 +64,37 @@ const SortableRow: React.FC<SortableRowProps> = ({
         cursor: 'grab',
     };
 
+    // 渲染选择列单元格
+    const renderSelectionCell = () => {
+        const isSelected = selectedRowKeys.includes(id);
+        const checkboxProps = rowSelection?.getCheckboxProps?.(record, rowIndex);
+        const isDisabled = checkboxProps?.disabled || false;
+
+        const cellStyle: React.CSSProperties = {
+            width: rowSelection?.columnWidth || '50px',
+            textAlign: 'center',
+            backgroundColor: 'white',
+        };
+
+        return (
+            <td key={`zjpcy-table-sortable-selection-${id}`} style={cellStyle}>
+                {rowSelection?.type === 'checkbox' ? (
+                    <Checkbox
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={(checked) => handleRowSelect?.(record, rowIndex, checked)}
+                    />
+                ) : (
+                    <Radio
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={() => handleRowSelect?.(record, rowIndex, !isSelected)}
+                    />
+                )}
+            </td>
+        );
+    };
+
     return (
         <tr
             ref={setNodeRef}
@@ -62,6 +104,7 @@ const SortableRow: React.FC<SortableRowProps> = ({
             className={classNames('zjpcy-table-sortable-row', { 'zjpcy-table-sortable-row-dragging': isDragging })}
             data-dragging={isDragging}
         >
+            {isRowSelectionEnabled && renderSelectionCell()}
             {allColumns.map((column, colIndex) =>
                 renderTableCell(column, record, rowIndex, colIndex, allColumns)
             )}

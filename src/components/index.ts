@@ -20,6 +20,7 @@ export { default as Notification } from './Notification/Notification';
 export { default as Radio } from './Radio';
 export { default as Select } from './Select';
 export { default as Table } from './Table';
+export type { RowSelection, Column } from './Table';
 export { default as Top } from './Top';
 export { default as Typography } from './Typography';
 export { default as Masonry } from './Masonry';
