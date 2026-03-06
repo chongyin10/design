@@ -11,14 +11,23 @@ export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' 
   flex-direction: column;
   min-height: ${getCSSVar('--layout-min-height', '100vh')};
   max-height: 100vh;
-  background: ${({ $theme }) =>
-    $theme === 'dark'
-      ? `linear-gradient(180deg, ${getCSSVar('--layout-bg-dark', '#000')} 0%, ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')} 100%)`
-      : `linear-gradient(180deg, ${getCSSVar('--layout-bg-light', '#f5f5f5')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`};
+  /* 使用更明确的默认值，避免 SSR 时 theme 为 undefined 导致黑色背景闪烁 */
+  background: ${({ $theme }) => {
+    // 明确处理 undefined 情况，确保 SSR 和 CSR 一致
+    const isDark = $theme === 'dark';
+    return isDark
+      ? `linear-gradient(180deg, ${getCSSVar('--layout-bg-dark', '#001529')} 0%, ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')} 100%)`
+      : `linear-gradient(180deg, ${getCSSVar('--layout-bg-light', '#f5f5f5')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
+  }};
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
   flex: 1;
+
+  /* SSR 安全：确保服务端和客户端初始渲染一致 */
+  @media (prefers-color-scheme: dark) {
+    /* 在暗色模式下默认使用 light 主题避免闪烁，由 JS 控制实际主题 */
+  }
 
   &.layout-wrapper {
     /* 外部可通过 .layout-wrapper 选择器覆盖样式 */
@@ -38,14 +47,19 @@ export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string 
   align-items: center;
   flex-shrink: 0;
   padding: ${getCSSVar('--layout-header-padding', '0 24px')};
-  background: ${({ $theme }) =>
-    $theme === 'dark'
+  /* 确保默认使用亮色主题，避免 SSR 闪烁 */
+  background: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`};
-  color: ${({ $theme }) =>
-    $theme === 'dark'
+      : `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
+  }};
+  color: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? getCSSVar('--layout-header-color-dark', '#fff')
-      : getCSSVar('--layout-header-color-light', 'rgba(0, 0, 0, 0.85)')};
+      : getCSSVar('--layout-header-color-light', 'rgba(0, 0, 0, 0.85)');
+  }};
   height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-header-height', '60px')};
   z-index: ${getCSSVar('--layout-header-z-index', '10')};
   transition: ${getCSSVar('--layout-header-transition', 'all 0.2s ease-in-out')};
@@ -86,20 +100,27 @@ export const SiderWrapper = styled.aside<{
 }>`
   display: flex;
   flex-direction: column;
-  background: ${({ $theme, style }) =>
+  /* SSR 安全：明确处理 theme 为 undefined 的情况，默认使用亮色主题 */
+  background: ${({ $theme, style }) => {
     // 如果用户通过 style 传入 background，则不应用默认背景
-    style?.background !== undefined
-      ? style.background
-      : $theme === 'dark'
-        ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
-        : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`};
-  color: ${({ $theme, style }) =>
+    if (style?.background !== undefined) {
+      return style.background;
+    }
+    const isDark = $theme === 'dark';
+    return isDark
+      ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
+      : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
+  }};
+  color: ${({ $theme, style }) => {
     // 如果用户通过 style 传入 color，则不应用默认颜色
-    style?.color !== undefined
-      ? style.color
-      : $theme === 'dark'
-        ? getCSSVar('--layout-sider-color-dark', '#fff')
-        : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
+    if (style?.color !== undefined) {
+      return style.color;
+    }
+    const isDark = $theme === 'dark';
+    return isDark
+      ? getCSSVar('--layout-sider-color-dark', '#fff')
+      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)');
+  }};
   z-index: ${getCSSVar('--layout-sider-z-index', '10')};
   transition: ${getCSSVar('--layout-sider-transition', 'all 0.2s ease-in-out')};
   flex: ${getCSSVar('--layout-sider-flex', '0 0 200px')};
@@ -262,14 +283,19 @@ export const SiderTrigger = styled.div<{ $collapsed?: boolean; $placement?: 'top
   align-items: center;
   justify-content: center;
   height: ${getCSSVar('--layout-trigger-height', '48px')};
-  background: ${({ $theme }) =>
-    $theme === 'dark'
+  /* SSR 安全：默认使用亮色主题 */
+  background: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`};
-  color: ${({ $theme }) =>
-    $theme === 'dark'
+      : `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
+  }};
+  color: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)')};
+      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)');
+  }};
   cursor: pointer;
   transition: ${getCSSVar('--layout-trigger-transition', 'all 0.2s ease-in-out')};
   user-select: none;
@@ -414,14 +440,19 @@ export const FooterWrapper = styled.footer<{ $fixed?: boolean; $height?: string 
   align-items: center;
   flex-shrink: 0;
   padding: ${getCSSVar('--layout-footer-padding', '24px 50px')};
-  background: ${({ $theme }) =>
-    $theme === 'dark'
+  /* SSR 安全：默认使用亮色主题 */
+  background: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`};
-  color: ${({ $theme }) =>
-    $theme === 'dark'
+      : `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
+  }};
+  color: ${({ $theme }) => {
+    const isDark = $theme === 'dark';
+    return isDark
       ? getCSSVar('--layout-footer-color-dark', '#fff')
-      : getCSSVar('--layout-footer-color-light', 'rgba(0, 0, 0, 0.85)')};
+      : getCSSVar('--layout-footer-color-light', 'rgba(0, 0, 0, 0.85)');
+  }};
   height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-footer-height', '48px')};
   border-top: ${({ $theme }) =>
     $theme === 'dark'

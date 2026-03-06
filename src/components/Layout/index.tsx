@@ -54,7 +54,7 @@ interface LayoutComponent extends React.FC<LayoutProps> {
   Footer: typeof Footer;
 }
 
-const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, children, hasSider, theme }) => {
+const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, children, hasSider, theme = 'light' }) => {
   // 自动检测是否包含 Sider
   const detectHasSider = (children: React.ReactNode): boolean => {
     if (!children) return false;
@@ -65,14 +65,21 @@ const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, childre
 
   const finalHasSider = hasSider !== undefined ? hasSider : detectHasSider(children);
 
+  // SSR 安全：确保 theme 始终是确定值，避免 hydration 不匹配
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <LayoutProvider>
       <NestedLayoutContext.Provider value={{ isNested: true }}>
         <LayoutWrapper
-          className={`layout-wrapper ${className}`}
+          className={`layout-wrapper ${className}${mounted ? ' layout-mounted' : ''}`}
           style={style}
           $hasSider={finalHasSider}
           $theme={theme}
+          data-theme={theme}
         >
           {children}
         </LayoutWrapper>
@@ -101,17 +108,19 @@ export const Header: React.FC<LayoutHeaderProps> = ({
   fixed = false,
   theme = 'light'
 }) => {
-
+  // 确保 theme 有默认值，避免 SSR 时 undefined
+  const safeTheme = theme ?? 'light';
   const bgColor:any = style?.background || '#3030302b';
 
   return (
     <HeaderWrapper
-      className={`layout-header layout-header-${theme} ${className}`}
+      className={`layout-header layout-header-${safeTheme} ${className}`}
       style={style}
       $height={height}
       $fixed={fixed}
-      $theme={theme}
+      $theme={safeTheme}
       $bgColor={bgColor}
+      data-theme={safeTheme}
     >
       {children}
     </HeaderWrapper>
@@ -148,8 +157,10 @@ export const Sider: React.FC<LayoutSiderProps> = ({
   triggerPlacement = 'bottom',
   zeroWidthMode = false,
   fixed = false,
-  theme = "light"
+  theme = 'light'
 }) => {
+  // 确保 theme 有默认值，避免 SSR 时 undefined
+  const safeTheme = theme ?? 'light';
   // 检测是否在嵌套布局中
   const { isNested } = useNestedLayout();
   const { setSiderCollapsed, setZeroWidthMode, setOnExpand } = useLayoutContext();
@@ -180,8 +191,9 @@ export const Sider: React.FC<LayoutSiderProps> = ({
       $collapsedWidth={actualCollapsedWidth}
       $collapsed={collapsed}
       $fixed={fixed}
-      $theme={theme}
+      $theme={safeTheme}
       $inNestedLayout={isNested}
+      data-theme={safeTheme}
     >
       <SiderContentWrapper>{children}</SiderContentWrapper>
       {collapsible && (
@@ -191,13 +203,13 @@ export const Sider: React.FC<LayoutSiderProps> = ({
           $placement={zeroWidthMode ? 'top' : triggerPlacement}
           onClick={handleCollapse}
           $zeroWidthMode={zeroWidthMode}
-          $theme={theme}
+          $theme={safeTheme}
         >
           {trigger || (
             <Icon
               type={collapsed ? 'arrowRight' : 'arrowLeft'}
               size={20}
-              color={theme === 'dark' ? '#fff' : 'rgba(0, 0, 0, 0.65)'}
+              color={safeTheme === 'dark' ? '#fff' : 'rgba(0, 0, 0, 0.65)'}
             />
           )}
         </SiderTrigger>
@@ -224,13 +236,16 @@ export const Content: React.FC<LayoutContentProps> = ({
   children,
   theme = 'light'
 }) => {
+  // 确保 theme 有默认值，避免 SSR 时 undefined
+  const safeTheme = theme ?? 'light';
   const { siderCollapsed, zeroWidthMode, onExpand } = useLayoutContext();
 
   return (
     <ContentWrapper
       className={`layout-content ${className}`}
       style={style}
-      $theme={theme}
+      $theme={safeTheme}
+      data-theme={safeTheme}
     >
       {/* 零宽度模式下，Sider 收缩时在 Content 内显示展开按钮 */}
       {zeroWidthMode && siderCollapsed && (
@@ -261,15 +276,18 @@ export const Footer: React.FC<LayoutFooterProps> = ({
   children,
   height,
   fixed = false,
-  theme
+  theme = 'light'
 }) => {
+  // 确保 theme 有默认值，避免 SSR 时 undefined
+  const safeTheme = theme ?? 'light';
   return (
     <FooterWrapper
       className={`layout-footer ${className}`}
       style={style}
       $height={height}
       $fixed={fixed}
-      $theme={theme}
+      $theme={safeTheme}
+      data-theme={safeTheme}
     >
       {children}
     </FooterWrapper>

@@ -2,6 +2,43 @@
    IDP Layout Component - Modern Design System
    ============================================ */
 
+/* ============================================
+   ANTI-FOUC: 防止 SSR 闪烁的关键样式
+   这些样式在 CSS 文件最前面，确保最先加载
+   ============================================ */
+
+/**
+ * FOUC 问题背景：
+ * 在 Next.js SSR 环境下，styled-components 的样式在客户端水合后才注入，
+ * 导致组件在 SSR 期间显示浏览器默认样式或黑色背景。
+ *
+ * 解决方案：
+ * 使用 CSS 变量作为默认值，styled-components 可以通过内联样式覆盖
+ */
+
+/* 核心防护：确保所有 Layout 元素默认使用亮色背景 */
+/* 注意：不使用 !important，以便 styled-components 可以覆盖 */
+.layout-wrapper,
+.layout-header,
+.layout-sider,
+.layout-content,
+.layout-footer {
+  /* 默认亮色背景，防止黑色闪烁 */
+  background-color: var(--layout-default-bg, #ffffff);
+  color: var(--layout-default-color, rgba(0, 0, 0, 0.85));
+}
+
+/* SSR 安全：确保 HTML 和 body 有默认亮色背景 */
+html, body {
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   CSS 变量定义
+   ============================================ */
+
 :root {
   /* ============================================
      Layout 基础配置
