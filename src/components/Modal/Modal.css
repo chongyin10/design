@@ -356,7 +356,7 @@
    内容区域样式
    ============================================ */
 .zjpcy-modal-content {
-    padding: 24px;
+    padding: 12px 24px;
     overflow-y: auto;
     flex: 1;
     min-height: 0;
@@ -367,12 +367,12 @@
 
 /* 当没有设置 height 参数时，内容区域有最小高度 300px */
 .zjpcy-modal-container:not([style*="height"]) .zjpcy-modal-content {
-    min-height: 300px;
+    /* min-height: 300px; */
 }
 
 /* 当设置了 height 参数时，取消最小高度限制，以设置的 height 为准 */
 .zjpcy-modal-container--has-height .zjpcy-modal-content {
-    min-height: 0;
+    min-height: fit-content;
 }
 
 /* ============================================

@@ -11,7 +11,7 @@ const Modal: React.FC<ModalProps> = ({
     visible,
     title = '标题',
     width = 600,
-    height = 300,
+    height = 'auto',
     headerHeight = 40,
     footerHeight = 40,
     confirmLoading = false,

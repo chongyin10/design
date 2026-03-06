@@ -3,6 +3,10 @@ import classNames from 'classnames';
 import { Solar } from 'lunar-typescript';
 import Icon from '../Icon';
 import Tooltip from '../Tooltip';
+import Input from '../Input';
+import Textarea from '../Input/Textarea';
+import Modal from '../Modal';
+import Button from '../Button/Button';
 import { CalendarProps, DateInfoItem, DatePanelFormConfig, LunarInfo } from './types';
 import './Calendar.css';
 
@@ -270,6 +274,31 @@ const isSameDay = (date1: Date, date2: Date): boolean => {
 };
 
 /**
+ * 判断日期是否在选择列表中
+ * Check if date is in selected list
+ */
+const isDateInList = (date: Date, list: Date[]): boolean => {
+    return list.some(d => isSameDay(d, date));
+};
+
+/**
+ * 从选择列表中移除日期
+ * Remove date from selected list
+ */
+const removeDateFromList = (date: Date, list: Date[]): Date[] => {
+    return list.filter(d => !isSameDay(d, date));
+};
+
+/**
+ * 添加日期到选择列表
+ * Add date to selected list
+ */
+const addDateToList = (date: Date, list: Date[]): Date[] => {
+    if (isDateInList(date, list)) return list;
+    return [...list, date];
+};
+
+/**
  * 判断是否为今天
  * Check if today
  */
@@ -349,6 +378,7 @@ const getOrderedWeekdays = (firstDayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6): { label:
  * Calendar component for displaying data in calendar format
  */
 const Calendar: React.FC<CalendarProps> = ({
+    selectionMode = 'single',
     value,
     defaultValue,
     onChange,
@@ -374,7 +404,12 @@ const Calendar: React.FC<CalendarProps> = ({
     enableLunarDetail = false,
 }) => {
     // 内部状态
-    const [internalValue, setInternalValue] = useState<Date>(() => defaultValue || new Date());
+    const [internalValue, setInternalValue] = useState<Date | Date[]>(() => {
+        if (selectionMode === 'multiple') {
+            return defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : [];
+        }
+        return defaultValue || new Date();
+    });
     const [internalMode, setInternalMode] = useState<'month' | 'year'>('month');
     const [panelOpen, setPanelOpen] = useState(false);
     const [panelDate, setPanelDate] = useState<Date | null>(null);
@@ -386,15 +421,29 @@ const Calendar: React.FC<CalendarProps> = ({
     const [lunarDetailDate, setLunarDetailDate] = useState<Date | null>(null);
 
     // 受控/非受控处理
-    const currentDate = value !== undefined ? value : internalValue;
+    const currentValue = value !== undefined ? value : internalValue;
     const currentMode = controlledMode !== undefined ? controlledMode : internalMode;
+
+    // 获取当前选中日期（用于单选）或第一个选中日期（用于多选）
+    const currentDate: Date = useMemo(() => {
+        if (selectionMode === 'multiple') {
+            return Array.isArray(currentValue) && currentValue.length > 0 ? currentValue[0] : new Date();
+        }
+        return currentValue as Date;
+    }, [selectionMode, currentValue]);
 
     // 当前显示的年月
     const [viewDate, setViewDate] = useState<Date>(() => currentDate);
 
     // 同步 viewDate 当 currentDate 改变时
     React.useEffect(() => {
-        setViewDate(currentDate);
+        setViewDate(prevViewDate => {
+            // 只有当日期实际变化时才更新，避免无限循环
+            if (!isSameDay(prevViewDate, currentDate)) {
+                return currentDate;
+            }
+            return prevViewDate;
+        });
     }, [currentDate]);
 
     // 年月信息
@@ -415,23 +464,52 @@ const Calendar: React.FC<CalendarProps> = ({
         return dateInfo[key] || [];
     }, [dateInfo]);
 
+    // 检查日期是否被选中（用于多选模式）
+    const isSelectedDate = useCallback((date: Date): boolean => {
+        if (selectionMode === 'multiple') {
+            const selectedDates = Array.isArray(currentValue) ? currentValue : [];
+            return isDateInList(date, selectedDates);
+        }
+        return isSameDay(date, currentValue as Date);
+    }, [selectionMode, currentValue]);
+
     // 处理日期点击
     const handleDateClick = useCallback((date: Date) => {
         if (disabledDate?.(date)) return;
 
-        if (value === undefined) {
-            setInternalValue(date);
-        }
-        onChange?.(date);
+        if (selectionMode === 'multiple') {
+            // 多选模式
+            const selectedDates = Array.isArray(currentValue) ? currentValue : [];
+            let newSelectedDates: Date[];
 
-        // 如果启用了编辑功能，打开面板
-        if (editable) {
-            setPanelDate(date);
-            setEditingIndex(null);
-            setFormData({});
-            setPanelOpen(true);
+            if (isDateInList(date, selectedDates)) {
+                // 已选中，取消选择
+                newSelectedDates = removeDateFromList(date, selectedDates);
+            } else {
+                // 未选中，添加选择
+                newSelectedDates = addDateToList(date, selectedDates);
+            }
+
+            if (value === undefined) {
+                setInternalValue(newSelectedDates);
+            }
+            onChange?.(newSelectedDates);
+        } else {
+            // 单选模式
+            if (value === undefined) {
+                setInternalValue(date);
+            }
+            onChange?.(date);
+
+            // 如果启用了编辑功能，打开面板
+            if (editable) {
+                setPanelDate(date);
+                setEditingIndex(null);
+                setFormData({});
+                setPanelOpen(true);
+            }
         }
-    }, [disabledDate, onChange, value, editable]);
+    }, [disabledDate, onChange, value, editable, selectionMode, currentValue]);
 
     // 处理月份点击
     const handleMonthClick = useCallback((month: number) => {
@@ -570,58 +648,58 @@ const Calendar: React.FC<CalendarProps> = ({
         return (
             <div className="zjpcy-calendar__header">
                 <div className="zjpcy-calendar__header-left">
-                    <button
+                    <Button
                         className="zjpcy-calendar__header-btn"
                         onClick={() => handleYearChange(-1)}
                         title="上一年"
                     >
                         <Icon type="double-left" style={{ fontSize: 12 }} />
-                    </button>
+                    </Button>
                     {currentMode === 'month' && (
-                        <button
+                        <Button
                             className="zjpcy-calendar__header-btn"
                             onClick={() => handleMonthChange(-1)}
                             title="上个月"
                         >
                             <Icon type="left" style={{ fontSize: 12 }} />
-                        </button>
+                        </Button>
                     )}
                 </div>
 
                 <div className="zjpcy-calendar__header-title">
-                    <button
+                    <Button
                         className="zjpcy-calendar__header-title-btn"
                         onClick={() => handleModeChange('year')}
                     >
                         {currentYear}年
-                    </button>
+                    </Button>
                     {currentMode === 'month' && (
-                        <button
+                        <Button
                             className="zjpcy-calendar__header-title-btn"
                             onClick={() => handleModeChange('year')}
                         >
                             {MONTH_NAMES[currentMonth]}
-                        </button>
+                        </Button>
                     )}
                 </div>
 
                 <div className="zjpcy-calendar__header-right">
                     {currentMode === 'month' && (
-                        <button
+                        <Button
                             className="zjpcy-calendar__header-btn"
                             onClick={() => handleMonthChange(1)}
                             title="下个月"
                         >
                             <Icon type="right" style={{ fontSize: 12 }} />
-                        </button>
+                        </Button>
                     )}
-                    <button
+                    <Button
                         className="zjpcy-calendar__header-btn"
                         onClick={() => handleYearChange(1)}
                         title="下一年"
                     >
                         <Icon type="double-right" style={{ fontSize: 12 }} />
-                    </button>
+                    </Button>
                 </div>
             </div>
         );
@@ -693,7 +771,7 @@ const Calendar: React.FC<CalendarProps> = ({
                     {calendarDays.map((date, index) => {
                         const inCurrentMonth = date.getMonth() === currentMonth;
                         const todayFlag = isToday(date);
-                        const selectedFlag = isSameDay(date, currentDate);
+                        const selectedFlag = isSelectedDate(date);
                         const disabled = disabledDate?.(date) || false;
                         const isWeekendDay = date.getDay() === 0 || date.getDay() === 6;
                         const shouldHide = !showWeekend && isWeekendDay;
@@ -774,7 +852,15 @@ const Calendar: React.FC<CalendarProps> = ({
             <div className="zjpcy-calendar__month-grid">
                 {MONTH_NAMES.map((monthName, index) => {
                     const monthDate = new Date(currentYear, index, 1);
-                    const selectedFlag = currentDate.getMonth() === index && currentDate.getFullYear() === currentYear;
+                    const isMonthSelected = () => {
+                        if (selectionMode === 'multiple') {
+                            const selectedDates = Array.isArray(currentValue) ? currentValue : [];
+                            return selectedDates.some(d => d.getMonth() === index && d.getFullYear() === currentYear);
+                        }
+                        const date = currentValue as Date;
+                        return date.getMonth() === index && date.getFullYear() === currentYear;
+                    };
+                    const selectedFlag = isMonthSelected();
 
                     return (
                         <div
@@ -807,136 +893,133 @@ const Calendar: React.FC<CalendarProps> = ({
         const infoList = dateInfo[dateKey] || [];
         const config = panelFormConfig;
 
-        return (
-            <div className="zjpcy-calendar__panel-overlay" onClick={closePanel}>
-                <div className="zjpcy-calendar__panel" onClick={e => e.stopPropagation()}>
-                    <div className="zjpcy-calendar__panel-header">
-                        <h3 className="zjpcy-calendar__panel-title">
-                            {panelDate.toLocaleDateString('zh-CN')} 信息编辑
-                        </h3>
-                        <button className="zjpcy-calendar__panel-close" onClick={closePanel}>
-                            <Icon type="close" size={16} />
-                        </button>
-                    </div>
+        const modalFooter = (
+            <>
+                {editingIndex !== null && (
+                    <Button
+                        className="zjpcy-calendar__panel-btn is-secondary"
+                        onClick={() => {
+                            setEditingIndex(null);
+                            setFormData({});
+                        }}
+                    >
+                        取消编辑
+                    </Button>
+                )}
+                <Button
+                    className="zjpcy-calendar__panel-btn is-secondary"
+                    onClick={closePanel}
+                >
+                    {config.cancelText || '取消'}
+                </Button>
+                <Button
+                    className="zjpcy-calendar__panel-btn is-primary"
+                    onClick={handleSave}
+                >
+                    {editingIndex !== null ? '保存修改' : (config.submitText || '保存')}
+                </Button>
+            </>
+        );
 
-                    <div className="zjpcy-calendar__panel-body">
-                        {/* 已有信息列表 */}
-                        {infoList.length > 0 && (
-                            <div className="zjpcy-calendar__panel-list">
-                                <h4 className="zjpcy-calendar__panel-section-title">已有信息</h4>
-                                {infoList.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className={classNames('zjpcy-calendar__panel-list-item', {
-                                            'is-editing': editingIndex === index,
-                                        })}
-                                    >
-                                        <div className="zjpcy-calendar__panel-list-content">
-                                            <span
-                                                className="zjpcy-calendar__panel-list-dot"
-                                                style={{ backgroundColor: item.color || '#1890ff' }}
-                                            />
-                                            <div className="zjpcy-calendar__panel-list-text">
-                                                <div className="zjpcy-calendar__panel-list-title">{item.title}</div>
-                                                {item.content && (
-                                                    <div className="zjpcy-calendar__panel-list-desc">{item.content}</div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="zjpcy-calendar__panel-list-actions">
-                                            <button
-                                                className="zjpcy-calendar__panel-list-btn"
-                                                onClick={() => handleEdit(index, item)}
-                                            >
-                                                编辑
-                                            </button>
-                                            <button
-                                                className="zjpcy-calendar__panel-list-btn is-danger"
-                                                onClick={() => handleDelete(index)}
-                                            >
-                                                删除
-                                            </button>
+        return (
+            <Modal
+                visible={panelOpen}
+                title={`${panelDate.toLocaleDateString('zh-CN')} 信息编辑`}
+                width={480}
+                onCancel={closePanel}
+                onOk={handleSave}
+                footer={modalFooter}
+            >
+                <div className="zjpcy-calendar__panel-body">
+                    {/* 已有信息列表 */}
+                    {infoList.length > 0 && (
+                        <div className="zjpcy-calendar__panel-list">
+                            <h4 className="zjpcy-calendar__panel-section-title">已有信息</h4>
+                            {infoList.map((item, index) => (
+                                <div
+                                    key={index}
+                                    className={classNames('zjpcy-calendar__panel-list-item', {
+                                        'is-editing': editingIndex === index,
+                                    })}
+                                >
+                                    <div className="zjpcy-calendar__panel-list-content">
+                                        <span
+                                            className="zjpcy-calendar__panel-list-dot"
+                                            style={{ backgroundColor: item.color || '#1890ff' }}
+                                        />
+                                        <div className="zjpcy-calendar__panel-list-text">
+                                            <div className="zjpcy-calendar__panel-list-title">{item.title}</div>
+                                            {item.content && (
+                                                <div className="zjpcy-calendar__panel-list-desc">{item.content}</div>
+                                            )}
                                         </div>
                                     </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* 表单 */}
-                        <div className="zjpcy-calendar__panel-form">
-                            <h4 className="zjpcy-calendar__panel-section-title">
-                                {editingIndex !== null ? '编辑信息' : '添加新信息'}
-                            </h4>
-                            {config.fields.map(field => (
-                                <div key={field.name} className="zjpcy-calendar__panel-field">
-                                    <label className="zjpcy-calendar__panel-label">
-                                        {field.label}
-                                        {field.required && <span className="zjpcy-calendar__panel-required">*</span>}
-                                    </label>
-                                    {field.type === 'textarea' ? (
-                                        <textarea
-                                            className="zjpcy-calendar__panel-textarea"
-                                            value={formData[field.name] || ''}
-                                            onChange={e => handleFieldChange(field.name, e.target.value)}
-                                            placeholder={field.placeholder}
-                                            rows={3}
-                                        />
-                                    ) : (
-                                        <input
-                                            type="text"
-                                            className="zjpcy-calendar__panel-input"
-                                            value={formData[field.name] || ''}
-                                            onChange={e => handleFieldChange(field.name, e.target.value)}
-                                            placeholder={field.placeholder}
-                                        />
-                                    )}
+                                    <div className="zjpcy-calendar__panel-list-actions">
+                                        <Button
+                                            className="zjpcy-calendar__panel-list-btn"
+                                            onClick={() => handleEdit(index, item)}
+                                        >
+                                            编辑
+                                        </Button>
+                                        <Button
+                                            className="zjpcy-calendar__panel-list-btn is-danger"
+                                            onClick={() => handleDelete(index)}
+                                        >
+                                            删除
+                                        </Button>
+                                    </div>
                                 </div>
                             ))}
-                            <div className="zjpcy-calendar__panel-color">
-                                <label className="zjpcy-calendar__panel-label">颜色标记</label>
-                                <div className="zjpcy-calendar__panel-color-picker">
-                                    {['#1890ff', '#52c41a', '#faad14', '#f5222d', '#722ed1', '#13c2c2'].map(color => (
-                                        <button
-                                            key={color}
-                                            className={classNames('zjpcy-calendar__panel-color-option', {
-                                                'is-active': formData.color === color || (!formData.color && color === '#1890ff'),
-                                            })}
-                                            style={{ backgroundColor: color }}
-                                            onClick={() => handleFieldChange('color', color)}
-                                        />
-                                    ))}
-                                </div>
+                        </div>
+                    )}
+
+                    {/* 表单 */}
+                    <div className="zjpcy-calendar__panel-form">
+                        <h4 className="zjpcy-calendar__panel-section-title">
+                            {editingIndex !== null ? '编辑信息' : '添加新信息'}
+                        </h4>
+                        {config.fields.map(field => (
+                            <div key={field.name} className="zjpcy-calendar__panel-field">
+                                <label className="zjpcy-calendar__panel-label">
+                                    {field.label}
+                                    {field.required && <span className="zjpcy-calendar__panel-required">*</span>}
+                                </label>
+                                {field.type === 'textarea' ? (
+                                    <Textarea
+                                        className="zjpcy-calendar__panel-textarea"
+                                        value={formData[field.name] || ''}
+                                        onChange={e => handleFieldChange(field.name, e.target.value)}
+                                        placeholder={field.placeholder}
+                                        rows={3}
+                                    />
+                                ) : (
+                                    <Input
+                                        className="zjpcy-calendar__panel-input"
+                                        value={formData[field.name] || ''}
+                                        onChange={e => handleFieldChange(field.name, e.target.value)}
+                                        placeholder={field.placeholder}
+                                    />
+                                )}
+                            </div>
+                        ))}
+                        <div className="zjpcy-calendar__panel-color">
+                            <label className="zjpcy-calendar__panel-label">颜色标记</label>
+                            <div className="zjpcy-calendar__panel-color-picker">
+                                {['#1890ff', '#52c41a', '#faad14', '#f5222d', '#722ed1', '#13c2c2'].map(color => (
+                                    <button
+                                        key={color}
+                                        className={classNames('zjpcy-calendar__panel-color-option', {
+                                            'is-active': formData.color === color || (!formData.color && color === '#1890ff'),
+                                        })}
+                                        style={{ backgroundColor: color }}
+                                        onClick={() => handleFieldChange('color', color)}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </div>
-
-                    <div className="zjpcy-calendar__panel-footer">
-                        <button
-                            className="zjpcy-calendar__panel-btn is-secondary"
-                            onClick={closePanel}
-                        >
-                            {config.cancelText || '取消'}
-                        </button>
-                        <button
-                            className="zjpcy-calendar__panel-btn is-primary"
-                            onClick={handleSave}
-                        >
-                            {editingIndex !== null ? '保存修改' : (config.submitText || '保存')}
-                        </button>
-                        {editingIndex !== null && (
-                            <button
-                                className="zjpcy-calendar__panel-btn is-secondary"
-                                onClick={() => {
-                                    setEditingIndex(null);
-                                    setFormData({});
-                                }}
-                            >
-                                取消编辑
-                            </button>
-                        )}
-                    </div>
                 </div>
-            </div>
+            </Modal>
         );
     };
 
@@ -960,9 +1043,9 @@ const Calendar: React.FC<CalendarProps> = ({
                             <span className="zjpcy-calendar__lunar-date">{dateStr}</span>
                             <span className="zjpcy-calendar__lunar-tag">{lunarInfo.ganZhiYear} {lunarInfo.zodiac}年</span>
                         </h3>
-                        <button className="zjpcy-calendar__lunar-close" onClick={closeLunarDetail}>
+                        <Button className="zjpcy-calendar__lunar-close" onClick={closeLunarDetail}>
                             <Icon type="close" size={16} />
-                        </button>
+                        </Button>
                     </div>
 
                     <div className="zjpcy-calendar__lunar-body">
@@ -1188,9 +1271,9 @@ const Calendar: React.FC<CalendarProps> = ({
                     </div>
 
                     <div className="zjpcy-calendar__lunar-footer">
-                        <button className="zjpcy-calendar__lunar-btn" onClick={closeLunarDetail}>
+                        <Button className="zjpcy-calendar__lunar-btn" onClick={closeLunarDetail}>
                             关闭
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -1201,6 +1284,7 @@ const Calendar: React.FC<CalendarProps> = ({
         'zjpcy-calendar--fullscreen': fullscreen,
         'zjpcy-calendar--small': size === 'small',
         'zjpcy-calendar--layout-vertical': layout === 'vertical',
+        'zjpcy-calendar--small-vertical': size === 'small' && layout === 'vertical',
     }, className);
 
     return (

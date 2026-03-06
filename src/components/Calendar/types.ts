@@ -217,12 +217,14 @@ export interface DatePanelField {
  * Calendar Component Props
  */
 export interface CalendarProps {
-    /** 当前日期（受控） */
-    value?: Date;
-    /** 默认日期（非受控） */
-    defaultValue?: Date;
-    /** 日期改变时的回调 */
-    onChange?: (date: Date) => void;
+    /** 选择模式：单选 single 或多选 multiple */
+    selectionMode?: 'single' | 'multiple';
+    /** 当前日期（受控）- 单选模式为 Date，多选模式为 Date[] */
+    value?: Date | Date[];
+    /** 默认日期（非受控）- 单选模式为 Date，多选模式为 Date[] */
+    defaultValue?: Date | Date[];
+    /** 日期改变时的回调 - 单选模式返回 Date，多选模式返回 Date[] */
+    onChange?: (date: Date | Date[]) => void;
     /** 自定义日期单元格渲染（第二个参数为农历信息，仅在 showLunar 为 true 时提供） */
     dateCellRender?: (date: Date, lunarInfo?: LunarInfo) => React.ReactNode;
     /** 自定义月份单元格渲染 */

@@ -15,6 +15,7 @@ export interface ButtonProps {
     icon?: string | React.ReactNode;
     type?: 'button' | 'submit' | 'reset';
     href?: string;
+    title?: string;
 }
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
@@ -29,6 +30,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     icon,
     type = 'button',
     href,
+    title,
     ...rest
 }, ref) => {
     const classes = classNames(
@@ -75,6 +77,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
                 className={classes}
                 onClick={handleClick}
                 style={style}
+                title={title}
                 {...rest}
             >
                 {renderIcon()}
@@ -92,6 +95,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
             onClick={handleClick}
             disabled={disabled}
             style={style}
+            title={title}
             {...rest}
         >
             {renderIcon()}
