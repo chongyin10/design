@@ -2,18 +2,22 @@ import React, { useMemo } from 'react';
 // Import only what's needed for basic functionality
 import { PresetIcon } from './path';
 // Static imports for commonly used icons - these will be tree-shaken if not used
-import { 
-  searchIcon, 
-  loadingIcon, 
-  userIcon, 
-  closeIcon, 
-  checkIcon, 
-  plusIcon, 
-  minusIcon, 
-  arrowLeftIcon, 
-  arrowRightIcon, 
-  arrowUpIcon, 
-  arrowDownIcon
+import {
+  searchIcon,
+  loadingIcon,
+  userIcon,
+  closeIcon,
+  checkIcon,
+  plusIcon,
+  minusIcon,
+  arrowLeftIcon,
+  arrowRightIcon,
+  arrowUpIcon,
+  arrowDownIcon,
+  leftIcon,
+  rightIcon,
+  doubleLeftIcon,
+  doubleRightIcon
 } from './path';
 // Import presetIcons for backward compatibility and fallback - this will be tree-shaken if not used
 import { presetIcons } from './path';
@@ -31,7 +35,11 @@ const iconMap: Record<string, PresetIcon> = {
   arrowLeft: arrowLeftIcon,
   arrowRight: arrowRightIcon,
   arrowUp: arrowUpIcon,
-  arrowDown: arrowDownIcon
+  arrowDown: arrowDownIcon,
+  left: leftIcon,
+  right: rightIcon,
+  'double-left': doubleLeftIcon,
+  'double-right': doubleRightIcon
 };
 
 // Get icon path with tree-shaking support

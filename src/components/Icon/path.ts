@@ -60,6 +60,27 @@ export const arrowDownIcon: PresetIcon = {
     viewBox: '0 0 24 24'
 };
 
+// Calendar navigation icons
+export const leftIcon: PresetIcon = {
+    path: 'M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z',
+    viewBox: '0 0 24 24'
+};
+
+export const rightIcon: PresetIcon = {
+    path: 'M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z',
+    viewBox: '0 0 24 24'
+};
+
+export const doubleLeftIcon: PresetIcon = {
+    path: 'M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6 1.41-1.41zM11 6H9v12h2V6z',
+    viewBox: '0 0 24 24'
+};
+
+export const doubleRightIcon: PresetIcon = {
+    path: 'M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6-1.41 1.41zM13 6h2v12h-2V6z',
+    viewBox: '0 0 24 24'
+};
+
 // Backward compatibility - presetIcons object built from individual exports
 export const presetIcons: Record<string, PresetIcon> = {
     search: searchIcon,
@@ -73,6 +94,10 @@ export const presetIcons: Record<string, PresetIcon> = {
     arrowRight: arrowRightIcon,
     arrowUp: arrowUpIcon,
     arrowDown: arrowDownIcon,
+    left: leftIcon,
+    right: rightIcon,
+    'double-left': doubleLeftIcon,
+    'double-right': doubleRightIcon,
     app: {
         path: 'M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z',
         viewBox: '0 0 24 24'

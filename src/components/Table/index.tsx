@@ -68,7 +68,7 @@ export interface RowSelection {
     columnTitle?: ReactNode;
 }
 
-interface TableProps {
+export interface TableProps {
     dataSource?: any[];
     columns?: Column[];
     bordered?: boolean;

@@ -52,6 +52,7 @@ import TreeExample from './Tree';
 import UploadExample from './Upload';
 import SplitterExample from './Splitter';
 import SpinExample from './Spin';
+import CalendarExample from './Calendar';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -84,7 +85,7 @@ const componentCategories: { key: string; label: string; icon?: string; componen
     {
         key: 'data-display',
         label: '数据展示',
-        components: ['carousel', 'empty', 'label', 'table', 'tag', 'tree', 'tooltip']
+        components: ['calendar', 'carousel', 'empty', 'label', 'table', 'tag', 'tree', 'tooltip']
     },
     {
         key: 'feedback',
@@ -102,6 +103,7 @@ const componentCategories: { key: string; label: string; icon?: string; componen
 const componentMeta: Record<string, { name: string; description: string }> = {
     intro: { name: '简介', description: 'ZjpCy Design 组件库介绍' },
     install: { name: '安装', description: '安装指南' },
+    calendar: { name: 'Calendar', description: '日历' },
     anchor: { name: 'Anchor', description: '锚点' },
     breadcrumb: { name: 'Breadcrumb', description: '层级结构' },
     button: { name: 'Button', description: '按钮' },
@@ -257,6 +259,7 @@ const App: React.FC = () => {
         const components: Record<string, React.ReactNode> = {
             intro: <IntroContent />,
             install: <InstallContent />,
+            calendar: <CalendarExample />,
             button: <ButtonExample />,
             flex: <FlexExample />,
             grid: <GridExample />,
