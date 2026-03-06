@@ -24,14 +24,14 @@ export const LabelWrapper = styled.label`
   /* 平滑过渡 */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
-  /* 悬停效果 */
-  &:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
-    box-shadow: 
-      0 4px 16px rgba(0, 0, 0, 0.1),
-      0 2px 4px rgba(0, 0, 0, 0.06);
-    // transform: translateY(-1px);
-  }
+  // /* 悬停效果 */
+  // &:hover {
+  //   background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+  //   box-shadow: 
+  //     0 4px 16px rgba(0, 0, 0, 0.1),
+  //     0 2px 4px rgba(0, 0, 0, 0.06);
+  //   // transform: translateY(-1px);
+  // }
   
   /* 指示器样式 - 渐变条 */
   &::before {
@@ -53,31 +53,31 @@ export const LabelWrapper = styled.label`
   }
   
   /* 悬停时指示器效果 */
-  &:hover::before {
-    width: calc(var(--label-indicator-width, 4px) + 1px);
-    box-shadow: 3px 0 12px rgba(24, 144, 255, 0.4);
-    filter: brightness(1.1);
-  }
+  // &:hover::before {
+  //   width: calc(var(--label-indicator-width, 4px) + 1px);
+  //   box-shadow: 3px 0 12px rgba(24, 144, 255, 0.4);
+  //   filter: brightness(1.1);
+  // }
   
   /* 光晕装饰 */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 60px;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 255, 255, 0.4) 50%,
-      transparent 100%
-    );
-    border-radius: 0 8px 8px 0;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   top: 0;
+  //   right: 0;
+  //   width: 60px;
+  //   height: 100%;
+  //   background: linear-gradient(
+  //     90deg,
+  //     transparent 0%,
+  //     rgba(255, 255, 255, 0.4) 50%,
+  //     transparent 100%
+  //   );
+  //   border-radius: 0 8px 8px 0;
+  //   pointer-events: none;
+  //   opacity: 0;
+  //   transition: opacity 0.3s ease;
+  // }
   
   &:hover::after {
     opacity: 1;
