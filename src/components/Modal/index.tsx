@@ -83,35 +83,19 @@ const Modal: React.FC<ModalProps> = ({
         if (!triggerCenter || typeof window === 'undefined') {
             return { x: 0, y: 0 };
         }
-        const resolvedHeight = height ? getHeightValue(height) : 0;
         
-        // 根据不同的direction和top设置，计算动画原点
-        if (effectiveDirection === 'center' && top !== undefined) {
-            // direction='center' 且设置了 top：水平居中，垂直从 top 位置开始
+        // 当设置了 top 或 direction='normal' 时，都从触发器位置动画到目标位置
+        if (top !== undefined || effectiveDirection === 'normal') {
+            // 水平方向：触发器到视口中心的偏移
             const centerX = window.innerWidth / 2;
-            const centerY = top + (resolvedHeight > 0 ? resolvedHeight / 2 : 0);
+            // 垂直方向：触发器到 top 位置（如果有）或视口中心的偏移
+            const targetY = top !== undefined ? top + (height ? getHeightValue(height) / 2 : 0) : window.innerHeight / 2;
             return {
                 x: triggerCenter.x - centerX,
-                y: triggerCenter.y - centerY
+                y: triggerCenter.y - targetY
             };
         } else if (effectiveDirection === 'center') {
-            // direction='center' 但没有设置 top：从窗口中心开始
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            return {
-                x: triggerCenter.x - centerX,
-                y: triggerCenter.y - centerY
-            };
-        } else if (top !== undefined && resolvedHeight > 0) {
-            // direction='normal' 且设置了 top：从触发器位置到窗口中心
-            const centerX = window.innerWidth / 2;
-            const centerY = top + resolvedHeight / 2;
-            return {
-                x: triggerCenter.x - centerX,
-                y: triggerCenter.y - centerY
-            };
-        } else {
-            // direction='normal' 且没有设置 top：从触发器位置到窗口中心
+            // direction='center'：从窗口中心开始
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             return {
@@ -119,6 +103,9 @@ const Modal: React.FC<ModalProps> = ({
                 y: triggerCenter.y - centerY
             };
         }
+        
+        // 其他方向（角落模式）返回默认值
+        return { x: 0, y: 0 };
     };
 
     useEffect(() => {
@@ -281,21 +268,19 @@ const Modal: React.FC<ModalProps> = ({
                         'zjpcy-modal-container',
                         {
                             // 显示动画 - 延迟显示内容，确保遮罩层模糊效果先渲染
-                            // 当设置了 top 时，所有方向都从浏览器顶部滑入
-                            'zjpcy-modal-container--from-top': showContent && !isClosing && top !== undefined,
+                            // 当设置了 top 或 direction='normal' 时，使用 normal 动画（从触发器位置开始）
+                            'zjpcy-modal-container--normal': showContent && !isClosing && (effectiveDirection === 'normal' || top !== undefined),
                             'zjpcy-modal-container--center': showContent && !isClosing && effectiveDirection === 'center' && top === undefined,
                             'zjpcy-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right' && top === undefined,
                             'zjpcy-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right' && top === undefined,
                             'zjpcy-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left' && top === undefined,
-                            'zjpcy-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal' && top === undefined,
                             
-                            // 关闭状态 - 当设置了 top 时，都回到浏览器顶部
-                            'zjpcy-modal-container--closing-from-top': isClosing && top !== undefined,
+                            // 关闭状态
+                            'zjpcy-modal-container--closing-normal': isClosing && (effectiveDirection === 'normal' || top !== undefined),
                             'zjpcy-modal-container--closing-center': isClosing && effectiveDirection === 'center' && top === undefined,
                             'zjpcy-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right' && top === undefined,
                             'zjpcy-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right' && top === undefined,
                             'zjpcy-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left' && top === undefined,
-                            'zjpcy-modal-container--closing-normal': isClosing && effectiveDirection === 'normal' && top === undefined,
                             'zjpcy-modal-container--bordered': bordered,
                             'zjpcy-modal-container--has-height': height !== undefined
                         }

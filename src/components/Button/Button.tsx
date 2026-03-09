@@ -6,6 +6,8 @@ import './Button.css';
 export interface ButtonProps {
     children?: React.ReactNode;
     variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'link';
+    /** @deprecated 请使用 variant 代替 */
+    type?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'link' | 'button' | 'submit' | 'reset';
     size?: 'small' | 'medium' | 'large';
     disabled?: boolean;
     loading?: boolean;
@@ -13,14 +15,15 @@ export interface ButtonProps {
     className?: string;
     style?: React.CSSProperties;
     icon?: string | React.ReactNode;
-    type?: 'button' | 'submit' | 'reset';
+    htmlType?: 'button' | 'submit' | 'reset';
     href?: string;
     title?: string;
 }
 
 const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     children,
-    variant = 'secondary',
+    variant,
+    type: typeProp,
     size = 'medium',
     disabled = false,
     loading = false,
@@ -28,14 +31,21 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     className,
     style,
     icon,
-    type = 'button',
+    htmlType = 'button',
     href,
     title,
     ...rest
 }, ref) => {
+    // 兼容旧版本的 type 属性，如果传入了 type 但没有传入 variant，则使用 type 作为 variant
+    const buttonVariant = variant ?? (
+        typeProp && ['primary', 'secondary', 'danger', 'success', 'warning', 'link'].includes(typeProp)
+            ? typeProp as ButtonProps['variant']
+            : 'secondary'
+    );
+
     const classes = classNames(
         'zjpcy-btn',
-        `zjpcy-btn--${variant}`,
+        `zjpcy-btn--${buttonVariant}`,
         `zjpcy-btn--${size}`,
         {
             'zjpcy-btn--disabled': disabled || loading
@@ -69,7 +79,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     };
 
     // 如果是 link 类型且有 href，渲染为 a 标签
-    if (variant === 'link' && href) {
+    if (buttonVariant === 'link' && href) {
         return (
             <a
                 ref={ref as React.Ref<HTMLAnchorElement>}
@@ -90,7 +100,7 @@ const Button = React.forwardRef<HTMLElement, ButtonProps>(({
     return (
         <button
             ref={ref as React.Ref<HTMLButtonElement>}
-            type={type}
+            type={htmlType}
             className={classes}
             onClick={handleClick}
             disabled={disabled}
