@@ -124,7 +124,7 @@ const DrawerExample: React.FC = () => {
               <DemoRow title="基础用法">
                 <Space>
                   {placements.map((p) => (
-                    <Button key={p.value} onClick={() => showDrawer(p.value, true, footerMode === 'default')}>
+                    <Button variant='primary' key={p.value} onClick={() => showDrawer(p.value, true, footerMode === 'default')}>
                       {p.label}
                     </Button>
                   ))}

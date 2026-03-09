@@ -22,8 +22,8 @@
   opacity: 0;
   transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
   pointer-events: auto;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 /* 显示状态 */

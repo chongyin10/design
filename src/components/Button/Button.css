@@ -15,7 +15,7 @@
   cursor: pointer;
   user-select: none;
   border: none;
-  border-radius: var(--zjpcy-border-radius-lg);
+  border-radius: 4px;
   transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
   outline: none;
   position: relative;
@@ -54,18 +54,18 @@
    Primary 主题 - 主色调
    ============================================ */
 .zjpcy-btn--primary {
-  background: linear-gradient(135deg, var(--zjpcy-button-primary-bg) 0%, var(--zjpcy-primary-hover-color) 100%);
+  background: var(--zjpcy-button-primary-bg);
   color: var(--zjpcy-button-text-white);
   box-shadow: var(--zjpcy-shadow-sm);
 }
 
 .zjpcy-btn--primary:hover:not(.zjpcy-btn--disabled) {
-  background: linear-gradient(135deg, var(--zjpcy-primary-hover-color) 0%, #69c0ff 100%);
+  background: var(--zjpcy-primary-hover-color);
   box-shadow: var(--zjpcy-shadow-md);
 }
 
 .zjpcy-btn--primary:active:not(.zjpcy-btn--disabled) {
-  background: linear-gradient(135deg, #096dd9 0%, var(--zjpcy-button-primary-bg) 100%);
+  background: #096dd9;
   box-shadow: var(--zjpcy-shadow-extra-light);
   transform: translateY(0);
 }

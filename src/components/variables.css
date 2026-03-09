@@ -47,9 +47,9 @@ html, body {
   --zjpcy-shadow-extra-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* 超浅阴影 - 用于轻微凸起效果 */
   
   /* 圆角 - 用于组件的边角处理 */
-  --zjpcy-border-radius-sm: 4px; /* 小圆角 - 用于按钮、输入框等小组件 */
+  --zjpcy-border-radius-sm: 2px; /* 小圆角 - 用于按钮、输入框等小组件 */
   --zjpcy-border-radius-md: 6px; /* 中圆角 - 用于卡片、弹窗等中等组件 */
-  --zjpcy-border-radius-lg: 8px; /* 大圆角 - 用于模态框、特殊容器等 */
+  --zjpcy-border-radius-lg: 4px; /* 大圆角 - 用于模态框、特殊容器等 */
   
   /* 动画 - 用于过渡和动效 */
   --zjpcy-transition-duration: 0.2s; /* 过渡动画持续时间 - 控制动画快慢 */

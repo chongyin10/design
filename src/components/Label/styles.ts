@@ -3,11 +3,11 @@ import styled from 'styled-components';
 // 基础样式层：styled-components 定义，优先级最低
 export const LabelWrapper = styled.label`
   /* 基础样式 */
-  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-  padding: 10px 16px;
-  padding-right: var(--label-padding-right, 16px);
-  padding-left: 16px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #fffdfd 0%, #f0f0f0 100%);
+  padding: 6px 12px;
+  padding-right: var(--label-padding-right, 12px);
+  padding-left: 12px;
+  border-radius: 0px;
   position: relative;
   display: inline-flex;
   align-items: center;

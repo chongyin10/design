@@ -143,8 +143,8 @@
   text-align: center;
   background: rgba(0, 0, 0, 0.55);
   border-radius: var(--zjpcy-border-radius-lg);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 
 .zjpcy-carousel__title {
@@ -397,8 +397,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: var(--zjpcy-shadow-sm);
   letter-spacing: 0.5px;
