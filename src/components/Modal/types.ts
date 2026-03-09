@@ -8,6 +8,8 @@ export interface ModalProps {
     confirmLoading?: boolean;
     direction?: 'center' | 'top-right' | 'bottom-right' | 'bottom-left' | 'normal';
     top?: number;
+    /** 触发器元素的 ref，用于 normal 模式时从触发器位置开始动画 */
+    triggerRef?: React.RefObject<HTMLElement>;
     footer?: null | React.ReactNode;
     bordered?: boolean;
     onCancel?: () => void;

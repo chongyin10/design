@@ -19,6 +19,7 @@ const Modal: React.FC<ModalProps> = ({
     confirmLoading = false,
     direction = 'normal',
     top,
+    triggerRef,
     onCancel,
     onOk,
     children,
@@ -43,8 +44,8 @@ const Modal: React.FC<ModalProps> = ({
     const [showContent, setShowContent] = useState(false);
     const [originOffset, setOriginOffset] = useState({ x: 0, y: 0 });
     const lastClickPointRef = useRef<{ x: number; y: number } | null>(null);
-    const animationDuration = 550;
-    const contentDelay = 50; // 延迟显示内容，确保遮罩层模糊效果先渲染
+    const animationDuration = 400; // 略长于最长的 CSS 动画 (0.35s)
+    const contentDelay = 30; // 减少延迟，提升响应速度
 
     // 当设置了top时，direction参数仍然生效
     // 如果direction='center'且设置了top，动画会从水平中心、垂直top位置开始
@@ -60,9 +61,26 @@ const Modal: React.FC<ModalProps> = ({
         return match ? parseInt(match[1], 10) : 0;
     };
 
-    const getClickOriginOffset = () => {
+    // 获取触发器的中心位置
+    const getTriggerCenter = (): { x: number; y: number } | null => {
+        if (triggerRef?.current) {
+            const rect = triggerRef.current.getBoundingClientRect();
+            return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2
+            };
+        }
+        // 如果没有 triggerRef，使用最后点击位置
         const point = lastClickPointRef.current;
-        if (!point || typeof window === 'undefined') {
+        if (point) {
+            return point;
+        }
+        return null;
+    };
+
+    const getClickOriginOffset = () => {
+        const triggerCenter = getTriggerCenter();
+        if (!triggerCenter || typeof window === 'undefined') {
             return { x: 0, y: 0 };
         }
         const resolvedHeight = height ? getHeightValue(height) : 0;
@@ -73,32 +91,32 @@ const Modal: React.FC<ModalProps> = ({
             const centerX = window.innerWidth / 2;
             const centerY = top + (resolvedHeight > 0 ? resolvedHeight / 2 : 0);
             return {
-                x: point.x - centerX,
-                y: point.y - centerY
+                x: triggerCenter.x - centerX,
+                y: triggerCenter.y - centerY
             };
         } else if (effectiveDirection === 'center') {
             // direction='center' 但没有设置 top：从窗口中心开始
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             return {
-                x: point.x - centerX,
-                y: point.y - centerY
+                x: triggerCenter.x - centerX,
+                y: triggerCenter.y - centerY
             };
         } else if (top !== undefined && resolvedHeight > 0) {
-            // direction='normal' 且设置了 top：从点击位置到窗口中心
+            // direction='normal' 且设置了 top：从触发器位置到窗口中心
             const centerX = window.innerWidth / 2;
             const centerY = top + resolvedHeight / 2;
             return {
-                x: point.x - centerX,
-                y: point.y - centerY
+                x: triggerCenter.x - centerX,
+                y: triggerCenter.y - centerY
             };
         } else {
-            // direction='normal' 且没有设置 top：从点击位置到窗口中心
+            // direction='normal' 且没有设置 top：从触发器位置到窗口中心
             const centerX = window.innerWidth / 2;
             const centerY = window.innerHeight / 2;
             return {
-                x: point.x - centerX,
-                y: point.y - centerY
+                x: triggerCenter.x - centerX,
+                y: triggerCenter.y - centerY
             };
         }
     };
@@ -118,12 +136,9 @@ const Modal: React.FC<ModalProps> = ({
             const nextOffset = getClickOriginOffset();
             setOriginOffset(nextOffset);
             setIsClosing(false);
-            // 使用 requestAnimationFrame 确保 DOM 创建和 CSS 类切换不在同一帧
-            // 避免遮罩层闪动
-            requestAnimationFrame(() => {
-                setIsVisible(true);
-            });
-            // 先显示遮罩层（带模糊），延迟后再显示内容，避免闪动
+            // 同步设置可见性，避免延迟导致的卡顿
+            setIsVisible(true);
+            // 微小延迟确保内容动画流畅
             const contentTimer = setTimeout(() => {
                 setShowContent(true);
             }, contentDelay);
@@ -266,20 +281,21 @@ const Modal: React.FC<ModalProps> = ({
                         'zjpcy-modal-container',
                         {
                             // 显示动画 - 延迟显示内容，确保遮罩层模糊效果先渲染
-                            'zjpcy-modal-container--center-top': showContent && !isClosing && effectiveDirection === 'center' && top !== undefined,
+                            // 当设置了 top 时，所有方向都从浏览器顶部滑入
+                            'zjpcy-modal-container--from-top': showContent && !isClosing && top !== undefined,
                             'zjpcy-modal-container--center': showContent && !isClosing && effectiveDirection === 'center' && top === undefined,
-                            'zjpcy-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right',
-                            'zjpcy-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right',
-                            'zjpcy-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left',
-                            'zjpcy-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal',
+                            'zjpcy-modal-container--top-right': showContent && !isClosing && effectiveDirection === 'top-right' && top === undefined,
+                            'zjpcy-modal-container--bottom-right': showContent && !isClosing && effectiveDirection === 'bottom-right' && top === undefined,
+                            'zjpcy-modal-container--bottom-left': showContent && !isClosing && effectiveDirection === 'bottom-left' && top === undefined,
+                            'zjpcy-modal-container--normal': showContent && !isClosing && effectiveDirection === 'normal' && top === undefined,
                             
-                            // 关闭状态
-                            'zjpcy-modal-container--closing-center-top': isClosing && effectiveDirection === 'center' && top !== undefined,
+                            // 关闭状态 - 当设置了 top 时，都回到浏览器顶部
+                            'zjpcy-modal-container--closing-from-top': isClosing && top !== undefined,
                             'zjpcy-modal-container--closing-center': isClosing && effectiveDirection === 'center' && top === undefined,
-                            'zjpcy-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right',
-                            'zjpcy-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right',
-                            'zjpcy-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left',
-                            'zjpcy-modal-container--closing-normal': isClosing && effectiveDirection === 'normal',
+                            'zjpcy-modal-container--closing-top-right': isClosing && effectiveDirection === 'top-right' && top === undefined,
+                            'zjpcy-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right' && top === undefined,
+                            'zjpcy-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left' && top === undefined,
+                            'zjpcy-modal-container--closing-normal': isClosing && effectiveDirection === 'normal' && top === undefined,
                             'zjpcy-modal-container--bordered': bordered,
                             'zjpcy-modal-container--has-height': height !== undefined
                         }

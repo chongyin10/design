@@ -17,7 +17,7 @@
     justify-content: center;
     z-index: var(--zjpcy-z-index-modal);
     pointer-events: none;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.25s ease-out;
 }
 
 .zjpcy-modal-overlay--visible {
@@ -91,17 +91,17 @@
 
 /* 中心动画 */
 .zjpcy-modal-container--center {
-    animation: centerAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: centerAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* 中心动画（设置了top） - 从指定top位置的垂直中心开始 */
-.zjpcy-modal-container--center-top {
-    animation: centerTopAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* 从浏览器顶部滑入到指定 top 位置的动画 */
+.zjpcy-modal-container--from-top {
+    animation: fromTopAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes centerAnimateIn {
     from {
-        transform: scale(0.95);
+        transform: scale(0.85);
         opacity: 0;
     }
     to {
@@ -110,25 +110,25 @@
     }
 }
 
-@keyframes centerTopAnimateIn {
+@keyframes fromTopAnimateIn {
     from {
-        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.95);
+        transform: translateY(-100vh) scale(0.7);
         opacity: 0;
     }
     to {
-        transform: translate(0, 0) scale(1);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
 }
 
-/* 正常动画（从点击位置缓慢过渡） */
+/* 正常动画（从触发器位置缓慢过渡到中心） */
 .zjpcy-modal-container--normal {
-    animation: normalAnimateIn 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: normalAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes normalAnimateIn {
     from {
-        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.9);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.5);
         opacity: 0;
     }
     to {
@@ -137,14 +137,14 @@
     }
 }
 
-/* 右上角动画 */
+/* 右上角动画 - 从浏览器右上角滑入 */
 .zjpcy-modal-container--top-right {
-    animation: topRightAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: topRightAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes topRightAnimateIn {
     from {
-        transform: translate(calc(50vw + 50%), calc(-50vh - 50%)) scale(0.5);
+        transform: translate(var(--zjpcy-modal-offset-x, 50vw), var(--zjpcy-modal-offset-y, -50vh)) scale(0.5);
         opacity: 0;
     }
     to {
@@ -153,14 +153,14 @@
     }
 }
 
-/* 右下角动画 */
+/* 右下角动画 - 从浏览器右下角滑入 */
 .zjpcy-modal-container--bottom-right {
-    animation: bottomRightAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: bottomRightAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes bottomRightAnimateIn {
     from {
-        transform: translate(calc(50vw + 50%), calc(50vh + 50%)) scale(0.5);
+        transform: translate(var(--zjpcy-modal-offset-x, 50vw), var(--zjpcy-modal-offset-y, 50vh)) scale(0.5);
         opacity: 0;
     }
     to {
@@ -169,14 +169,14 @@
     }
 }
 
-/* 左下角动画 */
+/* 左下角动画 - 从浏览器左下角滑入 */
 .zjpcy-modal-container--bottom-left {
-    animation: bottomLeftAnimateIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: bottomLeftAnimateIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes bottomLeftAnimateIn {
     from {
-        transform: translate(calc(-50vw - 50%), calc(50vh + 50%)) scale(0.5);
+        transform: translate(var(--zjpcy-modal-offset-x, -50vw), var(--zjpcy-modal-offset-y, 50vh)) scale(0.5);
         opacity: 0;
     }
     to {
@@ -191,12 +191,12 @@
 
 /* 中心消失 */
 .zjpcy-modal-container--closing-center {
-    animation: centerAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: centerAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
-/* 中心消失（设置了top） */
-.zjpcy-modal-container--closing-center-top {
-    animation: centerTopAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+/* 从 top 位置回到浏览器顶部的消失动画 */
+.zjpcy-modal-container--closing-from-top {
+    animation: fromTopAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes centerAnimateOut {
@@ -205,25 +205,25 @@
         opacity: 1;
     }
     to {
-        transform: scale(0.9);
+        transform: scale(0.85);
         opacity: 0;
     }
 }
 
-@keyframes centerTopAnimateOut {
+@keyframes fromTopAnimateOut {
     from {
-        transform: translate(0, 0) scale(1);
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
     to {
-        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.85);
+        transform: translateY(-100vh) scale(0.7);
         opacity: 0;
     }
 }
 
-/* 正常消失（回到点击位置缓慢消失） */
+/* 正常消失（回到触发器位置缓慢消失） */
 .zjpcy-modal-container--closing-normal {
-    animation: normalAnimateOut 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: normalAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes normalAnimateOut {
@@ -232,67 +232,55 @@
         opacity: 1;
     }
     to {
-        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.9);
+        transform: translate(var(--zjpcy-modal-origin-x, 0), var(--zjpcy-modal-origin-y, 0)) scale(0.5);
         opacity: 0;
     }
 }
 
-/* 右上角消失 */
+/* 右上角消失 - 回到浏览器右上角 */
 .zjpcy-modal-container--closing-top-right {
-    animation: topRightAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: topRightAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes topRightAnimateOut {
-    0% {
+    from {
         transform: translate(0, 0) scale(1);
         opacity: 1;
     }
-    50% {
-        transform: translate(25vw, -25vh) scale(0.85);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translate(calc(50vw + 50%), calc(-50vh - 50%)) scale(0.5);
+    to {
+        transform: translate(var(--zjpcy-modal-offset-x, 50vw), var(--zjpcy-modal-offset-y, -50vh)) scale(0.5);
         opacity: 0;
     }
 }
 
-/* 右下角消失 */
+/* 右下角消失 - 回到浏览器右下角 */
 .zjpcy-modal-container--closing-bottom-right {
-    animation: bottomRightAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: bottomRightAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes bottomRightAnimateOut {
-    0% {
+    from {
         transform: translate(0, 0) scale(1);
         opacity: 1;
     }
-    50% {
-        transform: translate(25vw, 25vh) scale(0.85);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translate(calc(50vw + 50%), calc(50vh + 50%)) scale(0.5);
+    to {
+        transform: translate(var(--zjpcy-modal-offset-x, 50vw), var(--zjpcy-modal-offset-y, 50vh)) scale(0.5);
         opacity: 0;
     }
 }
 
-/* 左下角消失 */
+/* 左下角消失 - 回到浏览器左下角 */
 .zjpcy-modal-container--closing-bottom-left {
-    animation: bottomLeftAnimateOut 0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+    animation: bottomLeftAnimateOut 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
 }
 
 @keyframes bottomLeftAnimateOut {
-    0% {
+    from {
         transform: translate(0, 0) scale(1);
         opacity: 1;
     }
-    50% {
-        transform: translate(-25vw, 25vh) scale(0.85);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translate(calc(-50vw - 50%), calc(50vh + 50%)) scale(0.5);
+    to {
+        transform: translate(var(--zjpcy-modal-offset-x, -50vw), var(--zjpcy-modal-offset-y, 50vh)) scale(0.5);
         opacity: 0;
     }
 }
