@@ -6,7 +6,7 @@
 
 .zjpcy-anchor {
   position: relative;
-  padding: 20px;
+  padding: 3px;
   background: linear-gradient(
     180deg,
     var(--zjpcy-bg-color-white) 0%,
@@ -15,6 +15,7 @@
   border-radius: var(--zjpcy-border-radius-lg);
   box-shadow: var(--zjpcy-shadow-sm);
   border: 1px solid var(--zjpcy-border-color-light);
+  height: auto;
 }
 
 .zjpcy-anchor-affix {
@@ -51,12 +52,12 @@
 
 .zjpcy-anchor-link-a {
   display: block;
-  padding: 8px 16px;
+  padding: 2px;
   color: var(--zjpcy-text-color-secondary);
   text-decoration: none;
   border-radius: var(--zjpcy-border-radius-md);
   transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   font-weight: 400;
   margin-left: 8px;
