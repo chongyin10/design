@@ -51,7 +51,7 @@
 }
 
 /* 面板类型容器 */
-.zjpcy-steps .zjpcy-steps-panel {
+.zjpcy-steps.zjpcy-steps-type-panel {
   background: linear-gradient(135deg, var(--zjpcy-steps-bg) 0%, var(--zjpcy-steps-bg-light) 100%);
   border-radius: var(--zjpcy-steps-border-radius);
   padding: 24px;
@@ -60,31 +60,31 @@
 }
 
 /* 方向布局 */
-.zjpcy-steps .zjpcy-steps-direction-horizontal {
+.zjpcy-steps.zjpcy-steps-direction-horizontal {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
 }
 
-.zjpcy-steps .zjpcy-steps-direction-vertical {
+.zjpcy-steps.zjpcy-steps-direction-vertical {
   flex-direction: column;
 }
 
 /* ============================================
    Size Variants - 尺寸变体
    ============================================ */
-.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-node {
+.zjpcy-steps.zjpcy-steps-size-small .zjpcy-step-node {
   width: var(--zjpcy-steps-node-small);
   height: var(--zjpcy-steps-node-small);
   font-size: 12px;
   min-width: var(--zjpcy-steps-node-small);
 }
 
-.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-title {
+.zjpcy-steps.zjpcy-steps-size-small .zjpcy-step-title {
   font-size: 12px;
 }
 
-.zjpcy-steps .zjpcy-steps-size-small .zjpcy-step-description {
+.zjpcy-steps.zjpcy-steps-size-small .zjpcy-step-description {
   font-size: 11px;
 }
 
@@ -100,7 +100,7 @@
 }
 
 /* 面板类型步骤项 */
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step {
   background: linear-gradient(135deg, var(--zjpcy-steps-bg) 0%, var(--zjpcy-steps-bg-light) 100%);
   border-radius: var(--zjpcy-border-radius-md, 6px);
   padding: 16px;
@@ -110,38 +110,38 @@
   box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step:hover {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step:hover {
   box-shadow: var(--zjpcy-steps-shadow-md);
   transform: translateY(-2px);
   border-color: var(--zjpcy-steps-primary-color);
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-process {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step.zjpcy-step-process {
   border-color: var(--zjpcy-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, rgba(24, 144, 255, 0.02) 100%);
   box-shadow: var(--zjpcy-steps-shadow-primary);
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-finish {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step.zjpcy-step-finish {
   border-color: var(--zjpcy-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, rgba(82, 196, 26, 0.02) 100%);
   box-shadow: var(--zjpcy-steps-shadow-success);
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step .zjpcy-step-error {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step.zjpcy-step-error {
   border-color: var(--zjpcy-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, rgba(245, 34, 45, 0.02) 100%);
   box-shadow: var(--zjpcy-steps-shadow-error);
 }
 
 /* 禁用状态 */
-.zjpcy-step .zjpcy-step-disabled {
+.zjpcy-step.zjpcy-step-disabled {
   cursor: not-allowed;
   opacity: var(--zjpcy-opacity-disabled, 0.65);
 }
 
 /* 水平方向 */
-.zjpcy-step .zjpcy-step-direction-horizontal {
+.zjpcy-step.zjpcy-step-direction-horizontal {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,7 +152,7 @@
 }
 
 /* 垂直方向 */
-.zjpcy-step .zjpcy-step-direction-vertical {
+.zjpcy-step.zjpcy-step-direction-vertical {
   display: flex;
   align-items: flex-start;
   padding: 8px 0;
@@ -169,13 +169,13 @@
   justify-content: center;
 }
 
-.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-head {
+.zjpcy-step.zjpcy-step-direction-horizontal .zjpcy-step-head {
   margin-bottom: 8px;
   position: relative;
   width: 100%;
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-head {
+.zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-head {
   margin-right: 16px;
 }
 
@@ -207,13 +207,13 @@
 }
 
 /* 等待状态 */
-.zjpcy-step-node .zjpcy-step-node-wait {
+.zjpcy-step-node.zjpcy-step-node-wait {
   border-color: var(--zjpcy-steps-wait-color);
   color: var(--zjpcy-steps-wait-color);
 }
 
 /* 进行中状态 */
-.zjpcy-step-node .zjpcy-step-node-process {
+.zjpcy-step-node.zjpcy-step-node-process {
   border-color: var(--zjpcy-steps-primary-color);
   background: linear-gradient(135deg, var(--zjpcy-steps-primary-color) 0%, var(--zjpcy-steps-primary-hover) 100%);
   color: var(--zjpcy-steps-bg);
@@ -222,7 +222,7 @@
 }
 
 /* 完成状态 */
-.zjpcy-step-node .zjpcy-step-node-finish {
+.zjpcy-step-node.zjpcy-step-node-finish {
   border-color: var(--zjpcy-steps-success-color);
   background: linear-gradient(135deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-success-hover) 100%);
   color: var(--zjpcy-steps-bg);
@@ -231,7 +231,7 @@
 }
 
 /* 错误状态 */
-.zjpcy-step-node .zjpcy-step-node-error {
+.zjpcy-step-node.zjpcy-step-node-error {
   border-color: var(--zjpcy-steps-error-color);
   background: linear-gradient(135deg, var(--zjpcy-steps-error-color) 0%, var(--zjpcy-steps-error-hover) 100%);
   color: var(--zjpcy-steps-bg);
@@ -297,32 +297,32 @@
   justify-content: center;
 }
 
-.zjpcy-step .zjpcy-step-finish .zjpcy-step-arrow {
+.zjpcy-step.zjpcy-step-finish .zjpcy-step-arrow {
   color: var(--zjpcy-steps-success-color);
 }
 
-.zjpcy-step .zjpcy-step-process .zjpcy-step-arrow {
+.zjpcy-step.zjpcy-step-process .zjpcy-step-arrow {
   color: var(--zjpcy-steps-primary-color);
   transform: translateY(-50%) scale(1.2);
 }
 
-.zjpcy-step .zjpcy-step-error .zjpcy-step-arrow {
+.zjpcy-step.zjpcy-step-error .zjpcy-step-arrow {
   color: var(--zjpcy-steps-error-color);
 }
 
-.zjpcy-step .zjpcy-step-finish .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-finish .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-success-color);
   border-color: var(--zjpcy-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.zjpcy-step .zjpcy-step-process .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-process .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-primary-color);
   border-color: var(--zjpcy-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.zjpcy-step .zjpcy-step-error .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-error .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-error-color);
   border-color: var(--zjpcy-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
@@ -331,10 +331,11 @@
 /* ============================================
    Horizontal Direction - 水平方向样式
    ============================================ */
-.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-tail {
+.zjpcy-step.zjpcy-step-direction-horizontal .zjpcy-step-tail {
   top: 50%;
   left: 50%;
-  width: 110%;
+  right: -50%;
+  width: auto;
   height: 2px;
   transform: translateY(-50%);
   background-color: var(--zjpcy-steps-border-color);
@@ -344,7 +345,7 @@
 /* ============================================
    Vertical Direction - 垂直方向样式
    ============================================ */
-.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail {
+.zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-tail {
   top: 100%;
   left: 50%;
   width: 2px;
@@ -355,7 +356,7 @@
   justify-content: center;
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail-dashed {
+.zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-tail-dashed {
   background: repeating-linear-gradient(
     180deg,
     var(--zjpcy-steps-border-color),
@@ -365,7 +366,7 @@
   );
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-tail-title {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -382,19 +383,19 @@
   box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-finish .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-direction-vertical.zjpcy-step-finish .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-success-color);
   border-color: var(--zjpcy-steps-success-color);
   background: linear-gradient(135deg, rgba(82, 196, 26, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-process .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-direction-vertical.zjpcy-step-process .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-primary-color);
   border-color: var(--zjpcy-steps-primary-color);
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical.zjpcy-step-error .zjpcy-step-tail-title {
+.zjpcy-step.zjpcy-step-direction-vertical.zjpcy-step-error .zjpcy-step-tail-title {
   color: var(--zjpcy-steps-error-color);
   border-color: var(--zjpcy-steps-error-color);
   background: linear-gradient(135deg, rgba(245, 34, 45, 0.08) 0%, var(--zjpcy-steps-bg) 100%);
@@ -403,19 +404,19 @@
 /* ============================================
    Tail Color States - 连接线状态颜色
    ============================================ */
-.zjpcy-step .zjpcy-step-finish .zjpcy-step-tail {
+.zjpcy-step.zjpcy-step-finish .zjpcy-step-tail {
   background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-success-hover) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 1.2s ease-in-out forwards;
 }
 
-.zjpcy-step .zjpcy-step-process .zjpcy-step-tail {
+.zjpcy-step.zjpcy-step-process .zjpcy-step-tail {
   background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-primary-color) 50%, var(--zjpcy-steps-primary-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.8s ease-in-out forwards;
 }
 
-.zjpcy-step .zjpcy-step-error .zjpcy-step-tail {
+.zjpcy-step.zjpcy-step-error .zjpcy-step-tail {
   background: linear-gradient(90deg, var(--zjpcy-steps-success-color) 0%, var(--zjpcy-steps-error-color) 50%, var(--zjpcy-steps-error-color) 100%);
   background-size: 200% 100%;
   animation: idpStepsColorFlow 0.6s ease-in-out forwards;
@@ -428,19 +429,19 @@
   flex: 1;
 }
 
-.zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-content {
+.zjpcy-step.zjpcy-step-direction-horizontal .zjpcy-step-content {
   max-width: 120px;
   word-wrap: break-word;
 }
 
-.zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-content {
+.zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-content {
   padding-top: 4px;
   max-width: 180px;
   min-width: 100px;
   word-wrap: break-word;
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-content {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step-content {
   margin-top: 12px;
   padding: 0;
   max-width: 150px;
@@ -458,30 +459,30 @@
   transition: color var(--zjpcy-transition-duration, 0.2s) ease;
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-title {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
 /* 标题状态颜色 */
-.zjpcy-step .zjpcy-step-wait .zjpcy-step-title {
+.zjpcy-step.zjpcy-step-wait .zjpcy-step-title {
   color: var(--zjpcy-steps-wait-color);
 }
 
-.zjpcy-step .zjpcy-step-process .zjpcy-step-title {
+.zjpcy-step.zjpcy-step-process .zjpcy-step-title {
   color: var(--zjpcy-steps-primary-color);
 }
 
-.zjpcy-step .zjpcy-step-finish .zjpcy-step-title {
+.zjpcy-step.zjpcy-step-finish .zjpcy-step-title {
   color: var(--zjpcy-steps-success-color);
 }
 
-.zjpcy-step .zjpcy-step-error .zjpcy-step-title {
+.zjpcy-step.zjpcy-step-error .zjpcy-step-title {
   color: var(--zjpcy-steps-error-color);
 }
 
-.zjpcy-step .zjpcy-step-disabled .zjpcy-step-title {
+.zjpcy-step.zjpcy-step-disabled .zjpcy-step-title {
   color: var(--zjpcy-steps-disabled-color);
 }
 
@@ -494,32 +495,32 @@
   line-height: 1.4;
 }
 
-.zjpcy-steps .zjpcy-steps-panel .zjpcy-step-description {
+.zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step-description {
   font-size: 14px;
   line-height: 1.5;
 }
 
 /* 描述状态颜色 */
-.zjpcy-step .zjpcy-step-wait .zjpcy-step-description {
+.zjpcy-step.zjpcy-step-wait .zjpcy-step-description {
   color: var(--zjpcy-steps-wait-color);
 }
 
-.zjpcy-step .zjpcy-step-process .zjpcy-step-description {
+.zjpcy-step.zjpcy-step-process .zjpcy-step-description {
   color: var(--zjpcy-steps-primary-color);
   opacity: 0.85;
 }
 
-.zjpcy-step .zjpcy-step-finish .zjpcy-step-description {
+.zjpcy-step.zjpcy-step-finish .zjpcy-step-description {
   color: var(--zjpcy-steps-success-color);
   opacity: 0.85;
 }
 
-.zjpcy-step .zjpcy-step-error .zjpcy-step-description {
+.zjpcy-step.zjpcy-step-error .zjpcy-step-description {
   color: var(--zjpcy-steps-error-color);
   opacity: 0.85;
 }
 
-.zjpcy-step .zjpcy-step-disabled .zjpcy-step-description {
+.zjpcy-step.zjpcy-step-disabled .zjpcy-step-description {
   color: var(--zjpcy-steps-disabled-color);
 }
 
@@ -539,36 +540,36 @@
    Responsive Design - 响应式设计
    ============================================ */
 @media (max-width: 768px) {
-  .zjpcy-steps .zjpcy-steps-direction-horizontal {
+  .zjpcy-steps.zjpcy-steps-direction-horizontal {
     flex-direction: column;
   }
   
-  .zjpcy-step .zjpcy-step-direction-horizontal {
+  .zjpcy-step.zjpcy-step-direction-horizontal {
     align-items: flex-start;
     text-align: left;
     padding: 8px 0;
   }
   
-  .zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-head {
+  .zjpcy-step.zjpcy-step-direction-horizontal .zjpcy-step-head {
     flex-direction: row;
     margin-bottom: 0;
     margin-right: 12px;
   }
   
-  .zjpcy-step .zjpcy-step-direction-horizontal .zjpcy-step-tail {
+  .zjpcy-step.zjpcy-step-direction-horizontal .zjpcy-step-tail {
     display: none;
   }
   
-  .zjpcy-step .zjpcy-step-direction-vertical .zjpcy-step-head {
+  .zjpcy-step.zjpcy-step-direction-vertical .zjpcy-step-head {
     margin-right: 12px;
   }
   
   /* 面板类型在移动端调整 */
-  .zjpcy-steps .zjpcy-steps-panel {
+  .zjpcy-steps.zjpcy-steps-type-panel {
     padding: 16px;
   }
   
-  .zjpcy-steps .zjpcy-steps-panel .zjpcy-step {
+  .zjpcy-steps.zjpcy-steps-type-panel .zjpcy-step {
     margin: 8px 0;
     padding: 12px;
   }

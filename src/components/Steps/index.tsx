@@ -149,7 +149,7 @@ const Steps: React.FC<StepsProps> = ({
     return (
         <StepContext.Provider value={contextValue}>
             <div
-                className={`zjpcy-steps ${direction} ${size} ${type} ${className}`}
+                className={classNames('zjpcy-steps', `zjpcy-steps-direction-${direction}`, `zjpcy-steps-size-${size}`, `zjpcy-steps-type-${type}`, className)}
                 style={style}
             >
                 {items.map((item, index) => (

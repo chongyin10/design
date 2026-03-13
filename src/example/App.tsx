@@ -409,7 +409,8 @@ const App: React.FC = () => {
                                 {renderContent()}
                             </div>
                             <footer className="content-footer">
-                                <p>ZjpCy Design ©2024 Created by IDP Team</p>
+                                <a target='_blank'>京ICP备2026009285号-1</a>
+                                <a target='_blank' href='https://beian.miit.gov.cn'>京ICP备2026009285号</a>
                             </footer>
                         </div>
                     </Content>

@@ -1,7 +1,7 @@
 {
   "name": "@zjpcy/simple-design",
-  "version": "1.5.9",
-  "description": "IDP Studio Design System - React Component Library",
+  "version": "1.6.0",
+  "description": "zjpcy Studio Design System - React Component Library",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "types": "dist/types/components/index.d.ts",
@@ -14,7 +14,7 @@
     "build": "rimraf dist && mkdir -p dist && tsc --emitDeclarationOnly --outDir dist/types --project tsconfig.build.json && rollup -c",
     "build:types": "tsc --emitDeclarationOnly --outDir dist/types --project tsconfig.build.json",
     "build:rollup": "rollup -c",
-    "build:example": "webpack --config webpack.config.pro.cjs",
+    "build:web": "webpack --config webpack.config.pro.cjs",
     "prebuild": "rimraf dist",
     "lint": "eslint src --ext ts,tsx",
     "preview": "vite preview"
