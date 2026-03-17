@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Layout, Icon, Menu, Input } from '../components';
+import { Layout, Icon, Menu, Input, Carousel } from '../components';
 import ButtonExample from './Button';
 import CheckboxExample from './Checkbox';
 import NoticeExample from './Notice';
@@ -409,7 +409,6 @@ const App: React.FC = () => {
                                 {renderContent()}
                             </div>
                             <footer className="content-footer">
-                                <a target='_blank'>京ICP备2026009285号-1</a>
                                 <a target='_blank' href='https://beian.miit.gov.cn'>京ICP备2026009285号</a>
                             </footer>
                         </div>
@@ -421,100 +420,392 @@ const App: React.FC = () => {
 };
 
 // 简介内容组件
-const IntroContent: React.FC = () => (
-    <div className="intro-content">
-        <div className="intro-hero">
-            <h1>ZjpCy Design</h1>
-            <p className="intro-subtitle">一套基于 React 的企业级 UI 设计语言和组件库</p>
-            <div className="intro-actions">
-                <a href="#/install" className="intro-btn intro-btn-primary">开始使用</a>
-                <a
-                    href="https://www.npmjs.com/package/@zjpcy/simple-design?activeTab=readme"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="intro-btn"
-                >
-                    GitHub
-                </a>
-            </div>
-        </div>
+const IntroContent: React.FC = () => {
+    const carouselItems = [
+        {
+            key: '1',
+            image: '',
+            title: '📦 开箱即用',
+            description: '50+ 高质量 React 组件，经过严格测试，无需额外配置即可使用',
+            render: () => (
+                <div className="carousel-slide slide-ready">
+                    <div className="slide-icon">📦</div>
+                    <h3>开箱即用</h3>
+                    <p>50+ 高质量 React 组件，经过严格测试<br/>无需额外配置即可使用</p>
+                </div>
+            )
+        },
+        {
+            key: '2',
+            image: '',
+            title: '🎨 主题定制',
+            description: '支持 CSS 变量和 StyledProvider 多种定制方式',
+            render: () => (
+                <div className="carousel-slide slide-theme">
+                    <div className="slide-icon">🎨</div>
+                    <h3>主题定制</h3>
+                    <p>支持 CSS 变量和 StyledProvider<br/>轻松打造符合品牌的设计系统</p>
+                </div>
+            )
+        },
+        {
+            key: '3',
+            image: '',
+            title: '⚡ 性能优秀',
+            description: '虚拟滚动、懒加载等技术，确保流畅体验',
+            render: () => (
+                <div className="carousel-slide slide-perf">
+                    <div className="slide-icon">⚡</div>
+                    <h3>性能优秀</h3>
+                    <p>采用虚拟滚动、懒加载等技术<br/>确保流畅的用户体验</p>
+                </div>
+            )
+        },
+        {
+            key: '4',
+            image: '',
+            title: '🌍 国际化支持',
+            description: '支持 4 种语言：简体中文、英文、日文、韩文',
+            render: () => (
+                <div className="carousel-slide slide-i18n">
+                    <div className="slide-icon">🌍</div>
+                    <h3>国际化支持</h3>
+                    <p>内置 4 种语言包<br/>轻松应对全球化需求</p>
+                </div>
+            )
+        }
+    ];
 
-        <div className="intro-features">
-            <div className="feature-card">
-                <div className="feature-icon">📦</div>
-                <h3>开箱即用</h3>
-                <p>提供高质量 React 组件，可直接使用，无需额外配置</p>
+    return (
+        <div className="intro-content">
+            {/* Hero Section with Gradient Background */}
+            <div className="intro-hero">
+                <div className="hero-bg-pattern" />
+                <div className="hero-content">
+                    <div className="hero-badge">
+                        <span className="badge-text">React UI Library</span>
+                    </div>
+                    <h1>ZjpCy Design</h1>
+                    <p className="intro-subtitle">一套基于 React 的企业级 UI 设计语言和组件库</p>
+                    <p className="intro-desc">
+                        提供 50+ 高质量 React 组件，覆盖六大类别，
+                        帮助开发者快速构建现代化的 Web 应用界面
+                    </p>
+                    <div className="intro-actions">
+                        <a href="#/install" className="intro-btn intro-btn-primary">
+                            <span>🚀</span> 开始使用
+                        </a>
+                        <a
+                            href="https://www.npmjs.com/package/@zjpcy/simple-design"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="intro-btn"
+                        >
+                            <span>📦</span> NPM
+                        </a>
+                    </div>
+                    <div className="intro-stats">
+                        <div className="stat-item">
+                            <div className="stat-icon">🧩</div>
+                            <div className="stat-info">
+                                <span className="stat-number">50+</span>
+                                <span className="stat-label">组件</span>
+                            </div>
+                        </div>
+                        <div className="stat-divider" />
+                        <div className="stat-item">
+                            <div className="stat-icon">📁</div>
+                            <div className="stat-info">
+                                <span className="stat-number">6</span>
+                                <span className="stat-label">分类</span>
+                            </div>
+                        </div>
+                        <div className="stat-divider" />
+                        <div className="stat-item">
+                            <div className="stat-icon">🌐</div>
+                            <div className="stat-info">
+                                <span className="stat-number">4</span>
+                                <span className="stat-label">语言</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="feature-card">
-                <div className="feature-icon">🎨</div>
-                <h3>主题定制</h3>
-                <p>支持自定义主题，轻松打造符合品牌的设计系统</p>
+
+            {/* Feature Carousel */}
+            <div className="intro-section">
+                <h2 className="section-title">
+                    <span className="title-icon">✨</span>
+                    核心特性
+                </h2>
+                <div className="carousel-wrapper">
+                    <Carousel
+                        items={carouselItems}
+                        autoplay={true}
+                        interval={4000}
+                        effect="slide"
+                        showIndicators={true}
+                        indicatorPosition="bottom"
+                        showArrows={true}
+                        style={{ height: 280, borderRadius: 16 }}
+                    />
+                </div>
             </div>
-            <div className="feature-card">
-                <div className="feature-icon">⚡</div>
-                <h3>性能优秀</h3>
-                <p>精心优化的组件实现，确保流畅的用户体验</p>
+
+            {/* Component Categories Grid */}
+            <div className="intro-section">
+                <h2 className="section-title">
+                    <span className="title-icon">🗂️</span>
+                    组件分类
+                </h2>
+                <div className="category-grid">
+                    {[
+                        { icon: '🎯', name: '通用', desc: 'Button、Icon、Typography', count: 3, color: '#1890ff' },
+                        { icon: '📐', name: '布局', desc: 'Grid、Flex、Layout、Space', count: 7, color: '#52c41a' },
+                        { icon: '🧭', name: '导航', desc: 'Menu、Tabs、Breadcrumb', count: 8, color: '#faad14' },
+                        { icon: '📝', name: '数据录入', desc: 'Form、Input、Select', count: 16, color: '#722ed1' },
+                        { icon: '📊', name: '数据展示', desc: 'Table、Tree、Tag', count: 8, color: '#13c2c2' },
+                        { icon: '💬', name: '反馈', desc: 'Modal、Message、Notification', count: 9, color: '#eb2f96' },
+                    ].map((cat, idx) => (
+                        <div key={idx} className="category-card" style={{ '--cat-color': cat.color } as React.CSSProperties}>
+                            <div className="category-header">
+                                <span className="category-icon">{cat.icon}</span>
+                                <span className="category-badge">{cat.count}个</span>
+                            </div>
+                            <h3 className="category-name">{cat.name}</h3>
+                            <p className="category-desc">{cat.desc}</p>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="feature-card">
-                <div className="feature-icon">🌍</div>
-                <h3>国际化支持</h3>
-                <p>内置多语言支持，轻松应对全球化需求</p>
+
+            {/* Quick Start Section */}
+            <div className="intro-section">
+                <h2 className="section-title">
+                    <span className="title-icon">⚡</span>
+                    快速开始
+                </h2>
+                <div className="quickstart-container">
+                    <div className="quickstart-card">
+                        <div className="step-number">1</div>
+                        <h4>安装依赖</h4>
+                        <div className="code-block mini">
+                            <pre><code>npm install @zjpcy/simple-design</code></pre>
+                        </div>
+                    </div>
+                    <div className="step-arrow">→</div>
+                    <div className="quickstart-card">
+                        <div className="step-number">2</div>
+                        <h4>引入样式</h4>
+                        <div className="code-block mini">
+                            <pre><code>import '@zjpcy/simple-design/dist/cjs/index.css'</code></pre>
+                        </div>
+                    </div>
+                    <div className="step-arrow">→</div>
+                    <div className="quickstart-card">
+                        <div className="step-number">3</div>
+                        <h4>开始使用</h4>
+                        <div className="code-block mini">
+                            <pre><code>{`<Button type="primary">按钮</Button>`}</code></pre>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 // 安装内容组件
-const InstallContent: React.FC = () => (
-    <div className="install-content">
-        <section className="install-section">
-            <h2>安装</h2>
-            <p>推荐使用 npm 或 yarn 安装</p>
+const InstallContent: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<'npm' | 'yarn' | 'pnpm'>('npm');
 
-            <div className="code-block">
-                <div className="code-header">
-                    <span>npm</span>
+    const installCommands = {
+        npm: 'npm install @zjpcy/simple-design',
+        yarn: 'yarn add @zjpcy/simple-design',
+        pnpm: 'pnpm add @zjpcy/simple-design'
+    };
+
+    return (
+        <div className="install-content">
+            {/* 环境要求 */}
+            <div className="install-alert">
+            <div className="alert-icon">ℹ️</div>
+            <div className="alert-content">
+                <strong>环境要求</strong>
+                <p>React {'>='} 16.8.0，React DOM {'>='} 16.8.0</p>
+            </div>
+        </div>
+
+            {/* 安装 */}
+            <section className="install-section">
+                <h2 className="section-title">
+                    <span className="title-icon">📦</span>
+                    安装
+                </h2>
+                <p className="section-desc">使用 npm、yarn 或 pnpm 安装组件库</p>
+
+                <div className="install-tabs">
+                    {(['npm', 'yarn', 'pnpm'] as const).map((tab) => (
+                        <button
+                            key={tab}
+                            className={`install-tab ${activeTab === tab ? 'active' : ''}`}
+                            onClick={() => setActiveTab(tab)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
                 </div>
-                <pre><code>npm install @zjpcy/simple-design</code></pre>
-            </div>
 
-            <div className="code-block">
-                <div className="code-header">
-                    <span>yarn</span>
+                <div className="code-block">
+                    <pre><code>{installCommands[activeTab]}</code></pre>
                 </div>
-                <pre><code>yarn add @zjpcy/simple-design</code></pre>
-            </div>
-        </section>
+            </section>
 
-        <section className="install-section">
-            <h2>本地安装</h2>
-            <p>从本地文件安装：</p>
+            {/* 引入样式 */}
+            <section className="install-section">
+                <h2 className="section-title">
+                    <span className="title-icon">🎨</span>
+                    引入样式
+                </h2>
+                <p className="section-desc">在应用入口文件中引入样式文件</p>
 
-            <div className="code-block">
-                <pre><code>npm install /path/to/@zjpcy/simple-design</code></pre>
-            </div>
-        </section>
+                <div className="code-block">
+                    <div className="code-header">
+                        <span>main.tsx / main.jsx / App.tsx</span>
+                    </div>
+                    <pre><code>{`// 引入样式文件（必须）
+import '@zjpcy/simple-design/dist/cjs/index.css';
 
-        <section className="install-section">
-            <h2>使用</h2>
-
-            <div className="code-block">
-                <div className="code-header">
-                    <span>完整引入</span>
+// 可选：引入 CSS 变量文件，用于自定义主题
+import '@zjpcy/simple-design/dist/variables.css';`}</code></pre>
                 </div>
-                <pre><code>{`import React from 'react';
-import { Button, Input } from '@zjpcy/simple-design';
-import 'zjpcy-design/dist/index.css';
 
-const App = () => (
-  <>
-    <Button type="primary">按钮</Button>
-    <Input placeholder="请输入" />
-  </>
-);`}</code></pre>
-            </div>
-        </section>
-    </div>
-);
+                <div className="install-tip">
+                    <div className="tip-icon">💡</div>
+                    <div className="tip-content">
+                        <strong>提示</strong>
+                        <p>样式文件包含了组件的所有基础样式，必须在引入组件之前或同时引入。</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* 使用示例 */}
+            <section className="install-section">
+                <h2 className="section-title">
+                    <span className="title-icon">🚀</span>
+                    使用示例
+                </h2>
+
+                {/* 基础使用 */}
+                <div className="example-card">
+                    <h3>基础使用</h3>
+                    <p>直接引入需要的组件即可使用</p>
+                    <div className="code-block">
+                        <pre><code>{`import { Button, Message } from '@zjpcy/simple-design';
+
+function App() {
+  return (
+    <Button
+      type="primary"
+      onClick={() => Message.success('Hello, ZjpCy Design!')}
+    >
+      点击我
+    </Button>
+  );
+}`}</code></pre>
+                    </div>
+                </div>
+
+                {/* 按需引入 */}
+                <div className="example-card">
+                    <h3>按需引入</h3>
+                    <p>推荐按需引入，减小打包体积</p>
+                    <div className="code-block">
+                        <pre><code>{`// 推荐：按需引入单个组件
+import Button from '@zjpcy/simple-design/dist/cjs/components/Button';
+import 'zjpcy-design/dist/cjs/components/Button/Button.css';
+
+// 或者使用路径别名（需配置）
+import { Button } from '@zjpcy/simple-design';`}</code></pre>
+                    </div>
+                </div>
+
+                {/* 使用 StyledProvider */}
+                <div className="example-card">
+                    <h3>使用 StyledProvider（推荐）</h3>
+                    <p>使用 StyledProvider 可以更好地管理主题和样式隔离</p>
+                    <div className="code-block">
+                        <pre><code>{`import { StyledProvider } from '@zjpcy/simple-design';
+
+function App() {
+  return (
+    <StyledProvider theme="light">
+      <YourApp />
+    </StyledProvider>
+  );
+}`}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            {/* TypeScript 支持 */}
+            <section className="install-section">
+                <h2 className="section-title">
+                    <span className="title-icon">🔧</span>
+                    TypeScript 支持
+                </h2>
+                <p className="section-desc">组件库使用 TypeScript 编写，提供了完整的类型定义</p>
+
+                <div className="code-block">
+                    <pre><code>{`import { Button, type ButtonProps } from '@zjpcy/simple-design';
+
+// 使用类型定义
+const MyButton: React.FC<ButtonProps> = (props) => {
+  return <Button {...props} />;
+};`}</code></pre>
+                </div>
+
+                <div className="install-tip">
+                    <div className="tip-icon">✨</div>
+                    <div className="tip-content">
+                        <strong>类型提示</strong>
+                        <p>所有组件都导出了对应的 Props 类型，例如 ButtonProps、InputProps、TableProps 等。</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* 浏览器兼容性 */}
+            <section className="install-section">
+                <h2 className="section-title">
+                    <span className="title-icon">🌐</span>
+                    浏览器兼容性
+                </h2>
+
+                <div className="browser-support">
+                    <div className="browser-item">
+                        <div className="browser-icon">🌐</div>
+                        <span className="browser-name">Chrome</span>
+                        <span className="browser-version">{'>='} 80</span>
+                    </div>
+                    <div className="browser-item">
+                        <div className="browser-icon">🔥</div>
+                        <span className="browser-name">Firefox</span>
+                        <span className="browser-version">{'>='} 75</span>
+                    </div>
+                    <div className="browser-item">
+                        <div className="browser-icon">🧭</div>
+                        <span className="browser-name">Safari</span>
+                        <span className="browser-version">{'>='} 13</span>
+                    </div>
+                    <div className="browser-item">
+                        <div className="browser-icon">🌊</div>
+                        <span className="browser-name">Edge</span>
+                        <span className="browser-version">{'>='} 80</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
+};
 
 export default App;
