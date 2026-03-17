@@ -5,6 +5,7 @@ import terser from '@rollup/plugin-terser';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
 import autoprefixer from 'autoprefixer';
+import postcssImport from 'postcss-import';
 import json from '@rollup/plugin-json';
 import preserveDirectives from 'rollup-preserve-directives';
 import fs from 'fs';
@@ -77,6 +78,8 @@ export default {
       format: 'cjs',
       sourcemap: false,
       interop: 'auto',
+      preserveModules: true,
+      preserveModulesRoot: 'src',
     },
     {
       dir: 'dist/es',
@@ -84,7 +87,7 @@ export default {
       sourcemap: false,
       // Enable tree-shaking for ES modules
       preserveModules: true,
-      preserveModulesRoot: 'src/components',
+      preserveModulesRoot: 'src',
     },
   ],
   external: [
@@ -120,7 +123,12 @@ export default {
     }),
     preserveDirectives(),
     postcss({
-      plugins: [autoprefixer()],
+      plugins: [
+        postcssImport({
+          path: ['src/components'],
+        }),
+        autoprefixer()
+      ],
       extract: true,
       minimize: false,
       sourceMap: false,

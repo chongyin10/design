@@ -1,11 +1,31 @@
 {
   "name": "@zjpcy/simple-design",
-  "version": "1.7.1",
+  "version": "1.7.5",
   "description": "zjpcy Studio Design System - React Component Library",
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "dist/cjs/components/index.js",
+  "module": "dist/es/components/index.js",
   "types": "dist/types/components/index.d.ts",
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/types/components/index.d.ts",
+        "default": "./dist/es/components/index.js"
+      },
+      "require": {
+        "types": "./dist/types/components/index.d.ts",
+        "default": "./dist/cjs/components/index.js"
+      }
+    },
+    "./dist/cjs/index.css": "./dist/es/index.css",
+    "./dist/es/index.css": "./dist/es/index.css",
+    "./dist/index.css": "./dist/es/index.css",
+    "./variables.css": "./dist/variables.css",
+    "./variables.less": "./dist/variables.less"
+  },
   "files": [
     "dist/**"
   ],
@@ -59,6 +79,7 @@
     "less-loader": "^11.0.0",
     "mini-css-extract-plugin": "^2.10.0",
     "postcss": "^8.5.6",
+    "postcss-import": "^16.1.1",
     "postcss-less": "^6.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -70,14 +91,14 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-preserve-directives": "^1.1.3",
     "style-loader": "^3.0.0",
+    "styled-components": "^6.3.8",
     "ts-loader": "^9.5.4",
     "typescript": "^5.0.0",
     "vite": "^4.4.0",
     "vite-plugin-dts": "^3.0.0",
     "webpack": "^5.80.0",
     "webpack-cli": "^5.0.0",
-    "webpack-dev-server": "^4.13.0",
-    "styled-components": "^6.3.8"
+    "webpack-dev-server": "^4.13.0"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

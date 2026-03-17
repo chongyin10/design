@@ -1,3 +1,5 @@
+'use client';
+
 // 导出 StyledProvider（供用户手动包裹使用）
 export { StyledProvider, type StyledProviderProps } from './Styled';
 
