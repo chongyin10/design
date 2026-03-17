@@ -92,7 +92,6 @@ export default {
     'react-dom',
     'react/jsx-runtime',
     ...Object.keys(pkg.peerDependencies || {}),
-    ...Object.keys(pkg.dependencies || {}),
   ],
   treeshake: {
     // Enable aggressive tree-shaking
@@ -105,6 +104,8 @@ export default {
     resolve({
       browser: true,
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      dedupe: ['react', 'react-dom'],
+      preferBuiltins: false,
     }),
     json(),
     commonjs(),

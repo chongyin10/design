@@ -94,7 +94,7 @@ interface MessageContextType {
 
 const MessageContext = createContext<MessageContextType>({ message: null });
 
-interface MessageProviderProps {
+export interface MessageProviderProps {
   children: ReactNode;
 }
 

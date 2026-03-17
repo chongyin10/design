@@ -1,3 +1,7 @@
+// 导出 StyledProvider（供用户手动包裹使用）
+export { StyledProvider, type StyledProviderProps } from './Styled';
+
+// 导出所有组件
 export { default as Button } from './Button';
 export { default as Spin } from './Spin';
 export type { SpinProps, SpinSize } from './Spin';
@@ -22,6 +26,7 @@ export type { IconProps } from './Icon';
 export { default as Input, Textarea } from './Input';
 export type { InputProps, NumberInputProps, PasswordProps, TextareaProps } from './Input';
 export { default as Marquee } from './Marquee';
+export type { MarqueeProps } from './Marquee';
 export { default as Message, MessageProvider, useMessage, message } from './Message';
 export type { MessageProps, MessageInstance, MessageType } from './Message/types';
 export { default as Modal } from './Modal';
@@ -37,6 +42,7 @@ export type { SelectProps, SelectOption, TagRenderProps } from './Select/types';
 export { default as Table } from './Table';
 export type { TableProps, RowSelection, Column, PaginationProps as TablePaginationProps } from './Table';
 export { default as Top } from './Top';
+export type { TopProps } from './Top';
 export { default as Typography } from './Typography';
 export type { TypographyProps } from './Typography/types';
 export { default as Masonry } from './Masonry';

@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { FaArrowUp } from 'react-icons/fa';
 import './Top.css';
 
-interface TopProps {
+export interface TopProps {
     showAfter?: number;
     bottom?: number;
     right?: number;

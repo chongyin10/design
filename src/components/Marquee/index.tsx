@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import './index.css';
 
-interface MarqueeProps {
+export interface MarqueeProps {
     announcement?: string | string[];
     height?: number;
     speed?: number;
