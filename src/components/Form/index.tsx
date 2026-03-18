@@ -2,7 +2,21 @@
 
 import React, { useState, useContext, createContext, useCallback, useRef, useEffect } from 'react';
 import { FormProps, FormItemProps, FormContextType, FormInstance, Rule } from './types';
-import { FormWrapper, FormItemWrapper, FormLabel, FormControl, FormError, FormHelp } from './styles';
+import {
+    getFormWrapperClassName,
+    getFormWrapperStyle,
+    getFormItemWrapperClassName,
+    getFormItemWrapperStyle,
+    getFormLabelClassName,
+    getFormLabelStyle,
+    getFormControlClassName,
+    getFormControlStyle,
+    getFormErrorClassName,
+    getFormErrorStyle,
+    getFormHelpClassName,
+    getFormHelpStyle,
+} from './styles';
+import classNames from 'classnames';
 import './Form.css';
 
 const FormContext = createContext<FormContextType | null>(null);
@@ -297,13 +311,15 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
     resetFields
   };
 
+  const formWrapperClassName = getFormWrapperClassName({ className });
+  const formWrapperStyle = getFormWrapperStyle({ style, customStyles: styles?.wrapper });
+
   return (
     <FormContext.Provider value={contextValue}>
-      <FormWrapper
+      <form
         ref={formRefElement}
-        className={`form-wrapper ${className}`}
-        style={style}
-        $styles={styles?.wrapper}
+        className={formWrapperClassName}
+        style={formWrapperStyle}
         onSubmit={handleSubmit}
       >
         {React.Children.map(children, child => {
@@ -312,7 +328,7 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
           }
           return child;
         })}
-      </FormWrapper>
+      </form>
     </FormContext.Provider>
   );
 };
@@ -366,11 +382,10 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
   const context = useContext(FormContext);
   const [localValue, setLocalValue] = useState<any>(name && context?.values[name] ? context.values[name as string] : '');
 
-  useEffect(() => {
-    if (registerItem && name) {
-      return registerItem(name, { rules });
-    }
-  }, [registerItem, name, rules]);
+  // 立即注册表单项
+  if (registerItem && name) {
+    registerItem(name, { rules });
+  }
 
   useEffect(() => {
     if (context && name) {
@@ -411,32 +426,51 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
 
   if (hidden) return null;
 
+  const itemWrapperClassName = getFormItemWrapperClassName({
+    layout: context?.layout || 'horizontal',
+    className,
+  });
+  const itemWrapperStyle = getFormItemWrapperStyle({ style, customStyles: styles?.wrapper });
+
+  const labelClassName = getFormLabelClassName({ required: isRequired });
+  const labelStyle = getFormLabelStyle({
+    labelAlign: context?.layout === 'vertical' ? 'start' : 'end',
+    labelWidth,
+    style: undefined,
+    customStyles: styles?.label,
+  });
+
+  const controlClassName = getFormControlClassName({});
+  const controlStyle = getFormControlStyle({
+    controlWidth,
+    style: undefined,
+    customStyles: styles?.input,
+  });
+
+  const errorClassName = getFormErrorClassName({ visible: hasError });
+  const errorStyle = getFormErrorStyle({ style: undefined, customStyles: styles?.error });
+
+  const helpClassName = getFormHelpClassName({});
+  const helpStyle = getFormHelpStyle({ style: undefined, customStyles: styles?.help });
+
+  const showColon = colon !== undefined ? colon : context?.colon;
+
   return (
-    <FormItemWrapper
-      className={`form-item ${className}`}
-      style={style}
-      $layout={context?.layout || 'horizontal'}
-      $styles={styles?.wrapper}
+    <div
+      className={itemWrapperClassName}
+      style={itemWrapperStyle}
     >
       {label && (
-        <FormLabel
-          className="form-label"
-          $required={isRequired}
-          $colon={colon !== undefined ? colon : context?.colon}
-          $styles={{
-            ...styles?.label,
-            ...(labelWidth !== undefined ? { width: `${labelWidth}%` } : {})
-          }}
+        <label
+          className={classNames(labelClassName, showColon && 'zjpcy-form-label--colon')}
+          style={labelStyle}
         >
           {label}
-        </FormLabel>
+        </label>
       )}
-      <FormControl
-        className="form-control"
-        $styles={{
-          ...styles?.input,
-          ...(controlWidth !== undefined ? { width: `${controlWidth}%` } : {})
-        }}
+      <div
+        className={controlClassName}
+        style={controlStyle}
       >
         {React.Children.map(
           React.Children.toArray(children).filter(child => React.isValidElement(child)),
@@ -457,23 +491,21 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
             } as any);
           }
         )}
-        {hasError && (
-          <FormError className={`form-error ${hasError ? 'form-error-visible' : ''}`} $styles={styles?.error}>
-            {error}
-          </FormError>
-        )}
+        <div className={errorClassName} style={errorStyle}>
+          {error || ''}
+        </div>
         {help && !hasError && (
-          <FormHelp className="form-help" $styles={styles?.help}>
+          <div className={helpClassName} style={helpStyle}>
             {help}
-          </FormHelp>
+          </div>
         )}
         {extra && !hasError && (
-          <FormHelp className="form-help" $styles={styles?.help}>
+          <div className={helpClassName} style={helpStyle}>
             {extra}
-          </FormHelp>
+          </div>
         )}
-      </FormControl>
-    </FormItemWrapper>
+      </div>
+    </div>
   );
 };
 

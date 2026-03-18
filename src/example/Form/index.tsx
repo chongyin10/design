@@ -62,7 +62,12 @@ const DemoBox: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const FormExample: React.FC = () => {
   const [form1] = useForm();
+  const [form2] = useForm();
+  const [form3] = useForm();
+  const [form4] = useForm();
+  const [form5] = useForm();
   const [form6] = useForm();
+  const [form7] = useForm();
   const [modalForm] = useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
@@ -226,7 +231,7 @@ const FormExample: React.FC = () => {
                     <Input type="password" placeholder="请输入密码" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">提交</Button>
+                    <Button variant="primary" htmlType="submit">提交</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
@@ -266,7 +271,7 @@ const Demo = () => {
         <Input type="password" placeholder="请输入密码" />
       </Form.Item>
       <Form.Item>
-        <Button variant="primary" type="submit">提交</Button>
+        <Button variant="primary" htmlType="submit">提交</Button>
       </Form.Item>
     </Form>
   );
@@ -279,6 +284,7 @@ const Demo = () => {
               <p>通过设置 layout="vertical" 实现垂直布局。</p>
               <DemoBox>
                 <Form
+                  form={form3}
                   layout="vertical"
                   initialValues={{ email: '', phone: '' }}
                   onFinish={handleVerticalFinish}
@@ -304,19 +310,23 @@ const Demo = () => {
                     <Input placeholder="请输入手机号" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">提交</Button>
+                    <Button variant="primary" htmlType="submit">提交</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
+  const [form] = useForm();
+  
   const onFinish = (values) => {
     console.log('表单值:', values);
   };
 
   return (
     <Form
+      form={form}
       layout="vertical"
       initialValues={{ email: '', phone: '' }}
       onFinish={onFinish}
@@ -342,7 +352,7 @@ const Demo = () => {
         <Input placeholder="请输入手机号" />
       </Form.Item>
       <Form.Item>
-        <Button variant="primary" type="submit">提交</Button>
+        <Button variant="primary" htmlType="submit">提交</Button>
       </Form.Item>
     </Form>
   );
@@ -355,6 +365,7 @@ const Demo = () => {
               <p>通过设置 layout="inline" 实现行内布局。</p>
               <DemoBox>
                 <Form
+                  form={form4}
                   layout="inline"
                   initialValues={{ keyword: '' }}
                   onFinish={handleInlineFinish}
@@ -367,19 +378,23 @@ const Demo = () => {
                     <Input placeholder="请输入关键词" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">搜索</Button>
+                    <Button variant="primary" htmlType="submit">搜索</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
+  const [form] = useForm();
+  
   const onFinish = (values) => {
     console.log('表单值:', values);
   };
 
   return (
     <Form
+      form={form}
       layout="inline"
       initialValues={{ keyword: '' }}
       onFinish={onFinish}
@@ -392,7 +407,7 @@ const Demo = () => {
         <Input placeholder="请输入关键词" />
       </Form.Item>
       <Form.Item>
-        <Button variant="primary" type="submit">搜索</Button>
+        <Button variant="primary" htmlType="submit">搜索</Button>
       </Form.Item>
     </Form>
   );
@@ -405,6 +420,7 @@ const Demo = () => {
               <p>支持多种验证规则：必填、类型、正则、自定义验证等。</p>
               <DemoBox>
                 <Form
+                  form={form2}
                   layout="horizontal"
                   labelSpan={6}
                   initialValues={{
@@ -456,7 +472,7 @@ const Demo = () => {
                     <Input placeholder="https://example.com" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">提交</Button>
+                    <Button variant="primary" htmlType="submit">提交</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
@@ -490,7 +506,7 @@ const Demo = () => {
         <Input placeholder="example@email.com" />
       </Form.Item>
       <Form.Item>
-        <Button variant="primary" type="submit">提交</Button>
+        <Button variant="primary" htmlType="submit">提交</Button>
       </Form.Item>
     </Form>
   );
@@ -503,6 +519,7 @@ const Demo = () => {
               <p>使用 help 和 extra 属性添加帮助文本。</p>
               <DemoBox>
                 <Form
+                  form={form5}
                   layout="horizontal"
                   labelSpan={6}
                   initialValues={{ username: '', email: '' }}
@@ -525,15 +542,18 @@ const Demo = () => {
                     <Input placeholder="请输入邮箱" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">提交</Button>
+                    <Button variant="primary" htmlType="submit">提交</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
+  const [form] = useForm();
+  
   return (
-    <Form layout="horizontal" labelSpan={6}>
+    <Form form={form} layout="horizontal" labelSpan={6}>
       <Form.Item
         name="username"
         label="用户名"
@@ -561,6 +581,7 @@ const Demo = () => {
               <p>通过 labelSpan 和 wrapperSpan 自定义表单布局宽度（基于24栅格系统）。</p>
               <DemoBox>
                 <Form
+                  form={form7}
                   layout="horizontal"
                   labelSpan={4}
                   wrapperSpan={20}
@@ -584,15 +605,19 @@ const Demo = () => {
                     <Input placeholder="Item级别: labelSpan=6, wrapperSpan=18" />
                   </Form.Item>
                   <Form.Item>
-                    <Button variant="primary" type="submit">提交</Button>
+                    <Button variant="primary" htmlType="submit">提交</Button>
                   </Form.Item>
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
+import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
+  const [form] = useForm();
+  
   return (
     <Form
+      form={form}
       layout="horizontal"
       labelSpan={4}
       wrapperSpan={20}
@@ -657,7 +682,7 @@ const Demo = () => {
                   </Form.Item>
                   <Form.Item>
                     <Flex gap="small">
-                      <Button variant="primary" type="submit">提交</Button>
+                      <Button variant="primary" htmlType="submit">提交</Button>
                       <Button onClick={handleSetValues}>设置值</Button>
                       <Button onClick={handleGetValues}>获取值</Button>
                       <Button onClick={handleReset}>重置</Button>

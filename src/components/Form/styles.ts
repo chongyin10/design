@@ -1,139 +1,158 @@
-import styled, { keyframes } from 'styled-components';
+import classNames from 'classnames';
 
-const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
+/**
+ * 获取表单容器类名
+ */
+export const getFormWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-form-wrapper', className);
+};
 
-const slideDown = keyframes`
-  from {
-    opacity: 0;
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  to {
-    opacity: 1;
-    max-height: 100px;
-    padding-bottom: 4px;
-  }
-`;
+/**
+ * 获取表单容器样式
+ */
+export const getFormWrapperStyle = (options: {
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { style, customStyles } = options;
+    return {
+        ...style,
+        ...customStyles,
+    };
+};
 
-export const FormWrapper = styled.form<{ $styles?: any }>`
-  width: 100%;
+/**
+ * 获取表单项包装器类名
+ */
+export const getFormItemWrapperClassName = (options: {
+    layout: 'horizontal' | 'vertical' | 'inline';
+    className?: string;
+}): string => {
+    const { layout, className } = options;
+    return classNames('zjpcy-form-item', `zjpcy-form-item--${layout}`, className);
+};
 
-  &.form-wrapper {
-    /* 外部可通过 .form-wrapper 选择器覆盖样式 */
-  }
+/**
+ * 获取表单项包装器样式
+ */
+export const getFormItemWrapperStyle = (options: {
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { style, customStyles } = options;
+    return {
+        ...style,
+        ...customStyles,
+    };
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+/**
+ * 获取表单标签类名
+ */
+export const getFormLabelClassName = (options: {
+    required?: boolean;
+    className?: string;
+}): string => {
+    const { required, className } = options;
+    return classNames('zjpcy-form-label', {
+        'zjpcy-form-label--required': required,
+    }, className);
+};
 
-export const FormItemWrapper = styled.div<{ $layout: 'horizontal' | 'vertical' | 'inline'; $styles?: any }>`
-  margin-bottom: ${getCSSVar('--form-item-margin-bottom', '24px')};
+/**
+ * 获取表单标签样式
+ */
+export const getFormLabelStyle = (options: {
+    labelAlign?: 'start' | 'center' | 'end';
+    labelWidth?: number;
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { labelAlign, labelWidth, style, customStyles } = options;
+    return {
+        textAlign: labelAlign || 'end',
+        ...(labelWidth !== undefined ? { width: `${labelWidth}%` } : {}),
+        ...style,
+        ...customStyles,
+    };
+};
 
-  &.form-item {
-    /* 外部可通过 .form-item 选择器覆盖样式 */
-  }
+/**
+ * 获取表单控件容器类名
+ */
+export const getFormControlClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-form-control', className);
+};
 
-  ${({ $layout }) =>
-    $layout === 'horizontal' &&
-    `
-      display: flex;
-      align-items: center;
+/**
+ * 获取表单控件容器样式
+ */
+export const getFormControlStyle = (options: {
+    controlWidth?: number;
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { controlWidth, style, customStyles } = options;
+    return {
+        ...(controlWidth !== undefined ? { width: `${controlWidth}%` } : {}),
+        ...style,
+        ...customStyles,
+    };
+};
 
-      & .form-label {
-        margin-bottom: 0;
-      }
-    `
-  }
+/**
+ * 获取表单错误提示类名
+ */
+export const getFormErrorClassName = (options: {
+    visible?: boolean;
+    className?: string;
+}): string => {
+    const { visible, className } = options;
+    return classNames('zjpcy-form-error', {
+        'zjpcy-form-error--visible': visible,
+    }, className);
+};
 
-  ${({ $layout }) =>
-    $layout === 'inline' &&
-    `
-      display: inline-flex;
-      align-items: center;
-      margin-right: ${getCSSVar('--form-inline-item-margin-right', '24px')};
-      margin-bottom: 0;
+/**
+ * 获取表单错误提示样式
+ */
+export const getFormErrorStyle = (options: {
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { style, customStyles } = options;
+    return {
+        ...style,
+        ...customStyles,
+    };
+};
 
-      & .form-label {
-        margin-bottom: 0;
-      }
-    `
-  }
+/**
+ * 获取表单帮助信息类名
+ */
+export const getFormHelpClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-form-help', className);
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-export const FormLabel = styled.label<{ $required?: boolean; $colon?: boolean; $labelAlign?: 'start' | 'center' | 'end'; $styles?: any }>`
-  display: block;
-  font-size: ${getCSSVar('--form-label-font-size', '14px')};
-  color: ${getCSSVar('--form-label-color', '#333')};
-  margin-bottom: ${getCSSVar('--form-label-margin-bottom', '8px')};
-  white-space: nowrap;
-  text-align: ${({ $labelAlign }) => $labelAlign || 'end'};
-
-  &.form-label {
-    /* 外部可通过 .form-label 选择器覆盖样式 */
-  }
-
-  &::after {
-    content: ${({ $colon }) => ($colon ? '":"' : '')};
-    margin: 0 8px 0 2px;
-  }
-
-  &::before {
-    content: ${({ $required }) => ($required ? '"*"' : '""')};
-    color: ${getCSSVar('--form-label-required-color', '#f5222d')};
-    margin-right: 4px;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-export const FormControl = styled.div<{ $styles?: any }>`
-  width: 100%;
-  position: relative;
-
-  &.form-control {
-    /* 外部可通过 .form-control 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-export const FormError = styled.div<{ $styles?: any }>`
-  font-size: ${getCSSVar('--form-error-font-size', '12px')};
-  color: ${getCSSVar('--form-error-color', '#f5222d')};
-  line-height: 1.5;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  z-index: 10;
-
-  &.form-error {
-    /* 外部可通过 .form-error 选择器覆盖样式 */
-  }
-
-  &.form-error-visible {
-    animation: ${slideDown} 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-export const FormHelp = styled.div<{ $styles?: any }>`
-  font-size: ${getCSSVar('--form-help-font-size', '12px')};
-  color: ${getCSSVar('--form-help-color', '#00000073')};
-  line-height: 1.5;
-  position: absolute;
-
-  &.form-help {
-    /* 外部可通过 .form-help 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+/**
+ * 获取表单帮助信息样式
+ */
+export const getFormHelpStyle = (options: {
+    style?: React.CSSProperties;
+    customStyles?: Record<string, any>;
+}): React.CSSProperties => {
+    const { style, customStyles } = options;
+    return {
+        ...style,
+        ...customStyles,
+    };
+};

@@ -1,27 +1,112 @@
-:root {
-  --form-label-font-size: 14px;
-  --form-label-color: #333;
-  --form-label-required-color: #f5222d;
-  --form-label-margin-bottom: 8px;
-  --form-label-width: auto;
-  
-  --form-item-margin-bottom: 24px;
-  --form-item-error-margin-bottom: 4px;
-  
-  --form-control-width: auto;
-  
-  --form-error-font-size: 12px;
-  --form-error-color: #f5222d;
-  --form-error-padding: 4px 0;
-  --form-error-transition-duration: 0.6s;
-  --form-error-transform-offset: -20px;
-  
-  --form-help-font-size: 12px;
-  --form-help-color: #00000073;
-  --form-help-padding: 4px 0;
-  
-  --form-wrapper-padding: 18px;
-  --form-wrapper-border-radius: 4px;
-  
-  --form-inline-item-margin-right: 24px;
+/* ============================================
+   Form Component - Modern Design System
+   ============================================ */
+
+/* 动画关键帧 */
+@keyframes formSlideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 100px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+}
+
+/* 表单容器 */
+.zjpcy-form-wrapper {
+    width: 100%;
+}
+
+/* 表单项 */
+.zjpcy-form-item {
+    margin-bottom: 24px;
+}
+
+.zjpcy-form-item--horizontal {
+    display: flex;
+    align-items: center;
+}
+
+.zjpcy-form-item--horizontal .zjpcy-form-label {
+    margin-bottom: 0;
+}
+
+.zjpcy-form-item--inline {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 24px;
+    margin-bottom: 0;
+}
+
+.zjpcy-form-item--inline .zjpcy-form-label {
+    margin-bottom: 0;
+}
+
+.zjpcy-form-item--vertical {
+    display: block;
+}
+
+/* 表单标签 */
+.zjpcy-form-label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+    white-space: nowrap;
+}
+
+.zjpcy-form-label--required::before {
+    content: '*';
+    color: #f5222d;
+    margin-right: 4px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.zjpcy-form-label--colon::after {
+    content: ':';
+    margin: 0 8px 0 2px;
+}
+
+/* 表单控件容器 */
+.zjpcy-form-control {
+    width: 100%;
+    position: relative;
+}
+
+/* 表单错误提示 */
+.zjpcy-form-error {
+    font-size: 12px;
+    color: #f5222d;
+    line-height: 1.5;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    z-index: 10;
+    padding: 0;
+    transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease;
+}
+
+.zjpcy-form-error--visible {
+    opacity: 1;
+    max-height: 100px;
+    padding: 0px;
+}
+
+/* 表单帮助信息 */
+.zjpcy-form-help {
+    font-size: 12px;
+    color: #00000073;
+    line-height: 1.5;
+    position: absolute;
 }
