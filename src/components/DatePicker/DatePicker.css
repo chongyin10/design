@@ -30,13 +30,6 @@
 }
 
 /* ============================================
-   下拉面板动画
-   ============================================ */
-.zjpcy-datepicker-dropdown {
-    animation: datePickerSlideIn 0.2s var(--zjpcy-transition-timing-function);
-}
-
-/* ============================================
    日期选择器基础样式
    ============================================ */
 .zjpcy-datepicker {
@@ -208,6 +201,9 @@
 }
 
 .zjpcy-datepicker-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 14px;
     opacity: 1;
     visibility: visible;
@@ -221,6 +217,19 @@
 }
 
 /* ============================================
+   下拉面板基础样式
+   ============================================ */
+.zjpcy-datepicker-dropdown {
+    position: fixed;
+    z-index: 999;
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
+    box-shadow: var(--zjpcy-shadow-lg);
+    overflow: hidden;
+    animation: datePickerSlideIn 0.2s var(--zjpcy-transition-timing-function);
+}
+
+/* ============================================
    日历面板
    ============================================ */
 .zjpcy-datepicker-panel {
@@ -229,6 +238,156 @@
     box-shadow: var(--zjpcy-shadow-lg);
     min-width: 280px;
     overflow: hidden;
+}
+
+/* ============================================
+   日期单元格 - 多选模式选中状态
+   ============================================ */
+.zjpcy-datepicker-date-cell--in-selected-set {
+    background: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    color: var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-date-cell--in-selected-set:hover:not(.zjpcy-datepicker-date-cell--disabled) {
+    background: var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2));
+}
+
+/* ============================================
+   月份选择器面板
+   ============================================ */
+.zjpcy-datepicker-month-panel {
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
+    min-width: 280px;
+}
+
+/* ============================================
+   月份网格
+   ============================================ */
+.zjpcy-datepicker-month-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 16px;
+}
+
+/* ============================================
+   月份单元格
+   ============================================ */
+.zjpcy-datepicker-month-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color);
+    background-color: transparent;
+    font-weight: normal;
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
+}
+
+.zjpcy-datepicker-month-cell:hover:not(.zjpcy-datepicker-month-cell--selected) {
+    background-color: var(--zjpcy-bg-color-light);
+}
+
+.zjpcy-datepicker-month-cell--selected {
+    background-color: var(--zjpcy-primary-color);
+    color: #fff;
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-month-cell--current:not(.zjpcy-datepicker-month-cell--selected):not(.zjpcy-datepicker-month-cell--in-selected-set) {
+    color: var(--zjpcy-primary-color);
+    border: 1px solid var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-month-cell--in-selected-set {
+    background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    color: var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-month-cell--in-selected-set:hover {
+    background-color: var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2));
+}
+
+/* ============================================
+   季度选择器面板
+   ============================================ */
+.zjpcy-datepicker-quarter-panel {
+    background-color: var(--zjpcy-bg-color-white);
+    border-radius: var(--zjpcy-border-radius-md);
+    min-width: 280px;
+}
+
+/* ============================================
+   季度网格
+   ============================================ */
+.zjpcy-datepicker-quarter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 16px;
+}
+
+/* ============================================
+   季度单元格
+   ============================================ */
+.zjpcy-datepicker-quarter-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: var(--zjpcy-border-radius-sm);
+    color: var(--zjpcy-text-color);
+    background-color: transparent;
+    font-weight: normal;
+    transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
+}
+
+.zjpcy-datepicker-quarter-cell:hover:not(.zjpcy-datepicker-quarter-cell--selected) {
+    background-color: var(--zjpcy-bg-color-light);
+}
+
+.zjpcy-datepicker-quarter-cell--selected {
+    background-color: var(--zjpcy-primary-color);
+    color: #fff;
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-quarter-cell--current:not(.zjpcy-datepicker-quarter-cell--selected):not(.zjpcy-datepicker-quarter-cell--in-selected-set) {
+    color: var(--zjpcy-primary-color);
+    border: 1px solid var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-quarter-cell--in-selected-set {
+    background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    color: var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-quarter-cell--in-selected-set:hover {
+    background-color: var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2));
+}
+
+/* ============================================
+   年份单元格补充样式
+   ============================================ */
+.zjpcy-datepicker-year-cell--in-selected-set {
+    background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    color: var(--zjpcy-primary-color);
+    font-weight: 500;
+}
+
+.zjpcy-datepicker-year-cell--in-selected-set:hover {
+    background-color: var(--zjpcy-primary-light-hover-color, rgba(24, 100, 240, 0.2));
 }
 
 /* ============================================

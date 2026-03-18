@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import RangePicker from './RangePicker';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import Tag from '../Tag';
@@ -17,39 +16,17 @@ import {
     DateFormat,
 } from './types';
 import {
-    DatePickerContainer,
-    DatePickerTrigger,
-    DatePickerValue,
-    DatePickerSuffix,
-    DatePickerClear,
-    DatePickerIcon,
-    DatePickerDropdown,
-    CalendarPanel,
-    CalendarHeader,
-    HeaderLeft,
-    HeaderCenter,
-    HeaderRight,
-    HeaderButton,
-    CalendarBody,
-    WeekHeader,
-    WeekDay,
-    DateGrid,
-    DateCell,
-    CalendarFooter,
-    CalendarFooterSpacer,
-    CalendarFooterActions,
-    FooterButton,
-    LabelContainer,
-    Label,
-    YearPickerPanel,
-    YearGrid,
-    YearCell,
-    MonthPickerPanel,
-    MonthGrid,
-    MonthCell,
-    QuarterPickerPanel,
-    QuarterGrid,
-    QuarterCell,
+    getDatePickerContainerStyle,
+    getDatePickerTriggerClassName,
+    getDatePickerTriggerStyle,
+    getDatePickerValueClassName,
+    getDatePickerDropdownStyle,
+    getDateCellClassName,
+    getFooterButtonClassName,
+    getYearCellClassName,
+    getMonthCellClassName,
+    getQuarterCellClassName,
+    getLabelContainerStyle,
 } from './styles';
 
 // 工具函数：格式化日期
@@ -158,37 +135,39 @@ const YearPickerComponent: React.FC<YearPickerProps> = ({
     const endYear = startYear + 11;
 
     return (
-        <YearPickerPanel>
-            <CalendarHeader>
-                <HeaderLeft>
-                    <HeaderButton onClick={onPrevPage} title="上一页">
+        <div className="zjpcy-datepicker-year-panel">
+            <div className="zjpcy-datepicker-header">
+                <div className="zjpcy-datepicker-header-left">
+                    <button className="zjpcy-datepicker-header-btn" onClick={onPrevPage} title="上一页">
                         <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                    </HeaderButton>
-                </HeaderLeft>
-                <HeaderCenter>
+                    </button>
+                </div>
+                <div className="zjpcy-datepicker-header-center">
                     <span style={{ cursor: 'pointer' }} onClick={onBack}>
                         {startYear} - {endYear}
                     </span>
-                </HeaderCenter>
-                <HeaderRight>
-                    <HeaderButton onClick={onNextPage} title="下一页">
+                </div>
+                <div className="zjpcy-datepicker-header-right">
+                    <button className="zjpcy-datepicker-header-btn" onClick={onNextPage} title="下一页">
                         <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
-                    </HeaderButton>
-                </HeaderRight>
-            </CalendarHeader>
-            <YearGrid>
+                    </button>
+                </div>
+            </div>
+            <div className="zjpcy-datepicker-year-grid">
                 {years.map(year => (
-                    <YearCell
+                    <div
                         key={year}
-                        isSelected={year === currentYear}
-                        isCurrentYear={year === currentYearInList}
+                        className={getYearCellClassName({
+                            isSelected: year === currentYear,
+                            isCurrentYear: year === currentYearInList,
+                        })}
                         onClick={() => onYearSelect(year)}
                     >
                         {year}
-                    </YearCell>
+                    </div>
                 ))}
-            </YearGrid>
-        </YearPickerPanel>
+            </div>
+        </div>
     );
 };
 
@@ -208,33 +187,35 @@ const MonthPickerComponent: React.FC<MonthPickerProps> = ({
     const currentMonthInList = new Date().getMonth();
 
     return (
-        <MonthPickerPanel>
-            <CalendarHeader>
-                <HeaderLeft>
-                    <HeaderButton onClick={onBack} title="返回">
+        <div className="zjpcy-datepicker-month-panel">
+            <div className="zjpcy-datepicker-header">
+                <div className="zjpcy-datepicker-header-left">
+                    <button className="zjpcy-datepicker-header-btn" onClick={onBack} title="返回">
                         <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                    </HeaderButton>
-                </HeaderLeft>
-                <HeaderCenter>
+                    </button>
+                </div>
+                <div className="zjpcy-datepicker-header-center">
                     <span style={{ cursor: 'pointer' }} onClick={onBack}>
                         选择月份
                     </span>
-                </HeaderCenter>
-                <HeaderRight />
-            </CalendarHeader>
-            <MonthGrid>
+                </div>
+                <div className="zjpcy-datepicker-header-right" />
+            </div>
+            <div className="zjpcy-datepicker-month-grid">
                 {months.map((month, index) => (
-                    <MonthCell
+                    <div
                         key={index}
-                        isSelected={index === currentMonth}
-                        isCurrentMonth={index === currentMonthInList}
+                        className={getMonthCellClassName({
+                            isSelected: index === currentMonth,
+                            isCurrentMonth: index === currentMonthInList,
+                        })}
                         onClick={() => onMonthSelect(index)}
                     >
                         {month}
-                    </MonthCell>
+                    </div>
                 ))}
-            </MonthGrid>
-        </MonthPickerPanel>
+            </div>
+        </div>
     );
 };
 
@@ -252,13 +233,13 @@ const CalendarHeaderComponent: React.FC<CalendarHeaderProps> = ({
     const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 
     return (
-        <CalendarHeader>
-            <HeaderLeft>
-                <HeaderButton onClick={onPrevMonth} title="上个月">
+        <div className="zjpcy-datepicker-header">
+            <div className="zjpcy-datepicker-header-left">
+                <button className="zjpcy-datepicker-header-btn" onClick={onPrevMonth} title="上个月">
                     <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                </HeaderButton>
-            </HeaderLeft>
-            <HeaderCenter>
+                </button>
+            </div>
+            <div className="zjpcy-datepicker-header-center">
                 <span
                     style={{ cursor: 'pointer', fontWeight: 500 }}
                     onClick={onYearClick}
@@ -271,13 +252,13 @@ const CalendarHeaderComponent: React.FC<CalendarHeaderProps> = ({
                 >
                     {monthNames[currentMonthIndex]}
                 </span>
-            </HeaderCenter>
-            <HeaderRight>
-                <HeaderButton onClick={onNextMonth} title="下个月">
+            </div>
+            <div className="zjpcy-datepicker-header-right">
+                <button className="zjpcy-datepicker-header-btn" onClick={onNextMonth} title="下个月">
                     <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
-                </HeaderButton>
-            </HeaderRight>
-        </CalendarHeader>
+                </button>
+            </div>
+        </div>
     );
 };
 
@@ -495,7 +476,7 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
     }
 
     return (
-        <CalendarPanel>
+        <div className="zjpcy-datepicker-panel">
             <div className={classNames('zjpcy-datepicker-content', { 'zjpcy-datepicker-content-with-time': showTime && hasSelectedDate })}>
                 <div className="zjpcy-datepicker-calendar-section">
                     <CalendarHeaderComponent
@@ -513,13 +494,13 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
                         onYearClick={handleYearClick}
                         onMonthClick={handleMonthClick}
                     />
-                    <CalendarBody>
-                        <WeekHeader>
+                    <div className="zjpcy-datepicker-body">
+                        <div className="zjpcy-datepicker-week-header">
                             {weekDays.map(day => (
-                                <WeekDay key={day}>{day}</WeekDay>
+                                <div key={day} className="zjpcy-datepicker-week-day">{day}</div>
                             ))}
-                        </WeekHeader>
-                        <DateGrid>
+                        </div>
+                        <div className="zjpcy-datepicker-date-grid">
                             {calendarDays.map((item, index) => {
                                 const { date, isCurrentMonth } = item;
                                 const dateStr = formatDate(date, format);
@@ -529,21 +510,23 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
                                 const disabled = isDisabledDate(date);
 
                                 return (
-                                    <DateCell
+                                    <div
                                         key={index}
-                                        isSelected={selected}
-                                        isInSelectedSet={isInSelectedSet}
-                                        isToday={today}
-                                        disabled={disabled}
-                                        isCurrentMonth={isCurrentMonth}
+                                        className={getDateCellClassName({
+                                            isSelected: selected,
+                                            isInSelectedSet,
+                                            isToday: today,
+                                            disabled,
+                                            isCurrentMonth,
+                                        })}
                                         onClick={() => handleDateClick(date)}
                                     >
                                         {date.getDate()}
-                                    </DateCell>
+                                    </div>
                                 );
                             })}
-                        </DateGrid>
-                    </CalendarBody>
+                        </div>
+                    </div>
                 </div>
                 {showTime && hasSelectedDate && (
                     <div className="zjpcy-datepicker-time-section">
@@ -566,24 +549,24 @@ const CalendarPanelComponent: React.FC<CalendarPanelProps> = ({
                 )}
             </div>
             {(showToday || showOk) && (
-                <CalendarFooter>
+                <div className="zjpcy-datepicker-footer">
                     {showToday ? (
-                        <FooterButton onClick={handleTodayClick}>
+                        <button className={getFooterButtonClassName({})} onClick={handleTodayClick}>
                             今天
-                        </FooterButton>
+                        </button>
                     ) : (
-                        <CalendarFooterSpacer />
+                        <div className="zjpcy-datepicker-footer-spacer" />
                     )}
                     {showOk && (
-                        <CalendarFooterActions>
-                            <FooterButton variant="primary" onClick={onOk}>
+                        <div className="zjpcy-datepicker-footer-actions">
+                            <button className={getFooterButtonClassName({ variant: 'primary' })} onClick={onOk}>
                                 确定
-                            </FooterButton>
-                        </CalendarFooterActions>
+                            </button>
+                        </div>
                     )}
-                </CalendarFooter>
+                </div>
             )}
-        </CalendarPanel>
+        </div>
     );
 };
 
@@ -601,7 +584,7 @@ const DatePicker: React.FC<DatePickerProps> & {
     className = '',
     style,
     width = 160,
-    format = 'YYYY-MM-DD',
+    format: dateFormat = 'YYYY-MM-DD',
     allowClear = true,
     disabledDate,
     disabledDates,
@@ -623,12 +606,19 @@ const DatePicker: React.FC<DatePickerProps> & {
     const [internalValue, setInternalValue] = useState<string | undefined>(defaultValue);
     const [internalOpen, setInternalOpen] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0, isAbove: false });
     const [dropdownVisible, setDropdownVisible] = useState(false);
     // 跟踪日历面板中是否已选择日期（用于控制时间区域显示）
     const [hasSelectedDate, setHasSelectedDate] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    // 使用 ref 保存 hasSelectedDate，避免选择日期时重新计算位置
+    const hasSelectedDateRef = useRef(hasSelectedDate);
+
+    // 同步 hasSelectedDate 到 ref
+    useEffect(() => {
+        hasSelectedDateRef.current = hasSelectedDate;
+    }, [hasSelectedDate]);
 
     const isControlled = externalValue !== undefined;
     const value = isControlled ? externalValue : internalValue;
@@ -658,28 +648,36 @@ const DatePicker: React.FC<DatePickerProps> & {
     }, [selectedValues, isValueSelected, separator, maxTagCount]);
     const isOpen = externalOpen !== undefined ? externalOpen : internalOpen;
 
-    // 计算下拉面板位置
+    // 计算下拉面板位置（相对于容器）
     const updateDropdownPosition = useCallback(() => {
         if (!triggerRef.current) return;
-        const rect = triggerRef.current.getBoundingClientRect();
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        // 获取容器元素
+        const containerEl = triggerRef.current.closest('.zjpcy-datepicker') as HTMLElement;
+        if (!containerEl) return;
+        const containerRect = containerEl.getBoundingClientRect();
+
+        // 使用 ref 的值避免重新渲染时依赖变化
+        const currentHasSelectedDate = hasSelectedDateRef.current;
         // showTime 且已选择日期时，显示时间区域，需要更宽的面板
-        const minWidth = (showTime && hasSelectedDate) ? 480 : 280;
-        const dropdownWidth = Math.max(rect.width, minWidth);
+        const minWidth = (showTime && currentHasSelectedDate) ? 480 : 280;
+        const dropdownWidth = Math.max(triggerRect.width, minWidth);
 
         // 检查下方空间是否足够（使用估算高度作为初始判断）
         const viewportHeight = window.innerHeight;
-        const spaceBelow = viewportHeight - rect.bottom;
+        const spaceBelow = viewportHeight - triggerRect.bottom;
         // showTime 时左右布局，高度与日历差不多
         const estimatedDropdownHeight = showTime ? 360 : 360;
 
-        let top = rect.bottom + window.scrollY + 4;
-        let left = rect.left + window.scrollX;
+        // 计算相对于容器的位置
+        let top = triggerRect.bottom - containerRect.top + 4;
+        let left = triggerRect.left - containerRect.left;
 
         // 如果下方空间不够，先假设显示在上方（使用估算高度）
-        const shouldShowAbove = spaceBelow < estimatedDropdownHeight && rect.top > estimatedDropdownHeight;
+        const shouldShowAbove = spaceBelow < estimatedDropdownHeight && triggerRect.top > estimatedDropdownHeight;
 
         if (shouldShowAbove) {
-            top = rect.top + window.scrollY - estimatedDropdownHeight - 4;
+            top = triggerRect.top - containerRect.top - estimatedDropdownHeight - 4;
         }
 
         // 确保不超出视口右边界
@@ -692,23 +690,29 @@ const DatePicker: React.FC<DatePickerProps> & {
             top,
             left,
             width: dropdownWidth,
+            isAbove: shouldShowAbove,
         });
-    }, [showTime, hasSelectedDate]);
+    }, [showTime]);
 
     // 在弹出层渲染后，根据实际高度调整位置
     useEffect(() => {
         if (!isOpen || !dropdownRef.current || !triggerRef.current) return;
 
         const adjustPosition = () => {
-            const rect = triggerRef.current!.getBoundingClientRect();
+            const triggerRect = triggerRef.current!.getBoundingClientRect();
+            const containerEl = triggerRef.current!.closest('.zjpcy-datepicker') as HTMLElement;
+            if (!containerEl) return;
+            const containerRect = containerEl.getBoundingClientRect();
+
             const dropdownEl = dropdownRef.current!;
             const actualHeight = dropdownEl.offsetHeight;
             const viewportHeight = window.innerHeight;
-            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceBelow = viewportHeight - triggerRect.bottom;
 
             // 如果当前显示在上方（根据之前的判断），使用实际高度重新计算 top
-            if (spaceBelow < 360 && rect.top > 360) {
-                const newTop = rect.top + window.scrollY - actualHeight - 4;
+            if (spaceBelow < 360 && triggerRect.top > 360) {
+                // 计算相对于容器的 top 位置
+                const newTop = triggerRect.top - containerRect.top - actualHeight - 4;
                 // 更新位置后显示下拉框
                 setDropdownPosition(prev => ({
                     ...prev,
@@ -749,16 +753,13 @@ const DatePicker: React.FC<DatePickerProps> & {
 
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside);
+            // 只在下拉面板首次打开时计算位置
             updateDropdownPosition();
-            window.addEventListener('scroll', updateDropdownPosition, true);
-            window.addEventListener('resize', updateDropdownPosition);
-        }
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-            window.removeEventListener('scroll', updateDropdownPosition, true);
-            window.removeEventListener('resize', updateDropdownPosition);
-        };
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }
     }, [isOpen, externalOpen, onOpenChange, updateDropdownPosition]);
 
     // 处理触发器点击
@@ -897,23 +898,23 @@ const DatePicker: React.FC<DatePickerProps> & {
         };
 
         return (
-            <MonthPickerPanel>
-                <CalendarHeader>
-                    <HeaderLeft>
-                        <HeaderButton onClick={() => setCurrentYear(y => y - 1)} title="上一年">
+            <div className="zjpcy-datepicker-month-picker-panel">
+                <div className="zjpcy-datepicker-header">
+                    <div className="zjpcy-datepicker-header-left">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setCurrentYear(y => y - 1)} title="上一年">
                             <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderLeft>
-                    <HeaderCenter>
+                        </button>
+                    </div>
+                    <div className="zjpcy-datepicker-header-center">
                         <span>{currentYear}年</span>
-                    </HeaderCenter>
-                    <HeaderRight>
-                        <HeaderButton onClick={() => setCurrentYear(y => y + 1)} title="下一年">
+                    </div>
+                    <div className="zjpcy-datepicker-header-right">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setCurrentYear(y => y + 1)} title="下一年">
                             <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderRight>
-                </CalendarHeader>
-                <MonthGrid>
+                        </button>
+                    </div>
+                </div>
+                <div className="zjpcy-datepicker-month-grid">
                     {months.map((month, index) => {
                         const isSelected = multiple
                             ? isMonthSelected(index)
@@ -921,29 +922,31 @@ const DatePicker: React.FC<DatePickerProps> & {
                         const isInSelectedSet = multiple && isMonthSelected(index) && !(index === selectedMonth && currentYear === parsed?.year);
 
                         return (
-                            <MonthCell
+                            <div
                                 key={index}
-                                isSelected={isSelected}
-                                isInSelectedSet={isInSelectedSet}
-                                isCurrentMonth={index === currentMonth && currentYear === currentYearNum}
+                                className={getMonthCellClassName({
+                                    isSelected,
+                                    isInSelectedSet,
+                                    isCurrentMonth: index === currentMonth && currentYear === currentYearNum,
+                                })}
                                 onClick={() => handleMonthSelect(index)}
                             >
                                 {month}
-                            </MonthCell>
+                            </div>
                         );
                     })}
-                </MonthGrid>
+                </div>
                 {showOk && (
-                    <CalendarFooter>
-                        <CalendarFooterSpacer />
-                        <CalendarFooterActions>
-                            <FooterButton variant="primary" onClick={handleOk}>
+                    <div className="zjpcy-datepicker-footer">
+                        <div className="zjpcy-datepicker-footer-spacer" />
+                        <div className="zjpcy-datepicker-footer-actions">
+                            <button className={getFooterButtonClassName({ variant: 'primary' })} onClick={handleOk}>
                                 确定
-                            </FooterButton>
-                        </CalendarFooterActions>
-                    </CalendarFooter>
+                            </button>
+                        </div>
+                    </div>
                 )}
-            </MonthPickerPanel>
+            </div>
         );
     };
 
@@ -994,23 +997,23 @@ const DatePicker: React.FC<DatePickerProps> & {
         };
 
         return (
-            <QuarterPickerPanel>
-                <CalendarHeader>
-                    <HeaderLeft>
-                        <HeaderButton onClick={() => setCurrentYear(y => y - 1)} title="上一年">
+            <div className="zjpcy-datepicker-quarter-panel">
+                <div className="zjpcy-datepicker-header">
+                    <div className="zjpcy-datepicker-header-left">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setCurrentYear(y => y - 1)} title="上一年">
                             <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderLeft>
-                    <HeaderCenter>
+                        </button>
+                    </div>
+                    <div className="zjpcy-datepicker-header-center">
                         <span>{currentYear}年</span>
-                    </HeaderCenter>
-                    <HeaderRight>
-                        <HeaderButton onClick={() => setCurrentYear(y => y + 1)} title="下一年">
+                    </div>
+                    <div className="zjpcy-datepicker-header-right">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setCurrentYear(y => y + 1)} title="下一年">
                             <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderRight>
-                </CalendarHeader>
-                <QuarterGrid>
+                        </button>
+                    </div>
+                </div>
+                <div className="zjpcy-datepicker-quarter-grid">
                     {quarters.map((quarterLabel, index) => {
                         const quarterNum = index + 1;
                         const isCurrent = currentYear === currentYearNum && quarterNum === currentQuarter;
@@ -1020,29 +1023,31 @@ const DatePicker: React.FC<DatePickerProps> & {
                         const isInSelectedSet = multiple && isQuarterSelected(quarterNum) && !(quarterNum === selectedQuarter && currentYear === parsed?.year);
 
                         return (
-                            <QuarterCell
+                            <div
                                 key={quarterLabel}
-                                isSelected={isSelected}
-                                isInSelectedSet={isInSelectedSet}
-                                isCurrentQuarter={isCurrent}
+                                className={getQuarterCellClassName({
+                                    isSelected,
+                                    isInSelectedSet,
+                                    isCurrentQuarter: isCurrent,
+                                })}
                                 onClick={() => handleQuarterSelect(currentYear, quarterNum)}
                             >
                                 {quarterLabel}
-                            </QuarterCell>
+                            </div>
                         );
                     })}
-                </QuarterGrid>
+                </div>
                 {showOk && (
-                    <CalendarFooter>
-                        <CalendarFooterSpacer />
-                        <CalendarFooterActions>
-                            <FooterButton variant="primary" onClick={handleOk}>
+                    <div className="zjpcy-datepicker-footer">
+                        <div className="zjpcy-datepicker-footer-spacer" />
+                        <div className="zjpcy-datepicker-footer-actions">
+                            <button className={getFooterButtonClassName({ variant: 'primary' })} onClick={handleOk}>
                                 确定
-                            </FooterButton>
-                        </CalendarFooterActions>
-                    </CalendarFooter>
+                            </button>
+                        </div>
+                    </div>
                 )}
-            </QuarterPickerPanel>
+            </div>
         );
     };
 
@@ -1091,23 +1096,23 @@ const DatePicker: React.FC<DatePickerProps> & {
         };
 
         return (
-            <YearPickerPanel>
-                <CalendarHeader>
-                    <HeaderLeft>
-                        <HeaderButton onClick={() => setStartYear(y => y - 12)} title="上一页">
+            <div className="zjpcy-datepicker-year-panel">
+                <div className="zjpcy-datepicker-header">
+                    <div className="zjpcy-datepicker-header-left">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setStartYear(y => y - 12)} title="上一页">
                             <Icon type="arrowLeft" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderLeft>
-                    <HeaderCenter>
+                        </button>
+                    </div>
+                    <div className="zjpcy-datepicker-header-center">
                         <span>{startYear} - {startYear + 11}</span>
-                    </HeaderCenter>
-                    <HeaderRight>
-                        <HeaderButton onClick={() => setStartYear(y => y + 12)} title="下一页">
+                    </div>
+                    <div className="zjpcy-datepicker-header-right">
+                        <button className="zjpcy-datepicker-header-btn" onClick={() => setStartYear(y => y + 12)} title="下一页">
                             <Icon type="arrowRight" size={14} color="var(--zjpcy-text-color-secondary)" />
-                        </HeaderButton>
-                    </HeaderRight>
-                </CalendarHeader>
-                <YearGrid>
+                        </button>
+                    </div>
+                </div>
+                <div className="zjpcy-datepicker-year-grid">
                     {years.map(year => {
                         const isSelected = multiple
                             ? selectedYearsSet.has(String(year))
@@ -1115,29 +1120,31 @@ const DatePicker: React.FC<DatePickerProps> & {
                         const isInSelectedSet = multiple && selectedYearsSet.has(String(year)) && year !== selectedYear;
 
                         return (
-                            <YearCell
+                            <div
                                 key={year}
-                                isSelected={isSelected}
-                                isInSelectedSet={isInSelectedSet}
-                                isCurrentYear={year === currentYear}
+                                className={getYearCellClassName({
+                                    isSelected,
+                                    isInSelectedSet,
+                                    isCurrentYear: year === currentYear,
+                                })}
                                 onClick={() => handleYearSelect(year)}
                             >
                                 {year}
-                            </YearCell>
+                            </div>
                         );
                     })}
-                </YearGrid>
+                </div>
                 {showOk && (
-                    <CalendarFooter>
-                        <CalendarFooterSpacer />
-                        <CalendarFooterActions>
-                            <FooterButton variant="primary" onClick={handleOk}>
+                    <div className="zjpcy-datepicker-footer">
+                        <div className="zjpcy-datepicker-footer-spacer" />
+                        <div className="zjpcy-datepicker-footer-actions">
+                            <button className={getFooterButtonClassName({ variant: 'primary' })} onClick={handleOk}>
                                 确定
-                            </FooterButton>
-                        </CalendarFooterActions>
-                    </CalendarFooter>
+                            </button>
+                        </div>
+                    </div>
                 )}
-            </YearPickerPanel>
+            </div>
         );
     };
 
@@ -1160,28 +1167,31 @@ const DatePicker: React.FC<DatePickerProps> & {
             return value;
         }, [value]);
 
+        const triggerClassName = getDatePickerTriggerClassName({
+            focused: isFocused,
+            disabled,
+            size,
+        });
+
+        const triggerStyle = getDatePickerTriggerStyle({ size });
+
+        const valueClassName = getDatePickerValueClassName({
+            isPlaceholder: !value,
+            disabled,
+            isTags: multiple && selectedValues.length > 0,
+        });
+
         return (
-            <DatePickerTrigger
+            <div
                 ref={triggerRef}
-                focused={isFocused}
-                disabled={disabled}
-                size={size}
-                className={classNames('zjpcy-datepicker-trigger', `zjpcy-datepicker-trigger--${size}`, {
-                    'zjpcy-datepicker-trigger--disabled': disabled,
-                    'zjpcy-datepicker-trigger--focused': isFocused,
+                className={classNames(triggerClassName, className, {
                     'zjpcy-datepicker-trigger--multiple': multiple,
-                }, className)}
-                style={style}
+                })}
+                style={{ ...triggerStyle, ...style }}
                 onClick={handleTriggerClick}
             >
                 {multiple && selectedValues.length > 0 ? (
-                    <DatePickerValue
-                        isPlaceholder={false}
-                        disabled={disabled}
-                        className={classNames('zjpcy-datepicker-value', 'zjpcy-datepicker-value--tags', {
-                            'zjpcy-datepicker-value--disabled': disabled,
-                        })}
-                    >
+                    <span className={valueClassName}>
                         {(() => {
                             // 处理 tag 显示数量限制
                             const shouldLimit = maxTagDisplayCount !== undefined && maxTagDisplayCount > 0;
@@ -1217,37 +1227,30 @@ const DatePicker: React.FC<DatePickerProps> & {
                                 </>
                             );
                         })()}
-                    </DatePickerValue>
+                    </span>
                 ) : (
-                    <DatePickerValue
-                        isPlaceholder={!value}
-                        disabled={disabled}
-                        className={classNames('zjpcy-datepicker-value', {
-                            'zjpcy-datepicker-value--placeholder': !value,
-                            'zjpcy-datepicker-value--disabled': disabled,
-                        })}
-                    >
+                    <span className={valueClassName}>
                         {displayValue || placeholder}
-                    </DatePickerValue>
+                    </span>
                 )}
-                <DatePickerSuffix className="zjpcy-datepicker-suffix">
+                <span className="zjpcy-datepicker-suffix">
                     {allowClear && value && !disabled && (
-                        <DatePickerClear
+                        <span
                             className="zjpcy-datepicker-clear"
                             onClick={handleClear}
                         >
                             <Icon type="close" style={{ fontSize: 10 }} />
-                        </DatePickerClear>
+                        </span>
                     )}
-                    <DatePickerIcon
+                    <span
                         className={classNames('zjpcy-datepicker-icon', {
                             'has-clear': allowClear && value && !disabled,
                         })}
                     >
                         <Icon type="calendar" style={{ fontSize: 14 }} />
-                    </DatePickerIcon>
-                </DatePickerSuffix>
-            </DatePickerTrigger>
+                    </span>
+                </span>
+            </div>
         );
     };
 
@@ -1267,7 +1270,7 @@ const DatePicker: React.FC<DatePickerProps> & {
                         value={value}
                         selectedValues={selectedValues}
                         onChange={handleDateChange}
-                        format={format}
+                        format={dateFormat}
                         disabledDate={disabledDate}
                         disabledDates={disabledDates}
                         showToday={showToday}
@@ -1289,63 +1292,72 @@ const DatePicker: React.FC<DatePickerProps> & {
     const renderDropdown = () => {
         if (!isOpen) return null;
 
-        const dropdown = (
-            <DatePickerDropdown
+        const dropdownStyle = getDatePickerDropdownStyle({
+            // 使用相对于触发器的 top 偏移（触发器高度）
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+            // 使用 ref 的值避免选择日期后 minWidth 变化导致位置重新计算
+            minWidth: dropdownPosition.width || ((showTime && hasSelectedDateRef.current) ? 480 : 280),
+        });
+
+        return (
+            <div
                 ref={dropdownRef}
-                top={dropdownPosition.top}
-                left={dropdownPosition.left}
-                minWidth={dropdownPosition.width || ((showTime && hasSelectedDate) ? 480 : 280)}
                 className="zjpcy-datepicker-dropdown"
                 style={{
+                    ...dropdownStyle,
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
                 }}
             >
                 {renderPanelContent()}
-            </DatePickerDropdown>
+            </div>
         );
-
-        return ReactDOM.createPortal(dropdown, document.body);
     };
 
     // 计算容器宽度：多选模式下使用 auto，以 minWidth 作为最小宽度
     const containerWidth = multiple ? 'auto' : width;
 
+    const containerStyle = getDatePickerContainerStyle({
+        width: containerWidth,
+        minWidth: multiple ? width : undefined,
+    });
+
     // 如果有标签，包装在标签容器中
     if (label) {
+        const labelContainerStyle = getLabelContainerStyle({ gap: labelGap });
+
         return (
-            <LabelContainer gap={labelGap} className="zjpcy-datepicker-with-label">
+            <div className="zjpcy-datepicker-with-label" style={labelContainerStyle}>
                 {typeof label === 'string' ? (
-                    <Label
+                    <label
                         className={classNames('zjpcy-datepicker-label', labelClassName)}
                         style={labelStyle}
                     >
                         {label}
-                    </Label>
+                    </label>
                 ) : (
                     label
                 )}
-                <DatePickerContainer
-                    width={containerWidth}
-                    minWidth={multiple ? width : undefined}
+                <div
                     className="zjpcy-datepicker"
+                    style={containerStyle}
                 >
                     {renderTrigger()}
                     {renderDropdown()}
-                </DatePickerContainer>
-            </LabelContainer>
+                </div>
+            </div>
         );
     }
 
     return (
-        <DatePickerContainer
-            width={containerWidth}
-            minWidth={multiple ? width : undefined}
+        <div
             className="zjpcy-datepicker"
+            style={containerStyle}
         >
             {renderTrigger()}
             {renderDropdown()}
-        </DatePickerContainer>
+        </div>
     );
 };
 

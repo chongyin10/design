@@ -1,10 +1,19 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import { DateRangePickerProps, DateFormat } from './types';
+import {
+    getDateRangePickerContainerStyle,
+    getDateRangePickerTriggerClassName,
+    getDateRangePickerTriggerStyle,
+    getDateRangePickerInputClassName,
+    getDateRangePickerValueClassName,
+    getDateRangePickerDropdownStyle,
+    getDateRangePickerFooterButtonClassName,
+    getDateRangePickerDateCellClassName,
+} from './styles';
 
 // 工具函数：格式化日期
 const formatDate = (date: Date | null, format: DateFormat): string => {
@@ -111,7 +120,6 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
     disabledDate,
     disabledDates,
     label,
-    labelGap = 8,
     labelClassName = '',
     labelStyle,
     onOpenChange,
@@ -123,7 +131,7 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
     const [internalOpen, setInternalOpen] = useState(false);
     const [activePicker, setActivePicker] = useState<'start' | 'end'>('start');
     const [isFocused, setIsFocused] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+    const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0, isAbove: false });
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -162,23 +170,30 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         }
     }, [startDate, endDate]);
 
-    // 计算下拉面板位置
+    // 计算下拉面板位置（相对于容器）
     const updateDropdownPosition = useCallback(() => {
         if (!triggerRef.current) return;
-        const rect = triggerRef.current.getBoundingClientRect();
-        const dropdownWidth = Math.max(rect.width, 560); // 双面板最小宽度
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        // 获取容器元素
+        const containerEl = triggerRef.current.closest('.zjpcy-datepicker-range-picker') as HTMLElement;
+        if (!containerEl) return;
+        const containerRect = containerEl.getBoundingClientRect();
+
+        const dropdownWidth = Math.max(triggerRect.width, 560); // 双面板最小宽度
 
         // 检查下方空间是否足够
         const viewportHeight = window.innerHeight;
-        const spaceBelow = viewportHeight - rect.bottom;
+        const spaceBelow = viewportHeight - triggerRect.bottom;
         const estimatedDropdownHeight = 360;
 
-        let top = rect.bottom + window.scrollY + 4;
-        let left = rect.left + window.scrollX;
+        // 计算相对于容器的位置
+        let top = triggerRect.bottom - containerRect.top + 4;
+        let left = triggerRect.left - containerRect.left;
 
         // 如果下方空间不够，则显示在上方
-        if (spaceBelow < estimatedDropdownHeight && rect.top > estimatedDropdownHeight) {
-            top = rect.top + window.scrollY - estimatedDropdownHeight - 4;
+        const shouldShowAbove = spaceBelow < estimatedDropdownHeight && triggerRect.top > estimatedDropdownHeight;
+        if (shouldShowAbove) {
+            top = triggerRect.top - containerRect.top - estimatedDropdownHeight - 4;
         }
 
         // 确保不超出视口右边界
@@ -191,6 +206,7 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
             top,
             left,
             width: dropdownWidth,
+            isAbove: shouldShowAbove,
         });
     }, []);
 
@@ -199,15 +215,19 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         if (!isOpen || !dropdownRef.current || !triggerRef.current) return;
 
         const adjustPosition = () => {
-            const rect = triggerRef.current!.getBoundingClientRect();
+            const triggerRect = triggerRef.current!.getBoundingClientRect();
+            const containerEl = triggerRef.current!.closest('.zjpcy-datepicker-range-picker') as HTMLElement;
+            if (!containerEl) return;
+            const containerRect = containerEl.getBoundingClientRect();
+
             const dropdownEl = dropdownRef.current!;
             const actualHeight = dropdownEl.offsetHeight;
             const viewportHeight = window.innerHeight;
-            const spaceBelow = viewportHeight - rect.bottom;
+            const spaceBelow = viewportHeight - triggerRect.bottom;
 
             // 如果当前显示在上方（根据之前的判断），使用实际高度重新计算 top
-            if (spaceBelow < 360 && rect.top > 360) {
-                const newTop = rect.top + window.scrollY - actualHeight - 4;
+            if (spaceBelow < 360 && triggerRect.top > 360) {
+                const newTop = triggerRect.top - containerRect.top - actualHeight - 4;
                 setDropdownPosition(prev => ({
                     ...prev,
                     top: newTop,
@@ -248,15 +268,11 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
         if (isOpen) {
             document.addEventListener('mousedown', handleClickOutside);
             updateDropdownPosition();
-            window.addEventListener('scroll', updateDropdownPosition, true);
-            window.addEventListener('resize', updateDropdownPosition);
-        }
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-            window.removeEventListener('scroll', updateDropdownPosition, true);
-            window.removeEventListener('resize', updateDropdownPosition);
-        };
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }
     }, [isOpen, externalOpen, onOpenChange, updateDropdownPosition]);
 
     // 处理值变化
@@ -468,14 +484,14 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                             return (
                                 <div
                                     key={index}
-                                    className={classNames('zjpcy-datepicker-range-date-cell', {
-                                        'zjpcy-datepicker-range-date-cell--selected': selected,
-                                        'zjpcy-datepicker-range-date-cell--today': today && !selected,
-                                        'zjpcy-datepicker-range-date-cell--disabled': disabled,
-                                        'zjpcy-datepicker-range-date-cell--other-month': !isCurrentMonth,
-                                        'zjpcy-datepicker-range-date-cell--in-range': inRange && !rangeStart && !rangeEnd,
-                                        'zjpcy-datepicker-range-date-cell--range-start': rangeStart,
-                                        'zjpcy-datepicker-range-date-cell--range-end': rangeEnd,
+                                    className={getDateRangePickerDateCellClassName({
+                                        isSelected: selected,
+                                        isToday: today,
+                                        isCurrentMonth,
+                                        isInRange: inRange,
+                                        isRangeStart: rangeStart,
+                                        isRangeEnd: rangeEnd,
+                                        disabled,
                                     })}
                                     onClick={() => handleDateClick(date)}
                                 >
@@ -493,16 +509,18 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
     const renderDropdown = () => {
         if (!isOpen) return null;
 
-        const dropdown = (
+        const dropdownStyle = getDateRangePickerDropdownStyle({
+            top: dropdownPosition.top,
+            left: dropdownPosition.left,
+            minWidth: dropdownPosition.width || (typeof width === 'number' ? width : (parseInt(width as string, 10) || 280)),
+        });
+
+        return (
             <div
                 ref={dropdownRef}
                 className="zjpcy-datepicker-range-dropdown"
                 style={{
-                    position: 'fixed',
-                    top: dropdownPosition.top,
-                    left: dropdownPosition.left,
-                    minWidth: dropdownPosition.width || (typeof width === 'number' ? width : (parseInt(width as string, 10) || 280)),
-                    zIndex: 999,
+                    ...dropdownStyle,
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
                 }}
@@ -541,7 +559,7 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                     <div className="zjpcy-datepicker-range-footer">
                         <div className="zjpcy-datepicker-range-footer-spacer" />
                         <div className="zjpcy-datepicker-range-footer-actions">
-                            <button className="zjpcy-datepicker-range-btn zjpcy-datepicker-range-btn--primary" onClick={handleOk}>
+                            <button className={getDateRangePickerFooterButtonClassName({ variant: 'primary' })} onClick={handleOk}>
                                 确定
                             </button>
                         </div>
@@ -549,57 +567,47 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
                 )}
             </div>
         );
-
-        return ReactDOM.createPortal(dropdown, document.body);
     };
 
-    const containerStyle: React.CSSProperties = {
-        width: typeof width === 'number' ? `${width}px` : width,
-        ...style,
-    };
-
-    const labelStyleComputed: React.CSSProperties = {
-        marginRight: typeof labelGap === 'number' ? `${labelGap}px` : labelGap,
-        ...labelStyle,
-    };
+    const containerStyle = getDateRangePickerContainerStyle({ width });
+    const triggerClassName = getDateRangePickerTriggerClassName({
+        focused: isFocused,
+        disabled,
+        size,
+    });
+    const triggerStyle = getDateRangePickerTriggerStyle({ size });
 
     const hasValue = startValue || endValue;
-
-    // 尺寸类名
-    const sizeClassName = {
-        'zjpcy-datepicker-range-picker-trigger--small': size === 'small',
-        'zjpcy-datepicker-range-picker-trigger--middle': size === 'middle',
-        'zjpcy-datepicker-range-picker-trigger--large': size === 'large',
-    };
 
     return (
         <div
             className={classNames('zjpcy-datepicker-range-picker', className, {
                 'zjpcy-datepicker-range-picker-with-label': label,
             })}
-            style={containerStyle}
+            style={{ ...containerStyle, ...style }}
         >
             {label && (
-                <span className={classNames('zjpcy-datepicker-range-picker-label', labelClassName)} style={labelStyleComputed}>
+                <span
+                    className={classNames('zjpcy-datepicker-range-picker-label', labelClassName)}
+                    style={labelStyle}
+                >
                     {label}
                 </span>
             )}
             <div
                 ref={triggerRef}
-                className={classNames('zjpcy-datepicker-range-picker-trigger', sizeClassName, {
-                    'zjpcy-datepicker-range-picker-trigger--focused': isFocused,
-                    'zjpcy-datepicker-range-picker-trigger--disabled': disabled,
-                })}
+                className={triggerClassName}
+                style={triggerStyle}
             >
                 {/* 开始日期 */}
                 <div
-                    className={classNames('zjpcy-datepicker-range-picker-input', {
-                        'zjpcy-datepicker-range-picker-input--active': activePicker === 'start' && isOpen,
+                    className={getDateRangePickerInputClassName({
+                        active: activePicker === 'start' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('start')}
                 >
-                    <span className={classNames('zjpcy-datepicker-range-picker-value', {
-                        'zjpcy-datepicker-range-picker-value--placeholder': !startValue
+                    <span className={getDateRangePickerValueClassName({
+                        isPlaceholder: !startValue
                     })}>
                         {startValue || placeholder[0]}
                     </span>
@@ -612,13 +620,13 @@ const RangePicker: React.FC<DateRangePickerProps> = ({
 
                 {/* 结束日期 */}
                 <div
-                    className={classNames('zjpcy-datepicker-range-picker-input', {
-                        'zjpcy-datepicker-range-picker-input--active': activePicker === 'end' && isOpen,
+                    className={getDateRangePickerInputClassName({
+                        active: activePicker === 'end' && isOpen,
                     })}
                     onClick={() => handleTriggerClick('end')}
                 >
-                    <span className={classNames('zjpcy-datepicker-range-picker-value', {
-                        'zjpcy-datepicker-range-picker-value--placeholder': !endValue
+                    <span className={getDateRangePickerValueClassName({
+                        isPlaceholder: !endValue
                     })}>
                         {endValue || placeholder[1]}
                     </span>
