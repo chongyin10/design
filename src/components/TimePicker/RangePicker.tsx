@@ -201,6 +201,16 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
 
         const activeValue = activePicker === 'start' ? startValue : endValue;
 
+        const getMinWidth = () => {
+            if (dropdownPosition.width) return dropdownPosition.width;
+            if (typeof width === 'number') return width;
+            if (typeof width === 'string' && width !== 'auto') {
+                const parsed = parseInt(width, 10);
+                return isNaN(parsed) ? 200 : parsed;
+            }
+            return 200;
+        };
+
         const dropdown = (
             <div
                 ref={dropdownRef}
@@ -209,7 +219,7 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
                     position: 'fixed',
                     top: dropdownPosition.top,
                     left: dropdownPosition.left,
-                    minWidth: dropdownPosition.width || (typeof width === 'number' ? width : parseInt(width as string, 10)),
+                    minWidth: getMinWidth(),
                     zIndex: 999,
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
@@ -250,9 +260,8 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
 
     return (
         <div
-            className={classNames('time-picker time-range-picker', className, {
-                'time-picker-with-label': label,
-            })}
+            className={classNames('time-picker time-range-picker', className)}
+            data-has-label={!!label}
             style={containerStyle}
         >
             {label && (
@@ -262,20 +271,18 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
             )}
             <div
                 ref={triggerRef}
-                className={classNames('time-range-picker-trigger', {
-                    'is-focused': isFocused,
-                    'is-disabled': disabled,
-                    [`size-${size}`]: size,
-                })}
+                className="time-range-picker-trigger"
+                data-focused={isFocused}
+                data-disabled={disabled}
+                data-size={size}
             >
                 {/* 开始时间 */}
                 <div
-                    className={classNames('time-range-picker-input', {
-                        'is-active': activePicker === 'start' && isOpen,
-                    })}
+                    className="time-range-picker-input"
+                    data-active={activePicker === 'start' && isOpen}
                     onClick={() => handleTriggerClick('start')}
                 >
-                    <span className={classNames('time-range-picker-value', { 'is-placeholder': !startValue })}>
+                    <span className="time-range-picker-value" data-placeholder={!startValue}>
                         {startValue || placeholder[0]}
                     </span>
                 </div>
@@ -287,12 +294,11 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
 
                 {/* 结束时间 */}
                 <div
-                    className={classNames('time-range-picker-input', {
-                        'is-active': activePicker === 'end' && isOpen,
-                    })}
+                    className="time-range-picker-input"
+                    data-active={activePicker === 'end' && isOpen}
                     onClick={() => handleTriggerClick('end')}
                 >
-                    <span className={classNames('time-range-picker-value', { 'is-placeholder': !endValue })}>
+                    <span className="time-range-picker-value" data-placeholder={!endValue}>
                         {endValue || placeholder[1]}
                     </span>
                 </div>
@@ -312,9 +318,8 @@ const RangePicker: React.FC<TimeRangePickerProps> = ({
                     <Icon
                         type="clock"
                         size="small"
-                        className={classNames('time-picker-icon', {
-                            'has-clear': allowClear && hasValue && !disabled && !readOnly
-                        })}
+                        className="time-picker-icon"
+                        data-has-clear={allowClear && hasValue && !disabled && !readOnly}
                     />
                 </span>
             </div>

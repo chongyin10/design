@@ -43,37 +43,37 @@
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-picker-trigger.is-focused {
+.time-picker-trigger[data-focused="true"] {
     border-color: var(--timepicker-primary);
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-picker-trigger.is-disabled {
+.time-picker-trigger[data-disabled="true"] {
     background-color: var(--timepicker-bg-disabled);
     border-color: var(--timepicker-border);
     cursor: not-allowed;
     color: var(--timepicker-text-disabled);
 }
 
-.time-picker-trigger.is-disabled:hover {
+.time-picker-trigger[data-disabled="true"]:hover {
     border-color: var(--timepicker-border);
     box-shadow: none;
 }
 
 /* 尺寸样式 - 与 Input 组件保持一致 */
-.time-picker-trigger.size-small {
+.time-picker-trigger[data-size="small"] {
     height: 24px;
     padding: 0 8px;
     font-size: 12px;
 }
 
-.time-picker-trigger.size-middle {
+.time-picker-trigger[data-size="middle"] {
     height: 32px;
     padding: 0 12px;
     font-size: 14px;
 }
 
-.time-picker-trigger.size-large {
+.time-picker-trigger[data-size="large"] {
     height: 40px;
     padding: 0 16px;
     font-size: 16px;
@@ -88,24 +88,24 @@
     font-size: 14px;
 }
 
-.time-picker-value.is-placeholder {
+.time-picker-value[data-placeholder="true"] {
     color: var(--timepicker-text-disabled);
 }
 
-.time-picker-trigger.is-disabled .time-picker-value {
+.time-picker-trigger[data-disabled="true"] .time-picker-value {
     color: var(--timepicker-text-disabled);
 }
 
 /* 不同尺寸下的字体大小 */
-.time-picker-trigger.size-small .time-picker-value {
+.time-picker-trigger[data-size="small"] .time-picker-value {
     font-size: 12px;
 }
 
-.time-picker-trigger.size-middle .time-picker-value {
+.time-picker-trigger[data-size="middle"] .time-picker-value {
     font-size: 14px;
 }
 
-.time-picker-trigger.size-large .time-picker-value {
+.time-picker-trigger[data-size="large"] .time-picker-value {
     font-size: 16px;
 }
 
@@ -164,12 +164,12 @@
 }
 
 /* 下拉面板打开时的旋转动画 */
-.time-picker-icon.is-open {
+.time-picker-icon[data-open="true"] {
     transform: translate(-50%, -50%) rotate(180deg);
 }
 
 /* 当有清除按钮且悬停时，隐藏时间图标 */
-.time-picker-trigger:hover .time-picker-icon.has-clear {
+.time-picker-trigger:hover .time-picker-icon[data-has-clear="true"] {
     opacity: 0;
     visibility: hidden;
 }
@@ -263,13 +263,13 @@
     background-color: var(--timepicker-bg-hover);
 }
 
-.time-picker-option.is-selected {
+.time-picker-option[data-selected="true"] {
     background-color: var(--timepicker-primary-light);
     color: var(--timepicker-primary);
     font-weight: 500;
 }
 
-.time-picker-option.is-selected::before {
+.time-picker-option[data-selected="true"]::before {
     content: '';
     position: absolute;
     left: 0;
@@ -281,13 +281,13 @@
     border-radius: 0 2px 2px 0;
 }
 
-.time-picker-option.is-disabled {
+.time-picker-option[data-disabled="true"] {
     color: var(--timepicker-text-disabled);
     cursor: not-allowed;
     background-color: transparent;
 }
 
-.time-picker-option.is-disabled:hover {
+.time-picker-option[data-disabled="true"]:hover {
     background-color: transparent;
 }
 
@@ -406,36 +406,36 @@
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-range-picker-trigger.is-focused {
+.time-range-picker-trigger[data-focused="true"] {
     border-color: var(--timepicker-primary);
     box-shadow: var(--timepicker-shadow-hover);
 }
 
-.time-range-picker-trigger.is-disabled {
+.time-range-picker-trigger[data-disabled="true"] {
     background-color: var(--timepicker-bg-disabled);
     border-color: var(--timepicker-border);
     cursor: not-allowed;
 }
 
-.time-range-picker-trigger.is-disabled:hover {
+.time-range-picker-trigger[data-disabled="true"]:hover {
     border-color: var(--timepicker-border);
     box-shadow: none;
 }
 
 /* RangePicker 尺寸样式 */
-.time-range-picker-trigger.size-small {
+.time-range-picker-trigger[data-size="small"] {
     height: 24px;
     padding: 0 8px;
     font-size: 12px;
 }
 
-.time-range-picker-trigger.size-middle {
+.time-range-picker-trigger[data-size="middle"] {
     height: 32px;
     padding: 0 12px;
     font-size: 14px;
 }
 
-.time-range-picker-trigger.size-large {
+.time-range-picker-trigger[data-size="large"] {
     height: 40px;
     padding: 0 16px;
     font-size: 16px;
@@ -449,14 +449,15 @@
     height: 100%;
     cursor: pointer;
     transition: var(--timepicker-transition);
+    border-bottom: 2px solid transparent;
 }
 
 .time-range-picker-input:hover {
-    background-color: var(--timepicker-bg-hover);
+    transition: all 0.3s ease;
 }
 
-.time-range-picker-input.is-active {
-    background-color: var(--timepicker-primary-light);
+.time-range-picker-input[data-active="true"] {
+    border-bottom: 2px solid var(--timepicker-primary);
 }
 
 .time-range-picker-value {
@@ -466,7 +467,7 @@
     white-space: nowrap;
 }
 
-.time-range-picker-value.is-placeholder {
+.time-range-picker-value[data-placeholder="true"] {
     color: var(--timepicker-text-disabled);
 }
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import classNames from 'classnames';
 import { TimePickerPanelProps, TimeColumnProps } from './types';
 
 // 解析时间字符串为时、分、秒
@@ -56,9 +55,8 @@ const TimeColumn: React.FC<TimeColumnProps> = ({ options, value, onChange, unit 
                     <div
                         key={opt}
                         ref={value === opt ? selectedRef : null}
-                        className={classNames('time-picker-option', {
-                            'is-selected': value === opt,
-                        })}
+                        className="time-picker-option"
+                        data-selected={value === opt}
                         onClick={() => onChange?.(opt)}
                     >
                         {opt.toString().padStart(2, '0')}

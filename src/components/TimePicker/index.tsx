@@ -221,6 +221,16 @@ const TimePicker: React.FC<TimePickerProps> & {
     const renderDropdown = () => {
         if (!isOpen) return null;
 
+        const getMinWidth = () => {
+            if (dropdownPosition.width) return dropdownPosition.width;
+            if (typeof width === 'number') return width;
+            if (typeof width === 'string' && width !== 'auto') {
+                const parsed = parseInt(width, 10);
+                return isNaN(parsed) ? 120 : parsed;
+            }
+            return 120;
+        };
+
         const dropdown = (
             <div
                 ref={dropdownRef}
@@ -229,7 +239,7 @@ const TimePicker: React.FC<TimePickerProps> & {
                     position: 'fixed',
                     top: dropdownPosition.top,
                     left: dropdownPosition.left,
-                    minWidth: dropdownPosition.width || (typeof width === 'number' ? width : parseInt(width as string, 10)),
+                    minWidth: getMinWidth(),
                     zIndex: 999,
                     opacity: dropdownVisible ? 1 : 0,
                     transition: 'opacity 0.15s ease',
@@ -270,17 +280,15 @@ const TimePicker: React.FC<TimePickerProps> & {
     const triggerContent = (
         <div
             ref={triggerRef}
-            className={classNames('time-picker-trigger', {
-                'is-focused': isFocused,
-                'is-disabled': disabled,
-                [`size-${size}`]: size,
-            })}
+            className="time-picker-trigger"
+            data-focused={isFocused}
+            data-disabled={disabled}
+            data-size={size}
             onClick={handleTriggerClick}
         >
             <span
-                className={classNames('time-picker-value', {
-                    'is-placeholder': !value,
-                })}
+                className="time-picker-value"
+                data-placeholder={!value}
             >
                 {value || placeholder}
             </span>
@@ -298,10 +306,9 @@ const TimePicker: React.FC<TimePickerProps> & {
                 <Icon
                     type="clock"
                     size="small"
-                    className={classNames('time-picker-icon', {
-                        'is-open': isOpen,
-                        'has-clear': allowClear && value && !disabled && !readOnly
-                    })}
+                    className="time-picker-icon"
+                    data-open={isOpen}
+                    data-has-clear={allowClear && value && !disabled && !readOnly}
                 />
             </span>
         </div>
@@ -309,9 +316,8 @@ const TimePicker: React.FC<TimePickerProps> & {
 
     return (
         <div
-            className={classNames('time-picker', className, {
-                'time-picker-with-label': label,
-            })}
+            className={classNames('time-picker', className)}
+            data-has-label={!!label}
             style={containerStyle}
         >
             {label && (
