@@ -1,9 +1,15 @@
 'use client';
 
 import React, { createContext, useContext } from 'react';
-import classNames from 'classnames';
 import { GridProps, RowProps, ColProps } from './types';
-import { GridWrapper, RowWrapper, ColWrapper } from './styles';
+import {
+    getGridWrapperClassName,
+    getGridWrapperStyle,
+    getRowWrapperClassName,
+    getRowWrapperStyle,
+    getColWrapperClassName,
+    getColWrapperStyle,
+} from './styles';
 import './Grid.css';
 
 // 创建 Context 用于传递 Grid 的 gap
@@ -17,24 +23,18 @@ export const Col = React.forwardRef<HTMLDivElement, ColProps>(
         // 获取 Row 传递的 gap（如果 Col 在 Row 内部）
         const rowContext = useContext(RowContext);
         const rowGap = rowContext?.gap;
-        
+
         // 优先级：Col.gap > Row.gap
         const finalGap = colGap !== undefined ? colGap : rowGap;
 
         return (
-            <ColWrapper
+            <div
                 ref={ref}
-                className={classNames('zjpcy-grid-col', className)}
-                style={style}
-                span={span}
-                offset={offset}
-                push={push}
-                pull={pull}
-                order={order}
-                gap={finalGap}
+                className={getColWrapperClassName({ className })}
+                style={getColWrapperStyle({ span, offset, push, pull, order, gap: finalGap, style })}
             >
                 {children}
-            </ColWrapper>
+            </div>
         );
     }
 );
@@ -46,24 +46,19 @@ const RowComponent = React.forwardRef<HTMLDivElement, RowProps>(
         // 获取 Grid 传递的 gap（如果 Row 在 Grid 内部）
         const gridContext = useContext(GridContext);
         const gridGap = gridContext?.gap;
-        
+
         // 优先级：Row.gap > Grid.gap（用于水平间距）
         const finalGap = gap !== undefined ? gap : gridGap;
 
         return (
             <RowContext.Provider value={{ gap: finalGap }}>
-                <RowWrapper
+                <div
                     ref={ref}
-                    className={classNames('zjpcy-grid-row', className)}
-                    style={style}
-                    span={span}
-                    rowGap={rowGap}
-                    align={align}
-                    justify={justify}
-                    wrap={wrap}
+                    className={getRowWrapperClassName({ className })}
+                    style={getRowWrapperStyle({ span, rowGap, align, justify, wrap, style })}
                 >
                     {children}
-                </RowWrapper>
+                </div>
             </RowContext.Provider>
         );
     }
@@ -77,18 +72,13 @@ const GridComponent = React.forwardRef<HTMLDivElement, GridProps>(
     ({ children, className, style, width, height, gap, padding, backgroundColor }, ref) => {
         return (
             <GridContext.Provider value={{ gap }}>
-                <GridWrapper
+                <div
                     ref={ref}
-                    className={classNames('zjpcy-grid', className)}
-                    style={style}
-                    width={width}
-                    height={height}
-                    gap={gap}
-                    padding={padding}
-                    backgroundColor={backgroundColor}
+                    className={getGridWrapperClassName({ className })}
+                    style={getGridWrapperStyle({ width, height, gap, padding, backgroundColor, style })}
                 >
                     {children}
-                </GridWrapper>
+                </div>
             </GridContext.Provider>
         );
     }

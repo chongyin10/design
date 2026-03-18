@@ -1,60 +1,111 @@
-import styled from 'styled-components';
+import classNames from 'classnames';
 
-export const GridWrapper = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['width', 'height', 'gap', 'padding', 'backgroundColor'].includes(prop),
-})<{
+/**
+ * 获取网格容器类名
+ */
+export const getGridWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-grid', className);
+};
+
+/**
+ * 获取网格容器样式
+ */
+export const getGridWrapperStyle = (options: {
     width?: number | string;
     height?: number | string;
     gap?: number | string;
     padding?: number | string;
     backgroundColor?: string;
-}>`
-    width: ${props => props.width !== undefined ? (typeof props.width === 'number' ? `${props.width}px` : props.width) : '100%'};
-    height: ${props => props.height !== undefined ? (typeof props.height === 'number' ? `${props.height}px` : props.height) : 'auto'};
-    gap: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap}px` : props.gap) : '0'};
-    padding: ${props => props.padding !== undefined ? (typeof props.padding === 'number' ? `${props.padding}px` : props.padding) : '0'};
-    background-color: ${props => props.backgroundColor || 'transparent'};
-    box-sizing: border-box;
-`;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { width, height, gap, padding, backgroundColor, style } = options;
+    return {
+        width: width !== undefined ? (typeof width === 'number' ? `${width}px` : width) : '100%',
+        height: height !== undefined ? (typeof height === 'number' ? `${height}px` : height) : 'auto',
+        gap: gap !== undefined ? (typeof gap === 'number' ? `${gap}px` : gap) : '0',
+        padding: padding !== undefined ? (typeof padding === 'number' ? `${padding}px` : padding) : '0',
+        backgroundColor: backgroundColor || 'transparent',
+        boxSizing: 'border-box',
+        ...style,
+    };
+};
 
-export const RowWrapper = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['span', 'rowGap', 'align', 'justify', 'wrap'].includes(prop),
-})<{
+/**
+ * 获取行容器类名
+ */
+export const getRowWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-grid-row', className);
+};
+
+/**
+ * 获取行容器样式
+ */
+export const getRowWrapperStyle = (options: {
     span?: number;
     rowGap?: number | string;
     align?: string;
     justify?: string;
     wrap?: boolean;
-}>`
-    display: flex;
-    width: ${props => props.span !== undefined ? `calc(${props.span} / 24 * 100%)` : '100%'};
-    row-gap: ${props => props.rowGap !== undefined ? (typeof props.rowGap === 'number' ? `${props.rowGap}px` : props.rowGap) : '0'};
-    align-items: ${props => props.align || 'stretch'};
-    justify-content: ${props => props.justify || 'flex-start'};
-    flex-wrap: ${props => props.wrap !== false ? 'wrap' : 'nowrap'};
-    box-sizing: border-box;
-`;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { span, rowGap, align, justify, wrap, style } = options;
+    return {
+        display: 'flex',
+        width: span !== undefined ? `calc(${span} / 24 * 100%)` : '100%',
+        rowGap: rowGap !== undefined ? (typeof rowGap === 'number' ? `${rowGap}px` : rowGap) : '0',
+        alignItems: align || 'stretch',
+        justifyContent: justify || 'flex-start',
+        flexWrap: wrap !== false ? 'wrap' : 'nowrap',
+        boxSizing: 'border-box',
+        ...style,
+    };
+};
 
-export const ColWrapper = styled.div.withConfig({
-    shouldForwardProp: (prop) => !['span', 'offset', 'push', 'pull', 'order', 'gap'].includes(prop),
-})<{
+/**
+ * 获取列容器类名
+ */
+export const getColWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-grid-col', className);
+};
+
+/**
+ * 获取列容器样式
+ */
+export const getColWrapperStyle = (options: {
     span?: number;
     offset?: number;
     push?: number;
     pull?: number;
     order?: number;
     gap?: number | string;
-}>`
-    flex: ${props => props.span !== undefined ? `0 0 calc(${props.span} / 24 * 100%)` : '1'};
-    max-width: ${props => props.span !== undefined ? `calc(${props.span} / 24 * 100%)` : '100%'};
-    margin-left: ${props => {
-        if (props.pull !== undefined) return `calc(-${props.pull} / 24 * 100%)`;
-        if (props.offset !== undefined) return `calc(${props.offset} / 24 * 100%)`;
-        return '0';
-    }};
-    margin-right: ${props => props.push !== undefined ? `calc(${props.push} / 24 * 100%)` : '0'};
-    order: ${props => props.order !== undefined ? props.order : '0'};
-    padding-left: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap / 2}px` : `calc(${props.gap} / 2)`) : '0'};
-    padding-right: ${props => props.gap !== undefined ? (typeof props.gap === 'number' ? `${props.gap / 2}px` : `calc(${props.gap} / 2)`) : '0'};
-    box-sizing: border-box;
-`;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { span, offset, push, pull, order, gap, style } = options;
+
+    const marginLeft = pull !== undefined
+        ? `calc(-${pull} / 24 * 100%)`
+        : offset !== undefined
+            ? `calc(${offset} / 24 * 100%)`
+            : '0';
+
+    return {
+        flex: span !== undefined ? `0 0 calc(${span} / 24 * 100%)` : '1',
+        maxWidth: span !== undefined ? `calc(${span} / 24 * 100%)` : '100%',
+        marginLeft,
+        marginRight: push !== undefined ? `calc(${push} / 24 * 100%)` : '0',
+        order: order !== undefined ? order : 0,
+        paddingLeft: gap !== undefined ? (typeof gap === 'number' ? `${gap / 2}px` : `calc(${gap} / 2)`) : '0',
+        paddingRight: gap !== undefined ? (typeof gap === 'number' ? `${gap / 2}px` : `calc(${gap} / 2)`) : '0',
+        boxSizing: 'border-box',
+        ...style,
+    };
+};
