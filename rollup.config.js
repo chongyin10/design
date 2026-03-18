@@ -94,7 +94,6 @@ export default {
     'react',
     'react-dom',
     'react/jsx-runtime',
-    'styled-components',
     'tslib',
     'classnames',
     '@dnd-kit/core',

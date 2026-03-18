@@ -119,7 +119,7 @@ module.exports = {
         },
         // UI 组件库
         uiVendor: {
-          test: /[\\/]node_modules[\\/](styled-components|classnames)[\\/]/,
+          test: /[\\/]node_modules[\\/](classnames)[\\/]/,
           name: 'ui-vendor',
           priority: 30,
         },
