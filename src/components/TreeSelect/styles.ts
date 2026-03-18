@@ -301,16 +301,11 @@ export const getSearchInputStyle = (options: {
  * 获取 ClearIcon 类名
  */
 export const getClearIconClassName = (options: {
-    size?: 'large' | 'middle' | 'small';
     className?: string;
 }): string => {
-    const { size = 'middle', className } = options;
+    const { className } = options;
     return classNames(
         'zjpcy-treeselect-selection__clear',
-        {
-            'zjpcy-treeselect-selection__clear-large': size === 'large',
-            'zjpcy-treeselect-selection__clear-small': size === 'small',
-        },
         className
     );
 };
@@ -336,16 +331,13 @@ export const getClearIconStyle = (options: {
  */
 export const getArrowIconClassName = (options: {
     open?: boolean;
-    size?: 'large' | 'middle' | 'small';
     className?: string;
 }): string => {
-    const { open, size = 'middle', className } = options;
+    const { open, className } = options;
     return classNames(
         'zjpcy-treeselect-selection__arrow',
         {
             'zjpcy-treeselect-selection__arrow-open': open,
-            'zjpcy-treeselect-selection__arrow-large': size === 'large',
-            'zjpcy-treeselect-selection__arrow-small': size === 'small',
         },
         className
     );

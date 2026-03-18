@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
-import Icon from '../Icon';
 import Empty from '../Empty';
 import type { TreeSelectProps, TreeSelectNode, TreeSelectStyles } from './types';
 import {
@@ -98,6 +97,7 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
 }) => {
     const [open, setOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
     const [internalValue, setInternalValue] = useState<any[]>(() => {
         if (multiple) {
             return defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : [];
@@ -362,8 +362,10 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                         onClick={(e) => hasChildren && toggleExpand(e, node)}
                     >
                         {hasChildren && (
-                            <Icon type="arrowRight" size={12} color="#bfbfbf" />
-                        )}
+                                <svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12">
+                                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                                </svg>
+                            )}
                     </span>
                     
                     {/* 多选复选框 */}
@@ -376,7 +378,11 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                                 className={getCheckboxInnerClassName({ checked: isSelected })}
                                 style={getCheckboxInnerStyle({})}
                             >
-                                {isSelected && <Icon type="check" size={10} color="#fff" />}
+                                {isSelected && (
+                                    <svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10">
+                                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                                    </svg>
+                                )}
                             </span>
                         </span>
                     )}
@@ -471,7 +477,9 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                             style={getTagCloseStyle({})}
                             onClick={(e) => handleRemoveTag(e, getNodeValue(node))}
                         >
-                            <Icon type="close" size={10} />
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
                         </span>
                     </span>
                 ))}
@@ -486,6 +494,15 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             </>
         );
     }, [multiple, selectedNodes, treeData, maxTagCount, getNodeValue, getNodeTitle, handleRemoveTag, getLeafNodes, placeholder, size, styles?.tag]);
+    
+    // 计算是否有值可清除
+    const hasValue = selectedNodes.length > 0;
+    
+    // 显示清除按钮的条件：可清除、非禁用、有值、鼠标悬停
+    const showClear = allowClear && !disabled && hasValue && isHovered;
+    
+    // 显示下拉箭头的条件：不满足清除按钮显示条件时
+    const showArrowIcon = !showClear;
     
     return (
         <div
@@ -505,6 +522,8 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                         }
                     }
                 }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
             >
                 {showSearch && open ? (
                     <div
@@ -531,23 +550,32 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                     </div>
                 )}
                 
-                {/* 清除按钮 */}
-                {allowClear && !disabled && selectedNodes.length > 0 && (
-                    <span
-                        className={getClearIconClassName({ size })}
-                        style={getClearIconStyle({})}
-                        onClick={handleClear}
-                    >
-                        <Icon type="close" size={12} />
-                    </span>
-                )}
-                
-                {/* 下拉箭头 */}
-                <span
-                    className={getArrowIconClassName({ open, size })}
-                    style={getArrowIconStyle({})}
-                >
-                    <Icon type="arrowDown" size={12} />
+                {/* 后缀区域（清除按钮和下拉箭头） */}
+                <span className={classNames('zjpcy-treeselect-suffix', {
+                    'zjpcy-treeselect-large': size === 'large',
+                    'zjpcy-treeselect-small': size === 'small'
+                })}>
+                    {showClear && (
+                        <span
+                            className={getClearIconClassName({})}
+                            style={getClearIconStyle({})}
+                            onClick={handleClear}
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </span>
+                    )}
+                    {showArrowIcon && (
+                        <span
+                            className={getArrowIconClassName({ open })}
+                            style={getArrowIconStyle({})}
+                        >
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M7 10l5 5 5-5z"/>
+                            </svg>
+                        </span>
+                    )}
                 </span>
             </div>
             
