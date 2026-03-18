@@ -7,4 +7,5 @@ export interface LabelProps {
   indicatorHeight?: string | number;
   paddingRight?: string | number;
   style?: CSSProperties;
+  className?: string;
 }
