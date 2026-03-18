@@ -25,7 +25,7 @@
   --zjpcy-switch-track-bg-gradient: linear-gradient(135deg, var(--zjpcy-border-color, #e8e8e8) 0%, var(--zjpcy-border-color-extra-light, #d9d9d9) 100%);
   --zjpcy-switch-track-active-bg: var(--zjpcy-primary-color, #1890ff);
   --zjpcy-switch-track-active-gradient: linear-gradient(135deg, var(--zjpcy-primary-color, #1890ff) 0%, var(--zjpcy-primary-hover-color, #40a9ff) 100%);
-  --zjpcy-switch-track-radius: var(--zjpcy-border-radius-lg, 8px);
+  --zjpcy-switch-track-radius: 9999px;
 
   /* Thumb 滑块样式 */
   --zjpcy-switch-thumb-bg: var(--zjpcy-bg-color-white, #fff);
@@ -64,7 +64,7 @@
 }
 
 /* ============================================
-   Switch Track - 轨道样式
+   Switch Track - 轨道基础样式
    ============================================ */
 .switch-track {
   position: relative;
@@ -77,34 +77,38 @@
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-/* 选中状态 - 使用渐变背景 */
-.switch-track .switch-track-checked {
+/* 选中状态 - 使用单一类名 */
+.switch-track-checked {
   background: var(--zjpcy-switch-track-active-gradient);
   box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
-/* 禁用状态 */
-.switch-track .switch-track-disabled {
+/* 禁用状态 - 使用单一类名 */
+.switch-track-disabled {
   cursor: not-allowed;
   opacity: var(--zjpcy-switch-disabled-opacity);
   background: var(--zjpcy-switch-disabled-bg);
 }
 
-.switch-track .switch-track-disabled .switch-track-checked {
+/* 禁用且选中状态 - 使用单一类名 */
+.switch-track-disabled-checked {
   background: linear-gradient(135deg, rgba(24, 144, 255, 0.5) 0%, rgba(64, 169, 255, 0.5) 100%);
+  opacity: var(--zjpcy-switch-disabled-opacity);
+  cursor: not-allowed;
 }
 
-/* 加载状态 */
-.switch-track .switch-track-loading {
+/* 加载状态 - 使用单一类名 */
+.switch-track-loading {
   cursor: wait;
 }
 
-/* 悬停效果（非禁用状态） */
-.switch-track:not(.switch-track-disabled):hover {
+/* 悬停效果（非禁用状态）- 使用 :not 配合单一类名 */
+.switch-track:hover {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.switch-track .switch-track-checked:not(.switch-track-disabled):hover {
+/* 选中状态的悬停效果 */
+.switch-track-checked:hover {
   box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.2);
 }
 
@@ -122,13 +126,13 @@
   z-index: 2;
 }
 
-/* 滑块悬停效果 */
-.switch-track:not(.switch-track-disabled):hover .switch-thumb {
+/* 滑块悬停效果（父元素非禁用时） */
+.switch-track:hover .switch-thumb {
   box-shadow: var(--zjpcy-switch-thumb-shadow-hover);
 }
 
-/* 选中状态的滑块 */
-.switch-thumb .switch-thumb-checked {
+/* 选中状态的滑块 - 使用单一类名 */
+.switch-thumb-checked {
   box-shadow: var(--zjpcy-switch-thumb-shadow-active);
 }
 

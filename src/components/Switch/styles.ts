@@ -1,317 +1,409 @@
-import styled from 'styled-components';
+import classNames from 'classnames';
+import type { CSSProperties } from 'react';
 import { SwitchStyles } from './types';
 
-// 从 CSS 变量中读取值的辅助函数
-const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
+// ============================================
+// Switch 外层容器
+// ============================================
 
-// Wrapper 组件 - 使用 CSS 变量
-export const Wrapper = styled.div<{ $styles?: SwitchStyles['wrapper'] }>`
-  display: inline-block;
+/**
+ * 获取 Wrapper 类名
+ */
+export const getWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'switch-wrapper',
+        className
+    );
+};
 
-  &.switch-wrapper {
-    /* 外部可通过 .switch-wrapper 选择器覆盖样式 */
-  }
+/**
+ * 获取 Wrapper 样式
+ */
+export const getWrapperStyle = (options: {
+    style?: CSSProperties;
+    customStyles?: SwitchStyles['wrapper'];
+}): CSSProperties => {
+    const { style, customStyles } = options;
+    return {
+        display: 'inline-block',
+        ...style,
+        ...customStyles,
+    };
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// 标签容器
+// ============================================
 
-// Track 组件 - 配合 Switch.css 的 CSS 变量使用
-export const Track = styled.div<{
-  $checked: boolean;
-  $disabled: boolean;
-  $size: 'default' | 'small';
-  $loading: boolean;
-  $hasChildren?: boolean;
-  $width?: number;
-  $styles?: SwitchStyles['track'];
-}>
-`
-  position: relative;
-  background: ${getCSSVar('--zjpcy-switch-track-bg-gradient', 'linear-gradient(135deg, #e8e8e8 0%, #d9d9d9 100%)')};
-  border-radius: ${getCSSVar('--zjpcy-switch-track-radius', '12px')};
-  transition: ${getCSSVar('--zjpcy-switch-transition', 'all 0.2s ease-in-out')};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${({ $disabled }) => ($disabled ? 'var(--zjpcy-switch-disabled-opacity, 0.65)' : 1)};
-  box-sizing: border-box;
-  overflow: hidden;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+/**
+ * 获取 LabelWrapper 类名
+ */
+export const getLabelWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'switch-label-wrapper',
+        className
+    );
+};
 
-  &.switch-track {
-    /* 外部可通过 .switch-track 选择器覆盖样式 */
-  }
+/**
+ * 获取 LabelWrapper 样式
+ */
+export const getLabelWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        display: 'flex',
+        alignItems: 'center',
+        ...style,
+    };
+};
 
-  &.switch-track-checked {
-    background: ${getCSSVar('--zjpcy-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
-    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  }
+// ============================================
+// 标签
+// ============================================
 
-  &.switch-track-disabled {
-    cursor: not-allowed;
-    opacity: var(--zjpcy-switch-disabled-opacity, 0.65);
-    background: ${getCSSVar('--zjpcy-switch-disabled-bg', '#f5f5f5')};
-  }
+/**
+ * 获取 Label 类名
+ */
+export const getLabelClassName = (options: {
+    labelClassName?: string;
+}): string => {
+    const { labelClassName } = options;
+    return classNames(
+        'switch-label',
+        labelClassName
+    );
+};
 
-  &.switch-track-loading {
-    cursor: wait;
-  }
+/**
+ * 获取 Label 样式
+ */
+export const getLabelStyle = (options: {
+    labelGap?: string | number;
+    labelStyle?: CSSProperties;
+}): CSSProperties => {
+    const { labelGap, labelStyle } = options;
+    const gapStyle = labelGap !== undefined
+        ? { marginRight: typeof labelGap === 'number' ? `${labelGap}px` : labelGap }
+        : {};
+    return {
+        ...gapStyle,
+        ...labelStyle,
+    };
+};
 
-  &:hover:not(.switch-track-disabled) {
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
-  }
+// ============================================
+// Switch Track - 轨道
+// ============================================
 
-  &.switch-track-checked:hover:not(.switch-track-disabled) {
-    box-shadow: 0 4px 12px rgba(24, 144, 255, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  }
+/**
+ * 获取 Track 类名
+ */
+export const getTrackClassName = (options: {
+    checked?: boolean;
+    disabled?: boolean;
+    loading?: boolean;
+    className?: string;
+}): string => {
+    const { checked, disabled, loading, className } = options;
+    return classNames(
+        'switch-track',
+        {
+            'switch-track-checked': checked && !disabled,
+            'switch-track-disabled': disabled && !checked,
+            'switch-track-disabled-checked': disabled && checked,
+            'switch-track-loading': loading,
+        },
+        className
+    );
+};
 
-  ${({ $size, $hasChildren, $width }) => {
-    // 如果有自定义宽度，优先使用自定义宽度
-    if ($width) {
-      return `
-        width: ${$width}px;
-        min-width: ${$width}px;
-        height: ${$size === 'small' ? getCSSVar('--zjpcy-switch-small-height', '16px') : getCSSVar('--zjpcy-switch-default-height', '22px')};
-      `;
-    }
-    if ($size === 'small') {
-      return `
-        width: ${$hasChildren ? 'auto' : getCSSVar('--zjpcy-switch-small-width', '28px')};
-        min-width: ${getCSSVar('--zjpcy-switch-small-width', '28px')};
-        height: ${getCSSVar('--zjpcy-switch-small-height', '16px')};
-      `;
-    }
-    return `
-      width: ${$hasChildren ? 'auto' : getCSSVar('--zjpcy-switch-default-width', '44px')};
-      min-width: ${getCSSVar('--zjpcy-switch-default-width', '44px')};
-      height: ${getCSSVar('--zjpcy-switch-default-height', '22px')};
-    `;
-  }}
-
-  ${({ $checked }) =>
-    $checked && `
-      background: ${getCSSVar('--zjpcy-switch-track-active-gradient', 'linear-gradient(135deg, #1890ff 0%, #40a9ff 100%)')};
-      box-shadow: 0 2px 8px rgba(24, 144, 255, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-    `
-  }
-
-  ${({ $loading }) =>
-    $loading && `
-      cursor: wait;
-    `
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// Thumb 组件 - 配合 Switch.css 的 CSS 变量使用
-export const Thumb = styled.div<{
-  $checked: boolean;
-  $size: 'default' | 'small';
-  $loading: boolean;
-  $hasChildren?: boolean;
-  $width?: number;
-  $styles?: SwitchStyles['thumb'];
-}>
-`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: linear-gradient(135deg, ${getCSSVar('--zjpcy-switch-thumb-bg', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')} 100%);
-  border-radius: ${getCSSVar('--zjpcy-switch-thumb-radius', '50%')};
-  box-shadow: ${getCSSVar('--zjpcy-switch-thumb-shadow', '0 2px 8px rgba(0, 0, 0, 0.15)')};
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
-  z-index: 2;
-
-  &.switch-thumb {
-    /* 外部可通过 .switch-thumb 选择器覆盖样式 */
-  }
-
-  &.switch-thumb-checked {
-    box-shadow: ${getCSSVar('--zjpcy-switch-thumb-shadow-active', '0 2px 8px rgba(24, 144, 255, 0.4)')};
-  }
-
-  ${({ $size, $checked, $width }) => {
+/**
+ * 获取 Track 样式
+ */
+export const getTrackStyle = (options: {
+    size?: 'default' | 'small';
+    width?: number;
+    hasChildren?: boolean;
+    disabled?: boolean;
+    customStyles?: SwitchStyles['track'];
+}): CSSProperties => {
+    const { size = 'default', width, hasChildren, disabled, customStyles } = options;
+    
     // 尺寸配置
-    const thumbSize = $size === 'small' ? 12 : 18;
+    const sizeConfig = {
+        default: {
+            width: 44,
+            height: 22,
+        },
+        small: {
+            width: 28,
+            height: 16,
+        },
+    };
+    
+    const config = sizeConfig[size];
+    
+    // 计算宽度
+    const widthStyle = width !== undefined
+        ? { width: `${width}px`, minWidth: `${width}px` }
+        : { width: hasChildren ? 'auto' : `${config.width}px`, minWidth: `${config.width}px` };
+    
+    // 光标样式
+    const cursorStyle = disabled ? { cursor: 'not-allowed' } : { cursor: 'pointer' };
+    
+    // 透明度
+    const opacityStyle = disabled ? { opacity: 'var(--zjpcy-switch-disabled-opacity, 0.65)' } : {};
+    
+    // 处理自定义样式 - 将 backgroundColor 转换为 background 以覆盖 CSS 中的渐变
+    const processedStyles: CSSProperties = { ...customStyles };
+    if (customStyles?.backgroundColor) {
+        (processedStyles as Record<string, unknown>).background = customStyles.backgroundColor;
+        delete processedStyles.backgroundColor;
+    }
+    
+    return {
+        position: 'relative',
+        borderRadius: 'var(--zjpcy-switch-track-radius, 12px)',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        height: `${config.height}px`,
+        ...widthStyle,
+        ...cursorStyle,
+        ...opacityStyle,
+        ...processedStyles,
+    };
+};
+
+// ============================================
+// Switch Thumb - 滑块
+// ============================================
+
+/**
+ * 获取 Thumb 类名
+ */
+export const getThumbClassName = (options: {
+    checked?: boolean;
+    loading?: boolean;
+    className?: string;
+}): string => {
+    const { checked, loading, className } = options;
+    return classNames(
+        'switch-thumb',
+        {
+            'switch-thumb-checked': checked,
+            'switch-thumb-loading': loading,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 Thumb 样式
+ */
+export const getThumbStyle = (options: {
+    size?: 'default' | 'small';
+    checked?: boolean;
+    width?: number;
+    customStyles?: SwitchStyles['thumb'];
+}): CSSProperties => {
+    const { size = 'default', checked, width, customStyles } = options;
+    
+    // 尺寸配置
+    const thumbSize = size === 'small' ? 12 : 18;
     const defaultOffset = 2; // 默认边距
     
-    if ($width) {
-      // 自定义宽度时，动态计算 thumb 位置
-      // 未选中时：left = 边距
-      // 选中时：left = 宽度 - thumb尺寸 - 边距
-      const leftValue = $checked ? `${$width - thumbSize - defaultOffset}px` : `${defaultOffset}px`;
-      return `
-        width: ${thumbSize}px;
-        height: ${thumbSize}px;
-        left: ${leftValue};
-      `;
+    let leftValue: string;
+    
+    if (width !== undefined) {
+        // 自定义宽度时，动态计算 thumb 位置
+        leftValue = checked ? `${width - thumbSize - defaultOffset}px` : `${defaultOffset}px`;
+    } else if (size === 'small') {
+        leftValue = checked ? '14px' : '2px';
+    } else {
+        leftValue = checked ? '24px' : '2px';
     }
     
-    // 默认尺寸
-    if ($size === 'small') {
-      const leftValue = $checked ? '14px' : '2px';
-      return `
-        width: ${thumbSize}px;
-        height: ${thumbSize}px;
-        left: ${leftValue};
-      `;
+    // 处理自定义样式 - 将 backgroundColor 转换为 background 以覆盖 CSS 中的渐变
+    const processedStyles: CSSProperties = { ...customStyles };
+    if (customStyles?.backgroundColor) {
+        (processedStyles as Record<string, unknown>).background = customStyles.backgroundColor;
+        delete processedStyles.backgroundColor;
     }
-    const leftValue = $checked ? '24px' : '2px';
-    return `
-      width: ${thumbSize}px;
-      height: ${thumbSize}px;
-      left: ${leftValue};
-    `;
-  }}
+    
+    return {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        borderRadius: 'var(--zjpcy-switch-thumb-radius, 50%)',
+        width: `${thumbSize}px`,
+        height: `${thumbSize}px`,
+        left: leftValue,
+        zIndex: 2,
+        ...processedStyles,
+    };
+};
 
-  ${({ $loading }) =>
-    $loading && `
-      animation: zjpcy-switch-thumb-spin 1s linear infinite;
-    `
-  }
+// ============================================
+// Loading Icon - 加载图标
+// ============================================
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+/**
+ * 获取 LoadingIcon 类名
+ */
+export const getLoadingIconClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'switch-loading-icon',
+        className
+    );
+};
 
-// LoadingIcon 组件 - 使用 SVG 图标
-export const LoadingIcon = styled.div<{
-  $checked?: boolean;
-  $size?: 'default' | 'small';
-  $width?: number;
-  $styles?: SwitchStyles['loading'];
-}>
-`
-  position: absolute;
-  top: 50%;
-  margin-top: -6px; /* 12px 高度的一半，实现垂直居中 */
-  width: ${getCSSVar('--zjpcy-switch-loading-size', '12px')};
-  height: ${getCSSVar('--zjpcy-switch-loading-size', '12px')};
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &.switch-loading-icon {
-    /* 外部可通过 .switch-loading-icon 选择器覆盖样式 */
-  }
-
-  /* SVG 旋转动画 - 以中心点旋转 */
-  & > svg {
-    width: 100%;
-    height: 100%;
-    animation: zjpcy-switch-spin 1s linear infinite;
-    transform-origin: center center;
-    display: block;
-    fill: ${getCSSVar('--zjpcy-switch-loading-color', '#1890ff')};
-  }
-
-  ${({ $size, $checked, $width }) => {
+/**
+ * 获取 LoadingIcon 样式
+ */
+export const getLoadingIconStyle = (options: {
+    size?: 'default' | 'small';
+    checked?: boolean;
+    width?: number;
+    customStyles?: SwitchStyles['loading'];
+}): CSSProperties => {
+    const { size = 'default', checked, width, customStyles } = options;
+    
     // 尺寸配置（与 Thumb 保持一致）
     const iconSize = 12; // loading icon 固定 12px
-    const thumbSize = $size === 'small' ? 12 : 18;
+    const thumbSize = size === 'small' ? 12 : 18;
     const defaultOffset = 2; // 默认边距
     
-    if ($width) {
-      // 自定义宽度时，动态计算位置（与 Thumb 保持一致）
-      // 未选中时：left = 边距 + (thumb尺寸 - icon尺寸) / 2 （居中在 thumb 位置）
-      // 选中时：left = 宽度 - thumb尺寸 - 边距 + (thumb尺寸 - icon尺寸) / 2
-      const thumbLeft = $checked ? $width - thumbSize - defaultOffset : defaultOffset;
-      const leftValue = thumbLeft + (thumbSize - iconSize) / 2;
-      return `
-        left: ${leftValue}px;
-      `;
+    let leftValue: string;
+    
+    if (width !== undefined) {
+        // 自定义宽度时，动态计算位置（与 Thumb 保持一致）
+        const thumbLeft = checked ? width - thumbSize - defaultOffset : defaultOffset;
+        const left = thumbLeft + (thumbSize - iconSize) / 2;
+        leftValue = `${left}px`;
+    } else if (size === 'small') {
+        const thumbLeft = checked ? 14 : 2;
+        const left = thumbLeft + (thumbSize - iconSize) / 2;
+        leftValue = `${left}px`;
+    } else {
+        const thumbLeft = checked ? 24 : 2;
+        const left = thumbLeft + (thumbSize - iconSize) / 2;
+        leftValue = `${left}px`;
     }
     
-    // 默认尺寸
-    if ($size === 'small') {
-      const thumbLeft = $checked ? 14 : 2;
-      const leftValue = thumbLeft + (thumbSize - iconSize) / 2;
-      return `
-        left: ${leftValue}px;
-      `;
-    }
-    const thumbLeft = $checked ? 24 : 2;
-    const leftValue = thumbLeft + (thumbSize - iconSize) / 2;
-    return `
-      left: ${leftValue}px;
-    `;
-  }}
+    return {
+        position: 'absolute',
+        top: '50%',
+        marginTop: '-6px',
+        width: 'var(--zjpcy-switch-loading-size, 12px)',
+        height: 'var(--zjpcy-switch-loading-size, 12px)',
+        zIndex: 3,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        left: leftValue,
+        ...customStyles,
+    };
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// Checked Inner - 选中状态文字
+// ============================================
 
-// Inner 组件 - 用于显示文字内容（选中状态）
-export const CheckedInner = styled.span<{
-  $size: 'default' | 'small';
-  $styles?: SwitchStyles['inner'];
-}>
-`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: ${({ $size }) => $size === 'small' ? '3px' : '4px'};
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: ${({ $size }) => $size === 'small' ? '9px' : '10px'};
-  color: #fff;
-  white-space: nowrap;
-  user-select: none;
-  z-index: 1;
-  padding-right: ${({ $size }) => $size === 'small' ? '14px' : '20px'};
-  font-weight: 500;
-  letter-spacing: 0.2px;
+/**
+ * 获取 CheckedInner 类名
+ */
+export const getCheckedInnerClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'switch-checked-inner',
+        className
+    );
+};
 
-  &.switch-checked-inner {
-    /* 外部可通过 .switch-checked-inner 选择器覆盖样式 */
-  }
+/**
+ * 获取 CheckedInner 样式
+ */
+export const getCheckedInnerStyle = (options: {
+    size?: 'default' | 'small';
+    customStyles?: SwitchStyles['inner'];
+}): CSSProperties => {
+    const { size = 'default', customStyles } = options;
+    
+    return {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: size === 'small' ? '3px' : '4px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        fontSize: size === 'small' ? '9px' : '10px',
+        color: '#fff',
+        whiteSpace: 'nowrap',
+        userSelect: 'none',
+        zIndex: 1,
+        paddingRight: size === 'small' ? '14px' : '20px',
+        fontWeight: 500,
+        letterSpacing: '0.2px',
+        ...customStyles,
+    };
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// Unchecked Inner - 非选中状态文字
+// ============================================
 
-// Inner 组件 - 用于显示文字内容（非选中状态）
-export const UnCheckedInner = styled.span<{
-  $size: 'default' | 'small';
-  $styles?: SwitchStyles['inner'];
-}>
-`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: ${({ $size }) => $size === 'small' ? '3px' : '4px'};
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  font-size: ${({ $size }) => $size === 'small' ? '9px' : '10px'};
-  color: ${getCSSVar('--zjpcy-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
-  white-space: nowrap;
-  user-select: none;
-  z-index: 1;
-  padding-left: ${({ $size }) => $size === 'small' ? '14px' : '20px'};
-  font-weight: 500;
-  letter-spacing: 0.2px;
+/**
+ * 获取 UncheckedInner 类名
+ */
+export const getUncheckedInnerClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'switch-unchecked-inner',
+        className
+    );
+};
 
-  &.switch-unchecked-inner {
-    /* 外部可通过 .switch-unchecked-inner 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// 注入全局样式的函数
-export const injectGlobalStyles = () => {
-  if (typeof document !== 'undefined' && !document.getElementById('zjpcy-switch-styles')) {
-    const style = document.createElement('style');
-    style.id = 'zjpcy-switch-styles';
-    style.textContent = `
-      @keyframes zjpcy-switch-spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-      @keyframes zjpcy-switch-thumb-spin {
-        from { transform: translateY(-50%) rotate(0deg); }
-        to { transform: translateY(-50%) rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(style);
-  }
+/**
+ * 获取 UncheckedInner 样式
+ */
+export const getUncheckedInnerStyle = (options: {
+    size?: 'default' | 'small';
+    customStyles?: SwitchStyles['inner'];
+}): CSSProperties => {
+    const { size = 'default', customStyles } = options;
+    
+    return {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: size === 'small' ? '3px' : '4px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        fontSize: size === 'small' ? '9px' : '10px',
+        color: 'var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65))',
+        whiteSpace: 'nowrap',
+        userSelect: 'none',
+        zIndex: 1,
+        paddingLeft: size === 'small' ? '14px' : '20px',
+        fontWeight: 500,
+        letterSpacing: '0.2px',
+        ...customStyles,
+    };
 };

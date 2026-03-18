@@ -38,6 +38,10 @@ export interface SwitchProps {
   labelClassName?: string;
   /** 标签的样式 */
   labelStyle?: CSSProperties;
+  /** 自定义 CSS 类名 */
+  className?: string;
+  /** 自定义样式对象 */
+  style?: CSSProperties;
 }
 
 /**
