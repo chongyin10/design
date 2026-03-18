@@ -3,27 +3,46 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { SelectProps, SelectOption, TagRenderProps } from './types';
 import {
-    Wrapper,
-    LabelWrapper,
-    Label,
-    Selector,
-    SelectorContent,
-    Placeholder,
-    SingleValue,
-    TagsContainer,
-    Tag,
-    TagClose,
-    SearchInput,
-    SuffixArea,
-    ClearButton,
-    Arrow,
-    LoadingIcon,
-    Dropdown,
-    OptionList,
-    Option,
-    CheckIcon,
-    Empty,
-    injectGlobalStyles
+    getWrapperClassName,
+    getWrapperStyle,
+    getLabelWrapperClassName,
+    getLabelWrapperStyle,
+    getLabelClassName,
+    getLabelStyle,
+    getSelectorClassName,
+    getSelectorStyle,
+    getSelectorContentClassName,
+    getSelectorContentStyle,
+    getPlaceholderClassName,
+    getPlaceholderStyle,
+    getSingleValueClassName,
+    getSingleValueStyle,
+    getTagsContainerClassName,
+    getTagsContainerStyle,
+    getTagClassName,
+    getTagStyle,
+    getTagCloseClassName,
+    getTagCloseStyle,
+    getSearchInputClassName,
+    getSearchInputStyle,
+    getSuffixAreaClassName,
+    getSuffixAreaStyle,
+    getClearButtonClassName,
+    getClearButtonStyle,
+    getArrowClassName,
+    getArrowStyle,
+    getLoadingIconClassName,
+    getLoadingIconStyle,
+    getDropdownClassName,
+    getDropdownStyle,
+    getOptionListClassName,
+    getOptionListStyle,
+    getOptionClassName,
+    getOptionStyle,
+    getCheckIconClassName,
+    getCheckIconStyle,
+    getEmptyClassName,
+    getEmptyStyle,
 } from './styles';
 import './Select.css';
 
@@ -94,11 +113,6 @@ const Select: React.FC<SelectProps> = ({
     const wrapperRef = useRef<HTMLDivElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
-
-    // 注入全局样式
-    useEffect(() => {
-        injectGlobalStyles();
-    }, []);
 
     // 确定实际使用的值
     const currentValue = isControlled ? valueProp : internalValue;
@@ -280,24 +294,24 @@ const Select: React.FC<SelectProps> = ({
         }
 
         return (
-            <Tag
+            <span
                 key={option.value}
-                className="select-tag"
-                $disabled={disabled}
-                $styles={styles?.tag}
+                className={getTagClassName({ disabled })}
+                style={getTagStyle({ customStyles: styles?.tag })}
             >
                 <span>{option.label}</span>
                 {!disabled && (
-                    <TagClose
-                        className="select-tag-close"
+                    <span
+                        className={getTagCloseClassName({})}
+                        style={getTagCloseStyle({})}
                         onClick={(e) => handleTagClose(e, option.value)}
                     >
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                         </svg>
-                    </TagClose>
+                    </span>
                 )}
-            </Tag>
+            </span>
         );
     };
 
@@ -309,9 +323,11 @@ const Select: React.FC<SelectProps> = ({
                 ? '搜索...'
                 : String((selectedOptions as SelectOption)?.label || placeholder);
             return (
-                <SearchInput
+                <input
                     ref={searchInputRef}
                     type="text"
+                    className={getSearchInputClassName({})}
+                    style={getSearchInputStyle({})}
                     value={searchValue}
                     onChange={handleSearch}
                     placeholder={searchPlaceholder}
@@ -325,20 +341,44 @@ const Select: React.FC<SelectProps> = ({
             const selected = selectedOptions as SelectOption[];
             if (selected.length > 0) {
                 return (
-                    <TagsContainer>
+                    <div
+                        className={getTagsContainerClassName({})}
+                        style={getTagsContainerStyle({})}
+                    >
                         {selected.map(renderTag)}
-                    </TagsContainer>
+                    </div>
                 );
             }
-            return <Placeholder>{placeholder}</Placeholder>;
+            return (
+                <span
+                    className={getPlaceholderClassName({})}
+                    style={getPlaceholderStyle({})}
+                >
+                    {placeholder}
+                </span>
+            );
         }
 
         // 单选模式显示值
         const selected = selectedOptions as SelectOption | null;
         if (selected) {
-            return <SingleValue>{selected.label}</SingleValue>;
+            return (
+                <span
+                    className={getSingleValueClassName({})}
+                    style={getSingleValueStyle({})}
+                >
+                    {selected.label}
+                </span>
+            );
         }
-        return <Placeholder>{placeholder}</Placeholder>;
+        return (
+            <span
+                className={getPlaceholderClassName({})}
+                style={getPlaceholderStyle({})}
+            >
+                {placeholder}
+            </span>
+        );
     };
 
     // 渲染选项
@@ -351,51 +391,60 @@ const Select: React.FC<SelectProps> = ({
         const content = optionRender ? optionRender(option) : (
             <>
                 {isSelected && isMultiple && (
-                    <CheckIcon>
+                    <div
+                        className={getCheckIconClassName({})}
+                        style={getCheckIconStyle({})}
+                    >
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                         </svg>
-                    </CheckIcon>
+                    </div>
                 )}
                 <span>{option.label}</span>
             </>
         );
 
         return (
-            <Option
+            <div
                 key={option.value}
-                className={`select-option ${isSelected ? 'select-option-selected' : ''} ${isActive ? 'select-option-active' : ''}`}
-                $selected={isSelected}
-                $active={isActive}
-                $disabled={!!option.disabled}
-                $styles={styles?.option}
+                className={getOptionClassName({
+                    selected: isSelected,
+                    active: isActive,
+                    disabled: !!option.disabled
+                })}
+                style={getOptionStyle({ customStyles: styles?.option })}
                 onClick={() => handleOptionClick(option)}
                 onMouseEnter={() => setActiveIndex(index)}
             >
                 {content}
-            </Option>
+            </div>
         );
     };
 
     // 渲染下拉菜单
     const renderDropdown = () => {
         const dropdown = (
-            <Dropdown
+            <div
                 ref={dropdownRef}
-                className="select-dropdown"
-                $open={open}
-                $styles={styles?.dropdown}
+                className={getDropdownClassName({ open })}
+                style={getDropdownStyle({ customStyles: styles?.dropdown })}
             >
-                <OptionList $maxHeight={maxHeight}>
+                <div
+                    className={getOptionListClassName({})}
+                    style={getOptionListStyle({ maxHeight })}
+                >
                     {filteredOptions.length > 0 ? (
                         filteredOptions.map(renderOption)
                     ) : (
-                        <Empty className="select-empty">
+                        <div
+                            className={getEmptyClassName({})}
+                            style={getEmptyStyle({})}
+                        >
                             {emptyContent}
-                        </Empty>
+                        </div>
                     )}
-                </OptionList>
-            </Dropdown>
+                </div>
+            </div>
         );
 
         if (getPopupContainer) {
@@ -418,32 +467,27 @@ const Select: React.FC<SelectProps> = ({
     const showArrowIcon = showArrow && !loading && !showClear;
 
     return (
-        <Wrapper
+        <div
             ref={wrapperRef}
-            className={`select-wrapper ${className}`}
-            $styles={styles?.wrapper}
-            style={{ width, ...style }}
+            className={getWrapperClassName({ className })}
+            style={getWrapperStyle({ width, style, customStyles: styles?.wrapper })}
         >
-            <LabelWrapper>
+            <div
+                className={getLabelWrapperClassName({})}
+                style={getLabelWrapperStyle({})}
+            >
                 {label && (
-                    <Label
-                        className={`select-label ${labelClassName}`}
-                        style={{
-                            marginRight: typeof labelGap === 'number' ? `${labelGap}px` : labelGap,
-                            ...labelStyle
-                        }}
+                    <div
+                        className={getLabelClassName({ labelClassName })}
+                        style={getLabelStyle({ labelGap, labelStyle })}
                     >
                         {label}
-                    </Label>
+                    </div>
                 )}
                 <div style={{ flex: 1, position: 'relative' }}>
-                    <Selector
-                        className={`select-selector ${size ? `select-selector-${size}` : ''} ${open ? 'select-selector-open' : ''} ${disabled ? 'select-selector-disabled' : ''}`}
-                        $disabled={disabled}
-                        $loading={loading}
-                        $size={size}
-                        $open={open}
-                        $styles={styles?.selector}
+                    <div
+                        className={getSelectorClassName({ size: size as 'small' | 'default' | 'large', open, disabled })}
+                        style={getSelectorStyle({ customStyles: styles?.selector })}
                         onClick={() => !disabled && !loading && setOpen(!open)}
                         onKeyDown={handleKeyDown}
                         onMouseEnter={() => setIsHovered(true)}
@@ -453,40 +497,53 @@ const Select: React.FC<SelectProps> = ({
                         aria-expanded={open}
                         aria-haspopup="listbox"
                     >
-                        <SelectorContent>
+                        <div
+                            className={getSelectorContentClassName({})}
+                            style={getSelectorContentStyle({})}
+                        >
                             {renderSelectorContent()}
-                        </SelectorContent>
-                        <SuffixArea>
+                        </div>
+                        <div
+                            className={getSuffixAreaClassName({})}
+                            style={getSuffixAreaStyle({})}
+                        >
                             {showClear && (
-                                <ClearButton
-                                    className="select-clear"
+                                <div
+                                    className={getClearButtonClassName({})}
+                                    style={getClearButtonStyle({})}
                                     onClick={handleClear}
                                 >
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                                     </svg>
-                                </ClearButton>
+                                </div>
                             )}
                             {loading && (
-                                <LoadingIcon className="select-loading">
+                                <div
+                                    className={getLoadingIconClassName({})}
+                                    style={getLoadingIconStyle({})}
+                                >
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M12,4V2A10,10 0 0,0 2,12H4A8,8 0 0,1 12,4Z"/>
                                     </svg>
-                                </LoadingIcon>
+                                </div>
                             )}
                             {showArrowIcon && (
-                                <Arrow className={`select-arrow ${open ? 'select-arrow-open' : ''}`} $open={open}>
+                                <div
+                                    className={getArrowClassName({ open })}
+                                    style={getArrowStyle({})}
+                                >
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M7 10l5 5 5-5z"/>
                                     </svg>
-                                </Arrow>
+                                </div>
                             )}
-                        </SuffixArea>
-                    </Selector>
+                        </div>
+                    </div>
                     {renderDropdown()}
                 </div>
-            </LabelWrapper>
-        </Wrapper>
+            </div>
+        </div>
     );
 };
 
