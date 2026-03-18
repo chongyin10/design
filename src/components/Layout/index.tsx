@@ -2,14 +2,22 @@ import React from 'react';
 import Icon from '../Icon';
 import './Layout.css';
 import {
-  LayoutWrapper,
-  HeaderWrapper,
-  SiderWrapper,
-  SiderContentWrapper,
-  SiderTrigger,
-  ContentWrapper,
-  FooterWrapper,
-  ZeroWidthTriggerInContent
+  getLayoutClassName,
+  getLayoutStyle,
+  getHeaderClassName,
+  getHeaderStyle,
+  getSiderClassName,
+  getSiderStyle,
+  getSiderContentClassName,
+  getSiderContentStyle,
+  getSiderTriggerClassName,
+  getSiderTriggerStyle,
+  getZeroWidthTriggerClassName,
+  getZeroWidthTriggerStyle,
+  getContentClassName,
+  getContentStyle,
+  getFooterClassName,
+  getFooterStyle,
 } from './styles';
 import {
   LayoutProps,
@@ -25,9 +33,6 @@ interface NestedLayoutContextType {
   isNested: boolean;
 }
 const NestedLayoutContext = React.createContext<NestedLayoutContextType>({ isNested: false });
-
-// Hook 用于检测是否在嵌套布局中
-const useNestedLayout = () => React.useContext(NestedLayoutContext);
 
 /**
  * Layout 页面布局组件
@@ -74,15 +79,13 @@ const BaseLayout: React.FC<LayoutProps> = ({ className = '', style = {}, childre
   return (
     <LayoutProvider>
       <NestedLayoutContext.Provider value={{ isNested: true }}>
-        <LayoutWrapper
-          className={`layout-wrapper ${className}${mounted ? ' layout-mounted' : ''}`}
-          style={style}
-          $hasSider={finalHasSider}
-          $theme={theme}
+        <div
+          className={getLayoutClassName({ hasSider: finalHasSider, theme, mounted, className })}
+          style={getLayoutStyle({ style })}
           data-theme={theme}
         >
           {children}
-        </LayoutWrapper>
+        </div>
       </NestedLayoutContext.Provider>
     </LayoutProvider>
   );
@@ -110,20 +113,15 @@ export const Header: React.FC<LayoutHeaderProps> = ({
 }) => {
   // 确保 theme 有默认值，避免 SSR 时 undefined
   const safeTheme = theme ?? 'light';
-  const bgColor:any = style?.background || '#3030302b';
 
   return (
-    <HeaderWrapper
-      className={`layout-header layout-header-${safeTheme} ${className}`}
-      style={style}
-      $height={height}
-      $fixed={fixed}
-      $theme={safeTheme}
-      $bgColor={bgColor}
+    <header
+      className={getHeaderClassName({ fixed, theme: safeTheme, className })}
+      style={getHeaderStyle({ height, style })}
       data-theme={safeTheme}
     >
       {children}
-    </HeaderWrapper>
+    </header>
   );
 };
 
@@ -161,8 +159,6 @@ export const Sider: React.FC<LayoutSiderProps> = ({
 }) => {
   // 确保 theme 有默认值，避免 SSR 时 undefined
   const safeTheme = theme ?? 'light';
-  // 检测是否在嵌套布局中
-  const { isNested } = useNestedLayout();
   const { setSiderCollapsed, setZeroWidthMode, setOnExpand } = useLayoutContext();
 
   // 同步状态到 Context
@@ -184,26 +180,24 @@ export const Sider: React.FC<LayoutSiderProps> = ({
   const actualCollapsedWidth = zeroWidthMode && collapsed ? 0 : collapsedWidth;
 
   return (
-    <SiderWrapper
-      className={`layout-sider ${collapsed ? 'collapsed' : ''} ${className}`}
-      style={style}
-      $width={width}
-      $collapsedWidth={actualCollapsedWidth}
-      $collapsed={collapsed}
-      $fixed={fixed}
-      $theme={safeTheme}
-      $inNestedLayout={isNested}
+    <aside
+      className={getSiderClassName({ fixed, theme: safeTheme, collapsed, className })}
+      style={getSiderStyle({ width, collapsedWidth: actualCollapsedWidth, collapsed, style })}
       data-theme={safeTheme}
     >
-      <SiderContentWrapper>{children}</SiderContentWrapper>
+      <div className={getSiderContentClassName({ collapsed })} style={getSiderContentStyle({})}>
+        {children}
+      </div>
       {collapsible && (
-        <SiderTrigger
-          className="layout-sider-trigger"
-          $collapsed={collapsed}
-          $placement={zeroWidthMode ? 'top' : triggerPlacement}
+        <div
+          className={getSiderTriggerClassName({
+            collapsed,
+            placement: zeroWidthMode ? 'top' : triggerPlacement,
+            zeroWidthMode,
+            theme: safeTheme
+          })}
+          style={getSiderTriggerStyle({})}
           onClick={handleCollapse}
-          $zeroWidthMode={zeroWidthMode}
-          $theme={safeTheme}
         >
           {trigger || (
             <Icon
@@ -212,9 +206,9 @@ export const Sider: React.FC<LayoutSiderProps> = ({
               color={safeTheme === 'dark' ? '#fff' : 'rgba(0, 0, 0, 0.65)'}
             />
           )}
-        </SiderTrigger>
+        </div>
       )}
-    </SiderWrapper>
+    </aside>
   );
 };
 
@@ -241,20 +235,23 @@ export const Content: React.FC<LayoutContentProps> = ({
   const { siderCollapsed, zeroWidthMode, onExpand } = useLayoutContext();
 
   return (
-    <ContentWrapper
-      className={`layout-content ${className}`}
-      style={style}
-      $theme={safeTheme}
+    <main
+      className={getContentClassName({ theme: safeTheme, className })}
+      style={getContentStyle({ style })}
       data-theme={safeTheme}
     >
       {/* 零宽度模式下，Sider 收缩时在 Content 内显示展开按钮 */}
       {zeroWidthMode && siderCollapsed && (
-        <ZeroWidthTriggerInContent onClick={onExpand}>
+        <div
+          className={getZeroWidthTriggerClassName({})}
+          style={getZeroWidthTriggerStyle({})}
+          onClick={onExpand}
+        >
           <Icon type="menu" size={24} color="#fff" />
-        </ZeroWidthTriggerInContent>
+        </div>
       )}
       {children}
-    </ContentWrapper>
+    </main>
   );
 };
 
@@ -281,16 +278,13 @@ export const Footer: React.FC<LayoutFooterProps> = ({
   // 确保 theme 有默认值，避免 SSR 时 undefined
   const safeTheme = theme ?? 'light';
   return (
-    <FooterWrapper
-      className={`layout-footer ${className}`}
-      style={style}
-      $height={height}
-      $fixed={fixed}
-      $theme={safeTheme}
+    <footer
+      className={getFooterClassName({ fixed, theme: safeTheme, className })}
+      style={getFooterStyle({ height, style })}
       data-theme={safeTheme}
     >
       {children}
-    </FooterWrapper>
+    </footer>
   );
 };
 

@@ -1,476 +1,335 @@
-import styled from 'styled-components';
-
-// 从 CSS 变量中读取值的辅助函数
-const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
+import classNames from 'classnames';
 
 // ============================================
 // Layout 容器
 // ============================================
-export const LayoutWrapper = styled.div<{ $hasSider?: boolean; $theme?: 'light' | 'dark' }>`
-  display: flex;
-  flex-direction: column;
-  min-height: ${getCSSVar('--layout-min-height', '100vh')};
-  max-height: 100vh;
-  /* 使用更明确的默认值，避免 SSR 时 theme 为 undefined 导致黑色背景闪烁 */
-  background: ${({ $theme }) => {
-    // 明确处理 undefined 情况，确保 SSR 和 CSR 一致
-    const isDark = $theme === 'dark';
-    return isDark
-      ? `linear-gradient(180deg, ${getCSSVar('--layout-bg-dark', '#001529')} 0%, ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')} 100%)`
-      : `linear-gradient(180deg, ${getCSSVar('--layout-bg-light', '#f5f5f5')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
-  }};
-  box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
-  flex: 1;
 
-  /* SSR 安全：确保服务端和客户端初始渲染一致 */
-  @media (prefers-color-scheme: dark) {
-    /* 在暗色模式下默认使用 light 主题避免闪烁，由 JS 控制实际主题 */
-  }
+/**
+ * 获取 Layout 类名
+ */
+export const getLayoutClassName = (options: {
+    hasSider?: boolean;
+    theme?: 'light' | 'dark';
+    mounted?: boolean;
+    className?: string;
+}): string => {
+    const { hasSider, theme, mounted, className } = options;
+    return classNames(
+        'zjpcy-layout',
+        `zjpcy-layout--${theme || 'light'}`,
+        {
+            'zjpcy-layout--has-sider': hasSider,
+            'layout-mounted': mounted,
+        },
+        'layout-wrapper',
+        className
+    );
+};
 
-  &.layout-wrapper {
-    /* 外部可通过 .layout-wrapper 选择器覆盖样式 */
-  }
-
-  ${({ $hasSider }) => $hasSider && `
-    flex-direction: row;
-    align-items: stretch;
-  `}
-`;
+/**
+ * 获取 Layout 样式
+ */
+export const getLayoutStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
 // Layout.Header
 // ============================================
-export const HeaderWrapper = styled.header<{ $fixed?: boolean; $height?: string | number; $theme?: 'light' | 'dark', $bgColor?: string }>`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding: ${getCSSVar('--layout-header-padding', '0 24px')};
-  /* 确保默认使用亮色主题，避免 SSR 闪烁 */
-  background: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-header-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
-  }};
-  color: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? getCSSVar('--layout-header-color-dark', '#fff')
-      : getCSSVar('--layout-header-color-light', 'rgba(0, 0, 0, 0.85)');
-  }};
-  height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-header-height', '60px')};
-  z-index: ${getCSSVar('--layout-header-z-index', '10')};
-  transition: ${getCSSVar('--layout-header-transition', 'all 0.2s ease-in-out')};
-  box-sizing: border-box;
 
-  &.layout-header-light {
-    border-bottom: ${({ $bgColor }) => `1px solid ${$bgColor}`};
-  }
+/**
+ * 获取 Header 类名
+ */
+export const getHeaderClassName = (options: {
+    fixed?: boolean;
+    theme?: 'light' | 'dark';
+    className?: string;
+}): string => {
+    const { fixed, theme, className } = options;
+    return classNames(
+        'zjpcy-layout-header',
+        `zjpcy-layout-header--${theme || 'light'}`,
+        {
+            'zjpcy-layout-header--fixed': fixed,
+        },
+        'layout-header',
+        `layout-header-${theme || 'light'}`,
+        className
+    );
+};
 
-  &.layout-header-dark {
-    border-bottom: 1px solid transparent;
-  }
-
-  &.layout-header {
-    /* 外部可通过 .layout-header 选择器覆盖样式 */
-  }
-
-  ${({ $fixed }) => $fixed && `
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    box-shadow: ${getCSSVar('--layout-header-box-shadow', '0 2px 8px rgba(0, 0, 0, 0.15)')};
-  `}
-`;
+/**
+ * 获取 Header 样式
+ */
+export const getHeaderStyle = (options: {
+    height?: string | number;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { height, style } = options;
+    return {
+        height: typeof height === 'number' ? `${height}px` : height || 'var(--layout-header-height, 64px)',
+        ...style,
+    };
+};
 
 // ============================================
 // Layout.Sider
 // ============================================
-export const SiderWrapper = styled.aside<{
-  $width?: string | number;
-  $collapsedWidth?: number;
-  $collapsed?: boolean;
-  $fixed?: boolean;
-  $zeroWidthMode?: boolean;
-  $theme?: 'light' | 'dark';
-  $inNestedLayout?: boolean;
-}>`
-  display: flex;
-  flex-direction: column;
-  /* SSR 安全：明确处理 theme 为 undefined 的情况，默认使用亮色主题 */
-  background: ${({ $theme, style }) => {
-    // 如果用户通过 style 传入 background，则不应用默认背景
-    if (style?.background !== undefined) {
-      return style.background;
-    }
-    const isDark = $theme === 'dark';
-    return isDark
-      ? `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(180deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
-  }};
-  color: ${({ $theme, style }) => {
-    // 如果用户通过 style 传入 color，则不应用默认颜色
-    if (style?.color !== undefined) {
-      return style.color;
-    }
-    const isDark = $theme === 'dark';
-    return isDark
-      ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)');
-  }};
-  z-index: ${getCSSVar('--layout-sider-z-index', '10')};
-  transition: ${getCSSVar('--layout-sider-transition', 'all 0.2s ease-in-out')};
-  flex: ${getCSSVar('--layout-sider-flex', '0 0 200px')};
-  box-sizing: border-box;
-  border-right: ${({ $theme }) =>
-    $theme === 'dark'
-      ? `var(--layout-sider-border, 1px solid #303030)`
-      : `var(--layout-sider-border, 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')})`};
-  box-shadow: ${({ $theme }) =>
-    $theme === 'dark'
-      ? '2px 0 8px rgba(0, 0, 0, 0.3)'
-      : getCSSVar('--zjpcy-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.08)')};
 
+/**
+ * 获取 Sider 类名
+ */
+export const getSiderClassName = (options: {
+    fixed?: boolean;
+    theme?: 'light' | 'dark';
+    collapsed?: boolean;
+    className?: string;
+}): string => {
+    const { fixed, theme, collapsed, className } = options;
+    return classNames(
+        'zjpcy-layout-sider',
+        `zjpcy-layout-sider--${theme || 'light'}`,
+        {
+            'zjpcy-layout-sider--fixed': fixed,
+            'collapsed': collapsed,
+        },
+        'layout-sider',
+        `layout-sider-${theme || 'light'}`,
+        className
+    );
+};
 
-  &.layout-sider {
-    /* 外部可通过 .layout-sider 选择器覆盖样式 */
-  }
+/**
+ * 获取 Sider 样式
+ */
+export const getSiderStyle = (options: {
+    width?: string | number;
+    collapsedWidth?: number;
+    collapsed?: boolean;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { width, collapsedWidth, collapsed, style } = options;
+    const widthValue = typeof width === 'number' ? `${width}px` : width || 'var(--layout-sider-width, 200px)';
+    const collapsedWidthValue = collapsedWidth !== undefined ? `${collapsedWidth}px` : 'var(--layout-sider-collapsed-width, 60px)';
+    const finalWidth = collapsed ? collapsedWidthValue : widthValue;
 
-  /* 让子元素占据剩余空间，使 trigger 可以固定在底部 */
-  & > *:not(.layout-sider-trigger) {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-  }
-
-  ${({ $width, $collapsedWidth, $collapsed }) => {
-    const width = typeof $width === 'number' ? `${$width}px` : $width || getCSSVar('--layout-sider-width', '200px');
-    const collapsedWidth = $collapsedWidth !== undefined ? `${$collapsedWidth}px` : getCSSVar('--layout-sider-collapsed-width', '60px');
-    return `
-      width: ${$collapsed ? collapsedWidth : width};
-      min-width: ${$collapsed ? collapsedWidth : width};
-      max-width: ${$collapsed ? collapsedWidth : width};
-    `;
-  }}
-
-  ${({ $fixed }) => $fixed && `
-    position: fixed;
-    top: ${getCSSVar('--layout-header-height', '64px')};
-    left: 0;
-    bottom: 0;
-    overflow-y: auto;
-    box-shadow: ${getCSSVar('--layout-sider-box-shadow', '0 4px 12px rgba(0, 0, 0, 0.15)')};
-  `}
-
-  /* ============================================
-     集成 Menu 组件样式 - 与 Menu.css 保持一致
-     ============================================ */
-  
-  /* 覆盖 Menu 组件基础样式 */
-  .zjpcy-menu {
-    background: transparent;
-  }
-
-  /* Menu 菜单项在 Sider 中的样式 - 覆盖默认样式 */
-  .zjpcy-menu-item {
-    border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-    
-    /* Light 主题 - 与 Menu.css 保持一致 */
-    &.light {
-      color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-      
-      &:hover:not(.disabled) {
-        background: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 144, 255, 0.06)')};
-        color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-      }
-      
-      &.selected {
-        background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 144, 255, 0.12)')};
-        color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-        box-shadow: inset 3px 0 0 ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-        font-weight: 600;
-        
-        &:hover {
-          background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 144, 255, 0.18)')};
-        }
-      }
-    }
-    
-    /* Dark 主题 - 与 Menu.css 保持一致 */
-    &.dark {
-      color: rgba(255, 255, 255, 0.85);
-      
-      &:hover:not(.disabled) {
-        background-color: rgba(255, 255, 255, 0.08);
-        color: #fff;
-      }
-      
-      &.selected {
-        background-color: rgba(24, 144, 255, 0.25);
-        color: #fff;
-        box-shadow: inset 3px 0 0 ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-        font-weight: 600;
-        
-        &:hover {
-          background-color: rgba(24, 144, 255, 0.35);
-        }
-      }
-    }
-  }
-
-  /* 子菜单样式 */
-  .zjpcy-menu-submenu {
-    .zjpcy-menu-item {
-      margin: 0px;
-    }
-  }
-
-  /* Dark 主题下的子菜单样式 */
-  .zjpcy-menu-submenu.horizontal-popup,
-  .zjpcy-menu-submenu.horizontal-popup .zjpcy-menu-submenu {
-    background: linear-gradient(135deg, #001529 0%, #002140 100%);
-    border: 1px solid #303030;
-  }
-
-  /* Dark 主题下子菜单中的菜单项 */
-  .zjpcy-menu-submenu .zjpcy-menu-item.dark {
-    color: rgba(255, 255, 255, 0.85);
-    
-    &:hover:not(.disabled) {
-      background-color: rgba(255, 255, 255, 0.08);
-      color: #fff;
-    }
-    
-    &.selected {
-      background-color: rgba(24, 144, 255, 0.25);
-      color: #fff;
-    }
-  }
-`;
+    return {
+        width: finalWidth,
+        minWidth: finalWidth,
+        maxWidth: finalWidth,
+        flex: `0 0 ${finalWidth}`,
+        ...style,
+    };
+};
 
 // ============================================
 // Sider 内容包装器
 // ============================================
-export const SiderContentWrapper = styled.div<{ $collapsed?: boolean }>`
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: ${({ $collapsed }) => $collapsed ? 'visible' : 'hidden'};
 
-  /* 内容过渡动画 */
-  & > * {
-    transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
-  }
+/**
+ * 获取 SiderContent 类名
+ */
+export const getSiderContentClassName = (options: {
+    collapsed?: boolean;
+    className?: string;
+}): string => {
+    const { collapsed, className } = options;
+    return classNames(
+        'zjpcy-layout-sider-content',
+        {
+            'zjpcy-layout-sider-content--collapsed': collapsed,
+        },
+        className
+    );
+};
 
-  /* 收缩状态下的内容样式 */
-  ${({ $collapsed }) => $collapsed && `
-    & > * {
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  `}
-`;
+/**
+ * 获取 SiderContent 样式
+ */
+export const getSiderContentStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
 // Sider 收缩触发器
 // ============================================
-export const SiderTrigger = styled.div<{ $collapsed?: boolean; $placement?: 'top' | 'bottom'; $zeroWidthMode?: boolean; $theme?: 'light' | 'dark' }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: ${getCSSVar('--layout-trigger-height', '48px')};
-  /* SSR 安全：默认使用亮色主题 */
-  background: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-sider-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
-  }};
-  color: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? getCSSVar('--layout-sider-color-dark', '#fff')
-      : getCSSVar('--layout-sider-color-light', 'rgba(0, 0, 0, 0.85)');
-  }};
-  cursor: pointer;
-  transition: ${getCSSVar('--layout-trigger-transition', 'all 0.2s ease-in-out')};
-  user-select: none;
-  order: ${({ $placement }) => $placement === 'top' ? '-1' : 'auto'};
 
-  &.layout-sider-trigger {
-    /* 外部可通过 .layout-sider-trigger 选择器覆盖样式 */
-  }
+/**
+ * 获取 SiderTrigger 类名
+ */
+export const getSiderTriggerClassName = (options: {
+    collapsed?: boolean;
+    placement?: 'top' | 'bottom';
+    zeroWidthMode?: boolean;
+    theme?: 'light' | 'dark';
+    className?: string;
+}): string => {
+    const { collapsed, placement, zeroWidthMode, theme, className } = options;
+    return classNames(
+        'zjpcy-layout-sider-trigger',
+        `zjpcy-layout-sider-trigger--${theme || 'light'}`,
+        `zjpcy-layout-sider-trigger--${placement || 'bottom'}`,
+        {
+            'zjpcy-layout-sider-trigger--hidden': zeroWidthMode && collapsed,
+        },
+        'layout-sider-trigger',
+        className
+    );
+};
 
-  &:hover {
-    background: ${({ $theme }) =>
-    $theme === 'dark'
-      ? `linear-gradient(135deg, #002140 0%, ${getCSSVar('--zjpcy-primary-color', '#1890ff')} 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')} 0%, ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')} 100%)`};
-    color: ${({ $theme }) =>
-    $theme === 'dark'
-      ? '#fff'
-      : getCSSVar('--zjpcy-primary-color', '#1890ff')};
-  }
-
-  /* 分割线 */
-  ${({ $placement, $theme }) => $placement === 'top' && `
-    border-bottom: 1px solid ${$theme === 'dark' ? '#303030' : getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
-  `}
-
-  ${({ $placement, $theme }) => $placement !== 'top' && `
-    border-top: 1px solid ${$theme === 'dark' ? '#303030' : getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
-  `}
-
-  /* 零宽度模式下，收缩时隐藏触发器 */
-  ${({ $zeroWidthMode, $collapsed }) => $zeroWidthMode && $collapsed && `
-    display: none;
-  `}
-`;
+/**
+ * 获取 SiderTrigger 样式
+ */
+export const getSiderTriggerStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
 // 零宽度模式下，在 Content 内显示的展开按钮
 // ============================================
-export const ZeroWidthTriggerInContent = styled.div`
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, ${getCSSVar('--zjpcy-primary-color', '#1890ff')} 0%, ${getCSSVar('--zjpcy-primary-hover-color', '#40a9ff')} 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: ${getCSSVar('--zjpcy-shadow-sm', '0 2px 8px rgba(0, 0, 0, 0.15)')};
-  z-index: 100;
-  transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ${getCSSVar('--zjpcy-transition-timing-function', 'ease-in-out')};
 
-  &:hover {
-    background: linear-gradient(135deg, ${getCSSVar('--zjpcy-primary-hover-color', '#40a9ff')} 0%, #69c0ff 100%);
-    box-shadow: ${getCSSVar('--zjpcy-shadow-md', '0 4px 12px rgba(0, 0, 0, 0.25)')};
-    transform: scale(1.05);
-  }
+/**
+ * 获取 ZeroWidthTrigger 类名
+ */
+export const getZeroWidthTriggerClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames('zjpcy-layout-zero-width-trigger', className);
+};
 
-  &:active {
-    transform: scale(0.95);
-    box-shadow: ${getCSSVar('--zjpcy-shadow-extra-light', '0 2px 8px rgba(0, 0, 0, 0.08)')};
-  }
-`;
+/**
+ * 获取 ZeroWidthTrigger 样式
+ */
+export const getZeroWidthTriggerStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
-// Layout 内容区域容器（包含 Content 和 Sider）
+// Layout 内部包装器
 // ============================================
-export const LayoutInnerWrapper = styled.div<{ $hasSider?: boolean }>`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow: hidden;
 
-  ${({ $hasSider }) => $hasSider && `
-    flex-direction: row;
-  `}
-`;
+/**
+ * 获取 LayoutInner 类名
+ */
+export const getLayoutInnerClassName = (options: {
+    hasSider?: boolean;
+    className?: string;
+}): string => {
+    const { hasSider, className } = options;
+    return classNames(
+        'zjpcy-layout-inner',
+        {
+            'zjpcy-layout-inner--has-sider': hasSider,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 LayoutInner 样式
+ */
+export const getLayoutInnerStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
 // Layout.Content
 // ============================================
-export const ContentWrapper = styled.main<{ $fixed?: boolean; $theme?: 'light' | 'dark' }>`
-  flex: 1;
-  padding: ${getCSSVar('--layout-content-padding', '24px')};
-  background: ${getCSSVar('--layout-content-bg', 'transparent')};
-  min-height: ${getCSSVar('--layout-content-min-height', '280px')};
-  transition: ${getCSSVar('--layout-content-transition', 'all 0.2s ease-in-out')};
-  overflow-y: auto;
-  box-sizing: border-box;
-  position: relative;
 
-  &.layout-content {
-    /* 外部可通过 .layout-content 选择器覆盖样式 */
-  }
+/**
+ * 获取 Content 类名
+ */
+export const getContentClassName = (options: {
+    fixed?: boolean;
+    theme?: 'light' | 'dark';
+    className?: string;
+}): string => {
+    const { fixed, theme, className } = options;
+    return classNames(
+        'zjpcy-layout-content',
+        {
+            'zjpcy-layout-content--fixed': fixed,
+        },
+        `zjpcy-layout-content--${theme || 'light'}`,
+        'layout-content',
+        `layout-content-${theme || 'light'}`,
+        className
+    );
+};
 
-  ${({ $fixed }) => $fixed && `
-    overflow-y: auto;
-  `}
-
-  /* 滚动条样式 */
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
-    border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-    transition: background-color ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ease;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-  }
-
-  /* Dark 主题滚动条样式 */
-  ${({ $theme }) => $theme === 'dark' && `
-    &::-webkit-scrollbar-thumb {
-      background-color: color-mix(in srgb, ${getCSSVar('--zjpcy-primary-color', '#1890ff')} 50%, transparent);
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: color-mix(in srgb, ${getCSSVar('--zjpcy-primary-color', '#1890ff')} 70%, transparent);
-    }
-
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, ${getCSSVar('--zjpcy-primary-color', '#1890ff')} 50%, transparent) transparent;
-  `}
-`;
+/**
+ * 获取 Content 样式
+ */
+export const getContentStyle = (options: {
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
 // ============================================
 // Layout.Footer
 // ============================================
-export const FooterWrapper = styled.footer<{ $fixed?: boolean; $height?: string | number; $theme?: 'light' | 'dark' }>`
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding: ${getCSSVar('--layout-footer-padding', '24px 50px')};
-  /* SSR 安全：默认使用亮色主题 */
-  background: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-dark', '#001529')} 0%, #002140 100%)`
-      : `linear-gradient(135deg, ${getCSSVar('--layout-footer-bg-light', '#fff')} 0%, ${getCSSVar('--zjpcy-bg-color', '#fafafa')} 100%)`;
-  }};
-  color: ${({ $theme }) => {
-    const isDark = $theme === 'dark';
-    return isDark
-      ? getCSSVar('--layout-footer-color-dark', '#fff')
-      : getCSSVar('--layout-footer-color-light', 'rgba(0, 0, 0, 0.85)');
-  }};
-  height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : $height || getCSSVar('--layout-footer-height', '48px')};
-  border-top: ${({ $theme }) =>
-    $theme === 'dark'
-      ? `var(--layout-footer-border, 1px solid #303030)`
-      : `var(--layout-footer-border, 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')})`};
-  z-index: ${getCSSVar('--layout-footer-z-index', '10')};
-  transition: ${getCSSVar('--layout-footer-transition', 'all 0.2s ease-in-out')};
-  box-sizing: border-box;
 
-  &.layout-footer {
-    /* 外部可通过 .layout-footer 选择器覆盖样式 */
-  }
+/**
+ * 获取 Footer 类名
+ */
+export const getFooterClassName = (options: {
+    fixed?: boolean;
+    theme?: 'light' | 'dark';
+    className?: string;
+}): string => {
+    const { fixed, theme, className } = options;
+    return classNames(
+        'zjpcy-layout-footer',
+        `zjpcy-layout-footer--${theme || 'light'}`,
+        {
+            'zjpcy-layout-footer--fixed': fixed,
+        },
+        'layout-footer',
+        `layout-footer-${theme || 'light'}`,
+        className
+    );
+};
 
-  ${({ $fixed }) => $fixed && `
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
-  `}
-`;
+/**
+ * 获取 Footer 样式
+ */
+export const getFooterStyle = (options: {
+    height?: string | number;
+    style?: React.CSSProperties;
+}): React.CSSProperties => {
+    const { height, style } = options;
+    return {
+        height: typeof height === 'number' ? `${height}px` : height || 'var(--layout-footer-height, 48px)',
+        ...style,
+    };
+};

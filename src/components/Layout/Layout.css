@@ -190,3 +190,403 @@ html, body {
 .layout-content-dark ::-webkit-scrollbar-thumb:hover {
   background-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 60%, transparent);
 }
+
+/* ============================================
+   Layout 容器
+   ============================================ */
+.zjpcy-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: var(--layout-min-height, 100vh);
+  max-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+}
+
+.zjpcy-layout--light {
+  background: linear-gradient(180deg, var(--layout-bg-light, #f5f5f5) 0%, var(--zjpcy-bg-color, #fafafa) 100%);
+}
+
+.zjpcy-layout--dark {
+  background: linear-gradient(180deg, var(--layout-bg-dark, #001529) 0%, var(--zjpcy-text-color, rgba(0, 0, 0, 0.85)) 100%);
+}
+
+.zjpcy-layout--has-sider {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+/* ============================================
+   Layout.Header
+   ============================================ */
+.zjpcy-layout-header {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--layout-header-padding, 0 24px);
+  z-index: var(--layout-header-z-index, 10);
+  transition: var(--layout-header-transition, all 0.2s ease-in-out);
+  box-sizing: border-box;
+  /* 增强层次感：添加底部边框 */
+  border-bottom: 1px solid var(--zjpcy-border-color-light, #e8e8e8);
+  /* 增强层次感：更强的阴影 */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.zjpcy-layout-header--light {
+  /* 增强层次感：使用更明显的背景色 */
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  color: var(--layout-header-color-light, rgba(0, 0, 0, 0.85));
+}
+
+.zjpcy-layout-header--dark {
+  background: linear-gradient(135deg, var(--layout-header-bg-dark, #001529) 0%, #002140 100%);
+  color: var(--layout-header-color-dark, #fff);
+  border-bottom: 1px solid #303030;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.zjpcy-layout-header--fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* 增强层次感：固定头部使用更强的阴影 */
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   Layout.Sider
+   ============================================ */
+.zjpcy-layout-sider {
+  display: flex;
+  flex-direction: column;
+  z-index: var(--layout-sider-z-index, 10);
+  transition: var(--layout-sider-transition, all 0.2s ease-in-out);
+  box-sizing: border-box;
+}
+
+.zjpcy-layout-sider--light {
+  /* 增强层次感：使用更明显的背景色 */
+  background: linear-gradient(180deg, #ffffff 0%, #f5f5f5 100%);
+  color: var(--layout-sider-color-light, rgba(0, 0, 0, 0.85));
+  border-right: 1px solid var(--zjpcy-border-color-light, #e0e0e0);
+  /* 增强层次感：更强的阴影 */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.06), 4px 0 16px rgba(0, 0, 0, 0.04);
+}
+
+.zjpcy-layout-sider--dark {
+  background: linear-gradient(180deg, var(--layout-sider-bg-dark, #001529) 0%, #002140 100%);
+  color: var(--layout-sider-color-dark, #fff);
+  border-right: 1px solid #303030;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.35);
+}
+
+.zjpcy-layout-sider--fixed {
+  position: fixed;
+  top: var(--layout-header-height, 64px);
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  /* 增强层次感：固定侧边栏使用更强的阴影 */
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.12), 8px 0 24px rgba(0, 0, 0, 0.08);
+}
+
+/* 让子元素占据剩余空间，使 trigger 可以固定在底部 */
+.zjpcy-layout-sider > *:not(.zjpcy-layout-sider-trigger) {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* ============================================
+   Sider 内容包装器
+   ============================================ */
+.zjpcy-layout-sider-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.zjpcy-layout-sider-content--collapsed {
+  overflow-x: visible;
+}
+
+.zjpcy-layout-sider-content--collapsed > * {
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.zjpcy-layout-sider-content > * {
+  transition: all var(--zjpcy-transition-duration, 0.2s) ease;
+}
+
+/* ============================================
+   Sider 收缩触发器
+   ============================================ */
+.zjpcy-layout-sider-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--layout-trigger-height, 48px);
+  cursor: pointer;
+  transition: var(--layout-trigger-transition, all 0.2s ease-in-out);
+  user-select: none;
+}
+
+.zjpcy-layout-sider-trigger--light {
+  background: linear-gradient(135deg, var(--layout-sider-bg-light, #fff) 0%, var(--zjpcy-bg-color, #fafafa) 100%);
+  color: var(--layout-sider-color-light, rgba(0, 0, 0, 0.85));
+}
+
+.zjpcy-layout-sider-trigger--light:hover {
+  background: linear-gradient(135deg, var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1)) 0%, var(--zjpcy-bg-color-light, #f5f5f5) 100%);
+  color: var(--zjpcy-primary-color, #1890ff);
+}
+
+.zjpcy-layout-sider-trigger--dark {
+  background: linear-gradient(135deg, var(--layout-sider-bg-dark, #001529) 0%, #002140 100%);
+  color: var(--layout-sider-color-dark, #fff);
+}
+
+.zjpcy-layout-sider-trigger--dark:hover {
+  background: linear-gradient(135deg, #002140 0%, var(--zjpcy-primary-color, #1890ff) 100%);
+  color: #fff;
+}
+
+.zjpcy-layout-sider-trigger--top {
+  order: -1;
+  border-bottom: 1px solid var(--zjpcy-border-color-light, #f0f0f0);
+}
+
+.zjpcy-layout-sider-trigger--top.zjpcy-layout-sider-trigger--dark {
+  border-bottom: 1px solid #303030;
+}
+
+.zjpcy-layout-sider-trigger--bottom {
+  border-top: 1px solid var(--zjpcy-border-color-light, #f0f0f0);
+}
+
+.zjpcy-layout-sider-trigger--bottom.zjpcy-layout-sider-trigger--dark {
+  border-top: 1px solid #303030;
+}
+
+.zjpcy-layout-sider-trigger--hidden {
+  display: none;
+}
+
+/* ============================================
+   零宽度模式下，在 Content 内显示的展开按钮
+   ============================================ */
+.zjpcy-layout-zero-width-trigger {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--zjpcy-primary-color, #1890ff) 0%, var(--zjpcy-primary-hover-color, #40a9ff) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--zjpcy-shadow-sm, 0 2px 8px rgba(0, 0, 0, 0.15));
+  z-index: 100;
+  transition: all var(--zjpcy-transition-duration, 0.2s) var(--zjpcy-transition-timing-function, ease-in-out);
+}
+
+.zjpcy-layout-zero-width-trigger:hover {
+  background: linear-gradient(135deg, var(--zjpcy-primary-hover-color, #40a9ff) 0%, #69c0ff 100%);
+  box-shadow: var(--zjpcy-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.25));
+  transform: scale(1.05);
+}
+
+.zjpcy-layout-zero-width-trigger:active {
+  transform: scale(0.95);
+  box-shadow: var(--zjpcy-shadow-extra-light, 0 2px 8px rgba(0, 0, 0, 0.08));
+}
+
+/* ============================================
+   Layout 内部包装器
+   ============================================ */
+.zjpcy-layout-inner {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.zjpcy-layout-inner--has-sider {
+  flex-direction: row;
+}
+
+/* ============================================
+   Layout.Content
+   ============================================ */
+.zjpcy-layout-content {
+  flex: 1;
+  padding: var(--layout-content-padding, 24px);
+  /* 增强层次感：使用更明显的背景色 */
+  background: linear-gradient(180deg, #fafbfc 0%, #f5f6f8 100%);
+  min-height: var(--layout-content-min-height, 280px);
+  transition: var(--layout-content-transition, all 0.2s ease-in-out);
+  overflow-y: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.zjpcy-layout-content--fixed {
+  overflow-y: auto;
+}
+
+.zjpcy-layout-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.zjpcy-layout-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.zjpcy-layout-content::-webkit-scrollbar-thumb {
+  background-color: var(--zjpcy-border-color-extra-light, #d9d9d9);
+  border-radius: var(--zjpcy-border-radius-sm, 4px);
+  transition: background-color var(--zjpcy-transition-duration, 0.2s) ease;
+}
+
+.zjpcy-layout-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--zjpcy-text-color-tertiary, rgba(0, 0, 0, 0.45));
+}
+
+/* Dark 主题滚动条样式 */
+.zjpcy-layout-content--dark::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 50%, transparent);
+}
+
+.zjpcy-layout-content--dark::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 70%, transparent);
+}
+
+.zjpcy-layout-content--dark {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--zjpcy-primary-color, #1890ff) 50%, transparent) transparent;
+}
+
+/* ============================================
+   Layout.Footer
+   ============================================ */
+.zjpcy-layout-footer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--layout-footer-padding, 24px 50px);
+  z-index: var(--layout-footer-z-index, 10);
+  transition: var(--layout-footer-transition, all 0.2s ease-in-out);
+  box-sizing: border-box;
+}
+
+.zjpcy-layout-footer--light {
+  background: linear-gradient(135deg, var(--layout-footer-bg-light, #fff) 0%, var(--zjpcy-bg-color, #fafafa) 100%);
+  color: var(--layout-footer-color-light, rgba(0, 0, 0, 0.85));
+  border-top: 1px solid var(--zjpcy-border-color-light, #f0f0f0);
+}
+
+.zjpcy-layout-footer--dark {
+  background: linear-gradient(135deg, var(--layout-footer-bg-dark, #001529) 0%, #002140 100%);
+  color: var(--layout-footer-color-dark, #fff);
+  border-top: 1px solid #303030;
+}
+
+.zjpcy-layout-footer--fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   集成 Menu 组件样式 - 与 Menu.css 保持一致
+   ============================================ */
+
+/* 覆盖 Menu 组件基础样式 */
+.zjpcy-layout-sider .zjpcy-menu {
+  background: transparent;
+}
+
+/* Menu 菜单项在 Sider 中的样式 - 覆盖默认样式 */
+.zjpcy-layout-sider .zjpcy-menu-item {
+  border-radius: var(--zjpcy-border-radius-sm, 4px);
+}
+
+/* Light 主题 - 与 Menu.css 保持一致 */
+.zjpcy-layout-sider .zjpcy-menu-item.light {
+  color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.85));
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.light:hover:not(.disabled) {
+  background: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.06));
+  color: var(--zjpcy-primary-color, #1890ff);
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.light.selected {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.12));
+  color: var(--zjpcy-primary-color, #1890ff);
+  box-shadow: inset 3px 0 0 var(--zjpcy-primary-color, #1890ff);
+  font-weight: 600;
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.light.selected:hover {
+  background-color: var(--zjpcy-primary-light-color, rgba(24, 144, 255, 0.18));
+}
+
+/* Dark 主题 - 与 Menu.css 保持一致 */
+.zjpcy-layout-sider .zjpcy-menu-item.dark {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.dark:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.dark.selected {
+  background-color: rgba(24, 144, 255, 0.25);
+  color: #fff;
+  box-shadow: inset 3px 0 0 var(--zjpcy-primary-color, #1890ff);
+  font-weight: 600;
+}
+
+.zjpcy-layout-sider .zjpcy-menu-item.dark.selected:hover {
+  background-color: rgba(24, 144, 255, 0.35);
+}
+
+/* 子菜单样式 */
+.zjpcy-layout-sider .zjpcy-menu-submenu .zjpcy-menu-item {
+  margin: 0px;
+}
+
+/* Dark 主题下的子菜单样式 */
+.zjpcy-layout-sider .zjpcy-menu-submenu.horizontal-popup,
+.zjpcy-layout-sider .zjpcy-menu-submenu.horizontal-popup .zjpcy-menu-submenu {
+  background: linear-gradient(135deg, #001529 0%, #002140 100%);
+  border: 1px solid #303030;
+}
+
+/* Dark 主题下子菜单中的菜单项 */
+.zjpcy-layout-sider .zjpcy-menu-submenu .zjpcy-menu-item.dark {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.zjpcy-layout-sider .zjpcy-menu-submenu .zjpcy-menu-item.dark:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.zjpcy-layout-sider .zjpcy-menu-submenu .zjpcy-menu-item.dark.selected {
+  background-color: rgba(24, 144, 255, 0.25);
+  color: #fff;
+}
