@@ -198,6 +198,7 @@ html, body {
   display: flex;
   flex-direction: column;
   min-height: var(--layout-min-height, 100vh);
+  max-height: max-content;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
