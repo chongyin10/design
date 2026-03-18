@@ -146,3 +146,66 @@
   opacity: 1;
 }
 
+/* ============================================
+   分片上传相关样式
+   ============================================ */
+
+/* 分片上传状态提示 */
+.zjpcy-upload__chunk-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--text-secondary, #999);
+    margin-left: 8px;
+}
+
+.zjpcy-upload__chunk-status--uploading {
+    color: var(--primary-color, #1890ff);
+}
+
+.zjpcy-upload__chunk-status--paused {
+    color: var(--warning-color, #faad14);
+}
+
+.zjpcy-upload__chunk-status--error {
+    color: var(--error-color, #ff4d4f);
+}
+
+/* 分片信息提示 */
+.zjpcy-upload__chunk-info {
+    font-size: 11px;
+    color: var(--text-secondary, #999);
+    margin-left: 8px;
+}
+
+/* 暂停按钮特殊样式 */
+.zjpcy-upload__list-item-action .zjpcy-icon-pause-circle {
+    color: var(--warning-color, #faad14);
+}
+
+.zjpcy-upload__list-item-action .zjpcy-icon-play-circle {
+    color: var(--success-color, #52c41a);
+}
+
+/* 分片上传进度条特殊样式 */
+.zjpcy-upload__chunk-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.zjpcy-upload__chunk-progress-text {
+    font-size: 11px;
+    color: var(--text-secondary, #999);
+    white-space: nowrap;
+}
+
+/* 分片上传控制按钮组 */
+.zjpcy-upload__chunk-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+

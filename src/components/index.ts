@@ -100,7 +100,23 @@ export { default as Tree } from './Tree';
 export type { TreeProps, TreeNode, TreeNodeTooltip, TreeNodeProps, TreeState } from './Tree/types';
 export type { TreeRef } from './Tree';
 export { default as Upload } from './Upload';
-export type { UploadProps, UploadFile, UploadRequestOptions, ShowUploadListType, UploadListProps, UploadDragProps } from './Upload/types';
+export { useChunkUpload } from './Upload/useChunkUpload';
+export type {
+    UploadProps,
+    UploadFile,
+    UploadRequestOptions,
+    ShowUploadListType,
+    UploadListProps,
+    UploadDragProps,
+    ChunkOptions,
+    ChunkFieldNames,
+    MergeFieldNames,
+    ChunkInfo,
+    ChunkUploadState,
+    ChunkUploadRequestOptions,
+    MergeChunksRequestOptions,
+    UseChunkUploadReturn
+} from './Upload/types';
 export { default as Splitter } from './Splitter';
 export type { SplitterProps, SplitterPanel, DragState, PanelSizeInfo } from './Splitter/types';
 export { default as Calendar } from './Calendar';

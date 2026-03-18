@@ -2,9 +2,16 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import classNames from 'classnames';
-import { UploadProps, UploadFile, UploadRequestOptions, ShowUploadListType } from './types';
+import {
+    UploadProps,
+    UploadFile,
+    UploadRequestOptions,
+    ShowUploadListType,
+    ChunkOptions
+} from './types';
 import Icon from '../Icon';
 import Progress from '../Progress';
+import { useChunkUpload } from './useChunkUpload';
 import './Upload.css';
 
 // 生成唯一 ID
@@ -74,7 +81,14 @@ const UploadList: React.FC<{
     fileList: UploadFile[];
     onRemove: (file: UploadFile) => void;
     showUploadList?: boolean | ShowUploadListType;
-}> = ({ fileList, onRemove, showUploadList }) => {
+    chunkUploadState?: {
+        isUploading: boolean;
+        isPaused: boolean;
+        onPause?: () => void;
+        onResume?: () => void;
+        currentFile?: UploadFile | null;
+    };
+}> = ({ fileList, onRemove, showUploadList, chunkUploadState }) => {
     if (!showUploadList || fileList.length === 0) return null;
 
     const showRemoveIcon = typeof showUploadList === 'boolean' ? showUploadList : showUploadList.showRemoveIcon !== false;
@@ -121,8 +135,26 @@ const UploadList: React.FC<{
                             </span>
                         </span>
                     </div>
-                    {showRemoveIcon && (
-                        <span className="zjpcy-upload__list-item-actions">
+                    <span className="zjpcy-upload__list-item-actions">
+                        {/* 分片上传暂停/恢复按钮 */}
+                        {chunkUploadState?.currentFile?.uid === file.uid &&
+                         file.status === 'uploading' &&
+                         chunkUploadState.isUploading && (
+                            <button
+                                className="zjpcy-upload__list-item-action"
+                                onClick={() => {
+                                    if (chunkUploadState.isPaused) {
+                                        chunkUploadState.onResume?.();
+                                    } else {
+                                        chunkUploadState.onPause?.();
+                                    }
+                                }}
+                                title={chunkUploadState.isPaused ? '继续上传' : '暂停上传'}
+                            >
+                                <Icon type={chunkUploadState.isPaused ? 'play-circle' : 'pause-circle'} />
+                            </button>
+                        )}
+                        {showRemoveIcon && (
                             <button
                                 className="zjpcy-upload__list-item-action"
                                 onClick={() => onRemove(file)}
@@ -130,8 +162,8 @@ const UploadList: React.FC<{
                             >
                                 <Icon type="trash" />
                             </button>
-                        </span>
-                    )}
+                        )}
+                    </span>
                     <div className={classNames('zjpcy-upload__progress-wrapper', {
                         'zjpcy-upload__progress-wrapper-visible': file.status === 'uploading'
                     })}>
@@ -256,10 +288,20 @@ const Upload: React.FC<UploadProps> = ({
     showUploadList = true,
     method = 'POST',
     children,
-    maxCount
+    maxCount,
+    // 分片上传相关 props
+    chunked = false,
+    chunkOptions,
+    mergeAction,
+    customChunkRequest,
+    customMergeRequest,
+    onChunkProgress,
+    onChunkSuccess,
+    onChunkError
 }) => {
     const [internalFileList, setInternalFileList] = useState<UploadFile[]>(defaultFileList);
     const inputRef = useRef<HTMLInputElement>(null);
+    const currentChunkedFileRef = useRef<UploadFile | null>(null);
 
     const isControlled = controlledFileList !== undefined;
     const fileList = isControlled ? controlledFileList : internalFileList;
@@ -280,6 +322,45 @@ const Upload: React.FC<UploadProps> = ({
         updateFileList(newFileList);
     }, [fileList, updateFileList]);
 
+    // 分片上传 hook
+    const {
+        upload: chunkUpload,
+        pause: pauseChunkUpload,
+        resume: resumeChunkUpload,
+        abort: abortChunkUpload,
+        isUploading: isChunkUploading,
+        isPaused: isChunkPaused
+    } = useChunkUpload({
+        action,
+        mergeAction,
+        filename: name,
+        data,
+        headers,
+        withCredentials,
+        method,
+        chunkOptions,
+        customChunkRequest,
+        customMergeRequest,
+        onProgress: (percent, file) => {
+            updateFileStatus(file.uid, { percent });
+            onProgress?.(percent, file);
+        },
+        onSuccess: (response, file) => {
+            updateFileStatus(file.uid, { status: 'success', response, percent: 100 });
+            currentChunkedFileRef.current = null;
+            onSuccess?.(response, file);
+        },
+        onError: (error, file) => {
+            updateFileStatus(file.uid, { status: 'error', error });
+            currentChunkedFileRef.current = null;
+            onError?.(error, file);
+        },
+        onChunkProgress,
+        onChunkSuccess,
+        onChunkError
+    });
+
+    // 普通文件上传
     const uploadFile = useCallback(async (file: UploadFile) => {
         if (!action && !customRequest) {
             console.warn('Upload: action or customRequest is required');
@@ -328,6 +409,26 @@ const Upload: React.FC<UploadProps> = ({
         }
     }, [action, customRequest, name, data, headers, withCredentials, method, onProgress, onSuccess, onError, updateFileStatus]);
 
+    // 使用分片上传处理文件
+    const handleChunkedUpload = useCallback(async (file: UploadFile) => {
+        if (!action) {
+            console.warn('Upload: action is required for chunked upload');
+            return;
+        }
+
+        const rawFile = file.raw;
+        if (!rawFile) return;
+
+        currentChunkedFileRef.current = file;
+
+        try {
+            await chunkUpload(rawFile);
+        } catch (error) {
+            // 错误已在 hook 中处理
+            console.error('Chunk upload failed:', error);
+        }
+    }, [action, chunkUpload]);
+
     const handleFiles = useCallback(async (files: FileList | null) => {
         if (!files || files.length === 0) return;
 
@@ -369,7 +470,7 @@ const Upload: React.FC<UploadProps> = ({
             }
 
             // 如果会自动上传，直接设置为 uploading 状态
-            if (action || customRequest) {
+            if ((action || customRequest) || (chunked && action)) {
                 newFile.status = 'uploading';
             }
 
@@ -377,12 +478,15 @@ const Upload: React.FC<UploadProps> = ({
             updateFileList(newFileList);
 
             // 自动上传
-            if (action || customRequest) {
-                // 使用 setTimeout 确保状态更新后再开始上传
+            if (chunked && action) {
+                // 使用分片上传
+                setTimeout(() => handleChunkedUpload(newFile), 0);
+            } else if (action || customRequest) {
+                // 使用普通上传
                 setTimeout(() => uploadFile(newFile), 0);
             }
         }
-    }, [fileList, maxCount, beforeUpload, action, customRequest, uploadFile, updateFileList]);
+    }, [fileList, maxCount, beforeUpload, action, customRequest, chunked, uploadFile, handleChunkedUpload, updateFileList]);
 
     const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         handleFiles(e.target.files);
@@ -399,6 +503,12 @@ const Upload: React.FC<UploadProps> = ({
     }, [disabled]);
 
     const handleRemove = useCallback(async (file: UploadFile) => {
+        // 如果是正在分片上传的文件，先取消上传
+        if (currentChunkedFileRef.current?.uid === file.uid && isChunkUploading) {
+            abortChunkUpload();
+            currentChunkedFileRef.current = null;
+        }
+
         if (onRemove) {
             const result = await onRemove(file);
             if (result === false) {
@@ -407,11 +517,20 @@ const Upload: React.FC<UploadProps> = ({
         }
         const newFileList = fileList.filter(f => f.uid !== file.uid);
         updateFileList(newFileList);
-    }, [fileList, onRemove, updateFileList]);
+    }, [fileList, onRemove, updateFileList, isChunkUploading, abortChunkUpload]);
 
     const handleFileDrop = useCallback((files: FileList) => {
         handleFiles(files);
     }, [handleFiles]);
+
+    // 分片上传状态传递给 UploadList
+    const chunkUploadState = chunked ? {
+        isUploading: isChunkUploading,
+        isPaused: isChunkPaused,
+        onPause: pauseChunkUpload,
+        onResume: resumeChunkUpload,
+        currentFile: currentChunkedFileRef.current
+    } : undefined;
 
     return (
         <div
@@ -454,6 +573,7 @@ const Upload: React.FC<UploadProps> = ({
                     fileList={fileList}
                     onRemove={handleRemove}
                     showUploadList={showUploadList}
+                    chunkUploadState={chunkUploadState}
                 />
             )}
         </div>
@@ -461,4 +581,4 @@ const Upload: React.FC<UploadProps> = ({
 };
 
 export default Upload;
-export type { UploadFile, UploadProps, UploadRequestOptions };
+export type { UploadFile, UploadProps, UploadRequestOptions, ChunkOptions };
