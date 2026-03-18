@@ -1,512 +1,740 @@
-import styled from 'styled-components';
+import classNames from 'classnames';
+import type { CSSProperties } from 'react';
 import { TreeSelectStyles } from './types';
 
-// 从 CSS 变量中读取值的辅助函数
-const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
+// ============================================
+// TreeSelect 外层容器
+// ============================================
 
-// 容器组件
-export const Wrapper = styled.div<{ $styles?: TreeSelectStyles['wrapper']; $width?: number | string }>`
-  position: relative;
-  display: inline-block;
-  width: ${props => props.$width || '100%'};
-  min-width: 180px;
-  font-size: 14px;
-  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-  box-sizing: border-box;
+/**
+ * 获取 Wrapper 类名
+ */
+export const getWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect',
+        className
+    );
+};
 
-  &.treeselect-wrapper {
-    /* 外部可通过 .treeselect-wrapper 选择器覆盖样式 */
-  }
+/**
+ * 获取 Wrapper 样式
+ */
+export const getWrapperStyle = (options: {
+    width?: string | number;
+    style?: CSSProperties;
+    customStyles?: TreeSelectStyles['wrapper'];
+}): CSSProperties => {
+    const { width, style, customStyles } = options;
+    const widthStyle = width !== undefined
+        ? { width: typeof width === 'number' ? `${width}px` : width }
+        : {};
+    return {
+        ...widthStyle,
+        ...style,
+        ...customStyles,
+    };
+};
 
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// 选择框
+// ============================================
 
-// 选择框组件
-export const Selection = styled.div<{ $open: boolean; $disabled: boolean; $size: 'large' | 'middle' | 'small'; $styles?: TreeSelectStyles['selection'] }>`
-  position: relative;
-  display: flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 6px 28px 6px 12px;
-  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
-  border: 1px solid ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
-  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-  cursor: pointer;
-  transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')} ${getCSSVar('--zjpcy-transition-timing-function', 'ease-in-out')};
-  box-sizing: border-box;
+/**
+ * 获取 Selection 类名
+ */
+export const getSelectionClassName = (options: {
+    open?: boolean;
+    disabled?: boolean;
+    size?: 'large' | 'middle' | 'small';
+    className?: string;
+}): string => {
+    const { open, disabled, size = 'middle', className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection',
+        {
+            'zjpcy-treeselect-selection-open': open,
+            'zjpcy-treeselect-selection-disabled': disabled,
+            'zjpcy-treeselect-selection-large': size === 'large',
+            'zjpcy-treeselect-selection-small': size === 'small',
+        },
+        className
+    );
+};
 
-  &.treeselect-selection {
-    /* 外部可通过 .treeselect-selection 选择器覆盖样式 */
-  }
+/**
+ * 获取 Selection 样式
+ */
+export const getSelectionStyle = (options: {
+    customStyles?: TreeSelectStyles['selection'];
+}): CSSProperties => {
+    const { customStyles } = options;
+    return {
+        ...customStyles,
+    };
+};
 
-  &:hover {
-    border-color: ${getCSSVar('--zjpcy-primary-hover-color', '#40a9ff')};
-  }
+// ============================================
+// 渲染区域
+// ============================================
 
-  ${({ $open }) =>
-    $open && `
-      border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-      box-shadow: ${getCSSVar('--zjpcy-input-box-shadow-focus', '0 0 0 2px rgba(51, 154, 240, 0.2)')};
-    `
-  }
+/**
+ * 获取 Rendered 类名
+ */
+export const getRenderedClassName = (options: {
+    isPlaceholder?: boolean;
+    className?: string;
+}): string => {
+    const { isPlaceholder, className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__rendered',
+        {
+            'zjpcy-treeselect-selection__rendered--placeholder': isPlaceholder,
+        },
+        className
+    );
+};
 
-  ${({ $disabled }) =>
-    $disabled && `
-      background-color: ${getCSSVar('--zjpcy-input-disabled-bg', '#f5f5f5')};
-      border-color: ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
-      cursor: not-allowed;
-    `
-  }
+/**
+ * 获取 Rendered 样式
+ */
+export const getRenderedStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  ${({ $size }) => {
-    if ($size === 'large') {
-      return `
-        min-height: 40px;
-        padding: 6px 32px 6px 15px;
-        font-size: 16px;
-      `;
+// ============================================
+// 单选选中项
+// ============================================
+
+/**
+ * 获取 SelectionItem 类名
+ */
+export const getSelectionItemClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__item',
+        className
+    );
+};
+
+/**
+ * 获取 SelectionItem 样式
+ */
+export const getSelectionItemStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 多选标签
+// ============================================
+
+/**
+ * 获取 Tag 类名
+ */
+export const getTagClassName = (options: {
+    isMore?: boolean;
+    size?: 'large' | 'middle' | 'small';
+    className?: string;
+}): string => {
+    const { isMore, size = 'middle', className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__tag',
+        {
+            'zjpcy-treeselect-selection__tag--more': isMore,
+            'zjpcy-treeselect-selection__tag-large': size === 'large',
+            'zjpcy-treeselect-selection__tag-small': size === 'small',
+        },
+        className
+    );
+};
+
+/**
+ * 获取 Tag 样式
+ */
+export const getTagStyle = (options: {
+    customStyles?: TreeSelectStyles['tag'];
+}): CSSProperties => {
+    const { customStyles } = options;
+    return {
+        ...customStyles,
+    };
+};
+
+// ============================================
+// 标签内容
+// ============================================
+
+/**
+ * 获取 TagContent 类名
+ */
+export const getTagContentClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__tag-content',
+        className
+    );
+};
+
+/**
+ * 获取 TagContent 样式
+ */
+export const getTagContentStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 标签关闭按钮
+// ============================================
+
+/**
+ * 获取 TagClose 类名
+ */
+export const getTagCloseClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__tag-close',
+        className
+    );
+};
+
+/**
+ * 获取 TagClose 样式
+ */
+export const getTagCloseStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 搜索输入框容器
+// ============================================
+
+/**
+ * 获取 SearchWrapper 类名
+ */
+export const getSearchWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__search',
+        className
+    );
+};
+
+/**
+ * 获取 SearchWrapper 样式
+ */
+export const getSearchWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 搜索输入框
+// ============================================
+
+/**
+ * 获取 SearchInput 类名
+ */
+export const getSearchInputClassName = (options: {
+    isDropdown?: boolean;
+    className?: string;
+}): string => {
+    const { isDropdown, className } = options;
+    return classNames(
+        isDropdown
+            ? 'zjpcy-treeselect-dropdown__search-input'
+            : 'zjpcy-treeselect-selection__search-input',
+        className
+    );
+};
+
+/**
+ * 获取 SearchInput 样式
+ */
+export const getSearchInputStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 清除按钮
+// ============================================
+
+/**
+ * 获取 ClearIcon 类名
+ */
+export const getClearIconClassName = (options: {
+    size?: 'large' | 'middle' | 'small';
+    className?: string;
+}): string => {
+    const { size = 'middle', className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__clear',
+        {
+            'zjpcy-treeselect-selection__clear-large': size === 'large',
+            'zjpcy-treeselect-selection__clear-small': size === 'small',
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ClearIcon 样式
+ */
+export const getClearIconStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 下拉箭头
+// ============================================
+
+/**
+ * 获取 ArrowIcon 类名
+ */
+export const getArrowIconClassName = (options: {
+    open?: boolean;
+    size?: 'large' | 'middle' | 'small';
+    className?: string;
+}): string => {
+    const { open, size = 'middle', className } = options;
+    return classNames(
+        'zjpcy-treeselect-selection__arrow',
+        {
+            'zjpcy-treeselect-selection__arrow-open': open,
+            'zjpcy-treeselect-selection__arrow-large': size === 'large',
+            'zjpcy-treeselect-selection__arrow-small': size === 'small',
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ArrowIcon 样式
+ */
+export const getArrowIconStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 下拉面板
+// ============================================
+
+/**
+ * 获取 Dropdown 类名
+ */
+export const getDropdownClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-dropdown',
+        className
+    );
+};
+
+/**
+ * 获取 Dropdown 样式
+ */
+export const getDropdownStyle = (options: {
+    width?: number | string;
+    height?: number | string;
+    customStyles?: TreeSelectStyles['dropdown'];
+}): CSSProperties => {
+    const { width, height, customStyles } = options;
+    const sizeStyle: CSSProperties = {};
+    if (width !== undefined) {
+        sizeStyle.width = typeof width === 'number' ? `${width}px` : width;
     }
-    if ($size === 'small') {
-      return `
-        min-height: 24px;
-        padding: 2px 24px 2px 7px;
-        font-size: 14px;
-      `;
+    if (height !== undefined) {
+        sizeStyle.maxHeight = typeof height === 'number' ? `${height}px` : height;
     }
-    return '';
-  }}
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// 渲染区域组件
-export const Rendered = styled.div<{ $isPlaceholder: boolean }>`
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px;
-  overflow: hidden;
-
-  &.treeselect-selection__rendered {
-    /* 外部可通过 .treeselect-selection__rendered 选择器覆盖样式 */
-  }
-
-  ${({ $isPlaceholder }) =>
-    $isPlaceholder && `
-      color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
-    `
-  }
-`;
-
-// 单选选中项组件
-export const SelectionItem = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &.treeselect-selection__item {
-    /* 外部可通过 .treeselect-selection__item 选择器覆盖样式 */
-  }
-`;
-
-// 多选标签组件
-export const Tag = styled.span<{ $size: 'large' | 'middle' | 'small'; $styles?: TreeSelectStyles['tag'] }>`
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-  padding: 2px 8px;
-  background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
-  border: 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
-  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-  font-size: 12px;
-  line-height: 1.5;
-
-  &.treeselect-selection__tag {
-    /* 外部可通过 .treeselect-selection__tag 选择器覆盖样式 */
-  }
-
-  &.treeselect-selection__tag--more {
-    background-color: transparent;
-    border-color: transparent;
-    color: ${getCSSVar('--zjpcy-text-color-secondary', 'rgba(0, 0, 0, 0.65)')};
-  }
-
-  ${({ $size }) => {
-    if ($size === 'large') {
-      return `
-        font-size: 14px;
-        padding: 4px 10px;
-      `;
-    }
-    if ($size === 'small') {
-      return `
-        font-size: 12px;
-        padding: 1px 6px;
-      `;
-    }
-    return '';
-  }}
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// 标签内容组件
-export const TagContent = styled.span`
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &.treeselect-selection__tag-content {
-    /* 外部可通过 .treeselect-selection__tag-content 选择器覆盖样式 */
-  }
-`;
-
-// 标签关闭按钮组件
-export const TagClose = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 4px;
-  padding: 2px;
-  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-  cursor: pointer;
-  transition: color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-
-  &.treeselect-selection__tag-close {
-    /* 外部可通过 .treeselect-selection__tag-close 选择器覆盖样式 */
-  }
-
-  &:hover {
-    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-  }
-`;
-
-// 搜索输入框容器组件
-export const SearchWrapper = styled.div`
-  flex: 1;
-  min-width: 30px;
-
-  &.treeselect-selection__search {
-    /* 外部可通过 .treeselect-selection__search 选择器覆盖样式 */
-  }
-`;
-
-// 搜索输入框组件
-export const SearchInput = styled.input`
-  width: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 14px;
-  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-
-  &::placeholder {
-    color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
-  }
-
-  &.treeselect-selection__search-input,
-  &.treeselect-dropdown__search-input {
-    /* 外部可通过这些选择器覆盖样式 */
-  }
-`;
-
-// 清除按钮组件
-export const ClearIcon = styled.span<{ $size: 'large' | 'middle' | 'small' }>`
-  position: absolute;
-  right: 28px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-  cursor: pointer;
-  transition: color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-  z-index: 1;
-
-  &.treeselect-selection__clear {
-    /* 外部可通过 .treeselect-selection__clear 选择器覆盖样式 */
-  }
-
-  &:hover {
-    color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-  }
-
-  ${({ $size }) => {
-    if ($size === 'large') {
-      return 'right: 32px;';
-    }
-    if ($size === 'small') {
-      return 'right: 24px;';
-    }
-    return '';
-  }}
-`;
-
-// 下拉箭头组件
-export const ArrowIcon = styled.span<{ $open: boolean; $size: 'large' | 'middle' | 'small' }>`
-  position: absolute;
-  right: 11px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-  transition: transform ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-  pointer-events: none;
-
-  &.treeselect-selection__arrow {
-    /* 外部可通过 .treeselect-selection__arrow 选择器覆盖样式 */
-  }
-
-  ${({ $open }) =>
-    $open && `
-      transform: translateY(-50%) rotate(180deg);
-    `
-  }
-
-  ${({ $size }) => {
-    if ($size === 'large') {
-      return 'right: 15px;';
-    }
-    if ($size === 'small') {
-      return 'right: 7px;';
-    }
-    return '';
-  }}
-`;
-
-// 下拉面板组件
-export const Dropdown = styled.div<{ $width?: number | string; $height?: number | string; $styles?: TreeSelectStyles['dropdown'] }>`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1050;
-  margin-top: 4px;
-  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
-  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-  box-shadow: ${getCSSVar('--zjpcy-shadow-lg', '0 8px 24px rgba(0, 0, 0, 0.15)')};
-  overflow: hidden;
-  width: ${props => props.$width || '100%'};
-  max-height: ${props => props.$height || '300px'};
-
-  &.treeselect-dropdown {
-    /* 外部可通过 .treeselect-dropdown 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// 下拉搜索框容器组件
-export const DropdownSearchWrapper = styled.div`
-  padding: 8px 12px;
-  border-bottom: 1px solid ${getCSSVar('--zjpcy-border-color-light', '#f0f0f0')};
-
-  &.treeselect-dropdown__search {
-    /* 外部可通过 .treeselect-dropdown__search 选择器覆盖样式 */
-  }
-`;
-
-// 下拉搜索输入框组件（带背景）
-export const DropdownSearchInput = styled.input`
-  width: 100%;
-  padding: 4px 8px;
-  background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
-  border: none;
-  border-radius: ${getCSSVar('--zjpcy-border-radius-sm', '4px')};
-  outline: none;
-  font-size: 14px;
-  color: ${getCSSVar('--zjpcy-text-color', 'rgba(0, 0, 0, 0.85)')};
-
-  &::placeholder {
-    color: ${getCSSVar('--zjpcy-input-placeholder-color', '#bfbfbf')};
-  }
-`;
-
-// 下拉内容区域组件
-export const DropdownContent = styled.div`
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 4px 0;
-
-  &.treeselect-dropdown__content {
-    /* 外部可通过 .treeselect-dropdown__content 选择器覆盖样式 */
-  }
-
-  /* 滚动条样式 */
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.25);
-  }
-
-  &::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-`;
-
-// 空状态组件
-export const EmptyWrapper = styled.div`
-  padding: 32px 0;
-
-  &.treeselect-dropdown__empty {
-    /* 外部可通过 .treeselect-dropdown__empty 选择器覆盖样式 */
-  }
-`;
-
-// 树节点包装器组件
-export const TreeNodeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  &.treeselect-tree-node-wrapper {
-    /* 外部可通过 .treeselect-tree-node-wrapper 选择器覆盖样式 */
-  }
-`;
-
-// 树节点组件
-export const TreeNode = styled.div<{ $selected: boolean; $disabled: boolean; $level: number; $styles?: TreeSelectStyles['treeNode'] }>`
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  padding-left: ${props => `${props.$level * 20 + 12}px`};
-  cursor: pointer;
-  transition: background-color ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-  user-select: none;
-
-  &.treeselect-tree-node {
-    /* 外部可通过 .treeselect-tree-node 选择器覆盖样式 */
-  }
-
-  &:hover {
-    background-color: ${getCSSVar('--zjpcy-bg-color-light', '#f5f5f5')};
-  }
-
-  ${({ $selected }) =>
-    $selected && `
-      background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
-      color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-
-      &:hover {
-        background-color: ${getCSSVar('--zjpcy-primary-light-color', 'rgba(24, 100, 240, 0.1)')};
-      }
-    `
-  }
-
-  ${({ $disabled }) =>
-    $disabled && `
-      color: ${getCSSVar('--zjpcy-text-color-tertiary', 'rgba(0, 0, 0, 0.45)')};
-      cursor: not-allowed;
-
-      &:hover {
-        background-color: transparent;
-      }
-    `
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
-
-// 展开/折叠图标组件
-export const ExpandIcon = styled.span<{ $expanded: boolean; $hasChildren: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-  cursor: pointer;
-  transition: transform ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-
-  &.treeselect-tree-node__expand-icon {
-    /* 外部可通过 .treeselect-tree-node__expand-icon 选择器覆盖样式 */
-  }
-
-  ${({ $expanded }) =>
-    $expanded && `
-      transform: rotate(90deg);
-    `
-  }
-
-  ${({ $hasChildren }) =>
-    !$hasChildren && `
-      visibility: hidden;
-      cursor: default;
-    `
-  }
-`;
-
-// 复选框组件
-export const Checkbox = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 8px;
-
-  &.treeselect-tree-node__checkbox {
-    /* 外部可通过 .treeselect-tree-node__checkbox 选择器覆盖样式 */
-  }
-`;
-
-// 复选框内部组件
-export const CheckboxInner = styled.span<{ $checked: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border: 1px solid ${getCSSVar('--zjpcy-border-color-extra-light', '#d9d9d9')};
-  border-radius: 2px;
-  background-color: ${getCSSVar('--zjpcy-bg-color-white', '#fff')};
-  transition: all ${getCSSVar('--zjpcy-transition-duration', '0.2s')};
-
-  &.treeselect-tree-node__checkbox-inner {
-    /* 外部可通过 .treeselect-tree-node__checkbox-inner 选择器覆盖样式 */
-  }
-
-  .treeselect-tree-node:hover & {
-    border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-  }
-
-  ${({ $checked }) =>
-    $checked && `
-      background-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-      border-color: ${getCSSVar('--zjpcy-primary-color', '#1890ff')};
-    `
-  }
-`;
-
-// 节点标题组件
-export const NodeTitle = styled.span`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-
-  &.treeselect-tree-node__title {
-    /* 外部可通过 .treeselect-tree-node__title 选择器覆盖样式 */
-  }
-`;
-
-// 子节点容器组件
-export const TreeNodeChildren = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  &.treeselect-tree-node-children {
-    /* 外部可通过 .treeselect-tree-node-children 选择器覆盖样式 */
-  }
-`;
+    return {
+        ...sizeStyle,
+        ...customStyles,
+    };
+};
+
+// ============================================
+// 下拉搜索框容器
+// ============================================
+
+/**
+ * 获取 DropdownSearchWrapper 类名
+ */
+export const getDropdownSearchWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-dropdown__search',
+        className
+    );
+};
+
+/**
+ * 获取 DropdownSearchWrapper 样式
+ */
+export const getDropdownSearchWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 下拉搜索输入框
+// ============================================
+
+/**
+ * 获取 DropdownSearchInput 类名
+ */
+export const getDropdownSearchInputClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-dropdown__search-input',
+        className
+    );
+};
+
+/**
+ * 获取 DropdownSearchInput 样式
+ */
+export const getDropdownSearchInputStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 下拉内容区域
+// ============================================
+
+/**
+ * 获取 DropdownContent 类名
+ */
+export const getDropdownContentClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-dropdown__content',
+        className
+    );
+};
+
+/**
+ * 获取 DropdownContent 样式
+ */
+export const getDropdownContentStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 空状态
+// ============================================
+
+/**
+ * 获取 EmptyWrapper 类名
+ */
+export const getEmptyWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-dropdown__empty',
+        className
+    );
+};
+
+/**
+ * 获取 EmptyWrapper 样式
+ */
+export const getEmptyWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 树节点包装器
+// ============================================
+
+/**
+ * 获取 TreeNodeWrapper 类名
+ */
+export const getTreeNodeWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node-wrapper',
+        className
+    );
+};
+
+/**
+ * 获取 TreeNodeWrapper 样式
+ */
+export const getTreeNodeWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 树节点
+// ============================================
+
+/**
+ * 获取 TreeNode 类名
+ */
+export const getTreeNodeClassName = (options: {
+    selected?: boolean;
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { selected, disabled, className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node',
+        {
+            'zjpcy-treeselect-tree-node-selected': selected,
+            'zjpcy-treeselect-tree-node-disabled': disabled,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 TreeNode 样式
+ */
+export const getTreeNodeStyle = (options: {
+    level?: number;
+    customStyles?: TreeSelectStyles['treeNode'];
+}): CSSProperties => {
+    const { level = 0, customStyles } = options;
+    return {
+        paddingLeft: `${level * 20 + 12}px`,
+        ...customStyles,
+    };
+};
+
+// ============================================
+// 展开/折叠图标
+// ============================================
+
+/**
+ * 获取 ExpandIcon 类名
+ */
+export const getExpandIconClassName = (options: {
+    expanded?: boolean;
+    hasChildren?: boolean;
+    className?: string;
+}): string => {
+    const { expanded, hasChildren, className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node__expand-icon',
+        {
+            'zjpcy-treeselect-tree-node__expand-icon-expanded': expanded,
+            'zjpcy-treeselect-tree-node__expand-icon-no-children': !hasChildren,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ExpandIcon 样式
+ */
+export const getExpandIconStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 复选框
+// ============================================
+
+/**
+ * 获取 Checkbox 类名
+ */
+export const getCheckboxClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node__checkbox',
+        className
+    );
+};
+
+/**
+ * 获取 Checkbox 样式
+ */
+export const getCheckboxStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 复选框内部
+// ============================================
+
+/**
+ * 获取 CheckboxInner 类名
+ */
+export const getCheckboxInnerClassName = (options: {
+    checked?: boolean;
+    className?: string;
+}): string => {
+    const { checked, className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node__checkbox-inner',
+        {
+            'zjpcy-treeselect-tree-node__checkbox-inner-checked': checked,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 CheckboxInner 样式
+ */
+export const getCheckboxInnerStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 节点标题
+// ============================================
+
+/**
+ * 获取 NodeTitle 类名
+ */
+export const getNodeTitleClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node__title',
+        className
+    );
+};
+
+/**
+ * 获取 NodeTitle 样式
+ */
+export const getNodeTitleStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// 子节点容器
+// ============================================
+
+/**
+ * 获取 TreeNodeChildren 类名
+ */
+export const getTreeNodeChildrenClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'zjpcy-treeselect-tree-node-children',
+        className
+    );
+};
+
+/**
+ * 获取 TreeNodeChildren 样式
+ */
+export const getTreeNodeChildrenStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};

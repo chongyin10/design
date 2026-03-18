@@ -27,28 +27,29 @@
     border-color: var(--zjpcy-primary-hover-color);
 }
 
-.zjpcy-treeselect-open .zjpcy-treeselect-selection {
-  border-color: var(--zjpcy-primary-color);
-  box-shadow: var(--zjpcy-input-box-shadow-focus);
+.zjpcy-treeselect-selection-open {
+    border-color: var(--zjpcy-primary-color);
+    box-shadow: var(--zjpcy-input-box-shadow-focus);
 }
 
-.zjpcy-treeselect-disabled .zjpcy-treeselect-selection {
-  background-color: var(--zjpcy-input-disabled-bg);
-  border-color: var(--zjpcy-border-color-extra-light);
-  cursor: not-allowed;
+.zjpcy-treeselect-selection-disabled {
+    background-color: var(--zjpcy-input-disabled-bg);
+    border-color: var(--zjpcy-border-color-extra-light);
+    cursor: not-allowed;
 }
 
-/* 尺寸 */
-.zjpcy-treeselect-large .zjpcy-treeselect-selection {
-  min-height: 40px;
-  padding: 6px 32px 6px 15px;
-  font-size: 16px;
+/* 尺寸 - large */
+.zjpcy-treeselect-selection-large {
+    min-height: 40px;
+    padding: 6px 32px 6px 15px;
+    font-size: 16px;
 }
 
-.zjpcy-treeselect-small .zjpcy-treeselect-selection {
-  min-height: 24px;
-  padding: 2px 24px 2px 7px;
-  font-size: 14px;
+/* 尺寸 - small */
+.zjpcy-treeselect-selection-small {
+    min-height: 24px;
+    padding: 2px 24px 2px 7px;
+    font-size: 14px;
 }
 
 /* 选中的值渲染区域 */
@@ -85,14 +86,16 @@
     line-height: 1.5;
 }
 
-.zjpcy-treeselect-large .zjpcy-treeselect-selection__tag {
-  font-size: 14px;
-  padding: 4px 10px;
+/* 标签尺寸 - large */
+.zjpcy-treeselect-selection__tag-large {
+    font-size: 14px;
+    padding: 4px 10px;
 }
 
-.zjpcy-treeselect-small .zjpcy-treeselect-selection__tag {
-  font-size: 12px;
-  padding: 1px 6px;
+/* 标签尺寸 - small */
+.zjpcy-treeselect-selection__tag-small {
+    font-size: 12px;
+    padding: 1px 6px;
 }
 
 .zjpcy-treeselect-selection__tag-content {
@@ -165,12 +168,14 @@
     color: var(--zjpcy-text-color);
 }
 
-.zjpcy-treeselect-large .zjpcy-treeselect-selection__clear {
-  right: 32px;
+/* 清除按钮尺寸 - large */
+.zjpcy-treeselect-selection__clear-large {
+    right: 32px;
 }
 
-.zjpcy-treeselect-small .zjpcy-treeselect-selection__clear {
-  right: 24px;
+/* 清除按钮尺寸 - small */
+.zjpcy-treeselect-selection__clear-small {
+    right: 24px;
 }
 
 /* 下拉箭头 */
@@ -188,15 +193,17 @@
 }
 
 .zjpcy-treeselect-selection__arrow-open {
-  transform: translateY(-50%) rotate(180deg);
+    transform: translateY(-50%) rotate(180deg);
 }
 
-.zjpcy-treeselect-large .zjpcy-treeselect-selection__arrow {
-  right: 15px;
+/* 下拉箭头尺寸 - large */
+.zjpcy-treeselect-selection__arrow-large {
+    right: 15px;
 }
 
-.zjpcy-treeselect-small .zjpcy-treeselect-selection__arrow {
-  right: 7px;
+/* 下拉箭头尺寸 - small */
+.zjpcy-treeselect-selection__arrow-small {
+    right: 7px;
 }
 
 /* 下拉面板 */
@@ -210,6 +217,26 @@
     border-radius: var(--zjpcy-border-radius-sm);
     box-shadow: var(--zjpcy-shadow-lg);
     overflow: hidden;
+    width: 100%;
+    opacity: 0;
+    transform: scaleY(0.9) translateY(-8px);
+    transform-origin: top;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* 下拉面板展开状态 */
+.zjpcy-treeselect-dropdown-open {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+    pointer-events: auto;
+}
+
+/* 下拉面板关闭动画中 */
+.zjpcy-treeselect-dropdown-closing {
+    opacity: 0;
+    transform: scaleY(0.9) translateY(-8px);
+    pointer-events: none;
 }
 
 /* 搜索框（下拉面板内） */
@@ -255,21 +282,21 @@
 }
 
 .zjpcy-treeselect-tree-node-selected {
-  background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
-  color: var(--zjpcy-primary-color);
+    background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    color: var(--zjpcy-primary-color);
 }
 
 .zjpcy-treeselect-tree-node-selected:hover {
-  background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
+    background-color: var(--zjpcy-primary-light-color, rgba(24, 100, 240, 0.1));
 }
 
 .zjpcy-treeselect-tree-node-disabled {
-  color: var(--zjpcy-text-color-tertiary);
-  cursor: not-allowed;
+    color: var(--zjpcy-text-color-tertiary);
+    cursor: not-allowed;
 }
 
 .zjpcy-treeselect-tree-node-disabled:hover {
-  background-color: transparent;
+    background-color: transparent;
 }
 
 /* 展开/折叠图标 */
@@ -285,12 +312,12 @@
 }
 
 .zjpcy-treeselect-tree-node__expand-icon-expanded {
-  transform: rotate(90deg);
+    transform: rotate(90deg);
 }
 
 .zjpcy-treeselect-tree-node__expand-icon-no-children {
-  visibility: hidden;
-  cursor: default;
+    visibility: hidden;
+    cursor: default;
 }
 
 /* 复选框 */
@@ -313,13 +340,14 @@
     transition: all var(--zjpcy-transition-duration);
 }
 
+/* 复选框悬停状态 - 使用后代选择器而非相邻选择器 */
 .zjpcy-treeselect-tree-node:hover .zjpcy-treeselect-tree-node__checkbox-inner {
-  border-color: var(--zjpcy-primary-color);
+    border-color: var(--zjpcy-primary-color);
 }
 
 .zjpcy-treeselect-tree-node__checkbox-inner-checked {
-  background-color: var(--zjpcy-primary-color);
-  border-color: var(--zjpcy-primary-color);
+    background-color: var(--zjpcy-primary-color);
+    border-color: var(--zjpcy-primary-color);
 }
 
 /* 节点标题 */
@@ -336,7 +364,7 @@
     flex-direction: column;
 }
 
-/* 滚动条样式 */
+/* 滚动条样式 - 使用伪元素选择器 */
 .zjpcy-treeselect-dropdown__content::-webkit-scrollbar {
     width: 6px;
     height: 6px;

@@ -6,30 +6,54 @@ import Icon from '../Icon';
 import Empty from '../Empty';
 import type { TreeSelectProps, TreeSelectNode, TreeSelectStyles } from './types';
 import {
-    Wrapper,
-    Selection,
-    Rendered,
-    SelectionItem,
-    Tag,
-    TagContent,
-    TagClose,
-    SearchWrapper,
-    SearchInput,
-    ClearIcon,
-    ArrowIcon,
-    Dropdown,
-    DropdownSearchWrapper,
-    DropdownSearchInput,
-    DropdownContent,
-    EmptyWrapper,
-    TreeNodeWrapper,
-    TreeNode,
-    ExpandIcon,
-    Checkbox,
-    CheckboxInner,
-    NodeTitle,
-    TreeNodeChildren,
+    getWrapperClassName,
+    getWrapperStyle,
+    getSelectionClassName,
+    getSelectionStyle,
+    getRenderedClassName,
+    getRenderedStyle,
+    getSelectionItemClassName,
+    getSelectionItemStyle,
+    getTagClassName,
+    getTagStyle,
+    getTagContentClassName,
+    getTagContentStyle,
+    getTagCloseClassName,
+    getTagCloseStyle,
+    getSearchWrapperClassName,
+    getSearchWrapperStyle,
+    getSearchInputClassName,
+    getSearchInputStyle,
+    getClearIconClassName,
+    getClearIconStyle,
+    getArrowIconClassName,
+    getArrowIconStyle,
+    getDropdownClassName,
+    getDropdownStyle,
+    getDropdownSearchWrapperClassName,
+    getDropdownSearchWrapperStyle,
+    getDropdownSearchInputClassName,
+    getDropdownSearchInputStyle,
+    getDropdownContentClassName,
+    getDropdownContentStyle,
+    getEmptyWrapperClassName,
+    getEmptyWrapperStyle,
+    getTreeNodeWrapperClassName,
+    getTreeNodeWrapperStyle,
+    getTreeNodeClassName,
+    getTreeNodeStyle,
+    getExpandIconClassName,
+    getExpandIconStyle,
+    getCheckboxClassName,
+    getCheckboxStyle,
+    getCheckboxInnerClassName,
+    getCheckboxInnerStyle,
+    getNodeTitleClassName,
+    getNodeTitleStyle,
+    getTreeNodeChildrenClassName,
+    getTreeNodeChildrenStyle,
 } from './styles';
+import './TreeSelect.css';
 
 /**
  * TreeSelect 树型选择器组件
@@ -69,9 +93,11 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
     filterOption,
     autoClearSearchValue = true,
     fieldNames = {},
-    width
+    width,
+    style
 }) => {
     const [open, setOpen] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
     const [internalValue, setInternalValue] = useState<any[]>(() => {
         if (multiple) {
             return defaultValue ? (Array.isArray(defaultValue) ? defaultValue : [defaultValue]) : [];
@@ -131,6 +157,9 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         return currentValue.map(v => findNodeByValue(v)).filter(Boolean) as TreeSelectNode[];
     }, [currentValue, findNodeByValue]);
     
+    // 控制下拉面板动画
+    const showDropdown = open || isAnimating;
+    
     // 点击外部关闭
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -147,6 +176,16 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+    }, [open]);
+    
+    // 处理下拉面板动画
+    useEffect(() => {
+        if (open) {
+            setIsAnimating(true);
+        } else {
+            const timer = setTimeout(() => setIsAnimating(false), 200);
+            return () => clearTimeout(timer);
+        }
     }, [open]);
     
     // 打开时聚焦搜索框
@@ -306,59 +345,61 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         if (!shouldShow) return null;
         
         return (
-            <TreeNodeWrapper key={String(nodeValue)} className="treeselect-tree-node-wrapper">
-                <TreeNode
-                    className={classNames('treeselect-tree-node', {
-                        'treeselect-tree-node-selected': isSelected,
-                        'treeselect-tree-node-disabled': isDisabled,
-                        'treeselect-tree-node-leaf': !hasChildren
-                    })}
-                    $selected={isSelected}
-                    $disabled={isDisabled}
-                    $level={level}
-                    $styles={styles?.treeNode}
+            <div
+                key={String(nodeValue)}
+                className={getTreeNodeWrapperClassName({})}
+                style={getTreeNodeWrapperStyle({})}
+            >
+                <div
+                    className={getTreeNodeClassName({ selected: isSelected, disabled: isDisabled })}
+                    style={getTreeNodeStyle({ level, customStyles: styles?.treeNode })}
                     onClick={() => !isDisabled && handleSelect(node)}
                 >
                     {/* 展开/折叠图标 */}
-                    <ExpandIcon
-                        className={classNames('treeselect-tree-node__expand-icon', {
-                            'treeselect-tree-node__expand-icon-expanded': isExpanded,
-                            'treeselect-tree-node__expand-icon-no-children': !hasChildren
-                        })}
-                        $expanded={isExpanded}
-                        $hasChildren={!!hasChildren}
+                    <span
+                        className={getExpandIconClassName({ expanded: isExpanded, hasChildren: !!hasChildren })}
+                        style={getExpandIconStyle({})}
                         onClick={(e) => hasChildren && toggleExpand(e, node)}
                     >
                         {hasChildren && (
                             <Icon type="arrowRight" size={12} color="#bfbfbf" />
                         )}
-                    </ExpandIcon>
+                    </span>
                     
                     {/* 多选复选框 */}
                     {multiple && (
-                        <Checkbox className="treeselect-tree-node__checkbox">
-                            <CheckboxInner
-                                className={classNames('treeselect-tree-node__checkbox-inner', {
-                                    'treeselect-tree-node__checkbox-inner-checked': isSelected
-                                })}
-                                $checked={isSelected}
+                        <span
+                            className={getCheckboxClassName({})}
+                            style={getCheckboxStyle({})}
+                        >
+                            <span
+                                className={getCheckboxInnerClassName({ checked: isSelected })}
+                                style={getCheckboxInnerStyle({})}
                             >
                                 {isSelected && <Icon type="check" size={10} color="#fff" />}
-                            </CheckboxInner>
-                        </Checkbox>
+                            </span>
+                        </span>
                     )}
                     
                     {/* 节点标题 */}
-                    <NodeTitle className="treeselect-tree-node__title">{title}</NodeTitle>
-                </TreeNode>
+                    <span
+                        className={getNodeTitleClassName({})}
+                        style={getNodeTitleStyle({})}
+                    >
+                        {title}
+                    </span>
+                </div>
                 
                 {/* 子节点 */}
                 {hasChildren && isExpanded && (
-                    <TreeNodeChildren className="treeselect-tree-node-children">
+                    <div
+                        className={getTreeNodeChildrenClassName({})}
+                        style={getTreeNodeChildrenStyle({})}
+                    >
                         {children!.map(child => renderTreeNode(child, level + 1))}
-                    </TreeNodeChildren>
+                    </div>
                 )}
-            </TreeNodeWrapper>
+            </div>
         );
     }, [currentValue, expandedKeys, getNodeValue, getNodeTitle, getNodeChildren, multiple, isNodeMatchSearch, hasChildMatchSearch, isNodeCascadeSelected, handleSelect, toggleExpand, styles?.treeNode]);
     
@@ -387,9 +428,12 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
             const node = selectedNodes[0];
             if (!node) return placeholder;
             return (
-                <SelectionItem className="treeselect-selection__item">
+                <span
+                    className={getSelectionItemClassName({})}
+                    style={getSelectionItemStyle({})}
+                >
                     {getNodeTitle(node)}
-                </SelectionItem>
+                </span>
             );
         }
         
@@ -411,57 +455,48 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
         return (
             <>
                 {displayNodes.map((node) => (
-                    <Tag
+                    <span
                         key={getNodeValue(node)}
-                        className={classNames('treeselect-selection__tag', {
-                            'treeselect-selection__tag--more': false
-                        })}
-                        $size={size}
-                        $styles={styles?.tag}
+                        className={getTagClassName({ size })}
+                        style={getTagStyle({ customStyles: styles?.tag })}
                     >
-                        <TagContent className="treeselect-selection__tag-content">
+                        <span
+                            className={getTagContentClassName({})}
+                            style={getTagContentStyle({})}
+                        >
                             {getNodeTitle(node)}
-                        </TagContent>
-                        <TagClose
-                            className="treeselect-selection__tag-close"
+                        </span>
+                        <span
+                            className={getTagCloseClassName({})}
+                            style={getTagCloseStyle({})}
                             onClick={(e) => handleRemoveTag(e, getNodeValue(node))}
                         >
                             <Icon type="close" size={10} />
-                        </TagClose>
-                    </Tag>
+                        </span>
+                    </span>
                 ))}
                 {hiddenCount > 0 && (
-                    <Tag
-                        className="treeselect-selection__tag treeselect-selection__tag--more"
-                        $size={size}
-                        $styles={styles?.tag}
+                    <span
+                        className={getTagClassName({ isMore: true, size })}
+                        style={getTagStyle({ customStyles: styles?.tag })}
                     >
                         +{hiddenCount}
-                    </Tag>
+                    </span>
                 )}
             </>
         );
     }, [multiple, selectedNodes, treeData, maxTagCount, getNodeValue, getNodeTitle, handleRemoveTag, getLeafNodes, placeholder, size, styles?.tag]);
     
-    const classes = classNames('treeselect-wrapper', className);
-    
     return (
-        <Wrapper
+        <div
             ref={containerRef}
-            className={classes}
-            $width={width}
-            $styles={styles?.wrapper}
+            className={getWrapperClassName({ className })}
+            style={getWrapperStyle({ width, style, customStyles: styles?.wrapper })}
         >
             {/* 选择框 */}
-            <Selection
-                className={classNames('treeselect-selection', {
-                    'treeselect-selection-open': open,
-                    'treeselect-selection-disabled': disabled
-                })}
-                $open={open}
-                $disabled={disabled}
-                $size={size}
-                $styles={styles?.selection}
+            <div
+                className={getSelectionClassName({ open, disabled, size })}
+                style={getSelectionStyle({ customStyles: styles?.selection })}
                 onClick={() => {
                     if (!disabled) {
                         setOpen(!open);
@@ -472,82 +507,96 @@ const TreeSelect: React.FC<TreeSelectProps> = ({
                 }}
             >
                 {showSearch && open ? (
-                    <SearchWrapper className="treeselect-selection__search">
-                        <SearchInput
+                    <div
+                        className={getSearchWrapperClassName({})}
+                        style={getSearchWrapperStyle({})}
+                    >
+                        <input
                             ref={inputRef}
                             type="text"
-                            className="treeselect-selection__search-input"
+                            className={getSearchInputClassName({})}
+                            style={getSearchInputStyle({})}
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                             placeholder={selectedNodes.length === 0 ? placeholder : ''}
                             onClick={(e) => e.stopPropagation()}
                         />
-                    </SearchWrapper>
+                    </div>
                 ) : (
-                    <Rendered
-                        className={classNames('treeselect-selection__rendered', {
-                            'treeselect-selection__rendered--placeholder': selectedNodes.length === 0
-                        })}
-                        $isPlaceholder={selectedNodes.length === 0}
+                    <div
+                        className={getRenderedClassName({ isPlaceholder: selectedNodes.length === 0 })}
+                        style={getRenderedStyle({})}
                     >
                         {renderTags()}
-                    </Rendered>
+                    </div>
                 )}
                 
                 {/* 清除按钮 */}
                 {allowClear && !disabled && selectedNodes.length > 0 && (
-                    <ClearIcon className="treeselect-selection__clear" $size={size} onClick={handleClear}>
+                    <span
+                        className={getClearIconClassName({ size })}
+                        style={getClearIconStyle({})}
+                        onClick={handleClear}
+                    >
                         <Icon type="close" size={12} />
-                    </ClearIcon>
+                    </span>
                 )}
                 
                 {/* 下拉箭头 */}
-                <ArrowIcon
-                    className={classNames('treeselect-selection__arrow', {
-                        'treeselect-selection__arrow-open': open
-                    })}
-                    $open={open}
-                    $size={size}
+                <span
+                    className={getArrowIconClassName({ open, size })}
+                    style={getArrowIconStyle({})}
                 >
                     <Icon type="arrowDown" size={12} />
-                </ArrowIcon>
-            </Selection>
+                </span>
+            </div>
             
             {/* 下拉面板 */}
-            {open && (
-                <Dropdown
-                    className="treeselect-dropdown"
-                    $width={dropdownWidth}
-                    $height={dropdownHeight}
-                    $styles={styles?.dropdown}
+            {showDropdown && (
+                <div
+                    className={classNames(getDropdownClassName({}), {
+                        'zjpcy-treeselect-dropdown-open': open,
+                        'zjpcy-treeselect-dropdown-closing': !open && isAnimating
+                    })}
+                    style={getDropdownStyle({ width: dropdownWidth, height: dropdownHeight, customStyles: styles?.dropdown })}
                 >
                     {/* 搜索框（非内嵌模式） */}
                     {showSearch && !open && (
-                        <DropdownSearchWrapper className="treeselect-dropdown__search">
-                            <DropdownSearchInput
+                        <div
+                            className={getDropdownSearchWrapperClassName({})}
+                            style={getDropdownSearchWrapperStyle({})}
+                        >
+                            <input
                                 ref={inputRef}
                                 type="text"
-                                className="treeselect-dropdown__search-input"
+                                className={getDropdownSearchInputClassName({})}
+                                style={getDropdownSearchInputStyle({})}
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
                                 placeholder="搜索"
                             />
-                        </DropdownSearchWrapper>
+                        </div>
                     )}
                     
                     {/* 树形列表 */}
-                    <DropdownContent className="treeselect-dropdown__content">
+                    <div
+                        className={getDropdownContentClassName({})}
+                        style={getDropdownContentStyle({})}
+                    >
                         {treeData.length > 0 ? (
                             treeData.map(node => renderTreeNode(node))
                         ) : (
-                            <EmptyWrapper className="treeselect-dropdown__empty">
+                            <div
+                                className={getEmptyWrapperClassName({})}
+                                style={getEmptyWrapperStyle({})}
+                            >
                                 <Empty size="small" description="暂无数据" />
-                            </EmptyWrapper>
+                            </div>
                         )}
-                    </DropdownContent>
-                </Dropdown>
+                    </div>
+                </div>
             )}
-        </Wrapper>
+        </div>
     );
 };
 

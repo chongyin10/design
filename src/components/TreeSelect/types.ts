@@ -54,7 +54,7 @@ export interface TreeSelectProps {
     allowClear?: boolean;
     /** 尺寸 */
     size?: 'large' | 'middle' | 'small';
-    /** 自定义样式 */
+    /** 自定义样式配置对象 */
     styles?: TreeSelectStyles;
     /** 自定义类名 */
     className?: string;
@@ -76,6 +76,8 @@ export interface TreeSelectProps {
     };
     /** 宽度 */
     width?: number | string;
+    /** 自定义样式 */
+    style?: CSSProperties;
 }
 
 /**
