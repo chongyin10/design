@@ -30,26 +30,46 @@ const getItemKey = (item: any, fieldNames?: FieldNames): string => {
 const getItemTitle = (item: any, fieldNames?: FieldNames): React.ReactNode => {
   return getFieldValue(item, fieldNames?.title, 'title');
 };
+
 import {
-  TransferWrapper,
-  TransferListContainer,
-  TransferListHeader,
-  TransferHeaderLeft,
-  TransferHeaderCount,
-  TransferSearchWrapper,
-  TransferSearch,
-  TransferSearchButton,
-  TransferListBody,
-  TransferListItem,
-  TransferItemCheckbox,
-  TransferListItemCheckbox,
-  TransferItemContent,
-  TransferListFooter,
-  TransferOperation,
-  TransferOperationButton,
-  TransferEmpty,
-  TransferLoading,
-  TransferLoadingSpinner,
+  getWrapperClassName,
+  getWrapperStyle,
+  getListContainerClassName,
+  getListContainerStyle,
+  getListHeaderClassName,
+  getListHeaderStyle,
+  getHeaderLeftClassName,
+  getHeaderLeftStyle,
+  getHeaderCountClassName,
+  getHeaderCountStyle,
+  getSearchWrapperClassName,
+  getSearchWrapperStyle,
+  getSearchClassName,
+  getSearchStyle,
+  getSearchButtonClassName,
+  getSearchButtonStyle,
+  getListBodyClassName,
+  getListBodyStyle,
+  getListItemClassName,
+  getListItemStyle,
+  getItemCheckboxClassName,
+  getItemCheckboxStyle,
+  getListItemCheckboxClassName,
+  getListItemCheckboxStyle,
+  getItemContentClassName,
+  getItemContentStyle,
+  getListFooterClassName,
+  getListFooterStyle,
+  getOperationClassName,
+  getOperationStyle,
+  getOperationButtonClassName,
+  getOperationButtonStyle,
+  getEmptyClassName,
+  getEmptyStyle,
+  getLoadingClassName,
+  getLoadingStyle,
+  getLoadingSpinnerClassName,
+  getLoadingSpinnerStyle,
 } from './styles';
 import Icon from '../Icon';
 import './Transfer.css';
@@ -261,23 +281,39 @@ const TransferList: React.FC<TransferListProps> = ({
     }
 
     // 默认 header
+    const isCheckboxDisabled = disabled || filteredDataSource.length === 0;
     return (
-      <TransferListHeader className="transfer-list-header">
-        <TransferHeaderLeft>
-          <TransferItemCheckbox
-            className="transfer-checkbox"
-            $checked={isCheckedAll}
-            $indeterminate={isIndeterminate}
-            $disabled={disabled || filteredDataSource.length === 0}
+      <div
+        className={getListHeaderClassName({ className: 'transfer-list-header' })}
+        style={getListHeaderStyle({})}
+      >
+        <div
+          className={getHeaderLeftClassName({})}
+          style={getHeaderLeftStyle({})}
+        >
+          <span
+            className={getItemCheckboxClassName({
+              checked: isCheckedAll,
+              indeterminate: isIndeterminate,
+              disabled: isCheckboxDisabled,
+              className: 'transfer-checkbox',
+            })}
+            style={getItemCheckboxStyle({
+              style: {
+                opacity: isCheckboxDisabled ? 0.6 : 1,
+              },
+            })}
             onClick={handleCheckAll}
-            style={{
-              opacity: disabled || filteredDataSource.length === 0 ? 0.6 : 1,
-            }}
           />
           <span>{title}</span>
-        </TransferHeaderLeft>
-        <TransferHeaderCount>{countText}</TransferHeaderCount>
-      </TransferListHeader>
+        </div>
+        <span
+          className={getHeaderCountClassName({})}
+          style={getHeaderCountStyle({})}
+        >
+          {countText}
+        </span>
+      </div>
     );
   };
 
@@ -297,15 +333,26 @@ const TransferList: React.FC<TransferListProps> = ({
     // 加载状态
     if (internalLoading) {
       return (
-        <TransferLoading className="transfer-loading">
-          {loadingRender ? loadingRender() : <TransferLoadingSpinner className="transfer-loading-spinner" />}
-        </TransferLoading>
+        <div
+          className={getLoadingClassName({ className: 'transfer-loading' })}
+          style={getLoadingStyle({})}
+        >
+          {loadingRender ? loadingRender() : (
+            <div
+              className={getLoadingSpinnerClassName({ className: 'transfer-loading-spinner' })}
+              style={getLoadingSpinnerStyle({})}
+            />
+          )}
+        </div>
       );
     }
 
     // 默认 body
     return (
-      <TransferListBody className="transfer-list-body">
+      <div
+        className={getListBodyClassName({ className: 'transfer-list-body' })}
+        style={getListBodyStyle({})}
+      >
         {filteredDataSource.length > 0 ? (
           filteredDataSource.map((item) => {
             const itemKey = getItemKey(item, fieldNames);
@@ -313,42 +360,67 @@ const TransferList: React.FC<TransferListProps> = ({
             const customClassName = rowClassName?.(item) || '';
 
             return (
-              <TransferListItem
+              <div
                 key={itemKey}
-                className={`transfer-list-item ${customClassName}`}
-                $selected={isSelected}
-                $disabled={disabled || item.disabled}
-                $styles={styles?.item}
+                className={getListItemClassName({
+                  selected: isSelected,
+                  disabled: disabled || item.disabled,
+                  className: `transfer-list-item ${customClassName}`,
+                })}
+                style={getListItemStyle({
+                  style: styles?.item,
+                })}
                 onClick={() => handleCheckItem(item)}
               >
-                <TransferListItemCheckbox $checked={isSelected} />
-                <TransferItemContent>
+                <span
+                  className={getListItemCheckboxClassName({
+                    checked: isSelected,
+                    disabled: disabled || item.disabled,
+                  })}
+                  style={getListItemCheckboxStyle({})}
+                />
+                <span
+                  className={getItemContentClassName({})}
+                  style={getItemContentStyle({})}
+                >
                   {render ? render(item) : getItemTitle(item, fieldNames)}
-                </TransferItemContent>
-              </TransferListItem>
+                </span>
+              </div>
             );
           })
         ) : (
-          <TransferEmpty className="transfer-empty">暂无数据</TransferEmpty>
+          <div
+            className={getEmptyClassName({ className: 'transfer-empty' })}
+            style={getEmptyStyle({})}
+          >
+            暂无数据
+          </div>
         )}
-      </TransferListBody>
+      </div>
     );
   };
 
   return (
-    <TransferListContainer
-      className="transfer-list"
-      $disabled={disabled}
-      $styles={styles?.list}
-      $height={listHeight}
-      $width={listWidth}
+    <div
+      className={getListContainerClassName({
+        disabled,
+        className: 'transfer-list',
+      })}
+      style={getListContainerStyle({
+        height: listHeight,
+        width: listWidth,
+        style: styles?.list,
+      })}
     >
       {/* 头部 */}
       {renderHeader()}
 
       {/* 搜索框 - 只在有 header 且 showSearch 为 true 时显示 */}
       {showSearch && header !== null && (
-        <TransferSearchWrapper className="transfer-search-wrapper">
+        <div
+          className={getSearchWrapperClassName({ className: 'transfer-search-wrapper' })}
+          style={getSearchWrapperStyle({})}
+        >
           {search ? (
             search({
               direction,
@@ -361,26 +433,36 @@ const TransferList: React.FC<TransferListProps> = ({
             })
           ) : (
             <>
-              <TransferSearch
+              <input
                 type="text"
+                className={getSearchClassName({
+                  disabled,
+                  className: 'transfer-search',
+                })}
+                style={getSearchStyle({
+                  style: styles?.search,
+                })}
                 placeholder={searchPlaceholder}
                 value={searchValue}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
                 disabled={disabled}
-                $styles={styles?.search}
               />
-              <TransferSearchButton
+              <button
+                className={getSearchButtonClassName({
+                  disabled,
+                  className: 'transfer-search-button',
+                })}
+                style={getSearchButtonStyle({})}
                 onClick={handleSearchButtonClick}
                 disabled={disabled}
-                $disabled={disabled}
                 aria-label="搜索"
               >
                 <Icon type="search" size="small" color={disabled ? '#bfbfbf' : '#1890ff'} />
-              </TransferSearchButton>
+              </button>
             </>
           )}
-        </TransferSearchWrapper>
+        </div>
       )}
 
       {/* 列表内容 */}
@@ -388,11 +470,14 @@ const TransferList: React.FC<TransferListProps> = ({
 
       {/* 底部 */}
       {(description || footer) && (
-        <TransferListFooter className="transfer-list-footer">
+        <div
+          className={getListFooterClassName({ className: 'transfer-list-footer' })}
+          style={getListFooterStyle({})}
+        >
           {footer ? footer({ direction }) : description}
-        </TransferListFooter>
+        </div>
       )}
-    </TransferListContainer>
+    </div>
   );
 };
 
@@ -407,24 +492,35 @@ const TransferOperations: React.FC<TransferOperationProps> = ({
   style,
 }) => {
   return (
-    <TransferOperation className="transfer-operation" $styles={style}>
-      <TransferOperationButton
+    <div
+      className={getOperationClassName({ className: 'transfer-operation' })}
+      style={getOperationStyle({ style })}
+    >
+      <button
         type="button"
-        $direction="right"
-        $disabled={moveToRightDisabled}
+        className={getOperationButtonClassName({
+          direction: 'right',
+          disabled: moveToRightDisabled,
+          className: 'transfer-operation-button transfer-operation-button-right',
+        })}
+        style={getOperationButtonStyle({})}
         onClick={onMoveToRight}
         disabled={moveToRightDisabled}
         aria-label="移动到右侧"
       />
-      <TransferOperationButton
+      <button
         type="button"
-        $direction="left"
-        $disabled={moveToLeftDisabled}
+        className={getOperationButtonClassName({
+          direction: 'left',
+          disabled: moveToLeftDisabled,
+          className: 'transfer-operation-button transfer-operation-button-left',
+        })}
+        style={getOperationButtonStyle({})}
         onClick={onMoveToLeft}
         disabled={moveToLeftDisabled}
         aria-label="移动到左侧"
       />
-    </TransferOperation>
+    </div>
   );
 };
 
@@ -619,7 +715,10 @@ const Transfer: React.FC<TransferProps> = ({
   }, [isSelectedControlled, selectedKeysProp, targetKeys]);
 
   return (
-    <TransferWrapper className="transfer-wrapper" $styles={styles?.wrapper}>
+    <div
+      className={getWrapperClassName({ className: 'transfer-wrapper' })}
+      style={getWrapperStyle({ style: styles?.wrapper })}
+    >
       {mode === 'single' ? (
         // 单栏模式
         <TransferList
@@ -719,7 +818,7 @@ const Transfer: React.FC<TransferProps> = ({
           />
         </>
       )}
-    </TransferWrapper>
+    </div>
   );
 };
 

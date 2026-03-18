@@ -1,3 +1,7 @@
+/* ============================================
+   Transfer 组件样式
+   ============================================ */
+
 :root {
   /* Transfer 尺寸变量 */
   --transfer-width: 200px;
@@ -48,4 +52,430 @@
   
   /* Transfer 过渡动画 */
   --transfer-transition: all 0.3s;
+  
+  /* Transfer 加载动画 */
+  --transfer-loading-track-color: #f0f0f0;
+  --transfer-loading-spinner-color: #1890ff;
+}
+
+/* ============================================
+   Transfer 外层容器
+   ============================================ */
+.transfer-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   Transfer 列表容器
+   ============================================ */
+.transfer-list {
+  width: var(--transfer-list-width);
+  height: var(--transfer-height);
+  border: 1px solid var(--transfer-border-color);
+  border-radius: var(--transfer-border-radius);
+  background: var(--transfer-bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* 立体感阴影效果 */
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 8px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.transfer-list-disabled {
+  opacity: 0.6;
+}
+
+/* ============================================
+   Transfer 列表头部
+   ============================================ */
+.transfer-list-header {
+  height: var(--transfer-header-height);
+  padding: 0 var(--transfer-padding);
+  background: var(--transfer-header-bg);
+  border-bottom: 1px solid var(--transfer-border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--transfer-header-font-size);
+  font-weight: 500;
+  color: var(--transfer-item-text-color);
+}
+
+/* ============================================
+   Transfer 头部左侧
+   ============================================ */
+.transfer-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================
+   Transfer 头部计数
+   ============================================ */
+.transfer-header-count {
+  font-size: 12px;
+  color: var(--transfer-description-color);
+}
+
+/* ============================================
+   Transfer 搜索框容器
+   ============================================ */
+.transfer-search-wrapper {
+  padding: 8px var(--transfer-padding);
+  border-bottom: 1px solid var(--transfer-border-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* ============================================
+   Transfer 搜索框
+   ============================================ */
+.transfer-search {
+  flex: 1;
+  min-width: 0;
+  height: var(--transfer-search-height);
+  padding: var(--transfer-search-padding);
+  border: 1px solid var(--transfer-search-border);
+  border-radius: 4px;
+  font-size: var(--transfer-font-size);
+  outline: none;
+  transition: var(--transfer-transition);
+  box-sizing: border-box;
+}
+
+.transfer-search::placeholder {
+  color: var(--transfer-search-placeholder-color);
+}
+
+.transfer-search:focus {
+  border-color: var(--transfer-search-focus-border);
+}
+
+.transfer-search-disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Transfer 搜索按钮
+   ============================================ */
+.transfer-search-button {
+  width: 32px;
+  min-width: 32px;
+  height: var(--transfer-search-height);
+  border: 1px solid var(--transfer-search-border);
+  border-radius: 4px;
+  background: var(--transfer-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transfer-transition);
+  flex-shrink: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.transfer-search-button:hover:not(:disabled) {
+  border-color: var(--transfer-search-focus-border);
+  color: var(--transfer-search-focus-border);
+}
+
+.transfer-search-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: #f5f5f5;
+}
+
+/* ============================================
+   Transfer 列表内容区
+   ============================================ */
+.transfer-list-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+/* 滚动条样式 - 淡色精致设计 */
+.transfer-list-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.transfer-list-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.transfer-list-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.transfer-list-body::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.transfer-list-body::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ============================================
+   Transfer 列表项
+   ============================================ */
+.transfer-list-item {
+  height: var(--transfer-item-height);
+  padding: var(--transfer-item-padding);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transfer-transition);
+  font-size: var(--transfer-item-font-size);
+  color: var(--transfer-item-text-color);
+  background: transparent;
+}
+
+.transfer-list-item:hover {
+  background: var(--transfer-item-hover-bg);
+}
+
+.transfer-list-item-selected {
+  background: var(--transfer-item-selected-bg);
+}
+
+.transfer-list-item-selected:hover {
+  background: var(--transfer-item-selected-bg);
+}
+
+.transfer-list-item-disabled {
+  cursor: not-allowed;
+  color: var(--transfer-item-disabled-color);
+}
+
+.transfer-list-item-disabled:hover {
+  background: transparent;
+}
+
+/* ============================================
+   Transfer 列表项复选框（带半选状态）
+   ============================================ */
+.transfer-item-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.transfer-item-checkbox-checked,
+.transfer-item-checkbox-indeterminate {
+  border-color: #1890ff;
+  background: #1890ff;
+}
+
+.transfer-item-checkbox::after {
+  content: '';
+  font-size: 12px;
+  color: #fff;
+  transform: scale(0);
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.transfer-item-checkbox-checked::after {
+  content: '✓';
+  transform: scale(1);
+}
+
+.transfer-item-checkbox-indeterminate::after {
+  content: '−';
+  font-size: 14px;
+  font-weight: bold;
+  transform: scale(1);
+}
+
+.transfer-item-checkbox-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Transfer 列表项复选框（普通项）
+   ============================================ */
+.transfer-list-item-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.transfer-list-item-checkbox-checked {
+  border-color: #1890ff;
+  background: #1890ff;
+}
+
+.transfer-list-item-checkbox::after {
+  content: '✓';
+  font-size: 12px;
+  color: #fff;
+  transform: scale(0);
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.transfer-list-item-checkbox-checked::after {
+  transform: scale(1);
+}
+
+.transfer-list-item-checkbox-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Transfer 列表项内容
+   ============================================ */
+.transfer-item-content {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ============================================
+   Transfer 列表底部
+   ============================================ */
+.transfer-list-footer {
+  padding: 8px var(--transfer-padding);
+  border-top: 1px solid var(--transfer-border-color);
+  font-size: var(--transfer-description-font-size);
+  color: var(--transfer-description-color);
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* ============================================
+   Transfer 操作按钮区
+   ============================================ */
+.transfer-operation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: var(--transfer-operation-width);
+  align-items: center;
+}
+
+/* ============================================
+   Transfer 操作按钮
+   ============================================ */
+.transfer-operation-button {
+  width: 32px;
+  height: 28px;
+  border: 1px solid var(--transfer-operation-border);
+  border-radius: 4px;
+  background: var(--transfer-operation-bg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transfer-transition);
+  padding: 0;
+}
+
+.transfer-operation-button:hover:not(:disabled) {
+  background: var(--transfer-operation-hover-bg);
+  border-color: var(--transfer-operation-hover-border);
+  color: #1890ff;
+}
+
+.transfer-operation-button-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: var(--transfer-operation-disabled-bg);
+  color: var(--transfer-operation-disabled-color);
+}
+
+/* 箭头图标 - 使用字符 */
+.transfer-operation-button::before {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: inherit;
+}
+
+.transfer-operation-button-right::before {
+  content: '>';
+}
+
+.transfer-operation-button-left::before {
+  content: '<';
+}
+
+/* ============================================
+   Transfer 空状态
+   ============================================ */
+.transfer-empty {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--transfer-description-color);
+  font-size: var(--transfer-font-size);
+}
+
+/* ============================================
+   Transfer 加载状态容器
+   ============================================ */
+.transfer-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+/* ============================================
+   Transfer 加载动画
+   ============================================ */
+.transfer-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--transfer-loading-track-color);
+  border-top-color: var(--transfer-loading-spinner-color);
+  border-radius: 50%;
+  animation: transfer-spin 0.8s linear infinite;
+}
+
+@keyframes transfer-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

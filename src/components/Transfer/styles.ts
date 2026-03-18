@@ -1,458 +1,597 @@
-import styled from 'styled-components';
-import { CSSProperties } from 'react';
+import classNames from 'classnames';
+import type { CSSProperties } from 'react';
 
-// 从 CSS 变量中读取值的辅助函数
-const getCSSVar = (property: string, fallback: string) => `var(${property}, ${fallback})`;
-
-/**
- * Transfer 外层容器
- */
-export const TransferWrapper = styled.div<{ $styles?: CSSProperties }>`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  &.transfer-wrapper {
-    /* 外部可通过 .transfer-wrapper 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// Transfer 外层容器
+// ============================================
 
 /**
- * Transfer 列表容器
+ * 获取 Wrapper 类名
  */
-export const TransferListContainer = styled.div<{
-  $disabled?: boolean;
-  $styles?: CSSProperties;
-  $height?: number | string;
-  $width?: number | string;
-}>`
-  width: ${({ $width }) => typeof $width === 'number' ? `${$width}px` : ($width || getCSSVar('--transfer-list-width', '200px'))};
-  height: ${({ $height }) => typeof $height === 'number' ? `${$height}px` : ($height || getCSSVar('--transfer-height', '300px'))};
-  border: 1px solid ${getCSSVar('--transfer-border-color', '#d9d9d9')};
-  border-radius: ${getCSSVar('--transfer-border-radius', '6px')};
-  background: ${getCSSVar('--transfer-bg', '#fff')};
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
-  /* 立体感阴影效果 */
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 8px 16px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-
-  &.transfer-list {
-    /* 外部可通过 .transfer-list 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+export const getWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-wrapper',
+        className
+    );
+};
 
 /**
- * Transfer 列表头部
+ * 获取 Wrapper 样式
  */
-export const TransferListHeader = styled.div`
-  height: ${getCSSVar('--transfer-header-height', '40px')};
-  padding: 0 ${getCSSVar('--transfer-padding', '12px')};
-  background: ${getCSSVar('--transfer-header-bg', '#fafafa')};
-  border-bottom: 1px solid ${getCSSVar('--transfer-border-color', '#d9d9d9')};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: ${getCSSVar('--transfer-header-font-size', '14px')};
-  font-weight: 500;
-  color: ${getCSSVar('--transfer-item-text-color', 'rgba(0, 0, 0, 0.85)')};
+export const getWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &.transfer-list-header {
-    /* 外部可通过 .transfer-list-header 选择器覆盖样式 */
-  }
-`;
+// ============================================
+// Transfer 列表容器
+// ============================================
 
 /**
- * Transfer 头部左侧（全选复选框 + 标题）
+ * 获取 ListContainer 类名
  */
-export const TransferHeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  .transfer-checkbox {
-    cursor: pointer;
-  }
-`;
+export const getListContainerClassName = (options: {
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { disabled, className } = options;
+    return classNames(
+        'transfer-list',
+        {
+            'transfer-list-disabled': disabled,
+        },
+        className
+    );
+};
 
 /**
- * Transfer 头部右侧（计数）
+ * 获取 ListContainer 样式
  */
-export const TransferHeaderCount = styled.span`
-  font-size: 12px;
-  color: ${getCSSVar('--transfer-description-color', 'rgba(0, 0, 0, 0.45)')};
-`;
+export const getListContainerStyle = (options: {
+    height?: number | string;
+    width?: number | string;
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { height, width, style } = options;
+    const heightValue = typeof height === 'number' ? `${height}px` : height;
+    const widthValue = typeof width === 'number' ? `${width}px` : width;
+    return {
+        height: heightValue,
+        width: widthValue,
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 列表头部
+// ============================================
 
 /**
- * Transfer 搜索框容器 - 左右布局
+ * 获取 ListHeader 类名
  */
-export const TransferSearchWrapper = styled.div`
-  padding: 8px ${getCSSVar('--transfer-padding', '12px')};
-  border-bottom: 1px solid ${getCSSVar('--transfer-border-color', '#d9d9d9')};
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  box-sizing: border-box;
-  width: 100%;
-
-  &.transfer-search-wrapper {
-    /* 外部可通过 .transfer-search-wrapper 选择器覆盖样式 */
-  }
-`;
+export const getListHeaderClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-list-header',
+        className
+    );
+};
 
 /**
- * Transfer 搜索框
+ * 获取 ListHeader 样式
  */
-export const TransferSearch = styled.input<{ $styles?: CSSProperties }>`
-  flex: 1;
-  min-width: 0;
-  height: ${getCSSVar('--transfer-search-height', '32px')};
-  padding: ${getCSSVar('--transfer-search-padding', '0 8px')};
-  border: 1px solid ${getCSSVar('--transfer-search-border', '#d9d9d9')};
-  border-radius: 4px;
-  font-size: ${getCSSVar('--transfer-font-size', '14px')};
-  outline: none;
-  transition: ${getCSSVar('--transfer-transition', 'all 0.3s')};
-  box-sizing: border-box;
+export const getListHeaderStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &::placeholder {
-    color: ${getCSSVar('--transfer-search-placeholder-color', 'rgba(0, 0, 0, 0.45)')};
-  }
-
-  &:focus {
-    border-color: ${getCSSVar('--transfer-search-focus-border', '#1890ff')};
-  }
-
-  &:disabled {
-    background: #f5f5f5;
-    cursor: not-allowed;
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// Transfer 头部左侧
+// ============================================
 
 /**
- * Transfer 搜索按钮
+ * 获取 HeaderLeft 类名
  */
-export const TransferSearchButton = styled.button<{ $disabled?: boolean }>`
-  width: 32px;
-  min-width: 32px;
-  height: ${getCSSVar('--transfer-search-height', '32px')};
-  border: 1px solid ${getCSSVar('--transfer-search-border', '#d9d9d9')};
-  border-radius: 4px;
-  background: ${getCSSVar('--transfer-bg', '#fff')};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: ${getCSSVar('--transfer-transition', 'all 0.3s')};
-  opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
-  flex-shrink: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-  &:hover:not(:disabled) {
-    border-color: ${getCSSVar('--transfer-search-focus-border', '#1890ff')};
-    color: ${getCSSVar('--transfer-search-focus-border', '#1890ff')};
-  }
-
-  &:disabled {
-    background: #f5f5f5;
-  }
-
-  /* 搜索图标 */
-  .search-icon {
-    width: 16px;
-    height: 16px;
-  }
-`;
+export const getHeaderLeftClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-header-left',
+        className
+    );
+};
 
 /**
- * Transfer 列表内容区
+ * 获取 HeaderLeft 样式
  */
-export const TransferListBody = styled.div`
-  flex: 1;
-  overflow-y: auto;
-  padding: 4px 0;
+export const getHeaderLeftStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &.transfer-list-body {
-    /* 外部可通过 .transfer-list-body 选择器覆盖样式 */
-  }
-
-  /* 滚动条样式 - 淡色精致设计 */
-  &::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    transition: background 0.2s ease;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.25);
-    }
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-`;
+// ============================================
+// Transfer 头部计数
+// ============================================
 
 /**
- * Transfer 列表项
+ * 获取 HeaderCount 类名
  */
-export const TransferListItem = styled.div<{
-  $selected?: boolean;
-  $disabled?: boolean;
-  $styles?: CSSProperties;
-}>`
-  height: ${getCSSVar('--transfer-item-height', '32px')};
-  padding: ${getCSSVar('--transfer-item-padding', '0 12px')};
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  transition: ${getCSSVar('--transfer-transition', 'all 0.3s')};
-  font-size: ${getCSSVar('--transfer-item-font-size', '14px')};
-  color: ${({ $disabled }) => 
-    $disabled 
-      ? getCSSVar('--transfer-item-disabled-color', 'rgba(0, 0, 0, 0.25)') 
-      : getCSSVar('--transfer-item-text-color', 'rgba(0, 0, 0, 0.85)')};
-  background: ${({ $selected }) => 
-    $selected 
-      ? getCSSVar('--transfer-item-selected-bg', '#e6f7ff') 
-      : 'transparent'};
-
-  &:hover {
-    background: ${({ $disabled, $selected }) => 
-      $disabled 
-        ? 'transparent' 
-        : $selected 
-          ? getCSSVar('--transfer-item-selected-bg', '#e6f7ff')
-          : getCSSVar('--transfer-item-hover-bg', '#f5f5f5')};
-  }
-
-  &.transfer-list-item {
-    /* 外部可通过 .transfer-list-item 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+export const getHeaderCountClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-header-count',
+        className
+    );
+};
 
 /**
- * Transfer 列表项复选框
+ * 获取 HeaderCount 样式
  */
-export const TransferItemCheckbox = styled.span<{
-  $checked?: boolean;
-  $disabled?: boolean;
-  $indeterminate?: boolean;
-}>`
-  width: 16px;
-  height: 16px;
-  border: 1px solid
-    ${({ $checked, $indeterminate }) =>
-      $checked || $indeterminate ? '#1890ff' : '#d9d9d9'};
-  border-radius: 2px;
-  background: ${({ $checked, $indeterminate }) =>
-    $checked || $indeterminate ? '#1890ff' : '#fff'};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.3s;
+export const getHeaderCountStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &::after {
-    content: ${({ $checked, $indeterminate }) => {
-      if ($indeterminate) return "'−'";
-      if ($checked) return "'✓'";
-      return "''";
-    }};
-    font-size: ${({ $indeterminate }) => ($indeterminate ? '14px' : '12px')};
-    color: #fff;
-    transform: scale(${({ $checked, $indeterminate }) => ($checked || $indeterminate ? 1 : 0)});
-    transition: all 0.2s;
-    line-height: 1;
-    font-weight: ${({ $indeterminate }) => ($indeterminate ? 'bold' : 'normal')};
-  }
-`;
+// ============================================
+// Transfer 搜索框容器
+// ============================================
 
 /**
- * Transfer 列表项复选框 - 普通项（只有选中/未选中两种状态）
+ * 获取 SearchWrapper 类名
  */
-export const TransferListItemCheckbox = styled.span<{
-  $checked?: boolean;
-  $disabled?: boolean;
-}>`
-  width: 16px;
-  height: 16px;
-  border: 1px solid ${({ $checked }) => ($checked ? '#1890ff' : '#d9d9d9')};
-  border-radius: 2px;
-  background: ${({ $checked }) => ($checked ? '#1890ff' : '#fff')};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.3s;
-
-  &::after {
-    content: '✓';
-    font-size: 12px;
-    color: #fff;
-    transform: scale(${({ $checked }) => ($checked ? 1 : 0)});
-    transition: all 0.2s;
-    line-height: 1;
-  }
-`;
+export const getSearchWrapperClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-search-wrapper',
+        className
+    );
+};
 
 /**
- * Transfer 列表项内容
+ * 获取 SearchWrapper 样式
  */
-export const TransferItemContent = styled.span`
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
+export const getSearchWrapperStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 搜索框
+// ============================================
 
 /**
- * Transfer 列表底部描述
+ * 获取 Search 类名
  */
-export const TransferListFooter = styled.div`
-  padding: 8px ${getCSSVar('--transfer-padding', '12px')};
-  border-top: 1px solid ${getCSSVar('--transfer-border-color', '#d9d9d9')};
-  font-size: ${getCSSVar('--transfer-description-font-size', '12px')};
-  color: ${getCSSVar('--transfer-description-color', 'rgba(0, 0, 0, 0.45)')};
-  min-height: 20px;
-  display: flex;
-  align-items: center;
-
-  &.transfer-list-footer {
-    /* 外部可通过 .transfer-list-footer 选择器覆盖样式 */
-  }
-`;
+export const getSearchClassName = (options: {
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { disabled, className } = options;
+    return classNames(
+        'transfer-search',
+        {
+            'transfer-search-disabled': disabled,
+        },
+        className
+    );
+};
 
 /**
- * Transfer 操作按钮区
+ * 获取 Search 样式
  */
-export const TransferOperation = styled.div<{ $styles?: CSSProperties }>`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: ${getCSSVar('--transfer-operation-width', '40px')};
-  align-items: center;
+export const getSearchStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &.transfer-operation {
-    /* 外部可通过 .transfer-operation 选择器覆盖样式 */
-  }
-
-  ${({ $styles }) => $styles && Object.entries($styles).map(([key, value]) => `${key}: ${value};`).join('\n')}
-`;
+// ============================================
+// Transfer 搜索按钮
+// ============================================
 
 /**
- * Transfer 操作按钮
+ * 获取 SearchButton 类名
  */
-export const TransferOperationButton = styled.button<{
-  $direction: 'right' | 'left';
-  $disabled?: boolean;
-}>`
-  width: 32px;
-  height: 28px;
-  border: 1px solid ${getCSSVar('--transfer-operation-border', '#d9d9d9')};
-  border-radius: 4px;
-  background: ${getCSSVar('--transfer-operation-bg', '#f5f5f5')};
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: ${getCSSVar('--transfer-transition', 'all 0.3s')};
-  opacity: ${({ $disabled }) => ($disabled ? 0.6 : 1)};
-
-  &:hover:not(:disabled) {
-    background: ${getCSSVar('--transfer-operation-hover-bg', '#e6f7ff')};
-    border-color: ${getCSSVar('--transfer-operation-hover-border', '#1890ff')};
-    color: #1890ff;
-  }
-
-  &:disabled {
-    background: ${getCSSVar('--transfer-operation-disabled-bg', '#f5f5f5')};
-    color: ${getCSSVar('--transfer-operation-disabled-color', 'rgba(0, 0, 0, 0.25)')};
-  }
-
-  /* 箭头图标 - 使用字符 */
-  &::before {
-    content: ${({ $direction }) => $direction === 'right' ? "'>'" : "'<'"};
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    color: inherit;
-  }
-`;
+export const getSearchButtonClassName = (options: {
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { disabled, className } = options;
+    return classNames(
+        'transfer-search-button',
+        {
+            'transfer-search-button-disabled': disabled,
+        },
+        className
+    );
+};
 
 /**
- * Transfer 空状态
+ * 获取 SearchButton 样式
  */
-export const TransferEmpty = styled.div`
-  padding: 32px 0;
-  text-align: center;
-  color: ${getCSSVar('--transfer-description-color', 'rgba(0, 0, 0, 0.45)')};
-  font-size: ${getCSSVar('--transfer-font-size', '14px')};
+export const getSearchButtonStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  &.transfer-empty {
-    /* 外部可通过 .transfer-empty 选择器覆盖样式 */
-  }
-`;
+// ============================================
+// Transfer 列表内容区
+// ============================================
 
 /**
- * Transfer 加载状态容器
+ * 获取 ListBody 类名
  */
-export const TransferLoading = styled.div`
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 0;
-
-  &.transfer-loading {
-    /* 外部可通过 .transfer-loading 选择器覆盖样式 */
-  }
-`;
+export const getListBodyClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-list-body',
+        className
+    );
+};
 
 /**
- * Transfer 加载动画
+ * 获取 ListBody 样式
  */
-export const TransferLoadingSpinner = styled.div`
-  width: 32px;
-  height: 32px;
-  border: 3px solid ${getCSSVar('--transfer-loading-track-color', '#f0f0f0')};
-  border-top-color: ${getCSSVar('--transfer-loading-spinner-color', '#1890ff')};
-  border-radius: 50%;
-  animation: transfer-spin 0.8s linear infinite;
+export const getListBodyStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
 
-  @keyframes transfer-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
+// ============================================
+// Transfer 列表项
+// ============================================
+
+/**
+ * 获取 ListItem 类名
+ */
+export const getListItemClassName = (options: {
+    selected?: boolean;
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { selected, disabled, className } = options;
+    return classNames(
+        'transfer-list-item',
+        {
+            'transfer-list-item-selected': selected,
+            'transfer-list-item-disabled': disabled,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ListItem 样式
+ */
+export const getListItemStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 列表项复选框（带半选状态）
+// ============================================
+
+/**
+ * 获取 ItemCheckbox 类名
+ */
+export const getItemCheckboxClassName = (options: {
+    checked?: boolean;
+    indeterminate?: boolean;
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { checked, indeterminate, disabled, className } = options;
+    return classNames(
+        'transfer-item-checkbox',
+        {
+            'transfer-item-checkbox-checked': checked,
+            'transfer-item-checkbox-indeterminate': indeterminate,
+            'transfer-item-checkbox-disabled': disabled,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ItemCheckbox 样式
+ */
+export const getItemCheckboxStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 列表项复选框（普通项）
+// ============================================
+
+/**
+ * 获取 ListItemCheckbox 类名
+ */
+export const getListItemCheckboxClassName = (options: {
+    checked?: boolean;
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { checked, disabled, className } = options;
+    return classNames(
+        'transfer-list-item-checkbox',
+        {
+            'transfer-list-item-checkbox-checked': checked,
+            'transfer-list-item-checkbox-disabled': disabled,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 ListItemCheckbox 样式
+ */
+export const getListItemCheckboxStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 列表项内容
+// ============================================
+
+/**
+ * 获取 ItemContent 类名
+ */
+export const getItemContentClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-item-content',
+        className
+    );
+};
+
+/**
+ * 获取 ItemContent 样式
+ */
+export const getItemContentStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 列表底部
+// ============================================
+
+/**
+ * 获取 ListFooter 类名
+ */
+export const getListFooterClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-list-footer',
+        className
+    );
+};
+
+/**
+ * 获取 ListFooter 样式
+ */
+export const getListFooterStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 操作按钮区
+// ============================================
+
+/**
+ * 获取 Operation 类名
+ */
+export const getOperationClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-operation',
+        className
+    );
+};
+
+/**
+ * 获取 Operation 样式
+ */
+export const getOperationStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 操作按钮
+// ============================================
+
+/**
+ * 获取 OperationButton 类名
+ */
+export const getOperationButtonClassName = (options: {
+    direction: 'right' | 'left';
+    disabled?: boolean;
+    className?: string;
+}): string => {
+    const { direction, disabled, className } = options;
+    return classNames(
+        'transfer-operation-button',
+        `transfer-operation-button-${direction}`,
+        {
+            'transfer-operation-button-disabled': disabled,
+        },
+        className
+    );
+};
+
+/**
+ * 获取 OperationButton 样式
+ */
+export const getOperationButtonStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 空状态
+// ============================================
+
+/**
+ * 获取 Empty 类名
+ */
+export const getEmptyClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-empty',
+        className
+    );
+};
+
+/**
+ * 获取 Empty 样式
+ */
+export const getEmptyStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 加载状态容器
+// ============================================
+
+/**
+ * 获取 Loading 类名
+ */
+export const getLoadingClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-loading',
+        className
+    );
+};
+
+/**
+ * 获取 Loading 样式
+ */
+export const getLoadingStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
+
+// ============================================
+// Transfer 加载动画
+// ============================================
+
+/**
+ * 获取 LoadingSpinner 类名
+ */
+export const getLoadingSpinnerClassName = (options: {
+    className?: string;
+}): string => {
+    const { className } = options;
+    return classNames(
+        'transfer-loading-spinner',
+        className
+    );
+};
+
+/**
+ * 获取 LoadingSpinner 样式
+ */
+export const getLoadingSpinnerStyle = (options: {
+    style?: CSSProperties;
+}): CSSProperties => {
+    const { style } = options;
+    return {
+        ...style,
+    };
+};
