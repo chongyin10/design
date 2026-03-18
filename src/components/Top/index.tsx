@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { FaArrowUp } from 'react-icons/fa';
+import Icon from '../Icon';
 import './Top.css';
 
 export interface TopProps {
@@ -74,7 +74,7 @@ const Top: React.FC<TopProps> = ({
         return null;
     }
 
-    const defaultIcon = <FaArrowUp size={Math.floor(size * 0.5)} />;
+    const defaultIcon = <Icon type="arrowUp" size={Math.floor(size * 0.5)} />;
     const iconSize = size * 0.5;
 
     if (containerRef?.current) {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
+import Icon from '../Icon';
 import './index.css';
 
 export interface MarqueeProps {
@@ -135,7 +135,7 @@ const Marquee: React.FC<MarqueeProps> = ({
                 onMouseEnter={() => { isPausedRef.current = true; }}
                 onMouseLeave={() => { isPausedRef.current = false; }}
             >
-                <IoClose size={18} color="#666" />
+                <Icon type="close" size={18} color="#666" />
             </div>
         </div>
     );

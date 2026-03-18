@@ -7,16 +7,16 @@ import {
     closestCenter,
     KeyboardSensor,
     PointerSensor,
-    useSensor,
-    useSensors,
     DragEndEvent
 } from '@dnd-kit/core';
+import * as DndSortCord from '@dnd-kit/core';
+const { useSensor, useSensors } = DndSortCord;
 import {
     arrayMove,
     SortableContext,
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+} from '../../utils/dnd-kit-adapter';
 import Empty from '../Empty';
 import Pagination from '../Pagination';
 import Tooltip from '../Tooltip';
@@ -864,7 +864,7 @@ const Table = ({
                 if (paginationData && pagination && typeof pagination === 'object' && pagination.total === undefined) {
                     const start = (paginationData.current - 1) * paginationData.pageSize;
                     const updatedDataSource = [...internalDataSource];
-                    newData.forEach((item, index) => {
+                    newData.forEach((item: any, index: number) => {
                         updatedDataSource[start + index] = item;
                     });
                     setInternalDataSource(updatedDataSource);

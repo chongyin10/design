@@ -33,8 +33,6 @@ export { default as Message, MessageProvider, useMessage, message } from './Mess
 export type { MessageProps, MessageInstance, MessageType } from './Message/types';
 export { default as Modal } from './Modal';
 export type { ModalProps } from './Modal/types';
-export { default as Notice } from './Notice/Notice';
-export type { NoticeProps, NoticeType } from './Notice/Notice';
 export { default as Notification } from './Notification/Notification';
 export type { NotificationProps, NotificationPosition } from './Notification/types';
 export { default as Radio } from './Radio';

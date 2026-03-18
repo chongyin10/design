@@ -1,5 +1,5 @@
 import React from 'react';
-import { I18nextProvider, useTranslation } from 'react-i18next';
+import { I18nextProvider, useTranslation } from '../utils/i18n-adapter';
 import i18n from './index';
 
 // 导出 load18n 工具函数，用于注册国际化资源

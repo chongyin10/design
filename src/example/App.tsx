@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Layout, Icon, Menu, Input, Carousel } from '../components';
 import ButtonExample from './Button';
 import CheckboxExample from './Checkbox';
-import NoticeExample from './Notice';
 import MarqueeExample from './Marquee';
 import TableExample from './Table';
 import TopExample from './Top';
@@ -90,7 +89,7 @@ const componentCategories: { key: string; label: string; icon?: string; componen
     {
         key: 'feedback',
         label: '反馈',
-        components: ['drawer', 'message', 'modal', 'notification', 'notice', 'popconfirm', 'progress', 'spin']
+        components: ['drawer', 'message', 'modal', 'notification', 'popconfirm', 'progress', 'spin']
     },
     {
         key: 'other',
@@ -130,7 +129,6 @@ const componentMeta: Record<string, { name: string; description: string }> = {
     menu: { name: 'Menu', description: '导航菜单' },
     message: { name: 'Message', description: '全局提示' },
     modal: { name: 'Modal', description: '模态对话框' },
-    notice: { name: 'Notice', description: '通知提醒' },
     notification: { name: 'Notification', description: '通知提示框' },
     pagination: { name: 'Pagination', description: '分页器' },
     popconfirm: { name: 'Popconfirm', description: '气泡确认框' },
@@ -263,7 +261,6 @@ const App: React.FC = () => {
             button: <ButtonExample />,
             flex: <FlexExample />,
             grid: <GridExample />,
-            notice: <NoticeExample />,
             marquee: <MarqueeExample />,
             table: <TableExample />,
             top: <TopExample />,

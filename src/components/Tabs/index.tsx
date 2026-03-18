@@ -7,20 +7,22 @@ import {
   DragEndEvent,
   DragStartEvent,
   PointerSensor,
-  useSensor,
-  useSensors,
   closestCenter
 } from '@dnd-kit/core';
+
+import * as DndSortCord from '@dnd-kit/core';
+const { useSensor, useSensors } = DndSortCord;
 import {
   SortableContext,
   horizontalListSortingStrategy,
-  useSortable,
-  arrayMove
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+  arrayMove,
+  useSortable
+} from '../../utils/dnd-kit-adapter';
+import * as DndCSS from '@dnd-kit/utilities';
 import Icon from '../Icon';
 import { TabItem, TabsProps } from './types';
 import './Tabs.css';
+const { CSS } = DndCSS;
 
 interface SortableTabProps {
   item: TabItem;

@@ -297,7 +297,7 @@
   "EMPTY_SIZE": "空状态尺寸",
   "EMPTY_CUSTOM_STYLE": "自定义样式",
   "EMPTY_CUSTOM_CLASS_NAME": "自定义CSS类名",
-  "NOTICE_COMPONENT_DESC": "这是一个滚动通知栏组件，使用 react-fast-marquee 实现无缝滚动效果。",
+  "NOTICE_COMPONENT_DESC": "这是一个滚动通知栏组件，使用实现无缝滚动效果。",
   "NOTICE_HIDDEN": "通知已隐藏",
   "HIDE_NOTICE": "隐藏通知",
   "SHOW_NOTICE": "显示通知",

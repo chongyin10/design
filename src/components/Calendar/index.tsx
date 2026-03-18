@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useCallback } from 'react';
 import classNames from 'classnames';
-import { Solar } from 'lunar-typescript';
+import { Solar } from '../../utils/lunar-adapter';
 import Icon from '../Icon';
 import Tooltip from '../Tooltip';
 import Input from '../Input';

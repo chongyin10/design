@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { SketchPicker } from 'react-color';
+import ColorPickerPanel from './ColorPickerPanel';
 import { ColorPickerProps } from './types';
 import './ColorPicker.css';
 import Button from '../Button';
@@ -37,13 +37,13 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
     );
 
     // 处理颜色变化
-    const handleColorChange = (colorObject: any, index?: number) => {
+    const handleColorChange = (colorObject: { hex: string }, index?: number) => {
         if (gradient && index !== undefined) {
             // 更新渐变色中的某个颜色
             const newGradientColors = [...gradientColors];
             newGradientColors[index] = colorObject.hex;
             setGradientColors(newGradientColors);
-            updateGradient();
+            updateGradient(newGradientColors, gradientDirection);
         } else {
             // 更新纯色
             setTempColor(colorObject.hex);
@@ -52,13 +52,11 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
     };
 
     // 更新渐变色字符串
-    const updateGradient = () => {
-        const gradientValue = `linear-gradient(${gradientDirection}deg, ${gradientColors[0]}, ${gradientColors[1]})`;
+    const updateGradient = (colors: string[] = gradientColors, direction: number = gradientDirection) => {
+        const gradientValue = `linear-gradient(${direction}deg, ${colors[0]}, ${colors[1]})`;
         setTempColor(gradientValue);
         onColorChange?.(gradientValue);
     };
-
-
 
     // 确认选择颜色
     const confirmColor = () => {
@@ -129,27 +127,26 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                 <div className="zjpcy-color-picker-popup">
                     <div className="zjpcy-color-picker-content" ref={contentRef}>
 
-
                         {/* 颜色选择器 */}
                         {gradient ? (
                             <>
                                 <div className="zjpcy-color-picker-gradient">
                                     <div className="zjpcy-color-picker-gradient-item">
                                         <div className="zjpcy-color-picker-gradient-label">起始颜色</div>
-                                        <SketchPicker
+                                        <ColorPickerPanel
                                             color={gradientColors[0]}
                                             onChange={(colorObject) => {
-                                                handleColorChange(colorObject, 0);
+                                                handleColorChange({ hex: colorObject.hex }, 0);
                                             }}
                                             disableAlpha={!alpha}
                                         />
                                     </div>
                                     <div className="zjpcy-color-picker-gradient-item">
                                         <div className="zjpcy-color-picker-gradient-label">结束颜色</div>
-                                        <SketchPicker
+                                        <ColorPickerPanel
                                             color={gradientColors[1]}
                                             onChange={(colorObject) => {
-                                                handleColorChange(colorObject, 1);
+                                                handleColorChange({ hex: colorObject.hex }, 1);
                                             }}
                                             disableAlpha={!alpha}
                                         />
@@ -165,8 +162,9 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                                         max="360"
                                         value={gradientDirection}
                                         onChange={(e) => {
-                                            setGradientDirection(parseInt(e.target.value));
-                                            updateGradient();
+                                            const newDirection = parseInt(e.target.value);
+                                            setGradientDirection(newDirection);
+                                            updateGradient(gradientColors, newDirection);
                                         }}
                                         className="zjpcy-color-picker-gradient-range"
                                     />
@@ -174,10 +172,10 @@ const ColorPickerComponent: React.FC<ColorPickerProps> = ({
                             </>
                         ) : (
                             /* 纯色选择器 */
-                            <SketchPicker
+                            <ColorPickerPanel
                                 color={tempColor}
                                 onChange={(colorObject) => {
-                                    handleColorChange(colorObject);
+                                    handleColorChange({ hex: colorObject.hex });
                                 }}
                                 disableAlpha={!alpha}
                             />

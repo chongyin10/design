@@ -1,5 +1,4 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import { i18n, initReactI18next } from '../utils/i18n-adapter';
 import zhCN from './locales/zh-CN.json';
 import enUS from './locales/en-US.json';
 // 配置 i18n

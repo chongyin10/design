@@ -1,10 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+import * as DndSortable from '../../utils/dnd-kit-adapter'
+
+import * as DndCss from '@dnd-kit/utilities';
 import { Column, RowSelection } from './index';
 import Checkbox from '../Checkbox';
 import Radio from '../Radio';
+const { useSortable } = DndSortable;
+const { CSS } = DndCss;
 
 interface SortableRowProps {
     id: string;

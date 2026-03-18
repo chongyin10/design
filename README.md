@@ -147,7 +147,6 @@ function App() {
 | `Drawer` | Slide-out panel |
 | `Message` | Message prompt |
 | `Modal` | Modal dialog |
-| `Notice` | Notification message |
 | `Notification` | Notification box |
 | `Popconfirm` | Confirmation popup |
 | `Progress` | Progress bar |

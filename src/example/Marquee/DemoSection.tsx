@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import './index.css';
-import { Button } from '../../components';
-import {
-    FaBullhorn,
-    FaGift,
-    FaExclamationTriangle,
-    FaStar,
-    FaArrowRight,
-    FaInfinity,
-    FaCogs,
-    FaPlay,
-    FaPause,
-    FaCheck,
-    FaTimes
-} from 'react-icons/fa';
+import { Button, Icon } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -91,10 +78,10 @@ export const FixDescription: React.FC = () => {
                         </div>
                     </div>
                     <div className="explain-text">
-                        <p><FaCheck /> 设置初始位置：<code>left: 100%</code>（在容器右侧）</p>
-                        <p><FaCheck /> 动画从 <code>transform: translateX(0)</code> 开始</p>
-                        <p><FaCheck /> 动画到 <code>transform: translateX(-100%)</code> 结束</p>
-                        <p><FaCheck /> 内容从完全不可见的位置开始，逐渐从右侧进入视窗</p>
+                        <p><Icon type="check" size={14} /> 设置初始位置：<code>left: 100%</code>（在容器右侧）</p>
+                        <p><Icon type="check" size={14} /> 动画从 <code>transform: translateX(0)</code> 开始</p>
+                        <p><Icon type="check" size={14} /> 动画到 <code>transform: translateX(-100%)</code> 结束</p>
+                        <p><Icon type="check" size={14} /> 内容从完全不可见的位置开始，逐渐从右侧进入视窗</p>
                     </div>
                 </div>
             </div>
@@ -102,43 +89,43 @@ export const FixDescription: React.FC = () => {
             <div className="demo-container">
                 <div className={`demo-content ${isDemoPaused ? 'paused' : ''}`}>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaBullhorn /></span>
+                        <span className="announcement-icon">📢</span>
                         <span className="announcement-text">演示：公告从右侧开始进入</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaGift /></span>
+                        <span className="announcement-icon">🎁</span>
                         <span className="announcement-text">演示：无缝滚动效果</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaExclamationTriangle /></span>
+                        <span className="announcement-icon">⚠️</span>
                         <span className="announcement-text">演示：从右向左平滑滚动</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaStar /></span>
+                        <span className="announcement-icon">⭐</span>
                         <span className="announcement-text">演示：修复完成</span>
                     </div>
 
                     {/* 重复一次 */}
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaBullhorn /></span>
+                        <span className="announcement-icon">📢</span>
                         <span className="announcement-text">演示：公告从右侧开始进入</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaGift /></span>
+                        <span className="announcement-icon">🎁</span>
                         <span className="announcement-text">演示：无缝滚动效果</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaExclamationTriangle /></span>
+                        <span className="announcement-icon">⚠️</span>
                         <span className="announcement-text">演示：从右向左平滑滚动</span>
                     </div>
                     <span className="announcement-separator">•</span>
                     <div className="demo-item">
-                        <span className="announcement-icon"><FaStar /></span>
+                        <span className="announcement-icon">⭐</span>
                         <span className="announcement-text">演示：修复完成</span>
                     </div>
                 </div>
@@ -150,7 +137,7 @@ export const FixDescription: React.FC = () => {
                     onClick={() => setIsDemoPaused(!isDemoPaused)}
                     variant="primary"
                 >
-                    {isDemoPaused ? <FaPlay /> : <FaPause />}
+                    {isDemoPaused ? '▶' : '⏸'}
                     {isDemoPaused ? ' 继续演示' : ' 暂停演示'}
                 </Button>
             </p>
@@ -162,17 +149,17 @@ export const FixDescription: React.FC = () => {
 export const Features: React.FC = () => {
     const features = [
         {
-            icon: <FaArrowRight />,
+            icon: <Icon type="arrowRight" />,
             title: '从右端进入',
             description: '公告内容从浏览器右侧完全不可见的位置开始进入，形成真正的从右向左滚动效果。'
         },
         {
-            icon: <FaInfinity />,
+            icon: '♾️',
             title: '无缝滚动',
             description: '使用两份相同的公告内容，实现真正的无缝循环，无延迟、无间断。'
         },
         {
-            icon: <FaCogs />,
+            icon: '⚙️',
             title: '可控交互',
             description: '支持暂停/继续、关闭公告栏、鼠标悬停暂停等功能，用户可自由控制公告显示。'
         }
@@ -198,8 +185,8 @@ export const OperationGuide: React.FC = () => {
             <ol>
                 <li>公告栏内容从<strong>浏览器右侧完全不可见的位置开始进入</strong></li>
                 <li>鼠标<strong>悬停在公告栏上会自动暂停</strong>，方便阅读</li>
-                <li>点击 <FaPause style={{ margin: '0 5px', verticalAlign: 'middle' }} /> 按钮可以手动暂停/继续滚动</li>
-                <li>点击 <FaTimes style={{ margin: '0 5px', verticalAlign: 'middle' }} /> 按钮可以关闭公告栏</li>
+                <li>点击 <span style={{ margin: '0 5px', verticalAlign: 'middle' }}>⏸</span> 按钮可以手动暂停/继续滚动</li>
+                <li>点击 <Icon type="close" size={14} style={{ margin: '0 5px', verticalAlign: 'middle' }} /> 按钮可以关闭公告栏</li>
                 <li>可以调整滚动速度，数值越大滚动越快</li>
             </ol>
         </div>
