@@ -1,147 +1,220 @@
 import React, { useState, useEffect } from 'react';
 import { Splitter, Table, Anchor } from '../../components';
-import type { Column } from '../../components/Table';
-import type { SplitterPanel } from '../../components/Splitter/types';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { CodePlayground, Section } from '../components';
+import type { ExtraLib } from '../components';
+import { splitterTypeLib } from '../utils';
 
-// 复制功能组件
-const CopyBlock: React.FC<{ code: string }> = ({ code }) => {
-  const [copied, setCopied] = useState(false);
+// 使用工具库中的类型定义
+const extraLibs: ExtraLib[] = [splitterTypeLib];
 
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('复制失败:', err);
-    }
-  };
-
+// 示例代码定义
+const basicCode = `const Example = () => {
   return (
-    <div style={{ position: 'relative', marginBottom: '16px' }}>
-      <button
-        onClick={handleCopy}
-        style={{
-          position: 'absolute',
-          top: '8px',
-          right: '8px',
-          padding: '4px 8px',
-          background: copied ? '#52c41a' : '#1890ff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          fontSize: '12px',
-          zIndex: 1,
-        }}
-      >
-        {copied ? '已复制' : '复制'}
-      </button>
-      <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={{ margin: 0 }}>
-        {code}
-      </SyntaxHighlighter>
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <Splitter.PanelContent title="左侧面板" color="#f0f2f5">
+          未设置宽度，自动平分
+        </Splitter.PanelContent>
+        <Splitter.PanelContent title="右侧面板" color="#e6f7ff">
+          未设置宽度，自动平分
+        </Splitter.PanelContent>
+      </Splitter>
     </div>
   );
-};
+};`;
 
-const Section: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div style={{ marginBottom: '32px' }}>
-    <h2 style={{ marginTop: 0, marginBottom: '16px', color: '#333' }}>{title}</h2>
-    {children}
-  </div>
-);
+const threePanelCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <Splitter.PanelContent title="面板 A" color="#fff0f6">
+          33.3%
+        </Splitter.PanelContent>
+        <Splitter.PanelContent title="面板 B" color="#f9f0ff">
+          33.3%
+        </Splitter.PanelContent>
+        <Splitter.PanelContent title="面板 C" color="#fff2e8">
+          33.3%
+        </Splitter.PanelContent>
+      </Splitter>
+    </div>
+  );
+};`;
 
-const PanelContent: React.FC<{ title: string; color: string; children?: React.ReactNode }> = ({ title, color, children }) => (
-  <div style={{
-    height: '100%',
-    background: color,
-    overflow: 'auto',
-    padding: '16px',
-    boxSizing: 'border-box',
-  }}>
-    <h3 style={{ margin: '0 0 8px 0' }}>{title}</h3>
-    {children}
-  </div>
-);
+const fixedCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <div style={{ width: 200 }}>
+          <Splitter.PanelContent title="固定 200px" color="#f0f2f5">
+            width: 200
+          </Splitter.PanelContent>
+        </div>
+        <Splitter.PanelContent title="自适应" color="#e6f7ff">
+          剩余空间
+        </Splitter.PanelContent>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const percentCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <Splitter.PanelContent title="30%" color="#fff0f6">
+          width: '30%'
+        </Splitter.PanelContent>
+        <Splitter.PanelContent title="70%" color="#f9f0ff">
+          剩余空间
+        </Splitter.PanelContent>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const mixedCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <div style={{ width: 150 }}>
+          <Splitter.PanelContent title="左固定 150px" color="#f0f2f5">
+            width: 150
+          </Splitter.PanelContent>
+        </div>
+        <Splitter.PanelContent title="中间自适应" color="#e6f7ff">
+          自动填充
+        </Splitter.PanelContent>
+        <div style={{ width: 150 }}>
+          <Splitter.PanelContent title="右固定 150px" color="#f6ffed">
+            width: 150
+          </Splitter.PanelContent>
+        </div>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const complexCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <div style={{ width: 200 }}>
+          <Splitter.PanelContent title="导航" color="#f0f2f5">
+            width: 200
+          </Splitter.PanelContent>
+        </div>
+        <div style={{ width: '50%' }}>
+          <Splitter.PanelContent title="主内容" color="#e6f7ff">
+            width: '50%'
+          </Splitter.PanelContent>
+        </div>
+        <Splitter.PanelContent title="属性面板" color="#f6ffed">
+          剩余空间
+        </Splitter.PanelContent>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const verticalCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter layout="vertical">
+        <div style={{ height: 100 }}>
+          <Splitter.PanelContent title="顶部固定 100px" color="#fff0f6">
+            height: 100
+          </Splitter.PanelContent>
+        </div>
+        <Splitter.PanelContent title="中间自适应" color="#f9f0ff">
+          剩余空间
+        </Splitter.PanelContent>
+        <div style={{ height: '30%' }}>
+          <Splitter.PanelContent title="底部 30%" color="#fff2e8">
+            height: '30%'
+          </Splitter.PanelContent>
+        </div>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const eventCode = `const Example = () => {
+  const [sizes, setSizes] = React.useState([]);
+
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter
+        onResize={(newSizes, index) => setSizes(newSizes)}
+        onResizeEnd={(finalSizes) => console.log('最终尺寸:', finalSizes)}
+      >
+        <Splitter.PanelContent title="左侧面板" color="#e6f7ff">
+          {sizes[0] && <p>当前: {sizes[0].toFixed(0)}px</p>}
+        </Splitter.PanelContent>
+        <Splitter.PanelContent title="右侧面板" color="#f6ffed">
+          {sizes[1] && <p>当前: {sizes[1].toFixed(0)}px</p>}
+        </Splitter.PanelContent>
+      </Splitter>
+    </div>
+  );
+};`;
+
+const nestedCode = `const Example = () => {
+  return (
+    <div style={{ height: '100%' }}>
+      <Splitter>
+        <div style={{ width: 200 }}>
+          <Splitter.PanelContent title="左侧导航" color="#f0f2f5" />
+        </div>
+        <Splitter layout="vertical">
+          <div style={{ height: '30%' }}>
+            <Splitter.PanelContent title="顶部" color="#e6f7ff" />
+          </div>
+          <Splitter.PanelContent title="底部" color="#f6ffed" />
+        </Splitter>
+      </Splitter>
+    </div>
+  );
+};`;
 
 const SplitterExample: React.FC = () => {
-  const [sizes, setSizes] = useState<number[]>([]);
   const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    // 获取滚动容器
     const container = document.querySelector('.app-content') as HTMLElement;
     setScrollContainer(container);
   }, []);
 
-  // API 表格列配置
-  const apiColumns: Column[] = [
-    { dataIndex: 'property', title: '属性', width: '140px' },
-    { dataIndex: 'description', title: '说明', width: '300px' },
-    { dataIndex: 'type', title: '类型', width: '350px' },
-    { dataIndex: 'default', title: '默认值', width: '150px' },
+  // 共享的 scope，包含 Splitter 组件
+  const scope = { Splitter };
+
+  // API 表格列定义
+  const apiColumns = [
+    { title: '属性', dataIndex: 'prop', key: 'prop' },
+    { title: '说明', dataIndex: 'desc', key: 'desc' },
+    { title: '类型', dataIndex: 'type', key: 'type' },
+    { title: '默认值', dataIndex: 'default', key: 'default' },
   ];
 
-  // API 数据源
-  const apiDataSource = [
-    { property: 'layout', description: '布局方向', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
-    { property: 'panels', description: '面板数组配置（多面板模式）', type: 'SplitterPanel[]', default: '-' },
-    { property: 'defaultSize', description: '默认大小（单值或数组）', type: 'number | string | (number | string)[]', default: "'50%'" },
-    { property: 'minSize', description: '最小尺寸（单值或数组）', type: 'number | number[]', default: '50' },
-    { property: 'maxSize', description: '最大尺寸（单值或数组）', type: 'number | number[]', default: 'Infinity' },
-    { property: 'splitterSize', description: '分割条大小（像素）', type: 'number', default: '10' },
-    { property: 'lineColor', description: '拖拽线颜色', type: 'string', default: '-' },
-    { property: 'lineHoverColor', description: '拖拽线悬停/拖拽时的颜色', type: 'string', default: '-' },
-    { property: 'disabled', description: '是否禁用拖拽', type: 'boolean', default: 'false' },
-    { property: 'onResize', description: '拖拽时的回调', type: '(sizes: number[], index: number) => void', default: '-' },
-    { property: 'onResizeEnd', description: '拖拽结束后的回调', type: '(sizes: number[]) => void', default: '-' },
-    { property: 'className', description: '自定义类名', type: 'string', default: '-' },
-    { property: 'style', description: '自定义样式', type: 'React.CSSProperties', default: '-' },
-    { property: 'left', description: '左侧面板（2面板模式，已废弃）', type: 'React.ReactNode', default: '-' },
-    { property: 'right', description: '右侧面板（2面板模式，已废弃）', type: 'React.ReactNode', default: '-' },
-    { property: 'top', description: '上面板（2面板模式，已废弃）', type: 'React.ReactNode', default: '-' },
-    { property: 'bottom', description: '下面板（2面板模式，已废弃）', type: 'React.ReactNode', default: '-' },
-    { property: 'children', description: '子元素数组', type: 'React.ReactNode[]', default: '-' },
+  // Splitter Props 数据
+  const splitterApiData = [
+    { key: '1', prop: 'layout', desc: '布局方向', type: "'horizontal' | 'vertical'", default: "'horizontal'" },
+    { key: '2', prop: 'splitterSize', desc: '分割条大小（像素）', type: 'number', default: '10' },
+    { key: '3', prop: 'lineColor', desc: '拖拽线颜色', type: 'string', default: '-' },
+    { key: '4', prop: 'lineHoverColor', desc: '悬停/拖拽时的颜色', type: 'string', default: '-' },
+    { key: '5', prop: 'disabled', desc: '是否禁用拖拽', type: 'boolean', default: 'false' },
+    { key: '6', prop: 'onResize', desc: '拖拽时的回调', type: '(sizes: number[], index: number) => void', default: '-' },
+    { key: '7', prop: 'onResizeEnd', desc: '拖拽结束后的回调', type: '(sizes: number[]) => void', default: '-' },
+    { key: '8', prop: 'className', desc: '自定义类名', type: 'string', default: "''" },
+    { key: '9', prop: 'style', desc: '自定义样式', type: 'React.CSSProperties', default: '-' },
+    { key: '10', prop: 'children', desc: '面板内容，通过 style 设置宽度', type: 'React.ReactNode[]', default: '-' },
   ];
 
-  // 多面板配置示例
-  const multiPanels: SplitterPanel[] = [
-    {
-      content: <PanelContent title="导航面板" color="#f0f2f5">固定宽度 200px</PanelContent>,
-      defaultSize: 200,
-      minSize: 150,
-      maxSize: 300,
-    },
-    {
-      content: <PanelContent title="主内容" color="#e6f7ff">自适应宽度</PanelContent>,
-      defaultSize: '40%',
-      minSize: 200,
-    },
-    {
-      content: <PanelContent title="属性面板" color="#f6ffed">最小 150px</PanelContent>,
-      minSize: 150,
-    },
-  ];
-
-  // 垂直多面板配置
-  const verticalPanels: SplitterPanel[] = [
-    {
-      content: <PanelContent title="顶部工具栏" color="#fff0f6">高度 80px</PanelContent>,
-      defaultSize: 80,
-      minSize: 60,
-      maxSize: 120,
-    },
-    {
-      content: <PanelContent title="编辑器" color="#f9f0ff">自适应高度</PanelContent>,
-      defaultSize: '60%',
-      minSize: 100,
-    },
-    {
-      content: <PanelContent title="底部控制台" color="#fff2e8">最小 100px</PanelContent>,
-      minSize: 100,
-    },
+  // PanelContent Props 数据
+  const panelContentApiData = [
+    { key: '1', prop: 'title', desc: '面板标题', type: 'string', default: '-' },
+    { key: '2', prop: 'color', desc: '背景颜色', type: 'string', default: '-' },
+    { key: '3', prop: 'children', desc: '面板内容', type: 'React.ReactNode', default: '-' },
   ];
 
   return (
@@ -149,356 +222,105 @@ const SplitterExample: React.FC = () => {
       <div style={{ display: 'flex', gap: '24px' }}>
         {/* 左侧主内容区 */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h1 id="splitter-intro">Splitter 分割面板</h1>
-          <p>用于自由切分指定区域，支持水平和垂直分隔，可拖拽调整各区域大小。支持双面板和多面板模式。</p>
+          <h1 id="splitter-intro">Splitter 分割面板（简洁版）</h1>
+          <p>
+            通过 children 内联样式设置面板宽度，未设置宽度的面板自动均分剩余空间。
+            <strong style={{ color: '#1890ff' }}> 编辑下方代码可实时预览效果！</strong>
+          </p>
 
-          {/* 双面板模式（向后兼容） */}
+          {/* 基础用法 */}
           <div id="splitter-basic">
-            <Section title="双面板模式（基础用法）">
-        <p>经典的左右/上下两面板布局，通过 left/right 或 top/bottom 属性配置</p>
-        <div style={{ height: 300 }}>
-          <Splitter
-            layout="horizontal"
-            defaultSize="30%"
-            minSize={100}
-            maxSize={500}
-            left={
-              <PanelContent title="左侧面板" color="#f0f2f5">
-                <p>默认宽度 30%</p>
-                <p>最小 100px，最大 500px</p>
-              </PanelContent>
-            }
-            right={
-              <PanelContent title="右侧面板" color="#e6f7ff">
-                <p>自动填充剩余空间</p>
-              </PanelContent>
-            }
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  defaultSize="30%"
-  minSize={100}
-  maxSize={500}
-  left={<div>左侧面板</div>}
-  right={<div>右侧面板</div>}
-/>`} />
+            <Section title="基础用法 - 两个面板平分">
+              <p>未设置宽度时，两个面板自动平分容器宽度</p>
+              <CodePlayground initialCode={basicCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 使用 children 方式 */}
-          <div id="splitter-children">
-            <Section title="使用 children（双面板）">
-        <p>使用 children 传递两个子元素作为左右面板</p>
-        <div style={{ height: 300 }}>
-          <Splitter layout="horizontal" defaultSize={200}>
-            <PanelContent title="左侧面板" color="#fff2e8">固定宽度 200px</PanelContent>
-            <PanelContent title="右侧面板" color="#f6ffed">自动填充剩余空间</PanelContent>
-          </Splitter>
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter layout="horizontal" defaultSize={200}>
-  <div>左侧面板</div>
-  <div>右侧面板</div>
-</Splitter>`} />
+          {/* 三个面板 */}
+          <div id="splitter-three">
+            <Section title="三个面板平分">
+              <p>三个面板均未设置宽度，自动三等分</p>
+              <CodePlayground initialCode={threePanelCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 多面板模式 - 水平 */}
-          <div id="splitter-multi-horizontal">
-            <Section title="多面板模式 - 水平布局">
-        <p>支持三个或更多面板，通过 panels 数组配置每个面板</p>
-        <div style={{ height: 300 }}>
-          <Splitter
-            layout="horizontal"
-            panels={multiPanels}
-            onResize={(newSizes) => setSizes(newSizes)}
-            onResizeEnd={(finalSizes) => console.log('最终尺寸:', finalSizes)}
-          />
-        </div>
-        <p style={{ color: '#666', fontSize: '14px' }}>
-          当前尺寸: {sizes.map((s, i) => `面板${i + 1}: ${s.toFixed(0)}px`).join(', ')}
-        </p>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-import type { SplitterPanel } from '@zjpcy/simple-design';
-
-const panels: SplitterPanel[] = [
-  {
-    content: <div>导航面板</div>,
-    defaultSize: 200,
-    minSize: 150,
-    maxSize: 300,
-  },
-  {
-    content: <div>主内容</div>,
-    defaultSize: '40%',
-    minSize: 200,
-  },
-  {
-    content: <div>属性面板</div>,
-    minSize: 150,
-  },
-];
-
-<Splitter layout="horizontal" panels={panels} />`} />
+          {/* 固定宽度 + 自适应 */}
+          <div id="splitter-fixed">
+            <Section title="固定宽度 + 自适应">
+              <p>左侧面板固定 200px，右侧面板自适应剩余空间</p>
+              <CodePlayground initialCode={fixedCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 多面板模式 - 垂直 */}
-          <div id="splitter-multi-vertical">
-            <Section title="多面板模式 - 垂直布局">
-        <p>垂直方向的多面板布局</p>
-        <div style={{ height: 400 }}>
-          <Splitter
-            layout="vertical"
-            panels={verticalPanels}
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-const panels: SplitterPanel[] = [
-  { content: <div>顶部工具栏</div>, defaultSize: 80, minSize: 60, maxSize: 120 },
-  { content: <div>编辑器</div>, defaultSize: '60%', minSize: 100 },
-  { content: <div>底部控制台</div>, minSize: 100 },
-];
-
-<Splitter layout="vertical" panels={panels} />`} />
+          {/* 百分比宽度 */}
+          <div id="splitter-percent">
+            <Section title="百分比宽度">
+              <p>左侧面板 30%，右侧面板 70%</p>
+              <CodePlayground initialCode={percentCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 使用 children 的多面板 */}
-          <div id="splitter-children-multi">
-            <Section title="多面板 - 使用 children">
-        <p>通过 children 传递多个子元素实现多面板，使用数组配置尺寸</p>
-        <div style={{ height: 300 }}>
-          <Splitter
-            layout="horizontal"
-            defaultSize={['25%', '35%', '40%']}
-            minSize={[100, 150, 100]}
-          >
-            <PanelContent title="面板 A" color="#fff0f6">25%</PanelContent>
-            <PanelContent title="面板 B" color="#f9f0ff">35%</PanelContent>
-            <PanelContent title="面板 C" color="#fff2e8">40%</PanelContent>
-          </Splitter>
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  defaultSize={['25%', '35%', '40%']}
-  minSize={[100, 150, 100]}
->
-  <div>面板 A</div>
-  <div>面板 B</div>
-  <div>面板 C</div>
-</Splitter>`} />
+          {/* 混合布局 */}
+          <div id="splitter-mixed">
+            <Section title="混合布局 - 固定 + 自适应 + 固定">
+              <p>左右固定宽度，中间自适应</p>
+              <CodePlayground initialCode={mixedCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 禁用特定分割条 */}
-          <div id="splitter-disabled-bar">
-            <Section title="禁用特定分割条">
-        <p>通过面板配置 disabled 属性，可以禁用特定相邻分割条的拖拽</p>
-        <div style={{ height: 300 }}>
-          <Splitter
-            layout="horizontal"
-            panels={[
-              {
-                content: <PanelContent title="固定面板" color="#fcffe6">左侧分割条已禁用</PanelContent>,
-                defaultSize: 200,
-                disabled: true,
-              },
-              {
-                content: <PanelContent title="可调整面板" color="#e6fffb">可以拖拽调整</PanelContent>,
-                defaultSize: '30%',
-              },
-              {
-                content: <PanelContent title="右侧面板" color="#f0f2f5">自动填充</PanelContent>,
-              },
-            ]}
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  panels={[
-    { content: <div>固定面板</div>, defaultSize: 200, disabled: true },
-    { content: <div>可调整面板</div>, defaultSize: '30%' },
-    { content: <div>右侧面板</div> },
-  ]}
-/>`} />
+          {/* 复杂布局 */}
+          <div id="splitter-complex">
+            <Section title="多面板复杂布局">
+              <p>导航固定 200px，主内容区 50%，右侧自适应</p>
+              <CodePlayground initialCode={complexCode} height={300} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 垂直分隔示例 */}
+          {/* 垂直布局 */}
           <div id="splitter-vertical">
-            <Section title="垂直分隔（双面板）">
-        <p>上下两个面板，可拖拽中间的分割条调整大小</p>
-        <div style={{ height: 400 }}>
-          <Splitter
-            layout="vertical"
-            defaultSize="40%"
-            minSize={80}
-            onResize={(newSizes) => console.log('垂直双面板尺寸:', newSizes)}
-            top={
-              <PanelContent title="顶部面板" color="#fff0f6">
-                <p>默认高度 40%</p>
-                <p>最小高度 80px</p>
-              </PanelContent>
-            }
-            bottom={
-              <PanelContent title="底部面板" color="#f9f0ff">
-                <p>自动填充剩余空间</p>
-              </PanelContent>
-            }
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="vertical"
-  defaultSize="40%"
-  minSize={80}
-  top={<div>顶部面板</div>}
-  bottom={<div>底部面板</div>}
-/>`} />
+            <Section title="垂直布局">
+              <p>使用 layout="vertical" 实现上下分隔</p>
+              <CodePlayground initialCode={verticalCode} height={400} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
-          {/* 禁用拖拽 */}
-          <div id="splitter-disabled">
-            <Section title="禁用拖拽">
-        <p>设置 disabled 属性禁用所有拖拽调整</p>
-        <div style={{ height: 200 }}>
-          <Splitter
-            layout="horizontal"
-            defaultSize="50%"
-            disabled
-            left={
-              <PanelContent title="左侧面板" color="#fcffe6">拖拽已禁用</PanelContent>
-            }
-            right={
-              <PanelContent title="右侧面板" color="#e6fffb" />
-            }
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  defaultSize="50%"
-  disabled
-  left={<div>左侧面板</div>}
-  right={<div>右侧面板</div>}
-/>`} />
-            </Section>
-          </div>
-
-          {/* 自定义颜色 */}
-          <div id="splitter-custom-color">
-            <Section title="自定义颜色">
-        <p>自定义拖拽线的颜色</p>
-        <div style={{ height: 200 }}>
-          <Splitter
-            layout="horizontal"
-            defaultSize="50%"
-            lineColor="#d9d9d9"
-            lineHoverColor="#52c41a"
-            left={
-              <PanelContent title="左侧面板" color="#f0f2f5" />
-            }
-            right={
-              <PanelContent title="右侧面板" color="#f6ffed" />
-            }
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  defaultSize="50%"
-  lineColor="#d9d9d9"
-  lineHoverColor="#52c41a"
-  left={<div>左侧面板</div>}
-  right={<div>右侧面板</div>}
-/>`} />
+          {/* 事件回调 */}
+          <div id="splitter-event">
+            <Section title="拖拽回调">
+              <p>onResize 和 onResizeEnd 回调获取面板尺寸</p>
+              <CodePlayground initialCode={eventCode} height={200} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
           {/* 嵌套使用 */}
           <div id="splitter-nested">
             <Section title="嵌套使用">
-        <p>嵌套 Splitter 实现复杂布局</p>
-        <div style={{ height: 400 }}>
-          <Splitter
-            layout="horizontal"
-            defaultSize="25%"
-            left={
-              <PanelContent title="左侧导航" color="#f0f2f5" />
-            }
-            right={
-              <Splitter
-                layout="vertical"
-                defaultSize="30%"
-                top={
-                  <PanelContent title="顶部内容" color="#e6f7ff" />
-                }
-                bottom={
-                  <PanelContent title="底部内容" color="#f6ffed" />
-                }
-              />
-            }
-          />
-        </div>
-        <CopyBlock code={`import { Splitter } from '@zjpcy/simple-design';
-
-<Splitter
-  layout="horizontal"
-  defaultSize="25%"
-  left={<div>左侧导航</div>}
-  right={
-    <Splitter
-      layout="vertical"
-      defaultSize="30%"
-      top={<div>顶部内容</div>}
-      bottom={<div>底部内容</div>}
-    />
-  }
-/>`} />
+              <p>嵌套 Splitter 实现复杂布局</p>
+              <CodePlayground initialCode={nestedCode} height={400} scope={scope} extraLibs={extraLibs} />
             </Section>
           </div>
 
           {/* API 文档 */}
           <div id="splitter-api">
             <Section title="API">
-              <h3>Props</h3>
-              <Table
-                columns={apiColumns}
-                dataSource={apiDataSource}
-                pagination={false}
-              />
+              <h3>Splitter Props</h3>
+              <div style={{ marginBottom: '16px' }}>
+                <Table columns={apiColumns} dataSource={splitterApiData} bordered />
+              </div>
 
-              <h3 style={{ marginTop: '24px' }}>SplitterPanel</h3>
-              <Table
-                columns={[
-                  { dataIndex: 'property', title: '属性', width: '140px' },
-                  { dataIndex: 'description', title: '说明', width: '300px' },
-                  { dataIndex: 'type', title: '类型', width: '350px' },
-                  { dataIndex: 'default', title: '默认值', width: '150px' },
-                ]}
-                dataSource={[
-                  { property: 'content', description: '面板内容', type: 'React.ReactNode', default: '-' },
-                  { property: 'defaultSize', description: '面板默认大小', type: 'number | string', default: "'auto'" },
-                  { property: 'minSize', description: '面板最小尺寸', type: 'number', default: '50' },
-                  { property: 'maxSize', description: '面板最大尺寸', type: 'number', default: 'Infinity' },
-                  { property: 'disabled', description: '是否禁用相邻分割条', type: 'boolean', default: 'false' },
-                ]}
-                pagination={false}
-              />
+              <h3>PanelContent Props</h3>
+              <div style={{ marginBottom: '16px' }}>
+                <Table columns={apiColumns} dataSource={panelContentApiData} bordered />
+              </div>
+
+              <h3>使用说明</h3>
+              <ul>
+                <li>使用 <code>{'<Splitter.PanelContent>'}</code> 快速创建带标题和样式的面板</li>
+                <li>水平布局时，在子元素上设置 <code>style={'{'} width: 200 {'}'}</code> 或 <code>style={'{'} width: '30%' {'}'}</code></li>
+                <li>垂直布局时，在子元素上设置 <code>style={'{'} height: 100 {'}'}</code> 或 <code>style={'{'} height: '40%' {'}'}</code></li>
+                <li>未设置宽度的子元素将自动均分剩余空间</li>
+                <li>所有子元素都会被包裹在可拖拽的面板容器中</li>
+              </ul>
             </Section>
           </div>
         </div>
@@ -514,15 +336,14 @@ const panels: SplitterPanel[] = [
                 bounds={30}
               >
                 <Anchor.Link href="#splitter-intro" title="组件介绍" />
-                <Anchor.Link href="#splitter-basic" title="双面板模式" />
-                <Anchor.Link href="#splitter-children" title="使用 children" />
-                <Anchor.Link href="#splitter-multi-horizontal" title="多面板水平" />
-                <Anchor.Link href="#splitter-multi-vertical" title="多面板垂直" />
-                <Anchor.Link href="#splitter-children-multi" title="children 多面板" />
-                <Anchor.Link href="#splitter-disabled-bar" title="禁用分割条" />
-                <Anchor.Link href="#splitter-vertical" title="垂直分隔" />
-                <Anchor.Link href="#splitter-disabled" title="禁用拖拽" />
-                <Anchor.Link href="#splitter-custom-color" title="自定义颜色" />
+                <Anchor.Link href="#splitter-basic" title="基础用法" />
+                <Anchor.Link href="#splitter-three" title="三个面板" />
+                <Anchor.Link href="#splitter-fixed" title="固定宽度" />
+                <Anchor.Link href="#splitter-percent" title="百分比" />
+                <Anchor.Link href="#splitter-mixed" title="混合布局" />
+                <Anchor.Link href="#splitter-complex" title="复杂布局" />
+                <Anchor.Link href="#splitter-vertical" title="垂直布局" />
+                <Anchor.Link href="#splitter-event" title="事件回调" />
                 <Anchor.Link href="#splitter-nested" title="嵌套使用" />
                 <Anchor.Link href="#splitter-api" title="API 文档" />
               </Anchor>

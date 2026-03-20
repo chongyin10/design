@@ -2,27 +2,44 @@
 
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import './Splitter.css';
-import { SplitterProps, DragState, SplitterPanel } from './types';
+import { SplitterProps, DragState, PanelContentProps } from './types';
 import {
   getContainerStyle,
   getPanelStyle,
   getSplitterBarStyle,
   getSplitterLineStyle,
-  parseSizeConfig,
-  parseNumberConfig,
-  parseSizeToPixels,
+  parseWidthFromChild,
 } from './styles';
 
 /**
- * Splitter 主组件 - 自由切分指定区域为多部分
- * 支持水平和垂直分隔，可拖拽调整各区域大小，支持多面板
+ * 面板内容组件 - 用于快速创建带标题和样式的面板
  */
-export const Splitter: React.FC<SplitterProps> = ({
+const PanelContent: React.FC<PanelContentProps> = ({ title, color, children }) => (
+  <div style={{
+    height: '100%',
+    padding: 16,
+    background: color || '#f0f2f5',
+    borderRadius: 4,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    boxSizing: 'border-box',
+  }}>
+    <h4 style={{ margin: '0 0 8px 0', fontSize: 14 }}>{title}</h4>
+    {children && <div style={{ fontSize: 12, opacity: 0.8 }}>{children}</div>}
+  </div>
+);
+
+/**
+ * Splitter 主组件 - 简洁版
+ * 仅通过 children 内联样式控制面板宽度
+ * 未设置宽度的面板自动均分剩余空间
+ */
+export const Splitter: React.FC<SplitterProps> & {
+  PanelContent: React.FC<PanelContentProps>;
+} = ({
   layout = 'horizontal',
-  panels: panelsProp,
-  defaultSize = '50%',
-  minSize = 50,
-  maxSize = Infinity,
   splitterSize,
   lineColor,
   lineHoverColor,
@@ -31,10 +48,6 @@ export const Splitter: React.FC<SplitterProps> = ({
   onResizeEnd,
   className = '',
   style,
-  left,
-  right,
-  top,
-  bottom,
   children,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,39 +62,15 @@ export const Splitter: React.FC<SplitterProps> = ({
     splitterIndex: -1,
   });
 
-  // 获取面板内容数组
-  const panels = useMemo<React.ReactNode[]>(() => {
-    // 优先使用 panels 配置
-    if (panelsProp && panelsProp.length > 0) {
-      return panelsProp.map(p => p.content);
-    }
+  // 处理 children 为数组
+  const childArray = useMemo<React.ReactNode[]>(() => {
+    if (!children) return [];
+    return React.Children.toArray(children);
+  }, [children]);
 
-    // 兼容旧版 API
-    if (layout === 'vertical') {
-      if (top && bottom) return [top, bottom];
-    } else {
-      if (left && right) return [left, right];
-    }
+  const panelCount = childArray.length;
 
-    // 使用 children
-    if (children && Array.isArray(children)) {
-      return children;
-    }
-
-    return [];
-  }, [panelsProp, layout, left, right, top, bottom, children]);
-
-  const panelCount = panels.length;
-
-  // 获取面板配置（如果有）
-  const getPanelConfig = useCallback((index: number): Partial<SplitterPanel> => {
-    if (panelsProp && panelsProp[index]) {
-      return panelsProp[index];
-    }
-    return {};
-  }, [panelsProp]);
-
-  // 计算容器尺寸
+  // 获取容器的宽度或高度
   const getContainerSize = useCallback((): number => {
     if (!containerRef.current) return 0;
     const rect = containerRef.current.getBoundingClientRect();
@@ -96,49 +85,51 @@ export const Splitter: React.FC<SplitterProps> = ({
     return parseInt(cssSize, 10) || 10;
   }, [splitterSize]);
 
+  // 从 children 解析初始宽度配置
+  const parseChildrenWidths = useCallback((): (number | string | null)[] => {
+    return childArray.map(child => parseWidthFromChild(child, layout));
+  }, [childArray, layout]);
+
+  // 计算面板初始尺寸
+  const calculateInitialSizes = useCallback((containerSize: number): number[] => {
+    const splitterSizeValue = getSplitterSizeValue();
+    const totalSplitterSize = splitterSizeValue * (panelCount - 1);
+    const availableSpace = Math.max(0, containerSize - totalSplitterSize);
+
+    const widths = parseChildrenWidths();
+    const sizes: number[] = new Array(panelCount).fill(0);
+    const unsetIndices: number[] = [];
+    let usedSpace = 0;
+
+    // 第一遍：处理已设置的宽度
+    widths.forEach((width, index) => {
+      if (width !== null) {
+        const size = parseWidthToPixels(width, availableSpace);
+        sizes[index] = size;
+        usedSpace += size;
+      } else {
+        unsetIndices.push(index);
+      }
+    });
+
+    // 第二遍：为未设置的面板均分剩余空间
+    if (unsetIndices.length > 0) {
+      const remainingSpace = Math.max(0, availableSpace - usedSpace);
+      const equalSize = remainingSpace / unsetIndices.length;
+      unsetIndices.forEach(index => {
+        sizes[index] = equalSize;
+      });
+    }
+
+    return sizes;
+  }, [panelCount, getSplitterSizeValue, parseChildrenWidths]);
+
   // 初始化面板尺寸
   useEffect(() => {
     const containerSize = getContainerSize();
-    if (containerSize > 0 && panelCount > 0) {
-      const splitterSizeValue = getSplitterSizeValue();
-      const totalSplitterSize = splitterSizeValue * (panelCount - 1);
-      const availableSpace = Math.max(0, containerSize - totalSplitterSize);
-
-      // 解析配置
-      const defaultSizes = parseSizeConfig(defaultSize, panelCount, `${100 / panelCount}%`);
-      const minSizes = parseNumberConfig(minSize, panelCount, 50);
-      const maxSizes = parseNumberConfig(maxSize, panelCount, Infinity);
-
-      // 获取面板特定的配置
-      const panelDefaultSizes = panelsProp
-        ? panelsProp.map((p) => p.defaultSize ?? defaultSizes[panelsProp.indexOf(p)])
-        : defaultSizes;
-      const panelMinSizes = panelsProp
-        ? panelsProp.map((p) => p.minSize ?? minSizes[panelsProp.indexOf(p)])
-        : minSizes;
-      const panelMaxSizes = panelsProp
-        ? panelsProp.map((p) => p.maxSize ?? maxSizes[panelsProp.indexOf(p)])
-        : maxSizes;
-
-      // 计算初始尺寸
-      let initialSizes = panelDefaultSizes.map((size) =>
-        parseSizeToPixels(size, availableSpace)
-      );
-
-      // 应用约束并处理百分比情况
-      const totalSize = initialSizes.reduce((sum, s) => sum + s, 0);
-      if (totalSize !== availableSpace && availableSpace > 0) {
-        // 按比例调整
-        const ratio = availableSpace / totalSize;
-        initialSizes = initialSizes.map(s => s * ratio);
-      }
-
-      // 应用最小/最大约束
-      initialSizes = initialSizes.map((size, index) =>
-        Math.max(panelMinSizes[index], Math.min(panelMaxSizes[index], size))
-      );
-
-      setPanelSizes(initialSizes);
+    if (containerSize > 0 && panelCount >= 2) {
+      const sizes = calculateInitialSizes(containerSize);
+      setPanelSizes(sizes);
     }
   }, [panelCount]);
 
@@ -168,11 +159,6 @@ export const Splitter: React.FC<SplitterProps> = ({
   const handleDragStart = useCallback((index: number) => (e: React.MouseEvent | React.TouchEvent) => {
     if (disabled) return;
 
-    // 检查该分割条是否被禁用
-    const leftPanelConfig = getPanelConfig(index);
-    const rightPanelConfig = getPanelConfig(index + 1);
-    if (leftPanelConfig.disabled || rightPanelConfig.disabled) return;
-
     e.preventDefault();
     const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX;
     const clientY = 'touches' in e ? e.touches[0].clientY : (e as React.MouseEvent).clientY;
@@ -190,7 +176,7 @@ export const Splitter: React.FC<SplitterProps> = ({
 
     setIsDragging(true);
     setActiveSplitterIndex(index);
-  }, [disabled, layout, panelSizes, getContainerSize, getPanelConfig]);
+  }, [disabled, layout, panelSizes, getContainerSize]);
 
   // 处理拖拽中
   const handleDragMove = useCallback((e: MouseEvent | TouchEvent) => {
@@ -204,23 +190,6 @@ export const Splitter: React.FC<SplitterProps> = ({
     const index = dragStateRef.current.splitterIndex;
     const startSizes = dragStateRef.current.startSizes;
 
-    // 获取左右面板的最小/最大约束
-    const minSizes = parseNumberConfig(minSize, panelCount, 50);
-    const maxSizes = parseNumberConfig(maxSize, panelCount, Infinity);
-
-    // 应用面板特定的约束
-    const panelMinSizes = panelsProp
-      ? panelsProp.map((p, i) => p.minSize ?? minSizes[i])
-      : minSizes;
-    const panelMaxSizes = panelsProp
-      ? panelsProp.map((p, i) => p.maxSize ?? maxSizes[i])
-      : maxSizes;
-
-    const leftMin = panelMinSizes[index];
-    const leftMax = panelMaxSizes[index];
-    const rightMin = panelMinSizes[index + 1];
-    const rightMax = panelMaxSizes[index + 1];
-
     const leftStartSize = startSizes[index];
     const rightStartSize = startSizes[index + 1];
 
@@ -228,21 +197,15 @@ export const Splitter: React.FC<SplitterProps> = ({
     let newLeftSize = leftStartSize + delta;
     let newRightSize = rightStartSize - delta;
 
-    // 应用约束
-    if (newLeftSize < leftMin) {
-      newLeftSize = leftMin;
-      newRightSize = leftStartSize + rightStartSize - leftMin;
-    } else if (newLeftSize > leftMax) {
-      newLeftSize = leftMax;
-      newRightSize = leftStartSize + rightStartSize - leftMax;
+    // 应用最小约束（至少10px）
+    const minSize = 10;
+    if (newLeftSize < minSize) {
+      newLeftSize = minSize;
+      newRightSize = leftStartSize + rightStartSize - minSize;
     }
-
-    if (newRightSize < rightMin) {
-      newRightSize = rightMin;
-      newLeftSize = leftStartSize + rightStartSize - rightMin;
-    } else if (newRightSize > rightMax) {
-      newRightSize = rightMax;
-      newLeftSize = leftStartSize + rightStartSize - rightMax;
+    if (newRightSize < minSize) {
+      newRightSize = minSize;
+      newLeftSize = leftStartSize + rightStartSize - minSize;
     }
 
     const newSizes = [...panelSizes];
@@ -251,7 +214,7 @@ export const Splitter: React.FC<SplitterProps> = ({
 
     setPanelSizes(newSizes);
     onResize?.(newSizes, index);
-  }, [disabled, layout, panelSizes, panelCount, minSize, maxSize, panelsProp, onResize]);
+  }, [disabled, layout, panelSizes, onResize]);
 
   // 处理拖拽结束
   const handleDragEnd = useCallback(() => {
@@ -280,7 +243,7 @@ export const Splitter: React.FC<SplitterProps> = ({
     }
   }, [isDragging, handleDragMove, handleDragEnd]);
 
-  // 如果没有面板，返回空
+  // 如果没有足够面板，返回空
   if (panelCount < 2) {
     console.warn('Splitter requires at least 2 panels');
     return null;
@@ -299,7 +262,7 @@ export const Splitter: React.FC<SplitterProps> = ({
       className={containerClassName}
       style={getContainerStyle(layout, style)}
     >
-      {panels.map((panel, index) => {
+      {childArray.map((child, index) => {
         const size = panelSizes[index] || 0;
         const isLast = index === panelCount - 1;
 
@@ -310,7 +273,7 @@ export const Splitter: React.FC<SplitterProps> = ({
               className="zjpcy-splitter__panel"
               style={getPanelStyle(size, layout, index, panelCount)}
             >
-              {panel}
+              {child}
             </div>
 
             {/* 分割条（最后一个面板后面不需要） */}
@@ -319,9 +282,7 @@ export const Splitter: React.FC<SplitterProps> = ({
                 className={[
                   'zjpcy-splitter__bar',
                   activeSplitterIndex === index ? 'zjpcy-splitter__bar-dragging' : '',
-                  disabled || getPanelConfig(index).disabled || getPanelConfig(index + 1).disabled
-                    ? 'zjpcy-splitter__bar-disabled'
-                    : '',
+                  disabled ? 'zjpcy-splitter__bar-disabled' : '',
                 ].filter(Boolean).join(' ')}
                 style={getSplitterBarStyle(layout, splitterSize, disabled, index)}
                 onMouseDown={handleDragStart(index)}
@@ -345,5 +306,32 @@ export const Splitter: React.FC<SplitterProps> = ({
     </div>
   );
 };
+
+/**
+ * 将宽度值转换为像素
+ * @param width - 宽度值（数字或百分比字符串）
+ * @param availableSpace - 可用空间
+ * @returns 像素值
+ */
+function parseWidthToPixels(width: number | string, availableSpace: number): number {
+  if (typeof width === 'number') return width;
+  if (typeof width === 'string' && width.endsWith('%')) {
+    const percentage = parseFloat(width) / 100;
+    return availableSpace * percentage;
+  }
+  // 处理其他单位（px, rem等）
+  const numericValue = parseFloat(width);
+  if (!isNaN(numericValue)) {
+    if (width.includes('px')) return numericValue;
+    if (width.includes('rem')) return numericValue * 16; // 简化为 1rem = 16px
+    if (width.includes('em')) return numericValue * 16;
+    // 默认视为像素
+    return numericValue;
+  }
+  return availableSpace / 2; // 默认一半
+}
+
+// 将 PanelContent 附加为 Splitter 的静态属性
+Splitter.PanelContent = PanelContent;
 
 export default Splitter;

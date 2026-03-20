@@ -25,9 +25,15 @@ module.exports = {
   },
   externalsType: 'window',
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
+    static: [
+      {
+        directory: path.join(__dirname, 'public'),
+      },
+      {
+        directory: path.join(__dirname, 'node_modules/monaco-editor/min/vs'),
+        publicPath: '/monaco-editor/vs',
+      },
+    ],
     compress: true,
     port: 8081,
     hot: true,

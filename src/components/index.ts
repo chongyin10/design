@@ -118,6 +118,6 @@ export type {
     UseChunkUploadReturn
 } from './Upload/types';
 export { default as Splitter } from './Splitter';
-export type { SplitterProps, SplitterPanel, DragState, PanelSizeInfo } from './Splitter/types';
+export type { SplitterProps, DragState, PanelSizeInfo, PanelContentProps } from './Splitter/types';
 export { default as Calendar } from './Calendar';
 export type { CalendarProps, CalendarHeaderProps, CalendarDateCellProps, CalendarMonthCellProps, CalendarBodyProps, CalendarYearPanelProps, DateInfoData, DateInfoItem, DatePanelFormConfig, DatePanelField } from './Calendar/types';
