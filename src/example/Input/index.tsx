@@ -112,18 +112,23 @@ const Demo = () => {
           {/* 尺寸 */}
           <div id="input-size">
             <Section title="尺寸">
-              <DemoRow title="默认宽度">
-                <Input placeholder="默认宽度" />
+              <DemoRow title="small 尺寸">
+                <Input placeholder="小尺寸输入框" size="small" width="200px" />
               </DemoRow>
-              <DemoRow title="固定宽度">
-                <Input placeholder="宽度 200px" width="200px" />
+              <DemoRow title="middle 尺寸（默认）">
+                <Input placeholder="中尺寸输入框" size="middle" width="200px" />
               </DemoRow>
-              <DemoRow title="百分比宽度">
-                <Input placeholder="宽度 50%" width="50%" />
+              <DemoRow title="large 尺寸">
+                <Input placeholder="大尺寸输入框" size="large" width="200px" />
               </DemoRow>
-              <CopyBlock code={`<Input placeholder="默认宽度" />
-<Input placeholder="宽度 200px" width="200px" />
-<Input placeholder="宽度 50%" width="50%" />`} />
+              <CopyBlock code={`// small 尺寸
+<Input placeholder="小尺寸" size="small" />
+
+// middle 尺寸（默认）
+<Input placeholder="中尺寸" size="middle" />
+
+// large 尺寸
+<Input placeholder="大尺寸" size="large" />`} />
             </Section>
           </div>
 
@@ -681,6 +686,7 @@ const [textareaSize, setTextareaSize] = useState({ width: 300, height: 80 });
                   { property: 'labelGap', description: '标签到输入框的距离', type: 'string | number', default: '8' },
                   { property: 'labelClassName', description: '标签的CSS类名', type: 'string', default: '-' },
                   { property: 'labelStyle', description: '标签的样式', type: 'React.CSSProperties', default: '-' },
+                  { property: 'size', description: '输入框尺寸', type: `'large' | 'middle' | 'small'`, default: `'middle'` },
                   { property: 'onChange', description: '输入变化事件', type: '(e: React.ChangeEvent) => void', default: '-' },
                   { property: 'onBlur', description: '失去焦点事件', type: '(e: React.FocusEvent) => void', default: '-' },
                   { property: 'onFocus', description: '获取焦点事件', type: '(e: React.FocusEvent) => void', default: '-' },

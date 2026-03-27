@@ -34,6 +34,8 @@ export interface InputProps {
     error?: boolean;
     /** 自动完成属性 */
     autoComplete?: string;
+    /** 尺寸大小 */
+    size?: 'large' | 'middle' | 'small';
 }
 
 const InputBase: React.FC<InputProps> = ({
@@ -60,26 +62,27 @@ const InputBase: React.FC<InputProps> = ({
     labelStyle,
     error, // 从 Form 组件传入的错误状态，不传递给 input
     autoComplete,
+    size = 'middle',
     ...rest
 }) => {
     const [internalValue, setInternalValue] = React.useState<string>(defaultValue || '');
     const [isFocused, setIsFocused] = React.useState(false);
-    
+
     const renderIcon = (icon: string | React.ReactNode) => {
         if (!icon) return null;
-        
+
         if (typeof icon === 'string') {
             return <Icon type={icon} size="medium" color="#909399" />;
         }
-        
+
         return icon;
     };
-    
+
     const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(true);
         onFocus?.(e);
     };
-    
+
     const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
         setIsFocused(false);
         onBlur?.(e);
@@ -92,7 +95,7 @@ const InputBase: React.FC<InputProps> = ({
         }
         onChange?.(e);
     };
-    
+
     const handleClear = () => {
         if (!disabled && !readOnly) {
             if (value !== undefined) {
@@ -115,7 +118,7 @@ const InputBase: React.FC<InputProps> = ({
             }
         }
     };
-    
+
     // 确定实际使用的值
     const actualValue = value !== undefined ? value : internalValue;
 
@@ -127,6 +130,9 @@ const InputBase: React.FC<InputProps> = ({
                           actualValue !== undefined &&
                           actualValue !== null &&
                           actualValue.toString().length > 0;
+
+    // 是否需要显示后缀区域
+    const showSuffixGroup = showClearButton || suffix;
 
     return (
         <div className="input-base-container">
@@ -143,7 +149,7 @@ const InputBase: React.FC<InputProps> = ({
                     </div>
                 )}
                 <div
-                    className={`input-wrapper ${className} ${disabled ? 'input-wrapper-disabled' : ''} ${readOnly ? 'input-wrapper-readonly' : ''}`}
+                    className={`input-wrapper input-wrapper-${size} ${className} ${disabled ? 'input-wrapper-disabled' : ''} ${readOnly ? 'input-wrapper-readonly' : ''}`}
                     style={{
                         width,
                         ...style
@@ -164,15 +170,19 @@ const InputBase: React.FC<InputProps> = ({
                     autoComplete={autoComplete ?? (type === 'password' ? 'current-password' : undefined)}
                     {...rest}
                 />
-                <div className="input-suffix-group">
-                    <div
-                        className={`input-suffix-clear ${showClearButton ? 'visible' : ''}`}
-                        onClick={handleClear}
-                    >
-                        <Icon type="close" size="medium" color="#1890ff" />
+                {showSuffixGroup && (
+                    <div className="input-suffix-group">
+                        {clear && (
+                            <div
+                                className={`input-suffix-clear ${showClearButton ? 'visible' : ''}`}
+                                onClick={handleClear}
+                            >
+                                <Icon type="close" size="medium" color="#1890ff" />
+                            </div>
+                        )}
+                        {suffix && <div className="input-suffix-content">{renderIcon(suffix)}</div>}
                     </div>
-                    {suffix && <div className="input-suffix-content">{renderIcon(suffix)}</div>}
-                </div>
+                )}
                 </div>
             </div>
             {extra && (

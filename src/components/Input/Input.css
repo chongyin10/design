@@ -38,6 +38,7 @@
 .input-wrapper:hover {
     border-color: var(--zjpcy-input-border-hover);
     box-shadow: var(--zjpcy-input-box-shadow-hover);
+    background-color: #fff;
 }
 
 /* ============================================
@@ -123,12 +124,14 @@
     visibility: hidden;
     transform: scale(0.8) rotate(-45deg);
     transition: all var(--zjpcy-transition-duration) var(--zjpcy-transition-timing-function);
+    pointer-events: none;
 }
 
 .input-suffix-clear.visible {
     opacity: 1;
     visibility: visible;
     transform: scale(1) rotate(0deg);
+    pointer-events: auto;
 }
 
 .input-suffix-clear:hover {
@@ -566,4 +569,65 @@
 
 .input-wrapper:focus-within {
     animation: input-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   输入框尺寸样式
+   ============================================ */
+.input-wrapper-small {
+    height: 24px;
+    font-size: 12px;
+}
+
+.input-wrapper-small .input-inner {
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+.input-wrapper-small .input-prefix {
+    margin: 0 0 0 8px;
+}
+
+.input-wrapper-small .input-suffix-group {
+    margin: 0 8px 0 4px;
+    gap: 4px;
+}
+
+.input-wrapper-small .input-suffix-clear {
+    width: 14px;
+    height: 14px;
+}
+
+.input-wrapper-middle {
+    height: 32px;
+    font-size: 14px;
+}
+
+.input-wrapper-middle .input-inner {
+    padding: 4px 12px;
+    font-size: 14px;
+}
+
+.input-wrapper-large {
+    height: 40px;
+    font-size: 16px;
+}
+
+.input-wrapper-large .input-inner {
+    padding: 8px 16px;
+    font-size: 16px;
+}
+
+.input-wrapper-large .input-prefix {
+    margin: 0 0 0 16px;
+}
+
+.input-wrapper-large .input-suffix-group {
+    margin: 0 16px 0 8px;
+    gap: 12px;
+}
+
+.input-wrapper-large .input-suffix-clear {
+    width: 20px;
+    height: 20px;
 }
