@@ -41,7 +41,7 @@ export const useForm = (): [FormInstance] => {
   return [formInstanceRef.current];
 };
 
-const Form: React.FC<FormProps> & { Item: typeof FormItem } = ({
+const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useForm } = ({
   children,
   className = '',
   style,
@@ -510,6 +510,7 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
 };
 
 Form.Item = FormItem;
+Form.useForm = useForm;
 
 export default Form;
 export type { FormProps, FormItemProps, Rule, FormContextType, FormInstance };

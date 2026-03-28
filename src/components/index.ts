@@ -76,7 +76,7 @@ export { default as Layout } from './Layout';
 export type { LayoutProps, LayoutHeaderProps, LayoutContentProps, LayoutFooterProps, LayoutSiderProps, LayoutConfig } from './Layout/types';
 export { default as Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
-export { default as Form } from './Form';
+export { default as Form, useForm } from './Form';
 export type { FormProps, FormItemProps, FormInstance, Rule } from './Form/types';
 export { default as Grid, Row, Col } from './Grid';
 export type { GridProps, RowProps, ColProps } from './Grid/types';

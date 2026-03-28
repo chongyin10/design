@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Table, Flex, Modal, Anchor } from '../../components';
-import Form, { useForm } from '../../components/Form';
+import { Input, Button, Table, Flex, Modal, Anchor, Form } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import type { Column } from '../../components/Table';
@@ -61,14 +60,14 @@ const DemoBox: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 
 const FormExample: React.FC = () => {
-  const [form1] = useForm();
-  const [form2] = useForm();
-  const [form3] = useForm();
-  const [form4] = useForm();
-  const [form5] = useForm();
-  const [form6] = useForm();
-  const [form7] = useForm();
-  const [modalForm] = useForm();
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
+  const [form3] = Form.useForm();
+  const [form4] = Form.useForm();
+  const [form5] = Form.useForm();
+  const [form6] = Form.useForm();
+  const [form7] = Form.useForm();
+  const [modalForm] = Form.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
@@ -236,10 +235,9 @@ const FormExample: React.FC = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   const onFinish = (values) => {
     console.log('表单值:', values);
@@ -315,10 +313,9 @@ const Demo = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   const onFinish = (values) => {
     console.log('表单值:', values);
@@ -383,10 +380,9 @@ const Demo = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   const onFinish = (values) => {
     console.log('表单值:', values);
@@ -547,10 +543,9 @@ const Demo = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   return (
     <Form form={form} layout="horizontal" labelSpan={6}>
@@ -610,10 +605,9 @@ const Demo = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   return (
     <Form
@@ -692,10 +686,9 @@ const Demo = () => {
                 </Form>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 
 const Demo = () => {
-  const [form] = useForm();
+  const [form] = Form.useForm();
   
   const handleSetValues = () => {
     form.setFieldsValue({
@@ -836,13 +829,12 @@ const Demo = () => {
                 </Modal>
               </DemoBox>
               <CopyBlock code={`import { Form, Input, Button, Modal } from '@zjpcy/simple-design';
-import { useForm } from '@zjpcy/simple-design/components/Form';
 import { useState } from 'react';
 
 const Demo = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [form] = useForm();
+  const [form] = Form.useForm();
 
   const handleOk = () => {
     form.validateFields().then(values => {

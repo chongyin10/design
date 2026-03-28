@@ -98,8 +98,8 @@ export interface TableProps {
 }
 
 const Table = ({
-    dataSource = [],
-    columns = [],
+    dataSource,
+    columns,
     bordered = false,
     scroll = {},
     rowKey = 'key',
@@ -113,6 +113,11 @@ const Table = ({
     onDragEnd,
     rowSelection,
 }: TableProps) => {
+    // 类型安全处理：确保 dataSource 和 columns 是数组，防止类型错误导致无限循环
+    // 使用 useMemo 缓存结果，避免每次渲染创建新数组导致 useEffect 无限循环
+    const safeDataSource = useMemo(() => Array.isArray(dataSource) ? dataSource : [], [dataSource]);
+    const safeColumns = useMemo(() => Array.isArray(columns) ? columns : [], [columns]);
+
     const [fixedLeftColumns, setFixedLeftColumns] = useState<Column[]>([]);
     const [fixedRightColumns, setFixedRightColumns] = useState<Column[]>([]);
     const [normalColumns, setNormalColumns] = useState<Column[]>([]);
@@ -120,7 +125,7 @@ const Table = ({
     const [currentPage, setCurrentPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [internalLoading, setInternalLoading] = useState(loading);
-    const [internalDataSource, setInternalDataSource] = useState(dataSource);
+    const [internalDataSource, setInternalDataSource] = useState(safeDataSource);
     const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const tableRef = useRef<HTMLDivElement>(null);
     const headerInnerRef = useRef<HTMLDivElement>(null);
@@ -154,8 +159,8 @@ const Table = ({
 
     // 同步外部数据源的变化
     useEffect(() => {
-        setInternalDataSource(dataSource);
-    }, [dataSource]);
+        setInternalDataSource(safeDataSource);
+    }, [safeDataSource]);
 
     // 处理 loading 延迟
     useEffect(() => {
@@ -211,7 +216,7 @@ const Table = ({
         const normalCols: Column[] = [];
         const widths: number[] = [];
 
-        columns.forEach((col, index) => {
+        safeColumns.forEach((col, index) => {
             const colWidth = getColumnWidth(col.width);
             widths[index] = colWidth;
             const columnWithIndex = { ...col, _index: index };
@@ -233,7 +238,7 @@ const Table = ({
         requestAnimationFrame(() => {
             updateFixedColumnsPosition.current(0);
         });
-    }, [columns]);
+    }, [safeColumns]);
 
     // 更新固定列位置的函数 - 使用useCallback避免重复创建
     const updateFixedColumnsPosition = useRef((newScrollLeft: number) => {
@@ -945,7 +950,7 @@ const Table = ({
                     id={String(getRowKey(record, rowIndex))}
                     record={record}
                     rowIndex={rowIndex}
-                    columns={columns}
+                    columns={safeColumns}
                     columnWidths={columnWidths}
                     fixedLeftColumns={fixedLeftColumns}
                     fixedRightColumns={fixedRightColumns}
