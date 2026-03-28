@@ -147,6 +147,11 @@ const Table = ({
         ? rowSelection.selectedRowKeys
         : internalSelectedRowKeys;
 
+    // 提前提取 pagination 的基本类型值，避免对象引用变化导致的无限循环
+    const paginationTotal = pagination && typeof pagination === 'object' ? pagination.total : undefined;
+    const paginationCurrent = pagination && typeof pagination === 'object' ? pagination.current : undefined;
+    const paginationPageSize = pagination && typeof pagination === 'object' ? pagination.pageSize : undefined;
+
     // 同步外部数据源的变化
     useEffect(() => {
         setInternalDataSource(dataSource);
@@ -176,12 +181,11 @@ const Table = ({
         };
     }, [loading, loadingDelay]);
 
+    // 同步 pagination 的 current 和 pageSize
     useEffect(() => {
-        if (pagination && typeof pagination === 'object') {
-            if (pagination.current !== undefined) setCurrentPage(pagination.current);
-            if (pagination.pageSize !== undefined) setPageSize(pagination.pageSize);
-        }
-    }, [pagination && typeof pagination === 'object' ? pagination.current : undefined, pagination && typeof pagination === 'object' ? pagination.pageSize : undefined]);
+        if (paginationCurrent !== undefined) setCurrentPage(paginationCurrent);
+        if (paginationPageSize !== undefined) setPageSize(paginationPageSize);
+    }, [paginationCurrent, paginationPageSize]);
 
     // 清理 requestAnimationFrame 和 timeout
     useEffect(() => {
@@ -893,11 +897,13 @@ const Table = ({
     };
 
     const allColumns = [...fixedLeftColumns, ...normalColumns, ...fixedRightColumns];
-    
-    // 使用 useMemo 缓存 paginationData，避免每次渲染重新计算
+
+    // 使用 useMemo 缓存 paginationData，依赖基本类型值避免无限循环
     const paginationData = useMemo(() => getPaginationData(), [
         internalDataSource,
-        pagination,
+        paginationTotal,
+        paginationCurrent,
+        paginationPageSize,
         pageSize,
         currentPage
     ]);
@@ -908,7 +914,7 @@ const Table = ({
             return null;
         }
 
-        const { total, current: paginationCurrent, pageSize: paginationPageSize } = paginationData;
+        const { total, current: pCurrent, pageSize: pPageSize } = paginationData;
 
         // 从 pagination 中解构出会与内部状态冲突的属性
         const { onChange: _, pageSize: __, current: ___, ...restPagination } = pagination || {};
@@ -917,8 +923,8 @@ const Table = ({
             <div className="custom-table-pagination-wrapper">
                 <Pagination
                     total={total}
-                    current={paginationCurrent}
-                    pageSize={paginationPageSize}
+                    current={pCurrent}
+                    pageSize={pPageSize}
                     onChange={handlePageChange}
                     showTotal={(totalValue: number, range: [number, number]) => `第 ${range[0]}-${range[1]} 条，共 ${totalValue} 条`}
                     showSizeChanger={true}
