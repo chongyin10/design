@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useContext, createContext, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useContext, createContext, useCallback, useRef, useEffect, useMemo } from 'react';
 import { FormProps, FormItemProps, FormContextType, FormInstance, Rule } from './types';
 import {
     getFormWrapperClassName,
@@ -63,52 +63,95 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
   const itemsRef = useRef<Map<string, any>>(new Map());
   const formInstanceRef = useRef<FormInstance | null>(null);
 
+  // 使用 ref 存储最新的 values 和 errors，避免闭包问题
+  const valuesRef = useRef<Record<string, any>>(initialValues);
+  const errorsRef = useRef<Record<string, string>>({});
+
+  // 同步 values 到 ref
+  useEffect(() => {
+    valuesRef.current = values;
+  }, [values]);
+
+  // 同步 errors 到 ref
+  useEffect(() => {
+    errorsRef.current = errors;
+  }, [errors]);
+
   const setFieldValue = useCallback((name: string, value: any) => {
+    // 只处理已注册的表单项
+    if (!itemsRef.current.has(name)) {
+      return;
+    }
     setValues(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
+    // 直接更新 ref，确保立即生效
+    valuesRef.current = { ...valuesRef.current, [name]: value };
+    if (errorsRef.current[name]) {
       setErrors(prev => {
         const newErrors = { ...prev };
         delete newErrors[name];
         return newErrors;
       });
+      delete errorsRef.current[name];
     }
-  }, [errors]);
+  }, []);
 
   const getFieldValue = useCallback((name: string) => {
-    return values[name];
-  }, [values]);
+    // 只读取已注册的表单项，使用 ref 获取最新值
+    if (!itemsRef.current.has(name)) {
+      return undefined;
+    }
+    return valuesRef.current[name];
+  }, []);
 
   const setFieldValueList = useCallback((newValues: Record<string, any>) => {
-    setValues(prev => ({ ...prev, ...newValues }));
+    // 只处理已注册的表单项
+    const registeredValues: Record<string, any> = {};
     Object.keys(newValues).forEach(name => {
-      if (errors[name]) {
+      if (itemsRef.current.has(name)) {
+        registeredValues[name] = newValues[name];
+      }
+    });
+
+    if (Object.keys(registeredValues).length === 0) {
+      return;
+    }
+
+    setValues(prev => ({ ...prev, ...registeredValues }));
+    // 直接更新 ref，确保立即生效
+    valuesRef.current = { ...valuesRef.current, ...registeredValues };
+
+    Object.keys(registeredValues).forEach(name => {
+      if (errorsRef.current[name]) {
         setErrors(prev => {
           const newErrors = { ...prev };
           delete newErrors[name];
           return newErrors;
         });
+        delete errorsRef.current[name];
       }
     });
-  }, [errors]);
+  }, []);
 
   const validateField = useCallback(async (name: string) => {
     const item = itemsRef.current.get(name);
     if (!item) return;
 
     const { rules } = item;
-    const value = values[name];
+    const value = valuesRef.current[name];
     if (!rules || rules.length === 0) return;
 
     for (const rule of rules) {
       if (rule.required && (value === undefined || value === null || value === '')) {
         const errorMessage = rule.message || `${name} is required`;
         setErrors(prev => ({ ...prev, [name]: errorMessage }));
+        errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
         return errorMessage;
       }
 
       if (rule.pattern && !rule.pattern.test(value)) {
         const errorMessage = rule.message || `${name} format is invalid`;
         setErrors(prev => ({ ...prev, [name]: errorMessage }));
+        errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
         return errorMessage;
       }
 
@@ -146,6 +189,7 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
         if (!isValid) {
           const errorMessage = rule.message || `${name} must be a ${rule.type}`;
           setErrors(prev => ({ ...prev, [name]: errorMessage }));
+          errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
           return errorMessage;
         }
       }
@@ -153,18 +197,21 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
       if (rule.min !== undefined && value.length < rule.min) {
         const errorMessage = rule.message || `${name} must be at least ${rule.min} characters`;
         setErrors(prev => ({ ...prev, [name]: errorMessage }));
+        errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
         return errorMessage;
       }
 
       if (rule.max !== undefined && value.length > rule.max) {
         const errorMessage = rule.message || `${name} must be at most ${rule.max} characters`;
         setErrors(prev => ({ ...prev, [name]: errorMessage }));
+        errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
         return errorMessage;
       }
 
       if (rule.len !== undefined && value.length !== rule.len) {
         const errorMessage = rule.message || `${name} must be exactly ${rule.len} characters`;
         setErrors(prev => ({ ...prev, [name]: errorMessage }));
+        errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
         return errorMessage;
       }
 
@@ -174,6 +221,7 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : rule.message || `${name} validation failed`;
           setErrors(prev => ({ ...prev, [name]: errorMessage }));
+          errorsRef.current = { ...errorsRef.current, [name]: errorMessage };
           return errorMessage;
         }
       }
@@ -184,8 +232,9 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
       delete newErrors[name];
       return newErrors;
     });
+    delete errorsRef.current[name];
     return null;
-  }, [values]);
+  }, []);
 
   const validateFields = useCallback(async (names?: string[]): Promise<Record<string, any>> => {
     const fieldNames = names || Array.from(itemsRef.current.keys());
@@ -196,39 +245,50 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
       throw new Error('Validation failed');
     }
 
-    return values;
-  }, [validateField, values]);
+    return { ...valuesRef.current };
+  }, [validateField]);
 
   const resetFields = useCallback((names?: string[]) => {
-    if (names) {
-      const newValues = { ...values };
-      names.forEach(name => {
-        newValues[name] = initialValues[name] || undefined;
+    // 只重置已注册的表单项
+    const registeredNames = names?.filter(name => itemsRef.current.has(name)) ||
+                            Array.from(itemsRef.current.keys());
+
+    if (registeredNames.length > 0) {
+      const newValues = { ...valuesRef.current };
+      registeredNames.forEach(name => {
+        newValues[name] = initialValues[name] !== undefined ? initialValues[name] : undefined;
       });
       setValues(newValues);
-    } else {
-      setValues(initialValues);
+      valuesRef.current = newValues;
     }
     setErrors({});
-  }, [values, initialValues]);
+    errorsRef.current = {};
+  }, [initialValues]);
 
-  const formInstance: FormInstance = {
+  // 使用 useMemo 避免每次渲染重新创建 formInstance
+  const formInstance: FormInstance = useMemo(() => ({
     getFieldValue,
     getFieldsValue: (names?: string[]) => {
-      if (!names) return values;
+      // 只返回已注册的表单项的值，使用 ref 获取最新值
+      const registeredNames = names?.filter(name => itemsRef.current.has(name)) ||
+                              Array.from(itemsRef.current.keys());
       const result: Record<string, any> = {};
-      names.forEach(name => {
-        result[name] = values[name];
+      registeredNames.forEach(name => {
+        result[name] = valuesRef.current[name];
       });
       return result;
     },
     setFieldValue,
     setFieldsValue: setFieldValueList,
     setFields: (fields: { name: string; errors?: string[]; value?: any }[]) => {
-      const newValues = { ...values };
-      const newErrors = { ...errors };
-      
+      const newValues = { ...valuesRef.current };
+      const newErrors = { ...errorsRef.current };
+
       fields.forEach(field => {
+        // 只处理已注册的表单项
+        if (!itemsRef.current.has(field.name)) {
+          return;
+        }
         if (field.value !== undefined) {
           newValues[field.name] = field.value;
         }
@@ -238,9 +298,11 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
           delete newErrors[field.name];
         }
       });
-      
+
       setValues(newValues);
       setErrors(newErrors);
+      valuesRef.current = newValues;
+      errorsRef.current = newErrors;
     },
     resetFields,
     validateFields,
@@ -255,10 +317,12 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     destroy: () => {
       setValues({});
       setErrors({});
+      valuesRef.current = {};
+      errorsRef.current = {};
       itemsRef.current.clear();
       formInstanceRef.current = null;
     }
-  };
+  }), [getFieldValue, setFieldValue, setFieldValueList, resetFields, validateFields]);
 
   useEffect(() => {
     formInstanceRef.current = formInstance;
@@ -282,9 +346,9 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     e.preventDefault();
     try {
       await validateFields();
-      onFinish?.(values);
+      onFinish?.(valuesRef.current);
     } catch (error) {
-      onFinishFailed?.({ error, values });
+      onFinishFailed?.({ error, values: valuesRef.current });
     }
   };
 
@@ -380,7 +444,14 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
   children
 }) => {
   const context = useContext(FormContext);
-  const [localValue, setLocalValue] = useState<any>(name && context?.values[name] ? context.values[name as string] : '');
+  // 初始化 localValue，确保 undefined/null 时使用空字符串
+  const [localValue, setLocalValue] = useState<any>(() => {
+    if (name && context?.values && name in context.values) {
+      const val = context.values[name];
+      return val !== undefined && val !== null ? val : '';
+    }
+    return '';
+  });
 
   // 立即注册表单项
   if (registerItem && name) {
@@ -388,8 +459,10 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
   }
 
   useEffect(() => {
-    if (context && name) {
-      setLocalValue(context.values[name]);
+    if (context && name && context.values && name in context.values) {
+      const val = context.values[name];
+      // 当值变为 undefined/null 时，更新为空字符串，确保输入框能正确显示
+      setLocalValue(val !== undefined && val !== null ? val : '');
     }
   }, [context, name, context?.values]);
 

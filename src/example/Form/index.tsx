@@ -58,6 +58,122 @@ const DemoBox: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 
+// Form 同步测试组件 - 验证 setFieldsValue/getFieldsValue 修复
+const FormSyncTest: React.FC = () => {
+  const [form] = Form.useForm();
+  const [logText, setLogText] = useState('');
+
+  const log = (msg: string) => {
+    setLogText(prev => prev + msg + '\n');
+  };
+
+  const clearLog = () => {
+    setLogText('');
+  };
+
+  // 测试1：设置值后立即获取
+  const testSetAndGet = () => {
+    clearLog();
+    log('=== 测试 setFieldsValue 后立即 getFieldsValue ===');
+    form.setFieldsValue({ username: 'test123' });
+    const values = form.getFieldsValue();
+    log('设置 username = "test123"');
+    log('立即获取值: ' + JSON.stringify(values));
+    log('结果: ' + (values.username === 'test123' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试2：设置空字符串
+  const testSetEmpty = () => {
+    clearLog();
+    log('=== 测试设置空字符串 ===');
+    form.setFieldsValue({ username: 'initial' });
+    log('先设置 username = "initial"');
+    form.setFieldsValue({ username: '' });
+    log('再设置 username = ""');
+    const values = form.getFieldsValue();
+    log('获取值: ' + JSON.stringify(values));
+    log('结果: ' + (values.username === '' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试3：连续设置和获取
+  const testContinuous = () => {
+    clearLog();
+    log('=== 测试连续设置和获取 ===');
+    form.setFieldsValue({ username: 'a' });
+    log('设置 username = "a"，获取: ' + form.getFieldsValue().username);
+    form.setFieldsValue({ username: 'ab' });
+    log('设置 username = "ab"，获取: ' + form.getFieldsValue().username);
+    form.setFieldsValue({ username: 'abc' });
+    log('设置 username = "abc"，获取: ' + form.getFieldsValue().username);
+    log('结果: ' + (form.getFieldsValue().username === 'abc' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试4：resetFields 后获取
+  const testResetAndGet = () => {
+    clearLog();
+    log('=== 测试 resetFields 后获取值 ===');
+    form.setFieldsValue({ username: 'before_reset' });
+    log('设置 username = "before_reset"');
+    form.resetFields();
+    log('调用 resetFields()');
+    const values = form.getFieldsValue();
+    log('获取值: ' + JSON.stringify(values));
+    log('结果: ✅ 重置成功');
+  };
+
+  // 测试5：getFieldValue 单个字段
+  const testSingleField = () => {
+    clearLog();
+    log('=== 测试 getFieldValue 单个字段 ===');
+    form.setFieldsValue({ username: 'single_test', email: 'test@example.com' });
+    log('设置 username = "single_test", email = "test@example.com"');
+    const username = form.getFieldValue('username');
+    log('getFieldValue("username"): ' + username);
+    log('结果: ' + (username === 'single_test' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  return (
+    <div>
+      <Form
+        form={form}
+        layout="horizontal"
+        labelSpan={6}
+        initialValues={{ username: '', email: '' }}
+      >
+        <Form.Item name="username" label="用户名">
+          <Input placeholder="请输入用户名" />
+        </Form.Item>
+        <Form.Item name="email" label="邮箱">
+          <Input placeholder="请输入邮箱" />
+        </Form.Item>
+      </Form>
+
+      <Flex gap="small" wrap="wrap" style={{ marginTop: 16 }}>
+        <Button variant="primary" onClick={testSetAndGet}>测试设置后立即获取</Button>
+        <Button onClick={testSetEmpty}>测试设置空字符串</Button>
+        <Button onClick={testContinuous}>测试连续操作</Button>
+        <Button onClick={testResetAndGet}>测试重置</Button>
+        <Button onClick={testSingleField}>测试单个字段</Button>
+        <Button onClick={clearLog}>清空日志</Button>
+      </Flex>
+
+      <div style={{
+        marginTop: 16,
+        padding: 12,
+        background: '#f5f5f5',
+        borderRadius: 4,
+        fontFamily: 'monospace',
+        whiteSpace: 'pre-wrap',
+        minHeight: 150,
+        maxHeight: 300,
+        overflow: 'auto'
+      }}>
+        {logText || '点击按钮运行测试...'}
+      </div>
+    </div>
+  );
+};
+
 
 const FormExample: React.FC = () => {
   const [form1] = Form.useForm();
@@ -71,6 +187,55 @@ const FormExample: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
   const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+
+  // Form + Table 组合示例
+  const [queryForm] = Form.useForm();
+  const [tableData] = useState([
+    { id: 1, name: '张三', age: 28, email: 'zhangsan@example.com' },
+    { id: 2, name: '李四', age: 32, email: 'lisi@example.com' },
+    { id: 3, name: '王五', age: 26, email: 'wangwu@example.com' },
+    { id: 4, name: '赵六', age: 35, email: 'zhaoliu@example.com' },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  const tableColumns: Column[] = [
+    { dataIndex: 'id', title: 'ID', width: 80 },
+    { dataIndex: 'name', title: '姓名', width: 120 },
+    { dataIndex: 'age', title: '年龄', width: 100 },
+    { dataIndex: 'email', title: '邮箱' },
+  ];
+
+  const handleQuery = (values: any) => {
+    console.log('查询条件:', values);
+    setLoading(true);
+    // 模拟查询
+    setTimeout(() => {
+      setLoading(false);
+      // 这里可以根据 values 过滤数据
+      alert('查询条件：' + JSON.stringify(values, null, 2));
+    }, 500);
+  };
+
+  const handleQueryReset = () => {
+    queryForm.resetFields();
+    console.log('表单已重置');
+    // 验证：Table 中的数据不应该被重置
+    alert('表单已重置，Table 数据保持不变！');
+  };
+
+  const handleQueryGetValues = () => {
+    const values = queryForm.getFieldsValue();
+    console.log('当前表单值:', values);
+    alert('当前表单值：' + JSON.stringify(values, null, 2));
+  };
+
+  const handleQuerySetValues = () => {
+    queryForm.setFieldsValue({
+      keyword: '测试关键词',
+      status: 'active',
+      name: '测试名称',
+    });
+  };
 
   useEffect(() => {
     // 获取滚动容器
@@ -744,6 +909,132 @@ const Demo = () => {
             </Section>
           </div>
 
+          <div id="form-sync-test">
+            <Section title="setFieldsValue/getFieldsValue 同步测试">
+              <p>验证 setFieldsValue 后立即调用 getFieldsValue 能获取到最新值（修复了闭包问题）。</p>
+              <DemoBox>
+                <FormSyncTest />
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button, Flex } from '@zjpcy/simple-design';
+import { useState } from 'react';
+
+const FormSyncTest = () => {
+  const [form] = Form.useForm();
+  const [logText, setLogText] = useState('');
+
+  const log = (msg: string) => {
+    setLogText(prev => prev + msg + '\\n');
+  };
+
+  const clearLog = () => {
+    setLogText('');
+  };
+
+  // 测试1：设置值后立即获取
+  const testSetAndGet = () => {
+    clearLog();
+    log('=== 测试 setFieldsValue 后立即 getFieldsValue ===');
+    form.setFieldsValue({ username: 'test123' });
+    const values = form.getFieldsValue();
+    log('设置 username = "test123"');
+    log('立即获取值: ' + JSON.stringify(values));
+    log('结果: ' + (values.username === 'test123' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试2：设置空字符串
+  const testSetEmpty = () => {
+    clearLog();
+    log('=== 测试设置空字符串 ===');
+    form.setFieldsValue({ username: 'initial' });
+    log('先设置 username = "initial"');
+    form.setFieldsValue({ username: '' });
+    log('再设置 username = ""');
+    const values = form.getFieldsValue();
+    log('获取值: ' + JSON.stringify(values));
+    log('结果: ' + (values.username === '' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试3：连续设置和获取
+  const testContinuous = () => {
+    clearLog();
+    log('=== 测试连续设置和获取 ===');
+    form.setFieldsValue({ username: 'a' });
+    log('设置 username = "a"，获取: ' + form.getFieldsValue().username);
+    form.setFieldsValue({ username: 'ab' });
+    log('设置 username = "ab"，获取: ' + form.getFieldsValue().username);
+    form.setFieldsValue({ username: 'abc' });
+    log('设置 username = "abc"，获取: ' + form.getFieldsValue().username);
+    log('结果: ' + (form.getFieldsValue().username === 'abc' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  // 测试4：resetFields 后获取
+  const testResetAndGet = () => {
+    clearLog();
+    log('=== 测试 resetFields 后获取值 ===');
+    form.setFieldsValue({ username: 'before_reset' });
+    log('设置 username = "before_reset"');
+    form.resetFields();
+    log('调用 resetFields()');
+    const values = form.getFieldsValue();
+    log('获取值: ' + JSON.stringify(values));
+    log('结果: ✅ 重置成功');
+  };
+
+  // 测试5：getFieldValue 单个字段
+  const testSingleField = () => {
+    clearLog();
+    log('=== 测试 getFieldValue 单个字段 ===');
+    form.setFieldsValue({ username: 'single_test', email: 'test@example.com' });
+    log('设置 username = "single_test", email = "test@example.com"');
+    const username = form.getFieldValue('username');
+    log('getFieldValue("username"): ' + username);
+    log('结果: ' + (username === 'single_test' ? '✅ 通过' : '❌ 失败'));
+  };
+
+  return (
+    <div>
+      <Form
+        form={form}
+        layout="horizontal"
+        labelSpan={6}
+        initialValues={{ username: '', email: '' }}
+      >
+        <Form.Item name="username" label="用户名">
+          <Input placeholder="请输入用户名" />
+        </Form.Item>
+        <Form.Item name="email" label="邮箱">
+          <Input placeholder="请输入邮箱" />
+        </Form.Item>
+      </Form>
+
+      <Flex gap="small" wrap="wrap" style={{ marginTop: 16 }}>
+        <Button variant="primary" onClick={testSetAndGet}>测试设置后立即获取</Button>
+        <Button onClick={testSetEmpty}>测试设置空字符串</Button>
+        <Button onClick={testContinuous}>测试连续操作</Button>
+        <Button onClick={testResetAndGet}>测试重置</Button>
+        <Button onClick={testSingleField}>测试单个字段</Button>
+        <Button onClick={clearLog}>清空日志</Button>
+      </Flex>
+
+      <div style={{
+        marginTop: 16,
+        padding: 12,
+        background: '#f5f5f5',
+        borderRadius: 4,
+        fontFamily: 'monospace',
+        whiteSpace: 'pre-wrap',
+        minHeight: 150,
+        maxHeight: 300,
+        overflow: 'auto'
+      }}>
+        {logText || '点击按钮运行测试...'}
+      </div>
+    </div>
+  );
+};`} />
+            </Section>
+          </div>
+
           <div id="form-modal">
             <Section title="在 Modal 中使用">
               <p>Form 组件可以与 Modal 组件结合使用，实现弹窗表单的场景。</p>
@@ -913,6 +1204,114 @@ const Demo = () => {
             </Section>
           </div>
 
+          <div id="form-table">
+            <Section title="Form + Table 组合使用">
+              <p>Form 组件与 Table 组件组合使用</p>
+              <DemoBox>
+                <Form
+                  form={queryForm}
+                  layout="inline"
+                  initialValues={{ keyword: '', status: '' }}
+                  onFinish={handleQuery}
+                  style={{ marginBottom: 16 }}
+                >
+                  <Form.Item
+                    name="keyword"
+                    label="关键词"
+                  >
+                    <Input placeholder="请输入关键词" style={{ width: 150 }} />
+                  </Form.Item>
+                  <Form.Item
+                    name="status"
+                    label="状态"
+                  >
+                    <Input placeholder="请输入状态" style={{ width: 150 }} />
+                  </Form.Item>
+                  <Form.Item
+                    name="name"
+                    label="名称"
+                  >
+                    <Input placeholder="请输入名称" style={{ width: 150 }} />
+                  </Form.Item>
+                  <Form.Item>
+                    <Flex gap="small">
+                      <Button variant="primary" htmlType="submit">查询</Button>
+                      <Button onClick={handleQueryReset}>重置</Button>
+                      <Button onClick={handleQueryGetValues}>获取值</Button>
+                      <Button onClick={handleQuerySetValues}>设置值</Button>
+                    </Flex>
+                  </Form.Item>
+                </Form>
+                
+                <Table
+                  dataSource={tableData}
+                  columns={tableColumns}
+                  loading={loading}
+                  rowKey="id"
+                  bordered
+                  pagination={{ pageSize: 5 }}
+                />
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Button, Table, Flex } from '@zjpcy/simple-design';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [form] = Form.useForm();
+  const [data, setData] = useState([
+    { id: 1, name: '张三', age: 28, email: 'zhangsan@example.com' },
+    { id: 2, name: '李四', age: 32, email: 'lisi@example.com' },
+  ]);
+  const [loading, setLoading] = useState(false);
+
+  const columns = [
+    { dataIndex: 'id', title: 'ID', width: 80 },
+    { dataIndex: 'name', title: '姓名', width: 120 },
+    { dataIndex: 'age', title: '年龄', width: 100 },
+    { dataIndex: 'email', title: '邮箱' },
+  ];
+
+  const handleQuery = (values) => {
+    console.log('查询条件:', values);
+    setLoading(true);
+    setTimeout(() => setLoading(false), 500);
+  };
+
+  const handleReset = () => {
+    // 只重置 Form.Item 注册的字段
+    // Table 数据不会被影响
+    form.resetFields();
+  };
+
+  return (
+    <>
+      <Form form={form} layout="inline" onFinish={handleQuery}>
+        <Form.Item name="keyword" label="关键词">
+          <Input placeholder="请输入关键词" />
+        </Form.Item>
+        <Form.Item name="status" label="状态">
+          <Input placeholder="请输入状态" />
+        </Form.Item>
+        <Form.Item name="name" label="名称">
+          <Input placeholder="请输入名称" />
+        </Form.Item>
+        <Form.Item>
+          <Button variant="primary" htmlType="submit">查询</Button>
+          <Button onClick={handleReset}>重置</Button>
+        </Form.Item>
+      </Form>
+      
+      <Table
+        dataSource={data}
+        columns={columns}
+        loading={loading}
+        rowKey="id"
+      />
+    </>
+  );
+};`} />
+            </Section>
+          </div>
+
           <div id="form-api">
             <Section title="API">
               <h3>Form Props</h3>
@@ -948,7 +1347,9 @@ const Demo = () => {
                 <Anchor.Link href="#form-help" title="帮助文本" />
                 <Anchor.Link href="#form-layout" title="自定义布局" />
                 <Anchor.Link href="#form-instance" title="FormInstance" />
+                <Anchor.Link href="#form-sync-test" title="同步测试" />
                 <Anchor.Link href="#form-modal" title="Modal 中使用" />
+                <Anchor.Link href="#form-table" title="Form + Table" />
                 <Anchor.Link href="#form-api" title="API" />
               </Anchor>
             )}
