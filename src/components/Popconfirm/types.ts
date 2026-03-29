@@ -16,6 +16,8 @@ export type PopconfirmPlacement =
 
 export type PopconfirmType = 'info' | 'success' | 'warning' | 'error' | 'danger';
 
+export type PopconfirmTrigger = 'click' | 'hover' | 'focus';
+
 export interface PopconfirmProps {
   title?: ReactNode;
   description?: ReactNode;
@@ -37,9 +39,17 @@ export interface PopconfirmProps {
   type?: PopconfirmType;
   placement?: PopconfirmPlacement;
   showCancel?: boolean;
-  getContainer?: HTMLElement | (() => HTMLElement) | false;
+  trigger?: PopconfirmTrigger;
+  delay?: number | [number, number];
+  open?: boolean;
+  okType?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning';
+  okButtonStyle?: React.CSSProperties;
+  cancelButtonStyle?: React.CSSProperties;
+  onOpenChange?: (open: boolean) => void;
+  showIcon?: boolean;
   className?: string;
   style?: React.CSSProperties;
+  getContainer?: (() => HTMLElement) | false;
   children: React.ReactElement;
 }
 

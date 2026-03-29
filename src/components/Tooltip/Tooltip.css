@@ -84,30 +84,4 @@
     transform: rotate(45deg);
 }
 
-/* Top placement */
-.zjpcy-tooltip-top .zjpcy-tooltip-arrow {
-    bottom: calc(var(--tooltip-arrow-size) * -0.5);
-    left: 50%;
-    margin-left: calc(var(--tooltip-arrow-size) * -0.5);
-}
-
-/* Bottom placement */
-.zjpcy-tooltip-bottom .zjpcy-tooltip-arrow {
-    top: calc(var(--tooltip-arrow-size) * -0.5);
-    left: 50%;
-    margin-left: calc(var(--tooltip-arrow-size) * -0.5);
-}
-
-/* Left placement */
-.zjpcy-tooltip-left .zjpcy-tooltip-arrow {
-    right: calc(var(--tooltip-arrow-size) * -0.5);
-    top: 50%;
-    margin-top: calc(var(--tooltip-arrow-size) * -0.5);
-}
-
-/* Right placement */
-.zjpcy-tooltip-right .zjpcy-tooltip-arrow {
-    left: calc(var(--tooltip-arrow-size) * -0.5);
-    top: 50%;
-    margin-top: calc(var(--tooltip-arrow-size) * -0.5);
-}
+/* 箭头位置由 JS 动态计算，CSS 仅提供基础样式 */
