@@ -1,0 +1,1473 @@
+================================================================================
+                          ZJPCY Design System - 组件API文档
+================================================================================
+
+目录：
+1. Anchor - 锚点
+2. Breadcrumb - 面包屑
+3. Button - 按钮
+4. Calendar - 日历
+5. Carousel - 轮播图
+6. Cascader - 级联选择
+7. Checkbox - 复选框
+8. ColorPicker - 颜色选择器
+9. CopyToClipboard - 复制到剪贴板
+10. DatePicker - 日期选择器
+11. Divider - 分割线
+12. Drawer - 抽屉
+13. Dropdown - 下拉菜单
+14. Empty - 空状态
+15. Flex - 弹性布局
+16. Form - 表单
+17. Grid - 栅格
+18. Icon - 图标
+19. Input - 输入框
+20. Label - 标签
+21. Layout - 布局
+22. Marquee - 跑马灯
+23. Masonry - 瀑布流
+24. Menu - 菜单
+25. Message - 消息提示
+26. Modal - 模态框
+27. Notification - 通知
+28. Pagination - 分页
+29. Popconfirm - 气泡确认框
+30. Progress - 进度条
+31. Radio - 单选框
+32. Rate - 评分
+33. Select - 选择器
+34. Slider - 滑块
+35. Space - 间距
+36. Spin - 加载中
+37. Splitter - 分割面板
+38. Steps - 步骤条
+39. Switch - 开关
+40. Table - 表格
+41. Tabs - 标签页
+42. Tag - 标签
+43. TimePicker - 时间选择器
+44. Tooltip - 文字提示
+45. Top - 回到顶部
+46. Transfer - 穿梭框
+47. Tree - 树形控件
+48. TreeSelect - 树形选择器
+49. Typography - 排版
+50. Upload - 上传
+
+================================================================================
+1. Anchor - 锚点
+================================================================================
+
+AnchorProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - offsetTop?: number - 距离顶部偏移量
+  - affix?: boolean - 是否固定
+  - bounds?: number - 边界值
+  - getContainer: () => HTMLElement - 获取容器函数
+  - onChange?: (activeLink: string) => void - 锚点切换回调
+
+AnchorLinkProps:
+  - href: string - 锚点链接
+  - title: string - 锚点标题
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+2. Breadcrumb - 面包屑
+================================================================================
+
+BreadcrumbProps:
+  - items: BreadcrumbItem[] - 面包屑项数组
+  - separator?: string - 分隔符
+  - className?: string - 自定义类名
+
+BreadcrumbItem:
+  - label: ReactNode - 显示文本
+  - href?: string - 链接地址
+
+================================================================================
+3. Button - 按钮
+================================================================================
+
+ButtonProps:
+  - children?: ReactNode - 子元素/按钮文本
+  - variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'link' - 按钮变体
+  - type?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'link' | 'button' | 'submit' | 'reset' - 按钮类型（已废弃，请使用variant）
+  - size?: 'small' | 'medium' | 'large' - 按钮大小
+  - disabled?: boolean - 是否禁用
+  - loading?: boolean - 是否加载中
+  - onClick?: () => void - 点击回调
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - icon?: string | ReactNode - 图标
+  - htmlType?: 'button' | 'submit' | 'reset' - HTML按钮类型
+  - href?: string - 链接地址（当variant为link时有效）
+  - title?: string - 按钮标题
+
+================================================================================
+4. Calendar - 日历
+================================================================================
+
+CalendarProps:
+  - value?: Date - 当前日期
+  - defaultValue?: Date - 默认日期
+  - onChange?: (date: Date) => void - 日期变化回调
+  - disabledDate?: (date: Date) => boolean - 禁用日期函数
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+5. Carousel - 轮播图
+================================================================================
+
+CarouselProps:
+  - items: CarouselItem[] - 轮播数据
+  - currentIndex?: number - 当前激活索引（受控）
+  - defaultCurrentIndex?: number - 默认激活索引
+  - onChange?: (index: number) => void - 切换回调
+  - autoplay?: boolean - 是否自动播放
+  - interval?: number - 自动播放间隔(ms)
+  - effect?: CarouselEffect - 切换动画效果
+  - direction?: CarouselDirection - 切换方向
+  - showIndicators?: boolean - 是否显示指示器
+  - indicatorPosition?: CarouselIndicatorPosition - 指示器位置
+  - showArrows?: boolean - 是否显示箭头
+  - loop?: boolean - 是否循环播放
+  - pauseOnHover?: boolean - 悬停时是否暂停
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - duration?: number - 切换动画时长(ms)
+  - indicatorProgress?: boolean - 是否启用指示器进度动画
+
+CarouselItem:
+  - key: string - 唯一标识
+  - image: string - 图片地址
+  - title?: ReactNode - 标题
+  - description?: ReactNode - 描述
+  - link?: string - 点击跳转链接
+  - render?: () => ReactNode - 自定义渲染内容
+  - infoPosition?: CarouselInfoPosition - 文案位置
+
+CarouselEffect: 'slide' | 'fade' | 'flip' | 'cards' | 'creative' | 'coverflow' | 'parallax' | 'zoom' | 'book' | 'curtain' | 'mosaic' | 'rain'
+CarouselDirection: 'horizontal' | 'vertical'
+CarouselIndicatorPosition: 'bottom' | 'top' | 'left' | 'right' | 'center'
+CarouselArrowPosition: 'inside' | 'outside' | 'none'
+CarouselInfoPosition: 'bottom' | 'top' | 'left' | 'right' | 'center'
+
+================================================================================
+6. Cascader - 级联选择
+================================================================================
+
+CascaderProps:
+  - value?: any[] - 当前值（受控）
+  - defaultValue?: any[] - 默认值
+  - onChange?: (value: any[], selectedOptions: CascaderOption[]) => void - 值变化回调
+  - options?: CascaderOption[] - 选项数据
+  - placeholder?: string - 占位符
+  - disabled?: boolean - 是否禁用
+  - size?: 'large' | 'middle' | 'small' - 大小
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+  - allowClear?: boolean - 是否允许清除
+  - maxTagCount?: number - 最大标签数量
+  - showSearch?: boolean - 是否支持搜索
+  - expandTrigger?: 'click' | 'hover' - 展开触发方式
+  - changeOnSelect?: boolean - 是否选中即改变
+  - fieldNames?: { label?: string; value?: string; children?: string } - 自定义字段名
+  - width?: number | string - 宽度
+  - dropdownWidth?: number | string - 下拉框宽度
+  - dropdownHeight?: number | string - 下拉框高度
+  - dropdownStyle?: CSSProperties - 下拉框样式
+  - dropdownClassName?: string - 下拉框类名
+  - placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight' - 弹出位置
+  - checkbox?: boolean - 是否显示复选框
+  - autoWidth?: boolean - 是否自动宽度
+
+CascaderOption:
+  - value: any - 选项值
+  - label: ReactNode - 选项标签
+  - disabled?: boolean - 是否禁用
+  - children?: CascaderOption[] - 子选项
+
+================================================================================
+7. Checkbox - 复选框
+================================================================================
+
+CheckboxProps:
+  - value?: any - 选项值
+  - checked?: boolean - 是否选中（受控）
+  - defaultChecked?: boolean - 默认选中
+  - onChange?: (checked: boolean, value: any) => void - 变化回调
+  - disabled?: boolean - 是否禁用
+  - indeterminate?: boolean - 是否半选状态
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - label?: string | ReactNode - 标签文案
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+
+CheckboxGroupProps:
+  - value?: any[] - 选中的值（受控）
+  - defaultValue?: any[] - 默认值
+  - onChange?: (checkedValues: any[]) => void - 变化回调
+  - disabled?: boolean - 是否禁用
+  - options?: Array<{ label: string | ReactNode; value: any; disabled?: boolean }> - 选项数组
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - layout?: 'horizontal' | 'vertical' - 排列方式
+  - gap?: number | string - 间距
+
+================================================================================
+8. ColorPicker - 颜色选择器
+================================================================================
+
+ColorPickerProps:
+  - color: string - 当前颜色值（支持HEX或渐变色）
+  - onChange: (color: string) => void - 颜色变化回调
+  - onColorChange?: (color?: string) => void - 颜色变化回调（可选）
+  - variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' - 按钮变体
+  - size?: 'large' | 'small' | 'middle' - 按钮尺寸
+  - disabled?: boolean - 是否禁用
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - showText?: boolean - 是否显示颜色文本
+  - alpha?: boolean - 是否支持透明度
+  - presetColors?: string[] - 预设颜色数组
+  - gradient?: boolean - 是否支持渐变色
+  - children?: ReactNode - 自定义子元素
+
+================================================================================
+9. CopyToClipboard - 复制到剪贴板
+================================================================================
+
+CopyToClipboardProps:
+  - url: string - 要复制的URL
+  - onCopyStatusChange?: (status: 'success' | 'error') => void - 复制状态变化回调
+  - children?: ReactNode - 子元素
+
+useOnCopy Hook:
+  - useOnCopy(url: string): { copied: boolean; copy: () => void }
+
+================================================================================
+10. DatePicker - 日期选择器
+================================================================================
+
+DatePickerProps:
+  - size?: 'small' | 'middle' | 'large' - 尺寸
+  - value?: string - 当前值
+  - defaultValue?: string - 默认值
+  - onChange?: (date: string) => void - 值变化回调
+  - placeholder?: string - 占位符
+  - disabled?: boolean - 是否禁用
+  - readOnly?: boolean - 是否只读
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - width?: string | number - 宽度
+  - format?: DateFormat - 日期格式
+  - allowClear?: boolean - 是否显示清除按钮
+  - disabledDate?: (date: Date) => boolean - 禁用日期函数
+  - disabledDates?: string[] - 不可选择的日期
+  - label?: string | ReactNode - 标签
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+  - onOpenChange?: (open: boolean) => void - 面板打开状态变化回调
+  - open?: boolean - 是否打开面板（受控）
+  - showToday?: boolean - 显示今天按钮
+  - showOk?: boolean - 显示确定按钮
+  - picker?: PickerType - 选择器类型
+  - showTime?: boolean - 是否显示时间选择
+  - multiple?: boolean - 是否支持多选
+  - maxTagCount?: number - 多选时最多可选数量
+  - maxTagDisplayCount?: number - 多选时最多显示几个tag
+  - separator?: string - 多选时值的连接符
+
+DateFormat: 'YYYY-MM-DD' | 'YYYY/MM/DD' | 'DD-MM-YYYY' | 'MM/DD/YYYY'
+PickerType: 'date' | 'month' | 'quarter' | 'year'
+
+================================================================================
+11. Divider - 分割线
+================================================================================
+
+DividerProps:
+  - orientation?: 'horizontal' | 'vertical' - 方向
+  - type?: 'solid' | 'dashed' - 类型
+  - color?: string - 颜色
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+12. Drawer - 抽屉
+================================================================================
+
+DrawerProps:
+  - open: boolean - 是否可见
+  - title?: ReactNode - 抽屉标题
+  - width?: number | string - 宽度（placement为left或right时有效）
+  - height?: number | string - 高度（placement为top或bottom时有效）
+  - placement?: DrawerPlacement - 抽屉位置
+  - maskClosable?: boolean - 点击遮罩层是否允许关闭
+  - mask?: boolean - 是否显示遮罩层
+  - onClose: () => void - 关闭回调
+  - children?: ReactNode - 抽屉内容
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - maskStyle?: CSSProperties - 遮罩层样式
+  - maskClassName?: string - 遮罩层类名
+  - contentClassName?: string - 内容区域类名
+  - contentStyle?: CSSProperties - 内容区域样式
+  - header?: ReactNode | false - 头部内容
+  - headerClassName?: string - 头部类名
+  - headerStyle?: CSSProperties - 头部样式
+  - footer?: ReactNode | false - 页脚内容
+  - footerClassName?: string - 页脚类名
+  - footerStyle?: CSSProperties - 页脚样式
+  - getContainer?: (() => HTMLElement) | HTMLElement | false - 指定挂载节点
+  - destroyOnClose?: boolean - 关闭后是否销毁子元素
+  - closable?: boolean - 是否显示关闭按钮
+  - zIndex?: number - z-index层级
+  - loading?: boolean - 是否加载中状态
+  - loadingIcon?: ReactNode - 自定义加载图标
+  - resizable?: boolean - 是否支持拖拽调整大小
+  - resizeHandleSize?: number - 拖拽手柄大小
+  - minWidth?: number - 拖拽时最小宽度
+  - minHeight?: number - 拖拽时最小高度
+  - onChange?: (size: { width?: number; height?: number }) => void - 大小变化回调
+
+DrawerPlacement: 'left' | 'right' | 'top' | 'bottom'
+
+================================================================================
+13. Dropdown - 下拉菜单
+================================================================================
+
+DropdownProps:
+  - items: DropdownItem[] - 下拉项数组
+  - type?: DropdownType - 触发器类型
+  - children?: ReactNode - 子元素（触发器）
+  - trigger?: 'click' | 'hover' - 触发方式
+  - placement?: 'top' | 'bottom' | 'left' | 'right' - 弹出位置
+  - disabled?: boolean - 是否禁用
+  - open?: boolean - 是否打开（受控）
+  - ellipsis?: boolean - 是否显示省略号
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - contentStyles?: CSSProperties - 内容样式
+  - getContainer?: () => HTMLElement - 获取容器
+  - onVisibleChange?: (visible: boolean) => void - 可见性变化回调
+  - onChange?: (item: DropdownItem) => void - 选项变化回调
+
+DropdownItem:
+  - key: string - 唯一标识
+  - label: ReactNode - 显示文本
+  - disabled?: boolean - 是否禁用
+  - onClick?: () => void - 点击回调
+  - icon?: string | ReactNode - 图标
+
+DropdownType: 'text' | 'button'
+
+================================================================================
+14. Empty - 空状态
+================================================================================
+
+EmptyProps:
+  - icon?: ReactNode - 自定义图标或图片
+  - image?: string - 自定义图片路径
+  - description?: ReactNode - 空状态描述
+  - children?: ReactNode - 自定义操作区域
+  - size?: 'large' | 'middle' | 'small' - 尺寸
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+
+================================================================================
+15. Flex - 弹性布局
+================================================================================
+
+FlexProps:
+  - children: ReactNode - 子元素
+  - layout?: 'horizontal' | 'column' - 布局方向（已废弃，请使用direction）
+  - direction?: 'row' | 'row-reverse' | 'column' | 'column-reverse' - 方向
+  - justify?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' - 主轴对齐
+  - align?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch' - 交叉轴对齐
+  - wrap?: 'nowrap' | 'wrap' | 'wrap-reverse' - 换行方式
+  - gap?: string | number - 间距
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+16. Form - 表单
+================================================================================
+
+FormProps:
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - layout?: 'horizontal' | 'vertical' | 'inline' - 布局方式
+  - labelSpan?: number - 标签占位格数
+  - wrapperSpan?: number - 输入框占位格数
+  - initialValues?: Record<string, any> - 初始值
+  - onFinish?: (values: Record<string, any>) => void - 提交成功回调
+  - onFinishFailed?: (errorInfo: any) => void - 提交失败回调
+  - colon?: boolean - 是否显示冒号
+  - requiredMark?: boolean | 'optional' - 是否显示必填标记
+  - styles?: { wrapper?: CSSProperties; item?: CSSProperties; label?: CSSProperties } - 样式配置
+  - formRef?: MutableRefObject<FormInstance | null> - 表单实例引用
+  - form?: FormInstance - 表单实例
+
+FormItemProps:
+  - name?: string - 字段名
+  - label?: ReactNode - 标签文本
+  - required?: boolean - 是否必填
+  - rules?: Rule[] - 校验规则
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - help?: ReactNode - 帮助信息
+  - validateStatus?: 'success' | 'warning' | 'error' | 'validating' - 校验状态
+  - colon?: boolean - 是否显示冒号
+  - labelSpan?: number - 标签占位格数
+  - wrapperSpan?: number - 输入框占位格数
+  - hidden?: boolean - 是否隐藏
+  - tooltip?: ReactNode - 提示信息
+  - extra?: ReactNode - 额外信息
+  - styles?: { wrapper?: CSSProperties; label?: CSSProperties; input?: CSSProperties; error?: CSSProperties; help?: CSSProperties } - 样式配置
+  - children?: ReactNode - 子元素
+
+Rule:
+  - required?: boolean - 是否必填
+  - message?: string - 错误提示信息
+  - pattern?: RegExp - 正则表达式
+  - min?: number - 最小值
+  - max?: number - 最大值
+  - len?: number - 长度
+  - type?: string - 类型
+  - validator?: (rule: Rule, value: any) => Promise<void> | void - 自定义校验函数
+  - whitespace?: boolean - 是否不允许空白字符
+  - enum?: any[] - 枚举值
+
+FormInstance:
+  - getFieldValue: (name: string) => any - 获取字段值
+  - getFieldsValue: (names?: string[]) => Record<string, any> - 获取多个字段值
+  - setFieldValue: (name: string, value: any) => void - 设置字段值
+  - setFieldsValue: (values: Record<string, any>) => void - 设置多个字段值
+  - setFields: (fields: { name: string; errors?: string[]; value?: any }[]) => void - 设置字段状态
+  - resetFields: (names?: string[]) => void - 重置字段
+  - validateFields: (names?: string[]) => Promise<Record<string, any>> - 校验字段
+  - submit: () => void - 提交表单
+  - destroy: () => void - 销毁表单
+
+Hooks:
+  - useForm(): [FormInstance] - 创建表单实例
+
+================================================================================
+17. Grid - 栅格
+================================================================================
+
+GridProps:
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - width?: number | string - 宽度，默认100%
+  - height?: number | string - 高度
+  - gap?: number | string - 栅格间距
+  - padding?: number | string - 内边距
+  - backgroundColor?: string - 背景色
+
+RowProps:
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - span?: number - 栅格占位格数，总共24格
+  - gap?: number | string - 栅格水平间距
+  - rowGap?: number | string - 栅格垂直间距
+  - align?: 'flex-start' | 'center' | 'flex-end' | 'stretch' - 对齐方式
+  - justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly' - 主轴对齐
+  - wrap?: boolean - 是否换行
+
+ColProps:
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - span?: number - 栅格占位格数，总共24格
+  - offset?: number - 栅格左侧间隔格数
+  - push?: number - 栅格向右移动格数
+  - pull?: number - 栅格向左移动格数
+  - order?: number - 栅格顺序
+  - gap?: number | string - 栅格间距，优先级最高
+
+================================================================================
+18. Icon - 图标
+================================================================================
+
+IconProps:
+  - type?: string - 图标类型名称
+  - path?: string - 自定义图标路径
+  - viewBox?: string - SVG视口
+  - size?: number | 'small' | 'medium' | 'large' - 图标大小
+  - color?: string - 图标颜色
+  - hoverColor?: string - 悬停颜色
+  - spin?: boolean - 是否旋转
+  - rotate?: number - 旋转角度
+  - align?: 'left' | 'center' | 'right' - 对齐方式
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - onClick?: (e: React.MouseEvent<SVGSVGElement>) => void - 点击回调
+
+================================================================================
+19. Input - 输入框
+================================================================================
+
+InputProps (InputBase):
+  - type?: 'text' | 'password' - 输入类型
+  - placeholder?: string - 占位符
+  - width?: string | number - 宽度
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - value?: string - 当前值（受控）
+  - defaultValue?: string - 默认值
+  - onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void - 变化回调
+  - onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void - 失焦回调
+  - onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void - 聚焦回调
+  - disabled?: boolean - 是否禁用
+  - readOnly?: boolean - 是否只读
+  - onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void - 键盘按下回调
+  - prefix?: string | ReactNode - 前缀
+  - suffix?: string | ReactNode - 后缀
+  - clear?: boolean - 是否显示清除按钮
+  - extra?: string | ReactNode - 默认提示信息
+  - label?: string | ReactNode - 标签文案
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+  - autoComplete?: string - 自动完成属性
+  - size?: 'large' | 'middle' | 'small' - 尺寸大小
+
+Input.Search - 搜索输入框
+Input.Number - 数字输入框
+Input.Textarea - 文本域
+Input.Password - 密码输入框
+
+================================================================================
+20. Label - 标签
+================================================================================
+
+LabelProps:
+  - title?: ReactNode - 标题内容
+  - indicatorColor?: string - 指示器颜色
+  - indicatorWidth?: string | number - 指示器宽度
+  - indicatorHeight?: string | number - 指示器高度
+  - paddingRight?: string | number - 右边距
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+
+================================================================================
+21. Layout - 布局
+================================================================================
+
+LayoutProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - hasSider?: boolean - 是否包含Sider
+  - theme?: 'light' | 'dark' - 主题模式
+  - children?: ReactNode - 子元素
+
+LayoutHeaderProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - height?: string | number - 头部高度
+  - fixed?: boolean - 是否固定
+  - theme?: 'light' | 'dark' - 主题模式
+
+LayoutContentProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - theme?: 'light' | 'dark' - 主题模式
+
+LayoutFooterProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - height?: string | number - 页脚高度
+  - fixed?: boolean - 是否固定
+  - theme?: 'light' | 'dark' - 主题模式
+
+LayoutSiderProps:
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+  - width?: string | number - 侧边栏宽度
+  - collapsedWidth?: number - 收缩宽度
+  - collapsible?: boolean - 是否可收缩
+  - collapsed?: boolean - 是否收缩
+  - onCollapse?: (collapsed: boolean) => void - 收缩/展开回调
+  - trigger?: ReactNode - 收缩按钮触发器
+  - triggerPlacement?: 'top' | 'bottom' - 收缩按钮位置
+  - zeroWidthMode?: boolean - 是否使用完全收缩模式
+  - inNestedLayout?: boolean - 是否处于嵌套布局中
+  - placement?: 'left' | 'right' - 侧边栏位置
+  - fixed?: boolean - 是否固定
+
+================================================================================
+22. Marquee - 跑马灯
+================================================================================
+
+MarqueeProps:
+  - announcement?: string | string[] - 公告内容
+  - height?: number - 高度
+  - speed?: number - 滚动速度
+  - backgroundColor?: string - 背景色
+  - visible?: boolean - 是否可见（受控）
+  - fixed?: boolean - 是否固定
+  - fixedTop?: number - 固定时距离顶部距离
+  - isIcon?: boolean - 是否显示图标
+  - onClose?: () => void - 关闭回调
+
+================================================================================
+23. Masonry - 瀑布流
+================================================================================
+
+MasonryProps:
+  - items: MasonryItem[] - 项目数组
+  - columns?: number | ResponsiveConfig<number> - 列数
+  - gutter?: number | ResponsiveConfig<number> - 间距
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - classNames?: { container?: string | ((index: number) => string); column?: string | ((index: number) => string); item?: string | ((index: number) => string) } - 类名配置
+  - styles?: { container?: CSSProperties | ((index: number) => CSSProperties); column?: CSSProperties | ((index: number) => CSSProperties); item?: CSSProperties | ((index: number) => CSSProperties) } - 样式配置
+  - onLayoutChange?: (columns: number, items: MasonryItem[]) => void - 布局变化回调
+
+MasonryItem:
+  - key: React.Key - 唯一标识
+  - column?: number - 指定列
+  - content: ReactNode - 内容
+
+ResponsiveConfig<T>: { [breakpoint: number]: T }
+
+================================================================================
+24. Menu - 菜单
+================================================================================
+
+MenuProps:
+  - mode?: MenuMode - 菜单模式
+  - items: MenuItem[] - 菜单项数组
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - selectedKey?: string - 当前选中的菜单项key
+  - defaultOpenKeys?: string[] - 默认展开的菜单项key数组
+  - openKeys?: string[] - 展开的菜单项key数组（受控）
+  - collapsed?: boolean - 折叠状态
+  - open?: boolean - 菜单是否显示
+  - theme?: MenuTheme - 菜单主题
+  - onChange?: (info: MenuItem, key: string) => void - 菜单项点击回调
+  - onOpenChange?: (openKeys: string[]) => void - 展开/折叠回调
+
+MenuItem:
+  - key: string - 唯一标识
+  - label: string - 显示文本
+  - description?: string - 描述
+  - icon?: ReactNode - 图标
+  - children?: MenuItem[] - 子菜单项
+  - disabled?: boolean - 是否禁用
+
+MenuMode: 'horizontal' | 'vertical' | 'inline' | 'vertical-flat'
+MenuTheme: 'light' | 'dark'
+
+================================================================================
+25. Message - 消息提示
+================================================================================
+
+MessageProps:
+  - type: MessageType - 消息类型
+  - content: ReactNode - 消息内容
+  - duration?: number - 显示时长(ms)
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - onClose?: () => void - 关闭回调
+
+MessageInstance:
+  - success: (content: ReactNode, duration?: number) => void - 成功消息
+  - warning: (content: ReactNode, duration?: number) => void - 警告消息
+  - error: (content: ReactNode, duration?: number) => void - 错误消息
+  - info: (content: ReactNode, duration?: number) => void - 信息消息
+  - close: () => void - 关闭消息
+
+MessageType: 'success' | 'warning' | 'error' | 'info'
+
+静态方法：
+  - message.success(content, duration) - 显示成功消息
+  - message.warning(content, duration) - 显示警告消息
+  - message.error(content, duration) - 显示错误消息
+  - message.info(content, duration) - 显示信息消息
+  - message.close() - 关闭消息
+
+Hooks:
+  - useMessage(): MessageInstance - 获取消息实例
+
+组件：
+  - MessageProvider - 消息提供者组件
+
+================================================================================
+26. Modal - 模态框
+================================================================================
+
+ModalProps:
+  - visible: boolean - 是否可见
+  - title?: string - 标题
+  - width?: number | string - 宽度
+  - height?: number | string - 高度
+  - headerHeight?: number | string - 头部高度
+  - footerHeight?: number | string - 底部高度
+  - confirmLoading?: boolean - 确认按钮加载状态
+  - direction?: 'center' | 'top-right' | 'bottom-right' | 'bottom-left' | 'normal' - 弹出方向
+  - top?: number - 距离顶部距离
+  - triggerRef?: React.RefObject<HTMLElement> - 触发器元素ref
+  - footer?: null | ReactNode - 底部内容
+  - bordered?: boolean - 是否显示边框
+  - onCancel?: () => void - 取消回调
+  - onOk?: () => void - 确认回调
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - getContainer?: HTMLElement | (() => HTMLElement) | false - 指定挂载节点
+  - okText?: string - 确认按钮文本
+  - cancelText?: string - 取消按钮文本
+  - maskStyle?: CSSProperties - 遮罩层样式
+  - maskClassName?: string - 遮罩层类名
+  - zIndex?: number - z-index层级
+  - contentClassName?: string - 内容区域自定义className
+  - contentStyle?: CSSProperties - 内容区域自定义style
+  - destroyOnClose?: boolean - 关闭时销毁子元素
+  - loading?: boolean - 是否加载中状态
+  - loadingIcon?: ReactNode - 自定义加载图标
+
+================================================================================
+27. Notification - 通知
+================================================================================
+
+NotificationProps:
+  - message: string - 通知内容
+  - duration?: number - 显示时长
+  - type?: 'info' | 'success' | 'warning' | 'error' - 通知类型
+  - position?: NotificationPosition - 通知位置
+  - color?: string - 自定义颜色
+  - top?: number - 距离顶部距离
+  - open?: boolean - 是否打开
+  - clickOutsideToClose?: boolean - 点击外部是否关闭
+  - onClose?: () => void - 关闭回调
+
+NotificationPosition: 'top-left' | 'top-center' | 'top-right' | 'center' | 'bottom-left' | 'bottom-center' | 'bottom-right'
+
+================================================================================
+28. Pagination - 分页
+================================================================================
+
+PaginationProps:
+  - total?: number - 总条目数
+  - current?: number - 当前页码（受控）
+  - defaultCurrent?: number - 默认页码
+  - pageSize?: number - 每页条数（受控）
+  - defaultPageSize?: number - 默认每页条数
+  - onChange?: (current: number, pageSize: number) => void - 页码变化回调
+  - pageSizeOptions?: (string | number)[] - 每页条数选项
+  - showSizeChanger?: boolean - 是否显示每页条数选择器
+  - showQuickJumper?: boolean - 是否显示快速跳转
+  - showTotal?: (total: number, range: [number, number]) => ReactNode - 显示总数的格式
+  - size?: 'default' | 'small' - 分页大小
+  - simple?: boolean - 简洁模式
+  - disabled?: boolean - 禁用状态
+  - hideOnSinglePage?: boolean - 只有一页时隐藏
+  - align?: 'flex-start' | 'center' | 'flex-end' - 分页组件位置对齐
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+29. Popconfirm - 气泡确认框
+================================================================================
+
+PopconfirmProps:
+  - title?: ReactNode - 标题
+  - description?: ReactNode - 描述
+  - okText?: string - 确认按钮文本
+  - cancelText?: string - 取消按钮文本
+  - okButtonProps?: { variant?: string; loading?: boolean; disabled?: boolean } - 确认按钮属性
+  - cancelButtonProps?: { variant?: string; disabled?: boolean } - 取消按钮属性
+  - onConfirm?: () => void | Promise<void> - 确认回调
+  - onCancel?: () => void - 取消回调
+  - disabled?: boolean - 是否禁用
+  - icon?: ReactNode - 自定义图标
+  - type?: PopconfirmType - 类型
+  - placement?: PopconfirmPlacement - 弹出位置
+  - showCancel?: boolean - 是否显示取消按钮
+  - trigger?: PopconfirmTrigger - 触发方式
+  - delay?: number | [number, number] - 延迟显示时间
+  - open?: boolean - 是否打开（受控）
+  - okType?: string - 确认按钮类型
+  - okButtonStyle?: CSSProperties - 确认按钮样式
+  - cancelButtonStyle?: CSSProperties - 取消按钮样式
+  - onOpenChange?: (open: boolean) => void - 打开状态变化回调
+  - showIcon?: boolean - 是否显示图标
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - getContainer?: (() => HTMLElement) | false - 获取容器
+  - children: ReactElement - 子元素
+
+PopconfirmType: 'info' | 'success' | 'warning' | 'error' | 'danger'
+PopconfirmPlacement: 'top' | 'left' | 'right' | 'bottom' | 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight' | 'leftTop' | 'leftBottom' | 'rightTop' | 'rightBottom'
+PopconfirmTrigger: 'click' | 'hover' | 'focus'
+
+================================================================================
+30. Progress - 进度条
+================================================================================
+
+ProgressProps:
+  - percent?: number - 百分比
+  - type?: ProgressType - 类型
+  - status?: ProgressStatus - 状态
+  - showInfo?: boolean - 是否显示百分比文字
+  - format?: (percent?: number, successPercent?: number) => ReactNode - 自定义显示文字
+  - strokeColor?: string | GradientConfig - 进度条颜色
+  - trailColor?: string - 背景颜色
+  - strokeWidth?: number - 线条粗细
+  - size?: 'small' | 'default' | 'large' - 线条宽度
+  - transition?: boolean - 是否开启动画
+  - steps?: number - 步骤进度条的总步数
+  - segments?: ProgressSegment[] - 多段颜色配置
+  - gapDegree?: number - 仪表盘缺口角度
+  - gapPosition?: 'top' | 'bottom' | 'left' | 'right' - 仪表盘缺口位置
+  - icon?: ReactNode - 前缀图标
+  - prefix?: string - 前缀文字
+  - suffix?: string - 后缀文字
+  - children?: ReactNode - 自定义内部内容
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+ProgressType: 'line' | 'circle' | 'dashboard'
+ProgressStatus: 'success' | 'exception' | 'active' | 'normal'
+
+GradientConfig:
+  - from: string - 起始颜色
+  - to: string - 结束颜色
+  - direction?: string - 方向
+  - animated?: boolean - 是否启用波浪动画
+
+ProgressSegment:
+  - color: string | GradientConfig - 该段的颜色
+  - percent: number - 该段占总的百分比
+
+================================================================================
+31. Radio - 单选框
+================================================================================
+
+RadioProps:
+  - value?: any - 选项值
+  - checked?: boolean - 是否选中（受控）
+  - defaultChecked?: boolean - 默认选中
+  - onChange?: (checked: boolean, value: any) => void - 变化回调
+  - disabled?: boolean - 是否禁用
+  - size?: 'large' | 'middle' | 'small' - 大小
+  - children?: ReactNode - 子元素
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - label?: string | ReactNode - 标签文案
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+
+RadioGroupProps:
+  - value?: any - 当前值（受控）
+  - defaultValue?: any - 默认值
+  - onChange?: (value: any) => void - 变化回调
+  - disabled?: boolean - 是否禁用
+  - type?: 'button' | 'radio' - 类型
+  - size?: 'large' | 'middle' | 'small' - 大小
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 子元素
+
+================================================================================
+32. Rate - 评分
+================================================================================
+
+RateProps:
+  - value: string | number - 当前评分值
+  - count?: number - 星星总数
+  - allowHalf?: boolean - 是否允许半星
+  - disabled?: boolean - 是否只读
+  - color?: string - 自定义颜色，默认#1677ff
+  - onChange?: (value: string) => void - 评分变化回调
+  - className?: string - 自定义类名
+  - size?: number - 星星大小
+  - chats?: string[] - 自定义字符数组，优先级最高，只支持整星
+
+================================================================================
+33. Select - 选择器
+================================================================================
+
+SelectProps:
+  - value?: string | number | (string | number)[] - 当前值（受控）
+  - defaultValue?: string | number | (string | number)[] - 默认值
+  - options?: SelectOption[] - 选项列表
+  - disabled?: boolean - 是否禁用
+  - loading?: boolean - 加载中状态
+  - mode?: 'single' | 'multiple' - 是否多选
+  - placeholder?: string - 占位符文本
+  - searchable?: boolean - 是否可搜索
+  - clearable?: boolean - 是否可清除
+  - size?: 'small' | 'default' | 'large' - 组件尺寸
+  - width?: string | number - 组件宽度
+  - styles?: SelectStyles - 自定义样式配置
+  - style?: CSSProperties - 外层容器样式
+  - onChange?: (value, option?) => void - 变化时的回调
+  - onOpenChange?: (open: boolean) => void - 展开/收起时的回调
+  - onSearch?: (value: string) => void - 搜索时的回调
+  - optionRender?: (option: SelectOption) => ReactNode - 自定义选项渲染
+  - tagRender?: (props: TagRenderProps) => ReactNode - 自定义选中项渲染
+  - label?: string | ReactNode - 标签文案
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+  - className?: string - 自定义类名
+  - showArrow?: boolean - 是否显示下拉箭头
+  - maxHeight?: number - 下拉菜单最大高度
+  - emptyContent?: ReactNode - 空状态显示内容
+  - getPopupContainer?: () => HTMLElement - 获取弹出层容器
+
+SelectOption:
+  - value: string | number - 选项值
+  - label: string | ReactNode - 选项显示文本
+  - disabled?: boolean - 是否禁用
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+
+TagRenderProps:
+  - value: string | number - 选项值
+  - label: string | ReactNode - 选项标签
+  - onClose: (e?) => void - 关闭回调
+  - disabled?: boolean - 是否禁用
+
+SelectStyles:
+  - wrapper?: CSSProperties - 外层容器样式
+  - selector?: CSSProperties - 选择器样式
+  - dropdown?: CSSProperties - 下拉面板样式
+  - option?: CSSProperties - 选项样式
+  - tag?: CSSProperties - 标签样式
+
+================================================================================
+34. Slider - 滑块
+================================================================================
+
+SliderProps:
+  - min?: number - 最小值
+  - max?: number - 最大值
+  - step?: number - 步长
+  - value?: number - 当前值（受控）
+  - defaultValue?: number - 默认值
+  - disabled?: boolean - 是否禁用
+  - marks?: MarksTypes - 刻度标记
+  - showValue?: boolean - 是否显示当前值
+  - transitionSpeed?: number - 过渡动画速度
+  - trackColor?: string - 轨道颜色
+  - handleColor?: string - 滑块颜色
+  - onChange?: (value: number) => void - 变化回调
+  - onAfterChange?: (value: number) => void - 拖拽结束后回调
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - gradient?: GradientConfig - 渐变色配置
+
+MarkConfig:
+  - trackColor?: string - 轨道颜色
+  - handleColor?: string - 滑块颜色
+  - mark: ReactNode - 标记内容
+
+MarksTypes: Record<number, MarkConfig | string>
+
+GradientConfig:
+  - startColor: string - 起始颜色
+  - endColor: string - 结束颜色
+
+================================================================================
+35. Space - 间距
+================================================================================
+
+SpaceProps:
+  - children?: ReactNode - 子元素
+  - gap?: number | string - 间距大小
+  - align?: 'start' | 'end' | 'center' | 'baseline' | 'stretch' - 水平对齐方式
+  - wrap?: 'nowrap' | 'wrap' | 'wrap-reverse' - 包裹方式
+  - className?: string - 类名
+  - style?: CSSProperties - 样式
+  - as?: 'div' | 'span' - 渲染的元素类型
+  - inline?: boolean - 是否为内联元素
+
+================================================================================
+36. Spin - 加载中
+================================================================================
+
+SpinProps:
+  - spinning?: boolean - 是否为加载状态
+  - indicator?: ReactNode - 加载指示符
+  - tip?: ReactNode - 描述文案
+  - size?: SpinSize - 组件大小
+  - delay?: number - 延迟显示加载效果的时间
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode - 包裹的子元素
+  - fullscreen?: boolean - 是否全屏显示
+
+SpinSize: 'small' | 'default' | 'large'
+
+================================================================================
+37. Splitter - 分割面板
+================================================================================
+
+SplitterProps:
+  - layout?: 'horizontal' | 'vertical' - 布局方向
+  - splitterSize?: number - 分割条大小（像素）
+  - lineColor?: string - 拖拽线颜色
+  - lineHoverColor?: string - 拖拽线悬停/拖拽时的颜色
+  - disabled?: boolean - 是否禁用拖拽
+  - onResize?: (sizes: number[], index: number) => void - 拖拽时的回调
+  - onResizeEnd?: (sizes: number[]) => void - 拖拽结束后的回调
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - children?: ReactNode[] - 子元素数组
+
+PanelContentProps:
+  - title: string - 面板标题
+  - color?: string - 背景颜色
+  - children?: ReactNode - 子内容
+
+================================================================================
+38. Steps - 步骤条
+================================================================================
+
+StepsProps:
+  - current?: number - 当前步骤
+  - status?: StepStatus - 状态
+  - direction?: 'horizontal' | 'vertical' - 方向
+  - size?: 'default' | 'small' - 大小
+  - type?: 'default' | 'panel' - 步骤条类型
+  - items: StepItem[] - 步骤项数组
+  - onChange?: (current: number) => void - 步骤变化回调
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+StepItem:
+  - title?: ReactNode - 标题
+  - description?: ReactNode - 描述
+  - node?: ReactNode - 自定义节点
+  - status?: StepStatus - 状态
+  - disabled?: boolean - 是否禁用
+  - tailColor?: string - 自定义连接线颜色
+  - tailTitle?: ReactNode - 连接线上方显示的标题
+  - tailType?: 'solid' | 'dashed' - 连接线类型
+
+StepStatus: 'wait' | 'process' | 'finish' | 'error'
+
+================================================================================
+39. Switch - 开关
+================================================================================
+
+SwitchProps:
+  - checked?: boolean - 是否选中（受控）
+  - defaultChecked?: boolean - 初始是否选中
+  - disabled?: boolean - 是否禁用
+  - loading?: boolean - 加载中
+  - size?: 'default' | 'small' - 开关大小
+  - width?: number - 自定义宽度（单位：px）
+  - checkedChildren?: ReactNode - 选中时的内容
+  - unCheckedChildren?: ReactNode - 非选中时的内容
+  - styles?: { wrapper?: CSSProperties; track?: CSSProperties; thumb?: CSSProperties; loading?: CSSProperties; inner?: CSSProperties } - 自定义样式配置
+  - onChange?: (checked: boolean) => void - 变化回调
+  - label?: string | ReactNode - 标签文案
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+
+================================================================================
+40. Table - 表格
+================================================================================
+
+TableProps:
+  - dataSource?: any[] - 数据源
+  - columns?: Column[] - 列配置
+  - bordered?: boolean - 是否显示边框
+  - scroll?: { x?: number | string; y?: number | string } - 滚动配置
+  - rowKey?: string | ((record: any, index: number) => string | number) - 行唯一标识
+  - className?: string - 自定义类名
+  - pagination?: PaginationProps | false - 分页配置
+  - empty?: ReactNode - 自定义空状态组件
+  - loading?: boolean - 加载状态
+  - loadingText?: ReactNode - 自定义加载提示文案
+  - loadingDelay?: number - 加载延迟时间
+  - draggable?: boolean - 是否开启行拖拽
+  - onDragEnd?: (newData: any[]) => void - 拖拽结束回调
+  - rowSelection?: RowSelection - 行选择配置
+  - size?: 'large' | 'middle' | 'small' - 表格大小
+
+Column:
+  - key?: string - 列标识
+  - dataIndex?: string - 数据索引
+  - title?: ReactNode - 列标题
+  - width?: number | string - 列宽
+  - align?: 'left' | 'center' | 'right' - 对齐方式
+  - fixed?: boolean | 'start' | 'end' - 固定列
+  - maxLines?: number - 最大行数
+  - tooltip?: boolean - 是否显示提示气泡
+  - editable?: boolean - 是否可编辑
+  - onSave?: (record: any, value: any) => void - 编辑完成回调
+  - render?: (value: any, record: any, index: number) => ReactNode - 自定义渲染
+
+RowSelection:
+  - type?: false | 'checkbox' | 'radio' - 行选择类型
+  - selectedRowKeys?: (string | number)[] - 已选中的行键值（受控）
+  - defaultSelectedRowKeys?: (string | number)[] - 默认选中的行键值
+  - onChange?: (selectedRowKeys: (string | number)[], selectedRows: any[]) => void - 选中变化回调
+  - getCheckboxProps?: (record: any, index: number) => { disabled?: boolean } - 获取行禁用状态
+  - columnWidth?: number | string - 行选择列宽度
+  - columnTitle?: ReactNode - 行选择列标题
+
+PaginationProps:
+  - pageSize?: number - 每页条数
+  - total?: number - 总条数
+  - current?: number - 当前页
+  - onChange?: (page: number, pageSize: number) => void - 页码变化回调
+
+================================================================================
+41. Tabs - 标签页
+================================================================================
+
+TabsProps:
+  - items?: TabItem[] - 标签项数组
+  - activeKey?: string - 当前激活key（受控）
+  - defaultActiveKey?: string - 默认激活key
+  - onChange?: (key: string) => void - 切换回调
+  - onClose?: (key: string) => void - 关闭回调
+  - tabsClosable?: boolean - 标签是否可关闭
+  - tabPlacement?: TabPlacement - 标签位置
+  - type?: TabType - 标签类型
+  - onAdd?: () => void - 添加回调
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - contentClassName?: string - 内容区域自定义类名
+  - contentStyle?: CSSProperties - 内容区域自定义样式
+  - draggable?: boolean - 是否可拖拽
+  - onDragEnd?: (items: TabItem[]) => void - 拖拽结束回调
+
+TabItem:
+  - key: string - 唯一标识
+  - label: ReactNode - 标签文本
+  - content?: ReactNode - 内容
+  - renderContent?: () => ReactNode - 渲染内容的函数
+  - disabled?: boolean - 是否禁用
+  - closable?: boolean - 是否可关闭
+  - icon?: ReactNode - 图标
+
+TabPlacement: 'top' | 'start' | 'end' | 'bottom'
+TabType: 'line' | 'card'
+
+================================================================================
+42. Tag - 标签
+================================================================================
+
+TagProps:
+  - children?: ReactNode - 标签内容
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - size?: TagSize - 标签尺寸
+  - backgroundColor?: string - 自定义背景色
+  - color?: string - 自定义字体颜色
+  - icon?: string | ReactNode - 前缀图标
+  - closable?: boolean - 是否可关闭
+  - onClose?: (e: React.MouseEvent) => void - 关闭回调
+  - onClick?: (e: React.MouseEvent) => void - 点击回调
+
+TagSize: 'small' | 'medium' | 'large'
+
+================================================================================
+43. TimePicker - 时间选择器
+================================================================================
+
+TimePickerProps:
+  - size?: 'small' | 'middle' | 'large' - 尺寸
+  - value?: string - 当前值
+  - defaultValue?: string - 默认值
+  - onChange?: (time: string) => void - 值变化回调
+  - placeholder?: string - 占位符
+  - disabled?: boolean - 是否禁用
+  - readOnly?: boolean - 只读
+  - className?: string - 自定义类名
+  - style?: CSSProperties - 自定义样式
+  - width?: string | number - 宽度
+  - format?: string - 时间格式，默认HH:mm:ss
+  - allowClear?: boolean - 是否显示清除按钮
+  - hourStep?: number - 小时选项步长
+  - minuteStep?: number - 分钟选项步长
+  - secondStep?: number - 秒选项步长
+  - disabledHours?: () => number[] - 禁用的小时
+  - disabledMinutes?: (selectedHour: number) => number[] - 禁用的分钟
+  - disabledSeconds?: (selectedHour: number, selectedMinute: number) => number[] - 禁用的秒
+  - hideDisabledOptions?: boolean - 隐藏禁用选项
+  - label?: string | ReactNode - 标签
+  - labelGap?: string | number - 标签间距
+  - labelClassName?: string - 标签类名
+  - labelStyle?: CSSProperties - 标签样式
+  - onOpenChange?: (open: boolean) => void - 面板打开状态变化回调
+  - open?: boolean - 是否打开面板（受控）
+  - showNow?: boolean - 是否显示"此刻"按钮
+  - showOk?: boolean - 是否显示"确定"按钮
+
+================================================================================
+44. Tooltip - 文字提示
+================================================================================
+
+TooltipProps:
+  - children: ReactElement - 子元素
+  - title?: ReactNode - 提示内容
+  - placement?: 'top' | 'bottom' | 'left' | 'right' - 弹出位置
+  - trigger?: 'hover' | 'click' - 触发方式
+  - delay?: number - 延迟显示时间(ms)
+  - open?: boolean - 是否打开（受控）
+  - backgroundColor?: string - 背景色
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+
+================================================================================
+45. Top - 回到顶部
+================================================================================
+
+TopProps:
+  - showAfter?: number - 滚动多少距离后显示
+  - bottom?: number - 距离底部距离
+  - right?: number - 距离右侧距离
+  - size?: number - 按钮大小
+  - color?: string - 图标颜色
+  - bgColor?: string - 背景色
+  - boxShadow?: string - 阴影
+  - onClick?: () => void - 点击回调
+  - containerRef?: React.RefObject<HTMLElement | null> - 容器ref
+  - icon?: ReactNode - 自定义图标
+
+================================================================================
+46. Transfer - 穿梭框
+================================================================================
+
+TransferProps:
+  - dataSource: TransferItem[] - 数据源
+  - fieldNames?: FieldNames - 自定义字段名称
+  - targetKeys?: string[] - 右侧已选中的key集合（受控）
+  - defaultTargetKeys?: string[] - 默认已选中的key集合
+  - selectedKeys?: string[] - 不可选择的key集合
+  - defaultSelectedKeys?: string[] - 默认已选择的key集合
+  - showSearch?: boolean - 是否显示搜索框
+  - disabled?: boolean - 是否禁用整个组件
+  - leftTitle?: ReactNode - 左侧标题
+  - rightTitle?: ReactNode - 右侧标题
+  - leftDescription?: ReactNode - 左侧描述
+  - rightDescription?: ReactNode - 右侧描述
+  - filterOption?: (inputValue: string, item: TransferItem) => boolean - 自定义筛选函数
+  - styles?: { wrapper?: CSSProperties; list?: CSSProperties; item?: CSSProperties; search?: CSSProperties; operation?: CSSProperties } - 自定义样式
+  - listHeight?: number | string - 列表高度
+  - listWidth?: number | string - 列表宽度
+  - onSelectChange?: (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => void - 选中项变化回调
+  - onChange?: (targetKeys: string[], direction: 'left' | 'right', moveKeys: string[]) => void - 选项转移回调
+  - onSearch?: (direction: 'left' | 'right', value: string) => void - 搜索回调
+  - render?: (item: TransferItem) => ReactNode - 自定义渲染每一项
+  - header?: (props) => ReactNode | null - 自定义header
+  - search?: (props) => ReactNode - 自定义搜索区域
+  - body?: (props) => ReactNode - 自定义body渲染
+  - footer?: (props) => ReactNode - 自定义footer
+  - rowClassName?: (item: TransferItem) => string - 自定义行样式
+  - mode?: 'transfer' | 'single' - 模式
+  - loading?: boolean - 是否显示加载状态
+  - loadingRender?: () => ReactNode - 自定义loading渲染
+  - loadingDelay?: number - 加载延迟时间
+  - lazyLoad?: boolean - 是否开启懒加载
+  - lazyLoadThreshold?: number - 懒加载阈值
+  - onLazyLoad?: () => void - 懒加载回调
+
+TransferItem:
+  - key?: string - 唯一标识
+  - title?: ReactNode - 显示标题
+  - disabled?: boolean - 是否禁用
+  - [key: string]: any - 允许自定义字段
+
+FieldNames:
+  - key?: string - 唯一标识字段名，默认'key'
+  - title?: string - 显示标题字段名，默认'title'
+
+================================================================================
+47. Tree - 树形控件
+================================================================================
+
+TreeProps:
+  - treeData?: TreeNode[] - 树数据
+  - defaultExpandedKeys?: (string | number)[] - 默认展开的键
+  - expandedKeys?: (string | number)[] - 展开的键（受控）
+  - onExpand?: (expandedKeys: (string | number)[], { expanded, node, nativeEvent }) => void - 展开/收起回调
+  - defaultSelectedKeys?: (string | number)[] - 默认选中的键
+  - selectedKeys?: (string | number)[] - 选中的键（受控）
+  - onSelect?: (selectedKeys: (string | number)[], { selected, node, nativeEvent }) => void - 选中回调
+  - defaultCheckedKeys?: (string | number)[] - 默认勾选的键
+  - checkedKeys?: (string | number)[] - 勾选的键（受控）
+  - onCheck?: (checkedKeys: (string | number)[], { checked, node, nativeEvent }) => void - 勾选回调
+  - checkable?: boolean - 是否显示复选框
+  - checkStrictly?: boolean - 是否父子关联
+  - multiple?: boolean - 是否支持多选
+  - showSearch?: boolean - 是否支持搜索
+  - filterOption?: (search: string, node: TreeNode) => boolean - 搜索匹配
+  - renderSearch?: (search: string, node: TreeNode) => ReactNode - 自定义搜索匹配渲染
+  - showLine?: boolean - 是否显示连接线
+  - showIndent?: boolean - 是否显示缩进标识
+  - showIcon?: boolean - 是否显示图标
+  - loadData?: (node: TreeNode) => Promise<void> - 异步加载数据
+  - motionDuration?: number - 动画时长
+  - draggable?: boolean - 是否支持拖拽
+
+TreeNode:
+  - key: string | number - 节点唯一标识
+  - title: ReactNode - 节点标题
+  - icon?: ReactNode - 节点图标
+  - children?: TreeNode[] - 子节点
+  - disabled?: boolean - 是否禁用
+  - disableCheckbox?: boolean - 是否禁用复选框
+  - checked?: boolean - 是否选中
+  - halfChecked?: boolean - 是否半选
+  - expanded?: boolean - 是否展开
+  - isLeaf?: boolean - 是否叶子节点
+  - loading?: boolean - 加载中
+  - className?: string - 节点类名
+  - style?: CSSProperties - 节点样式
+  - render?: (node: TreeNode) => ReactNode - 自定义渲染
+  - draggable?: boolean - 节点拖拽相关
+  - tooltip?: TreeNodeTooltip | boolean - Tooltip配置
+
+TreeNodeTooltip:
+  - title?: ReactNode - Tooltip内容
+  - placement?: 'top' | 'bottom' | 'left' | 'right' - 位置
+  - trigger?: 'hover' | 'click' - 触发方式
+  - delay?: number - 延迟显示时间
+  - backgroundColor?: string - 背景色
+  - style?: CSSProperties - 样式
+  - className?: string - 类名
+
+================================================================================
+48. TreeSelect - 树形选择器
+================================================================================
+
+TreeSelectProps:
+  - treeData?: TreeSelectNode[] - 树形数据
+  - value?: any | any[] - 选中的值（受控）
+  - defaultValue?: any | any[] - 默认选中的值
+  - onChange?: (value: any | any[], selectedNodes: TreeSelectNode[]) => void - 选中值变化回调
+  - placeholder?: string - 占位符
+  - disabled?: boolean - 是否禁用
+  - multiple?: boolean - 是否支持多选
+  - maxTagCount?: number - 最大标签数量
+  - allowClear?: boolean - 是否显示清除按钮
+  - size?: 'large' | 'middle' | 'small' - 尺寸
+  - styles?: TreeSelectStyles - 自定义样式配置对象
+  - className?: string - 自定义类名
+  - dropdownWidth?: number | string - 下拉框宽度
+  - dropdownHeight?: number | string - 下拉框高度
+  - showSearch?: boolean - 是否支持搜索
+  - filterOption?: (input: string, option: TreeSelectNode) => boolean - 自定义过滤函数
+  - autoClearSearchValue?: boolean - 选中后是否关闭下拉框
+  - fieldNames?: { title?: string; value?: string; children?: string } - 自定义字段名
+  - width?: number | string - 宽度
+  - style?: CSSProperties - 自定义样式
+
+TreeSelectNode:
+  - title: ReactNode - 节点标题
+  - value: any - 节点值
+  - disabled?: boolean - 是否禁用
+  - children?: TreeSelectNode[] - 子节点
+
+TreeSelectStyles:
+  - wrapper?: CSSProperties - 容器样式
+  - selection?: CSSProperties - 选择框样式
+  - dropdown?: CSSProperties - 下拉面板样式
+  - treeNode?: CSSProperties - 树节点样式
+  - tag?: CSSProperties - 标签样式
+
+================================================================================
+49. Typography - 排版
+================================================================================
+
+TypographyProps:
+  - children: ReactNode - 文本内容
+  - width?: number | string - 宽度限制
+  - rows?: number - 行数限制
+  - style?: CSSProperties - 自定义样式
+  - className?: string - 自定义类名
+
+================================================================================
+50. Upload - 上传
+================================================================================
+
+UploadProps:
+  - action?: string - 上传地址
+  - defaultFileList?: UploadFile[] - 默认已经上传的文件列表
+  - fileList?: UploadFile[] - 已经上传的文件列表（受控）
+  - onChange?: (fileList: UploadFile[]) => void - 上传文件改变回调
+  - beforeUpload?: (file: File, fileList: File[]) => boolean | Promise<File> - 上传前钩子
+  - onProgress?: (percent: number, file: UploadFile) => void - 上传进度回调
+  - onSuccess?: (response: any, file: UploadFile) => void - 上传成功回调
+  - onError?: (error: Error, file: UploadFile) => void - 上传失败回调
+  - onRemove?: (file: UploadFile) => void | boolean | Promise<boolean> - 文件移除回调
+  - headers?: Record<string, string> - 请求头部
+  - name?: string - 文件字段名
+  - data?: Record<string, any> | ((file: File) => Record<string, any>) - 额外参数
+  - withCredentials?: boolean - 是否携带cookie
+  - accept?: string - 接受上传的文件类型
+  - multiple?: boolean - 是否支持多选文件
+  - disabled?: boolean - 是否禁用
+  - drag?: boolean - 是否支持拖拽上传
+  - style?: CSSProperties - 组件样式
+  - className?: string - 组件类名
+  - customRequest?: (options: UploadRequestOptions) => { abort: () => void } | void - 自定义上传方法
+  - itemRender?: (file: UploadFile, fileList: UploadFile[]) => ReactNode - 文件列表渲染
+  - showUploadList?: boolean | ShowUploadListType - 是否显示文件列表
+
+UploadFile:
+  - uid: string - 文件唯一标识
+  - name: string - 文件名
+  - size: number - 文件大小（字节）
+  - type: string - 文件类型
+  - status?: 'ready' | 'uploading' | 'success' | 'error' - 上传状态
+  - percent?: number - 上传进度（0-100）
+  - response?: any - 上传响应数据
+  - error?: Error - 上传错误信息
+  - raw?: File - 原始文件对象
+
+ShowUploadListType:
+  - showRemoveIcon?: boolean - 是否显示删除图标
+  - showPreviewIcon?: boolean - 是否显示预览图标
+  - showDownloadIcon?: boolean - 是否显示下载图标
+
+UploadRequestOptions:
+  - action: string - 上传地址
+  - filename: string - 文件字段名
+  - file: File - 文件对象
+  - data?: Record<string, any> - 额外数据
+  - headers?: Record<string, string> - 请求头
+  - withCredentials?: boolean - 是否携带cookie
+  - onProgress: (percent: number) => void - 进度回调
+  - onSuccess: (response: any) => void - 成功回调
+  - onError: (error: Error) => void - 错误回调
+  - method: string - 请求方法
+
+Hooks:
+  - useChunkUpload(options: ChunkOptions): UseChunkUploadReturn - 分片上传hook
+
+================================================================================
+                            文档结束
+================================================================================
