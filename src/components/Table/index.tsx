@@ -95,6 +95,8 @@ export interface TableProps {
     onDragEnd?: (newData: any[]) => void;
     /** 行选择配置 */
     rowSelection?: RowSelection;
+    /** 表格大小 */
+    size?: 'large' | 'middle' | 'small';
 }
 
 const Table = ({
@@ -112,6 +114,7 @@ const Table = ({
     draggable = false,
     onDragEnd,
     rowSelection,
+    size = 'large',
 }: TableProps) => {
     // 类型安全处理：确保 dataSource 和 columns 是数组，防止类型错误导致无限循环
     // 使用 useMemo 缓存结果，避免每次渲染创建新数组导致 useEffect 无限循环
@@ -1023,7 +1026,7 @@ const Table = ({
     return (
         <div
             ref={tableRef}
-            className={classNames('custom-table-container', { 'custom-table-bordered': bordered, 'custom-table-draggable': draggable }, className)}
+            className={classNames('custom-table-container', { 'custom-table-bordered': bordered, 'custom-table-draggable': draggable, [`custom-table-size-${size}`]: size }, className)}
             style={tableStyle}
         >
             {/* 加载遮罩层 */}

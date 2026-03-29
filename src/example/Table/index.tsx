@@ -95,6 +95,7 @@ const TableExample: React.FC = () => {
     { property: 'columns', description: '列配置数组', type: 'Column[]', default: '[]' },
     { property: 'dataSource', description: '数据源数组', type: 'any[]', default: '[]' },
     { property: 'bordered', description: '是否显示边框', type: 'boolean', default: 'false' },
+    { property: 'size', description: '表格大小', type: "'large' | 'middle' | 'small'", default: "'large'" },
     { property: 'scroll', description: '滚动配置', type: '{ x?: number | string; y?: number | string }', default: '-' },
     { property: 'rowKey', description: '行唯一标识', type: 'string | function', default: "'key'" },
     { property: 'pagination', description: '分页配置，false表示禁用分页', type: 'PaginationProps | false', default: '-' },
@@ -418,6 +419,61 @@ const dataSource: User[] = [
 
 const App: React.FC = () => {
   return <Table columns={columns} dataSource={dataSource} bordered />;
+};
+
+export default App;`} />
+            </Section>
+          </div>
+
+          {/* 表格尺寸 */}
+          <div id="table-size">
+            <Section title="表格尺寸">
+        <DemoRow title="默认 (large)">
+          <Table
+            columns={basicColumns}
+            dataSource={basicDataSource}
+          />
+        </DemoRow>
+        <DemoRow title="中等 (middle)">
+          <Table
+            columns={basicColumns}
+            dataSource={basicDataSource}
+            size="middle"
+          />
+        </DemoRow>
+        <DemoRow title="紧凑 (small)">
+          <Table
+            columns={basicColumns}
+            dataSource={basicDataSource}
+            size="small"
+          />
+        </DemoRow>
+        <CopyBlock code={`import React from 'react';
+import { Table } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '姓名' },
+  { dataIndex: 'age', title: '年龄', width: '80px', align: 'center' },
+  { dataIndex: 'gender', title: '性别', width: '80px', align: 'center' },
+  { dataIndex: 'email', title: '邮箱' }
+];
+
+const dataSource = [
+  { id: 1, name: '张三', age: 25, gender: '男', email: 'zhangsan@example.com' },
+  { id: 2, name: '李四', age: 30, gender: '女', email: 'lisi@example.com' },
+  { id: 3, name: '王五', age: 28, gender: '男', email: 'wangwu@example.com' }
+];
+
+const App: React.FC = () => {
+  return (
+    <div>
+      <Table columns={columns} dataSource={dataSource} size="large" />
+      <Table columns={columns} dataSource={dataSource} size="middle" />
+      <Table columns={columns} dataSource={dataSource} size="small" />
+    </div>
+  );
 };
 
 export default App;`} />
@@ -1657,6 +1713,7 @@ import '@zjpcy/simple-design/lib/index.css';`} />
                 <Anchor.Link href="#table-intro" title="组件介绍" />
                 <Anchor.Link href="#table-basic" title="基础用法" />
                 <Anchor.Link href="#table-bordered" title="带边框表格" />
+                <Anchor.Link href="#table-size" title="表格尺寸" />
                 <Anchor.Link href="#table-fixed" title="固定列" />
                 <Anchor.Link href="#table-scroll" title="纵向滚动" />
                 <Anchor.Link href="#table-maxlines" title="限制内容行数" />

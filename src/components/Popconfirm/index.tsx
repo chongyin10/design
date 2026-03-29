@@ -29,9 +29,29 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [position, setPosition] = useState({ top: 0, left: 0 });
+  const [position, setPosition] = useState({ top: -9999, left: -9999 }); // 初始位置在视口外
+  const [positionReady, setPositionReady] = useState(false); // 位置是否计算完成
+  const [exiting, setExiting] = useState(false); // 退出动画状态
+  const [actualPlacement, setActualPlacement] = useState<PopconfirmPlacement>(placement);
   const triggerRef = useRef<HTMLElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // 位置翻转映射表
+  const reversePlacementMap: Record<PopconfirmPlacement, PopconfirmPlacement> = {
+    top: 'bottom',
+    bottom: 'top',
+    left: 'right',
+    right: 'left',
+    topLeft: 'bottomLeft',
+    topRight: 'bottomRight',
+    bottomLeft: 'topLeft',
+    bottomRight: 'topRight',
+    leftTop: 'rightTop',
+    leftBottom: 'rightBottom',
+    rightTop: 'leftTop',
+    rightBottom: 'leftBottom'
+  };
 
   const placementMap: Record<PopconfirmPlacement, string> = {
     top: 'zjpcy-popconfirm-top',
@@ -54,19 +74,83 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const popoverRect = popoverRef.current.getBoundingClientRect();
     const padding = 8;
+    const viewportPadding = 10;
+
+    // 检测是否有足够空间，决定是否需要翻转
+    let currentPlacement = placement;
+    const spaceTop = triggerRect.top;
+    const spaceBottom = window.innerHeight - triggerRect.bottom;
+    const spaceLeft = triggerRect.left;
+    const spaceRight = window.innerWidth - triggerRect.right;
+
+    // 根据placement检测空间是否足够
+    const needsFlip = (): boolean => {
+      switch (placement) {
+        case 'top':
+        case 'topLeft':
+        case 'topRight':
+          return spaceTop < popoverRect.height + padding + viewportPadding;
+        case 'bottom':
+        case 'bottomLeft':
+        case 'bottomRight':
+          return spaceBottom < popoverRect.height + padding + viewportPadding;
+        case 'left':
+        case 'leftTop':
+        case 'leftBottom':
+          return spaceLeft < popoverRect.width + padding + viewportPadding;
+        case 'right':
+        case 'rightTop':
+        case 'rightBottom':
+          return spaceRight < popoverRect.width + padding + viewportPadding;
+        default:
+          return false;
+      }
+    };
+
+    // 如果需要翻转，检查翻转后是否有足够空间
+    if (needsFlip()) {
+      const flippedPlacement = reversePlacementMap[placement];
+      const hasSpaceAfterFlip = (): boolean => {
+        switch (flippedPlacement) {
+          case 'bottom':
+          case 'bottomLeft':
+          case 'bottomRight':
+            return spaceBottom >= popoverRect.height + padding + viewportPadding;
+          case 'top':
+          case 'topLeft':
+          case 'topRight':
+            return spaceTop >= popoverRect.height + padding + viewportPadding;
+          case 'right':
+          case 'rightTop':
+          case 'rightBottom':
+            return spaceRight >= popoverRect.width + padding + viewportPadding;
+          case 'left':
+          case 'leftTop':
+          case 'leftBottom':
+            return spaceLeft >= popoverRect.width + padding + viewportPadding;
+          default:
+            return true;
+        }
+      };
+      if (hasSpaceAfterFlip()) {
+        currentPlacement = flippedPlacement;
+      }
+    }
+
+    setActualPlacement(currentPlacement);
 
     let top = 0;
     let left = 0;
 
-    switch (placement) {
+    switch (currentPlacement) {
       case 'top':
       case 'topLeft':
       case 'topRight':
         top = triggerRect.top - popoverRect.height - padding;
         left = triggerRect.left + (triggerRect.width - popoverRect.width) / 2;
-        if (placement === 'topLeft') {
+        if (currentPlacement === 'topLeft') {
           left = triggerRect.left;
-        } else if (placement === 'topRight') {
+        } else if (currentPlacement === 'topRight') {
           left = triggerRect.right - popoverRect.width;
         }
         break;
@@ -75,9 +159,9 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       case 'bottomRight':
         top = triggerRect.bottom + padding;
         left = triggerRect.left + (triggerRect.width - popoverRect.width) / 2;
-        if (placement === 'bottomLeft') {
+        if (currentPlacement === 'bottomLeft') {
           left = triggerRect.left;
-        } else if (placement === 'bottomRight') {
+        } else if (currentPlacement === 'bottomRight') {
           left = triggerRect.right - popoverRect.width;
         }
         break;
@@ -86,9 +170,9 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       case 'leftBottom':
         top = triggerRect.top + (triggerRect.height - popoverRect.height) / 2;
         left = triggerRect.left - popoverRect.width - padding;
-        if (placement === 'leftTop') {
+        if (currentPlacement === 'leftTop') {
           top = triggerRect.top;
-        } else if (placement === 'leftBottom') {
+        } else if (currentPlacement === 'leftBottom') {
           top = triggerRect.bottom - popoverRect.height;
         }
         break;
@@ -97,9 +181,9 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       case 'rightBottom':
         top = triggerRect.top + (triggerRect.height - popoverRect.height) / 2;
         left = triggerRect.right + padding;
-        if (placement === 'rightTop') {
+        if (currentPlacement === 'rightTop') {
           top = triggerRect.top;
-        } else if (placement === 'rightBottom') {
+        } else if (currentPlacement === 'rightBottom') {
           top = triggerRect.bottom - popoverRect.height;
         }
         break;
@@ -109,16 +193,17 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
 
-    if (left < 10) left = 10;
-    if (left + popoverRect.width > windowWidth - 10) {
-      left = windowWidth - popoverRect.width - 10;
+    if (left < viewportPadding) left = viewportPadding;
+    if (left + popoverRect.width > windowWidth - viewportPadding) {
+      left = windowWidth - popoverRect.width - viewportPadding;
     }
-    if (top < 10) top = 10;
-    if (top + popoverRect.height > windowHeight - 10) {
-      top = windowHeight - popoverRect.height - 10;
+    if (top < viewportPadding) top = viewportPadding;
+    if (top + popoverRect.height > windowHeight - viewportPadding) {
+      top = windowHeight - popoverRect.height - viewportPadding;
     }
 
     setPosition({ top, left });
+    setPositionReady(true);
   };
 
   const handleClick = (e: React.MouseEvent | any) => {
@@ -137,12 +222,12 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       setLoading(true);
       try {
         await onConfirm();
-        setVisible(false);
+        closePopover();
       } finally {
         setLoading(false);
       }
     } else {
-      setVisible(false);
+      closePopover();
     }
   };
 
@@ -150,7 +235,7 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
     if (onCancel) {
       onCancel();
     }
-    setVisible(false);
+    closePopover();
   };
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -160,7 +245,47 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       triggerRef.current &&
       !triggerRef.current.contains(e.target as Node)
     ) {
+      closePopover();
+    }
+  };
+
+  // 关闭弹出层（带退出动画）
+  const closePopover = () => {
+    // 清理之前的定时器
+    if (exitTimerRef.current) {
+      clearTimeout(exitTimerRef.current);
+    }
+
+    setExiting(true);
+    // 动画持续时间（与CSS中的transition-duration保持一致）
+    const animationDuration = 200;
+
+    exitTimerRef.current = setTimeout(() => {
       setVisible(false);
+      setExiting(false);
+      setPositionReady(false);
+      setPosition({ top: -9999, left: -9999 });
+      exitTimerRef.current = null;
+    }, animationDuration);
+  };
+
+  // 检测触发器是否在可视区域内
+  const checkTriggerVisibility = () => {
+    if (!triggerRef.current || !visible) return;
+
+    const triggerRect = triggerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // 检测触发器是否有部分离开可视区域（更严格的检测）
+    const isPartiallyHidden =
+      triggerRect.bottom < 0 ||
+      triggerRect.top > viewportHeight ||
+      triggerRect.right < 0 ||
+      triggerRect.left > viewportWidth;
+
+    if (isPartiallyHidden) {
+      closePopover();
     }
   };
 
@@ -171,8 +296,11 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       }, 0);
       document.addEventListener('mousedown', handleClickOutside);
 
-      // 监听滚动和窗口变化事件，重新计算位置
-      const handleScroll = () => calculatePosition();
+      // 监听滚动和窗口变化事件，重新计算位置并检测可见性
+      const handleScroll = () => {
+        calculatePosition();
+        checkTriggerVisibility();
+      };
       const handleResize = () => calculatePosition();
       window.addEventListener('scroll', handleScroll, true);
       window.addEventListener('resize', handleResize);
@@ -184,6 +312,20 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
       };
     }
   }, [visible, placement]);
+
+  // 当 placement 改变时重置 actualPlacement
+  useEffect(() => {
+    setActualPlacement(placement);
+  }, [placement]);
+
+  // 组件卸载时清理定时器
+  useEffect(() => {
+    return () => {
+      if (exitTimerRef.current) {
+        clearTimeout(exitTimerRef.current);
+      }
+    };
+  }, []);
 
   const renderTrigger = () => {
     const child = children as ReactElement;
@@ -212,15 +354,16 @@ const Popconfirm: React.FC<PopconfirmProps> = ({
   };
 
   const renderPopover = () => {
-    if (!visible) return null;
+    // 当 visible 为 false 且不在退出状态时，不渲染
+    if (!visible && !exiting) return null;
 
     const popoverContent = (
       <div
         ref={popoverRef}
         className={classNames(
           'zjpcy-popconfirm',
-          'zjpcy-popconfirm-visible',
-          placementMap[placement],
+          !exiting && positionReady && 'zjpcy-popconfirm-visible',
+          placementMap[actualPlacement],
           `zjpcy-popconfirm--${type}`,
           className
         )}

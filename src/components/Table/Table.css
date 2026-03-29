@@ -744,3 +744,68 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ============================================
+   表格尺寸样式
+   ============================================ */
+
+/* Large - 默认尺寸 */
+.custom-table-size-large .custom-table th {
+  padding: 12px 8px;
+}
+
+.custom-table-size-large .custom-table td {
+  padding: 12px 8px;
+}
+
+/* Middle - 中等尺寸 */
+.custom-table-size-middle .custom-table th {
+  padding: 8px;
+}
+
+.custom-table-size-middle .custom-table td {
+  padding: 8px;
+}
+
+.custom-table-size-middle .custom-table-container {
+  padding: 8px;
+}
+
+/* Small - 小尺寸 */
+.custom-table-size-small .custom-table th {
+  padding: 6px 4px;
+  font-size: 13px;
+}
+
+.custom-table-size-small .custom-table td {
+  padding: 6px 4px;
+  font-size: 13px;
+}
+
+.custom-table-size-small .custom-table-container {
+  padding: 6px;
+}
+
+.custom-table-size-small .custom-table-pagination-wrapper {
+  padding: 8px 12px;
+}
+
+/* 选择列在不同尺寸下的调整 */
+.custom-table-size-middle .custom-table th:first-child[data-selection-col],
+.custom-table-size-middle .custom-table td:first-child[data-selection-col] {
+  padding: 8px;
+}
+
+.custom-table-size-small .custom-table th:first-child[data-selection-col],
+.custom-table-size-small .custom-table td:first-child[data-selection-col] {
+  padding: 6px 4px;
+}
+
+/* 空状态在不同尺寸下的调整 */
+.custom-table-size-middle .custom-table-empty {
+  padding: 16px;
+}
+
+.custom-table-size-small .custom-table-empty {
+  padding: 12px;
+}
