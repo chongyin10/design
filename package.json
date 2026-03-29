@@ -1,6 +1,6 @@
 {
   "name": "@zjpcy/simple-design",
-  "version": "1.8.14",
+  "version": "1.8.19",
   "description": "zjpcy Studio Design System - React Component Library",
   "main": "dist/cjs/components/index.js",
   "module": "dist/es/components/index.js",

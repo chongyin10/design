@@ -121,6 +121,9 @@ const Table = ({
     const safeDataSource = useMemo(() => Array.isArray(dataSource) ? dataSource : [], [dataSource]);
     const safeColumns = useMemo(() => Array.isArray(columns) ? columns : [], [columns]);
 
+    // 是否有横向滚动 - 提前计算，供后续渲染逻辑使用
+    const hasScrollX = scroll.x !== undefined && scroll.x !== null;
+
     const [fixedLeftColumns, setFixedLeftColumns] = useState<Column[]>([]);
     const [fixedRightColumns, setFixedRightColumns] = useState<Column[]>([]);
     const [normalColumns, setNormalColumns] = useState<Column[]>([]);
@@ -530,7 +533,7 @@ const Table = ({
     };
 
     // 渲染表头单元格
-    const renderHeaderCell = (column: Column, index: number, colGroup: Column[], isSelectionColumn = false) => {
+    const renderHeaderCell = (column: Column, _index: number, _colGroup: Column[], isSelectionColumn = false) => {
         // 处理行选择列
         if (isSelectionColumn) {
             return renderSelectionHeader();
@@ -543,24 +546,29 @@ const Table = ({
             top: 0,
         };
 
-        if (column.fixed === 'start' || column.fixed === true) {
+        // 只有在有横向滚动时才应用固定列样式
+        if (hasScrollX && (column.fixed === 'start' || column.fixed === true)) {
             style.position = 'sticky';
             // 计算左侧固定列的累积宽度（考虑行选择列）
             let leftOffset = 0;
             if (isRowSelectionEnabled) {
                 leftOffset += getColumnWidth(rowSelection?.columnWidth || '50px');
             }
-            for (let i = 0; i < index; i++) {
-                leftOffset += columnWidths[i] || 0;
+            // 使用 fixedLeftColumns 来计算偏移量，确保顺序正确
+            const currentIndexInFixedLeft = fixedLeftColumns.findIndex(col => col._index === column._index);
+            for (let i = 0; i < currentIndexInFixedLeft; i++) {
+                leftOffset += getColumnWidth(fixedLeftColumns[i].width);
             }
             style.left = `${leftOffset}px`;
             style.zIndex = 10;
-        } else if (column.fixed === 'end') {
+        } else if (hasScrollX && column.fixed === 'end') {
             style.position = 'sticky';
             // 计算右侧固定列的累积宽度
             let rightOffset = 0;
-            for (let i = colGroup.length - 1; i > index; i--) {
-                rightOffset += columnWidths[i] || 0;
+            // 使用 fixedRightColumns 来计算偏移量，确保顺序正确
+            const currentIndexInFixedRight = fixedRightColumns.findIndex(col => col._index === column._index);
+            for (let i = fixedRightColumns.length - 1; i > currentIndexInFixedRight; i--) {
+                rightOffset += getColumnWidth(fixedRightColumns[i].width);
             }
             style.right = `${rightOffset}px`;
             style.zIndex = 10;
@@ -687,7 +695,7 @@ const Table = ({
     };
 
     // 渲染表格单元格
-    const renderTableCell = (column: Column, record: any, rowIndex: number, colIndex: number, colGroup: Column[], isSelectionColumn = false) => {
+    const renderTableCell = (column: Column, record: any, rowIndex: number, colIndex: number, _colGroup: Column[], isSelectionColumn = false) => {
         // 处理行选择列
         if (isSelectionColumn) {
             return renderSelectionCell(record, rowIndex);
@@ -699,24 +707,29 @@ const Table = ({
             backgroundColor: 'white',
         };
 
-        if (column.fixed === 'start' || column.fixed === true) {
+        // 只有在有横向滚动时才应用固定列样式
+        if (hasScrollX && (column.fixed === 'start' || column.fixed === true)) {
             style.position = 'sticky';
             // 计算左侧固定列的累积宽度（考虑行选择列）
             let leftOffset = 0;
             if (isRowSelectionEnabled) {
                 leftOffset += getColumnWidth(rowSelection?.columnWidth || '50px');
             }
-            for (let i = 0; i < colIndex; i++) {
-                leftOffset += columnWidths[i] || 0;
+            // 使用 fixedLeftColumns 来计算偏移量，确保顺序正确
+            const currentIndexInFixedLeft = fixedLeftColumns.findIndex(col => col._index === column._index);
+            for (let i = 0; i < currentIndexInFixedLeft; i++) {
+                leftOffset += getColumnWidth(fixedLeftColumns[i].width);
             }
             style.left = `${leftOffset}px`;
             style.zIndex = 5;
-        } else if (column.fixed === 'end') {
+        } else if (hasScrollX && column.fixed === 'end') {
             style.position = 'sticky';
             // 计算右侧固定列的累积宽度
             let rightOffset = 0;
-            for (let i = colGroup.length - 1; i > colIndex; i--) {
-                rightOffset += columnWidths[i] || 0;
+            // 使用 fixedRightColumns 来计算偏移量，确保顺序正确
+            const currentIndexInFixedRight = fixedRightColumns.findIndex(col => col._index === column._index);
+            for (let i = fixedRightColumns.length - 1; i > currentIndexInFixedRight; i--) {
+                rightOffset += getColumnWidth(fixedRightColumns[i].width);
             }
             style.right = `${rightOffset}px`;
             style.zIndex = 5;
@@ -724,8 +737,9 @@ const Table = ({
 
         const lastFixedLeftIndex = fixedLeftColumns.length ? fixedLeftColumns.length - 1 : -1;
         const firstFixedRightIndex = fixedRightColumns.length ? fixedLeftColumns.length + normalColumns.length : -1;
-        const shouldShowLeftShadow = (column.fixed === 'start' || column.fixed === true) && colIndex === lastFixedLeftIndex;
-        const shouldShowRightShadow = column.fixed === 'end' && colIndex === firstFixedRightIndex;
+        // 只有在设置了 scroll.x 时才显示固定列阴影
+        const shouldShowLeftShadow = hasScrollX && (column.fixed === 'start' || column.fixed === true) && colIndex === lastFixedLeftIndex;
+        const shouldShowRightShadow = hasScrollX && column.fixed === 'end' && colIndex === firstFixedRightIndex;
 
         // 判断是否处于编辑状态
         const colKey = column.key || column.dataIndex || column._index;
@@ -1028,6 +1042,7 @@ const Table = ({
             ref={tableRef}
             className={classNames('custom-table-container', { 'custom-table-bordered': bordered, 'custom-table-draggable': draggable, [`custom-table-size-${size}`]: size }, className)}
             style={tableStyle}
+            data-scroll-x={hasScrollX || undefined}
         >
             {/* 加载遮罩层 */}
             {internalLoading && (

@@ -58,6 +58,9 @@
     will-change: transform, opacity;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    /* 限制最大高度为视口高度的 90%，确保在视口内可滚动 */
+    max-height: 90vh;
+    max-width: 90vw;
 }
 
 .zjpcy-modal-container::before {
@@ -326,12 +329,12 @@
 
 /* 当没有设置 height 参数时，内容区域有最小高度 300px */
 .zjpcy-modal-container:not([style*="height"]) .zjpcy-modal-content {
-    /* min-height: 300px; */
+    min-height: stretch
 }
 
 /* 当设置了 height 参数时，取消最小高度限制，以设置的 height 为准 */
 .zjpcy-modal-container--has-height .zjpcy-modal-content {
-    min-height: fit-content;
+    min-height: stretch;
 }
 
 /* ============================================

@@ -108,17 +108,34 @@
 .custom-table-header table,
 .custom-table-body table {
   width: 100%;
+  /* 统一使用 fixed 布局确保表头和表体列宽对齐 */
   table-layout: fixed;
   min-width: 0;
-  /* 修复固定列时表格宽度导致的滚动问题 */
+}
+
+/* 无 scroll.x 时限制表格不超过容器宽度 */
+.custom-table-container:not([data-scroll-x="true"]) .custom-table-header table,
+.custom-table-container:not([data-scroll-x="true"]) .custom-table-body table {
+  max-width: 100%;
+}
+
+/* 有 scroll.x 时允许表格超出容器以支持滚动 */
+.custom-table-container[data-scroll-x="true"] .custom-table-header table,
+.custom-table-container[data-scroll-x="true"] .custom-table-body table {
   max-width: none;
 }
 
 .custom-table {
   width: 100%;
   border-collapse: collapse;
+  /* 统一使用 fixed 布局确保表头和表体列宽对齐 */
   table-layout: fixed;
   min-width: 0;
+}
+
+/* 有 scroll.x 时允许表格超出容器 */
+.custom-table-container[data-scroll-x="true"] .custom-table {
+  max-width: none;
 }
 
 /* Bordered 模式样式 */

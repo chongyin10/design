@@ -165,6 +165,7 @@
   text-decoration: none;
   box-shadow: none;
   font-weight: 500;
+  padding: 0px !important;
 }
 
 .zjpcy-btn--link::before {

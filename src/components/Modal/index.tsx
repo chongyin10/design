@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({
     width = 600,
     height = 'auto',
     headerHeight = 40,
-    footerHeight = 40,
+    footerHeight = 50,
     confirmLoading = false,
     direction = 'normal',
     top,
@@ -181,10 +181,12 @@ const Modal: React.FC<ModalProps> = ({
         ...externalContentStyle // 1. 内联 style 优先级最高
     };
 
-    // 2. 如果外部没有设置 maxHeight，则检查 height 属性
-    if (!contentStyle.maxHeight && height) {
+    // 2. 如果外部没有设置 maxHeight，则检查 height 属性（排除 'auto' 等非数值）
+    if (!contentStyle.maxHeight && height && height !== 'auto') {
         const resolvedHeight = getHeightValue(height);
-        contentStyle.maxHeight = `${resolvedHeight}px`;
+        if (resolvedHeight > 0) {
+            contentStyle.maxHeight = `${resolvedHeight}px`;
+        }
     }
 
     // 3. 如果外部没有设置 maxHeight 且没有 height 属性，则使用计算的内容高度
@@ -325,7 +327,7 @@ const Modal: React.FC<ModalProps> = ({
                         className="zjpcy-modal-footer"
                         align="center"
                         justify="flex-end"
-                        style={Object.assign({}, footerStyle, { padding: '0px 10px' })}
+                        style={Object.assign({}, footerStyle, { padding: '10px' })}
                         gap={12}
                     >
                         {footer === null ? (
