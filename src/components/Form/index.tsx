@@ -23,19 +23,37 @@ const FormContext = createContext<FormContextType | null>(null);
 
 export const useForm = (): [FormInstance] => {
   const formInstanceRef = useRef<FormInstance | null>(null);
+  // 在 Form 未挂载时暂存通过 setFieldsValue/setFieldValue 设置的值
+  const pendingValuesRef = useRef<Record<string, any>>({});
 
   if (!formInstanceRef.current) {
-    formInstanceRef.current = {
+    const instance: FormInstance & { _pendingValues?: Record<string, any> } = {
       getFieldValue: () => undefined,
       getFieldsValue: () => ({}),
-      setFieldValue: () => {},
-      setFieldsValue: () => {},
+      setFieldValue: (name: string, value: any) => {
+        pendingValuesRef.current[name] = value;
+      },
+      setFieldsValue: (newValues: Record<string, any>) => {
+        Object.assign(pendingValuesRef.current, newValues);
+      },
       setFields: () => {},
-      resetFields: () => {},
+      resetFields: () => {
+        pendingValuesRef.current = {};
+      },
       validateFields: () => Promise.reject(new Error('Form instance not initialized')),
       submit: () => {},
-      destroy: () => {}
+      destroy: () => {
+        pendingValuesRef.current = {};
+      }
     };
+    // 将 pendingValues 挂载到实例上，供 Form 挂载时消费
+    Object.defineProperty(instance, '_pendingValues', {
+      get: () => pendingValuesRef.current,
+      set: (v: Record<string, any>) => { pendingValuesRef.current = v; },
+      enumerable: false,
+      configurable: true,
+    });
+    formInstanceRef.current = instance as FormInstance;
   }
 
   return [formInstanceRef.current];
@@ -77,11 +95,17 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     errorsRef.current = errors;
   }, [errors]);
 
+  // 使用 ref 存储最新的方法引用，避免 useMemo 缓存导致 remount 后引用旧实例
+  const methodsRef = useRef<{
+    getFieldValue: (name: string) => any;
+    setFieldValue: (name: string, value: any) => void;
+    setFieldValueList: (newValues: Record<string, any>) => void;
+    validateField: (name: string) => Promise<string | null>;
+    validateFields: (names?: string[]) => Promise<Record<string, any>>;
+    resetFields: (names?: string[]) => void;
+  } | null>(null);
+
   const setFieldValue = useCallback((name: string, value: any) => {
-    // 只处理已注册的表单项
-    if (!itemsRef.current.has(name)) {
-      return;
-    }
     setValues(prev => ({ ...prev, [name]: value }));
     // 直接更新 ref，确保立即生效
     valuesRef.current = { ...valuesRef.current, [name]: value };
@@ -96,31 +120,19 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
   }, []);
 
   const getFieldValue = useCallback((name: string) => {
-    // 只读取已注册的表单项，使用 ref 获取最新值
-    if (!itemsRef.current.has(name)) {
-      return undefined;
-    }
     return valuesRef.current[name];
   }, []);
 
   const setFieldValueList = useCallback((newValues: Record<string, any>) => {
-    // 只处理已注册的表单项
-    const registeredValues: Record<string, any> = {};
-    Object.keys(newValues).forEach(name => {
-      if (itemsRef.current.has(name)) {
-        registeredValues[name] = newValues[name];
-      }
-    });
-
-    if (Object.keys(registeredValues).length === 0) {
+    if (Object.keys(newValues).length === 0) {
       return;
     }
 
-    setValues(prev => ({ ...prev, ...registeredValues }));
+    setValues(prev => ({ ...prev, ...newValues }));
     // 直接更新 ref，确保立即生效
-    valuesRef.current = { ...valuesRef.current, ...registeredValues };
+    valuesRef.current = { ...valuesRef.current, ...newValues };
 
-    Object.keys(registeredValues).forEach(name => {
+    Object.keys(newValues).forEach(name => {
       if (errorsRef.current[name]) {
         setErrors(prev => {
           const newErrors = { ...prev };
@@ -134,11 +146,11 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
 
   const validateField = useCallback(async (name: string) => {
     const item = itemsRef.current.get(name);
-    if (!item) return;
+    if (!item) return null;
 
     const { rules } = item;
     const value = valuesRef.current[name];
-    if (!rules || rules.length === 0) return;
+    if (!rules || rules.length === 0) return null;
 
     for (const rule of rules) {
       if (rule.required && (value === undefined || value === null || value === '')) {
@@ -242,7 +254,19 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     const hasError = errorResults.some(error => error !== null);
 
     if (hasError) {
-      throw new Error('Validation failed');
+      // 收集所有错误信息，抛出包含详细错误信息的对象
+      const errorFields: { name: string; errors: string[] }[] = [];
+      fieldNames.forEach((name, index) => {
+        if (errorResults[index] !== null) {
+          errorFields.push({ name, errors: [errorResults[index]!] });
+        }
+      });
+      // 构建详细的错误消息
+      const errorDetails = errorFields.map(f => `${f.name}: ${f.errors.join(', ')}`).join('; ');
+      const error: any = new Error(`Validation failed: ${errorDetails}`);
+      error.errorFields = errorFields;
+      error.values = { ...valuesRef.current };
+      throw error;
     }
 
     return { ...valuesRef.current };
@@ -285,10 +309,6 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
       const newErrors = { ...errorsRef.current };
 
       fields.forEach(field => {
-        // 只处理已注册的表单项
-        if (!itemsRef.current.has(field.name)) {
-          return;
-        }
         if (field.value !== undefined) {
           newValues[field.name] = field.value;
         }
@@ -308,7 +328,7 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     validateFields,
     submit: () => {
       validateFields().then(() => {
-        const formElement = document.querySelector('form');
+        const formElement = formRefElement.current;
         if (formElement) {
           formElement.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
@@ -324,23 +344,47 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     }
   }), [getFieldValue, setFieldValue, setFieldValueList, resetFields, validateFields]);
 
+  // 同步 formInstance 到 externalForm，确保 remount 后也能正确连接
+  // 同时更新 methodsRef 供外部使用最新方法
+  methodsRef.current = {
+    getFieldValue: formInstance.getFieldValue,
+    setFieldValue: formInstance.setFieldValue,
+    setFieldValueList: formInstance.setFieldsValue,
+    validateField: validateField,
+    validateFields: formInstance.validateFields,
+    resetFields: formInstance.resetFields,
+  };
+
+  if (externalForm) {
+    externalForm.getFieldValue = formInstance.getFieldValue;
+    externalForm.getFieldsValue = formInstance.getFieldsValue;
+    externalForm.setFieldValue = formInstance.setFieldValue;
+    externalForm.setFieldsValue = formInstance.setFieldsValue;
+    externalForm.setFields = formInstance.setFields;
+    externalForm.resetFields = formInstance.resetFields;
+    externalForm.validateFields = formInstance.validateFields;
+    externalForm.submit = formInstance.submit;
+    externalForm.destroy = formInstance.destroy;
+  }
+
+  // Form 挂载时，消费 useForm stub 暂存的 pending values
   useEffect(() => {
     formInstanceRef.current = formInstance;
     if (formRef) {
       formRef.current = formInstance;
     }
-    if (externalForm) {
-      externalForm.getFieldValue = formInstance.getFieldValue;
-      externalForm.getFieldsValue = formInstance.getFieldsValue;
-      externalForm.setFieldValue = formInstance.setFieldValue;
-      externalForm.setFieldsValue = formInstance.setFieldsValue;
-      externalForm.setFields = formInstance.setFields;
-      externalForm.resetFields = formInstance.resetFields;
-      externalForm.validateFields = formInstance.validateFields;
-      externalForm.submit = formInstance.submit;
-      externalForm.destroy = formInstance.destroy;
+    // 消费 useForm stub 存储的待处理值
+    if (externalForm && (externalForm as any)._pendingValues) {
+      const pending = (externalForm as any)._pendingValues as Record<string, any>;
+      if (Object.keys(pending).length > 0) {
+        (externalForm as any)._pendingValues = {};
+        const merged = { ...valuesRef.current, ...pending };
+        setValues(merged);
+        valuesRef.current = merged;
+      }
     }
-  }, [formInstance, formRef, externalForm]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -372,7 +416,8 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
     setFieldValueList,
     validateField,
     validateFields,
-    resetFields
+    resetFields,
+    registerItem
   };
 
   const formWrapperClassName = getFormWrapperClassName({ className });
@@ -386,12 +431,7 @@ const Form: React.FC<FormProps> & { Item: typeof FormItem; useForm: typeof useFo
         style={formWrapperStyle}
         onSubmit={handleSubmit}
       >
-        {React.Children.map(children, child => {
-          if (React.isValidElement(child) && child.type === FormItem) {
-            return React.cloneElement(child, { registerItem } as any);
-          }
-          return child;
-        })}
+        {children}
       </form>
     </FormContext.Provider>
   );
@@ -425,6 +465,88 @@ const getAutoCompleteValue = (name: string | undefined): string | undefined => {
   return autoCompleteMap[lowerName];
 };
 
+// 已知的布局/容器组件，遇到时应跳过并递归查找子级
+const LAYOUT_COMPONENT_NAMES = ['Space', 'Flex', 'Row', 'Col', 'Grid', 'Grid.Row', 'Grid.Col'];
+
+// 递归注入表单属性到子组件
+// 跳过布局组件（如 Space、Flex），继续向下查找输入组件
+const injectFormPropsToChildren = (
+  children: React.ReactNode,
+  formProps: {
+    value: any;
+    onChange: (value: any) => void;
+    error: boolean;
+    name?: string;
+  }
+): React.ReactNode => {
+  return React.Children.map(children, (child) => {
+    // 非元素子节点（文本、数字等）原样保留
+    if (!React.isValidElement(child)) {
+      return child;
+    }
+
+    const childProps = child.props as any;
+    const childType = child.type as any;
+    const displayName = childType?.displayName || childType?.name || '';
+
+      // 原生输入元素（字符串标签名）
+      if (['input', 'textarea', 'select'].includes(childType)) {
+        const autoCompleteValue = childProps.autoComplete || getAutoCompleteValue(formProps.name);
+        return React.cloneElement(child, {
+          value: formProps.value,
+          onChange: (e: any) => {
+            const value = e?.target?.value !== undefined ? e.target.value : e;
+            formProps.onChange(value);
+            childProps.onChange?.(e);
+          },
+          error: formProps.error || undefined,
+          autoComplete: autoCompleteValue
+        } as any);
+      }
+
+      // 检查是否是布局组件，如果是则只递归处理 children
+      const isLayoutComponent = LAYOUT_COMPONENT_NAMES.some(name => displayName === name);
+
+      if (isLayoutComponent && childProps.children) {
+        const newChildren = injectFormPropsToChildren(childProps.children, formProps);
+        return React.cloneElement(child, { children: newChildren } as any);
+      }
+
+      // 检查是否是输入组件
+      const isInputComponent =
+        // 常见的输入组件类型（displayName 或 name）
+        ['Input', 'InputBase', 'InputNumber', 'NumberInput', 'Input.Number', 'Select', 'DatePicker',
+          'Checkbox', 'Radio', 'Switch', 'Textarea', 'TextArea', 'Input.Textarea', 'Password', 'Input.Password',
+          'Search', 'Input.Search'].includes(displayName) ||
+        // 组件 props 中有 onChange 签名的（排除已知的布局/容器组件）
+        (!isLayoutComponent && typeof childProps.onChange === 'function');
+
+      if (isInputComponent) {
+        const autoCompleteValue = childProps.autoComplete || getAutoCompleteValue(formProps.name);
+
+        return React.cloneElement(child, {
+          value: formProps.value,
+          onChange: (e: any) => {
+            const value = e?.target?.value !== undefined ? e.target.value : e;
+            formProps.onChange(value);
+            childProps.onChange?.(e);
+          },
+          error: formProps.error || undefined,
+          autoComplete: autoCompleteValue
+        } as any);
+      }
+
+      // 如果有 children，递归处理
+      if (childProps.children) {
+        return React.cloneElement(child, { children: injectFormPropsToChildren(childProps.children, formProps) } as any);
+      }
+
+      // 其他组件原样返回
+      return child;
+    }
+  );
+};
+
 const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: any) => () => void }> = ({
   name,
   label,
@@ -438,31 +560,39 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
   labelSpan: itemLabelSpan,
   wrapperSpan: itemWrapperSpan,
   hidden = false,
+  noStyle = false,
   extra,
   styles,
   registerItem,
   children
 }) => {
   const context = useContext(FormContext);
-  // 初始化 localValue，确保 undefined/null 时使用空字符串
-  const [localValue, setLocalValue] = useState<any>(() => {
-    if (name && context?.values && name in context.values) {
-      const val = context.values[name];
-      return val !== undefined && val !== null ? val : '';
-    }
-    return '';
-  });
+  // 使用 ref 存储最新值，避免闭包问题
+  const localValueRef = useRef<any>('');
+  const [localValue, setLocalValue] = useState<any>('');
+
+  // 同步 localValue 到 ref
+  useEffect(() => {
+    localValueRef.current = localValue;
+  }, [localValue]);
+
+  // 优先使用 prop 传入的 registerItem，否则从 context 获取
+  const effectiveRegisterItem = registerItem || context?.registerItem;
 
   // 立即注册表单项
-  if (registerItem && name) {
-    registerItem(name, { rules });
+  if (effectiveRegisterItem && name) {
+    effectiveRegisterItem(name, { rules });
   }
 
+  // 从 context 同步值到 localValue
   useEffect(() => {
-    if (context && name && context.values && name in context.values) {
+    if (context && name) {
       const val = context.values[name];
-      // 当值变为 undefined/null 时，更新为空字符串，确保输入框能正确显示
-      setLocalValue(val !== undefined && val !== null ? val : '');
+      const newValue = val !== undefined && val !== null ? val : '';
+      // 只有当值真正变化时才更新，避免无限循环
+      if (localValueRef.current !== newValue) {
+        setLocalValue(newValue);
+      }
     }
   }, [context, name, context?.values]);
 
@@ -498,6 +628,20 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
   }
 
   if (hidden) return null;
+
+  // noStyle 模式：只传递表单值和事件，不渲染包裹结构
+  if (noStyle) {
+    return (
+      <>
+        {injectFormPropsToChildren(children, {
+          value: localValue,
+          onChange: handleChange,
+          error: hasError,
+          name
+        })}
+      </>
+    );
+  }
 
   const itemWrapperClassName = getFormItemWrapperClassName({
     layout: context?.layout || 'horizontal',
@@ -545,25 +689,12 @@ const FormItem: React.FC<FormItemProps & { registerItem?: (name: string, item: a
         className={controlClassName}
         style={controlStyle}
       >
-        {React.Children.map(
-          React.Children.toArray(children).filter(child => React.isValidElement(child)),
-          (child: React.ReactElement) => {
-            const childProps = child.props as any;
-            // 自动推断 autoComplete 值，如果子组件未设置
-            const autoCompleteValue = childProps.autoComplete || getAutoCompleteValue(name);
-
-            return React.cloneElement(child, {
-              value: localValue,
-              onChange: (e: any) => {
-                const value = e?.target?.value !== undefined ? e.target.value : e;
-                handleChange(value);
-                childProps.onChange?.(e);
-              },
-              error: hasError || undefined,
-              autoComplete: autoCompleteValue
-            } as any);
-          }
-        )}
+        {injectFormPropsToChildren(children, {
+          value: localValue,
+          onChange: handleChange,
+          error: hasError,
+          name
+        })}
         <div className={errorClassName} style={errorStyle}>
           {error || ''}
         </div>

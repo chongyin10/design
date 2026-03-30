@@ -16,10 +16,15 @@ type InputComponent = React.FC<InputProps> & {
 };
 
 const Input = InputBase as InputComponent;
+Input.displayName = 'Input';
 Input.Search = Search;
+Input.Search.displayName = 'Input.Search';
 Input.Number = NumberInput;
+Input.Number.displayName = 'Input.Number';
 Input.Textarea = Textarea;
+Input.Textarea.displayName = 'Input.Textarea';
 Input.Password = Password;
+Input.Password.displayName = 'Input.Password';
 
 export { Search, NumberInput, Textarea, Password };
 export default Input;

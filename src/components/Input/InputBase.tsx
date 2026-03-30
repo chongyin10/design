@@ -194,4 +194,6 @@ const InputBase: React.FC<InputProps> = ({
     );
 };
 
+InputBase.displayName = 'InputBase';
+
 export default InputBase;

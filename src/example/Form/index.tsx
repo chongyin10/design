@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, Table, Flex, Modal, Anchor, Form } from '../../components';
+import { Input, Button, Table, Flex, Space, Modal, Anchor, Form, Select, Switch } from '../../components';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import type { Column } from '../../components/Table';
@@ -170,6 +170,506 @@ const FormSyncTest: React.FC = () => {
       }}>
         {logText || '点击按钮运行测试...'}
       </div>
+    </div>
+  );
+};
+
+// Space 包裹示例组件
+const SpaceExample: React.FC = () => {
+  const [form] = Form.useForm();
+  const [values, setValues] = useState<Record<string, any>>({});
+
+  const handleSetValues = () => {
+    form.setFieldsValue({
+      baseCultivation: 24,
+      startTime: '09:00',
+      endTime: '18:00',
+      price: 199,
+    });
+  };
+
+  const handleGetValues = () => {
+    setValues(form.getFieldsValue());
+  };
+
+  return (
+    <div>
+      <Form form={form} layout="horizontal" labelSpan={6} wrapperSpan={18}>
+        {/* 示例1: 自动递归注入 - Space 包裹 InputNumber */}
+        <Form.Item
+          name="baseCultivation"
+          label="基础培养"
+          rules={[{ required: true, message: '请输入基础培养时间' }]}
+        >
+          <Space>
+            <Input.Number style={{ width: 120 }} placeholder="请输入" />
+            <span>小时</span>
+          </Space>
+        </Form.Item>
+
+        {/* 示例2: noStyle 模式 - 多个独立字段 */}
+        <Form.Item label="时间范围">
+          <Space>
+            <Form.Item name="startTime" noStyle>
+              <Input placeholder="开始时间" style={{ width: 100 }} />
+            </Form.Item>
+            <span>至</span>
+            <Form.Item name="endTime" noStyle>
+              <Input placeholder="结束时间" style={{ width: 100 }} />
+            </Form.Item>
+          </Space>
+        </Form.Item>
+
+        {/* 示例3: 多层嵌套 */}
+        <Form.Item name="price" label="价格" rules={[{ required: true }]}>
+          <Space>
+            <Space>
+              <Input.Number style={{ width: 100 }} placeholder="金额" />
+              <span>元</span>
+            </Space>
+            <span>/</span>
+            <span>件</span>
+          </Space>
+        </Form.Item>
+      </Form>
+
+      <Flex gap="small" style={{ marginTop: 16 }}>
+        <Button variant="primary" onClick={handleSetValues}>
+          设置值 (setFieldsValue)
+        </Button>
+        <Button onClick={handleGetValues}>获取值</Button>
+        <Button onClick={() => form.resetFields()}>重置</Button>
+      </Flex>
+
+      {Object.keys(values).length > 0 && (
+        <div style={{
+          marginTop: 16,
+          padding: 12,
+          background: '#f6ffed',
+          border: '1px solid #b7eb8f',
+          borderRadius: 4,
+        }}>
+          <strong>表单值:</strong>
+          <pre style={{ margin: '8px 0 0 0' }}>{JSON.stringify(values, null, 2)}</pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+// Modal + Form 高级场景模拟 - 验证 useForm + Modal + validateFields 完整链路
+const ModalFormAdvanced: React.FC = () => {
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<string>('');
+
+  const handleOpen = () => {
+    form.resetFields();
+    // 在 Modal 打开前设置默认值
+    form.setFieldsValue({
+      name: '',
+      stage: 4,
+      cultivation: '1000',
+      successRate: '100',
+      healthBonus: '0',
+      attackBonus: '0',
+      defenseBonus: '0',
+      description: '',
+    });
+    setVisible(true);
+  };
+
+  const handleOpenWithEdit = () => {
+    form.resetFields();
+    // 模拟编辑：填充已有数据
+    form.setFieldsValue({
+      name: '金丹期',
+      stage: 3,
+      cultivation: '50000',
+      successRate: '60',
+      healthBonus: '500',
+      attackBonus: '300',
+      defenseBonus: '200',
+      description: '金丹大道，一往无前',
+    });
+    setVisible(true);
+  };
+
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      console.log('validateFields 返回值:', values);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setVisible(false);
+        const displayValues: Record<string, any> = {};
+        Object.keys(values).forEach(key => {
+          const v = values[key];
+          if (v !== undefined && v !== null && v !== '') {
+            displayValues[key] = typeof v === 'string' ? (isNaN(Number(v)) ? v : Number(v)) : v;
+          }
+        });
+        setResult(JSON.stringify(displayValues, null, 2));
+      }, 800);
+    } catch (error) {
+      console.error('验证失败:', error);
+    }
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const STAGE_OPTIONS = [
+    { value: 1, label: '初期' },
+    { value: 2, label: '中期' },
+    { value: 3, label: '后期' },
+    { value: 4, label: '大圆满' },
+  ];
+
+  const validateCultivation = (_: any, value: string) => {
+    const num = Number(value);
+    if (isNaN(num)) throw new Error('请输入有效数字');
+    if (num < 0) throw new Error('不能为负数');
+  };
+
+  return (
+    <div>
+      <Space gap={12}>
+        <Button variant="primary" onClick={handleOpen}>新增（空表单）</Button>
+        <Button onClick={handleOpenWithEdit}>编辑（预填数据）</Button>
+      </Space>
+
+      <Modal
+        title="Modal + Form 高级场景"
+        visible={visible}
+        width={600}
+        confirmLoading={loading}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item name="name" label="名称" rules={[{ required: true, message: '请输入名称' }]}>
+            <Input placeholder="请输入名称" />
+          </Form.Item>
+          <Form.Item name="stage" label="阶段" rules={[{ required: true, message: '请选择阶段' }]}>
+            <Select placeholder="请选择阶段" options={STAGE_OPTIONS} />
+          </Form.Item>
+          <Form.Item
+            name="cultivation"
+            label="基础修为"
+            rules={[
+              { required: true, message: '请输入基础修为' },
+              { validator: validateCultivation },
+            ]}
+          >
+            <Input.Number placeholder="请输入数值" />
+          </Form.Item>
+          <Form.Item name="successRate" label="成功率(%)">
+            <Input.Number placeholder="默认100" />
+          </Form.Item>
+          <Form.Item name="description" label="描述">
+            <Input.Textarea rows={2} placeholder="可选" />
+          </Form.Item>
+          <Form.Item label="属性加成">
+            <Space gap={12}>
+              <Form.Item name="healthBonus" noStyle>
+                <Input placeholder="生命" style={{ width: 100 }} />
+              </Form.Item>
+              <Form.Item name="attackBonus" noStyle>
+                <Input placeholder="攻击" style={{ width: 100 }} />
+              </Form.Item>
+              <Form.Item name="defenseBonus" noStyle>
+                <Input placeholder="防御" style={{ width: 100 }} />
+              </Form.Item>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {result && (
+        <div style={{
+          marginTop: 16,
+          padding: 12,
+          background: '#f6ffed',
+          border: '1px solid #b7eb8f',
+          borderRadius: 4,
+        }}>
+          <strong>validateFields() 返回值:</strong>
+          <pre style={{ margin: '8px 0 0 0' }}>{result}</pre>
+        </div>
+      )}
+    </div>
+  );
+};
+
+
+// Modal + Form 复杂表单校验 - 多字段、自定义校验、条件渲染
+const ModalFormComplexValidate: React.FC = () => {
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [maxBaseCultivation] = useState(50000);
+  const [result, setResult] = useState<string>('');
+
+  const STAGE_COUNT_OPTIONS = [
+    { value: 1, label: '1 个阶段' },
+    { value: 2, label: '2 个阶段' },
+    { value: 3, label: '3 个阶段' },
+    { value: 4, label: '4 个阶段' },
+  ];
+
+  const modalTitle = editingId ? '编辑境界' : '新增境界';
+
+  const validateBaseCultivation = (_: any, value: string) => {
+    if (!value) throw new Error('请输入基础修为');
+    const num = Number(value);
+    if (isNaN(num)) throw new Error('请输入有效数字');
+    if (num < 0) throw new Error('不能为负数');
+    if (!editingId && num <= maxBaseCultivation) {
+      throw new Error(`新增境界基础修为必须大于 ${maxBaseCultivation.toLocaleString()}`);
+    }
+  };
+
+  const handleRecommendCultivation = () => {
+    const recommended = maxBaseCultivation + 10000;
+    form.setFieldsValue({ baseCultivation: String(recommended) });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      setSubmitting(true);
+      setTimeout(() => {
+        setSubmitting(false);
+        setVisible(false);
+        const displayValues: Record<string, any> = {};
+        Object.keys(values).forEach(key => {
+          const v = values[key];
+          if (v !== undefined && v !== null && v !== '') {
+            displayValues[key] = typeof v === 'string' ? (isNaN(Number(v)) ? v : Number(v)) : v;
+          }
+        });
+        setResult(JSON.stringify(displayValues, null, 2));
+      }, 800);
+    } catch (error) {
+      console.error('验证失败:', error);
+    }
+  };
+
+  const handleOpenCreate = () => {
+    setEditingId(null);
+    form.resetFields();
+    form.setFieldsValue({
+      baseCultivation: '',
+      breakthroughCost: '',
+      breakthroughItemId: '',
+      breakthroughItemCount: '',
+      baseSuccessRate: '',
+      healthBonus: '0',
+      attackBonus: '0',
+      defenseBonus: '0',
+      spiritPowerBonus: '0',
+      lifespanBonus: '0',
+      skillSlotUnlock: '0',
+      description: '',
+    });
+    setVisible(true);
+  };
+
+  const handleOpenEdit = () => {
+    setEditingId(1);
+    form.resetFields();
+    form.setFieldsValue({
+      name: '金丹期',
+      stageCount: 3,
+      baseCultivation: '50000',
+      breakthroughCost: '1000',
+      breakthroughItemId: '2001',
+      breakthroughItemCount: '3',
+      baseSuccessRate: '60',
+      healthBonus: '500',
+      attackBonus: '300',
+      defenseBonus: '200',
+      spiritPowerBonus: '150',
+      lifespanBonus: '100',
+      skillSlotUnlock: '2',
+      description: '金丹大道，一往无前',
+      sortOrder: 5,
+      isHidden: false,
+    });
+    setVisible(true);
+  };
+
+  return (
+    <div>
+      <Space gap={12}>
+        <Button variant="primary" onClick={handleOpenCreate}>新增境界</Button>
+        <Button onClick={handleOpenEdit}>编辑境界</Button>
+      </Space>
+
+      <Modal
+        title={modalTitle}
+        visible={visible}
+        onOk={handleSubmit}
+        onCancel={() => setVisible(false)}
+        confirmLoading={submitting}
+        width={700}
+      >
+        <Form layout="vertical" form={form} className="realm-modal-form">
+          <Form.Item
+            label="境界名称"
+            name="name"
+            rules={[{ required: true, message: '请输入境界名称' }]}
+          >
+            <Input placeholder="如：练气、筑基、金丹" disabled={!!editingId} />
+          </Form.Item>
+
+          <Form.Item
+            label="阶段数"
+            name="stageCount"
+            rules={[{ required: true, message: '请选择阶段数' }]}
+          >
+            <Select
+              placeholder="请选择阶段数"
+              options={STAGE_COUNT_OPTIONS}
+              disabled={!!editingId}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label={<span>基础修为 <Button onClick={handleRecommendCultivation} variant="primary" size="small">
+              推荐基础修为
+            </Button></span>}
+            name="baseCultivation"
+            rules={[
+              { required: true, message: '请输入基础修为' },
+              ...(!editingId ? [{ validator: validateBaseCultivation }] : []),
+            ]}
+          >
+            <Input.Number
+              placeholder="突破至该境界所需基础修为"
+              style={{ width: '100%' }}
+            />
+          </Form.Item>
+          {!editingId && maxBaseCultivation > 0 && (
+            <div style={{ marginTop: -4, marginBottom: 16, color: '#8c8c8c', fontSize: 12 }}>
+              当前最大基础修为：{maxBaseCultivation.toLocaleString()}，新增境界必须大于此值
+            </div>
+          )}
+
+          <Form.Item
+            label="突破消耗"
+            name="breakthroughCost"
+          >
+            <Input.Number placeholder="可选" />
+          </Form.Item>
+
+          <Form.Item
+            label="突破物品ID"
+            name="breakthroughItemId"
+          >
+            <Input.Number placeholder="可选" />
+          </Form.Item>
+
+          <Form.Item
+            label="突破物品数量"
+            name="breakthroughItemCount"
+          >
+            <Input.Number />
+          </Form.Item>
+
+          <Form.Item
+            label="基础成功率(%)"
+            name="baseSuccessRate"
+          >
+            <Input.Number />
+          </Form.Item>
+
+          <Form.Item
+            label="生命加成"
+            name="healthBonus"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="攻击加成"
+            name="attackBonus"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="防御加成"
+            name="defenseBonus"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="灵力加成"
+            name="spiritPowerBonus"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="寿命加成"
+            name="lifespanBonus"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="技能槽解锁"
+            name="skillSlotUnlock"
+          >
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item
+            label="描述"
+            name="description"
+          >
+            <Input.Textarea rows={2} placeholder="可选" />
+          </Form.Item>
+
+          {editingId && (
+            <Form.Item
+              label="排序"
+              name="sortOrder"
+              rules={[{ required: false, message: '请输入排序值' }]}
+            >
+              <Input.Number placeholder="数值越小排序越靠前" disabled />
+            </Form.Item>
+          )}
+
+          <Form.Item
+            label="是否隐藏"
+            name="isHidden"
+          >
+            <Switch checkedChildren="隐藏" unCheckedChildren="显示" />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {result && (
+        <div style={{
+          marginTop: 16,
+          padding: 12,
+          background: '#f6ffed',
+          border: '1px solid #b7eb8f',
+          borderRadius: 4,
+        }}>
+          <strong>validateFields() 返回值:</strong>
+          <pre style={{ margin: '8px 0 0 0' }}>{result}</pre>
+        </div>
+      )}
     </div>
   );
 };
@@ -1312,6 +1812,324 @@ const Demo = () => {
             </Section>
           </div>
 
+          <div id="form-space">
+            <Section title="Space 包裹输入组件">
+              <p>当使用 Space 等布局组件包裹输入组件时，Form.Item 会自动递归查找并注入表单属性</p>
+              <DemoBox>
+                <SpaceExample />
+              </DemoBox>
+              <CopyBlock code={`import { Form, Input, Space, Button } from '@zjpcy/simple-design';
+
+// 示例1: 自动递归注入（推荐）
+// Form.Item 会自动穿透 Space 找到 Input.Number
+<Form.Item name="baseCultivation" label="基础培养">
+  <Space>
+    <Input.Number style={{ width: 120 }} />
+    <span>小时</span>
+  </Space>
+</Form.Item>
+
+// 示例2: 使用 noStyle 模式（精细控制）
+// 当需要在一个 Form.Item 中放置多个独立字段时使用
+<Form.Item label="时间范围">
+  <Space>
+    <Form.Item name="startTime" noStyle>
+      <Input placeholder="开始时间" />
+    </Form.Item>
+    <span>至</span>
+    <Form.Item name="endTime" noStyle>
+      <Input placeholder="结束时间" />
+    </Form.Item>
+  </Space>
+</Form.Item>
+
+// 示例3: 多层嵌套
+<Form.Item name="price" label="价格">
+  <Space>
+    <Space>
+      <Input.Number style={{ width: 100 }} />
+      <span>元</span>
+    </Space>
+    <span>/</span>
+    <span>件</span>
+  </Space>
+</Form.Item>`} />
+            </Section>
+          </div>
+
+          <div id="form-modal-advanced">
+            <Section title="Modal + Form 高级场景">
+              <p>模拟实际业务场景：Modal 中使用 Form + useForm，包含多字段、默认值设置、validateFields 提交、Space 包裹 noStyle 子字段。</p>
+              <DemoBox>
+                <ModalFormAdvanced />
+              </DemoBox>
+              <CopyBlock code={`import { useState } from 'react';
+import { Modal, Form, Input, Select, Space, Button } from '@zjpcy/simple-design';
+
+const Demo = () => {
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleOpen = () => {
+    form.resetFields();
+    // 在 Modal 打开前设置默认值
+    form.setFieldsValue({
+      name: '',
+      stage: 4,
+      cultivation: '1000',
+      successRate: '100',
+      healthBonus: '0',
+      attackBonus: '0',
+      defenseBonus: '0',
+      description: '',
+    });
+    setVisible(true);
+  };
+
+  const handleOpenWithEdit = () => {
+    form.resetFields();
+    // 模拟编辑：填充已有数据
+    form.setFieldsValue({
+      name: '金丹期',
+      stage: 3,
+      cultivation: '50000',
+      successRate: '60',
+      healthBonus: '500',
+      attackBonus: '300',
+      defenseBonus: '200',
+      description: '金丹大道，一往无前',
+    });
+    setVisible(true);
+  };
+
+  const handleOk = async () => {
+    try {
+      const values = await form.validateFields();
+      console.log('validateFields 返回值:', values);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        setVisible(false);
+        alert('提交成功！\\n' + JSON.stringify(values, null, 2));
+      }, 800);
+    } catch (error) {
+      console.error('验证失败:', error);
+    }
+  };
+
+  const STAGE_OPTIONS = [
+    { value: 1, label: '初期' },
+    { value: 2, label: '中期' },
+    { value: 3, label: '后期' },
+    { value: 4, label: '大圆满' },
+  ];
+
+  return (
+    <>
+      <Space gap={12}>
+        <Button variant="primary" onClick={handleOpen}>新增（空表单）</Button>
+        <Button onClick={handleOpenWithEdit}>编辑（预填数据）</Button>
+      </Space>
+
+      <Modal
+        title="Modal + Form 高级场景"
+        visible={visible}
+        width={600}
+        confirmLoading={loading}
+        onOk={handleOk}
+        onCancel={() => setVisible(false)}
+      >
+        <Form form={form} layout="vertical">
+          <Form.Item name="name" label="名称" rules={[{ required: true }]}>
+            <Input placeholder="请输入名称" />
+          </Form.Item>
+          <Form.Item name="stage" label="阶段" rules={[{ required: true }]}>
+            <Select placeholder="请选择阶段" options={STAGE_OPTIONS} />
+          </Form.Item>
+          <Form.Item name="cultivation" label="基础修为" rules={[{ required: true }]}>
+            <Input type="number" placeholder="请输入数值" />
+          </Form.Item>
+          <Form.Item name="successRate" label="成功率(%)">
+            <Input type="number" placeholder="默认100" />
+          </Form.Item>
+          <Form.Item name="description" label="描述">
+            <Input.Textarea rows={2} placeholder="可选" />
+          </Form.Item>
+          {/* Space 包裹 noStyle 子字段 */}
+          <Form.Item label="属性加成">
+            <Space gap={12}>
+              <Form.Item name="healthBonus" noStyle>
+                <Input placeholder="生命" style={{ width: 100 }} />
+              </Form.Item>
+              <Form.Item name="attackBonus" noStyle>
+                <Input placeholder="攻击" style={{ width: 100 }} />
+              </Form.Item>
+              <Form.Item name="defenseBonus" noStyle>
+                <Input placeholder="防御" style={{ width: 100 }} />
+              </Form.Item>
+            </Space>
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};`} />
+            </Section>
+          </div>
+
+          <div id="form-complex-validate">
+            <Section title="Modal + Form 复杂表单校验">
+              <p>模拟实际业务场景：多字段表单、自定义校验、条件渲染字段、label 内嵌按钮、Switch 开关等复杂组合。</p>
+              <DemoBox>
+                <ModalFormComplexValidate />
+              </DemoBox>
+              <CopyBlock code={`import { useState } from 'react';
+import { Modal, Form, Input, Select, Switch, Button, Space } from '@zjpcy/simple-design';
+
+const Demo = () => {
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [maxBaseCultivation] = useState(50000);
+
+  const STAGE_COUNT_OPTIONS = [
+    { value: 1, label: '1 个阶段' },
+    { value: 2, label: '2 个阶段' },
+    { value: 3, label: '3 个阶段' },
+    { value: 4, label: '4 个阶段' },
+  ];
+
+  const modalTitle = editingId ? '编辑境界' : '新增境界';
+
+  const validateBaseCultivation = (_: any, value: string) => {
+    if (!value) throw new Error('请输入基础修为');
+    const num = Number(value);
+    if (isNaN(num)) throw new Error('请输入有效数字');
+    if (num < 0) throw new Error('不能为负数');
+    if (!editingId && num <= maxBaseCultivation) {
+      throw new Error(\`新增境界基础修为必须大于 \${maxBaseCultivation.toLocaleString()}\`);
+    }
+  };
+
+  const handleRecommendCultivation = () => {
+    const recommended = maxBaseCultivation + 10000;
+    form.setFieldsValue({ baseCultivation: String(recommended) });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      setSubmitting(true);
+      setTimeout(() => {
+        setSubmitting(false);
+        setVisible(false);
+        console.log('提交成功:', values);
+      }, 800);
+    } catch (error) {
+      console.error('验证失败:', error);
+    }
+  };
+
+  const handleOpenCreate = () => {
+    setEditingId(null);
+    form.resetFields();
+    setVisible(true);
+  };
+
+  const handleOpenEdit = () => {
+    setEditingId(1);
+    form.resetFields();
+    form.setFieldsValue({
+      name: '金丹期',
+      stageCount: 3,
+      baseCultivation: '50000',
+      // ...其他字段
+    });
+    setVisible(true);
+  };
+
+  return (
+    <>
+      <Space gap={12}>
+        <Button variant="primary" onClick={handleOpenCreate}>新增境界</Button>
+        <Button onClick={handleOpenEdit}>编辑境界</Button>
+      </Space>
+
+      <Modal
+        title={modalTitle}
+        visible={visible}
+        onOk={handleSubmit}
+        onCancel={() => setVisible(false)}
+        confirmLoading={submitting}
+        width={700}
+      >
+        <Form layout="vertical" form={form}>
+          <Form.Item
+            label="境界名称"
+            name="name"
+            rules={[{ required: true, message: '请输入境界名称' }]}
+          >
+            <Input placeholder="如：练气、筑基、金丹" disabled={!!editingId} />
+          </Form.Item>
+
+          <Form.Item
+            label="阶段数"
+            name="stageCount"
+            rules={[{ required: true, message: '请选择阶段数' }]}
+          >
+            <Select placeholder="请选择阶段数" options={STAGE_COUNT_OPTIONS} />
+          </Form.Item>
+
+          {/* label 内嵌按钮 */}
+          <Form.Item
+            label={<span>基础修为 <Button onClick={handleRecommendCultivation} variant="primary" size="small">
+              推荐基础修为
+            </Button></span>}
+            name="baseCultivation"
+            rules={[
+              { required: true, message: '请输入基础修为' },
+              ...(!editingId ? [{ validator: validateBaseCultivation }] : []),
+            ]}
+          >
+            <Input.Number placeholder="突破至该境界所需基础修为" style={{ width: '100%' }} />
+          </Form.Item>
+
+          {/* 条件渲染提示 */}
+          {!editingId && maxBaseCultivation > 0 && (
+            <div style={{ marginTop: -4, marginBottom: 16, color: '#8c8c8c', fontSize: 12 }}>
+              当前最大基础修为：{maxBaseCultivation.toLocaleString()}，新增境界必须大于此值
+            </div>
+          )}
+
+          <Form.Item label="生命加成" name="healthBonus">
+            <Input.Number placeholder="0" />
+          </Form.Item>
+
+          <Form.Item label="描述" name="description">
+            <Input.Textarea rows={2} placeholder="可选" />
+          </Form.Item>
+
+          {/* 条件渲染：仅编辑时显示 */}
+          {editingId && (
+            <Form.Item label="排序" name="sortOrder">
+              <Input.Number placeholder="数值越小排序越靠前" disabled />
+            </Form.Item>
+          )}
+
+          {/* Switch 开关 */}
+          <Form.Item label="是否隐藏" name="isHidden">
+            <Switch checkedChildren="隐藏" unCheckedChildren="显示" />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
+};`} />
+            </Section>
+          </div>
+
           <div id="form-api">
             <Section title="API">
               <h3>Form Props</h3>
@@ -1350,6 +2168,9 @@ const Demo = () => {
                 <Anchor.Link href="#form-sync-test" title="同步测试" />
                 <Anchor.Link href="#form-modal" title="Modal 中使用" />
                 <Anchor.Link href="#form-table" title="Form + Table" />
+                <Anchor.Link href="#form-space" title="Space 包裹" />
+                <Anchor.Link href="#form-modal-advanced" title="Modal高级场景" />
+                <Anchor.Link href="#form-complex-validate" title="复杂表单校验" />
                 <Anchor.Link href="#form-api" title="API" />
               </Anchor>
             )}

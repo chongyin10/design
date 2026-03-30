@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Empty, Icon, Flex, Anchor } from '../../components';
+import { Table, Button, Empty, Icon, Flex, Anchor, Tag } from '../../components';
 import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -1201,6 +1201,114 @@ const App: React.FC = () => {
 
 export default App;`} />
         <p style={{ color: '#666', fontSize: '14px' }}>💡 提示：内容超过2行时会显示省略号</p>
+
+        <h3>4. 列中使用Flex布局（修复验证）</h3>
+        <DemoRow title="Flex布局">
+          <div style={{ border: '2px solid #722ed1', resize: 'horizontal', overflow: 'auto', minWidth: '400px', padding: '10px' }}>
+            <Table
+              columns={[
+                { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+                { dataIndex: 'name', title: '名称', width: '100px' },
+                {
+                  title: '属性加成（Flex布局）',
+                  key: 'bonuses',
+                  width: 280,
+                  render: (_: any, record: any) => (
+                    <Flex gap={8}>
+                      {record.healthBonus > 0 && <Tag>生命 +{record.healthBonus}</Tag>}
+                      {record.attackBonus > 0 && <Tag>攻击 +{record.attackBonus}</Tag>}
+                      {record.defenseBonus > 0 && <Tag>防御 +{record.defenseBonus}</Tag>}
+                      {record.spiritBonus > 0 && <Tag>灵力 +{record.spiritBonus}</Tag>}
+                      {record.lifespanBonus > 0 && <Tag>寿命 +{record.lifespanBonus}</Tag>}
+                      {record.skillBonus > 0 && <Tag>技能槽 +{record.skillBonus}</Tag>}
+                    </Flex>
+                  ),
+                },
+                {
+                  title: '描述',
+                  dataIndex: 'description',
+                  key: 'description',
+                  width: 200,
+                  ellipsis: true,
+                },
+                { dataIndex: 'action', title: '操作', width: '80px' }
+              ]}
+              dataSource={[
+                { id: 1, name: '炼气', healthBonus: 50, attackBonus: 10, defenseBonus: 5, spiritBonus: 50, lifespanBonus: 100, skillBonus: 1, description: '炼气期，踏入修仙之路的第一步，体内开始产生真气。', action: '编辑' },
+                { id: 2, name: '筑基', healthBonus: 150, attackBonus: 30, defenseBonus: 20, spiritBonus: 0, lifespanBonus: 200, skillBonus: 2, description: '筑基期，真气凝练成基，为日后修炼打下坚实基础。', action: '编辑' },
+                { id: 3, name: '金丹', healthBonus: 400, attackBonus: 80, defenseBonus: 50, spiritBonus: 300, lifespanBonus: 500, skillBonus: 3, description: '金丹期，体内真气凝结成丹，实力大幅提升。', action: '编辑' },
+              ]}
+              scroll={{ x: '100%' }}
+              bordered
+              size="small"
+            />
+          </div>
+        </DemoRow>
+        <CopyBlock code={`import React from 'react';
+import { Table, Flex, Tag } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design/lib/Table';
+
+interface Realm {
+  id: number;
+  name: string;
+  healthBonus: number;
+  attackBonus: number;
+  defenseBonus: number;
+  spiritBonus: number;
+  lifespanBonus: number;
+  skillBonus: number;
+  description: string;
+  action: string;
+}
+
+const columns: Column[] = [
+  { dataIndex: 'id', title: 'ID', width: '60px', align: 'center' },
+  { dataIndex: 'name', title: '名称', width: '100px' },
+  {
+    title: '属性加成（Flex布局）',
+    key: 'bonuses',
+    width: 280,
+    render: (_: any, record: Realm) => (
+      <Flex gap={8}>
+        {record.healthBonus > 0 && <Tag>生命 +{record.healthBonus}</Tag>}
+        {record.attackBonus > 0 && <Tag>攻击 +{record.attackBonus}</Tag>}
+        {record.defenseBonus > 0 && <Tag>防御 +{record.defenseBonus}</Tag>}
+        {record.spiritBonus > 0 && <Tag>灵力 +{record.spiritBonus}</Tag>}
+        {record.lifespanBonus > 0 && <Tag>寿命 +{record.lifespanBonus}</Tag>}
+        {record.skillBonus > 0 && <Tag>技能槽 +{record.skillBonus}</Tag>}
+      </Flex>
+    ),
+  },
+  {
+    title: '描述',
+    dataIndex: 'description',
+    key: 'description',
+    width: 200,
+    ellipsis: true,
+  },
+  { dataIndex: 'action', title: '操作', width: '80px' }
+];
+
+const dataSource: Realm[] = [
+  { id: 1, name: '炼气', healthBonus: 50, attackBonus: 10, defenseBonus: 5, spiritBonus: 50, lifespanBonus: 100, skillBonus: 1, description: '炼气期，踏入修仙之路的第一步。', action: '编辑' },
+  { id: 2, name: '筑基', healthBonus: 150, attackBonus: 30, defenseBonus: 20, spiritBonus: 0, lifespanBonus: 200, skillBonus: 2, description: '筑基期，真气凝练成基。', action: '编辑' },
+];
+
+// 在Table中使用Flex + Tag组件，验证列宽计算正确
+const App: React.FC = () => {
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      scroll={{ x: '100%' }}
+      bordered
+      size="small"
+    />
+  );
+};
+
+export default App;`} />
+        <p style={{ color: '#666', fontSize: '14px' }}>💡 验证：Flex容器在Table单元格中能够正确收缩，不会导致列叠加问题。拖动右侧边框调整容器宽度观察效果。</p>
             </Section>
           </div>
 

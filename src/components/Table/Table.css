@@ -223,6 +223,8 @@
   hyphens: auto;
   transition: background-color var(--zjpcy-transition-duration, 0.2s) var(--zjpcy-transition-timing-function, ease-in-out);
   color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.65));
+  /* 防止单元格内容溢出到相邻列 */
+  overflow: hidden;
 }
 
 /* 表格行悬停效果 */

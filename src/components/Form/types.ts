@@ -34,6 +34,7 @@ export interface FormItemProps {
   labelSpan?: number;
   wrapperSpan?: number;
   hidden?: boolean;
+  noStyle?: boolean;
   tooltip?: ReactNode;
   extra?: ReactNode;
   styles?: {
@@ -73,6 +74,7 @@ export interface FormContextType {
   validateField: (name: string) => Promise<void>;
   validateFields: (names?: string[]) => Promise<Record<string, any>>;
   resetFields: (names?: string[]) => void;
+  registerItem?: (name: string, item: any) => () => void;
 }
 
 export interface FormInstance {
