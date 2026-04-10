@@ -155,6 +155,7 @@ function App() {
                 </Section>
               </div>
 
+              <div id="modal-size">
               <Section title="自定义尺寸">
                   <p>可以自定义弹窗的宽度和高度。</p>
 
@@ -233,7 +234,9 @@ function App() {
     );
 }`} />
               </Section>
+              </div>
 
+              <div id="modal-loading">
               <Section title="确认加载">
                   <p>模拟异步操作的加载状态。</p>
 
@@ -286,7 +289,9 @@ function App() {
     );
 }`} />
               </Section>
+              </div>
 
+              <div id="modal-direction">
               <Section title="自定义方向">
                   <p>支持不同的弹出方向动画。</p>
 
@@ -349,7 +354,9 @@ function App() {
 // 从右下滑入
 <Modal direction="bottom-right" {...props} />`} />
               </Section>
+              </div>
 
+              <div id="modal-top">
               <Section title="自定义顶部距离">
                   <p>可以设置弹窗距离顶部的距离。</p>
 
@@ -393,7 +400,9 @@ function App() {
 // 距顶 50px
 <Modal top={50} {...props} />`} />
               </Section>
+              </div>
 
+              <div id="modal-text">
               <Section title="自定义按钮文字">
                   <p>可以自定义确认和取消按钮的文字。</p>
 
@@ -426,9 +435,11 @@ function App() {
 >
     <p>自定义按钮文字的内容。</p>
 </Modal>`} />
-              </Section>
+</Section>
+</div>
 
-              <Section title="自定义底部">
+<div id="modal-footer">
+<Section title="自定义底部">
                   <p>可以完全自定义底部的按钮区域。</p>
 
                   <DemoRow title="自定义底部">
@@ -485,9 +496,10 @@ import '@zjpcy/simple-design/lib/Modal/Modal.css';
 import { Modal } from '@zjpcy/simple-design';
 import '@zjpcy/simple-design/lib/index.css';`} />
               </Section>
+              </div>
             </div>
 
-            {/* 右侧锚点导航 */}
+           {/* 右侧锚点导航 */}
             <div style={{ width: '140px', flexShrink: 0 }}>
               <div style={{ position: 'fixed', top: '100px', right: '40px', width: '140px' }}>
                 {scrollContainer && (

@@ -337,6 +337,12 @@
     min-height: stretch;
 }
 
+/* 关闭动画时隐藏内容但保留占位 - 使用 opacity 避免高度塌陷 */
+.zjpcy-modal-content--closing {
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* ============================================
    底部样式
    ============================================ */

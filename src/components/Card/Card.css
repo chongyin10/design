@@ -1,0 +1,420 @@
+@import '../variables.css';
+
+/* ============================================
+   Card 卡片组件 - 现代简洁设计
+   ============================================ */
+
+.zjpcy-card {
+    position: relative;
+    background: var(--zjpcy-bg-color-white, #fff);
+    border-radius: var(--zjpcy-border-radius-lg, 12px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-size: 14px;
+    line-height: 1.5715;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 默认阴影 - 柔和的悬浮感 */
+.zjpcy-card {
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.02),
+        0 2px 4px rgba(0, 0, 0, 0.02),
+        0 4px 8px rgba(0, 0, 0, 0.02),
+        0 8px 16px rgba(0, 0, 0, 0.02);
+}
+
+/* 边框样式 - 更细腻的边框 */
+.zjpcy-card-bordered {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* 悬停效果 - 优雅的抬升 */
+.zjpcy-card-hoverable {
+    cursor: pointer;
+}
+
+.zjpcy-card-hoverable:hover {
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 8px 16px rgba(0, 0, 0, 0.06),
+        0 16px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+/* 可点击状态 */
+.zjpcy-card-clickable {
+    cursor: pointer;
+}
+
+/* ============================================
+   尺寸变体
+   ============================================ */
+
+/* 小尺寸 - 紧凑模式 */
+.zjpcy-card-small {
+    font-size: 13px;
+    border-radius: var(--zjpcy-border-radius-md, 8px);
+}
+
+.zjpcy-card-small .zjpcy-card-header {
+    padding: 12px 16px;
+    min-height: 44px;
+}
+
+.zjpcy-card-small .zjpcy-card-body {
+    padding: 16px;
+}
+
+.zjpcy-card-small .zjpcy-card-footer {
+    padding: 10px 16px;
+    min-height: 40px;
+}
+
+/* 默认尺寸 */
+.zjpcy-card-default .zjpcy-card-header {
+    padding: 16px 20px;
+    min-height: 56px;
+}
+
+.zjpcy-card-default .zjpcy-card-body {
+    padding: 20px;
+}
+
+.zjpcy-card-default .zjpcy-card-footer {
+    padding: 12px 20px;
+    min-height: 48px;
+}
+
+/* 大尺寸 - 更宽松 */
+.zjpcy-card-large {
+    font-size: 15px;
+    border-radius: var(--zjpcy-border-radius-xl, 16px);
+}
+
+.zjpcy-card-large .zjpcy-card-header {
+    padding: 20px 24px;
+    min-height: 68px;
+}
+
+.zjpcy-card-large .zjpcy-card-body {
+    padding: 24px;
+}
+
+.zjpcy-card-large .zjpcy-card-footer {
+    padding: 16px 24px;
+    min-height: 56px;
+}
+
+/* ============================================
+   封面图片
+   ============================================ */
+
+.zjpcy-card-cover {
+    position: relative;
+    overflow: hidden;
+}
+
+.zjpcy-card-cover > * {
+    display: block;
+    width: 100%;
+}
+
+.zjpcy-card-cover img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.zjpcy-card-hoverable:hover .zjpcy-card-cover img {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   头部区域 - 现代简洁设计
+   ============================================ */
+
+.zjpcy-card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(250, 250, 250, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.zjpcy-card-header-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.zjpcy-card-header-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.88));
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+}
+
+.zjpcy-card-large .zjpcy-card-header-title {
+    font-size: 18px;
+}
+
+.zjpcy-card-small .zjpcy-card-header-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.zjpcy-card-header-extra {
+    margin-left: auto;
+    padding-left: 16px;
+    color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.45));
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+/* ============================================
+   内容区域 - 优化阅读体验
+   ============================================ */
+
+.zjpcy-card-body {
+    flex: 1;
+    color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.65));
+    overflow: hidden;
+    line-height: 1.75;
+}
+
+.zjpcy-card-body p {
+    margin: 0 0 12px 0;
+}
+
+.zjpcy-card-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   底部区域 - 精致分隔
+   ============================================ */
+
+.zjpcy-card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    background: linear-gradient(180deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(250, 250, 250, 0.6) 100%
+    );
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* ============================================
+   加载状态 - 骨架屏动画
+   ============================================ */
+
+.zjpcy-card-loading {
+    overflow: hidden;
+}
+
+.zjpcy-card-loading-block {
+    height: 16px;
+    margin: 12px 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.03) 25%,
+        rgba(0, 0, 0, 0.06) 37%,
+        rgba(0, 0, 0, 0.03) 63%
+    );
+    background-size: 400% 100%;
+    animation: zjpcy-card-loading-animation 1.4s ease infinite;
+    border-radius: 6px;
+}
+
+.zjpcy-card-loading-block:first-child {
+    margin-top: 0;
+}
+
+.zjpcy-card-loading-block:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes zjpcy-card-loading-animation {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+/* ============================================
+   Meta 组件样式
+   ============================================ */
+
+.zjpcy-card-meta {
+    display: flex;
+    align-items: flex-start;
+    margin: -4px 0;
+}
+
+.zjpcy-card-meta-avatar {
+    padding-right: 16px;
+    flex-shrink: 0;
+}
+
+.zjpcy-card-meta-detail {
+    flex: 1;
+    overflow: hidden;
+}
+
+.zjpcy-card-meta-title {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--zjpcy-text-color, rgba(0, 0, 0, 0.88));
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+}
+
+.zjpcy-card-meta-description {
+    color: var(--zjpcy-text-color-secondary, rgba(0, 0, 0, 0.45));
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* ============================================
+   Grid 栅格样式
+   ============================================ */
+
+.zjpcy-card-grid {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: var(--zjpcy-border-radius-md, 8px);
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    background: var(--zjpcy-bg-color-white, #fff);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.02),
+        0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.zjpcy-card-grid-hoverable:hover {
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.04),
+        0 8px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================
+   不同尺寸下 Meta 的适配
+   ============================================ */
+
+.zjpcy-card-small .zjpcy-card-meta {
+    margin: -2px 0;
+}
+
+.zjpcy-card-small .zjpcy-card-meta-avatar {
+    padding-right: 12px;
+}
+
+.zjpcy-card-small .zjpcy-card-meta-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.zjpcy-card-small .zjpcy-card-meta-description {
+    font-size: 13px;
+}
+
+.zjpcy-card-large .zjpcy-card-meta-avatar {
+    padding-right: 20px;
+}
+
+.zjpcy-card-large .zjpcy-card-meta-title {
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.zjpcy-card-large .zjpcy-card-meta-description {
+    font-size: 15px;
+}
+
+/* ============================================
+   无头部/底部时的样式优化
+   ============================================ */
+
+.zjpcy-card:not(:has(> .zjpcy-card-header)) {
+    border-radius: var(--zjpcy-border-radius-lg, 12px);
+}
+
+.zjpcy-card:not(:has(> .zjpcy-card-header)) .zjpcy-card-body {
+    padding-top: 20px;
+}
+
+.zjpcy-card-small:not(:has(> .zjpcy-card-header)) .zjpcy-card-body {
+    padding-top: 16px;
+}
+
+.zjpcy-card-large:not(:has(> .zjpcy-card-header)) .zjpcy-card-body {
+    padding-top: 24px;
+}
+
+/* 封面存在时的圆角调整 */
+.zjpcy-card:has(> .zjpcy-card-cover) {
+    overflow: hidden;
+}
+
+.zjpcy-card:has(> .zjpcy-card-cover) .zjpcy-card-header {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* ============================================
+   深色模式适配
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .zjpcy-card {
+        background: var(--zjpcy-bg-color-white, #1f1f1f);
+        box-shadow:
+            0 1px 2px rgba(0, 0, 0, 0.1),
+            0 2px 4px rgba(0, 0, 0, 0.1),
+            0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .zjpcy-card-bordered {
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .zjpcy-card-header {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+        background: linear-gradient(180deg, rgba(40, 40, 40, 0.8) 0%, rgba(31, 31, 31, 0) 100%);
+    }
+
+    .zjpcy-card-footer {
+        border-top-color: rgba(255, 255, 255, 0.06);
+        background: linear-gradient(180deg,
+            rgba(31, 31, 31, 0) 0%,
+            rgba(40, 40, 40, 0.6) 100%
+        );
+    }
+
+    .zjpcy-card-header-title {
+        color: rgba(255, 255, 255, 0.95);
+    }
+
+    .zjpcy-card-body {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .zjpcy-card-header-extra {
+        color: rgba(255, 255, 255, 0.5);
+    }
+}

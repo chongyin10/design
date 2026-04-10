@@ -309,7 +309,7 @@ const Modal: React.FC<ModalProps> = ({
                         </div>
                     </div>
 
-                    {/* 只在Modal可见时渲染内容，关闭后销毁DOM节点 */}
+                    {/* 只在Modal可见时渲染内容，关闭动画开始时立即销毁子元素 */}
                     {isVisible && (
                         <div
                             className={classNames(
@@ -318,8 +318,8 @@ const Modal: React.FC<ModalProps> = ({
                             )}
                             style={contentStyle}
                         >
-                            {/* 当 destroyOnClose 为 true 且正在关闭动画时，不渲染子元素 */}
-                            {!(destroyOnClose && isClosing) ? children : null}
+                            {/* 关闭动画开始时立即销毁子元素，避免背景消失后内容还存在导致的分层现象 */}
+                            {!isClosing ? children : <div style={{ visibility: 'hidden' }} />}
                         </div>
                     )}
 

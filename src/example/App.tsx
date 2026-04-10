@@ -52,6 +52,7 @@ import UploadExample from './Upload';
 import SplitterExample from './Splitter';
 import SpinExample from './Spin';
 import CalendarExample from './Calendar';
+import CardExample from './Card';
 import { MessageProvider } from '../components/Message';
 import '../components/variables.css';
 import './App.css';
@@ -84,7 +85,7 @@ const componentCategories: { key: string; label: string; icon?: string; componen
     {
         key: 'data-display',
         label: '数据展示',
-        components: ['calendar', 'carousel', 'empty', 'label', 'table', 'tag', 'tree', 'tooltip']
+        components: ['calendar', 'card', 'carousel', 'empty', 'label', 'table', 'tag', 'tree', 'tooltip']
     },
     {
         key: 'feedback',
@@ -107,6 +108,7 @@ const componentMeta: Record<string, { name: string; description: string }> = {
     breadcrumb: { name: 'Breadcrumb', description: '层级结构' },
     button: { name: 'Button', description: '按钮' },
     checkbox: { name: 'Checkbox', description: '多选框' },
+    card: { name: 'Card', description: '卡片' },
     carousel: { name: 'Carousel', description: '走马灯' },
     cascader: { name: 'Cascader', description: '级联选择器' },
     datepicker: { name: 'DatePicker', description: '日期选择器' },
@@ -259,6 +261,7 @@ const App: React.FC = () => {
             install: <InstallContent />,
             calendar: <CalendarExample />,
             button: <ButtonExample />,
+            card: <CardExample />,
             flex: <FlexExample />,
             grid: <GridExample />,
             marquee: <MarqueeExample />,
