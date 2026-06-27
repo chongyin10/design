@@ -343,8 +343,27 @@
     pointer-events: none;
 }
 
+/* 关闭时头部、底部内容隐藏样式 */
+.zjpcy-modal-header--closing {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.15s ease-out;
+}
+
+.zjpcy-modal-footer--closing {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease-out;
+}
+
+.zjpcy-modal-close-btn--closing {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease-out;
+}
+
 /* ============================================
-   底部样式
+    底部样式
    ============================================ */
 .zjpcy-modal-footer {
     display: flex;

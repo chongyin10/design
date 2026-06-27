@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Flex, Anchor } from '../../components';
-import { useForm } from '../../components/Form';
+import { Button, Modal, Flex, Anchor, Table, Form, Input, Select } from '../../components';
+import type { Column } from '../../components/Table';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -72,19 +72,98 @@ const ModalExample: React.FC = () => {
     const [visible9, setVisible9] = useState(false);
     const [visible10, setVisible10] = useState(false);
     const [visible11, setVisible11] = useState(false);
-    useState(false); // visible13 placeholder
-    useState(false); // visible14 placeholder
-    useState(false); // visible15 placeholder
-    useState(false); // visible16 placeholder
-    useState(false); // visible17 placeholder
-    useState(false); // visible18 placeholder
+    const [formModalVisible, setFormModalVisible] = useState(false);
+    const [formModalEditMode, setFormModalEditMode] = useState(false);
+    const [formLoading, setFormLoading] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState<any>(null);
+    const [tableData, setTableData] = useState([
+        { id: 1, name: '张三', email: 'zhangsan@example.com', status: 'active', role: '管理员' },
+        { id: 2, name: '李四', email: 'lisi@example.com', status: 'inactive', role: '用户' },
+        { id: 3, name: '王五', email: 'wangwu@example.com', status: 'active', role: '编辑' },
+    ]);
     const [visible19, setVisible19] = useState(false);
-    useState(false); // visible20 placeholder
-    useState(false); // visible21 placeholder
     const [confirmLoading, setConfirmLoading] = useState(false);
-    useState(false); // formLoading placeholder
-    React.useRef<HTMLDivElement>(null); // customContainerRef placeholder
-    useForm(); // form placeholder
+    const [form] = Form.useForm();
+
+    // 表格列配置
+    const tableColumns: Column[] = [
+        { dataIndex: 'name', title: '姓名', width: '100px' },
+        { dataIndex: 'email', title: '邮箱', width: '180px' },
+        { dataIndex: 'role', title: '角色', width: '100px' },
+        {
+            dataIndex: 'status',
+            title: '状态',
+            width: '100px',
+            render: (value: string) => (
+                <span style={{
+                    color: value === 'active' ? '#52c41a' : '#999',
+                    background: value === 'active' ? '#f6ffed' : '#f5f5f5',
+                    padding: '2px 8px',
+                    borderRadius: '4px',
+                    fontSize: '12px'
+                }}>
+                    {value === 'active' ? '启用' : '禁用'}
+                </span>
+            )
+        },
+        {
+            dataIndex: 'action',
+            title: '操作',
+            width: '150px',
+            render: (_: any, record: any) => (
+                <Flex gap="small">
+                    <Button variant="link" size="small" onClick={() => handleEdit(record)}>编辑</Button>
+                    <Button variant="link" size="small" style={{ color: '#ff4d4f' }} onClick={() => handleDelete(record)}>删除</Button>
+                </Flex>
+            )
+        }
+    ];
+
+    // 打开新增弹窗
+    const handleAdd = () => {
+        setFormModalEditMode(false);
+        setSelectedRecord(null);
+        form.resetFields();
+        setFormModalVisible(true);
+    };
+
+    // 打开编辑弹窗
+    const handleEdit = (record: any) => {
+        setFormModalEditMode(true);
+        setSelectedRecord(record);
+        form.setFieldsValue(record);
+        setFormModalVisible(true);
+    };
+
+    // 删除记录
+    const handleDelete = (record: any) => {
+        setTableData(prev => prev.filter(item => item.id !== record.id));
+    };
+
+    // 提交表单
+    const handleFormSubmit = () => {
+        form.validateFields().then((values: any) => {
+            setFormLoading(true);
+            setTimeout(() => {
+                if (formModalEditMode && selectedRecord) {
+                    // 编辑模式
+                    setTableData(prev => prev.map(item =>
+                        item.id === selectedRecord.id ? { ...item, ...values } : item
+                    ));
+                } else {
+                    // 新增模式
+                    const newRecord = {
+                        id: Date.now(),
+                        ...values
+                    };
+                    setTableData(prev => [...prev, newRecord]);
+                }
+                setFormLoading(false);
+                setFormModalVisible(false);
+                form.resetFields();
+            }, 800);
+        });
+    };
 
     useEffect(() => {
       // 获取滚动容器
@@ -483,6 +562,162 @@ function App() {
 </Modal>`} />
               </Section>
 
+              <div id="modal-table-form">
+              <Section title="Table + Modal + Form 组合">
+                  <p>展示 Table、Modal 和 Form 的组合使用场景，实现增删改查功能。</p>
+
+                  <div style={{ marginBottom: '16px' }}>
+                      <Button variant="primary" onClick={handleAdd}>
+                          + 新增用户
+                      </Button>
+                  </div>
+
+                  <Table
+                      columns={tableColumns}
+                      dataSource={tableData}
+                      pagination={false}
+                      rowKey="id"
+                  />
+
+                  <Modal
+                      visible={formModalVisible}
+                      title={formModalEditMode ? '编辑用户' : '新增用户'}
+                      width={500}
+                      confirmLoading={formLoading}
+                      onCancel={() => {
+                          setFormModalVisible(false);
+                          form.resetFields();
+                      }}
+                      onOk={handleFormSubmit}
+                  >
+                      <Form form={form} layout="vertical">
+                          <Form.Item
+                              label="姓名"
+                              name="name"
+                              rules={[{ required: true, message: '请输入姓名' }]}
+                          >
+                              <Input placeholder="请输入姓名" />
+                          </Form.Item>
+                          <Form.Item
+                              label="邮箱"
+                              name="email"
+                              rules={[
+                                  { required: true, message: '请输入邮箱' },
+                                  { type: 'email', message: '请输入有效的邮箱地址' }
+                              ]}
+                          >
+                              <Input placeholder="请输入邮箱" />
+                          </Form.Item>
+                          <Form.Item
+                              label="角色"
+                              name="role"
+                              rules={[{ required: true, message: '请选择角色' }]}
+                          >
+                              <Select
+                                  placeholder="请选择角色"
+                                  options={[
+                                      { value: '管理员', label: '管理员' },
+                                      { value: '编辑', label: '编辑' },
+                                      { value: '用户', label: '用户' }
+                                  ]}
+                              />
+                          </Form.Item>
+                          <Form.Item
+                              label="状态"
+                              name="status"
+                              rules={[{ required: true, message: '请选择状态' }]}
+                          >
+                              <Select
+                                  placeholder="请选择状态"
+                                  options={[
+                                      { value: 'active', label: '启用' },
+                                      { value: 'inactive', label: '禁用' }
+                                  ]}
+                              />
+                          </Form.Item>
+                      </Form>
+                  </Modal>
+
+                  <CopyBlock code={`import { Modal, Button, Table, Form, Input, Select } from '@zjpcy/simple-design';
+import type { Column } from '@zjpcy/simple-design';
+import { useState } from 'react';
+
+function UserManagement() {
+   const [form] = Form.useForm();
+   const [formModalVisible, setFormModalVisible] = useState(false);
+   const [formModalEditMode, setFormModalEditMode] = useState(false);
+   const [tableData, setTableData] = useState([
+       { id: 1, name: '张三', email: 'zhangsan@example.com', status: 'active', role: '管理员' },
+   ]);
+
+   const tableColumns: Column[] = [
+       { dataIndex: 'name', title: '姓名' },
+       { dataIndex: 'email', title: '邮箱' },
+       { dataIndex: 'role', title: '角色' },
+       {
+           dataIndex: 'status',
+           title: '状态',
+           render: (value) => <span>{value === 'active' ? '启用' : '禁用'}</span>
+       },
+       {
+           dataIndex: 'action',
+           title: '操作',
+           render: (_, record) => (
+               <>
+                   <Button onClick={() => handleEdit(record)}>编辑</Button>
+                   <Button onClick={() => handleDelete(record)}>删除</Button>
+               </>
+           )
+       }
+   ];
+
+   const handleEdit = (record) => {
+       setFormModalEditMode(true);
+       form.setFieldsValue(record);
+       setFormModalVisible(true);
+   };
+
+   const handleFormSubmit = () => {
+       form.validateFields().then((values) => {
+           // 提交表单逻辑
+           console.log(values);
+           setFormModalVisible(false);
+       });
+   };
+
+   return (
+       <>
+           <Button onClick={() => setFormModalVisible(true)}>
+               + 新增用户
+           </Button>
+           <Table columns={tableColumns} dataSource={tableData} />
+           <Modal
+               visible={formModalVisible}
+               title={formModalEditMode ? '编辑用户' : '新增用户'}
+               onOk={handleFormSubmit}
+               onCancel={() => setFormModalVisible(false)}
+           >
+               <Form form={form} layout="vertical">
+                   <Form.Item label="姓名" name="name" rules={[{ required: true }]}>
+                       <Input />
+                   </Form.Item>
+                   <Form.Item label="邮箱" name="email" rules={[{ required: true }, { type: 'email' }]}>
+                       <Input />
+                   </Form.Item>
+                   <Form.Item label="角色" name="role" rules={[{ required: true }]}>
+                       <Select options={[...]} />
+                   </Form.Item>
+                   <Form.Item label="状态" name="status" rules={[{ required: true }]}>
+                       <Select options={[...]} />
+                   </Form.Item>
+               </Form>
+           </Modal>
+       </>
+   );
+}`} />
+              </Section>
+              </div>
+
               <Section title="安装和使用">
                   <h3>1. 安装依赖</h3>
                   <CopyBlock code="npm i @zjpcy/simple-design" />
@@ -517,6 +752,7 @@ import '@zjpcy/simple-design/lib/index.css';`} />
                     <Anchor.Link href="#modal-top" title="自定义顶部" />
                     <Anchor.Link href="#modal-text" title="自定义文字" />
                     <Anchor.Link href="#modal-footer" title="自定义底部" />
+                    <Anchor.Link href="#modal-table-form" title="组合示例" />
                   </Anchor>
                 )}
               </div>

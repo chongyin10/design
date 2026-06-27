@@ -43,7 +43,9 @@ const Modal: React.FC<ModalProps> = ({
     const [isClosing, setIsClosing] = useState(false);
     const [showContent, setShowContent] = useState(false);
     const [originOffset, setOriginOffset] = useState({ x: 0, y: 0 });
+    const [closingHeight, setClosingHeight] = useState<number | undefined>(undefined);
     const lastClickPointRef = useRef<{ x: number; y: number } | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const animationDuration = 400; // 略长于最长的 CSS 动画 (0.35s)
     const contentDelay = 30; // 减少延迟，提升响应速度
 
@@ -123,6 +125,7 @@ const Modal: React.FC<ModalProps> = ({
             const nextOffset = getClickOriginOffset();
             setOriginOffset(nextOffset);
             setIsClosing(false);
+            setClosingHeight(undefined);
             // 同步设置可见性，避免延迟导致的卡顿
             setIsVisible(true);
             // 微小延迟确保内容动画流畅
@@ -131,21 +134,33 @@ const Modal: React.FC<ModalProps> = ({
             }, contentDelay);
             return () => clearTimeout(contentTimer);
         } else {
+            // 记录当前高度，用于关闭动画期间保持
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                setClosingHeight(rect.height);
+            }
             setIsClosing(true);
             setShowContent(false);
             const timer = setTimeout(() => {
                 setIsVisible(false);
                 setIsClosing(false);
+                setClosingHeight(undefined);
             }, animationDuration);
             return () => clearTimeout(timer);
         }
     }, [visible, animationDuration, height, top, destroyOnClose]);
 
     const handleCancel = () => {
+        // 在关闭动画开始前捕获当前容器高度，防止内容替换导致高度塌陷
+        if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            setClosingHeight(rect.height);
+        }
         setIsClosing(true);
         const timer = setTimeout(() => {
             setIsVisible(false);
             setIsClosing(false);
+            setClosingHeight(undefined);
             onCancel?.();
         }, animationDuration);
         return () => clearTimeout(timer);
@@ -157,7 +172,7 @@ const Modal: React.FC<ModalProps> = ({
 
     const containerStyle: React.CSSProperties = {
         width: typeof width === 'number' ? `${width}px` : width,
-        // height: height ? (typeof height === 'number' ? `${height}px` : height) : undefined,
+        height: closingHeight !== undefined ? `${closingHeight}px` : (height && height !== 'auto' ? (typeof height === 'number' ? `${height}px` : height) : undefined),
         top: top !== undefined ? `${top}px` : undefined,
         ['--zjpcy-modal-origin-x' as any]: `${originOffset.x}px`,
         ['--zjpcy-modal-origin-y' as any]: `${originOffset.y}px`,
@@ -266,6 +281,7 @@ const Modal: React.FC<ModalProps> = ({
                 style={mergedMaskStyle}
             >
                 <div
+                    ref={containerRef}
                     className={classNames(
                         'zjpcy-modal-container',
                         {
@@ -284,67 +300,94 @@ const Modal: React.FC<ModalProps> = ({
                             'zjpcy-modal-container--closing-bottom-right': isClosing && effectiveDirection === 'bottom-right' && top === undefined,
                             'zjpcy-modal-container--closing-bottom-left': isClosing && effectiveDirection === 'bottom-left' && top === undefined,
                             'zjpcy-modal-container--bordered': bordered,
-                            'zjpcy-modal-container--has-height': height !== undefined
+                            'zjpcy-modal-container--has-height': height !== undefined || closingHeight !== undefined
                         }
                     )}
                     style={containerStyle}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {renderLoading()}
+                    
+                    {/* 头部区域 - 关闭时隐藏内容 */}
                     <div
-                        className="zjpcy-modal-header"
+                        className={classNames(
+                            'zjpcy-modal-header',
+                            { 'zjpcy-modal-header--closing': isClosing }
+                        )}
                         style={headerStyle}
                     >
                         <div className="zjpcy-modal-header__left">
-                            <span className="zjpcy-modal-header__title">{title}</span>
+                            <span className="zjpcy-modal-header__title">
+                                {!isClosing ? title : <span style={{ visibility: 'hidden' }}>{title}</span>}
+                            </span>
                         </div>
                         <div className="zjpcy-modal-header__right">
-                            <div className="zjpcy-modal-close-btn" onClick={handleCancel}>
-                                <Icon
-                                    type="close"
-                                    size={20}
-                                    color="currentColor"
-                                />
+                            <div
+                                className={classNames(
+                                    'zjpcy-modal-close-btn',
+                                    { 'zjpcy-modal-close-btn--closing': isClosing }
+                                )}
+                                onClick={handleCancel}
+                            >
+                                {!isClosing ? (
+                                    <Icon
+                                        type="close"
+                                        size={20}
+                                        color="currentColor"
+                                    />
+                                ) : null}
                             </div>
                         </div>
                     </div>
 
-                    {/* 只在Modal可见时渲染内容，关闭动画开始时立即销毁子元素 */}
+                    {/* 内容区域 - 关闭时隐藏内容 */}
                     {isVisible && (
                         <div
                             className={classNames(
                                 'zjpcy-modal-content',
-                                contentClassName
+                                contentClassName,
+                                { 'zjpcy-modal-content--closing': isClosing }
                             )}
                             style={contentStyle}
                         >
-                            {/* 关闭动画开始时立即销毁子元素，避免背景消失后内容还存在导致的分层现象 */}
-                            {!isClosing ? children : <div style={{ visibility: 'hidden' }} />}
+                            {children}
                         </div>
                     )}
 
+                    {/* 底部区域 - 关闭时隐藏内容 */}
                     <Flex
-                        className="zjpcy-modal-footer"
+                        className={classNames(
+                            'zjpcy-modal-footer',
+                            { 'zjpcy-modal-footer--closing': isClosing }
+                        )}
                         align="center"
                         justify="flex-end"
                         style={Object.assign({}, footerStyle, { padding: '10px' })}
                         gap={12}
                     >
-                        {footer === null ? (
-                            <Flex
-                                className="zjpcy-modal-footer__actions"
-                                justify="flex-end"
-                                gap={12}
-                            >
-                                <Button variant="secondary" onClick={handleCancel} disabled={confirmLoading}>
-                                    {cancelText || '取消'}
-                                </Button>
-                                <Button variant="primary" onClick={handleOk} loading={confirmLoading}>
-                                    {okText || '确认'}
-                                </Button>
-                            </Flex>
+                        {!isClosing ? (
+                            footer === null ? (
+                                <Flex
+                                    className="zjpcy-modal-footer__actions"
+                                    justify="flex-end"
+                                    gap={12}
+                                >
+                                    <Button variant="secondary" onClick={handleCancel} disabled={confirmLoading}>
+                                        {cancelText || '取消'}
+                                    </Button>
+                                    <Button variant="primary" onClick={handleOk} loading={confirmLoading}>
+                                        {okText || '确认'}
+                                    </Button>
+                                </Flex>
+                            ) : (
+                                footer
+                            )
                         ) : (
-                            footer
+                            /* 关闭时保留占位，保持高度 */
+                            <div style={{ visibility: 'hidden' }}>
+                                <Button variant="secondary">取消</Button>
+                                <Button variant="primary">确认</Button>
+                            </div>
                         )}
                     </Flex>
                 </div>
