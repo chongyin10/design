@@ -1,192 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { Splitter, Table, Anchor } from '../../components';
-import { CodePlayground, Section } from '../components';
-import type { ExtraLib } from '../components';
-import { splitterTypeLib } from '../utils';
+import { Section } from '../components';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-// 使用工具库中的类型定义
-const extraLibs: ExtraLib[] = [splitterTypeLib];
+const codeStyle = { borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' };
 
-// 示例代码定义
-const basicCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <Splitter.PanelContent title="左侧面板" color="#f0f2f5">
-          未设置宽度，自动平分
-        </Splitter.PanelContent>
-        <Splitter.PanelContent title="右侧面板" color="#e6f7ff">
-          未设置宽度，自动平分
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const threePanelCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <Splitter.PanelContent title="面板 A" color="#fff0f6">
-          33.3%
-        </Splitter.PanelContent>
-        <Splitter.PanelContent title="面板 B" color="#f9f0ff">
-          33.3%
-        </Splitter.PanelContent>
-        <Splitter.PanelContent title="面板 C" color="#fff2e8">
-          33.3%
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const fixedCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <div style={{ width: 200 }}>
-          <Splitter.PanelContent title="固定 200px" color="#f0f2f5">
-            width: 200
-          </Splitter.PanelContent>
-        </div>
-        <Splitter.PanelContent title="自适应" color="#e6f7ff">
-          剩余空间
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const percentCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <Splitter.PanelContent title="30%" color="#fff0f6">
-          width: '30%'
-        </Splitter.PanelContent>
-        <Splitter.PanelContent title="70%" color="#f9f0ff">
-          剩余空间
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const mixedCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <div style={{ width: 150 }}>
-          <Splitter.PanelContent title="左固定 150px" color="#f0f2f5">
-            width: 150
-          </Splitter.PanelContent>
-        </div>
-        <Splitter.PanelContent title="中间自适应" color="#e6f7ff">
-          自动填充
-        </Splitter.PanelContent>
-        <div style={{ width: 150 }}>
-          <Splitter.PanelContent title="右固定 150px" color="#f6ffed">
-            width: 150
-          </Splitter.PanelContent>
-        </div>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const complexCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <div style={{ width: 200 }}>
-          <Splitter.PanelContent title="导航" color="#f0f2f5">
-            width: 200
-          </Splitter.PanelContent>
-        </div>
-        <div style={{ width: '50%' }}>
-          <Splitter.PanelContent title="主内容" color="#e6f7ff">
-            width: '50%'
-          </Splitter.PanelContent>
-        </div>
-        <Splitter.PanelContent title="属性面板" color="#f6ffed">
-          剩余空间
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const verticalCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter layout="vertical">
-        <div style={{ height: 100 }}>
-          <Splitter.PanelContent title="顶部固定 100px" color="#fff0f6">
-            height: 100
-          </Splitter.PanelContent>
-        </div>
-        <Splitter.PanelContent title="中间自适应" color="#f9f0ff">
-          剩余空间
-        </Splitter.PanelContent>
-        <div style={{ height: '30%' }}>
-          <Splitter.PanelContent title="底部 30%" color="#fff2e8">
-            height: '30%'
-          </Splitter.PanelContent>
-        </div>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const eventCode = `const Example = () => {
-  const [sizes, setSizes] = React.useState([]);
-
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter
-        onResize={(newSizes, index) => setSizes(newSizes)}
-        onResizeEnd={(finalSizes) => console.log('最终尺寸:', finalSizes)}
-      >
-        <Splitter.PanelContent title="左侧面板" color="#e6f7ff">
-          {sizes[0] && <p>当前: {sizes[0].toFixed(0)}px</p>}
-        </Splitter.PanelContent>
-        <Splitter.PanelContent title="右侧面板" color="#f6ffed">
-          {sizes[1] && <p>当前: {sizes[1].toFixed(0)}px</p>}
-        </Splitter.PanelContent>
-      </Splitter>
-    </div>
-  );
-};`;
-
-const nestedCode = `const Example = () => {
-  return (
-    <div style={{ height: '100%' }}>
-      <Splitter>
-        <div style={{ width: 200 }}>
-          <Splitter.PanelContent title="左侧导航" color="#f0f2f5" />
-        </div>
-        <Splitter layout="vertical">
-          <div style={{ height: '30%' }}>
-            <Splitter.PanelContent title="顶部" color="#e6f7ff" />
-          </div>
-          <Splitter.PanelContent title="底部" color="#f6ffed" />
-        </Splitter>
-      </Splitter>
-    </div>
-  );
-};`;
+const demoBoxStyle: React.CSSProperties = {
+  padding: '20px',
+  background: '#fafafa',
+  border: '1px solid #e8e8e8',
+  borderRadius: '4px',
+  marginBottom: '16px',
+};
 
 const SplitterExample: React.FC = () => {
   const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+  const [sizes, setSizes] = useState<number[]>([]);
 
   useEffect(() => {
     const container = document.querySelector('.app-content') as HTMLElement;
     setScrollContainer(container);
   }, []);
-
-  // 共享的 scope，包含 Splitter 组件
-  const scope = { Splitter };
 
   // API 表格列定义
   const apiColumns = [
@@ -223,16 +58,32 @@ const SplitterExample: React.FC = () => {
         {/* 左侧主内容区 */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <h1 id="splitter-intro">Splitter 分割面板（简洁版）</h1>
-          <p>
-            通过 children 内联样式设置面板宽度，未设置宽度的面板自动均分剩余空间。
-            <strong style={{ color: '#1890ff' }}> 编辑下方代码可实时预览效果！</strong>
-          </p>
+          <p>通过 children 内联样式设置面板宽度，未设置宽度的面板自动均分剩余空间。</p>
 
           {/* 基础用法 */}
           <div id="splitter-basic">
             <Section title="基础用法 - 两个面板平分">
               <p>未设置宽度时，两个面板自动平分容器宽度</p>
-              <CodePlayground initialCode={basicCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter>
+                  <Splitter.PanelContent title="左侧面板" color="#f0f2f5">
+                    未设置宽度，自动平分
+                  </Splitter.PanelContent>
+                  <Splitter.PanelContent title="右侧面板" color="#e6f7ff">
+                    未设置宽度，自动平分
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <Splitter.PanelContent title="左侧面板" color="#f0f2f5">
+    未设置宽度，自动平分
+  </Splitter.PanelContent>
+  <Splitter.PanelContent title="右侧面板" color="#e6f7ff">
+    未设置宽度，自动平分
+  </Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -240,7 +91,26 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-three">
             <Section title="三个面板平分">
               <p>三个面板均未设置宽度，自动三等分</p>
-              <CodePlayground initialCode={threePanelCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter>
+                  <Splitter.PanelContent title="面板 A" color="#fff0f6">
+                    33.3%
+                  </Splitter.PanelContent>
+                  <Splitter.PanelContent title="面板 B" color="#f9f0ff">
+                    33.3%
+                  </Splitter.PanelContent>
+                  <Splitter.PanelContent title="面板 C" color="#fff2e8">
+                    33.3%
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <Splitter.PanelContent title="面板 A" color="#fff0f6">33.3%</Splitter.PanelContent>
+  <Splitter.PanelContent title="面板 B" color="#f9f0ff">33.3%</Splitter.PanelContent>
+  <Splitter.PanelContent title="面板 C" color="#fff2e8">33.3%</Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -248,7 +118,30 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-fixed">
             <Section title="固定宽度 + 自适应">
               <p>左侧面板固定 200px，右侧面板自适应剩余空间</p>
-              <CodePlayground initialCode={fixedCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter>
+                  <div style={{ width: 200 }}>
+                    <Splitter.PanelContent title="固定 200px" color="#f0f2f5">
+                      width: 200
+                    </Splitter.PanelContent>
+                  </div>
+                  <Splitter.PanelContent title="自适应" color="#e6f7ff">
+                    剩余空间
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <div style={{ width: 200 }}>
+    <Splitter.PanelContent title="固定 200px" color="#f0f2f5">
+      width: 200
+    </Splitter.PanelContent>
+  </div>
+  <Splitter.PanelContent title="自适应" color="#e6f7ff">
+    剩余空间
+  </Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -256,7 +149,22 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-percent">
             <Section title="百分比宽度">
               <p>左侧面板 30%，右侧面板 70%</p>
-              <CodePlayground initialCode={percentCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter>
+                  <Splitter.PanelContent title="30%" color="#fff0f6">
+                    width: '30%'
+                  </Splitter.PanelContent>
+                  <Splitter.PanelContent title="70%" color="#f9f0ff">
+                    剩余空间
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <Splitter.PanelContent title="30%" color="#fff0f6">width: '30%'</Splitter.PanelContent>
+  <Splitter.PanelContent title="70%" color="#f9f0ff">剩余空间</Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -264,7 +172,34 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-mixed">
             <Section title="混合布局 - 固定 + 自适应 + 固定">
               <p>左右固定宽度，中间自适应</p>
-              <CodePlayground initialCode={mixedCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter>
+                  <div style={{ width: 150 }}>
+                    <Splitter.PanelContent title="左固定 150px" color="#f0f2f5">
+                      width: 150
+                    </Splitter.PanelContent>
+                  </div>
+                  <Splitter.PanelContent title="中间自适应" color="#e6f7ff">
+                    自动填充
+                  </Splitter.PanelContent>
+                  <div style={{ width: 150 }}>
+                    <Splitter.PanelContent title="右固定 150px" color="#f6ffed">
+                      width: 150
+                    </Splitter.PanelContent>
+                  </div>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <div style={{ width: 150 }}>
+    <Splitter.PanelContent title="左固定 150px" color="#f0f2f5">width: 150</Splitter.PanelContent>
+  </div>
+  <Splitter.PanelContent title="中间自适应" color="#e6f7ff">自动填充</Splitter.PanelContent>
+  <div style={{ width: 150 }}>
+    <Splitter.PanelContent title="右固定 150px" color="#f6ffed">width: 150</Splitter.PanelContent>
+  </div>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -272,7 +207,34 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-complex">
             <Section title="多面板复杂布局">
               <p>导航固定 200px，主内容区 50%，右侧自适应</p>
-              <CodePlayground initialCode={complexCode} height={300} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 300 }}>
+                <Splitter>
+                  <div style={{ width: 200 }}>
+                    <Splitter.PanelContent title="导航" color="#f0f2f5">
+                      width: 200
+                    </Splitter.PanelContent>
+                  </div>
+                  <div style={{ width: '50%' }}>
+                    <Splitter.PanelContent title="主内容" color="#e6f7ff">
+                      width: '50%'
+                    </Splitter.PanelContent>
+                  </div>
+                  <Splitter.PanelContent title="属性面板" color="#f6ffed">
+                    剩余空间
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <div style={{ width: 200 }}>
+    <Splitter.PanelContent title="导航" color="#f0f2f5">width: 200</Splitter.PanelContent>
+  </div>
+  <div style={{ width: '50%' }}>
+    <Splitter.PanelContent title="主内容" color="#e6f7ff">width: '50%'</Splitter.PanelContent>
+  </div>
+  <Splitter.PanelContent title="属性面板" color="#f6ffed">剩余空间</Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -280,7 +242,34 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-vertical">
             <Section title="垂直布局">
               <p>使用 layout="vertical" 实现上下分隔</p>
-              <CodePlayground initialCode={verticalCode} height={400} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 400 }}>
+                <Splitter layout="vertical">
+                  <div style={{ height: 100 }}>
+                    <Splitter.PanelContent title="顶部固定 100px" color="#fff0f6">
+                      height: 100
+                    </Splitter.PanelContent>
+                  </div>
+                  <Splitter.PanelContent title="中间自适应" color="#f9f0ff">
+                    自动填充
+                  </Splitter.PanelContent>
+                  <div style={{ height: '30%' }}>
+                    <Splitter.PanelContent title="底部 30%" color="#fff2e8">
+                      height: '30%'
+                    </Splitter.PanelContent>
+                  </div>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter layout="vertical">
+  <div style={{ height: 100 }}>
+    <Splitter.PanelContent title="顶部固定 100px" color="#fff0f6">height: 100</Splitter.PanelContent>
+  </div>
+  <Splitter.PanelContent title="中间自适应" color="#f9f0ff">自动填充</Splitter.PanelContent>
+  <div style={{ height: '30%' }}>
+    <Splitter.PanelContent title="底部 30%" color="#fff2e8">height: '30%'</Splitter.PanelContent>
+  </div>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -288,7 +277,34 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-event">
             <Section title="拖拽回调">
               <p>onResize 和 onResizeEnd 回调获取面板尺寸</p>
-              <CodePlayground initialCode={eventCode} height={200} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 200 }}>
+                <Splitter
+                  onResize={(newSizes) => setSizes(newSizes)}
+                  onResizeEnd={(finalSizes) => console.log('最终尺寸:', finalSizes)}
+                >
+                  <Splitter.PanelContent title="左侧面板" color="#e6f7ff">
+                    {sizes[0] && <p>当前: {sizes[0].toFixed(0)}px</p>}
+                  </Splitter.PanelContent>
+                  <Splitter.PanelContent title="右侧面板" color="#f6ffed">
+                    {sizes[1] && <p>当前: {sizes[1].toFixed(0)}px</p>}
+                  </Splitter.PanelContent>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`const [sizes, setSizes] = React.useState<number[]>([]);
+
+<Splitter
+  onResize={(newSizes) => setSizes(newSizes)}
+  onResizeEnd={(finalSizes) => console.log('最终尺寸:', finalSizes)}
+>
+  <Splitter.PanelContent title="左侧面板" color="#e6f7ff">
+    {sizes[0] && <p>当前: {sizes[0].toFixed(0)}px</p>}
+  </Splitter.PanelContent>
+  <Splitter.PanelContent title="右侧面板" color="#f6ffed">
+    {sizes[1] && <p>当前: {sizes[1].toFixed(0)}px</p>}
+  </Splitter.PanelContent>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -296,7 +312,32 @@ const SplitterExample: React.FC = () => {
           <div id="splitter-nested">
             <Section title="嵌套使用">
               <p>嵌套 Splitter 实现复杂布局</p>
-              <CodePlayground initialCode={nestedCode} height={400} scope={scope} extraLibs={extraLibs} />
+              <div style={{ ...demoBoxStyle, height: 400 }}>
+                <Splitter>
+                  <div style={{ width: 200 }}>
+                    <Splitter.PanelContent title="左侧导航" color="#f0f2f5" />
+                  </div>
+                  <Splitter layout="vertical">
+                    <div style={{ height: '30%' }}>
+                      <Splitter.PanelContent title="顶部" color="#e6f7ff" />
+                    </div>
+                    <Splitter.PanelContent title="底部" color="#f6ffed" />
+                  </Splitter>
+                </Splitter>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Splitter>
+  <div style={{ width: 200 }}>
+    <Splitter.PanelContent title="左侧导航" color="#f0f2f5" />
+  </div>
+  <Splitter layout="vertical">
+    <div style={{ height: '30%' }}>
+      <Splitter.PanelContent title="顶部" color="#e6f7ff" />
+    </div>
+    <Splitter.PanelContent title="底部" color="#f6ffed" />
+  </Splitter>
+</Splitter>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 

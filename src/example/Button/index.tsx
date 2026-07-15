@@ -1,122 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Button, Table, Anchor } from '../../components';
 import type { Column } from '../../components/Table';
-import { CodePlayground, Section } from '../components';
-import type { ExtraLib } from '../components';
-import { flexTypeLib, buttonTypeLib } from '../utils';
+import { Section } from '../components';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-// 使用工具库中的类型定义
-const extraLibs: ExtraLib[] = [flexTypeLib, buttonTypeLib];
+const codeStyle = { borderRadius: '6px', margin: '0', fontSize: '14px', fontFamily: 'monospace' };
 
-// 示例代码定义
-const basicCode = `const Example = () => {
-  return (
-    <Flex gap="middle">
-      <Button variant="primary">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="danger">Danger</Button>
-      <Button variant="success">Success</Button>
-      <Button variant="warning">Warning</Button>
-    </Flex>
-  );
-};`;
-
-const sizeCode = `const Example = () => {
-  return (
-    <Flex gap="middle" align="center">
-      <Button variant="primary" size="small">Small</Button>
-      <Button variant="primary" size="medium">Medium</Button>
-      <Button variant="primary" size="large">Large</Button>
-    </Flex>
-  );
-};`;
-
-const disabledCode = `const Example = () => {
-  return (
-    <Flex gap="middle">
-      <Button variant="primary" disabled>Disabled</Button>
-      <Button variant="secondary" disabled>Disabled</Button>
-    </Flex>
-  );
-};`;
-
-const iconCode = `const Example = () => {
-  return (
-    <Flex gap="middle" wrap>
-      <Button variant="primary" icon="search">Search</Button>
-      <Button variant="secondary" icon="user">User</Button>
-      <Button variant="danger" icon="delete">Delete</Button>
-      <Button variant="success" icon="check">Confirm</Button>
-      <Button variant="warning" icon="exclamation">Warning</Button>
-    </Flex>
-  );
-};`;
-
-const linkCode = `const Example = () => {
-  return (
-    <Flex gap="middle" wrap>
-      <Button variant="link" href="https://example.com">Link Button</Button>
-      <Button variant="link" href="https://example.com" disabled>Disabled Link</Button>
-      <Button variant="link" href="/home" icon="home">Home</Button>
-      <Button variant="link" href="#" size="small">Small Link</Button>
-    </Flex>
-  );
-};`;
-
-const loadingCode = `const Example = () => {
-  return (
-    <Flex gap="middle">
-      <Button variant="primary" loading>Loading</Button>
-      <Button variant="secondary" loading>Loading</Button>
-    </Flex>
-  );
-};`;
-
-const eventCode = `const Example = () => {
-  const [count, setCount] = React.useState(0);
-
-  return (
-    <Flex gap="middle" align="center">
-      <Button variant="primary" onClick={() => setCount(c => c + 1)}>
-        Click Me ({count})
-      </Button>
-      <span>已点击 {count} 次</span>
-    </Flex>
-  );
-};`;
-
-const customCode = `const Example = () => {
-  return (
-    <Flex gap="middle" wrap>
-      <Button
-        variant="primary"
-        style={{ borderRadius: '20px', padding: '8px 24px' }}
-      >
-        Rounded Button
-      </Button>
-      <Button
-        variant="primary"
-        style={{
-          background: 'linear-gradient(45deg, #1890ff, #69c0ff)',
-          border: 'none'
-        }}
-      >
-        Gradient Button
-      </Button>
-    </Flex>
-  );
-};`;
+const demoBoxStyle: React.CSSProperties = {
+  padding: '20px',
+  background: '#fafafa',
+  border: '1px solid #e8e8e8',
+  borderRadius: '4px',
+  marginBottom: '16px',
+};
 
 const ButtonExample: React.FC = () => {
   const [scrollContainer, setScrollContainer] = useState<HTMLElement | null>(null);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const container = document.querySelector('.app-content') as HTMLElement;
     setScrollContainer(container);
   }, []);
-
-  // 共享的 scope，包含 Button 组件
-  const scope = { Button, Flex };
 
   // API 表格列配置
   const apiColumns: Column[] = [
@@ -146,16 +52,30 @@ const ButtonExample: React.FC = () => {
         {/* 左侧主内容区 */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <h1 id="button-intro">Button 按钮</h1>
-          <p>
-            用于触发一个即时操作。
-            <strong style={{ color: '#1890ff' }}> 编辑下方代码可实时预览效果！</strong>
-          </p>
+          <p>用于触发一个即时操作。</p>
 
           {/* 基础用法 */}
           <div id="button-basic">
             <Section title="基础用法">
               <p>五种主要按钮变体，适用于不同场景</p>
-              <CodePlayground initialCode={basicCode} height={80} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle">
+                  <Button variant="primary">Primary</Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="danger">Danger</Button>
+                  <Button variant="success">Success</Button>
+                  <Button variant="warning">Warning</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle">
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="danger">Danger</Button>
+  <Button variant="success">Success</Button>
+  <Button variant="warning">Warning</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -163,7 +83,20 @@ const ButtonExample: React.FC = () => {
           <div id="button-size">
             <Section title="不同尺寸">
               <p>提供三种尺寸选择</p>
-              <CodePlayground initialCode={sizeCode} height={80} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle" align="center">
+                  <Button variant="primary" size="small">Small</Button>
+                  <Button variant="primary" size="medium">Medium</Button>
+                  <Button variant="primary" size="large">Large</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle" align="center">
+  <Button variant="primary" size="small">Small</Button>
+  <Button variant="primary" size="medium">Medium</Button>
+  <Button variant="primary" size="large">Large</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -171,7 +104,18 @@ const ButtonExample: React.FC = () => {
           <div id="button-disabled">
             <Section title="禁用状态">
               <p>禁用状态下的按钮不可点击</p>
-              <CodePlayground initialCode={disabledCode} height={80} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle">
+                  <Button variant="primary" disabled>Disabled</Button>
+                  <Button variant="secondary" disabled>Disabled</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle">
+  <Button variant="primary" disabled>Disabled</Button>
+  <Button variant="secondary" disabled>Disabled</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -179,7 +123,24 @@ const ButtonExample: React.FC = () => {
           <div id="button-icon">
             <Section title="带图标">
               <p>支持内置图标名称或自定义图标</p>
-              <CodePlayground initialCode={iconCode} height={120} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle" wrap="wrap">
+                  <Button variant="primary" icon="search">Search</Button>
+                  <Button variant="secondary" icon="user">User</Button>
+                  <Button variant="danger" icon="delete">Delete</Button>
+                  <Button variant="success" icon="check">Confirm</Button>
+                  <Button variant="warning" icon="exclamation">Warning</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle" wrap="wrap">
+  <Button variant="primary" icon="search">Search</Button>
+  <Button variant="secondary" icon="user">User</Button>
+  <Button variant="danger" icon="delete">Delete</Button>
+  <Button variant="success" icon="check">Confirm</Button>
+  <Button variant="warning" icon="exclamation">Warning</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -187,7 +148,22 @@ const ButtonExample: React.FC = () => {
           <div id="button-link">
             <Section title="链接按钮">
               <p>使用 variant="link" 创建链接样式的按钮</p>
-              <CodePlayground initialCode={linkCode} height={100} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle" wrap="wrap">
+                  <Button variant="link" href="https://example.com">Link Button</Button>
+                  <Button variant="link" href="https://example.com" disabled>Disabled Link</Button>
+                  <Button variant="link" href="/home" icon="home">Home</Button>
+                  <Button variant="link" href="#" size="small">Small Link</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle" wrap="wrap">
+  <Button variant="link" href="https://example.com">Link Button</Button>
+  <Button variant="link" href="https://example.com" disabled>Disabled Link</Button>
+  <Button variant="link" href="/home" icon="home">Home</Button>
+  <Button variant="link" href="#" size="small">Small Link</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -195,7 +171,18 @@ const ButtonExample: React.FC = () => {
           <div id="button-loading">
             <Section title="加载状态">
               <p>loading 属性显示加载状态</p>
-              <CodePlayground initialCode={loadingCode} height={80} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle">
+                  <Button variant="primary" loading>Loading</Button>
+                  <Button variant="secondary" loading>Loading</Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle">
+  <Button variant="primary" loading>Loading</Button>
+  <Button variant="secondary" loading>Loading</Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -203,7 +190,24 @@ const ButtonExample: React.FC = () => {
           <div id="button-event">
             <Section title="事件回调">
               <p>通过 onClick 绑定点击事件</p>
-              <CodePlayground initialCode={eventCode} height={80} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle" align="center">
+                  <Button variant="primary" onClick={() => setCount(c => c + 1)}>
+                    Click Me ({count})
+                  </Button>
+                  <span>已点击 {count} 次</span>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`const [count, setCount] = React.useState(0);
+
+<Flex gap="middle" align="center">
+  <Button variant="primary" onClick={() => setCount(c => c + 1)}>
+    Click Me ({count})
+  </Button>
+  <span>已点击 {count} 次</span>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 
@@ -211,7 +215,44 @@ const ButtonExample: React.FC = () => {
           <div id="button-custom">
             <Section title="自定义样式">
               <p>使用 style 属性覆盖默认样式</p>
-              <CodePlayground initialCode={customCode} height={100} scope={scope} extraLibs={extraLibs} />
+              <div style={demoBoxStyle}>
+                <Flex gap="middle" wrap="wrap">
+                  <Button
+                    variant="primary"
+                    style={{ borderRadius: '20px', padding: '8px 24px' }}
+                  >
+                    Rounded Button
+                  </Button>
+                  <Button
+                    variant="primary"
+                    style={{
+                      background: 'linear-gradient(45deg, #1890ff, #69c0ff)',
+                      border: 'none'
+                    }}
+                  >
+                    Gradient Button
+                  </Button>
+                </Flex>
+              </div>
+              <SyntaxHighlighter language="tsx" style={vscDarkPlus} customStyle={codeStyle}>
+{`<Flex gap="middle" wrap="wrap">
+  <Button
+    variant="primary"
+    style={{ borderRadius: '20px', padding: '8px 24px' }}
+  >
+    Rounded Button
+  </Button>
+  <Button
+    variant="primary"
+    style={{
+      background: 'linear-gradient(45deg, #1890ff, #69c0ff)',
+      border: 'none'
+    }}
+  >
+    Gradient Button
+  </Button>
+</Flex>`}
+              </SyntaxHighlighter>
             </Section>
           </div>
 

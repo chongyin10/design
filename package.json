@@ -53,8 +53,6 @@
   },
   "devDependencies": {
     "@ant-design/icons-svg": "^4.4.2",
-    "@babel/standalone": "^7.29.2",
-    "@monaco-editor/react": "^4.7.0",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.0.0",

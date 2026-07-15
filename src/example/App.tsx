@@ -598,7 +598,7 @@ const IntroContent: React.FC = () => {
                         <div className="step-number">2</div>
                         <h4>引入样式</h4>
                         <div className="code-block mini">
-                            <pre><code>import '@zjpcy/simple-design/dist/cjs/index.css'</code></pre>
+                            <pre><code>import '@zjpcy/simple-design/dist/es/index.css'</code></pre>
                         </div>
                     </div>
                     <div className="step-arrow">→</div>
@@ -606,7 +606,7 @@ const IntroContent: React.FC = () => {
                         <div className="step-number">3</div>
                         <h4>开始使用</h4>
                         <div className="code-block mini">
-                            <pre><code>{`<Button type="primary">按钮</Button>`}</code></pre>
+                            <pre><code>{`<Button variant="primary">按钮</Button>`}</code></pre>
                         </div>
                     </div>
                 </div>
@@ -670,11 +670,11 @@ const InstallContent: React.FC = () => {
                 <p className="section-desc">在应用入口文件中引入样式文件</p>
 
                 <div className="code-block">
-                    <div className="code-header">
-                        <span>main.tsx / main.jsx / App.tsx</span>
-                    </div>
+                    {/* <div className="code-header">
+                        <span>应用入口文件</span>
+                    </div> */}
                     <pre><code>{`// 引入样式文件（必须）
-import '@zjpcy/simple-design/dist/cjs/index.css';
+import '@zjpcy/simple-design/dist/es/index.css';
 
 // 可选：引入 CSS 变量文件，用于自定义主题
 import '@zjpcy/simple-design/dist/variables.css';`}</code></pre>
@@ -701,13 +701,13 @@ import '@zjpcy/simple-design/dist/variables.css';`}</code></pre>
                     <h3>基础使用</h3>
                     <p>直接引入需要的组件即可使用</p>
                     <div className="code-block">
-                        <pre><code>{`import { Button, Message } from '@zjpcy/simple-design';
+                        <pre><code>{`import { Button, message } from '@zjpcy/simple-design';
 
 function App() {
   return (
     <Button
-      type="primary"
-      onClick={() => Message.success('Hello, ZjpCy Design!')}
+      variant="primary"
+      onClick={() => message.success('Hello, ZjpCy Design!')}
     >
       点击我
     </Button>
@@ -721,31 +721,16 @@ function App() {
                     <h3>按需引入</h3>
                     <p>推荐按需引入，减小打包体积</p>
                     <div className="code-block">
-                        <pre><code>{`// 推荐：按需引入单个组件
-import Button from '@zjpcy/simple-design/dist/cjs/components/Button';
-import 'zjpcy-design/dist/cjs/components/Button/Button.css';
+                        <pre><code>{`// 全量引入（推荐）
+import { Button } from '@zjpcy/simple-design';
+import '@zjpcy/simple-design/dist/es/index.css';
 
-// 或者使用路径别名（需配置）
-import { Button } from '@zjpcy/simple-design';`}</code></pre>
+// 或仅引入组件 JS（CSS 仍需全量引入）
+import Button from '@zjpcy/simple-design/dist/es/components/Button';
+import '@zjpcy/simple-design/dist/es/index.css';`}</code></pre>
                     </div>
                 </div>
 
-                {/* 使用 StyledProvider */}
-                <div className="example-card">
-                    <h3>使用 StyledProvider（推荐）</h3>
-                    <p>使用 StyledProvider 可以更好地管理主题和样式隔离</p>
-                    <div className="code-block">
-                        <pre><code>{`import { StyledProvider } from '@zjpcy/simple-design';
-
-function App() {
-  return (
-    <StyledProvider theme="light">
-      <YourApp />
-    </StyledProvider>
-  );
-}`}</code></pre>
-                    </div>
-                </div>
             </section>
 
             {/* TypeScript 支持 */}
